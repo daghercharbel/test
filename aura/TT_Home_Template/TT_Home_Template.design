@@ -1,0 +1,6 @@
+<design:component>  
+    <flexipage:template >  
+        <flexipage:region name = "left" defaultwidth = "Large"/>          
+        <flexipage:region name = "right" defaultwidth = "Large"/>  
+    </flexipage:template>  
+</design:component>

@@ -1,0 +1,89 @@
+<aura:component controller = "MassAddToCampaignButtonController" implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">
+    <aura:attribute name="selectedRecordIds" type="String" default= ""/>
+    <aura:attribute name="isPersonAccount" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute Name="campaignObj" type="object" access="public"/>
+    <aura:attribute Name="objectRecordName" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="customErrorMessage" type="String" />
+    <aura:attribute name="variant" type="String" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name ="isNewOrExistCampaign" type = "Boolean" default = "false"/>
+    <aura:attribute name ="isExistCampaign" type = "Boolean" default = "false"/>
+    <aura:attribute name ="isNewCampaign" type = "Boolean" default = "false"/>
+    <aura:attribute name="showToast" type="Boolean" default="false"/>
+    <aura:attribute name ="childlookup" type = "Boolean" default = "false"/>
+    <aura:attribute name ="fromChildlookup" type = "Boolean" default = "false"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    <!--ltng:require styles="{!$Resource.TelosTouch + '/AddToCampaign.css'}"/-->
+    
+    <!-- Spinner starts here-->
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <aura:if isTrue="{!v.showToast}">
+        <c:TT_Custom_Toast variant="{!v.variant}" message="{!v.message}" showToast="{!v.showToast}" />
+    </aura:if>  
+    
+   
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container" style="{! if ( v.fromChildlookup, 'max-width: 41rem; min-width: 41rem;' , '' ) }">
+            <!-- Warning Modal BoX Content -->
+            <aura:if isTrue="{!v.isNewOrExistCampaign}">
+                <header class="slds-modal__header">
+                    <aura:if isTrue="{!!(v.childlookup)}">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add to Campaign</h2>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.childlookup)}">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Campaign</h2>
+                    </aura:if>
+                </header>
+                <div class="slds-p-around_small" style="{! if ( v.childlookup, 'background-color:white; padding:0rem' , 'background-color:white;' ) }">
+                    <aura:if isTrue="{!!empty(v.customErrorMessage)}">
+                    <div class ="slds-p-left_x-small slds-p-right_x-small slds-p-top_x-small forcePageError customError">
+                        <p class="genericNotification">Review the errors on this page.</p>
+                        <p class=""> {!v.customErrorMessage}</p> 
+                    </div>
+                </aura:if>
+                    <c:FilterLookUpParentDependentCmp
+                                                        objectName="Campaign"
+                                                        field_API_text="Name"
+                                                        field_API_val="Id"
+                                                        limit="5"
+                                                        field_API_search="Name"
+                                                        lookupIcon="standard:campaign"
+                                                        selItem="{!v.campaignObj}"
+                                                        placeholder="Search Campaign..."
+                                                        lookUpLabel="Campaign"
+                                                        isRequired="True"
+                                                        isShowStandardMessage="false"
+                                                        isShowIconForCreatingChalidRecord = "true"
+                                                        sObjectName = "{!v.sObjectName}"
+                                                        recordId = "{!v.recordId}"
+                                                        childlookup = "{!v.childlookup}"
+                                                        selectedRecordIds = "{!v.selectedRecordIds}"
+                                                        isPersonAccount = "{!v.isPersonAccount}"
+                                                      	fromPcComp = "true"
+                                                        />  
+                    <aura:if isTrue="{!!(v.childlookup)}">
+                        <lightning:layout horizontalAlign="spread">
+                            <lightning:layoutItem class ="slds-p-top_small">
+                                <!--lightning:button class="slds-theme_brand" 
+                              variant="neutral" label="Cancel" onclick = "{!c.backEndorsementType}"/-->
+                            </lightning:layoutItem>
+                            <lightning:layoutItem class ="slds-p-top_small">
+                                <lightning:button class="slds-m-right_x-small slds-theme_neutral" 
+                                                  variant="neutral" label="Cancel" onclick ="{!c.closeChildModal}" />
+                                <lightning:button class="slds-theme_brand" variant="brand" label="Submit" onclick="{! c.showAddCampaignMemberDetails}"></lightning:button>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+                </div>
+            </aura:if>
+        </div>
+    </section>
+    <aura:if isTrue="{!!v.showToast}">
+        <div class="slds-backdrop slds-backdrop_open" style="{! if ( v.fromChildlookup, 'display:none' , '' ) }" ></div>
+    </aura:if>
+</aura:component>

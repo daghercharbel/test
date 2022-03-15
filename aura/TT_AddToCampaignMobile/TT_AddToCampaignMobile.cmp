@@ -1,0 +1,121 @@
+<aura:component controller="TT_AddToCampaignMobile" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access = "global">
+    
+    <aura:attribute name="Data" type="List" />
+    <aura:attribute name="selectedRecords" type="List" default="[]" description="Selected records list"/>
+    <aura:attribute name="memberIds" type="List" default="[]" description="List of contacts and leads already member of current campaign"/>
+    
+    <aura:attribute name="LeadCount" type="Integer" />
+    <aura:attribute name="ContactCount" type="Integer" />
+    <aura:attribute name="inSearch" type="Boolean" default="false" />
+    
+    <aura:attribute name="SelectedTabId" type="String" default="Lead"/>
+    <aura:attribute name="errorMessage" 	type="String"  default="" />
+    <aura:attribute name="recordId" 	type="String"  />
+    
+    <aura:attribute name="isSpin" type="Boolean" default="true" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler event="c:TT_AddToCampMobile_Evt" action="{!c.onEventHandle_Add}"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <ltng:require styles="{!$Resource.TelosTouch + '/TT_AddToCampaignMobile.css'}"/>
+
+    <aura:if isTrue="{!v.isSpin}">
+        <div >
+            <lightning:spinner variant="brand" alternativeText="Loading" size="medium" />
+        </div>
+    </aura:if>
+    <lightning:tabset variant="scoped" selectedTabId="Lead" >
+        <lightning:tab label="{!$Label.c.Leads_Text}" id="Lead" onactive="{! c.handleActiveTab }">
+        </lightning:tab>
+        <lightning:tab label="Contacts" id="Contact" onactive="{! c.handleActiveTab }">
+        </lightning:tab>
+        <div class="inputPillDiv" >
+            <lightning:layout class="slds-box slds-box_xx-small">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="11" largeDeviceSize="11">
+                    <input type="search" placeholder="{!$Label.c.Enter_3_Letters_Text}" class="slds-input inputBox placeholder" onkeyup="{!c.searchRecord}" aura:id="search" id="search"/>
+                    <aura:if isTrue="{!v.errorMessage != ''}">
+                        <div class="errorDiv"><p class="errorText">*{!v.errorMessage}</p></div>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="1" largeDeviceSize="1">
+                    <div class="slds-float_right">
+                        <lightning:buttonIcon onclick="{!c.onSearchButton}" iconName="utility:search" variant="brand" alternativeText="Search" title="Search" />
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <aura:if isTrue="{!v.selectedRecords.length > 0}">
+                <div class="slds-m-vertical_small">
+                    Selected Records:<br/>
+                    <aura:iteration items="{!v.selectedRecords}" var="item">
+                        <lightning:pill label="{!item.Name}" name="{!item.Id}" onremove="{!c.removePill}" class="slds-m-top_xx-small">
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="{!if(v.SelectedTabId == 'Contact', 'standard:contact', 'standard:lead')}"  alternativeText="{!if(v.SelectedTabId == 'Contact', 'Contact', 'Lead')}"/>
+                            </aura:set>
+                        </lightning:pill>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+        </div>
+    </lightning:tabset>
+    
+    <div class="slds-scrollable_x" id="dataTable">   
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col"></th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Name">{!$Label.c.Name_Text}</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Email">{!$Label.c.Email_Text}</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Synced">{!$Label.c.Synced_Text}</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.Data}" var="obj">
+                    <tr>
+                        <td scope="row">
+                            <div>
+                                <lightning:buttonIcon iconName="{!if(obj.isSelected == true, 'utility:check', 'utility:add')}" onclick="{! c.onrowselection }" variant="{!if(obj.isSelected == true, 'brand', 'border-filled')}" value="{!obj}" alternativeText="Add to Campaign" title="Add to Campaign" />
+                            </div>
+                        </td>
+                        <td scope="row">
+                            <div class="slds-truncate">
+                                {!obj.Name}
+                            </div>
+                        </td>
+                        <td scope="row">
+                            <div class="slds-truncate">
+                                {!obj.Email}
+                            </div>
+                        </td>
+                        <td scope="row">
+                            <div class="slds-truncate">
+                                {!obj.isSynced}
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+    <aura:if isTrue="{!v.SelectedTabId == 'Lead'}">
+        <aura:if isTrue="{!and(lessthan(v.Data.length,v.LeadCount),v.inSearch == true)}">
+            <div class="slds-align_absolute-center slds-m-top_small">
+                <lightning:button variant="brand" label="{!$Label.c.Load_more_Records_Text}" title="{!$Label.c.Load_more_Records_Text}" onclick="{! c.loadMoreData }" />
+            </div>
+        </aura:if>
+    </aura:if>
+    <aura:if isTrue="{!v.SelectedTabId == 'Contact'}">
+        <aura:if isTrue="{!and(lessthan(v.Data.length,v.ContactCount),v.inSearch == true)}">
+            <div class="slds-align_absolute-center slds-m-top_small">
+                <lightning:button variant="brand" label="{!$Label.c.Load_more_Records_Text}" title="{!$Label.c.Load_more_Records_Text}" onclick="{! c.loadMoreData }" />
+            </div>
+        </aura:if>
+    </aura:if>
+</aura:component>

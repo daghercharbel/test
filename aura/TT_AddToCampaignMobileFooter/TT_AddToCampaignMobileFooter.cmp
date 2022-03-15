@@ -1,0 +1,7 @@
+<aura:component>
+    <aura:registerEvent name="myApplicationEvent" type="c:TT_AddToCampMobile_Evt"/>
+    <aura:attribute name="selectedRecords" type="List" default="[]" description="Selected records list"/>
+    <div class="slds-float_right">
+        <lightning:button variant="brand" label="{!$Label.c.Add_Text}" title="{!$Label.c.Add_Text}" onclick="{! c.onAddButton}" />
+    </div>
+</aura:component>

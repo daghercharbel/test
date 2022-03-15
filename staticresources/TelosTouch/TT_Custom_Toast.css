@@ -1,0 +1,8 @@
+.slds-scope .slds-notify_toast, .slds-scope .slds-notify--toast{
+	min-width: 25%;
+	max-width: 100%;
+}
+.slds-notify_toast{
+	min-width: 25%;
+	max-width: 100%;
+}

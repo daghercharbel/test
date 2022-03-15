@@ -1,0 +1,13 @@
+.THIS {
+}
+
+.THIS .modalCSS {
+    font-size:25px; 
+    font-weight: bold; 
+    color: blue;
+}
+
+.THIS .warningModalCSS {
+    font-size:18px;
+    color: black;
+}

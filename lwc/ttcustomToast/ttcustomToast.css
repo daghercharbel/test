@@ -1,0 +1,54 @@
+.slds-icon-text-default{
+    fill:rgb(250, 250, 249) !important;
+}
+.toastCSS{
+   z-index: 10000;
+}
+.modalHeight{
+    height: 4rem;
+}
+
+.mySuccessIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #04844b;
+}
+
+.myErrorIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #ea001e;
+}
+
+.myWarningIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #fe9339;
+}
+
+.mySuccessIcon:hover {
+    cursor: pointer;
+}
+
+.myErrorIcon:hover {
+    cursor: pointer;
+}
+
+.myWarningIcon:hover {
+    cursor: pointer;
+}
+
+.myLeftSuccessIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #04844b;
+    margin-right: 13px;
+}
+
+.myLeftErrorIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #ea001e;
+    margin-right: 13px;
+}
+
+.myLeftWarningIcon {
+    --sds-c-icon-color-foreground-default: white;
+    --sds-c-icon-color-background: #fe9339;
+    margin-right: 13px;
+}

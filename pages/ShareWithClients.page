@@ -1,0 +1,13 @@
+<apex:page standardController="Task"  showHeader="false" extensions="ShareWithClient_Apex" recordSetVar="Member">
+    <apex:includeLightning />
+    <div id="ShowComponent"></div>
+    <script>
+    $Lightning.use("TelosTouchSF:UpdateTasksShareWithClientsApp", function(){
+        $Lightning.createComponent("TelosTouchSF:UpdateTasksShareWithClients",
+                                   {"SelectedTaskIds" : "{!JSENCODE(jsonStr)}"},
+                                   "ShowComponent",
+                                   function(cmp) {
+                                   });
+    });
+    </script> 
+</apex:page>

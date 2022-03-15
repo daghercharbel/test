@@ -1,0 +1,16 @@
+<apex:page standardController="Account" showHeader="false" extensions="MassInviteButtonController" recordSetVar="Member">
+    <apex:includeLightning />
+   
+    <div id="ShowComponent"></div>
+    <script>
+    $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function(){
+        $Lightning.createComponent("TelosTouchSF:SendInviteOrPasswordComponent",
+                                   {"selectedRecordIds" : "{!JSENCODE(jsonStr)}",
+                                   "objectName" : "Account"},
+                                   "ShowComponent",
+                                   function(cmp) {
+                                       //console.log('>>>>> App is hosted');
+                                   });
+    });
+    </script>
+</apex:page>

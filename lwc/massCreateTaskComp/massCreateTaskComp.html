@@ -1,0 +1,243 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner variant="brand" size="large"> </lightning-spinner>
+    </div>
+    <div if:false={namedCredentialPresent}>
+      <p>
+          {label.NAMED_CREDENTIAL_ERROR}
+      </p>
+    </div>
+    <div if:true={namedCredentialPresent} style="margin-top: -20px">
+        <template for:each={sections} for:item="section">
+            <div class="slds-section slds-is-open" key={section}>
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate" title="Section Title">{section.Name}</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content">
+                    <div class="slds-grid slds-wrap">
+                        <template for:each={section.fieldObjects} for:item="Obj">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-horizontal_xxx-small" key={Obj.Label}>
+                                <div if:true={Obj.isString}>
+                                    <lightning-input label={Obj.Label} onchange={handleChange} type={Obj.Type}
+                                        data-field={Obj.Name} required={Obj.required}></lightning-input>
+                                </div>
+                                <div if:true={Obj.isActivityDate}>
+                                    <lightning-input class="activityDate" label={Obj.Label} value={defaultActivityDate}
+                                        disabled={disableActivityDate} onchange={handleChange} type={Obj.Type}
+                                        data-field={Obj.Name} required={Obj.required}></lightning-input>
+                                </div>
+                                <div if:true={Obj.isTextArea}>
+                                    <lightning-textarea onchange={handleChange} data-field={Obj.Name}
+                                        required={Obj.required} label={Obj.Label}></lightning-textarea>
+                                </div>
+                                <div if:true={Obj.isWhoID}>
+                                    <label class="slds-form-element__label">{Obj.Label}</label>
+                                    <div class="slds-box slds-box_x-small">
+                                        <ul>
+                                            <template for:each={userList} for:item="user">
+                                                <lightning-pill key={user} label={user.name}>
+                                                    <lightning-icon icon-name="standard:user" alternative-text="User">
+                                                    </lightning-icon>
+                                                </lightning-pill>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div if:true={Obj.isSubject}>
+                                    <c-combobox-autocomplete label="Subject" options={comboboxValues}
+                                        onselectoption={handleComoboboxValue} classes="slds-m-bottom_small"
+                                        onchange={handleComoboboxValue} value={value} data-field={Obj.Name}
+                                        data-id={Obj.Name}>
+                                    </c-combobox-autocomplete>
+                                </div>
+                                <div if:true={Obj.hasRelation}>
+                                    <div style="margin-bottom: -16px">{Obj.Label}</div>
+                                    <c-lwc-multilookup data-field={Obj.Name} onrecordselection={onSelection}
+                                        objectlist={Obj.refList} value={value} label={Obj.Label}></c-lwc-multilookup>
+                                </div>
+                                <div if:true={Obj.isRecordType}>
+                                    <p>{Obj.Label}</p>
+                                    <p style="font-weight: bold">{recordTypeName}</p>
+                                </div>
+                                <div if:true={Obj.isAssignedToID}>
+                                    <p>{Obj.Label}</p>
+                                    <lightning-pill label={userName}>
+                                        <lightning-icon icon-name="standard:user" alternative-text="User">
+                                        </lightning-icon>
+                                    </lightning-pill>
+                                </div>
+                                <div if:true={Obj.isPicklist}>
+                                    <div>
+                                        <lightning-combobox name={Obj.Label} label={Obj.Label} required={Obj.required}
+                                            value={value} data-field={Obj.Name} placeholder={Obj.placeHolder}
+                                            options={Obj.pickListValues} onchange={handleComoboboxValue}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <div if:true={Obj.isRecurrence}>
+                                    <div>
+                                        <label>{label.CREATE_RECURRING_TASK}</label>
+                                        <lightning-input type="checkbox" checked={recurringEnabled}
+                                            onchange={createRecurringTask}></lightning-input>
+                                    </div>
+                                    <div if:true={recurringEnabled}>
+                                        <div>
+                                            <lightning-radio-group name="Frequency" label={label.FREQUENCY_TEXT}
+                                                options={RecurrenceTypeOptions} value={RecurrenceTypeValue}
+                                                onchange={handleRecurringRadioGroupValue} data-field="RecurrenceType"
+                                                type="button"></lightning-radio-group>
+                                        </div>
+                                        <div if:true={dailyRepeat}>
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col slds-size_2-of-3">
+                                                    <lightning-combobox name="dailyRepeat" data-id="dailyRepeat"
+                                                        label={label.REPEAT_TEXT} value={value} data-field="RecurrenceInterval"
+                                                        placeholder="Every Day" onchange={handleRecurringComboboxValue}
+                                                        options={dailyRepeatOptions}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-3">
+                                                    <div if:true={dailyRepeatCustom}>
+                                                        <lightning-combobox name="dailyRepeatCustom" label="Every"
+                                                            value={value} data-id="dailyRepeatCustom"
+                                                            data-field="RecurrenceInterval" placeholder="1"
+                                                            onchange={handleRecurringComboboxValue}
+                                                            options={customOptions}>
+                                                        </lightning-combobox>
+                                                        <span>Day(s)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div if:true={weeklyRepeat}>
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col slds-size_2-of-3">
+                                                    <lightning-combobox name="weeklyRepeat" data-id="weeklyRepeat"
+                                                        label={label.REPEAT_TEXT} value={value} data-field="RecurrenceInterval"
+                                                        placeholder="Every Week" onchange={handleRecurringComboboxValue}
+                                                        options={weeklyRepeatOptions}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-3">
+                                                    <div if:true={weeklyRepeatCustom}>
+                                                        <lightning-combobox name="weeklyRepeatCustom" label="Every"
+                                                            value={value} data-id="weeklyRepeatCustom"
+                                                            data-field="RecurrenceInterval" placeholder="1"
+                                                            onchange={handleRecurringComboboxValue}
+                                                            options={customOptions}>
+                                                        </lightning-combobox>
+                                                        <span>Week(s)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p>{label.REPEAT_ON}</p>
+                                            <div class="slds-grid slds-wrap">
+                                                <template for:each={radioGroup} for:item="group" for:index="index">
+                                                    <div class="slds-col  slds-size_1-of-1 slds-large-size_1-of-12" key={group}>
+                                                        <button class={group.classList} onclick={handleMultiSelectClick}
+                                                            style="border-radius: 0; width: 47.32px" data-index={index}>
+                                                            {group.label}
+                                                        </button>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div if:true={monthlyRepeat}>
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col slds-size_2-of-3">
+                                                    <lightning-combobox name="monthlyRepeat" data-id="monthlyRepeat"
+                                                        label={label.REPEAT_TEXT} value={value} data-field="RecurrenceInterval"
+                                                        placeholder="Every Month"
+                                                        onchange={handleRecurringComboboxValue}
+                                                        options={monthlyRepeatOptions}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-3">
+                                                    <div if:true={monthlyRepeatCustom}>
+                                                        <lightning-combobox name="monthlyRepeatCustom" label="Every"
+                                                            value={value} data-id="monthlyRepeatCustom"
+                                                            data-field="RecurrenceInterval" placeholder="1"
+                                                            onchange={handleRecurringComboboxValue}
+                                                            options={customOptions}>
+                                                        </lightning-combobox>
+                                                        <span>Month(s)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <lightning-combobox name="monthlyWhen" data-id="monthlyWhen" label={label.WHEN_TEXT}
+                                                value={value} data-field="RecurrenceType" placeholder="Specific Days"
+                                                onchange={handleRecurringComboboxValue} options={monthlyWhenOptions}>
+                                            </lightning-combobox>
+                                            <div if:true={monthlySpecificDays}>
+                                                <lightning-combobox name="monthlySpecificDays" label={label.DAY} value={value}
+                                                    data-id="monthlySpecificDays" data-field="RecurrenceDayOfMonth"
+                                                    placeholder="1" onchange={handleRecurringComboboxValue}
+                                                    options={customOptions}>
+                                                </lightning-combobox>
+                                            </div>
+                                            <div if:true={monthlyRelativeDays}>
+                                                <lightning-combobox name="monthlyRelativeDay" label={label.DAY} value={value}
+                                                    data-id="monthlyRelativeDay" data-field="RecurrenceInstance"
+                                                    placeholder="First" onchange={handleRecurringComboboxValue}
+                                                    options={RecurrenceInstanceOptions}>
+                                                </lightning-combobox>
+                                                <lightning-combobox name="monthlyRelativeRepeatOn" label="Repeat On"
+                                                    value={value} data-id="monthlyRelativeRepeatOn"
+                                                    data-field="RecurrenceDayOfWeekMask" placeholder="Sunday"
+                                                    onchange={handleRecurringComboboxValue}
+                                                    options={relativeDaysRepeatOnOptions}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                        <div if:true={yearlyRepeat}>
+                                            <lightning-combobox name="yearlyRepeat" data-id="yearlyRepeat" label="When"
+                                                value={value} data-field="RecurrenceType" placeholder="Specific Date"
+                                                onchange={handleRecurringComboboxValue} options={yearlyRepeatOptions}>
+                                            </lightning-combobox>
+                                            <div if:true={yearlyRelativeDate}>
+                                                <lightning-combobox name="yearlyRelativeDateDay" label="Day"
+                                                    value={value} data-field="RecurrenceInstance"
+                                                    data-id="yearlyRelativeDateDay" placeholder="First"
+                                                    onchange={handleRecurringComboboxValue}
+                                                    options={RecurrenceInstanceOptions}>
+                                                </lightning-combobox>
+                                                <lightning-combobox name="yearlyRelativeDateRepeatOn" label="Repeat On"
+                                                    value={value} data-id="yearlyRelativeDateRepeatOn"
+                                                    data-field="RecurrenceDayOfWeekMask" placeholder="Sunday"
+                                                    onchange={handleRecurringComboboxValue}
+                                                    options={relativeDaysRepeatOnOptions}>
+                                                </lightning-combobox>
+                                                <lightning-combobox name="yearlyRelativeDateMonth" label="Month"
+                                                    value={value} data-id="yearlyRelativeDateMonth"
+                                                    data-field="RecurrenceMonthOfYear" placeholder="January"
+                                                    onchange={handleRecurringComboboxValue}
+                                                    options={yearlyRelativeDateMonthOptions}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="slds-grid">
+                                                <div class="slds-col slds-m-right_x-small">
+                                                    <lightning-input placeholder={defaultStartDate} type="date"
+                                                        data-field="RecurrenceStartDateOnly"
+                                                        onchange={handleRecurringDate} label={label.START_DATE}>
+                                                    </lightning-input>
+                                                </div>
+                                                <div class="slds-col">
+                                                    <lightning-input type="date" placeholder={defaultEndDate}
+                                                        data-field="RecurrenceEndDateOnly"
+                                                        onchange={handleRecurringDate} label={label.END_DATE}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

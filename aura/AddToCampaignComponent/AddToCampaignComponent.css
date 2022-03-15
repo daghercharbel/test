@@ -1,0 +1,12 @@
+.THIS {
+}
+.THIS .forcePageError{
+    margin-bottom: none !important;
+    padding-bottom: none !important;
+}
+.THIS .slds-modal__close{
+    display: none !important;
+}
+.THIS .customError{
+    color:rgb(194, 57, 52);
+}

@@ -1,0 +1,218 @@
+<aura:component controller="TTFilterUserController">
+  <ltng:require styles="{!$Resource.TelosTouch + '/ModalBodyComponent.css'}" />
+
+  <lightning:overlayLibrary aura:id="overlayLib" />
+  <lightning:overlayLibrary aura:id="overlayLib2" />
+  <aura:attribute name="showAnswerModal" type="Boolean" default="false" />
+  <aura:attribute name="createCampaign" type="Boolean" default="false" />
+  <aura:attribute
+    name="selectCampaignRecordType"
+    type="Boolean"
+    default="false"
+  />
+  <aura:attribute name="createAction" type="Boolean" default="false" />
+  <aura:attribute name="sendTouchpoint" type="Boolean" default="false" />
+  <aura:attribute
+    name="campaignName"
+    type="String"
+    description="Input Field Value at the popup"
+  />
+  <aura:attribute
+    name="clientIdsList"
+    type="List"
+    description="Client id generated from action method"
+  />
+  <aura:attribute
+    name="campaignSFid"
+    type="String"
+    description="SF id generated from action method"
+  />
+  <aura:attribute name="isShowSpinner" type="Boolean" default="false" />
+  <aura:attribute name="answers" type="Object" default="" />
+  <aura:attribute name="userList" type="List" />
+  <aura:attribute name="contactOrLeadId" type="String" />
+
+  <aura:attribute name="currentUser" type="object" access="public" />
+  <aura:attribute
+    name="newTask"
+    type="Task"
+    default="{ 'sobjectType': 'Task'}"
+    access="public"
+  />
+  <aura:attribute name="subjectMessage" type="String" default="" />
+  <aura:attribute name="SubjectListItems" type="Boolean" default="false" />
+  <aura:attribute name="wrapperList" type="object" />
+
+  <aura:attribute name="recordTypeOptions" type="List" />
+  <aura:attribute name="recordTypeId" type="String" />
+  <aura:attribute name="recordId" type="String" />
+
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+  <aura:handler
+    event="c:TT_AddToCampMobile_Evt"
+    action="{!c.onEventHandle_Save}"
+  />
+
+  <aura:if isTrue="{!v.isShowSpinner}">
+    <lightning:spinner alternativeText="Loading" size="medium" />
+  </aura:if>
+  <aura:if isTrue="{!v.showAnswerModal}">
+    <aura:iteration items="{!v.answers.answerWrapperList}" var="item">
+      <aura:if isTrue="{!item.is_robot}">
+        <li class="slds-chat-listitem slds-chat-listitem_outbound">
+          <div class="slds-chat-message">
+            <div class="slds-chat-message__body">
+              <div
+                class="slds-chat-message__text slds-chat-message__text_outbound"
+              >
+                <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
+                <aura:if isTrue="{!item.type == 'image'}">
+                  <a href="{!item.resource_url}" target="_blank">
+                    <img
+                      src="{!item.resource_url}"
+                      id="{!item.resource_url}"
+                      name="{!item.content}"
+                    />
+                  </a>
+                  <aura:set attribute="else">
+                    <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
+                    <aura:if
+                      isTrue="{!or(item.type == 'application', item.type == 'video')}"
+                    >
+                      <a href="{!item.resource_url}" target="_blank">
+                        <lightning:formattedText
+                          value="{!item.content}"
+                          id="{!item.resource_url}"
+                          title="{!item.content}"
+                          linkify="true"
+                        />
+                      </a>
+                      <aura:set attribute="else">
+                        <span> {!item.content} </span>
+                      </aura:set>
+                    </aura:if>
+                  </aura:set>
+                </aura:if>
+              </div>
+            </div>
+          </div>
+        </li>
+        <aura:set attribute="else">
+          <li class="slds-chat-listitem slds-chat-listitem_inbound">
+            <div class="slds-chat-message">
+              <div class="slds-chat-message__body">
+                <div
+                  class="slds-chat-message__text slds-chat-message__text_inbound"
+                >
+                  <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
+                  <aura:if isTrue="{!item.type == 'image'}">
+                    <a href="{!item.resource_url}" target="_blank">
+                      <img
+                        src="{!item.resource_url}"
+                        id="{!item.resource_url}"
+                        name="{!item.content}"
+                      />
+                    </a>
+                    <aura:set attribute="else">
+                      <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
+                      <aura:if
+                        isTrue="{!or(item.type == 'application', item.type == 'video')}"
+                      >
+                        <a href="{!item.resource_url}" target="_blank">
+                          <lightning:formattedText
+                            value="{!item.content}"
+                            id="{!item.resource_url}"
+                            title="{!item.content}"
+                            linkify="true"
+                          />
+                        </a>
+                        <aura:set attribute="else">
+                          <span> {!item.content} </span>
+                        </aura:set>
+                      </aura:if>
+                    </aura:set>
+                  </aura:if>
+                </div>
+              </div>
+            </div>
+          </li>
+        </aura:set>
+      </aura:if>
+      <br />
+    </aura:iteration>
+    <!--div class="slds-backdrop slds-backdrop_open"></div-->
+  </aura:if>
+  <aura:if isTrue="{!v.selectCampaignRecordType}">
+    <div class="slds-align_absolute-center slds-p-around_x-small">
+      <lightning:radioGroup
+        name="Select the record type"
+        label="{!$Label.c.Select_Record_Type_text}"
+        options="{! v.recordTypeOptions }"
+        value="{! v.recordTypeId }"
+        type="radio"
+      />
+    </div>
+    <footer class="slds-modal__footer">
+      <lightning:button
+        variant="neutral"
+        label="{!$Label.c.Cancel_Button_Label}"
+        title="{!$Label.c.Cancel_Button_Label}"
+        onclick="{! c.closeCreateCampaignModel }"
+      />
+      <lightning:button
+        variant="brand"
+        label="{!$Label.c.Next_Button_Label}"
+        title="{!$Label.c.Next_Button_Label}"
+        onclick="{!c.selectCampaignRecordType}"
+      />
+    </footer>
+  </aura:if>
+  <aura:if isTrue="{!v.createCampaign}">
+    <div class="slds-var-p-around_medium">
+      <lightning:recordForm
+        objectApiName="Campaign"
+        recordTypeId="{!v.recordTypeId}"
+        layoutType="Full"
+        onsuccess="{!c.submitCreateCampaignDetails}"
+        oncancel="{! c.closeCreateCampaignModel }"
+      />
+    </div>
+  </aura:if>
+  <aura:if isTrue="{!v.createAction}">
+    <div class="slds-align_absolute-center slds-p-around_x-small">
+      <lightning:radioGroup
+        name="Select the record type"
+        label="{!$Label.c.Select_Record_Type_text}"
+        options="{! v.recordTypeOptions }"
+        value="{! v.recordTypeId }"
+        type="radio"
+      />
+    </div>
+  </aura:if>
+  <aura:if isTrue="{!v.sendTouchpoint}">
+    <lightning:layout multipleRows="true" class="slds-p-around_medium">
+      <lightning:layoutItem
+        size="12"
+        smallDeviceSize="12"
+        mediumDeviceSize="12"
+        largeDeviceSize="12"
+      >
+        <span>{!$Label.c.Send_Touchpoint_Question_Text}</span>
+      </lightning:layoutItem>
+    </lightning:layout>
+    <footer class="slds-modal__footer">
+      <lightning:button
+        variant="neutral"
+        label="{!$Label.c.Skip_Text}"
+        title="{!$Label.c.Skip_Text}"
+        onclick="{! c.closeCreateCampaignModel }"
+      />
+      <lightning:button
+        variant="brand"
+        label="{!$Label.c.Yes_Text}"
+        title="{!$Label.c.Yes_Text}"
+        onclick="{!c.sendTouchpoint}"
+      />
+    </footer>
+  </aura:if>
+</aura:component>

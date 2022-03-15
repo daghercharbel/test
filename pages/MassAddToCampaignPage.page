@@ -1,0 +1,16 @@
+<apex:page standardController="Account"  showHeader="false" extensions="MassAddToCampaignButtonController" recordSetVar="Member">
+    <apex:includeLightning />
+   
+    <div id="ShowComponent"></div>
+    <script>
+    $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function(){
+        $Lightning.createComponent("TelosTouchSF:MassAddToCampaignCompPC",
+                                   {"selectedRecordIds" : "{!JSENCODE(jsonStr)}",
+                                   "isPersonAccount" : "{!JSENCODE(isPersonAccount)}"},
+                                   "ShowComponent",
+                                   function(cmp) {
+                                       ////console.log('>>>>> App is hosted');
+                                   });
+    });
+    </script> 
+</apex:page>

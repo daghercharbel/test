@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/SwapnilCloudAnalogy/TelosTouchQTL.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[user]
+	name = SwapnilTT
+	email = swapnil.sen@telostouch.com
+[remote "tt_origin"]
+	url = https://gitlab.com/telostouch/salesforce/telostouch-sf.git
+	fetch = +refs/heads/*:refs/remotes/tt_origin/*

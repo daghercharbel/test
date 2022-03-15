@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="on Add button of TT_AddToCampaignMobileFooter component" >
+    <aura:attribute name="isCampaign" type="Boolean" default="false"/>
+    <aura:attribute name="isCreateTask" type="Boolean" default="false"/>
+    <aura:attribute name="isCreateMassTask" type="Boolean" default="false"/>
+</aura:event>

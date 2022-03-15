@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="newCampRecord" type="Object"/>  
+    <aura:attribute name="campaignName" type="Object"/>
+</aura:event>

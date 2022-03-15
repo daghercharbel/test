@@ -1,0 +1,32 @@
+.THIS {
+}
+.THIS .slds-tabs_default__content {
+	padding: 0rem !important;
+}
+.THIS .colorCss{
+    color: red;
+}
+.THIS .paddingCSS{
+    padding: 36vh;
+}
+
+.THIS .modalCSS {
+    font-size:25px; 
+    font-weight: bold; 
+    color: blue;
+}
+.THIS .warningModalCSS {
+    font-size:18px;
+    color: black;
+}
+.THIS .footerCss {
+    font-size: 17px;
+}
+.THIS .custom-loading-text {
+    transform: rotate(-90deg);
+    position: absolute;
+    top: -0.8rem;
+    left: -4rem;
+    white-space: nowrap;
+    font-weight: bold;
+}

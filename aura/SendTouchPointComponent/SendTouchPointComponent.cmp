@@ -1,0 +1,37 @@
+<aura:component  implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:hasRecordId" access="global"
+                Controller="TelosTouchUtility">
+    <aura:attribute name="iframeUrl" type="String" default=""/>
+    <aura:attribute name="iframeUrl2" type="String" default=""/>
+    <aura:attribute name="frameBorder" type="String" default="none"/>
+    <aura:attribute name="campId" type="String" default=""/>
+    <aura:attribute name="authToken" type="String" default=""/>
+    <aura:attribute name="settingAPIObj" type="object" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="isShowTost" type="boolean" default="false"/>
+    <aura:attribute name="openfromCampaign" type="boolean" default="false"/>
+    <aura:attribute name="clientIdsList" type="List" />
+    <aura:attribute name="remainingIdsList" type="List" default="[]"/>
+    <aura:attribute name="campaignSFid" type="String" />
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    <ltng:require styles="{!$Resource.TelosTouch + '/SendTouchPoint.css'}"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!--loading spinner start-->
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" variant="brand"/>
+    </aura:if>
+    <!-- Loading spinner end-->   
+    <aura:if isTrue="{!v.openfromCampaign}">
+        <!--lightning:formattedRichText value="{!v.iframeUrl}"/-->
+        <iframe src="{!v.iframeUrl}"
+                frameBorder="{!v.frameBorder}"
+                id = "frame"/>
+    </aura:if>
+    <!--Modal Footer-->
+    <aura:if isTrue="{!or(!empty(v.campId) , !empty(v.iframeUrl))}">
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button variant="brand" class="slds-button" label="{!$Label.c.Close_Label}" onclick="{!c.handleClose}"/>
+        </div>
+    </aura:if>
+</aura:component>

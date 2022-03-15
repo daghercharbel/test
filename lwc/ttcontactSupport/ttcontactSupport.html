@@ -1,0 +1,22 @@
+<template>
+    <lightning-icon if:true={chatButtonActive} icon-name="utility:chat" size="large" variant="brand" class={tabName} onclick={openForm}></lightning-icon>
+    <div if:true={showToast}>
+        <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}></c-ttcustom-toast>
+    </div>
+    <div if:true={formActive} class="chat-popup" id="myForm">
+        <form  class="form-container">
+            <label for="msg"><b>{label.SHARE_CONCERN}</b></label>
+            <p>{label.CASE_DESCRIPTION}</p>
+            <lightning-input type="text" class="subInputCmp" label={label.TITLE} data-field="subject" onchange={handleChange}></lightning-input>
+            <lightning-textarea class="descInputCmp textArea" label={label.ISSUE_DESCRIPTION} data-field="description" onchange={handleChange}></lightning-textarea>
+            <div class="slds-grid">
+                <div class="slds-col slds-col slds-size_1-of-2">
+                     <lightning-button variant="brand" label={label.SUBMIT}  icon-name="utility:send" icon-position="right" onclick={sendMessage}></lightning-button>
+                </div>
+                <div class="slds-col slds-col slds-size_1-of-2">
+                    <lightning-button class="cancelBtn" variant="brand" label={label.CANCEL}   icon-name="utility:close" icon-position="right" onclick={closeForm}></lightning-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</template>

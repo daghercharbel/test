@@ -1,0 +1,163 @@
+<aura:component >
+    <aura:attribute name="timelineRecord" type="object"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <div id="main">
+        <li>
+            <div class="isExpendable slds-timeline__item_expandable" aura:id="expId" id="expId">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <aura:if isTrue="{!or(v.timelineRecord.type == 'Answer',or(v.timelineRecord.type == 'task',v.timelineRecord.type == 'request'))}">
+                            <button class="slds-button slds-button_icon"
+                                    onclick="{!c.toggleAcitivity}"
+                                    title=""
+                                    aria-controls="task-item-base">
+
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-button__icon slds-timeline__details-action-icon"/>
+                            </button>
+                            <aura:set attribute="else">
+                                <button class="slds-button slds-button_icon"
+                                        title=""
+                                        aria-controls="task-item-base">
+
+                                    <lightning:icon iconName="utility:check"
+                                                    size="x-small"
+                                                    class=""/>
+                                </button>
+                            </aura:set>
+                        </aura:if>
+                        <aura:if isTrue="{!or(v.timelineRecord.type == 'task',v.timelineRecord.type == 'request')}">
+                            <div class="slds-icon_container" title="task">
+                                <lightning:icon iconName="standard:task" size="small"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.timelineRecord.type == 'touchpoint'}">
+                            <div class="slds-icon_container" title="task">
+                                <lightning:icon iconName="standard:campaign" size="small"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.timelineRecord.type == 'Answer'}">
+                            <div class="slds-icon_container" title="answer">
+                                <lightning:icon iconName="standard:answer_public" size="small"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.timelineRecord.type == 'attachment'}">
+                            <div class="slds-icon_container" title="attachment">
+                                <lightning:icon iconName="doctype:attachment" size="small"/>
+                            </div>
+                        </aura:if>
+                    </div>
+
+                    <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                            <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space slds-p-bottom_medium">
+                                <aura:if isTrue="{!or(v.timelineRecord.type == 'task',v.timelineRecord.type == 'request')}">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                                {!$Label.c.Task_Label}
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                            <aura:if isTrue="{!!empty(v.timelineRecord.taskId)}">
+                                                <a href="{!'/lightning/r/Task/'+v.timelineRecord.taskId+'/view'}" target="_self">{!v.timelineRecord.taskName}</a>
+                                                <aura:set attribute="else">
+                                                        {!v.timelineRecord.taskName}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </aura:if>
+                                <aura:if isTrue="{!v.timelineRecord.type == 'Answer'}">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            Answer
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                            <aura:if isTrue="{!!empty(v.timelineRecord.answerId)}">
+                                                <a href="{!'/lightning/r/Task/'+v.timelineRecord.answerId+'/view'}" target="_self">{!v.timelineRecord.question}</a>
+                                                <aura:set attribute="else">
+                                                        {!v.timelineRecord.question}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </aura:if>
+                                <aura:if isTrue="{!v.timelineRecord.type == 'touchpoint'}">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                                {!$Label.c.Campaign_Text}
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                            <aura:if isTrue="{!!empty(v.timelineRecord.campId)}">
+                                                <a href="{!'/lightning/r/Campaign/'+v.timelineRecord.campId+'/view'}" target="_self">{!v.timelineRecord.campName}</a>
+                                                <aura:set attribute="else">
+                                                        {!v.timelineRecord.campName}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </aura:if>
+                                <aura:if isTrue="{!v.timelineRecord.type == 'attachment'}">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                        {!$Label.c.Client_TimeLine_Attachment}
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="word-break-wrapping">
+                                            <aura:if isTrue="{!!empty(v.timelineRecord.attachmentURL)}">
+                                                <a href="{!v.timelineRecord.attachmentURL}" target="_self">{!v.timelineRecord.attachmentName}</a><br/>
+                                                <b>{!$Label.c.Campaigns_Text}:</b>&nbsp;<a href="{!'/lightning/r/Campaign/'+v.timelineRecord.campId+'/view'}" target="_self">{!v.timelineRecord.campName}</a>
+                                                <aura:set attribute="else">
+                                                        {!v.timelineRecord.attachmentName}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </aura:if>
+                            </div>
+                            <aura:if isTrue="{!or(v.timelineRecord.type == 'task',v.timelineRecord.type == 'request')}">
+                                <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                {!$Label.c.Due_Date_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.taskDueDate}"/>
+                                </p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.timelineRecord.type == 'touchpoint'}">
+                                <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                {!$Label.c.Created_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.campCreatedDate}"/>
+                                </p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.timelineRecord.type == 'Answer'}">
+                                <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                {!$Label.c.Created_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.answerCreatedDate}"/>
+                                </p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.timelineRecord.type == 'attachment'}">
+                                <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                {!$Label.c.Created_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.attachmentCreatedDate}"/>
+                                </p>
+                            </aura:if>
+                        </div>
+                        <!-- expandable section start-->
+                        <article class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small"
+                                 id="task-item-base"
+                                 aria-hidden="true">
+                            <ul class="slds-list_horizontal slds-wrap">
+                                <aura:if isTrue="{!or(v.timelineRecord.type == 'task',v.timelineRecord.type == 'request')}">
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_x-small">Description</span>
+                                        <span class="slds-text-body_medium slds-truncate" title="{!v.timelineRecord.Description}">{!v.timelineRecord.description}</span>
+                                    </li>
+                                </aura:if>
+                                <aura:if isTrue="{!v.timelineRecord.type == 'Answer'}">
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_x-small">Answer</span>
+                                        <span class="slds-text-body_medium slds-truncate" title="{!v.timelineRecord.answer}">{!v.timelineRecord.answer}</span>
+                                    </li>
+                                </aura:if>
+                            </ul>
+                        </article>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </div>
+</aura:component>

@@ -1,0 +1,65 @@
+.THIS {
+}
+
+.THIS #myUL li:hover {
+    background:rgb(243, 242, 242);
+}
+.THIS .slds-modal__header{
+    background: #364cbb!important;
+    color:white;
+}
+.THIS .questions .slds-form-element__label{
+    font-size:0.85rem !important;
+     font-weight: bold;
+}
+.THIS  .slds-form-element__label{
+    font-size: 0.85rem;
+}
+.THIS.custombox {
+    border: 4px;
+}
+.THIS .modalText{
+    font-size: 16px; 
+}
+.THIS .pillcss .slds-pill__remove {
+    display: none !important;
+}
+.THIS.changeStyle {
+    background-color:blue;
+    color:red;
+}
+.THIS .error-text {
+    display:none;
+}
+
+.THIS .show {
+    display:flex;
+    color:red;
+}
+.THIS .iconColor {
+    color: white !important;
+}
+.THIS .sldsbox {
+    background-color: white;
+}
+.THIS .answerModal {
+    font-size: 1.1rem; 
+    width: fit-content;
+}
+.THIS .subject {
+    color:rgb(234,0,30);
+}
+.THIS .subjectItem {
+    position: absolute !important;
+    z-index: 9001;
+    width:94.6%;
+    box-shadow: 1px 2px 6px 2px rgb(193 193 193) !important; 
+    border:1px solid rgb(221, 219, 218) !important;
+}
+.THIS .picklistLI{
+	padding:5px;
+}
+.THIS .picklistLI :hover{
+    background:rgb(243, 242, 242);
+    cursor:pointer;
+}

@@ -1,0 +1,9 @@
+.slds-modal__container{ 
+        display:none;
+        } 
+        .modal-body{ 
+        display:none; 
+        } 
+        .slds-modal__footer{ 
+        display:none;
+        }

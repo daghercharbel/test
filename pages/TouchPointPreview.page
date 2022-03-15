@@ -1,0 +1,13 @@
+<apex:page standardController="Campaign"  showHeader="false" recordSetVar="member">
+    <apex:includeLightning />   
+    <div id="ShowComponent"></div>
+    <script>
+    $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function(){
+        $Lightning.createComponent("TelosTouchSF:TouchPointPreviewComp",{},
+                                   "ShowComponent",
+                                   function(cmp) {
+                                       //console.log('>>>>> App is hosted');
+                                   });
+    });
+    </script>
+</apex:page>

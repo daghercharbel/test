@@ -1,0 +1,18 @@
+<apex:page id="TelosTouchConfigPage" showHeader="false" sideBar="false" standardStylesheets="false" controller="SFDataSyncWithTelosTouch" action="{!createDefualtRemoteSiteSetting}">
+    <title>Mapping</title>
+    <apex:includeLightning />
+    <div id="mappingDiv">
+    </div>
+    <script>
+    $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function () {
+        $Lightning.createComponent(
+            "TelosTouchSF:TelosTouchConfigComp",
+            {"isAdmin" : "{!isAdmin}",
+             "showManualSync" : "{!showManualSync}"},
+            "mappingDiv",
+            function (cmp) {
+            }
+        );
+    });
+    </script>
+</apex:page>

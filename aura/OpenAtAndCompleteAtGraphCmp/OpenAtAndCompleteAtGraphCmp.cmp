@@ -1,0 +1,23 @@
+<aura:component
+  controller="OpenAtAndCompleteAtGraph_Controller"
+  access="global"
+  description="OpenAtAndCompleteAtGraphCmp"
+  implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="ContactList" type="List" />
+  <ltng:require
+    scripts="{!$Resource.TelosTouch + '/campaignBarChart/Chart.bundle.js'}"
+    afterScriptsLoaded="{!c.scriptsLoaded}"
+  />
+  <lightning:empApi aura:id="empApi" />
+  <aura:handler event="c:RefreshCampaignEvent" action="{!c.doRefresh}" />
+
+  <div class="slds-p-around_small">
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_12-of-12">
+        <canvas aura:id="chart"></canvas>
+      </div>
+    </div>
+  </div>
+</aura:component>

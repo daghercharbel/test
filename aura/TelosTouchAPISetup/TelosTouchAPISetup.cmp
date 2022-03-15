@@ -1,0 +1,311 @@
+<aura:component description="TelosTouchAPISetup" access="global" Controller="TelosTouchUtility">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.TelosTouch + '/js/jquery.min.js'}" afterScriptsLoaded="{!c.scriptLoaded}"/>
+    <aura:attribute name="setting" type="Object" />
+    <aura:attribute name="settingAPIList" type="List" />
+    <aura:attribute name="isPostInstallBatchRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    <aura:attribute name="messageType" type="String" default=""/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="isShowTost" type="boolean" default="false"/>
+    <aura:attribute name="isEdit" type="boolean" default="false"/>
+    <aura:attribute name="notEnterpriseClient" type="boolean" default="true"/>
+    <aura:attribute name="afterSaveCredentials" type="boolean" default="false"/>
+    <aura:attribute name="showAdvancedOptions" type="boolean" default="false"/>
+    <!--Data table attribute -->
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="allRecords" type="Object" access="global" />
+    <aura:attribute name="filteredRecords" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="selectedUserList" type="Object[]"/>
+    <aura:attribute name="currentPage" type="String"/>
+    <aura:attribute name="totalPages" type="String"/>
+    <aura:attribute name="showEntries" type="String" default="100"/>
+    <aura:attribute name="fromEntries" type="String"/>
+    <aura:attribute name="toEntries" type="String"/>
+
+    <!-- aura attributes to store data/values -->
+    <aura:attribute name="selectedCount" type="integer" default="0" description="selected Records Count"/>
+    <aura:attribute name="searchKey" type="String" default=""/>
+    <aura:attribute name="showSearchBar" type="boolean" default="false"/>
+    <aura:attribute name="showRegistrationMessage" type="boolean" default="false"/>
+    <aura:attribute name="showContactMessage" type="boolean" default="false"/>
+    <aura:attribute name="resendBtnDisabled" type="boolean" default="true"/>
+
+    <!-- aura attributes to store timer values -->
+    <aura:attribute name="ltngTimer" type="Integer" default="00:00:00" />
+    <ltng:require styles="{!$Resource.TelosTouch + '/TelosTouchAPISetup.css'}"/>
+
+
+
+    <div class="outer-div">
+        <aura:if isTrue="{!v.isShowSpinner}">
+            <lightning:spinner aura:id="Spinner" alternativeText="Loading" variant="brand" class="spinner" />
+        </aura:if>
+    </div>
+    <div id="MainContainer" >
+        <div class="slds-page-header slds-border_left slds-border_top slds-border_right">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="utility:setup" variant="inverse" class="customColorIcon"
+                                    alternativeText="Setup" size="medium"/>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="{!$Label.c.TT_API_Setup_Title}">{!$Label.c.TT_API_Setup_Title}</h1>
+                    <p class="slds-text-body_small slds-line-height_reset">{!$Label.c.Fill_Details_Text}</p>
+                </div>
+                <aura:if isTrue="{!and(!$Browser.isPhone, v.notEnterpriseClient)}">
+                    <div class="slds-var-m-left_x-small">
+                        <c:ttupgradeToEnterprise></c:ttupgradeToEnterprise>
+                    </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!and($Browser.isPhone, v.notEnterpriseClient)}">
+                <div class="slds-var-m-left_x-small slds-p-top_small">
+                    <c:ttupgradeToEnterprise></c:ttupgradeToEnterprise>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-align_absolute-center slds-p-top_small">
+            <aura:if isTrue="{!v.setting.Approval}">
+                <lightning:icon iconName="action:approval" size="small" alternativeText="Approval" title="Approval" />
+                <P class="slds-p-left_small successfull" ><strong>{!$Label.c.Successful_Text}</strong></P>
+                <aura:set attribute="else">
+                    <lightning:icon iconName="action:reject" size="x-small"  alternativeText="Reject" title="Reject" />
+                    <P class="slds-p-left_small reject" ><strong>{!$Label.c.Rejected_Text}</strong></P>
+                </aura:set>
+            </aura:if>
+        </div>
+        <div class="" aura:id="ErrorId">
+            <div role="form"
+                 class="slds-form--stacked slds-grid slds-wrap slds-p-around--small slds-border_left slds-border--right">
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <div class="slds-form-element">
+                        <lightning:input name="" aura:id="formId" placeholder="3MVG9n_HvETGhr3BjkZS8f..." value="{!v.setting.Client_ID}" label="{!$Label.c.Config_Client_ID}" required ="true" disabled="{!!v.isEdit}"/>
+                    </div>
+                </div>
+
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <div class="slds-form-element">
+                        <lightning:input name="" aura:id="formId" type="password" placeholder="79DDB36DE1E6BC4C..." value="{!v.setting.Client_Secret}" label="{!$Label.c.Config_Client_Secret}" required ="true" disabled="{!!v.isEdit}"/>
+                    </div>
+                </div>
+            </div>
+            <div role="form" class="slds-form--stacked slds-grid slds-wrap slds-p-around--small slds-border_left slds-border--right slds-m-bottom_x-large">
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <div class="slds-form-element">
+                        <lightning:input name="" aura:id="formId" placeholder="https://instanceurl.com" value="{!v.setting.Instance_URL}" label="{!$Label.c.Config_Instance_URL}" required ="true" disabled="{!!v.isEdit}"/>
+
+                    </div>
+                </div>
+                <aura:if isTrue="{!v.showAdvancedOptions}">
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                        <div class="slds-form-element">
+                            <lightning:input name="" aura:id="formId" value="{!v.setting.Authentication_URL}" label="{!$Label.c.Config_Authentication_URL}" required ="true" disabled="{!!v.isEdit}"/>
+                        </div>
+                        <a onclick="{! c.toggleAdvancedOptions }">{!$Label.c.Hide_Advanced_Options_Text}</a>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-align-bottom slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                            <a onclick="{! c.toggleAdvancedOptions }">{!$Label.c.Show_Advanced_Options_Text}</a>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.showRegistrationMessage}">
+            <div class="slds-text-align--center slds-m-bottom_large">
+                <aura:if isTrue="{!v.resendBtnDisabled}">
+                    Please check your E-Mail Address for instructions to obtain Client Id &amp; Client Secret.<br/>
+                    Your current invite expires in {!v.ltngTimer}.
+                    <aura:set attribute="else">
+                        Please check your E-Mail Address for instructions to obtain Client Id &amp; Client Secret.<br/>
+                        Didn't recieve confirmation E-Mail? <lightning:button variant="base" label="Resend E-Mail" title="Resend E-Mail" disabled="{!v.resendBtnDisabled}" onclick="{!c.resendRegistrationRequest}"/>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.showContactMessage}">
+            <div class="slds-text-align--center slds-m-bottom_large">
+                Org is already Registered. Please Contact TelosTouch using the Button at Bottom Right.
+            </div>
+        </aura:if>
+        <div class="slds-text-align--center">
+            <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Save_Button_Label}" disabled="{!or(!v.isEdit,v.isPostInstallBatchRunning)}" onclick="{!c.saveSettings}" />
+            <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Edit_Button_Label}" onclick="{!c.editSettings}" disabled="{!v.isPostInstallBatchRunning}"/>
+            <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Update_Add_Users_Button_Label}" onclick="{!c.updateAndAddUsers}" disabled = "{!or(or(v.isEdit,!v.setting.Approval),v.isPostInstallBatchRunning)}"/>
+            <lightning:button variant="brand-outline" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Cancel_Button_Label}" disabled="{!or(!v.isEdit,v.isPostInstallBatchRunning)}" onclick="{!c.cancelSettings}"/>
+        </div>
+        <footer>
+            <p align="center" class="supportemailCSS">
+                    {!$Label.c.Config_Footer}
+            </p>
+        </footer>
+
+        <aura:if isTrue="{!v.isShowTost}">
+            <c:TT_Custom_Toast variant="{!v.messageType}" message="{!v.message}" showToast="{!v.isShowTost}" />
+        </aura:if>
+
+        <aura:if isTrue="{!v.afterSaveCredentials}">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-grid slds-wrap">
+                        <div class="slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_1-of-3">
+                            <div></div>
+                        </div>
+                        <div class="slds-size_1-of-1 slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.Access_To_TT}</h2>
+                        </div>
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <div class="slds-size_1-of-1 searchIcon slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
+                                <aura:if isTrue="{!v.showSearchBar}">
+                                    <div class="searchBar">
+                                        <input type="search" placeholder="Enter Min. 3 Letters of Email or Username..." class="slds-input" onkeyup="{!c.searchUsers}" aura:id="search" id="search" value="{!v.searchKey}"/>
+                                    </div>
+                                    <div class="closeIcon">
+                                        <lightning:icon iconName="utility:close" size="small" alternativeText="Close Search" title="Close Search" onclick="{!c.hideSearch}"/>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div>
+                                            <lightning:icon class="slds-float_right" iconName="utility:search" size="small" alternativeText="Search Users" title="Search Users" onclick="{!c.displaySearch}"/>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </aura:if>
+
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"  style="overflow:scroll;">
+                        <!--<aura:if isTrue="{!!empty(v.data)}">
+                            <div class = "tableHeight" >
+                                <lightning:datatable
+                                                     columns="{! v.columns }"
+                                                     data="{! v.data }"
+                                                     keyField="id"
+                                                     onrowselection="{! c.updateSelectedText }"/>
+                                
+                                <aura:set attribute="else">
+                                    <div align="center">
+                                        <p class="customCss"><strong>No Active User</strong></p>
+                                    </div>
+                                </aura:set>
+                            </div>
+                        </aura:if>-->
+
+
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                            <tr class="slds-text-title_caps">
+                                <th></th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Name">{!$Label.c.User_Name_Text}</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Phone">{!$Label.c.Profile_Text}</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Type">{!$Label.c.Email_Text}</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Type">{!$Label.c.TT_user_Text}</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {!v.data}
+                            <aura:iteration items="{!v.data}" var="obj">
+                                <tr>
+                                    <th scope="row" class="slds-text-align_right" style="width:3rem;">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-checkbox">
+                                                    <ui:inputCheckbox text="{!obj.Username}"
+                                                                      value="{!obj.selected}"
+                                                                      change="{!c.checkboxSelect}"/>
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label text"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate">
+                                                {!obj.Username}
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate">
+                                                {!obj.Profile}
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate">
+                                                {!obj.Email}
+                                        </div>
+                                    </th>
+                                    <th scope="row">
+                                        <div class="slds-truncate">
+                                                {!obj.TTUser}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <lightning:layout verticalAlign="stretch" multipleRows="true" >
+                            <lightning:layoutItem size="12">
+                                <aura:if isTrue="{!$Browser.isPhone}">
+                                    <input type="search" placeholder="Enter Min. 3 Letters of Email/Username..." class="slds-input placeholder" onkeyup="{!c.searchUsers}" aura:id="search" id="search" value="{!v.searchKey}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!$Browser.isTablet}">
+                                    <input type="search" placeholder="Enter Min. 3 Letters of Email/Username..." class="slds-input" onkeyup="{!c.searchUsers}" aura:id="search" id="search" value="{!v.searchKey}"/>
+                                </aura:if>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto"
+                                                  class="header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small slds-truncate">
+                            {!$Label.c.Showing_Text}&nbsp; {!v.fromEntries}-{!v.toEntries} out of {!v.filteredRecords.length}.
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto"
+                                                  class="pages-area header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small">
+                            {!$Label.c.Pages_Text}: {!v.currentPage}/{!v.totalPages}
+                            </lightning:layoutItem>
+
+                            <lightning:layoutItem >
+                                <lightning:button label="{!$Label.c.Previous_Button_Label}" iconPosition="left"
+                                                  disabled="{!v.currentPage &lt;= '1'}"
+                                                  iconName="utility:chevronleft" onclick="{!c.goToPreviousPage}"  class=" slds-m-top_xx-small"/>
+                                <lightning:button label="{!$Label.c.Next_Button_Label}" iconPosition="right" iconName="utility:chevronright"
+                                                  disabled="{!v.currentPage == v.totalPages}"
+                                                  onclick="{!c.goToNextPage}"  class=" slds-m-top_xx-small"/>
+                                <lightning:button  class="slds-button  slds-m-top_xx-small slds-button_neutral" label="{!$Label.c.Cancel_Button_Label}"  onclick="{!c.cancelUserModal}"/>
+                                <lightning:button variant="Brand" class="slds-button slds-button_neutral  slds-m-top_xx-small" label="{!$Label.c.GIve_TT_Access}"  disabled="{!empty(v.selectedUserList)}" onclick="{!c.SendSFUserToTT}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <aura:if isTrue="{!v.isPostInstallBatchRunning}">
+            <div aura:id="warningToast" class=" slds-show" >
+                <div class="slds-notify_container slds-is-absolute">
+                    <div class="slds-notify slds-notify_toast slds-theme_warning" role="alert">
+                        <lightning:icon iconName="utility:warning" variant="inverse" alternativeText="Success"
+                                        size="medium"/>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small ">&nbsp; <b> App is not ready yet ! Postinstall batch is
+                                still in progress.
+                            </b></h2>
+                            <h2 align="center"> &nbsp; Please Wait or Try To Reload The Page Untill Its Done.</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-overlay"></div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

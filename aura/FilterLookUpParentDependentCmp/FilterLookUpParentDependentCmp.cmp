@@ -1,0 +1,156 @@
+<!--
+ - Filter Lookup component Dependent
+   on parent or Can be use as individual as well.
+ -->
+<aura:component description="FilterLookUpParentDependentCmp" controller="FilterLookUpParentDependentCmpCtrl">
+    <aura:attribute Name="selItem" type="object" access="public"
+                    description="This attribute can be used by parent component to read selected record"/>
+    <aura:attribute Name="server_result" type="object[]" access="private"/>
+    <aura:attribute name="lookupIcon" type="String" access="public" default="standard:contact"/>
+    <aura:attribute name="brokerage" type="Object" access="public" />
+    <aura:attribute name="objectName" type="String" access="public" description="Name of Object to be searched"/>
+    <aura:attribute name="field_API_text" type="String" access="public"
+                    description="API Name of field, to be used to show text"/>
+    <aura:attribute name="field_API_val" type="String" access="public"
+                    description="API Name of field, to be returned from component"/>
+    <aura:attribute name="field_API_search" type="String" access="public"
+                    description="API Name of field to be searched"/>
+    <aura:attribute name="limit" type="Integer" access="public" default="5"
+                    description="Total number of record to be returned"/>
+    <aura:attribute name="placeholder" type="String" access="public" default="Space character is used to search"/>
+    <aura:attribute name="lookUpLabel" type="String" access="public" default="Field Label"
+                    description="Label of the lookup component"/>
+    <aura:attribute name="parentFiledName" type="String" access="public"
+                    description="parent Record AMP Name used to search in the component"/>
+    <aura:attribute name="parentFiledId" type="String" access="public" description="parent Record Id"/>
+    <aura:attribute name="isRequired" type="Boolean" access="public" default="false" description="Field is Required or not"/>
+    <aura:attribute name="isShowStandardMessage" type="Boolean" access="public" default="false" description="for standard error message Field is Required or not"/>
+    <aura:attribute name="isShowIconForCreatingChalidRecord" type="Boolean" access="public" default="false" description="This is Showing Icon For Creating Chalid Record"/>
+    <aura:attribute name="isLabelRequired" type="Boolean" access="public" default="true" description=" is label required"/>
+    <aura:attribute name="iconSize" type="String" access="public" default="small" description="This attribute is use for deciding the icon size of the object"/>
+
+    <aura:attribute name="searchText" type="String" access="private" default=""/>
+    <aura:attribute name="searchTextStartsWithFilter" type="String" access="public" default="none"/>
+    <aura:attribute name="last_SearchText" type="String" access="private"/>
+    <aura:attribute name="last_ServerResult" type="object[]" access="private"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:handler event="c:CampaignDetailEvent" action="{!c.handleCampaignDetailEvent}"/>
+    <aura:handler event="c:ChildModalCloseEvent" action="{!c.handleChildModalClose}"/>
+    <aura:attribute Name="newCampRecord" type="object" access="public"/>
+    <aura:attribute name ="fromPcComp" type = "Boolean" default = "false"/>
+    <aura:attribute name="isPersonAccount" type="boolean" default="false"/>
+    <aura:attribute name="selectedRecordIds" type="String" default= ""/>
+    <aura:attribute name ="childlookup" type = "Boolean" default = "false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:if isTrue="{!!(v.childlookup)}">
+        <div class="slds">
+            <div class="slds-form-element" >
+                <div class="slds-form-element__control" >
+                    <aura:if isTrue="{!v.isLabelRequired}">
+                        <div class="slds-form-element__label">
+                            <aura:if isTrue="{!v.isRequired}">
+                                <abbr class="slds-required">*</abbr>
+                            </aura:if>
+                                {!v.lookUpLabel}
+                        </div>
+                    </aura:if>
+                    <div class="slds-combobox_container slds-has-inline-listbox" aura:id="addborder">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open combowidth"
+                             aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right combopadding">
+                                <div>
+                                    <aura:if isTrue="{! empty(v.selItem) }">
+                                        <lightning:input required="{!v.isShowStandardMessage}" class="mylookup" label="{!v.lookUpLabel}" type="search"
+                                                         variant="label-hidden" aura:id="inputBox"
+                                                         value="{!v.searchText}" placeholder="{!v.placeholder}"
+                                                         onchange="{!c.serverCall}"
+                                                         onfocus="{!c.firstServerCall}"
+                                        />
+                                        <aura:set attribute="else">
+                                        <span class="slds-pill slds-pill_link fullWidth pillWidth" >
+                                            <a href="javascript:void(0);"
+                                               class="slds-pill__action slds-p-left_x-small"
+                                               title="{#v.selItem.text}">
+                                                <lightning:icon iconName="{#v.lookupIcon}" size="{! v.iconSize}"/>
+                                                <span class="slds-pill__label slds-p-left_x-small">{#v.selItem.text}</span>
+                                            </a>
+                                            <button onclick="{!c.clearSelection}"
+                                                    class="slds-button slds-button_icon slds-button_icon slds-pill__remove pillRemove"
+                                                    title="Remove" >
+                                                <lightning:icon iconName="utility:close" size="medium"
+                                                                alternativeText="Press delete or backspace to remove"/>
+                                                <span class="slds-assistive-text">Remove</span>
+                                            </button>
+                                        </span>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <aura:if isTrue="{! greaterthanorequal(v.server_result.length,1) }">
+                                <div id="listbox-unique-id" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical slds-dropup slds-dropdown_fluid itemSelectCss"
+                                        role="presentation">
+                                        <aura:iteration items="{!v.server_result}" var="item" indexVar="i">
+                                            <li title="{#item.text}" role="presentation" class="slds-listbox__item" data-selectedIndex="{#i}"
+                                                onclick="{!c.itemSelected}">
+                                            <span id="{#'listbox-option-unique-id-'+i+1}"
+                                                  class="slds-media slds-listbox__option slds-listbox__option_entity
+                                                         slds-listbox__option_has-meta"
+                                                  role="option">
+                                                <span class="slds-media__figure optionIcon">
+                                                    <span class="slds-icon_container">
+                                                        <lightning:icon iconName="{#v.lookupIcon}" size="{! v.iconSize}"/>
+                                                        <span class="slds-assistive-text">{#v.objectName}</span>
+                                                    </span>
+                                                </span>
+                                                <span class="slds-media__body singleRow">
+                                                    <span
+                                                            class="optionTitle slds-listbox__option-text
+                                                                 slds-listbox__option-text_entity">{#item.text}</span>
+                                                </span>
+                                            </span>
+                                            </li>
+
+                                        </aura:iteration>
+                                        <!--  Remove this section li tag if new record creation not required -->
+                                        <aura:if isTrue="{! v.isShowIconForCreatingChalidRecord }">
+                                            <li role="presentation" class="slds-listbox__item" data-selectedIndex="{#i}"
+                                                onclick="{!c.createNewRecord}">
+                                            <span id="{#'listbox-option-unique-id-'+i+1}"
+                                                  class="slds-media slds-listbox__option slds-listbox__option_entity
+                                                         slds-listbox__option_has-meta" role="option">
+                                                <span class="slds-media__figure optionIcon">
+                                                    <span class="slds-icon_container">
+                                                        <lightning:icon iconName="utility:add" size="small"/>
+                                                        <span class="slds-assistive-text">{#v.lookUpLabel}</span>
+                                                    </span>
+                                                </span>
+                                                <span class="slds-media__body singleRow">
+                                                    <span class="optionTitle slds-listbox__option-text
+                                                                 slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!v.lookUpLabel}</span>
+                                                </span>
+                                            </span>
+                                            </li>
+                                        </aura:if>
+                                    </ul>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{! and(v.fromPcComp , v.childlookup) }">
+        <c:CreateNewCampaignRecord
+                recordId = "{!v.recordId}"
+                sObjectName = "{!v.sObjectName}"
+                childlookup= "{!v.childlookup}"
+                selectedRecordIds = "{!v.selectedRecordIds}"
+                isPersonAccount = "{!v.isPersonAccount}"
+        />
+    </aura:if>
+        {!v.body }
+</aura:component>

@@ -1,0 +1,14 @@
+.touchpoint-modal .slds-modal__container{
+	max-width: 95vw !important;
+	width:100% !important;
+	padding: 0rem;
+}
+.touchpoint-modal .slds-modal__content{
+	padding: 0rem!important;
+}
+.touchpoint-modal .cuf-content{
+	padding: 0rem!important;
+}
+.touchpoint-modal .closeIcon {
+	display:none !important;
+}
