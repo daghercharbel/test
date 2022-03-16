@@ -1,0 +1,29 @@
+.THIS .leftPaddingClass {
+    padding-left: 2rem;
+}
+ 
+.THIS .pillSize{
+ width:100%;
+}
+.THIS li {
+    min-height: 1.5rem; 
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.THIS .slds-input[readonly]{
+    border: 1px solid rgb(171, 173, 176);
+    background-color: white;
+        padding-left: 6px;
+}
+.THIS  .slds-form-element__label{
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.THIS .question:hover {
+        background-color: rgb(0 161 224);
+    color:white;
+}
+.THIS .filterCSS{
+    min-height:0px;
+    margin-top:0px !important;
+}

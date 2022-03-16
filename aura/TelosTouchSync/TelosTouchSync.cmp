@@ -1,0 +1,193 @@
+<aura:component access="global" description="TelosTouchSync" controller="SFDataSyncWithTelosTouch">
+    <aura:attribute name="syncList" type="List"/>
+    <aura:attribute name="errorList" type="List"/>
+    <aura:attribute name="isShowSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="LogsList" type="List"/>
+    <aura:attribute name="currentUserLanguage" type="String"/>
+    <aura:attribute name="isMappingEnable" type="Boolean" default="false"/>
+     <aura:attribute name="isSeeMoreDisabled" type="boolean" default="true" />
+    <aura:attribute name="WarningModalisOpen" type="Boolean" default="false"/>
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="PageNumber" type="integer" default="1"/>
+    <aura:attribute name="TotalPages" type="integer" default="0"/>
+    <aura:attribute name="TotalRecords" type="integer" default="0"/>
+    <aura:attribute name="RecordStart" type="integer" default="0"/>
+    <aura:attribute name="RecordEnd" type="integer" default="0"/>
+    <aura:attribute name="pageSize" type="integer" default="10"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    <!-- Spinner starts here-->
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <aura:if isTrue="{!v.isModalOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Warning Modal When no COntact Are selected-->
+                <aura:if isTrue="{!v.WarningModalisOpen}">
+                    <header class="slds-modal__header slds-theme--warning">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModel}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2  id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">No Records Selected</h2>
+                    </header>
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <aura:set attribute="else">
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{!c.closeModel}"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            <h2  id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">Successful Operation</h2>
+                        </header>
+                    </aura:set>
+                </aura:if>
+                <!-- Warning Modal BoX Content -->
+                <aura:if isTrue="{!v.WarningModalisOpen}">
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p class="warningModalCSS">
+                            Please select any <Strong>Record</Strong>  from list view.
+                        </p>
+                    </div>
+                    <aura:set attribute="else">
+                        <!--Modal/Popup Box Body Starts here-->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p class="warningModalCSS">
+                                <b>
+                                    Your records have been successfully synced with TelosTouch.
+                                </b>
+                            </p>
+                        </div>                     
+                    </aura:set>
+                </aura:if>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">
+                    
+                    <lightning:button variant="brand"
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{!c.submitDetails}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <div class="tableOuterHeight" id="logtable" >
+        <div class="slds-scrollable scrollbarStyled tableinnerHeight">
+            <table class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                <!--thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col" class="tableColWidth">
+                            <div class="slds-cell-fixed" title="{!$Label.c.Log_Number_Text}" >
+                                {!$Label.c.Log_Number_Text}
+                            </div>
+                        </th>
+                        <th scope="col" class="tableColWidth">
+                            <div class="slds-cell-fixed resultCol" title="{!$Label.c.Result_Text}" >
+                                {!$Label.c.Result_Text}
+                            </div>
+                        </th>
+                        <th scope="col" class="tableColWidth">
+                            <div class="slds-cell-fixed syncTime" title="{!$Label.c.Sync_Time_Text}" >
+                                {!$Label.c.Sync_Time_Text}
+                            </div>
+                        </th>
+                        <th scope="col" class="tableColWidth" >
+                            <div class="slds-cell-fixed comments" title="{!$Label.c.Comments_Text}" >
+                                {!$Label.c.Comments_Text}
+                            </div>
+                        </th>
+                        <th scope="col" class="tableColWidth">
+                            <div class=" slds-cell-fixed" title="{!$Label.c.Total_Sync_Record_Text}">
+                                {!$Label.c.Total_Sync_Record_Text}
+                            </div>
+                        </th>
+                    </tr>
+                </thead-->
+                <tbody>
+                <aura:if isTrue="{!!empty(v.LogsList)}">
+                    <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Log_Number_Text}</th>
+                    <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Result_Text}</th>
+                    <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Sync_Time_Text}</th>
+                    <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Comments_Text}</th>
+                    <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Total_Sync_Record_Text}</th>
+                    <aura:iteration items="{!v.LogsList}" var="sync">
+                        <tr class="slds-hint-parent">
+                            <td scope="row" data-label="SYNC WAY">
+                                <div class="slds-truncate"> {!sync.Name}</div>
+                            </td>
+                            <td scope="row" data-label="STATUS">
+                                <div class="slds-truncate"> 
+                                    <aura:if isTrue="{!sync.TelosTouchSF__Result__c =='Success'}">
+                                        <img src="{!$Resource.TelosTouch +'/images/RightCheckbox.webp'}" class="imageCss"/>
+                                        <aura:set attribute="else">
+                                            <img src="{!$Resource.TelosTouch +'/images/CrossCheckbox1.png'}" class="imageCss"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </td>
+                            <td scope="row" >
+                                <div class="slds-truncate">  {!sync.CreatedDate}</div>
+                            </td>
+                            <td scope="row" >
+                                <aura:if isTrue="{!v.currentUserLanguage == 'en'}">
+                                    <div class="slds-truncate">{!sync.TelosTouchSF__Comments__c}</div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.currentUserLanguage == 'fr'}">
+                                    <div class="slds-truncate">{!sync.TelosTouchSF__Comments_FR__c}</div>
+                                </aura:if>
+                            </td>
+                            <td scope="row" >
+                                <div class="slds-truncate totalCount" >{!sync.TelosTouchSF__Total_Records_Count__c}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                        <aura:set attribute="else">
+                        <div align ="center" class = "slds-p-top_large modalCSS">
+                            <p>No records found</p>
+                        </div>
+                    </aura:set>
+                    </aura:if>
+                </tbody>
+            </table>
+        </div >
+    </div>
+    <!--div class="slds-clearfix">
+            <div class="slds-page-header" role="banner" >
+                <div class="slds-float_right">
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == 1)}" variant="brand" aura:id="prevPage" label="{!$Label.c.Prev_Button_Label}" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == v.TotalPages)}" aura:id="nextPage" variant="brand" label="{!$Label.c.Next_Button_Label}" onclick="{!c.handleNext}"/>
+                </div>
+                <p class="slds-page-header__title fontCss" >{!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}</p>
+            </div>
+        </div-->
+    <lightning:layout multipleRows="false" class="slds-m-top_small">
+        <lightning:layoutItem size="7" smallDeviceSize="7" mediumDeviceSize="10" largeDeviceSize="10">
+            <p class="slds-m-top_small slds-page-header__title fontCss" >{!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}</p>
+        </lightning:layoutItem>
+        <aura:if isTrue="{!!$Browser.isPhone}">
+            <lightning:layoutItem size="5" smallDeviceSize="5" mediumDeviceSize="2" largeDeviceSize="2">
+                <div class="slds-float_right">
+                    <c:ttcontactSupport tabName="TelosTouchSync"/>
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == 1)}" variant="brand" aura:id="prevPage" label="{!$Label.c.Prev_Button_Label}" onclick="{!c.handlePrev}" />
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == v.TotalPages)}" aura:id="nextPage" variant="brand" label="{!$Label.c.Next_Button_Label}" onclick="{!c.handleNext}"/>
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+        <aura:if isTrue="{!$Browser.isPhone}">
+            <lightning:layoutItem size="5" smallDeviceSize="5" mediumDeviceSize="2" largeDeviceSize="2">
+                <div class="slds-float_right">
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == 1)}" variant="brand" aura:id="prevPage" label="{!$Label.c.Prev_Button_Label}" onclick="{!c.handlePrev}" />
+                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == v.TotalPages)}" aura:id="nextPage" variant="brand" label="{!$Label.c.Next_Button_Label}" onclick="{!c.handleNext}"/>
+                </div>
+                <div class="slds-float_right">
+                    <c:ttcontactSupport tabName="TelosTouchSync"/>
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+    </lightning:layout>
+</aura:component>

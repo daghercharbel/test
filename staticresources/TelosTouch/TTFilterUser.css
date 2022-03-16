@@ -1,0 +1,6 @@
+.dataTable .slds-has-focus .slds-th__action {
+	box-shadow : none !important;
+}
+.dataTable .slds-table th:focus, .slds-table th.slds-has-focus, .slds-table [role=gridcell]:focus, .slds-table [role=gridcell].slds-has-focus{
+	box-shadow : none !important;
+}

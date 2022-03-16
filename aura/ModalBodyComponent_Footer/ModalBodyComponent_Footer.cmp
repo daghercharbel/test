@@ -1,0 +1,23 @@
+<aura:component>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="createMassAction" type="Boolean"/>
+    <aura:registerEvent name="myApplicationEvent" type="c:TT_AddToCampMobile_Evt"/>
+    <div class="slds-float_right">
+        <lightning:button variant="neutral"
+                          label="{!$Label.c.Cancel_Button_Label}"
+                          title="{!$Label.c.Cancel_Button_Label}"
+                          onclick="{! c.CloseModal }"/>
+        <aura:if isTrue="{!v.createMassAction}">
+            <lightning:button variant="brand"
+                              label="{!$Label.c.Next_Button_Label}"
+                              title="{!$Label.c.Next_Button_Label}"
+                              onclick="{! c.SaveCreateMassAction }"/>
+            <aura:set attribute="else">
+                <lightning:button variant="brand"
+                                  label="{!$Label.c.Next_Button_Label}"
+                                  title="{!$Label.c.Next_Button_Label}"
+                                  onclick="{! c.SaveCreateAction }"/>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

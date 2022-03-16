@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Overlay Library Close Event">
+    <aura:attribute name="CloseModal" type="Boolean"/>
+    <aura:attribute name="SendTouchpoint" type="Boolean"/>
+</aura:event>

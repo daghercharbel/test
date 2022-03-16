@@ -1,0 +1,7 @@
+.slds-show {
+	display: none;
+}
+.slds-modal__container {
+	width: 80%;
+	height: 100%;
+}

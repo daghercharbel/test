@@ -1,0 +1,108 @@
+.THIS .ph-2_percent{
+    padding-right: 2%;
+    padding-left: 2%;
+}
+.THIS .width-10_percent{
+    width: 10%;
+}
+.THIS.container-bg-color{
+    background-color:#e5f5ff
+}
+.THIS .help-label{
+    color:black;
+    font-size:xx-large;
+    padding-top:4%;
+}
+.THIS .welcome-label{
+    color:black;
+    font-size:medium;
+    padding-left: 36vw;
+    padding-right: 36vw;
+    text-align: center;
+    padding-bottom:4%
+}
+.THIS.article-div{
+    padding-left: 12%;
+    padding-right: 12%;
+}
+.THIS .font-1-rem{
+    font-size: 1rem;
+}
+.THIS .article-box-outer{
+    border-radius: 16px;
+    box-shadow: 0px 3px 6px 0px #d9d9d9;
+    width: 100%;
+}
+.THIS .article-box-inner{
+    box-shadow: inset 0px 10px 0px 0px #4d86ca;
+    border-radius: 16px;
+}
+.THIS .anchor-font-size{
+    font-size: 1.15rem;
+}
+.THIS .description-div{
+    font-size: 0.9rem;
+    line-height: 146%;
+}
+.THIS .article-para{
+    font-size: large;
+    padding-left: 14vw;
+    padding-right: 14vw;
+    padding-top: 3vw;
+}
+.THIS .article-heading{
+    padding-left: 14vw;
+    padding-right: 14vw;
+}
+.THIS.article-bg-color{
+    background-color:#f5f5f5;
+}
+.THIS .font-xx-large{
+    font-size: xx-large;
+}
+.THIS .mb-8-vh{
+    margin-bottom: 8vh;
+}
+@media only screen and (min-width: 1350px) and (max-width: 1600px){
+    .THIS .description-div{
+        font-size: 0.9rem;
+        line-height: 146%;
+    }
+    .THIS .article-box-outer{
+        border-radius: 16px;
+        box-shadow: 0px 3px 6px 0px #d9d9d9;
+        width: 100%;
+        height: 33vh;
+    }
+    .THIS .welcome-label{
+        color:black;
+        font-size:medium;
+        padding-left: 34vw;
+        padding-right: 34vw;
+        text-align: center;
+        padding-bottom:4%
+    }
+}
+@media only screen and (min-width: 700px) and (max-width: 1300px){
+    .THIS .welcome-label{
+        color:black;
+        font-size:medium;
+        padding-left: 21vw;
+        padding-right: 21vw;
+        text-align: center;
+        padding-bottom:4%
+    }
+}
+@media only screen and (min-width: 200px) and (max-width: 600px){
+    .THIS .welcome-label{
+        color:black;
+        font-size:medium;
+        padding-left: 5vw;
+        padding-right: 5vw;
+        text-align: center;
+        padding-bottom:4%
+    }
+}
+.THIS iframe{
+    width: 100%;
+}

@@ -1,0 +1,24 @@
+<aura:component description="TTDashboardComponent" implements="flexipage:availableForAllPageTypes,home:availableForDesktop" access="global"
+                controller="TelosTouchUtility">
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:attribute name="IframeUrl" type="String" />
+    <aura:attribute name="scrolling" type="String" default="none"/>
+    <aura:attribute name="frameBorder" type="String" default="none"/>
+    <aura:attribute name="isShowTost" type="boolean" default="false"/>
+    <aura:attribute name="isNotAuthenticate" type="boolean" default="false"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <aura:if isTrue="{!!empty(v.IframeUrl)}">
+        <iframe src="{!v.IframeUrl}"
+                frameBorder="{!v.frameBorder}"
+                scrolling="{!v.scrolling}"
+                onload="{!c.setHeight}"
+                id = "frame"/>
+    </aura:if>
+    <aura:if isTrue="{!or(v.isNotAuthenticate,empty(v.IframeUrl))}">
+        <p ><strong class ="fontCss">{!$Label.c.Dashboard_Non_TT_User_Text}</strong></p>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,23 @@
+<aura:component description="TouchPointManageComponent"  implements="force:appHostable" access="global" controller="TelosTouchUtility">
+    <aura:attribute name="scrolling" type="String" default="none"/>
+    <aura:attribute name="frameBorder" type="String" default="none"/>
+    <aura:attribute name="IframeUrl" type="String" />
+    <aura:attribute name="Notifications" type="boolean" default="false"/>
+    <aura:attribute name="isNotAuthenticate" type="boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <aura:if isTrue="{!!v.isNotAuthenticate}">
+        <iframe src="{!v.IframeUrl}"
+                frameBorder="{!v.frameBorder}"
+                scrolling="{!v.scrolling}"
+                id = "frame"/>
+        <aura:set attribute="else">
+            <p class="textfontsize"><strong>Please make sure you are a TelosTouch user first to validate/start the App.</strong></p>
+        </aura:set>
+    </aura:if>
+       
+    
+</aura:component>

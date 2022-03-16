@@ -1,0 +1,663 @@
+<aura:component>
+    <aura:attribute name="showCarousel" type="Boolean" default="true"/>
+    <aura:attribute name="showBackButton" type="Boolean" default="false"/>
+    <aura:attribute name="showOnboard" type="Boolean" default="false"/>
+    <aura:attribute name="showInstallation" type="Boolean" default="false"/>
+    <aura:attribute name="showUserGuide" type="Boolean" default="false"/>
+    <aura:attribute name="showUninstallation" type="Boolean" default="false"/>
+    <header class="slds-p-vertical_large">
+    </header>
+    <aura:if isTrue="{!v.showCarousel}">
+        <div class="c-container slds-m-top_medium container-bg-color">
+            <!--lightning:layout multipleRows="true">
+                <lightning:layoutItem class="slds-align_absolute-center" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="4" padding="around-small">
+                    <lightning:carousel disableAutoRefresh="false" disableAutoScroll="false">
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Assets + '/onboard.jpg'}"
+                                                 header = "Onboarding Checklist"
+                                                 description = "Click on this Document to get help on getting onboard TelosTouch"
+                                                 id="onboard"
+                                                 onclick="{!c.handleCarouselClick}">
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Assets + '/install.jpg'}"
+                                                 header = "Installation Guide"
+                                                 description = "Click on this Document to get help on installing TelosTouch Salesforce App"
+                                                 id="install"
+                                                 onclick="{!c.handleCarouselClick}">
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Assets + '/user.jpg'}"
+                                                 header = "User Guide"
+                                                 description = "Click on this Document to get help on using TelosTouch Salesforce App"
+                                                 id="userGuide"
+                                                 onclick="{!c.handleCarouselClick}">
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Assets + '/uninstall.jpg'}"
+                                                 header = "Uninstallation Guide"
+                                                 description = "Click on this Document to get help on uninstalling TelosTouch Salesforce App"
+                                                 id="uninstall"
+                                                 onclick="{!c.handleCarouselClick}">
+                        </lightning:carouselImage>
+                    </lightning:carousel>
+                </lightning:layoutItem>
+            </lightning:layout-->
+            <div class="slds-align_absolute-center help-label"><b>{!$Label.c.Looking_for_help_text} ?</b></div>
+            <div class="slds-align_absolute-center slds-m-top_medium welcome-label">
+                    {!$Label.c.Welcome_to_Knowledge_base}
+            </div>
+        </div>
+        <div class="slds-m-top_x-large article-div">
+            <span class="font-1-rem">{!$Label.c.Showing_docs_Knowledge_base}</span><br/>
+            <lightning:layout multipleRows="true" class="mb-8-vh">
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" class="slds-m-top_large ph-2_percent">
+                    <div class="article-box-outer">
+                        <div class="slds-p-around_x-large article-box-inner">
+                            <a id="onboard" class="anchor-font-size" onclick="{!c.handleCarouselClick}"><b>{!$Label.c.Onboarding_Checklist_Text}</b></a><br/>
+                            <div class="slds-p-top_x-small description-div">{!$Label.c.Onboarding_Related}</div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" class="slds-m-top_large ph-2_percent">
+                    <div class="article-box-outer">
+                        <div class="slds-p-around_x-large article-box-inner">
+                            <a id="install" class="anchor-font-size" onclick="{!c.handleCarouselClick}"><b>{!$Label.c.Installation_Guide_Text}</b></a><br/>
+                            <div class="slds-p-top_x-small description-div">{!$Label.c.Installation_Guide_Related}</div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" class="slds-m-top_large ph-2_percent">
+                    <div class="article-box-outer">
+                        <div class="slds-p-around_x-large article-box-inner">
+                            <a id="userGuide" class="anchor-font-size" onclick="{!c.handleCarouselClick}"><b>{!$Label.c.User_Guide_Text}</b></a><br/>
+                            <div class="slds-p-top_x-small description-div">{!$Label.c.User_Guide_Related}</div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" class="{!if(or($Browser.isPhone, $Browser.isTablet),'slds-m-top_large ph-2_percent','slds-m-top_x-large ph-2_percent')}">
+                    <div class="article-box-outer">
+                        <div class="slds-p-around_x-large article-box-inner">
+                            <a id="uninstall" class="anchor-font-size" onclick="{!c.handleCarouselClick}"><b>{!$Label.c.Uninstallation_Guide_Text}</b></a><br/>
+                            <div class="slds-p-top_x-small description-div">{!$Label.c.Uninstallation_Guide_Related}</div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showBackButton}">
+        <div class="slds-m-left_small slds-m-bottom_small">
+            <lightning:buttonIcon iconName="utility:back" variant="brand" alternativeText="Back" title="Back" onclick="{!c.handleBack}"/>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showOnboard}">
+        <div class="c-container article-bg-color">
+            <div class="slds-p-top_large slds-p-horizontal_large font-xx-large article-heading">
+                Onboarding Checklist
+            </div>
+            <p class="article-para">
+                <b>1.</b> User Profile check before installing the App:<br/>
+                &emsp;&emsp;&bull;&nbsp;The user which is installing the TelosTouch App should have a “System Administrator” Profile to install the App. Also “Marketing user” feature should be enabled for this user.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1vXoUnzp3HZxZ1IrdrvWEiSJYYGFRV6D0/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp;Advisor users(Other SF users) should have a Salesforce license with an SF profile. Also “Marketing user” feature should be enabled for this user.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1wb3T8CVBqWELVSrndPA_NwSe9JTQr6y0/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>2.</b> Verify Salesforce Edition of Org:<br/>
+                &emsp;&emsp;&bull;&nbsp;Edition of Salesforce Org in which TelosTouch App can be installed are:<br/>
+                &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Enterprise Edition.<br/>
+                &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Unlimited Edition.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1KIB4760wNqi_wmHpa_Ota3938codBHIk/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp;Edition of Salesforce Org in which TelosTouch App “can't” be installed are:<br/>
+                &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Professional Edition.<br/>
+                &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Essential Edition.<br/>
+                <b>3.</b> Verify the number of apps installed as per Edition of Org:(Optional)<br/>
+                &emsp;&emsp;&bull;&nbsp;Here is showing the number of <a href="https://help.salesforce.com/articleView?id=sf.dev_apps_considerations.htm" target="_blank">lightning apps limit</a> with each salesforce edition:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1qi_jlD06miOks3owRS_3XsqPHp-oTlj1/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp;In the TT app we are using the following objects and fields:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1-VcFdASv9sJ-OJr9fEYdj_9FPdSfCyeu/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>4.</b> Verify the number of custom objects and <a href="https://help.salesforce.com/s/articleView?id=sf.overview_limits_general.htm" target="_blank">custom apps limits</a> as per Edition of Org:(Optional)
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1IOIRCSFY7hCMp1EkIGUEqyccQlkQeX_M/preview" height="600" allow="autoplay"></iframe><br/>
+                <b>5.</b> Check what is the automation that is created on Lead, Contact, Campaign, Task, Person Account objects that may create some conflicts:
+                <br/><br/>
+                We have to check the following types of Automations :
+                <br/>
+                &emsp;&emsp;&bull;&nbsp;Workflow Rules.<br/>
+                &emsp;&emsp;&bull;&nbsp;Process builders.<br/>
+                &emsp;&emsp;&bull;&nbsp;Flows.<br/>
+                &emsp;&emsp;&bull;&nbsp;Validation Rules.<br/>
+                &emsp;&emsp;&bull;&nbsp;Triggers.<br/>
+                <br/>
+                <b>6.</b> Check what are the Managed Packages installed in the SF Org may create some conflicts:
+                <br/>
+                Some packages that may conflict are:<br/>
+                &emsp;&emsp;&bull;&nbsp;Survey Monkey App.<br/>
+                &emsp;&emsp;&bull;&nbsp;Formstack etc.<br/>
+                <br/>
+                <b>7.</b> Check the API Request Limits and Allocations:
+                <br/>
+                The link to check that in detail is :<a href="https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_api.htm" target="_blank">API Request Limits and Allocations</a>
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/10rWoh7YU7uh4d6neCw7dZdWeNDBijLNT/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1NQtG9z5EVrMrJa8OgY-rfRar5N39dYl2/preview" height="400" allow="autoplay"></iframe><br/><br/>
+            </p>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showInstallation}">
+        <div class="c-container article-bg-color">
+            <div class="article-heading slds-p-top_large slds-p-horizontal_large font-xx-large">
+                Installation and Configuration Guide (TelosTouch App)
+            </div>
+            <p class="article-para">
+                <b>STEP 1</b>:  Enter the user name and password of the Installation Org in which you want to install the TT App.
+                <!--a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2w000009MhIx">Click Here</a--><br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1EDG2joSc3moG1SytU-ilh5k4XfeatdK-/preview" height="300" allow="autoplay"></iframe>
+                <br/><br/>
+                <!--b>Example</b>: Use Org Base URL from ‘https://nbcsandbox.com/’ + package URL from ‘packaging/installPackage.apexp?p0=04t2w000009MhIx’
+                https://nbcsandbox.com/packaging/installPackage.apexp?p0=04t2w000009MhIx<br/><br/-->
+                
+                <b>STEP 2</b>: After Login into the Org, Follow the below steps to install the TelosTouch App:<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1psW1uGsc8lRtzX98edskgsDLgu5QByGc/preview" height="300" allow="autoplay"></iframe>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1TTEI-QL7rersm6nAPJQ9_TRfPTU4x241/preview" height="300" allow="autoplay"></iframe>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1MzLJeu9yq0q1DBYeCpaS51I6UYidYNw9/preview" height="300" allow="autoplay"></iframe>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1aWDFjjT9EnvJoPjulNjAwPycI2YDKfFy/preview" height="300" allow="autoplay"></iframe>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Wp6mNiweaH0z4RyI7Ktfnnn5ltnpMLtK/preview" height="300" allow="autoplay"></iframe>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1WVivuLhoOv1P2PBKw9OhnZyhHXrTQGuM/preview" height="300" allow="autoplay"></iframe>
+                Once Click on the “Allow” button, the TelosTouch App will be installed.
+                <br/><br/>
+                <b>STEP 3</b>: Click the App Launcher icon. Then type TelosTouch and then select the TelosTouch App Icon.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1gV9Go9dgaxzp2-papTrypXzsLc_xq8zH/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                <b>STEP 4</b>: Go to Profiles >> System Administrator >> Login IP Ranges and Whitelist the following IP Ranges of Salesforce Canada Cloud:
+                <br/><br/>
+                <table>
+                    <tr>
+                        <td>Salesforce Canada Public Cloud Range 1</td>
+                        <td>52.60.248.0 - 52.60.251.255</td>
+                    </tr>
+                    <tr>
+                        <td>Salesforce Canada Public Cloud Range 2</td>
+                        <td>52.60.252.0 - 52.60.255.255</td>
+                    </tr>
+                </table>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1omo-9UPoPs-1czkaqASlJQtapZL6u8o7/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1wDBlAWWWA00LNvk9U32hGUGFRcsEfDj_/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ZF9Y-hyLWVu11gu8Qn-qGGDY9F18jfNh/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Kn7yECk2DlIvOdFGxHz-wNne79YdJ3pl/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 5</b>: In Custom Setting, add a mapping for the Custom Language Field used for Person Account.
+                <br/><br/>
+                <table>
+                    <tr>
+                        <td>TT Field - language</td>
+                    </tr>
+                    <tr>
+                        <td>SF Field - Communication_Language__c</td>
+                    </tr>
+                </table>
+                <br/>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1rdRTNnPcSPeIrqjjOqhJPPPua3ym6OY3/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1GKeiNCTL7MbPnmJkaf6WHHugOXGWbTSU/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1l0axGy-6BEohoqwbYIVK6BOxVrN15n7D/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 6</b>: Once the TelosTouch App is installed, click on the “TT Setup” tab and the User will receive an email that contains “Client ID” &amp; “Client Secret” of the instance.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1w97tj4p2nmCWOLwz_LTTQKpmun6r1pcP/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1fNhnYi-vkDM9Db4EwGJsbCz2mNqXO9kp/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 7</b>: Click the “TT Setup” Tab and then click the Edit button below and Enter the “TT App Instance” credentials to authenticate:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1mxouKi_n2TfICpqyRYMA1uRMq9uyn8hZ/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/><br/>
+                <b>STEP 8</b>: Select the Users from the list of users for which you want to configure the TelosTouch app. Then click the “Send to TelosTouch” Button. <b>Also, make sure that the SF Users using the TelosTouch App should have the “Marketing user checkbox” as TRUE.</b>
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1gn--snT8cdYToB4B5_nCDMEwCUr_4_ZC/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1yhllL3JOCLyA_KRcV32QpRf6F77R52Ks/preview" height="400" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 9</b>: Follow the given process to add the list view button “Add to Campaign” on Contact &amp; Lead objects :
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1EB5Sy9qXcFzgb6xWmOT1YyT3IFUL3El8/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1R6MBA2PNP-n4c_fhJdfQMfeXToTcp5yX/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Qz8TQ1io4JU11f_oSgZjd0NJTjREzYEY/preview" height="300" allow="autoplay"></iframe><br/>
+                Repeat the Step-9 for the Lead Object.<br/><br/>
+                <b>STEP 10</b>: For adding the “Answers” in the related list of Contact, Lead, Client(person Account) objects, do the following:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/14th3DDJkX3yxXvwG4qoWiWXS6B8vbaBT/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1L8ahijWpuuwFP7InhYzua-Cf7q0y42UO/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1u4jGf4Lqij_5-9UgIuhE8AxGV-rd4zbq/preview" height="300" allow="autoplay"></iframe><br/>
+                Repeat the same process(i.e. Step-10) for the Lead &amp; Client(person Account) Objects.
+                <br/><br/>
+            <b>STEP 11</b>: Follow the below steps to assign the Lightning Record Page for Contact, Lead, and Person Account(Client) objects:<br/><br/>
+            &bull;&nbsp;<b>Steps to assign the lightning record page (TelosTouch Contact Record Page) in which Invite Component is not present:</b><br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1sDAdn_umvKoR2N6_4o2aqCHbSj20IH1s/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1hhPESwOxsj7It_gGmX-Rz3dCyQru_h0d/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1O2j7P6pY0FLMsP_S0ZMdz8DbbT3tPl8I/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1huZf_2M4MtCdII7HPxOEiJA34157BHBU/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/117MJDg7nWPvflLWKWKoVuqr6LFgu5mJV/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/17Fz4xHebVV4Ed2OH67t6r4MVGP-l4Poq/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1M6HD-xLhbf2R9WSLCcXgs9_Vh_yBZl03/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ZaNg2lXquvmqRk57YloCX9HoVchyuzPl/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1j1c2GacEVNCX_Bvb2aTqTWQOTmxHauIy/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1DToYtPARwOtDdaT3m48jVLEh3vj1JRDh/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &bull;&nbsp;<b>Steps to assign the lightning record page (TelosTouch Contact Record Page with Invite) in which Invite Component is present:</b><br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1EJSdvBRIiWXaWUZO0mIqpp8469oL42XN/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ffbcHuAG2uICBnjcVKgm9pAYu8X6TFoh/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1OjIFeK--3QfhHS7DsgPeBtT3qI1byLWp/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1t-CnJt0hUPx9I0yIw_Niu4SpVYjf8gwX/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1lS6eInbbM8QFUnJBV3naYU3EuRc7L_Qb/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1maJnzvrYZn0nuJiiwu3H3SDRgdkPHi63/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1uZ4KhfS8mHCLLBzfZ2-OmJ_s2yyUwZbs/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/123nLD60KjCmtNCrz2w0Ou1Qd_ERSkGrU/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1SqTAhIYDKQfdezF_1pIryvSGEHzD8vr6/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Cc8JYHSMUCqqsWUmOa3rbNJnhZStRP9J/preview" height="300" allow="autoplay"></iframe><br/>
+            Repeat the same process(i.e. Step11) for the Lead &amp; Client(person Account) Objects.<br/><br/>
+            <b>STEP 12</b>: In the Lead, Contact, and Task object, assign the TelosTouch Page-Layouts from the Page layout assignment section of the object. Page Layout assignment is similar to be done on Lead and Task objects, as shown below for the Contact Object.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1kKubw_t2oOIWsvjVV8SL0vBFOq3glCPi/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1wgHgLmrji2yTtbZC_BlMp6QkMu3W_6pF/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1_gbg-YgdgW7mTgjak6w--ZRYzx_5teix/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1xDdvcSxZxTveMSLfbCyNM0cicC_roFzK/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/><br/>
+            <b>STEP 13</b>: Follow the given process to add the list view button “TouchPoint Preview”on Campaign object:<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1VkuX0LxMemKxNev_3RjDcsrC98eZ_w21/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1lHkAtTbgUB9QgOG-eXi4YvPfw_ZLdEGa/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1lMV0JZjwiOFiF54tKTsRVZbORsbUTIZg/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1c0UWBRIfh2Nq4IQtL8IKFojPuSQp3eXH/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            <b>STEP 14</b>: Configuration Steps to use the TT app in French:<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/18WryxpCqs0sxcHdjq1J6Eiq54CyRJ5rp/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/12EZGnQGibO4THmKDMb06dQIbRx0vf_i4/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            <b>STEP 15</b>: Configuration Steps for Upgrade to Enterprise and Chat Support:<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1nufP2cNGZys-7TBRdAaQFENnpVeX544q/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            <b>STEP 16</b>: Follow the below configuration process for Creating the “Mass Task” from Campaign View for Non-Admin Users:<br/><br/>
+            &nbsp;<b>STEP 1</b>:  Create connected app<br/><br/>
+            &emsp;&emsp;&bull;&nbsp;Go to ⚙ -> <b>Setup</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;In Quick Find Box type <b>App Manager</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;Select <b>New Connected App</b> and fill the following details:<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Connected App Name:</b>  Enter Name<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>API Name:</b> It will auto populate once you enter the Name.<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Contact Email:</b>   Enter your email.<br/>
+            &emsp;&emsp;&bull;&nbsp;Select  <b>Enable OAuth Settings</b> checkbox and fill the following details:<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Callback URL:</b>  Enter any callback URL for now.<br/>
+            &emsp;&emsp;&bull;&nbsp;<i>Note: We will update this Callback URL once Auth Provide is ready</i>.<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Selected OAuth Scopes:</b>  Full access (full)
+            Perform requests at any time (refresh_token, offline_access)
+            <br/>
+            &emsp;&emsp;&bull;&nbsp;Enable <b> Require Secret for Web Server Flow.</b><br/>
+            &emsp;&emsp;&bull;&nbsp;Enable <b>  Require Secret for Refresh Token Flow.</b><br/>
+            &emsp;&emsp;&bull;&nbsp;Click  <b>Save</b>.<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1MpbdEQJrOnsPz9-IiKNezCfc2SU3fnlt/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1pg9sGp03GH-ssJcYlWZMBntxYUxzo52d/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1cTvaM0dlyQwWtVAvaAJoCV_1-KIyYjt0/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1zYlLn52n1juRLxN_IMECeY7zs1EFB7Lx/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            <b>After clicking on the Continue button, Consumer Key and Consumer Secret will be displayed that will be used in the next steps. Also, You have to wait for 10 minutes to update the details.</b><br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1g1maMyoPlhSyg-rwRk2BTE2EsvgWeZoz/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1L0ylllXyO1P-pPmJpp9L7PN6_yecLFlr/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &nbsp;<b>STEP 2</b>: Create Auth. Providers<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1mqCXxJ88ZeLRyY0s-ouOlRL-hzGyowko/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1DMmvDBAd4-FrzjOtDNQ_Dhlnz6mwSlL1/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &emsp;&emsp;&bull;&nbsp;After clicking on Save button, Scroll down to the <b>Salesforce Configuration</b> section and copy the Callback <b>URL</b>.<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1gab4DjwjaeLM0JezmT50qNarizB_cibN/preview" height="300" allow="autoplay"></iframe><br/>
+            &emsp;&emsp;&bull;&nbsp;Update the <b>Callback URL</b> with this URL of the <b>Connected App</b>:<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1GJim_kj8rhib-LwSGEj7jI7_dieaE3-O/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1l-6hONvtbz_DfFVOcsRUsU9riwqdIGEx/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &nbsp;<b>STEP 3</b>: Create Named Credentials<br/><br/>
+            &emsp;&emsp;&bull;&nbsp;Go to ⚙ -> <b>Setup</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;In Quick Find Box type <b>Named Credentials</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;Click New Named Credential and fill the following details:<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Label:</b>  Enter <b>ToolingRest</b><br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Name:</b>  Enter <b>ToolingRest</b><br/>
+            &emsp;&emsp;&bull;&nbsp;<i>Note: Please do not use any name other than ToolingRest</i>.<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1e8uYqvkNAc-Cdxv4TF6HLp68dwdJ-Oih/preview" height="300" allow="autoplay"></iframe><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ZhMczOVQ1dTBw_E05Y840inwr_SkJOmo/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &emsp;&emsp;&bull;&nbsp;<b>URL</b>: https://MyDomainName.my.salesforce.com/services/data/v53.0/tooling/query<br/>
+            &emsp;&emsp;&emsp;&bull;&nbsp;Steps to Replace MyDomainName with your own Salesforce domain:<br/>
+            &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;To know your domain Go to ⚙ -> <b>Setup</b>.<br/>
+            &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;In the Quick Find Box type <b>My Domain</b>.<br/>
+            &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Select <b>My Domain</b>.<br/>
+            &emsp;&emsp;&emsp;&emsp;&bull;&nbsp;Copy your domain name and replace it with <b>MyDomainName</b> in the <b>URL</b><br/>
+            <br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1zHqXLgxQ1t14q3qe_XKTk-H0s8pnRd5o/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Identity Type:</b>	Named Principal.<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Authentication Protocol:</b> OAuth 2.0<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Authentication Provider:</b> Select Auth Provider which  we have created in above step.<br/>
+            &emsp;&emsp;&bull;&nbsp;<b>Scope:</b> full.<br/>
+            &emsp;&emsp;&bull;&nbsp;Mark <b>Generate Authorization Header</b> checked.<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ND00zCvj4InAWAJREahLhA8Yn370gaAc/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            &emsp;&emsp;&bull;&nbsp;Click <b>Save</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;It will be redirected to the login page Enter your Salesforce org credentials in which you have set up Named Credentials right now and click <b>Login</b>.<br/>
+            &emsp;&emsp;&bull;&nbsp;Click <b>Allow </b>in Allow Access page.<br/><br/>
+            <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1uvSp3oWYN5pwEwYWIyG9PKxMI3B2UGJw/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            </p>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showUserGuide}">
+        <div class="c-container article-bg-color">
+            <div class="article-heading slds-p-top_large slds-p-horizontal_large font-xx-large">
+                TelosTouch App(User Guide)
+            </div>
+            <p class="article-para">
+                <b>1.</b> Open TelosTouch App<br/>
+                <b>STEP 1</b>: Once the TelosTouch App is installed, click on the “TT Setup” tab and the User will receive an email that contains “Client ID” &amp; “Client Secret” of the instance.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1MgGsh2aaXGcFcQ4BBqg_WlXBG5CBRis3/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/16c2bX0GDAb8hrUpkV7EjnFhP9mVM6OhJ/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 2</b>: Click the “TT Setup” Tab and then click the Edit button below and Enter the “TT App Instance” credentials to authenticate:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/16gxw7AjpK_aKvHMSZq3i1zIK76VvRXUB/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 3</b>:  Select the Advisor Users from the list of users for which you want to configure the TelosTouch app. Then click the “Send to TelosTouch” Button.
+                <b>Also, make sure that the SF Users using the TelosTouch App  should have the “Marketing user checkbox” as TRUE.</b>
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1j5O763bRWuMVSqOgoMZRSLfl1yF4JA9e/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1RPw27-Gumy0xyREzJ92WWgjVkCKzc46u/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>2.</b> Home page
+                <br/><br/>
+                &emsp;&emsp;&bull;&nbsp;Click the Overview Tab: It will Show the TT App Dashboard.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Zk6b5V9G5-tm9C4zQjn6BJCUBDNgBKRe/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp;Click the Custom Tab: It will show Custom Dashboard having the reports created in Salesforce.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1dqlZJ85v9_aqnSRkIqxaVJYB_EApckRv/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                <b>3.</b> Syncing of Lead, Contact  And Person Account (if it is available) records from SF to the TT App.<br/>
+                <b>STEP 1</b>: Go to the Lead Tab and Click the New Button to create the Lead record.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Tq0aUi2peaIo_MKoOy4xDEQfTUjj1dGE/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 2</b>: Fill in the Lead record Details and Click the save button to create the Lead record. After the creation of Lead Record, it will be automatically synced to the TT App.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1WAZJizJPsdY1dYS015sF9B5i0A4eJqxL/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 3</b>: Go to the Contact Tab and Click the New Button to create the Contact record.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1JS8i4mR7uQvOew32xSuB8M5W-QhT2AvQ/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 4</b>: Fill in the Contact record Details and Click the save button to create the contact record. After the creation of the Contact Record, it will be automatically synced to the TT App.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1LLXAuJzx_8QV05ttiw5lsWuEVsE1csNr/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 5</b>: Go to the Client Tab and Click the New Button to create the Contact record.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1dwoPOhRwNA4WpDgdzSxG_rxeBIsPL_99/preview" height="350" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1dEKTf3-ha0bRWapPavq8j0pT5iGkzLSm/preview" height="350" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 6</b>: Fill in the Person Account record Details and Click the save button to create the contact record. After the creation of the Person Account Record, it will be automatically synced to the TT App.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1_VOFGFc6LTgr1waC6_4Owxr3OW7k_lX4/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/><b>4.</b> SendTouchpoint functionality from the Campaign Tab to the selected Campaign members(Leads and Contacts).
+                <br/>
+                <b>STEP 1</b>: Click the Campaign Object Tab and then click the “New” button to create the Campaign record.
+                <br/><iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1dVKPkCPSkWsdFmiaYDFUrd0n--F8EhIB/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 2</b>: Select the Campaign record type and then click the Next button.  <!-- 12 -->
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1FoBo0OOLGbIw8Xfl-qyu7WnA-WalTlOS/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 3:</b> Fill the Campaign Details and then click the save button then it will create the Campaign Record.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1MwCzvX-LbKGhxiFg5TtwVO7-44wbNh_W/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 4:</b> Go to the Related Tab of Campaign. Then add Campaign Members to the Campaign record by clicking the “Add Lead” and “Add Contact” buttons.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1llCADup1H8LFEoG5hiiVuKHiFLIs2eun/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 5:</b> On clicking the “Add Lead” button on Campaign Members you can select the Lead records and then click the next button.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1VPzLAEldDHhDCW1xJLSmkVMRphKT0Ohw/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 6:</b> Click the submit button and then the Lead record will be added as the Campaign Member.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1esPe5ae4SocMAnmviJLq0xmNy6bNUBIG/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 7:</b> On clicking the “Add Contact” button on Campaign Members you can select the Contact records and then click the next button.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1vPaybhUrIX5hqXQ8AVo9s2g2ko3wz94l/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 8:</b> Click the submit button and then the Contact record will be added as the Campaign Member.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1bIo_wpVg6eXADb32ckjMdndVpnv1q92h/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 9:</b> Click the “Send Touchpoint” button to select and send the Touchpoints to Campaign Members.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/15_uqjNRYAEBiXH6So3LnClC7T1PE9p1t/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 10:</b> Select the Touchpoint as per your choice and then click the Send button.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1iNBqJNKJwbquqlFMp36TR2IlwrisF__3/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 11:</b> This is the Campaign preview page and by clicking the “Send” button from this page the Touchpoint will be sent to the campaign members.
+                <br/><br/> <!-- 20 -->
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1KDFCpZMUFtRXPv-204feYsJOBqqBL9Gm/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/15pROm1daE4s5yhAb00wfc0P6GJLiffG5/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                <b>STEP 12:</b> Click the Close button to close this window.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1cXS4uFoA7BuRTZ-u3JlywhTeOzMhsXvd/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 13:</b> TouchPoint Email of TT App will be sent on the “Email Id” of Campaign Members. With this email, they can log in to the TT App to fill the Touchpoints Responses/Answers.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1RHabv6OSTEagXB1EqZP2GAz2Ps6a0raw/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 14:</b> Choose the Answers/Responses of the TouchPoint.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/19sLh5LNU5f8KLfmlBvgqQSs9lIb2AZzf/preview" height="350" allow="autoplay"></iframe><br/>
+                <b>STEP 15:</b> From the Result section of Campaign records Answers filled by the Campaign Members can be viewed as shown below.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1rNoQapLcnUq_reDLqGxTfQj33vFq4YOZ/preview" height="350" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1F1IeSozEGFqJsC5g6LOxyujrG4LAoKxb/preview" height="350" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 16:</b> Uses of Add to Campaign, Create Task and Send Reminder button If we select any client from the campaign send touch table then “Add to Campaign”, “Create Task” button will enabled after you can click on any button then new popup modal will be appear and selected client will be show in new page.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1gI5Xco0OV5zaV2BD562vWZqSeyd9PnwC/preview" height="350" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp; After clicking on the “Add to Campaign” button a new modal will be open.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1xOTuE5Klx2iu1f-v2hfZVh8VrdzEdJT8/preview" height="350" allow="autoplay"></iframe><br/>
+                A New Campaign record will be created once click on the Submit button.<br/>
+                &emsp;&emsp;&bull;&nbsp; After clicking on the “Create Task” button a new modal will be open.Select the record type>Click Next>Fill all the required fields>Click Save button.A New Task record will be created.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1lypXAB9LIHTCz9HdDRgyDQWt678thpVj/preview" height="350" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/19dIlecAmOXbzuBmMbo71jJPnqBUWkm8-/preview" height="350" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp; After clicking on the “Send Reminder” button a new modal will be open. This is used for Answer fill if the client does not fill the answer within 24 hours.
+                <br/><br/><iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1rOP6R4I7aP5uT01tEH6GoaCgrMGtjaze/preview" height="350" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>5.</b> “Filter” the Leads and Contact records from the overview section of Campaign based on the Answers they filled in the Touchpoint received.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1qUhO9tLWnN5sulPUWmSI_zlrnlDGhkeU/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>6.</b> ”TouchPoint Preview” button functionality present on the list View of Campaign.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1rGyCcPGPGyM85-lrR0r7Qz01wRmSKRhu/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1PkhEcMpyOztEz9jXfQyaNrzMbQT-RCVs/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Yl34GGeUqzQSGfFtzvUq72jK17CmDYH_/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/17N1MZCGTM9zs979E7FIZSccbBozKeA29/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>7.</b> Add Recipient to an existing synced Campaign functionality:<br/>
+                Go to Campaigns Object>Open any synced existing Campaign record>Related Tab>Click Add Leads/Add Contacts button >Click ‘+’ icon left to the record>Click Next>Click Submit.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1iqfmULzxVmqOFPZAoNs2VbAEWamSEwET/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1x5j8WS8HUReire8T0dO3X1iukCxLAYU4/preview" height="300" allow="autoplay"></iframe><br/>	
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1DYObj96bZu0W1_mCcz1MJsz5yWEY3Nrd/preview" height="300" allow="autoplay"></iframe><br/>	
+                Campaign Members will be added to the existing Campaign and a new modal will appear.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1cUWFNBxCmNqVFXBgejhahvVY8buNNrdT/preview" height="300" allow="autoplay"></iframe><br/>	
+                <br/>
+                <b>8.</b> Task Sync functionality.<br/><br/>
+                <b>STEP 1:</b> Create a new task record by clicking the New Task button.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1btkhV9jpT6i1nM70AJc6ndLCXXizx2jd/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1E4TOT1V4b-hhB2DvtxSrbBKAqDW9Ltzj/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 2:</b>  Fill the Task fields and then click the Save button to create the Task record.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1mAhG0m0OjIWO7au6s8r2ELqSTLHVoT0u/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 3:</b>  For showing the Task in the client timeline of Clients,click the button name as “Show on client timeline”. Task records will be synced to the TT App after doing Manual Sync.
+                <br/><br/> <!-- 36 -->
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1D_ZFzmImCDqb6zB2oZLvoW14v1zDy9W3/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <!--b>7.</b> TouchPoint Tab Overview(From here you can create Touchpoint Templates as per your needs).
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/17xU12CcCuCHxU_xgCima0yCEa3kRdomk/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/-->
+                <b>9.</b> TT Set up Tab:<br/>
+                &emsp;&emsp;&bull;&nbsp; Configuration tab(System Administrator will Enter the Client ID, Client Secret that User will receive from an email and save it to configure the TT App).<br/>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Di2MBX7xMvDvh3tgfK8Ul3zuM4NAxc7g/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1sKrZenVIB8Mbc2sf4cxJrOIZqszjFtlD/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1EjoCgVRbU_FmWdf-CmfDdY7a6ilRrrm_/preview" height="300" allow="autoplay"></iframe><br/>
+                
+                &emsp;&emsp;&bull;&nbsp;Field Mapping<br/><br/>
+                &emsp;&emsp;&nbsp;&nbsp;<b>STEP 1:</b>  Go to the TT Setup Tab, Click the Field Mapping tab to do field mapping, and From here the Fields of “Contact, Lead, and Tasks” can be mapped to the Telostouch fields. From here you can also map the custom fields of salesforce to the TelosTouch Fields.From here you can also map the custom fields of salesforce to the TelosTouch Fields.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1jRc8tIBNGfgQ_tnqmi95z6cJg68oEjcX/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&nbsp;&nbsp;<b>STEP 2:</b> Adding the Custom fields Click the “Add Fields” button on the “Field Mapping”.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1mlIf5OcyW_NoYOnsSKIvanUKXYKxiVT-/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1w04xeyHGzHecCwS4C-Pi-I2OLGePK5Tb/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1hkSDxsB3mRKIoXXF4WON194YZ_3u5z4o/preview" height="300" allow="autoplay"></iframe><br/>
+                
+                &emsp;&emsp;&nbsp;&nbsp;<b>STEP 3:</b>  Custom field added will be shown as below:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1SWNeYSDX0Yq-hddQsh_OO8NBOeiDIbZs/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp; Data sync(showing the logs of sync records and Manual sync functionality).<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>Soft Sync:</b> In soft sync, the records which are created or modified in the last hour will be synced.<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>Hard Sync:</b> In hard sync, all the records will be synced. It doesn’t depend on the last modified or created date.<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>All:</b> All the objects(Leads, Contacts, Person Account, Task and Campaigns) will be synced.<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>Clients:</b> Leads and Contacts will be synced.<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>Tasks:</b> It means only Tasks will be synced.<br/>
+                &emsp;&emsp;&emsp;&bull;&nbsp;<b>Campaigns:</b> It means only Campaigns will be synced.<br/>
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1iNMDKZNWejFsNlSME3nOegNc9k6dheGp/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1zJ2oxK8OToOMmGC2VFm9QcYhq5lgoGsx/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp; Help tab(To connect with TT support team).
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1o19R4Win5WhZt6YO1P_7goKjLaCItkhl/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &emsp;&emsp;&bull;&nbsp; Feature Management tab.<br/>
+                &emsp;&emsp;&emsp;1.&nbsp; Client Portal toggle button functionality:<br/>
+                &emsp;&emsp;&emsp;&emsp;&nbsp; We can send invites to the Clients if it is enabled.
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/18usXVLDJO_GDTaSzmlElQEaY0YrFKSWM/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&emsp;2.&nbsp; Detailed Logging toggle button functionality:<br/>
+                &emsp;&emsp;&emsp;&emsp;&nbsp; We can see the logs in deep detail if it is enabled.<br/>
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/11_kHy6BVEGI4UO8HKc8kC0xcqlaWFrUI/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                &emsp;&emsp;&bull;&nbsp; Knowledge Base tab.<br/>
+                &emsp;&emsp;&emsp;&nbsp;<b> Onboarding Checklist:</b> It is used to get help on getting onboard TelosTouch.<br/>
+                &emsp;&emsp;&emsp;&nbsp;<b> Installation Guide:</b> It is used for ”How to install &amp; configure the App”.<br/>
+                &emsp;&emsp;&emsp;&nbsp;<b> Uninstallation Guide:</b> It is used for “How to uninstall the App”.<br/>
+                &emsp;&emsp;&emsp;&nbsp;<b> User Guide:</b> It is used for  “How to Use the App”.<br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/174qmXwWmrU0gqeFyjzguouogc3WAZ6bD/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>10.</b> TelosTouch Guidance Feature.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1d8qI3_qLTdqSwoWZdQD-jFZ4aSMupMFS/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>11.</b> Chat Support Window feature: It is used to ask questions/Issues.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1DqoO-Vj3x8yDgJuTajRK_XYuT4tVz4-d/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1gZfTO1HIeo37GW5pZEM13jd8DFD-ESPs/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>12.</b> Invite Functionality: It is used to Send Invites to Clients. (Depends on if Client Portal is Enabled or not).<br/><br/>
+                Here are the steps you have to follow for using the Invite Functionality:<br/><br/>
+                &nbsp;<b>STEP 1:</b>  Click on the gear icon.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/171jVJL1VM0F989Aea6hquQkN86AIVsxk/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 2:</b>  You will see the edit page option , now click on the Edit page.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1V0gP205tLi743F41DJ07VnQPx9mSOxQB/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 3:</b>  Now click on the Pages option.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1d-VgaU-FmFVZN6QTK01n7hwVGR4EGoHW/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 4:</b>  Now Select the TelosTouch Contact Record Page with invite.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Fq_FHXrWEgTmyxx8KKoOW98qlCIh474h/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1pOca7Kumbd22Q6IwKCtfHMLUEJDwRbWM/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Z-7baosA9bMIi0VBknvsordtakIaWjGM/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1jajO_GTJOicwwrhmzMKTphfgkidHXCVY/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1PhZKLi1IaHdFnW7oEUAUyi_uzYYlVUOE/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ehXAGFpsZQFQ1V4QAR3kXLA2ksDhUa6q/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1XSYSa4khqcpp0jYHHwmZyzKjDWiI7J9c/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1zN3AKzWnA18_euJJl2sKk2QB1Um4x4UV/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/12Mmj8YGsMHNTel-Hhqqqq-WU7Hxrxypm/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1p557r_538LiCuMsIc67IDl3gPH6QfDT-/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1uAJd1HmgauVjlb16AsI3vmtdC9MDyiuT/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1bgIBfAlAEBimIEx78xiWx-DbQ4CiP8Ez/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 5:</b>  Now you will see the invite functionality here.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1WKaBIJv_MH7gsKKwG4TZFySS8mX_-Jq7/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 6:</b>  Here invite functionality is not enabled so for using it we have to enable the client invite toggle button.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ZcZoW49sPrrbLsSnnusDuC7mEI-R9oY7/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1lX6m6yMeiP7vJeZ0oyUOVWh2ePbjFy9q/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1jKrVJDjAuAfU9C7ro2BltCvTmBILvkj_/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/17fANLNeZesgXJwP-FmTCkkHRcG1DUzAT/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 7:</b>  Now move back to the client and click on the invite button.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1KrJUfG734fPAS7g6hCr2n7yKvEciXBkY/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1r9AgGWiwa5YP3BVFzM_4oeMmh4XqkadT/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Chy7sinsUlV4lR9WkMNGsXlEdIiMpf8i/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 8:</b>  After sending the invitation the client will get an invite email.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1cNO6KE9xQGhTYDhdAGSaKnxSxMIdbrzs/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/11r-gZhsq9TfEvwLnkPYGYZHfP8UK9vCl/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1y1R9DV46FtkfrOV3J6miSDbJT28QK3BF/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                Now you have successfully sent the invitation to the client.<br/><br/>
+                <b>13.</b> Mass Task Creation for TouchPoint Clients: It is used to create Tasks for TouchPoint Clients in Bulk. (Connected App, Auth. Provider &amp; Named Credential Config. is mandatory for this).<br/><br/>
+                Here are some steps for the Mass Task Creation for TouchPoint Clients:<br/><br/>
+                &nbsp;<b>STEP 1:</b>  Go to the Campaign and select the record.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1vKcRlVPqFwHVeakXEBTEzdiLRsoEfcAI/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 2:</b>  Now Click on the Create Task button.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1m_TUDgtlu3SNj8CtcLRoVcicLgQABMOW/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 3:</b>  Now Select the record type and then click next.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1_9potfrpTWjGAE8BoMaR68Wyvkxe9dKR/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 4:</b>   Now a modal will open via which you can create a task after filling all the required fields.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1H-YJyiccNm2VEBDiXfgKbIoCJLkmJiNV/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 5:</b>   Now you can see the task that you have created on the record page.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1klZZWgrpEcP8wHYZy2CqMiGVaBUkXJ-g/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                <b>14.</b> Choosing between OwnerId or CreatedById as Client Owner in TelosTouch<br/><br/>
+                &nbsp;<b>STEP 1:</b>  Go to the TelosTouch App.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1S67BT2TPeovRxFbCn0mLDPoPXLpXh4W3/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 2:</b>  Click on the TT Setup Tab.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1sGhYngKQw6wiEjdf9Z2SCCtZJM8jA-nV/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                &nbsp;<b>STEP 3:</b>  Click on the Field Mapping Tab.<br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Kc9ZwQTpsoLBCyR9EOzY-youluZyoRyb/preview" height="300" allow="autoplay"></iframe><br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1nefg9BFN3VKuos1XRAXXi_m_x4YaKJQG/preview" height="300" allow="autoplay"></iframe><br/><br/>
+            </p>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showUninstallation}">
+        <div class="c-container article-bg-color">
+            <div class="article-heading slds-p-top_large slds-p-horizontal_large font-xx-large">
+                Uninstallation Guide(TelosTouch App)
+            </div>
+            <p class="article-para">
+                <b>Use the following steps to Uninstall the TT Package from SF Org:</b>
+                <br/><br/>
+                <b>STEP 1:</b> Login into the Org from which you want to uninstall the TT package.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/107O2WbCl-dApw_cAB-dQmDmVzBkb4OQV/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 2:</b> Go to the installed TelosTouch App package using the steps shown below:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1CMn0VXJjndKWk8JrAeS06dD0Fbn9LuZd/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 3:</b> Select the highlighted options and then click on Uninstall Button.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/13jThIfeZVJX0SGF0JOALpqfY3YBovQwV/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 4:</b> If you get the following message of “Unable to uninstall package” then you have to remove certain categories of Dependencies as shown below:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1ugqNyNpHIX0-96VYeKktdPJ6oaXzgqip/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 5:</b> Delete all the campaign records and to Delete the Campaign records, follow these steps:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1RZm0iLhr8LRhHRFkrjNY8eptOBofHt9l/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 6:</b> Also delete the Campaigns records from the Recycle Bin, follow these steps:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1OYMp2AIRL6VRMZs7t9RUD5PXccCwvMju/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1WASGp84sB0qleTO-R-6e49X20zIZFo3V/preview" height="300" allow="autoplay"></iframe><br/>
+                <b>STEP 7:</b> From the Lead, Contact, and Task object removes the TelosTouch Page-Layouts from the Page layout assignment section of the object that is assigned to the profile.<b> Remove Page Layout assignment is similar to be done on Contact and Task objects, as shown below for the Lead Object.</b><br/>
+                &emsp;&emsp;&bull;&nbsp; Click on the Gear Icon and Select the Object Manager, Then Search “Lead” in the Quick Find Box and Select the Lead Object.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/15X6fpmZPfsA06E-5nklE6LnKiOgWMAbZ/preview" height="300" allow="autoplay"></iframe><br/>
+                &emsp;&emsp;&bull;&nbsp; After Selecting the Lead Object, Click on the Page Layout and then Page Layout Assignment.
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1GdHhU8MCAaLeFN52yzX3gzcJcapQ4UHF/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1rrHj8PhQtw9gyGIQHtZfX5zeu365pHTD/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1KXgffck-JW_n9-T0I7qMwPT1oYguzy_J/preview" height="300" allow="autoplay"></iframe><br/>
+                <!--b>STEP 8:</b> From the Lead, Contact, and Task object removes the TelosTouch Page-Layouts from the Page layout assignment section of the object that is assigned to the profile.
+                Remove Page Layout assignment is similar to be done on Contact and Task object, as shown below for the Lead Object.
+                <br/><br/-->
+                <br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1TytD02V5w5yjKoOldIKGqNiXiD24Rg42/preview" height="600" allow="autoplay"></iframe><br/>
+                <b>STEP 8:</b> To Remove the “TelosTouch Custom Permissions”, Follow these steps:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1CUI0NmdTdvwnewqiDaaAbuWI_BUWNcYB/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1fRTrwXq9rN-HhbU3uiWyFCfh2rukXJTh/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1zqIA8O9AwRVnIxgdNmmqidWbtheOYlu5/preview" height="300" allow="autoplay"></iframe><br/>
+                <br/>
+                <b>STEP 9:</b> To Deactivate the “Assign_ClientId_and_Name_to_Task_On_Insert_and_Update” flow, Follow these steps:
+                <br/><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1UaT96VhYlUboYs01VuD-X3CAYkZDt31f/preview" height="300" allow="autoplay"></iframe><br/>
+                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/1Q4871FeK8J1hQz5ofE0KBaDBAnaMKiIr/preview" height="300" allow="autoplay"></iframe><br/>
+                Now follow the <b> Step-2</b> again.
+            </p>
+        </div>
+    </aura:if>
+</aura:component>

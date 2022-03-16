@@ -1,0 +1,118 @@
+<aura:component description="AddToCampaignComponent" 
+                implements = "force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName" access="global"
+                controller="AddToCampaignCompController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute Name="campaignObj" type="object" access="public"/>
+    <aura:attribute Name="objectRecordName" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="customErrorMessage" type="String" />
+    <aura:attribute name="variant" type="String" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name ="isNewOrExistCampaign" type = "Boolean" default = "true"/>
+    <aura:attribute name ="isExistCampaign" type = "Boolean" default = "false"/>
+    <aura:attribute name ="isNewCampaign" type = "Boolean" default = "false"/>
+    <aura:attribute name="showToast" type="Boolean" default="false"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    <ltng:require styles="{!$Resource.TelosTouch + '/AddToCampaign.css'}"/>
+    <!-- Spinner starts here-->
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <aura:if isTrue="{!v.showToast}">
+        <c:TT_Custom_Toast variant="{!v.variant}" message="{!v.message}" showToast="{!v.showToast}" />
+    </aura:if>  
+    
+    <aura:if isTrue="{!v.isNewOrExistCampaign}">
+        <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Choose_Campaign_Text}</h2>
+        </header>
+        <aura:if isTrue="{!!empty(v.customErrorMessage)}">
+            <div class ="slds-p-left_x-small slds-p-right_x-small slds-p-top_x-small forcePageError">
+                <p class="genericNotification">{!$Label.c.Review_Errors_Text}</p>
+                <p class="slds-p-around_small"> {!v.customErrorMessage}</p> 
+            </div>
+            
+        </aura:if>
+        <div class ="slds-p-around_small">
+            <c:FilterLookUpParentDependentCmp
+                                              objectName="Campaign"
+                                              field_API_text="Name"
+                                              field_API_val="Id"
+                                              limit="5"
+                                              field_API_search="Name"
+                                              lookupIcon="standard:campaign"
+                                              selItem="{!v.campaignObj}"
+                                              placeholder="{!$Label.c.Search_Campaign_Text}"
+                                              lookUpLabel="{!$Label.c.Campaign_Text}"
+                                              isRequired="True"
+                                              isShowStandardMessage="false"
+                                              isShowIconForCreatingChalidRecord = "true"
+                                              sObjectName = "{!v.sObjectName}"
+                                              recordId = "{!v.recordId}"
+                                              />   
+            
+            <lightning:layout horizontalAlign="spread">
+                <lightning:layoutItem class ="slds-p-top_small">
+                    <!--lightning:button class="slds-theme_brand" 
+                              variant="neutral" label="Cancel" onclick = "{!c.backEndorsementType}"/-->
+                </lightning:layoutItem>
+                <lightning:layoutItem class ="slds-p-top_small">
+                    <lightning:button class="slds-m-right_x-small slds-theme_neutral" 
+                                      variant="neutral" label="{!$Label.c.Cancel_Button_Label}" onclick ="{!c.closeModal}" />
+                    <lightning:button class="slds-theme_brand" variant="brand" label="{!$Label.c.Next_Button_Label}" onclick="{! c.showAddCampaignMemberDetails}"></lightning:button>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.isExistCampaign}">
+        <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Campaign_Member_Text}</h2>
+        </header>
+        <aura:if isTrue="{!!empty(v.customErrorMessage)}">
+            <div class ="slds-p-left_x-small slds-p-right_x-small slds-p-top_x-small forcePageError">
+                <p class="genericNotification">{!$Label.c.Review_Errors_Text}</p>
+                <p class="slds-p-around_small customError"> {!v.customErrorMessage}</p> 
+            </div>
+            
+        </aura:if>
+        <div class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container slds-p-around_small">
+            <div class="slds-text-heading_small">{!$Label.c.Camp_Mem_Info_Text}</div>
+        </div>
+        <lightning:layout>
+            <lightning:layoutItem size="12" class ="slds-p-around_small">
+                <lightning:input label="{!$Label.c.Campaign_Text}" type="text" 
+                                 variant="standard"
+                                 value ="{!v.campaignObj.text}"
+                                 disabled="true"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!--aura:if isTrue="{!(v.sObjectName == 'Contact')}">
+            <lightning:layout>
+                <lightning:layoutItem size="12" class ="slds-p-around_small">
+                    <lightning:input label="Contact" type="text" 
+                                     variant="standard"
+                                     value ="{!v.objectRecordName}"
+                                     disabled="true"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+        </aura:if-->
+        <aura:if isTrue="{!or(or(v.sObjectName =='Lead', v.sObjectName == 'Contact'), v.sObjectName == 'Account')}">
+            <lightning:layout>
+                <lightning:layoutItem size="12" class ="slds-p-around_small" >
+                    <lightning:input label="{!$Label.c.Lead_Label}" type="text" 
+                                     variant="standard"
+                                     value ="{!v.objectRecordName}"
+                                     disabled="true"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+        <!--Modal Footer-->
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button variant="Neutral" class="slds-button" label="{!$Label.c.Cancel_Button_Label}" onclick="{!c.closeModal}"/>
+            <lightning:button variant="Brand" class="slds-button" label="{!$Label.c.Save_Button_Label}" onclick="{!c.saveCampaign}"/>
+        </div>
+        <!--End of Modal Footer-->
+    </aura:if>
+</aura:component>

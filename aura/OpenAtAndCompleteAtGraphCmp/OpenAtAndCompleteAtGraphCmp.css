@@ -1,0 +1,16 @@
+.THIS {
+}
+.THIS .highcharts-credits{
+    visibility:hidden;
+}
+.THIS .highcharts-button-symbol{
+    visibility:hidden;
+}
+.THIS .highcharts-button-box{
+    display: none;
+    color: white;
+    background: white;
+}
+.THIS .highcharts-point highcharts-color-1{
+    fill:blue !important;
+}

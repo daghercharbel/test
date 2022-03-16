@@ -1,0 +1,31 @@
+.THIS {
+}
+.THIS .dataTableHeight {
+    height:30rem;
+}
+.THIS .inputPillDiv {
+        display: flex;
+        flex-direction: column;
+}
+.THIS .errorDiv {
+    margin-top:2px;
+    width:100%;
+    border-top: 2px solid red;
+}
+.THIS .errorText {
+    color:red;
+    word-break: break-all;
+}
+.THIS .slds-input {
+    border:none;
+    margin:0px;
+}
+.THIS .slds-input:focus {
+    box-shadow:none;
+}
+.THIS .placeholder::-webkit-input-placeholder {
+  font-size: 11px;
+}
+.THIS .slds-spinner_container{
+    background: transparent;
+}

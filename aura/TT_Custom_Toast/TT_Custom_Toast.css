@@ -1,0 +1,11 @@
+.THIS {
+}
+.THIS .slds-icon-text-default{
+    fill:rgb(250, 250, 249) !important;
+}
+.THIS .toastCSS{
+   z-index: 10000;
+}
+.THIS .modalHeight{
+    height: 4rem;
+}

@@ -1,0 +1,9 @@
+<aura:component controller="TouchPointPreviewController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:attribute name="iFrameUrl" type="String" default=""/>    
+    <lightning:buttonIcon iconName="utility:back" variant="brand" onclick="{! c.handleClick }" 
+                          alternativeText="back" title="back" class="slds-m-bottom_small"/>
+    <iframe src="{!v.iFrameUrl}"
+            frameBorder="none"
+            id = "frame"/>
+</aura:component>

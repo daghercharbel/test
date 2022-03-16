@@ -1,0 +1,10 @@
+.THIS #expId.slds-timeline__item_campaign:before{
+    background: rgb(244 151 86);
+}.THIS #expId.slds-timeline__item_answer:before{
+    background: rgb(242 207 91);
+}.THIS #expId.slds-timeline__item_attachment:before{
+    background: rgb(129 153 175);
+}
+.THIS .word-break-wrapping{
+    word-break: break-word;
+}

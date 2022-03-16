@@ -1,0 +1,76 @@
+<aura:component controller="MassAddToCampaignButtonController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="selectedRecordIds" type="String" default= ""/>
+    <lightning:overlayLibrary aura:id="overlayLib1"/>
+    <aura:registerEvent name="myApplicationEvent" type="c:CampaignDetailEvent"/>
+    <aura:attribute name="variant" type="String" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="campName" type="String" />
+     <aura:attribute name="recordId" type="String" />
+    <aura:attribute name ="childlookup" type = "Boolean"/>
+    <aura:attribute name="recordTypeValue" type="String"/>
+    <aura:attribute name="recordTypeDataList" type="List" />
+    <aura:attribute name="isPersonAccount" type="boolean" default="false"/>
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name ="isNewCampaigScreen" type = "Boolean" default = "false"/>
+    <aura:attribute name ="isRecordTypeScreen" type = "Boolean" default = "true"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+    <aura:attribute name="showToast" type="boolean" default="false"/>
+    <aura:attribute name="showModal" type="boolean" default="true"/>
+   
+    <!-- Spinner starts here-->
+    <aura:if isTrue="{!v.isShowSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+     <aura:if isTrue="{!v.showToast}">
+        <c:TT_Custom_Toast variant="{!v.variant}" message="{!v.message}" showToast="{!v.showToast}" />
+    </aura:if>  
+    <!-- Display the new campaign form -->
+    <div aura:id="main-Id">
+        <aura:if isTrue="{!v.isNewCampaigScreen}">
+            <div class="slds-p-around_small ">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <lightning:input  required="true" aura:id="fieldId" label="{!$Label.c.Campaign_Name_Text}" value="{!v.campName}" type="text"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout  multipleRows="true" class="slds-p-top_small slds-p-bottom_small">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <lightning:input aura:id="fieldId" label="{!$Label.c.Campaign_record_type_Text}" value="{!v.recordTypeValue}" type="text" disabled ="true"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+            <!--Modal Footer-->
+            <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                <lightning:button variant="Neutral" class="slds-button" label="{!$Label.c.Cancel_Button_Label}" onclick="{!c.closeModal}"/>
+                <lightning:button variant="Brand" class="slds-button" label="{!$Label.c.Save_Button_Label}" onclick="{!c.createNewCampaign}"/>
+            </div>
+            <!--End of Modal Footer--> 
+        </aura:if>
+        <aura:if isTrue="{!v.isRecordTypeScreen}">
+            <lightning:layout class="slds-p-top_large slds-p-left_large slds-p-right_large " multipleRows="true">
+                <lightning:layoutItem >
+                    <p>{!$Label.c.Select_a_record_type_Type}</p>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout class="slds-p-around_large " multipleRows="true">
+                <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4" largeDeviceSize="4">
+                </lightning:layoutItem>
+                <lightning:layoutItem size="8" smallDeviceSize="8" mediumDeviceSize="8" largeDeviceSize="8">
+                    <lightning:radioGroup name="{!$Label.c.Select_a_record_type_Type}"
+                                          label=""
+                                          options="{! v.recordTypeDataList }"
+                                          value="{! v.recordTypeValue }"
+                                          type="radio"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <!--Modal Footer-->
+            <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                <lightning:button variant="Neutral" class="slds-button" label="{!$Label.c.Cancel_Button_Label}" onclick="{!c.closeModal}"/>
+                <lightning:button variant="Brand" class="slds-button" label="{!$Label.c.Next_Button_Label}" onclick="{!c.newCampaignPage}"/>
+            </div>
+            <!--End of Modal Footer--> 
+        </aura:if>
+    </div>
+    {!v.body}
+</aura:component>

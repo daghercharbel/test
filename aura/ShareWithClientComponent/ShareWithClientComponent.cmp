@@ -1,0 +1,7 @@
+<aura:component  access="global" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId"
+                controller="TelosTouchUtility">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+  <ltng:require styles="{!$Resource.TelosTouch + '/ShareWithClientComponent.css'}"/>
+
+  <!--ltng:require styles="{!$Resource.TelosTouch + '/ShareWithClient.css'}"/-->
+</aura:component>

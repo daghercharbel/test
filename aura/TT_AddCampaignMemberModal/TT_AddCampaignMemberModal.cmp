@@ -1,0 +1,16 @@
+<aura:component description="TT_AddCampaignMemberModal" implements="lightning:availableForFlowActions,Lightning:availableForFlowScreens,force:lightningQuickActionWithoutHeader,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="isModalOpen" type="boolean" access="global" default="true"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:if isTrue="{!or($Browser.isPhone,$Browser.isTablet)}">
+        <div>
+            <div class="slds-align_absolute-center  slds-m-horizontal_small">
+                <lightning:button variant="brand"
+                                  label="{!$Label.c.Add_Campaign_Members_Text}"
+                                  title="{!$Label.c.Add_Campaign_Members_Text}"
+                                  iconName="utility:add"
+                                  onclick="{!c.openModal}"
+                                  class='slds-size_1-of-1'/>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

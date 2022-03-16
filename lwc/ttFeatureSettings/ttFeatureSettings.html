@@ -1,0 +1,47 @@
+<template>
+    <div if:true={showToast}>
+        <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}></c-ttcustom-toast>
+      </div>
+    <div>
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col slds-size_6-of-12">
+                        <span> 
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel"> 
+                                {label.INVITE}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <span> 
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium"> 
+                                <lightning-input type="toggle"  message-toggle-active="" message-toggle-inactive="" disabled={inviteFlag} onchange={handleInviteToggle} checked={enableInvite} ></lightning-input>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col slds-size_6-of-12">
+                        <span> 
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel"> 
+                                {label.DETIALED_LOGGING}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <span> 
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium"> 
+                                <lightning-input type="toggle"  message-toggle-active="" message-toggle-inactive="" checked={enableLogs} onchange={handleLogsToggle} ></lightning-input>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

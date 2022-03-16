@@ -1,0 +1,386 @@
+<aura:component description="TelosTouchMapping" access="global" Controller='TelosTouchMapping'>
+    <aura:attribute name="mappingList" type="Object[]" />
+    <aura:attribute name="TTFieldsList" type="String[]"/>
+    <aura:attribute name="clientsTelosTouchFields" type="String[]"/>
+    <aura:attribute name="objectFieldsList" type="String[]"/>
+    <aura:attribute name="ErrorMessage" type="String" default="Some Error has Occurred."/>
+    <aura:attribute name="saveTTandSF_Field" type="Object"/>
+    <aura:attribute name="selectedObject" type="String" default="Contact"/>
+    <aura:attribute name="salesforceField" type="String[]"/>
+    <aura:attribute name="isSpin" type="boolean" default="false"/>
+    <aura:attribute name="duplicateFields" type="boolean" default="false"/>
+    <aura:attribute name="ExistingTT_FF_Field" type="String[]"/>
+    <aura:attribute name="isShowTost" type="boolean" default="false"/>
+    <aura:attribute name="isChangeField" type="boolean" default="true"/>
+    <aura:attribute name="isEditField" type="boolean" default="false"/>
+    <aura:attribute name="isDisabled" type="boolean" default="false"/>
+    <aura:attribute name="showDeletedFieldsTable" type="boolean" default="false"/>
+    <aura:attribute name="showAddFields" type="boolean" default="false"/>
+    <aura:attribute name="messageHeader" type="String" default=""/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="isAllClear" type="boolean" default="false"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="listOptions" type="List" default="[]"/>
+    <aura:attribute name="selectedArray" type="List" default="[]"/>
+    <aura:attribute name="variant" type="String" />
+    <aura:attribute name="showToast" type="Boolean" default="false"/>
+    <aura:attribute name="deleteCustomField" type="Boolean" default="false"/>
+    <aura:attribute name="customFieldsTobeDeleted" type="List" default="[]"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="checked" type="Boolean" default="false"/>
+    <aura:attribute name="disableNextButton" type="Boolean" default="true"/>
+    <aura:attribute name="standardlistOptions" type="List" default="[]"/>
+    <aura:attribute name="deletedFieldsList" type="List"/>
+    <aura:attribute name="deletedFieldsList12" type="Object[]"/>
+    <aura:attribute name="fieldsToAdd" type="String[]" default="[]"/>
+    <aura:attribute name="addFieldsOptions" type="List" default="[]"/>
+    <aura:attribute name="useCreatedByIdFlag" type="Boolean"/>
+    
+    <aura:handler name="change" value="{!v.myBool}" action="{!c.handleValueChange}"/>
+    
+    <aura:attribute name="addFieldsValue" type="String" default="custom"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue="{!v.showToast}">
+        <c:TT_Custom_Toast variant="{!v.variant}" message="{!v.message}" showToast="{!v.showToast}" />
+    </aura:if>    
+    <div class="mapping-container">
+        <aura:if isTrue="{!v.isSpin}">
+            <div >
+                <lightning:spinner variant="brand" alternativeText="Loading" size="large" />
+            </div>
+        </aura:if>
+        <!--Use aura:if tag to display/hide popup based on deleteCustomField  value-->  
+        <aura:if isTrue="{!v.deleteCustomField}">
+            <!--Modal Box Start-->
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <!--Modal Box Header Start-->
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">{!$Label.c.Confirmation_Text}</h1>
+                    </header>
+                    <!--Modal Box Header End-->
+                    
+                    <!--Modal Box Content Start-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <center><b>{!$Label.c.Sure_To_Remove}</b></center>
+                    </div>
+                    <!--Modal Box Content End-->
+                    
+                    <!--Modal Box Button Start-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" name='Yes' label='{!$Label.c.Yes_Text}' onclick='{!c.deleteCustomField}'/>
+                        <lightning:button name='No' label='{!$Label.c.No_Text}' onclick='{!c.closeModel}'/>
+                    </footer>
+                    <!--Modal Box Button End-->
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>            
+        </aura:if>
+
+        <aura:if isTrue="{!v.showDeletedFieldsTable}">
+            <!--Modal Box Start-->
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <!--Modal Box Header Start-->
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">{!$Label.c.Add_Standard_Fields_Text}</h1>
+                    </header>
+                    
+                    <!--Modal Box Header End-->
+
+                    <!--Modal Box Content Start-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <lightning:dualListbox name="deletedFields"
+                                               label= "Select Fields to Add"
+                                               sourceLabel="Available"
+                                               selectedLabel="Selected"
+                                               options="{!v.deletedFieldsList}"
+                                               onchange="{! c.populateFieldsToAdd }"/>
+                    </div>
+                    <!--Modal Box Content End-->
+
+                    <!--Modal Box Button Start-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button name='{!$Label.c.Cancel_Button_Label}' label='{!$Label.c.Cancel_Button_Label}' onclick='{!c.addDeletedFieldsHide}'/>
+                        <lightning:button variant="brand" name='{!$Label.c.Save_Button_Label}' label='{!$Label.c.Save_Button_Label}' onclick='{!c.addFieldsToMapping}'/>
+                    </footer>
+                    <!--Modal Box Button End-->
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showAddFields}">
+            <!--Modal Box Start-->
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <!--Modal Box Header Start-->
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">{!$Label.c.Add_Fields_Button_Label}</h1>
+                    </header>
+                    <!--Modal Box Header End-->
+
+                    <!--Modal Box Content Start-->
+                    <div class="slds-modal__content slds-p-around--medium slds-clearfix">
+                            <div class="slds-align_absolute-center">
+                            <lightning:radioGroup   name="radioGroup"
+                                                    label="Radio Group"
+                                                    options="{! v.addFieldsOptions }"
+                                                    value="{! v.addFieldsValue }"
+                                                    type="radio"
+                                                    onchange="{!c.checkAddFieldsValue}" />
+                            </div>
+                    </div>
+                    <!--Modal Box Content End-->
+
+                    <!--Modal Box Button Start-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button name='Cancel' label='{!$Label.c.Cancel_Button_Label}' onclick='{!c.addFieldsHide}'/>
+                        <lightning:button variant="brand" name='{!$Label.c.Next_Button_Label}' label='{!$Label.c.Next_Button_Label}' onclick='{!c.goToNextPage}'/>
+                    </footer>
+                    <!--Modal Box Button End-->
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.isModalOpen}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">                
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModel}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate cstm-fld-h2">{!$Label.c.Add_Custom_Fields_Text}</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:dualListbox 
+                                               aura:id="myDualListbox"
+                                               name="languages"
+                                               label= "AddFields"
+                                               sourceLabel="Available"
+                                               selectedLabel="Selected"
+                                               options="{!v.listOptions}"
+                                               onchange="{!c.handleChange}"/>
+                    </div>                     
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="{!$Label.c.Cancel_Button_Label}"
+                                          title="{!$Label.c.Cancel_Button_Label}"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand"
+                                          label="{!$Label.c.Save_Button_Label}"
+                                          title="{!$Label.c.Save_Button_Label}"
+                                          onclick="{!c.submitDetails}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.isOpen}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">                
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModel}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate cstm-fld-h2">Add Standard Fields</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:dualListbox
+                                               aura:id="myDualListbox"
+                                               name="languages"
+                                               label= "AddFields"
+                                               sourceLabel="Available"
+                                               selectedLabel="Selected"
+                                               options="{!v.standardlistOptions}"
+                                               onchange="{!c.handleChange}"/>
+                    </div>                     
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand"
+                                          label="Save"
+                                          title="Save"
+                                          onclick="{!c.submitDetails}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem class="slds-p-bottom_small slds-p-top_large contactPicklistCss"  size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="3">
+                <lightning:select aura:id="select" name="select" label="Select an object" onchange="{! c.selectObject }">
+                    <option value="Contact">{!$Label.c.Contact_Label}</option>             
+                    <option value="Lead">{!$Label.c.Lead_Label}</option>
+                    <option value="Task">{!$Label.c.Task_Label}</option>
+                </lightning:select>
+            </lightning:layoutItem>
+            <aura:if isTrue="{!or(v.selectedObject == 'Contact', v.selectedObject == 'Lead')}">
+                <lightning:layoutItem class="slds-p-bottom_small slds-p-top_large contactPicklistCss" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="9">
+                    <lightning:input type="toggle" class="cstmToggle" label="{!$Label.c.Assigned_User_Label}" name="recordOwner"
+                                     checked="{!v.useCreatedByIdFlag}" messageToggleActive="Created By Id" messageToggleInactive="Owner Id"
+                                     onchange="{!c.setRecordOwnerFlag}"/>
+                </lightning:layoutItem>
+            </aura:if>
+        </lightning:layout>
+        <div class="demo">
+            <div class="slds-scrollable scrollbarStyled tableInnerHeight" >
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-no-row-hover">
+                    <!--thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col"  class="col1width">
+                                <div class="slds-truncate slds-cell-fixed" title="Salesforce Fields">{!$Label.c.Salesforce_Fields}</div>
+                            </th>
+                            <th scope="col" class="col2width">
+                            </th>
+                            <th scope="col" class="col1width">
+                                <div class="slds-truncate slds-cell-fixed" title="{!$Label.c.TelosTouch_Fields}">{!$Label.c.TelosTouch_Fields}</div>
+                            </th>
+                            <th scope="col" class="col2width">
+                            </th>
+                            <th scope="col" class="col1width">
+                                <div class="slds-truncate slds-cell-fixed" title="{!$Label.c.Sync_Empty_Field}">{!$Label.c.Sync_Empty_Field}</div>
+                            </th>
+                        </tr>
+                    </thead-->
+                    <tbody style="width:100%;">
+                    <th scope="col" style="width:20%;font-weight:bold;color: #514F4D;padding-left:1.5rem;" class="slds-cell-fixed">{!$Label.c.Salesforce_Fields}</th>
+                    <th scope="col" style="width:7.5%;" class="slds-cell-fixed"></th>
+                    <th scope="col" style="width:35%;font-weight:bold;color: #514F4D;" class="slds-cell-fixed">{!$Label.c.TelosTouch_Fields}</th>
+                    <th scope="col" style="width:7.5%;" class="slds-cell-fixed"></th>
+                    <th scope="col" style="width:30%;font-weight:bold;color: #514F4D;" class="slds-cell-fixed">{!$Label.c.Sync_Empty_Field}</th>
+                        <aura:iteration items="{!v.mappingList}" var="item" indexVar="index">
+                            <aura:if isTrue="{!and(item.TelosTouchSF__Salesforce_Field__c != 'TelosTouchSF__TT_Client_Id__c')}">
+                                <tr>
+                                    <td data-label="Salesforce Fields" style="width:20%;">
+                                        <lightning:select  name="Salesforce Fields" label="" variant="label-hidden" required="{!item.isRequired}"  aura:id="select2" value="{!item.TelosTouchSF__Salesforce_Field__c}" onchange="{!c.fieldSelected}" disabled="{!or(v.isDisabled,item.fieldNameTT =='Client id' || item.fieldNameTT =='Client name' || item.fieldNameTT =='Email Address' || item.fieldNameTT =='Name' || item.fieldNameTT =='First Name'|| item.fieldNameTT =='Last Name'|| item.fieldNameTT =='Date due' || item.fieldNameTT =='Shared'|| item.fieldNameTT =='Status' || item.fieldNameTT =='Custom Field'|| item.fieldNameTT =='Type')}">
+                                            <option value="">choose one...</option>
+                                            <aura:iteration items="{!v.objectFieldsList}" var="objFld">
+                                                <option value="{!objFld.fieldAPIName}" >{!objFld.fieldName}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </td>
+                                    <td style="width:7.5%;"></td>
+                                    <td scope="row" data-label="TelosTouch Fields" style="width:35%;">
+                                        <aura:if isTrue="{!item.isRequired}">
+                                            {!item.fieldNameTT}<abbr class="slds-required" title="required">* </abbr>
+                                                <!--<aura:if isTrue="{!and(v.isEditField)}">
+                                                    <aura:if isTrue="{!or(item.fieldNameTT =='Email',or(item.fieldNameTT =='Language', item.fieldNameTT =='Phone'))}">
+                                                        <lightning:buttonIcon  class="customBtn" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping"
+                                                                               value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.addDuplicateMapping}" disabled="{!item.isDuplicateCreated}" />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!item.fieldNameTT =='Subscribed'}">
+                                                        <lightning:buttonIcon  class="customBtnHidden" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping" disabled="true"  />
+                                                    </aura:if>
+                                                </aura:if>-->
+                                            <aura:set attribute="else">
+                                                {!item.fieldNameTT}
+                                                <aura:if isTrue="{!and(v.isEditField)}">
+                                                    <!--<aura:if isTrue="{!and(v.isEditField)}">
+                                                        <aura:if isTrue="{!or(item.fieldNameTT =='Email',or(item.fieldNameTT =='Language', item.fieldNameTT =='Phone'))}">
+                                                            <lightning:buttonIcon  class="customBtn" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping"
+                                                                                   value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.addDuplicateMapping}" disabled="{!item.isDuplicateCreated}" />
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!item.fieldNameTT =='Subscribed'}">
+                                                            <lightning:buttonIcon  class="customBtnHidden" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping" disabled="true"  />
+                                                        </aura:if>
+                                                    </aura:if>-->
+                                                    <aura:if isTrue="{!and(v.isEditField,item.fieldNameTT !='Custom Field')}">    
+                                                        <lightning:buttonIcon  class="customBtn" iconName="utility:delete"  alternativeText="Delete" title="Delete" value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.AddFieldsToDelete}"  />
+                                                        <aura:set attribute="else" >
+                                                            <lightning:buttonIcon  class="customBtn" iconName="utility:delete"  alternativeText="Delete" title="Delete" value="{!item.TelosTouchSF__Salesforce_Field__c}" onclick="{!c.addCustomFieldsToDelete}"  />
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td  style="width:7.5%;"></td>
+                                    <td scope="row" data-label="Sync Empty Field (TT to SF)">
+                                        <aura:if isTrue="{!or(item.fieldNameTT=='Custom Field',item.isRequired)}">
+                                            <lightning:input value="{!index}" messageToggleActive="" messageToggleInactive="" label="" type="toggle" disabled="true" onchange="{!c.isAvoid}"></lightning:input>
+                                            <aura:set attribute="else" >
+                                                <lightning:input value="{!index}" messageToggleActive="" messageToggleInactive="" label="" type="toggle" disabled="{!v.isDisabled}"  onchange="{!c.isAvoid}" checked="{!item.TelosTouchSF__Is_Sync_Empty_Field__c}"></lightning:input>
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:if>
+                        </aura:iteration>
+                        <tr>
+                            <!--<aura:if isTrue="{!v.isEditField}">
+                                <lightning:buttonIcon iconName="utility:add" variant="brand" alternativeText="Add" title="Add" onclick="{!c.addDeletedFields}"/>
+                            </aura:if>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <aura:if isTrue="{!!$Browser.isPhone}">
+            <div class="footer">
+                <lightning:button variant="brand" label="{!$Label.c.Save_Button_Label}" iconName="utility:save" iconPosition="left" onclick="{!c.saveMapping}" disabled="{!or(v.isChangeField,v.isSpin)}"/>
+                <lightning:button variant="brand" label="{!$Label.c.Edit_Button_Label}" iconName="utility:edit" iconPosition="left" onclick="{!c.editMapping}" disabled="{!or(v.isEditField,v.isSpin)}"/>
+                <lightning:button variant="brand" label="{!$Label.c.Back_Button_Label}" iconName="utility:back" iconPosition="left" onclick="{!c.revertBackToMainPage}" disabled="{!or(!v.isEditField,v.isSpin)}"/>
+                <lightning:button variant="brand" label="{!$Label.c.Add_Fields_Button_Label}" iconName="utility:add" iconPosition="left" onclick="{!c.addFieldsShow}" disabled="{!or(v.isSpin)}"/>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!$Browser.isPhone}">
+            <div class="footer2">
+                <lightning:button class="slds-size_4-of-4 slds-m-around_xx-small" variant="brand" label="{!$Label.c.Save_Button_Label}" iconName="utility:save" iconPosition="left" onclick="{!c.saveMapping}" disabled="{!or(v.isChangeField,v.isSpin)}"/>
+                <lightning:button class="slds-size_4-of-4 slds-m-around_xx-small" variant="brand" label="{!$Label.c.Edit_Button_Label}" iconName="utility:edit" iconPosition="left" onclick="{!c.editMapping}" disabled="{!or(v.isEditField,v.isSpin)}"/>
+                <lightning:button class="slds-size_4-of-4 slds-m-around_xx-small" variant="brand" label="{!$Label.c.Back_Button_Label}" iconName="utility:back" iconPosition="left" onclick="{!c.revertBackToMainPage}" disabled="{!or(!v.isEditField,v.isSpin)}"/>
+                <lightning:button class="slds-size_4-of-4 slds-m-around_xx-small" variant="brand" label="{!$Label.c.Add_Fields_Button_Label}" iconName="utility:add" iconPosition="left" onclick="{!c.addFieldsShow}" disabled="{!or(v.isSpin)}"/>
+            </div>
+        </aura:if>
+    </div>
+    <aura:if isTrue="{!v.isShowTost}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container modalContainer" >
+                <div class="{!v.messageHeader == 'success' ? 'slds-modal__content slds-p-around_small slds-theme_success modalHeader':'slds-modal__content slds-p-around_small errorColor modalHeader'}">
+                    <div class="slds-grid slds-gutters">
+                        <aura:if isTrue="{!v.messageHeader == 'success'}">
+                            <div class="slds-col slds-size_1-of-12">
+                                <lightning:icon iconName="utility:success" alternativeText="Approved" size="small" class="iconCss"/>
+                            </div>
+                            <div class="slds-col">
+                                <p class="modalMessage">{!v.message}</p>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning:icon iconName="utility:error" alternativeText="Reject" size="small" class="iconCss"/>
+                                </div>
+                                <div class="slds-col ">
+                                    <p  class="modalMessage">{!v.message}</p>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        <div class="slds-col">
+                            <button class="slds-button slds-button_icon slds-button_icon-inverse slds-float_right" title="Close"
+                                    onclick="{!c.closeToast}">
+                                <lightning:icon iconName="utility:close" class="iconCss"/>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </aura:if>
+</aura:component>

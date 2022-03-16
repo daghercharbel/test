@@ -1,0 +1,35 @@
+<aura:component description="multiSelectPicklist" >
+    <!--declare attributes--> 
+    <aura:attribute name="label" type="string" default=""/>
+    <aura:attribute name="values" type="string" default=""/>
+    <aura:attribute name="answerList" type="string" default=""/>
+    <aura:attribute name="fielterDetailsChanges" type="String" />
+    <aura:attribute name="questionList" type="List" default=""/>
+    <aura:handler name="change" value="{!v.answerList}" action="{!c.fielterEvent}"/>
+    <div aura:id="searchRes" onmouseleave="{!c.onblur}" class="slds-form-element slds-lookup slds-is-close  " data-select="single">
+        <label class="slds-form-element__label" for="lookup-348">{!v.label}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+                <div aura:id="lookupField" class="slds-show">
+                    <lightning:input placeholder="{!$Label.c.All_Label}" variant="label-hidden"  onclick="{!c.onfocus}" readonly="true" value="{!v.values}" />
+                </div>   
+            </div>
+        </div>
+        <!--This part is for Display typehead lookup result List-->  
+        <ul  class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds" role="listbox">
+            <lightning:spinner class="slds-hide" variant="brand" size="small" aura:id="mySpinner"/>
+            <aura:iteration items="{!v.questionList}" var="singleRec">
+                <li role="presentation" class="slds-listbox__item" >
+                    <div class="slds-grid slds-wrap question">
+                        <div class="slds-col slds-size_11-of-12 slds-p-around_xx-small">
+                            <span>{!singleRec.question}</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align-middle">
+                            <lightning:input type="checkbox" variant="label-hidden" checked="{!singleRec.isSelected}"  class="slds-float_right" onchange="{!c.selectedEvent}" />
+                        </div>
+                    </div>
+                </li>
+            </aura:iteration>
+        </ul>
+    </div>
+</aura:component>
