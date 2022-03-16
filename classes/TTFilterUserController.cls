@@ -637,52 +637,6 @@ public with sharing class TTFilterUserController {
         return null;
     }
 
-    @AuraEnabled
-    public static String fetchCampaignRecordType() {
-        try {
-            list<RecordType> recordTypeList = [select Id, Name from RecordType where sObjectType='Campaign' AND IsActive = true WITH SECURITY_ENFORCED ];
-            if (recordTypeList.size() > 0 && recordTypeList != null) {
-                return JSON.serialize(recordTypeList);
-            }else{
-                return 'No record type found';
-            }
-        } catch (Exception ex) {
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
-        }
-        return null;
-    }
-
-    @AuraEnabled
-    public static string addClientsToCampaign(String campRecordId, String userListStr){
-        try {
-            List<Object> userList = new List<Object>();
-            userList = (List<Object>) JSON.deserializeUntyped(userListStr);
-            List<CampaignMember> campaignMemberList = new List<CampaignMember>();
-            for(Object each : userList){
-                Map<String, Object> userMap = new Map<String, Object>();
-                userMap = (Map<String, Object>) each;
-                Id clientSfId = (Id) userMap.get('ContactOrLeadSFId');
-                String sObjName = clientSfId.getSObjectType().getDescribe().getName();
-                if(sObjName == 'Contact'){
-                    CampaignMember memberObj = new CampaignMember();
-                    memberObj.ContactId = clientSfId;
-                    memberObj.CampaignId = campRecordId;
-                    campaignMemberList.add(memberObj);
-                }else if(sObjName =='Lead'){
-                    CampaignMember memberObj = new CampaignMember();
-                    memberObj.LeadId = clientSfId;
-                    memberObj.CampaignId = campRecordId;
-                    campaignMemberList.add(memberObj);
-                }
-            }
-            insert campaignMemberList;
-            return campRecordId;
-        } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, e.getMessage() + ' at Line: '+e.getLineNumber());
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-
     /**
 * @author Cloud Analogy
 * @date 02/08/2021

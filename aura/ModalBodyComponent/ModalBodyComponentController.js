@@ -20,33 +20,27 @@
   },
   //Send Touch Point Modal 2 Appears WHen we enter campaign name and send to tt
   submitCreateCampaignDetails: function (c, e, h) {
-    let campId = e.getParam("id");
-    let action = c.get("c.addClientsToCampaign");
-    action.setParams({
-      campRecordId: campId,
-      userListStr: JSON.stringify(c.get("v.userList"))
-    });
-    action.setCallback(this, (response) => {
-      if (response.getState() === "SUCCESS") {
-        var navEvt = $A.get("e.force:navigateToSObject");
-        navEvt.setParams({
-          recordId: response.getReturnValue()
-        });
-        navEvt.fire();
-      } else {
-        var navEvt = $A.get("e.force:navigateToSObject");
-        navEvt.setParams({
-          recordId: campId
-        });
-        navEvt.fire();
-      }
-    });
-    $A.enqueueAction(action);
-  },
-  selectCampaignRecordType: function (c, e, h) {
-    console.log("Record Type Id:: " + c.get("v.recordTypeId"));
-    c.set("v.createCampaign", true);
-    c.set("v.selectCampaignRecordType", false);
+    if (c.get("v.campaignName") != undefined) {
+      c.set("v.campaignName", c.get("v.campaignName").trim());
+    }
+    var allValid = c
+      .find("Campaigninput")
+      .reduce(function (validSoFar, inputCmp) {
+        inputCmp.reportValidity();
+        return validSoFar && inputCmp.checkValidity();
+      }, true);
+    if (allValid) {
+      h.SendTouchPoint_helper(c, e, h);
+    } else {
+      h.showSuccess(
+        c,
+        e,
+        h,
+        "Error",
+        "error",
+        $A.get("$Label.c.Add_To_Campaign_Error_Text")
+      );
+    }
   },
   showlist: function (c, e, h) {
     c.set("v.SubjectListItems", true);
@@ -115,7 +109,7 @@
           if (status === "SUCCESS") {
             c.find("overlayLib2")
               .showCustomModal({
-                header: $A.get("$Label.c.Create_Task_Text"),
+                header:  $A.get("$Label.c.Create_Task_Text"),
                 body: content[0],
                 footer: content[1],
                 showCloseButton: true,

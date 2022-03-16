@@ -1,0 +1,87 @@
+<template>
+    <lightning-accordion active-section-name={activeObject}>
+        <lightning-accordion-section if:true={LeadAccordian} name="Lead" label="Using Telostouch with Leads">
+            <img src={LeadToCampaign}>
+            <p>Click this button to add Lead record to the Campaign</p>
+        </lightning-accordion-section>
+        <lightning-accordion-section if:true={ContactAccordian} name="Contact" label="Using Telostouch with Contacts">
+            <img src={ContactToCampaign}>
+            <p>Click this button to add Contact record to the Campaign</p>
+        </lightning-accordion-section>
+        <lightning-accordion-section if:true={CampaignAccordian} name="Campaign" label="Using Telostouch with Campaigns">
+            <lightning-accordion active-section-name={activeObject}>
+                <lightning-accordion-section label="Creating a Campaign">
+                    <img src={CreateCampaign1}>
+                    <p>Click this button to Create a Campaign</p>
+                    <img src={CreateCampaign2}>
+                    <p>Select TelosTouch record type</p>
+                    <img src={CreateCampaign3}>
+                    <p>Enter Name and Click Save button</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Adding clients to a new campaign">
+                    <img src={ClientNewCampaign1}>
+                    <p>Click on Related tab</p>
+                    <img src={ClientNewCampaign2}>
+                    <p>Click on Add Contacts button</p>
+                    <img src={ClientNewCampaign3}>
+                    <p>Select Contacts and Click Next</p>
+                    <img src={ClientNewCampaign4}>
+                    <p>Click Submit button</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Choosing TouchPoint">
+                    <img src={ChooseTouchPoint1}>
+                    <p>Click this button to Choose a TouchPoint</p>
+                    <img src={ChooseTouchPoint2}>
+                    <p>Click on any template </p>
+                    <img src={ChooseTouchPoint3}>
+                    <p>Click this button to send TouchPoint</p>
+                    <img src={ChooseTouchPoint4}>
+                    <p>Click confirm button</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Customizing a TouchPoint">
+                    <img src={CustomizeTocuhpoint1}>
+                    <p>Click this button to customize a TouchPoint</p>
+                    <img src={CustomizeTocuhpoint2}>
+                    <p>Click on any template which you would like to customize</p>
+                    <img src={CustomizeTocuhpoint3}>
+                    <p>Customize your TouchPoint here and click the Send button</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Previewing TouchPoint">
+                    <img src={TouchpointPreview1}>
+                    <p>Click this button to preview a TouchPoint</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Viewing Campaign results ">
+                    <img src={ViewingCampaignResults}>
+                    <p>Click this button view Campaign results</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Sending Campaign reminder">
+                    <img src={SendingCampaignReminder1}>
+                    <p>Click this button to send campaign reminder</p>
+                    <img src={SendingCampaignReminder2}>
+                    <p>Click confirm button </p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Adding additional recipients to existing Campaign">
+                    <img src={ExistingCampaign1}>
+                    <p>Click on Related tab </p>
+                    <img src={ExistingCampaign2}>
+                    <p>Click on Add Contacts button</p>
+                    <img src={ExistingCampaign3}>
+                    <p>Select contacts and click next</p>
+                    <img src={ExistingCampaign4}>
+                    <p>Click Submit button</p>
+                    <img src={ExistingCampaign5}>
+                    <p>Click Yes</p>
+                </lightning-accordion-section>
+                <lightning-accordion-section label="Assigning mass actions to campaign results">
+                    <img src={MassActionsS1}>
+                    <p>Click on results tab</p>
+                    <img src={MassActionsS2}>
+                    <p>Select contacts and click Create Task button</p>
+                    <img src={MassActionsS3}>
+                    <p>Select General Task record type and Click Next</p>
+                    <p>Fill the form and click Save</p>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>
