@@ -82,6 +82,11 @@ public with sharing class TTFilterUserController {
 
                                             questionAnswerWrapperObj.picklistValueList.add(picklistValueObj);
                                         }
+                                        PicklistValue  picklistValueObj = new PicklistValue();
+                                        picklistValueObj.key = 'null';
+                                        picklistValueObj.question =  'N/A';
+
+                                        questionAnswerWrapperObj.picklistValueList.add(picklistValueObj);
                                     }
                                 }
                             }
@@ -96,6 +101,11 @@ public with sharing class TTFilterUserController {
                                             picklistValueObj.question =  String.valueOf(answerMap.get(answerKey));
                                             questionAnswerWrapperObj.picklistValueList_fr.add(picklistValueObj);
                                         }
+                                        PicklistValue  picklistValueObj = new PicklistValue();
+                                        picklistValueObj.key = 'null';
+                                        picklistValueObj.question =  'N/A';
+
+                                        questionAnswerWrapperObj.picklistValueList_fr.add(picklistValueObj);
                                     }
                                 }
                             }
@@ -134,6 +144,7 @@ public with sharing class TTFilterUserController {
                         }
                         ttDoinitWrapperObj.userWrapperList.add(userWrapperObj);
                     }
+                    System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
                     return ttDoinitWrapperObj;
                 }
             }
@@ -244,6 +255,20 @@ public with sharing class TTFilterUserController {
                         }
                     }
                 }
+                Boolean containsNA = false;
+                for(Set<String> stringEachSet : formStringMap.values()){
+                    for(String strEach : stringEachSet){
+                        if(strEach == 'N/A'){
+                            containsNA = true;
+                            break;
+                        }
+                    }
+                }
+                if(containsNA){
+                    for(TelosTouchSF__Insights__c each : [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Completed_At__c = null WITH SECURITY_ENFORCED LIMIT 20000]){
+                        conversationIdSet.add(each.TelosTouchSF__Conversation_Id__c);
+                    }
+                }
                 String conversationUserQuery = 'SELECT Id, Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c, TelosTouchSF__Completed_At__c, TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Lead__r.Name,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c ';
                 if(!formStringMap.isEmpty() && (formStringMap.keySet()).size() > 0){
                     conversationUserQuery +=  ' WHERE TelosTouchSF__Conversation_Id__c IN:conversationIdSet ';
@@ -253,8 +278,14 @@ public with sharing class TTFilterUserController {
                 if(questionMap1.containsKey('pendingOpened_At') && questionMap1.get('pendingOpened_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingOpened_At'))) && String.valueOf(questionMap1.get('pendingOpened_At')) == 'Pending'){
                     conversationUserQuery += ' AND TelosTouchSF__Opened_At__c = null ';
                 }
+                if(questionMap1.containsKey('pendingOpened_At') && questionMap1.get('pendingOpened_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingOpened_At'))) && String.valueOf(questionMap1.get('pendingOpened_At')) == 'Opened'){
+                    conversationUserQuery += ' AND TelosTouchSF__Opened_At__c != null ';
+                }
                 if(questionMap1.containsKey('pendingCompleted_At') && questionMap1.get('pendingCompleted_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingCompleted_At'))) && String.valueOf(questionMap1.get('pendingCompleted_At')) == 'Pending'){
                     conversationUserQuery += ' AND TelosTouchSF__Completed_At__c = null ';
+                }
+                if(questionMap1.containsKey('pendingCompleted_At') && questionMap1.get('pendingCompleted_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingCompleted_At'))) && String.valueOf(questionMap1.get('pendingCompleted_At')) == 'Completed'){
+                    conversationUserQuery += ' AND TelosTouchSF__Completed_At__c != null ';
                 }
 
                 conversationUserQuery += ' AND (TelosTouchSF__Contact__c != null OR TelosTouchSF__Lead__c != null) ';
@@ -300,6 +331,7 @@ public with sharing class TTFilterUserController {
                     userWrapperSet.add(userWrapperObj);
                 }
                 userWrapperList.addAll(userWrapperSet);
+                System.debug(userWrapperList);
                 return userWrapperList;
             }
         }catch(Exception ex){
@@ -635,6 +667,52 @@ public with sharing class TTFilterUserController {
             System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
         }
         return null;
+    }
+
+    @AuraEnabled
+    public static String fetchCampaignRecordType() {
+        try {
+            list<RecordType> recordTypeList = [select Id, Name from RecordType where sObjectType='Campaign' AND IsActive = true WITH SECURITY_ENFORCED ];
+            if (recordTypeList.size() > 0 && recordTypeList != null) {
+                return JSON.serialize(recordTypeList);
+            }else{
+                return 'No record type found';
+            }
+        } catch (Exception ex) {
+            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+        }
+        return null;
+    }
+
+    @AuraEnabled
+    public static string addClientsToCampaign(String campRecordId, String userListStr){
+        try {
+            List<Object> userList = new List<Object>();
+            userList = (List<Object>) JSON.deserializeUntyped(userListStr);
+            List<CampaignMember> campaignMemberList = new List<CampaignMember>();
+            for(Object each : userList){
+                Map<String, Object> userMap = new Map<String, Object>();
+                userMap = (Map<String, Object>) each;
+                Id clientSfId = (Id) userMap.get('ContactOrLeadSFId');
+                String sObjName = clientSfId.getSObjectType().getDescribe().getName();
+                if(sObjName == 'Contact'){
+                    CampaignMember memberObj = new CampaignMember();
+                    memberObj.ContactId = clientSfId;
+                    memberObj.CampaignId = campRecordId;
+                    campaignMemberList.add(memberObj);
+                }else if(sObjName =='Lead'){
+                    CampaignMember memberObj = new CampaignMember();
+                    memberObj.LeadId = clientSfId;
+                    memberObj.CampaignId = campRecordId;
+                    campaignMemberList.add(memberObj);
+                }
+            }
+            insert campaignMemberList;
+            return campRecordId;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage() + ' at Line: '+e.getLineNumber());
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 
     /**
