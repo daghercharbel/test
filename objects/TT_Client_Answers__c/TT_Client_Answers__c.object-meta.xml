@@ -154,12 +154,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Answer</label>
+    <label>TelosTouch Answer</label>
     <nameField>
         <label>Question</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Answers</pluralLabel>
+    <pluralLabel>TelosTouch  Answers</pluralLabel>
     <searchLayouts>
         <customTabListAdditionalFields>Answer__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Campaign__c</customTabListAdditionalFields>

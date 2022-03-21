@@ -267,6 +267,7 @@
         c.set("v.isShowSpinner", false);
         var state = response.getState();
         var rtnValue = response.getReturnValue();
+        console.log(rtnValue);
         if (rtnValue != null && state == "SUCCESS") {
           //c.set("v.isShowModel",true);
           c.set("v.answers", rtnValue[0]);

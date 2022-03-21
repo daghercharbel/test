@@ -178,7 +178,8 @@
           onchange="{!c.fielterDetailsChanges}"
         >
           <option value="Anytime">{!$Label.c.All_Label}</option>
-          <option value="Pending">{!$Label.c.Pending_Text}</option>
+          <option value="Opened">{!$Label.c.Opened_Text}</option>
+          <option value="Pending">{!$Label.c.Not_Opened_Text}</option>
         </lightning:select>
       </div>
       <div class="slds-col slds-size_4-of-12">
@@ -190,7 +191,8 @@
           onchange="{!c.fielterDetailsChanges}"
         >
           <option value="Anytime">{!$Label.c.All_Label}</option>
-          <option value="Pending">{!$Label.c.Pending_Text}</option>
+          <option value="Completed">{!$Label.c.Completed_Text}</option>
+          <option value="Pending">{!$Label.c.Not_Completed_Text}</option>
         </lightning:select>
       </div>
     </div>
