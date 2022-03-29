@@ -1,0 +1,1854 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Access_To_TT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access To TT</shortDescription>
+        <value>User Access to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Actions_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Actions Text</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>Add_Cam_Mem_to_TT_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Cam Mem to TT Text</shortDescription>
+        <value>Please add campaign members to send touchpoint.</value>
+    </labels>
+    <labels>
+        <fullName>Add_Campaign_Members_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Campaign Members Text</shortDescription>
+        <value>Add Campaign Members</value>
+    </labels>
+    <labels>
+        <fullName>Add_Campaign_Modal_Header_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Campaign Modal Header Text</shortDescription>
+        <value>Create Campaign and Send TouchPoint</value>
+    </labels>
+    <labels>
+        <fullName>Add_Custom_Fields_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Custom Fields Text</shortDescription>
+        <value>Add Custom Fields</value>
+    </labels>
+    <labels>
+        <fullName>Add_Fields_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Fields Button Label</shortDescription>
+        <value>Add Fields</value>
+    </labels>
+    <labels>
+        <fullName>Add_Standard_Fields_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Standard Fields Text</shortDescription>
+        <value>Add Standard Fields</value>
+    </labels>
+    <labels>
+        <fullName>Add_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Text</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>Add_To_Campaign_Error_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add To Campaign Error Text</shortDescription>
+        <value>Please fill Campaign name.</value>
+    </labels>
+    <labels>
+        <fullName>Add_to_Campaign_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add to Campaign Text</shortDescription>
+        <value>Add to Campaign</value>
+    </labels>
+    <labels>
+        <fullName>Additional_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Information (Optional)</shortDescription>
+        <value>Additional Information (Optional)</value>
+    </labels>
+    <labels>
+        <fullName>After_TT_invite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>After TT invite</shortDescription>
+        <value>Hasn&apos;t logged in</value>
+    </labels>
+    <labels>
+        <fullName>All_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>All Label</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>Answers_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Answers Text</shortDescription>
+        <value>Answers</value>
+    </labels>
+    <labels>
+        <fullName>Assigned_To_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Assigned To Label</shortDescription>
+        <value>Assigned To</value>
+    </labels>
+    <labels>
+        <fullName>Assigned_User_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Assigned User Label</shortDescription>
+        <value>Assigned User in TT? (OwnerId/CreatedById)</value>
+    </labels>
+    <labels>
+        <fullName>Back_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Back Button Label</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>Cam_Not_Have_TT_Record_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cam Not Have TT Record Toast</shortDescription>
+        <value>Campaign is not having the TelosTouch record type.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Mem_Added_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Mem Added Toast</shortDescription>
+        <value>Campaign member added in Campaign successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Mem_Info_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Mem Info Text</shortDescription>
+        <value>Campaign Member Information</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Graph_Campaign_Performance_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Graph Campaign Performance Text</shortDescription>
+        <value>Campaign Performance</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Graph_Completed_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Graph Completed Text</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Graph_Opened_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Graph Opened Text</shortDescription>
+        <value>Opened</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Graph_Send_Touchpoint_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Graph Send Touchpoint Text</shortDescription>
+        <value>Please send a TouchPoint first.</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Graph_Will_Populate_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Graph Will Populate Text</shortDescription>
+        <value>The graph will populate once clients start answering the TouchPoint.</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Member_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Member Text</shortDescription>
+        <value>New Campaign Member</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Name_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Name Text</shortDescription>
+        <value>Campaign Name</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Text</shortDescription>
+        <value>Campaign</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_record_type_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign record type Text</shortDescription>
+        <value>Campaign record type</value>
+    </labels>
+    <labels>
+        <fullName>Campaigns_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaigns Text</shortDescription>
+        <value>Campaigns</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel Button Label</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Add_Contact_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cannot Add Contact Text</shortDescription>
+        <value>as this Contact is not synced with TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Add_Duplicate_Field_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cannot Add Duplicate Field Toast</shortDescription>
+        <value>You can not add duplicate fields.</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Add_Lead_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cannot Add Lead Text</shortDescription>
+        <value>as this Lead is not synced with TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Cannot_Add_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cannot Add Text</shortDescription>
+        <value>You Can&apos;t Add</value>
+    </labels>
+    <labels>
+        <fullName>CaseDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CaseDescription</shortDescription>
+        <value>Enter your question below and someone from our team will get right back to you.</value>
+    </labels>
+    <labels>
+        <fullName>CaseRaised</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CaseRaised</shortDescription>
+        <value>Your case has been raised</value>
+    </labels>
+    <labels>
+        <fullName>Check_Cam_Mem_Sync_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Check Cam Mem Sync Toast</shortDescription>
+        <value>Please check Campaign members sync or not.</value>
+    </labels>
+    <labels>
+        <fullName>Check_Contact_Sync_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Check Contact Sync Toast</shortDescription>
+        <value>Please check Contact sync or not.</value>
+    </labels>
+    <labels>
+        <fullName>Check_Cred_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Check Cred Toast</shortDescription>
+        <value>Check your credentials</value>
+    </labels>
+    <labels>
+        <fullName>Check_Lead_Sync_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Check Lead Sync Toast</shortDescription>
+        <value>Please check Lead sync or not.</value>
+    </labels>
+    <labels>
+        <fullName>Choose_Campaign_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose Campaign Text</shortDescription>
+        <value>Choose a Campaign</value>
+    </labels>
+    <labels>
+        <fullName>Choose_Sync_Object_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose Sync Object Text</shortDescription>
+        <value>Choose Sync Object</value>
+    </labels>
+    <labels>
+        <fullName>Choose_Sync_Type_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose Sync Type Text</shortDescription>
+        <value>Choose Sync Type</value>
+    </labels>
+    <labels>
+        <fullName>Choose_a_TouchPoint_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose a TouchPoint Text</shortDescription>
+        <value>Choose a TouchPoint</value>
+    </labels>
+    <labels>
+        <fullName>Client_Already_Accept_Invite_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Already Accept Invite Toast</shortDescription>
+        <value>Client has already accepted the invite.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Invited_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Invited Success Toast</shortDescription>
+        <value>Clients invited successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Invited_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Invited Toast</shortDescription>
+        <value>Client invited successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Not_Have_UserID_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Not Have UserID Toast</shortDescription>
+        <value>This client not have User Id.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Portal_Disabled</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Client Portal Disabled</shortDescription>
+        <value>Client Portal is disabled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Portal_Disabled_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Portal Disabled Text</shortDescription>
+        <value>Client Invite Functionality is not Enabled.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Portal_Enabled</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Client Portal Enabled</shortDescription>
+        <value>Client Portal is enabled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Client_TimeLine_Attachment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client TimeLine Attachment</shortDescription>
+        <value>Attachment</value>
+    </labels>
+    <labels>
+        <fullName>Client_Timeline_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Timeline Text</shortDescription>
+        <value>Client Timeline</value>
+    </labels>
+    <labels>
+        <fullName>Clients_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clients Text</shortDescription>
+        <value>Clients</value>
+    </labels>
+    <labels>
+        <fullName>Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Close_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close Label</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Comments_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Comments Text</shortDescription>
+        <value>Comments</value>
+    </labels>
+    <labels>
+        <fullName>Complete_this_field_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete this field Label</shortDescription>
+        <value>Complete this field</value>
+    </labels>
+    <labels>
+        <fullName>Completed_At_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Completed At Text</shortDescription>
+        <value>Completed At</value>
+    </labels>
+    <labels>
+        <fullName>Completed_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Completed Text</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Config_Authentication_URL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Authentication URL</shortDescription>
+        <value>Authentication URL</value>
+    </labels>
+    <labels>
+        <fullName>Config_Client_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Client ID</shortDescription>
+        <value>Client ID</value>
+    </labels>
+    <labels>
+        <fullName>Config_Client_Secret</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Client  Secret</shortDescription>
+        <value>Client  Secret</value>
+    </labels>
+    <labels>
+        <fullName>Config_Footer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Footer</shortDescription>
+        <value>API and Client keys are required to use TelosTouch on Salesforce. Please contact our support team (support@telostouch.com) if you do not have these credentials.</value>
+    </labels>
+    <labels>
+        <fullName>Config_Instance_URL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Instance URL</shortDescription>
+        <value>Instance URL</value>
+    </labels>
+    <labels>
+        <fullName>Config_Save_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Config Save Toast</shortDescription>
+        <value>Details saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Configuration_Tab_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Configuration Tab Label</shortDescription>
+        <value>Configuration</value>
+    </labels>
+    <labels>
+        <fullName>Confirm_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Confirm Text</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>Confirmation_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Confirmation Text</shortDescription>
+        <value>Confirmation</value>
+    </labels>
+    <labels>
+        <fullName>Contact_Already_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contact Already Toast</shortDescription>
+        <value>This contact is already part of the campaign you selected.</value>
+    </labels>
+    <labels>
+        <fullName>Contact_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contact Label</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>Create_New_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create New Text</shortDescription>
+        <value>Create New</value>
+    </labels>
+    <labels>
+        <fullName>Create_Recurring_Task</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Recurring Task</shortDescription>
+        <value>Create Recurring Series of Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Create_Task_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Task Text</shortDescription>
+        <value>Create Action</value>
+    </labels>
+    <labels>
+        <fullName>Created_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Created Label</shortDescription>
+        <value>Created</value>
+    </labels>
+    <labels>
+        <fullName>Cred_Not_Valid_As_Admin_Contact_Admin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cred Not Valid As Admin Contact Admin</shortDescription>
+        <value>Your credentials not valid as a admin and Please contact to Admin for more details.</value>
+    </labels>
+    <labels>
+        <fullName>Current_User_No_Auth_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Current User No Auth Toast</shortDescription>
+        <value>Current user is not authenticated.</value>
+    </labels>
+    <labels>
+        <fullName>Custom_Dashboard_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Dashboard Text</shortDescription>
+        <value>Custom</value>
+    </labels>
+    <labels>
+        <fullName>Custom_Fields_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Fields Text</shortDescription>
+        <value>Custom Fields</value>
+    </labels>
+    <labels>
+        <fullName>Custom_Metadata_Admin_Record_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Metadata Admin Record Label</shortDescription>
+        <value>AdminDetails</value>
+    </labels>
+    <labels>
+        <fullName>Custom_Metadata_Test_Record_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Metadata Test Record Label</shortDescription>
+        <value>TestDetails</value>
+    </labels>
+    <labels>
+        <fullName>Daily_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Daily Text</shortDescription>
+        <value>Daily</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Non_TT_User_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Dashboard Non TT User Text</shortDescription>
+        <value>Please make sure you are a TelosTouch user first to validate/start the App.</value>
+    </labels>
+    <labels>
+        <fullName>Data_Sync_Tab_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Data Sync Tab Label</shortDescription>
+        <value>Data Sync</value>
+    </labels>
+    <labels>
+        <fullName>Day</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Day</shortDescription>
+        <value>Day</value>
+    </labels>
+    <labels>
+        <fullName>Detailed_Logging_Disabled</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Detailed Logging Disabled</shortDescription>
+        <value>Detailed logging disabled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Detailed_Logging_Enabled</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Detailed Logging Enabled</shortDescription>
+        <value>Detailed logging enabled successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Detialed_Logging</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Detialed Logging</shortDescription>
+        <value>Detailed Logging</value>
+    </labels>
+    <labels>
+        <fullName>Due_Date_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Due Date Label</shortDescription>
+        <value>Due Date</value>
+    </labels>
+    <labels>
+        <fullName>ERROR_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR Text</shortDescription>
+        <value>ERROR</value>
+    </labels>
+    <labels>
+        <fullName>Edit_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Button Label</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Text</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>End_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>End Date</shortDescription>
+        <value>End Date</value>
+    </labels>
+    <labels>
+        <fullName>Enter_3_Letters_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter 3 Letters Text</shortDescription>
+        <value>Enter Min. 3 Letters of Email/Contact Name...</value>
+    </labels>
+    <labels>
+        <fullName>Enter_Valid_Cred_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Valid Cred Toast</shortDescription>
+        <value>Please enter valid credentials.</value>
+    </labels>
+    <labels>
+        <fullName>EnterpriseRequest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EnterpriseRequest</shortDescription>
+        <value>Request for Enterprise Upgrade</value>
+    </labels>
+    <labels>
+        <fullName>EnterpriseUpgrade</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EnterpriseUpgrade</shortDescription>
+        <value>Request for Enterprise Upgrade</value>
+    </labels>
+    <labels>
+        <fullName>Existing_Campaign_Error_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Existing Campaign Error Text</shortDescription>
+        <value>Enter an existing campaign name, or create a new campaign.</value>
+    </labels>
+    <labels>
+        <fullName>Failed_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Failed Text</shortDescription>
+        <value>Failed</value>
+    </labels>
+    <labels>
+        <fullName>Feature_Toggle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Feature Toggle</shortDescription>
+        <value>Feature Management</value>
+    </labels>
+    <labels>
+        <fullName>FieldValidation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FieldValidation</shortDescription>
+        <value>Please fill this field</value>
+    </labels>
+    <labels>
+        <fullName>Field_Deleted_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Field Deleted Toast</shortDescription>
+        <value>Field Deleted Successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Field_MappingTab_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Field MappingTab Label</shortDescription>
+        <value>Field Mapping</value>
+    </labels>
+    <labels>
+        <fullName>Field_Mapping_Saved_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Field Mapping Saved Toast</shortDescription>
+        <value>Field mapping has been saved.</value>
+    </labels>
+    <labels>
+        <fullName>Fill_Details_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Fill Details Text</shortDescription>
+        <value>Please fill the details.</value>
+    </labels>
+    <labels>
+        <fullName>Fill_Required_Value_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Fill Required Value Toast</shortDescription>
+        <value>Please fill required value.</value>
+    </labels>
+    <labels>
+        <fullName>Frequency_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Frequency Text</shortDescription>
+        <value>Frequency</value>
+    </labels>
+    <labels>
+        <fullName>GIve_TT_Access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>GIve TT Access</shortDescription>
+        <value>Give TelosTouch Access</value>
+    </labels>
+    <labels>
+        <fullName>Hard_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Hard Sync Text</shortDescription>
+        <value>Hard Sync</value>
+    </labels>
+    <labels>
+        <fullName>Help_Section_Text_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help Section Text 1</shortDescription>
+        <value>If you experience any issues with TelosTouch and need help</value>
+    </labels>
+    <labels>
+        <fullName>Help_Section_Text_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help Section Text 2</shortDescription>
+        <value>please contact us at</value>
+    </labels>
+    <labels>
+        <fullName>Help_Tab_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Help Tab Label</shortDescription>
+        <value>Help</value>
+    </labels>
+    <labels>
+        <fullName>Hide_Advanced_Options_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Hide Advanced Options Text</shortDescription>
+        <value>Hide Advanced Options</value>
+    </labels>
+    <labels>
+        <fullName>Installation_Guide_Related</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Installation Guide Related</shortDescription>
+        <value>Click on this Document to get help on installing TelosTouch Salesforce App</value>
+    </labels>
+    <labels>
+        <fullName>Installation_Guide_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Installation Guide Text</shortDescription>
+        <value>Installation Guide</value>
+    </labels>
+    <labels>
+        <fullName>Internal_Server_Error_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Internal Server Error Text</shortDescription>
+        <value>Internal Server Error</value>
+    </labels>
+    <labels>
+        <fullName>Invite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite</shortDescription>
+        <value>Client Portal</value>
+    </labels>
+    <labels>
+        <fullName>Invite_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite Button Label</shortDescription>
+        <value>Invite</value>
+    </labels>
+    <labels>
+        <fullName>Invite_Client_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite Client Text</shortDescription>
+        <value>Invite Client</value>
+    </labels>
+    <labels>
+        <fullName>Invite_Confirmation_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite Confirmation message</shortDescription>
+        <value>We&apos;ll email your clients with an invitation to login to TelosTouch. Clients must have an email address to receive the invitation. Remember to set each clients&apos; language preference before inviting them.</value>
+    </labels>
+    <labels>
+        <fullName>Invite_Contact_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite Contact Text</shortDescription>
+        <value>Invite your contact to login to start collaborating with them on TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>IssueDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IssueDescription</shortDescription>
+        <value>Description</value>
+    </labels>
+    <labels>
+        <fullName>Knowledge_Base_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Knowledge Base Text</shortDescription>
+        <value>Knowledge Base</value>
+    </labels>
+    <labels>
+        <fullName>Last_Login_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Login Text</shortDescription>
+        <value>Last Login</value>
+    </labels>
+    <labels>
+        <fullName>Last_Sync_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Sync Completed</shortDescription>
+        <value>Last Sync Completed on</value>
+    </labels>
+    <labels>
+        <fullName>Lead_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lead Label</shortDescription>
+        <value>Lead</value>
+    </labels>
+    <labels>
+        <fullName>Leads_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Leads Text</shortDescription>
+        <value>Leads</value>
+    </labels>
+    <labels>
+        <fullName>Load_more_Records_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Load more Records Text</shortDescription>
+        <value>Load more Records</value>
+    </labels>
+    <labels>
+        <fullName>Log_Number_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Log Number Text</shortDescription>
+        <value>Log Number</value>
+    </labels>
+    <labels>
+        <fullName>Login_Credential_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login Credential Toast</shortDescription>
+        <value>New login credentials has been sent successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Login_Details_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login Details Text</shortDescription>
+        <value>Login Details</value>
+    </labels>
+    <labels>
+        <fullName>Looking_for_help_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Looking for help text</shortDescription>
+        <value>Looking for help</value>
+    </labels>
+    <labels>
+        <fullName>Manual_Sync_All_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manual Sync All Button</shortDescription>
+        <value>Manual Sync</value>
+    </labels>
+    <labels>
+        <fullName>Mapped_SF_field_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapped SF field Toast</shortDescription>
+        <value>Successfully Mapped Salesforce field with TelosTouch field.</value>
+    </labels>
+    <labels>
+        <fullName>Monthly_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Monthly Text</shortDescription>
+        <value>Monthly</value>
+    </labels>
+    <labels>
+        <fullName>Name_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Text</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Named_Credential_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Named Credential Error</shortDescription>
+        <value>Named Credential is not configured in the org which is required for this feature to work.
+As the Admin of this org, you can visit:
+TelosTouch App -&gt; TT Setup Tab -&gt; Knowledge Base Tab -&gt; Installation Guide.
+The last step in the guide shows how to configure Connected App, Auth. Provider &amp; Named Credential to enable this feature.</value>
+    </labels>
+    <labels>
+        <fullName>New_Camp_Member_Added_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Camp Member Added Text</shortDescription>
+        <value>New campaign members added. Please click &quot;Choose a TouchPoint&quot; to send touchpoint to clients.</value>
+    </labels>
+    <labels>
+        <fullName>New_Campaign_Header_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Campaign Header Text</shortDescription>
+        <value>New Campaign</value>
+    </labels>
+    <labels>
+        <fullName>New_Member_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Member Toast</shortDescription>
+        <value>New members cannot be added to this campaign because a TouchPoint has already been sent.</value>
+    </labels>
+    <labels>
+        <fullName>Next_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Next Button Label</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>No_Custom_Field_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Custom Field Toast</shortDescription>
+        <value>No Custom Fields Found</value>
+    </labels>
+    <labels>
+        <fullName>No_Permit_To_Open_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Permit To Open Toast</shortDescription>
+        <value>You have not permission to open it.</value>
+    </labels>
+    <labels>
+        <fullName>No_Results_Found_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Results Found Text</shortDescription>
+        <value>No Results Found</value>
+    </labels>
+    <labels>
+        <fullName>No_Standard_Field_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Standard Field Toast</shortDescription>
+        <value>No Standard Fields Found</value>
+    </labels>
+    <labels>
+        <fullName>No_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Text</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>No_Timeline_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Timeline Text</shortDescription>
+        <value>No Timeline Record Found</value>
+    </labels>
+    <labels>
+        <fullName>No_Valid_Client_Found_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Valid Client Found Toast</shortDescription>
+        <value>No Valid Clients Were Found</value>
+    </labels>
+    <labels>
+        <fullName>Not_Completed_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not Completed Text</shortDescription>
+        <value>Not Completed</value>
+    </labels>
+    <labels>
+        <fullName>Not_Invite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Before Send Invite</shortDescription>
+        <value>Not Invited</value>
+    </labels>
+    <labels>
+        <fullName>Not_Opened_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not Opened Text</shortDescription>
+        <value>Not Opened</value>
+    </labels>
+    <labels>
+        <fullName>Notifications_Tab_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Notifications Tab Label</shortDescription>
+        <value>Notifications</value>
+    </labels>
+    <labels>
+        <fullName>Onboarding_Checklist_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Onboarding Checklist Text</shortDescription>
+        <value>Onboarding Checklist</value>
+    </labels>
+    <labels>
+        <fullName>Onboarding_Related</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Onboarding Related</shortDescription>
+        <value>Click on this Document to get help on getting onboard TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Opened_At_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opened At Text</shortDescription>
+        <value>Opened At</value>
+    </labels>
+    <labels>
+        <fullName>Opened_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opened Text</shortDescription>
+        <value>Opened</value>
+    </labels>
+    <labels>
+        <fullName>Overview_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Overview Text</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>Package_Configured_Spinner_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Package Configured Spinner message</shortDescription>
+        <value>Please wait while the package is being configured</value>
+    </labels>
+    <labels>
+        <fullName>Pages_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pages Text</shortDescription>
+        <value>Pages</value>
+    </labels>
+    <labels>
+        <fullName>Password_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Password Text</shortDescription>
+        <value>Password</value>
+    </labels>
+    <labels>
+        <fullName>Pending_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pending Text</shortDescription>
+        <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>Person_Acc_Not_Enable_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Person Acc Not Enable Toast</shortDescription>
+        <value>Person Account Not Enabled</value>
+    </labels>
+    <labels>
+        <fullName>Please_Add_Cam_Mem_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please Add Cam Mem Toast</shortDescription>
+        <value>Please add Campaign members first.</value>
+    </labels>
+    <labels>
+        <fullName>Please_Select_1_Record_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please Select 1 Record Text</shortDescription>
+        <value>: Please select atleast one record.</value>
+    </labels>
+    <labels>
+        <fullName>Please_Select_Record_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please Select Record Toast</shortDescription>
+        <value>Please select any record.</value>
+    </labels>
+    <labels>
+        <fullName>Prev_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Prev Button Label</shortDescription>
+        <value>Prev</value>
+    </labels>
+    <labels>
+        <fullName>Previous_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Previous Button Label</shortDescription>
+        <value>Previous</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Profile Text</shortDescription>
+        <value>Profile</value>
+    </labels>
+    <labels>
+        <fullName>Record_Creator_Assigned_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record Creator Assigned Label</shortDescription>
+        <value>Records will be assigned to Record Creator in TT</value>
+    </labels>
+    <labels>
+        <fullName>Record_Owner_Assigned_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record Owner Assigned Label</shortDescription>
+        <value>Records will be assigned to Record Owner in TT</value>
+    </labels>
+    <labels>
+        <fullName>Record_Sync_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record Sync Success Text</shortDescription>
+        <value>Your records have been successfully synced with TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Record_Type_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Record Type Text</shortDescription>
+        <value>Record Type</value>
+    </labels>
+    <labels>
+        <fullName>Rejected_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rejected Text</shortDescription>
+        <value>Not Connected</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Confirmation_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder Confirmation Text</shortDescription>
+        <value>Reminder Confirmation</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Not_Sent_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder Not Sent Toast</shortDescription>
+        <value>Reminder could not be Sent</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Sent_Successfully_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder Sent Successfully Text</shortDescription>
+        <value>Reminder Sent Successfully</value>
+    </labels>
+    <labels>
+        <fullName>Repeat_On</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Repeat On</shortDescription>
+        <value>Repeat On</value>
+    </labels>
+    <labels>
+        <fullName>Repeat_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Repeat Text</shortDescription>
+        <value>Répéter</value>
+    </labels>
+    <labels>
+        <fullName>RequestSentSuccessfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RequestSentSuccessfully</shortDescription>
+        <value>Your request has been sent to Telostouch Team.</value>
+    </labels>
+    <labels>
+        <fullName>Request_for_Enterprise_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Request for Enterprise Email</shortDescription>
+        <value>admin@telostouch.com</value>
+    </labels>
+    <labels>
+        <fullName>Required_Field_Missing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Required Field Missing</shortDescription>
+        <value>Please fill all the required fields</value>
+    </labels>
+    <labels>
+        <fullName>Result_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Result Text</shortDescription>
+        <value>Result</value>
+    </labels>
+    <labels>
+        <fullName>Results_Tab_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Results Tab Text</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>Review_Errors_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Review Errors Text</shortDescription>
+        <value>Review the errors on this page.</value>
+    </labels>
+    <labels>
+        <fullName>SF_Field_Create_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SF Field Create Toast</shortDescription>
+        <value>Successfully Created Salesforce field in TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>SUCCESS_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SUCCESS Text</shortDescription>
+        <value>SUCCESS</value>
+    </labels>
+    <labels>
+        <fullName>Salesforce_Fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Salesforce Fields</shortDescription>
+        <value>Salesforce Fields</value>
+    </labels>
+    <labels>
+        <fullName>Save_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save Button Label</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Search_Campaign_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Campaign Text</shortDescription>
+        <value>Search Campaign...</value>
+    </labels>
+    <labels>
+        <fullName>Selece_Valid_Record_Invite_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selece Valid Record Invite Toast</shortDescription>
+        <value>Please select valid records for invite.</value>
+    </labels>
+    <labels>
+        <fullName>Select_Add_At_Least_One_Field_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Add At Least One Field Toast</shortDescription>
+        <value>Please Select &amp; Add At Least One Field to Add</value>
+    </labels>
+    <labels>
+        <fullName>Select_Record_Type_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Record Type text</shortDescription>
+        <value>Select the record type</value>
+    </labels>
+    <labels>
+        <fullName>Select_Some_Field_To_Sync_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Some Field To Sync Toast</shortDescription>
+        <value>Please select some fields to sync with TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Select_Sync_Object_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Sync Object Text</shortDescription>
+        <value>Select Sync Object</value>
+    </labels>
+    <labels>
+        <fullName>Select_Sync_Type_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Sync Type Text</shortDescription>
+        <value>Select Sync Type</value>
+    </labels>
+    <labels>
+        <fullName>Select_a_record_type_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select a record type Text</shortDescription>
+        <value>Select a record type</value>
+    </labels>
+    <labels>
+        <fullName>Send_Reminder_Modal_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Reminder Modal Text</shortDescription>
+        <value>Only clients who haven&apos;t received a reminder within the past 24 Hours will be notified again.</value>
+    </labels>
+    <labels>
+        <fullName>Send_Reminder_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Reminder Text</shortDescription>
+        <value>Send Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Send_Reminder_Time_Error_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Reminder Time Error Text</shortDescription>
+        <value>The Touchpoint was created less than 24 Hours ago</value>
+    </labels>
+    <labels>
+        <fullName>Send_Touchpoint_Question_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Touchpoint Question Text</shortDescription>
+        <value>New campaign members have been added. Do you want to send touchpoint?</value>
+    </labels>
+    <labels>
+        <fullName>Send_Touchpoint_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Touchpoint Text</shortDescription>
+        <value>Send Touchpoint</value>
+    </labels>
+    <labels>
+        <fullName>Send_password_Buttton_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send password Buttton Label</shortDescription>
+        <value>Send a new password</value>
+    </labels>
+    <labels>
+        <fullName>Sent_SuccessToast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sent SuccessToast</shortDescription>
+        <value>User sent successful</value>
+    </labels>
+    <labels>
+        <fullName>ShareConcern</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ShareConcern</shortDescription>
+        <value>Have a question?</value>
+    </labels>
+    <labels>
+        <fullName>ShowTTConfigPage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>view configuration page to system admin</shortDescription>
+        <value>System Administrator</value>
+    </labels>
+    <labels>
+        <fullName>ShowTTConfigPageFrench</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>view configuration page to system admin</shortDescription>
+        <value>Administrateur système</value>
+    </labels>
+    <labels>
+        <fullName>Show_Advanced_Options_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Show Advanced Options Text</shortDescription>
+        <value>Show Advanced Options</value>
+    </labels>
+    <labels>
+        <fullName>Show_on_client_timeline_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Show on client timeline Label</shortDescription>
+        <value>Show on client timeline</value>
+    </labels>
+    <labels>
+        <fullName>Showing_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Showing Text</shortDescription>
+        <value>Showing</value>
+    </labels>
+    <labels>
+        <fullName>Showing_docs_Knowledge_base</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Showing docs Knowledge base</shortDescription>
+        <value>Showing 4 docs of 4</value>
+    </labels>
+    <labels>
+        <fullName>Skip_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Skip Text</shortDescription>
+        <value>Skip</value>
+    </labels>
+    <labels>
+        <fullName>Soft_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Soft Sync Text</shortDescription>
+        <value>Soft Sync</value>
+    </labels>
+    <labels>
+        <fullName>Something_Went_Wrong</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Something Went Wrong</shortDescription>
+        <value>Something went wrong.</value>
+    </labels>
+    <labels>
+        <fullName>Something_Wrong_Check_Admin_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Something Wrong Check Admin Toast</shortDescription>
+        <value>Something went wrong, Please check with your admin</value>
+    </labels>
+    <labels>
+        <fullName>Something_Wrong_Contact_Admin_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Something Wrong Contact Admin Toast</shortDescription>
+        <value>Something went wrong please contact to admin.</value>
+    </labels>
+    <labels>
+        <fullName>Something_went_wrong_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Something went wrong Text</shortDescription>
+        <value>: Something went wrong.</value>
+    </labels>
+    <labels>
+        <fullName>Standard_Fields_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Standard Fields Text</shortDescription>
+        <value>Standard Fields</value>
+    </labels>
+    <labels>
+        <fullName>Start_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start Date</shortDescription>
+        <value>Start Date</value>
+    </labels>
+    <labels>
+        <fullName>Status_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Status Text</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>Subject_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Subject Label</shortDescription>
+        <value>Subject</value>
+    </labels>
+    <labels>
+        <fullName>Submit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>Submit_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit Text</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success Toast</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>Successful_Operation_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successful Operation Text</shortDescription>
+        <value>Successful Operation</value>
+    </labels>
+    <labels>
+        <fullName>Successful_Text</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Successful Text</shortDescription>
+        <value>Connected</value>
+    </labels>
+    <labels>
+        <fullName>Sure_To_Remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sure To Remove</shortDescription>
+        <value>Are you sure you want to remove this field from syncing?</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Empty_Field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync Empty Field</shortDescription>
+        <value>Sync Empty Field (TT to SF)</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Time_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync Time Text</shortDescription>
+        <value>Sync Time</value>
+    </labels>
+    <labels>
+        <fullName>Synced_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Synced Text</shortDescription>
+        <value>Synced</value>
+    </labels>
+    <labels>
+        <fullName>TT_API_Setup_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TT API Setup Title</shortDescription>
+        <value>TelosTouch API Setup</value>
+    </labels>
+    <labels>
+        <fullName>TT_Touchpoint_Status_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TT Touchpoint Status Text</shortDescription>
+        <value>TelosTouch Touchpoint Status</value>
+    </labels>
+    <labels>
+        <fullName>TT_user_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TT user Text</shortDescription>
+        <value>TT user</value>
+    </labels>
+    <labels>
+        <fullName>Task_Create_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Create Success Text</shortDescription>
+        <value>Task created Successfully</value>
+    </labels>
+    <labels>
+        <fullName>Task_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Label</shortDescription>
+        <value>Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Update_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Update Success Toast</shortDescription>
+        <value>Task updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Tasks_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tasks Text</shortDescription>
+        <value>Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Tech_Error_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tech Error Toast</shortDescription>
+        <value>OOPS!!! Faced Technical Error</value>
+    </labels>
+    <labels>
+        <fullName>TelosTouch_Fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TelosTouch Fields</shortDescription>
+        <value>TelosTouch Fields</value>
+    </labels>
+    <labels>
+        <fullName>Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Title</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Total_Sync_Record_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Total Sync Record Text</shortDescription>
+        <value>Total Synced Records</value>
+    </labels>
+    <labels>
+        <fullName>Touchpoint_Sent_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Touchpoint Sent Text</shortDescription>
+        <value>Touchpoint sent. No further action is required.</value>
+    </labels>
+    <labels>
+        <fullName>Touchpoint_Sent_to_Camp_Mem_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Touchpoint Sent to Camp Mem Text</shortDescription>
+        <value>Touchpoint Sent to New Campaign Members</value>
+    </labels>
+    <labels>
+        <fullName>Touchpoint_not_sent_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Touchpoint not sent Text</shortDescription>
+        <value>Touchpoint not sent. Please click &quot;Choose a TouchPoint&quot; to send touchpoint to clients.</value>
+    </labels>
+    <labels>
+        <fullName>Unable_Create_Some_User_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable Create Some User Toast</shortDescription>
+        <value>Unable to create some user. Email and/or username already exists</value>
+    </labels>
+    <labels>
+        <fullName>Unable_Create_User_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable Create User Toast</shortDescription>
+        <value>Unable to create user. Email and/or username already exists</value>
+    </labels>
+    <labels>
+        <fullName>Unauthorized_User_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unauthorized User Label</shortDescription>
+        <value>Unauthorized User</value>
+    </labels>
+    <labels>
+        <fullName>Uninstallation_Guide_Related</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Uninstallation Guide Related</shortDescription>
+        <value>Click on this Document to get help on uninstalling TelosTouch Salesforce App</value>
+    </labels>
+    <labels>
+        <fullName>Uninstallation_Guide_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Uninstallation Guide Text</shortDescription>
+        <value>Uninstallation Guide</value>
+    </labels>
+    <labels>
+        <fullName>Update_Add_Users_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update/Add Users Button Label</shortDescription>
+        <value>Update/Add Users</value>
+    </labels>
+    <labels>
+        <fullName>User_Guide_Related</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Guide Related</shortDescription>
+        <value>Click on this Document to get help on using TelosTouch Salesforce App</value>
+    </labels>
+    <labels>
+        <fullName>User_Guide_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Guide Text</shortDescription>
+        <value>User Guide</value>
+    </labels>
+    <labels>
+        <fullName>User_Name_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Name Text</shortDescription>
+        <value>User Name</value>
+    </labels>
+    <labels>
+        <fullName>User_Not_Valid_Cannot_Auth_App</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Not Valid Cannot Auth App</shortDescription>
+        <value>This user is not validate with TT. So we can not authenticate your App.</value>
+    </labels>
+    <labels>
+        <fullName>Username_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Username Text</shortDescription>
+        <value>UserName</value>
+    </labels>
+    <labels>
+        <fullName>Weekly_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Weekly Text</shortDescription>
+        <value>Weekly</value>
+    </labels>
+    <labels>
+        <fullName>Welcome_to_Knowledge_base</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome to Knowledge base</shortDescription>
+        <value>Welcome to the Knowledge Base! A space to search and browse for answers and documentation.</value>
+    </labels>
+    <labels>
+        <fullName>When_Text</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>When Text</shortDescription>
+        <value>When</value>
+    </labels>
+    <labels>
+        <fullName>Yearly</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Yearly</shortDescription>
+        <value>Yearly</value>
+    </labels>
+    <labels>
+        <fullName>Yes_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Yes Text</shortDescription>
+        <value>Yes</value>
+    </labels>
+    <labels>
+        <fullName>You_Already_Sent_TouchPoint_For_Cam_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You Already Sent TouchPoint For Cam Toast</shortDescription>
+        <value>You have already sent a TouchPoint for this Campaign.</value>
+    </labels>
+    <labels>
+        <fullName>cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>new_member_added_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>new member added text</shortDescription>
+        <value>new member was added to campaign.</value>
+    </labels>
+</CustomLabels>

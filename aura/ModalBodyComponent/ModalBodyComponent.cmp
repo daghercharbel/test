@@ -145,7 +145,7 @@
   <aura:if isTrue="{!v.selectCampaignRecordType}">
     <div class="slds-align_absolute-center slds-p-around_x-small">
       <lightning:radioGroup
-        name="Select the record type"
+        name="{!$Label.c.Select_Record_Type_text}"
         label="{!$Label.c.Select_Record_Type_text}"
         options="{! v.recordTypeOptions }"
         value="{! v.recordTypeId }"
@@ -181,7 +181,7 @@
   <aura:if isTrue="{!v.createAction}">
     <div class="slds-align_absolute-center slds-p-around_x-small">
       <lightning:radioGroup
-        name="Select the record type"
+        name="{!$Label.c.Select_Record_Type_text}"
         label="{!$Label.c.Select_Record_Type_text}"
         options="{! v.recordTypeOptions }"
         value="{! v.recordTypeId }"

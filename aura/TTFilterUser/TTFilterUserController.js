@@ -58,7 +58,6 @@
     if (h.selectedUserList_Helper(c, e, h) != false) {
       //c.set("v.createCampaign",true);
       let action = c.get("c.fetchCampaignRecordType");
-      action.set
       action.setCallback(this, (result) => {
         if (result.getState() === "SUCCESS") {
           if (
@@ -69,7 +68,7 @@
             for (let x of JSON.parse(result.getReturnValue())) {
               var responseObj = {
                 label: x.Name,
-                value: x.Id
+                value: x.Id,
               };
               finalResponse.push(responseObj);
             }
@@ -80,7 +79,7 @@
                 selectCampaignRecordType: true,
                 userList: c.get("v.userList"),
                 recordTypeOptions: finalResponse,
-                recordTypeId: finalResponse[0].value
+                recordTypeId: finalResponse[0].value,
               },
               function (content, status) {
                 if (status === "SUCCESS") {
@@ -90,7 +89,7 @@
                       header: $A.get("$Label.c.Add_Campaign_Modal_Header_Text"),
                       body: content,
                       showCloseButton: true,
-                      cssClass: "padding-initial"
+                      cssClass: "padding-initial",
                     })
                     .then(function (overlay) {
                       c._overlay = overlay;
@@ -264,7 +263,7 @@
             for (let x of JSON.parse(response.getReturnValue())) {
               var responseObj = {
                 label: x.Name,
-                value: x.Id
+                value: x.Id,
               };
               finalResponse.push(responseObj);
             }
@@ -277,10 +276,10 @@
                     userList: c.get("v.userList"),
                     recordTypeOptions: finalResponse,
                     recordTypeId: finalResponse[0].value,
-                    recordId: c.get("v.recordId")
-                  }
+                    recordId: c.get("v.recordId"),
+                  },
                 ],
-                ["c:ModalBodyComponent_Footer", { createMassAction: true }]
+                ["c:ModalBodyComponent_Footer", { createMassAction: true }],
               ],
               function (content, status) {
                 if (status === "SUCCESS") {
@@ -291,7 +290,7 @@
                       body: content[0],
                       footer: content[1],
                       showCloseButton: true,
-                      cssClass: "padding-initial"
+                      cssClass: "padding-initial",
                     })
                     .then(function (overlay) {
                       c._overlay = overlay;
@@ -309,10 +308,10 @@
                     recordTypeId: "",
                     recordTypeName: "",
                     userList: c.get("v.userList"),
-                    recordId: c.get("v.recordId")
-                  }
+                    recordId: c.get("v.recordId"),
+                  },
                 ],
-                ["c:lwcModalFooter", {}]
+                ["c:lwcModalFooter", {}],
               ],
               function (content, status) {
                 if (status === "SUCCESS") {
@@ -322,7 +321,7 @@
                       body: content[0],
                       footer: content[1],
                       showCloseButton: true,
-                      cssClass: "taskModal slds-modal_medium"
+                      cssClass: "taskModal slds-modal_medium",
                     })
                     .then(function (overlay) {
                       c._overlay = overlay;
@@ -348,5 +347,5 @@
   },
   doRefresh: function (c, e, h) {
     h.doInit_helper(c, e, h);
-  }
+  },
 });

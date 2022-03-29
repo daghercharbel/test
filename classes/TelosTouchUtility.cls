@@ -2093,30 +2093,35 @@ return null;
     }
     @AuraEnabled
     public static Boolean checkIfEnterpriseClient(){
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        if(String.isEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){
+        try{
+
+            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+            if(String.isEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){
+                return true;
+            }
+            String[] StringList = adminCredentials.TelosTouchSF__Instance_URL__c.split('//');
+            String[] StringList1 = StringList[1].split('\\.');
+            String instance_Name = TelosTouchSF.CreateRemoteSiteSetting.getremoteSiteSetting(adminCredentials.TelosTouchSF__Instance_URL__c, StringList1[0]);
+            if(instance_Name != 'Already Exists!'){
+                TelosTouchSF.CreateRemoteSiteSetting.remoteSiteSetting1(adminCredentials.TelosTouchSF__Instance_URL__c,instance_Name);
+            }
+            Http http = new Http();
+            HttpRequest req = new HttpRequest();
+            HttpResponse res = new HttpResponse();
+            req.setMethod('GET');
+            req.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/organization/'+UserInfo.getOrganizationId()+'?is_enterprise=true');
+            req.setHeader('Content-Type', 'application/json');
+            req.setHeader('Accept', 'application/json');
+            res = http.send(req);
+            if(res.getStatusCode()==404){
+                return false;
+            }else{
+                return true;
+            }
+        }catch(Exception ex){
+            System.debug(LoggingLevel.ERROR, 'Exception: '+ex.getMessage()+' occurred at Line Number: '+ex.getLineNumber());
             return true;
         }
-        String[] StringList = adminCredentials.TelosTouchSF__Instance_URL__c.split('//');
-        String[] StringList1 = StringList[1].split('\\.');
-        String instance_Name = TelosTouchSF.CreateRemoteSiteSetting.getremoteSiteSetting(adminCredentials.TelosTouchSF__Instance_URL__c, StringList1[0]);
-        if(instance_Name != 'Already Exists!'){
-            TelosTouchSF.CreateRemoteSiteSetting.remoteSiteSetting1(adminCredentials.TelosTouchSF__Instance_URL__c,instance_Name);
-        }
-        Http http = new Http();
-        HttpRequest req = new HttpRequest();
-        HttpResponse res = new HttpResponse();
-        req.setMethod('GET');
-        req.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/organization/'+UserInfo.getOrganizationId()+'?is_enterprise=true');
-        req.setHeader('Content-Type', 'application/json');
-        req.setHeader('Accept', 'application/json');
-        res = http.send(req);
-        if(res.getStatusCode()==200){
-            return true;
-        }else if(res.getStatusCode()== 404){
-            return false;
-        }
-        return  false;
     }
     /**
 * @author Cloud Analogy

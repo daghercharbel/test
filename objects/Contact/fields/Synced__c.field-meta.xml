@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Synced__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TT_Client_Id__c != null &amp;&amp; !TT_Conflict__c ,  IMAGE(&quot;/resource/TelosTouchSF__TelosTouch/images/RightCheckbox.webp&quot;,&quot;resource&quot;,25,25),
+IF(TT_Client_Id__c == null || TT_Conflict__c ,IMAGE(&quot;/resource/TelosTouchSF__TelosTouch/images/CrossCheckbox1.png&quot; , &quot;resource&quot;,25,25),Null))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Synced</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
