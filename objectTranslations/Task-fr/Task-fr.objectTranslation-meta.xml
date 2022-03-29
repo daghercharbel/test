@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <layouts>
+        <layout>TelosTouch Task Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <aspect>Master</aspect>
+        <label>Présenter sur Timeline du client</label>
+        <name>Share_With_Clients</name>
+    </quickActions>
+    <webLinks>
+        <label>Présenter sur Timeline du client</label>
+        <name>Share_with_Clients</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -5,6 +5,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>TTDashboardComponent</componentName>
+                <identifier>TelosTouchSF_TTDashboardComponent</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4b492134-9c56-4634-a118-533abdb1f3db</name>
@@ -22,6 +23,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.LanguageLocaleKey}</leftValue>
@@ -42,6 +44,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard2</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.LanguageLocaleKey}</leftValue>
@@ -70,6 +73,7 @@
                     <value>{!$Label.TelosTouchSF__Overview_Text}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -83,6 +87,7 @@
                     <value>{!$Label.TelosTouchSF__Custom_Dashboard_Text}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-8367af40-cf1e-4851-ad4a-ad207c26f503</name>
@@ -96,6 +101,7 @@
                     <value>Facet-8367af40-cf1e-4851-ad4a-ad207c26f503</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <name>top</name>
