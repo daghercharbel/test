@@ -4,8 +4,8 @@
     <assignments>
         <name>Assign_clientId_and_name_from_contact_to_task</name>
         <label>Assign clientId and name from contact to task</label>
-        <locationX>163</locationX>
-        <locationY>479</locationY>
+        <locationX>165</locationX>
+        <locationY>475</locationY>
         <assignmentItems>
             <assignToReference>$Record.TelosTouchSF__TT_Client_Id__c</assignToReference>
             <operator>Assign</operator>
@@ -24,7 +24,7 @@
     <assignments>
         <name>Assign_clientId_and_name_from_lead_to_task</name>
         <label>Assign clientId and name from lead to task</label>
-        <locationX>939</locationX>
+        <locationX>940</locationX>
         <locationY>464</locationY>
         <assignmentItems>
             <assignToReference>$Record.TelosTouchSF__TT_Client_Id__c</assignToReference>
@@ -44,8 +44,8 @@
     <assignments>
         <name>Assign_empty_string_to_null_fields</name>
         <label>Assign empty string to null fields</label>
-        <locationX>1057</locationX>
-        <locationY>168</locationY>
+        <locationX>1059</locationX>
+        <locationY>167</locationY>
         <assignmentItems>
             <assignToReference>$Record.TelosTouchSF__TT_Client_Id__c</assignToReference>
             <operator>Assign</operator>
@@ -64,8 +64,8 @@
     <decisions>
         <name>Check_WhoId</name>
         <label>Check WhoId</label>
-        <locationX>573</locationX>
-        <locationY>239</locationY>
+        <locationX>569</locationX>
+        <locationY>238</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>If_WhoId_is_Contact</name>
@@ -113,11 +113,6 @@
             <label>If WhoId is null</label>
         </rules>
     </decisions>
-    <formulas>
-        <name>CurrentDateTime</name>
-        <dataType>DateTime</dataType>
-        <expression>{!$Flow.CurrentDateTime}</expression>
-    </formulas>
     <interviewLabel>Assign ClientId and Name to Task On Insert and Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Assign ClientId and Name to Task On Insert and Update</label>
     <processMetadataValues>
@@ -182,8 +177,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>53</locationX>
-        <locationY>50</locationY>
+        <locationX>50</locationX>
+        <locationY>49</locationY>
         <connector>
             <targetReference>Check_WhoId</targetReference>
         </connector>

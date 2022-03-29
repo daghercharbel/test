@@ -922,11 +922,21 @@ global with sharing class SFDataSyncWithTelosTouch {
                             ContactVSTTMap.put('id',con.TelosTouchSF__TT_Client_Id__c);
                             ContactVSTTMap.put('other_id', String.valueOf(con.get('Id')));
                             if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(con.CreatedById)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(con.OwnerId)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }
-                            putBody = putBody + JSON.serialize(ContactVSTTMap);
+                            if(ContactVSTTMap.get('created_by') != null ){
+                                putBody = putBody + JSON.serialize(ContactVSTTMap);
+                            }
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
                                 putBody = putBody.substring(0, putBody.length() - 1) + ',"preferences":{"notificationTouchpointSend": true,"language":"'+contactVSTTMap.get('language')+'"}';
                             }else{
@@ -942,11 +952,21 @@ global with sharing class SFDataSyncWithTelosTouch {
                             request.setMethod('POST');
                             ContactVSTTMap.put('other_id', String.valueOf(con.get('Id')));
                             if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(con.CreatedById)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(con.OwnerId)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }
-                            postBody = postBody + JSON.serialize(ContactVSTTMap);
+                            if(ContactVSTTMap.get('created_by') != null){
+                                postBody = postBody + JSON.serialize(ContactVSTTMap);
+                            }
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
                                 postBody = postBody.substring(0, postBody.length() - 1) + ',"preferences":{"notificationTouchpointSend": true,"language":"'+contactVSTTMap.get('language')+'"}';
                             }else{
@@ -1003,11 +1023,21 @@ global with sharing class SFDataSyncWithTelosTouch {
                             ContactVSTTMap.put('id',leadObject.TelosTouchSF__TT_Client_Id__c);
                             ContactVSTTMap.put('other_id', String.valueOf(leadObject.get('Id')));
                             if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.CreatedById).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(leadObject.CreatedById)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.CreatedById).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.OwnerId).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(leadObject.OwnerId)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.OwnerId).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }
-                            putBody = putBody + JSON.serialize(ContactVSTTMap);
+                            if(ContactVSTTMap.get('created_by') != null){
+                                putBody = putBody + JSON.serialize(ContactVSTTMap);
+                            }
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
                                 putBody = putBody.substring(0, putBody.length() - 1) + ',"preferences":{"notificationTouchpointSend": true,"language":"'+contactVSTTMap.get('language')+'"}';
                             }else{
@@ -1023,11 +1053,21 @@ global with sharing class SFDataSyncWithTelosTouch {
                             request.setMethod('POST');
                             ContactVSTTMap.put('other_id', String.valueOf(leadObject.get('Id')));
                             if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.CreatedById).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(leadObject.CreatedById)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.CreatedById).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.OwnerId).TelosTouchSF__TT_UserId__c));
+                                if(userMap.containsKey(leadObject.OwnerId)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(leadObject.OwnerId).TelosTouchSF__TT_UserId__c));
+                                }else{
+                                    ContactVSTTMap.put('created_by', null);
+                                }
                             }
-                            postBody = postBody + JSON.serialize(ContactVSTTMap);
+                            if(ContactVSTTMap.get('created_by') != null){
+                                postBody = postBody + JSON.serialize(ContactVSTTMap);
+                            }
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
                                 postBody = postBody.substring(0, postBody.length() - 1) + ',"preferences":{"notificationTouchpointSend": true,"language":"'+contactVSTTMap.get('language')+'"}';
                             }else{
@@ -1620,7 +1660,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             }
         }catch(Exception e){
             System.debug(LoggingLevel.ERROR,'ex'+e.getMessage()+'at line no:'+e.getLineNumber());
-            return 'Registration Unsuccessful';
+            return 'Registration Not Required';
         }
     }
     /**

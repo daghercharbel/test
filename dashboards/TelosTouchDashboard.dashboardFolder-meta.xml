@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
-    <folderShares>
-        <accessLevel>Manage</accessLevel>
-        <sharedTo>test-wdhcpgy3wgyb@example.com</sharedTo>
-        <sharedToType>User</sharedToType>
-    </folderShares>
-    <name>TelosTouch Dashboard</name>
+        <folderShares>
+                <accessLevel>Manage</accessLevel>
+                <sharedTo>telostouchsf@telostouch.com</sharedTo>
+                <sharedToType>User</sharedToType>
+        </folderShares>
+        <name>TelosTouch Dashboard</name>
 </DashboardFolder>
