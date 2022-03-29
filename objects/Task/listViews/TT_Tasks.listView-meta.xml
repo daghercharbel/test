@@ -9,7 +9,7 @@
     <columns>Synced__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>CREATED_DATE</columns>
-    <columns>RECORDTYPE</columns>
+    <columns>TT_LastSyncTime__c</columns>
     <filterScope>Mine</filterScope>
     <label>TT Tasks</label>
 </ListView>

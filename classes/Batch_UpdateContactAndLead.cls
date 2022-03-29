@@ -35,15 +35,6 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
         //List<lead> leadlist = new List<lead>(); 
         //List<Contact> contactlist = new List<Contact>();
         List<SObject> totallist = new List<SObject>();
-        Datetime myDT = System.now();
-        myDT= myDT.addMinutes(-62);
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        Boolean  returnValue;
-        if(this.syncObject != null){
-            returnValue = !forFirstTime;
-        }else{
-            returnValue = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
-        }
         //String objectName = 'Contact';
         String duplicateStr = 'Duplicate Email';
         contactquery = 'SELECT Owner.id, Owner.TelosTouchSF__TT_UserName__c,Owner.TelosTouchSF__TT_UserId__c,Owner.TelosTouchSF__Token__c,  ';
@@ -53,11 +44,7 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
             }
         }
         contactquery = contactquery.subString(0, contactquery.length() - 1);
-        if(returnValue){
-            contactquery += ' FROM Contact WHERE (lastmodifieddate >=:myDT OR TelosTouchSF__TT_Client_Id__c = NULL) AND TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND Owner.TelosTouchSF__TT_UserId__c != NULL AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-        }else{
-            contactquery += ' FROM Contact WHERE Email != null AND IsDeleted = false AND Owner.TelosTouchSF__TT_UserId__c != NULL AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-        }  
+        contactquery += ' FROM Contact WHERE TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND IsDeleted = false AND (Owner.TelosTouchSF__TT_UserId__c != NULL OR CreatedBy.TelosTouchSF__TT_UserId__c != null) AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
         contactquery = contactquery.removeEnd('WHERE');
         contactquery = contactquery.removeEnd('AND');
         totallist.addAll(Database.query(String.escapeSingleQuotes(contactquery)));
@@ -68,11 +55,7 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
             }
         }
         leadquery = leadquery.subString(0, leadquery.length() - 1);
-        if(returnValue){
-            leadquery += ' FROM Lead WHERE IsConverted = false AND (lastmodifieddate >=:myDT OR TelosTouchSF__TT_Client_Id__c = NULL) AND TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-        }else{
-            leadquery += ' FROM Lead WHERE IsConverted = false AND Email != null AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-        }
+        leadquery += ' FROM Lead WHERE IsConverted = false AND TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
         leadquery = leadquery.removeEnd('WHERE');
         leadquery = leadquery.removeEnd('AND');
         //System.debug(String.escapeSingleQuotes(leadquery).replace('\\',''));
@@ -93,8 +76,25 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
     global void execute(Database.BatchableContext info,  List<Sobject> records){
         List<Contact> contactlist = new List<Contact>();
         List<Lead> leadlist = new List<Lead>();
+        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         //List<Contact> contactlist2 = new List<Contact>();
         //List<Lead> leadlist2 = new List<Lead>();
+        Boolean  returnValue;
+        if(this.syncObject != null){
+            returnValue = !forFirstTime;
+        }else{
+            returnValue = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
+        }
+        if(returnValue){
+            for(Integer i=0; i < records.size() ; i++){
+                if( !((records[i].get('TelosTouchSF__TT_LastSyncTime__c') == null && records[i].get('TelosTouchSF__TT_Client_Id__c') == null)
+                      || ( (Datetime)records[i].get('LastModifiedDate') > (Datetime)records[i].get('TelosTouchSF__TT_LastSyncTime__c'))) ){
+                          records.remove(i);
+                          --i;
+                      }
+            }
+        }
+        System.debug('records:: '+JSON.serialize(records));
         for(SObject sObjectIds : records){
             Schema.SObjectType entityType = sObjectIds.Id.getSobjectType();
             String objectName = String.valueOf(entityType);
@@ -105,6 +105,8 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
                 leadlist.add((Lead)sObjectIds);
             }
         }
+        System.debug('contactlist:: '+JSON.serialize(contactlist));
+        System.debug('leadlist:: '+JSON.serialize(leadlist));
         if((leadlist.size() > 0 ) || (contactlist.size() > 0)){ 
             SFDataSyncWithTelosTouch.clientLogWrapper clientLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(contactlist,leadlist,null, NULL, NULL, NULL);
             if(clientLogObj != null){

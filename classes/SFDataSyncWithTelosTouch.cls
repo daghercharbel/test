@@ -247,12 +247,24 @@ global with sharing class SFDataSyncWithTelosTouch {
                                     (List<TelosTouchWrapperUtils.TaskSyncWithTTWrapper>) JSON.deserialize(responseString1, List<TelosTouchWrapperUtils.TaskSyncWithTTWrapper>.class);
                                 System.debug('getTaskSyncWithTTWrapper>>'+getTaskSyncWithTTWrapper);*/
                                 List<Object> responseList = (List<Object>)JSON.deserializeUntyped(responseString1.get('body'));
+                                Set<String> updatedTaskTTIdSet = new Set<String>();
                                 for(Object obj : responseList){
                                     Map<String, Object>  mapObject = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(obj));
                                     if(mapObject.containsKey('id') && mapObject.get('id') != null ){
                                         taskLogObj.taskSuccessCount++;
+                                        updatedTaskTTIdSet.add((String)mapObject.get('id'));
                                     }else{
                                         taskLogObj.taskErrorCount++;
+                                    }
+                                }
+                                for(task taskObj1 : tasklist){
+                                    if(updatedTaskTTIdSet.contains(taskObj1.TelosTouchSF__TT_TaskId__c)){
+                                        if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isCreateable() && Schema.sObjectType.Task.isUpdateable()
+                                                && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isCreateable()
+                                                && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() ) {
+                                            taskObj1.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
+                                            newtasklist.add(taskObj1);
+                                        }
                                     }
                                 }
                             }
@@ -294,9 +306,12 @@ global with sharing class SFDataSyncWithTelosTouch {
                                 if(otherIdVsTTTaskIdMap != null){
                                     for(task taskObj1 : tasklist){
                                         if(otherIdVsTTTaskIdMap.containsKey(taskObj1.Id)){
-                                            if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isCreateable()
-                                                    && Schema.sObjectType.Task.fields.TelosTouchSF__TT_TaskId__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_TaskId__c.isCreateable() ) {
+                                            if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isCreateable() && Schema.sObjectType.Task.isUpdateable()
+                                                    && Schema.sObjectType.Task.fields.TelosTouchSF__TT_TaskId__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_TaskId__c.isCreateable()
+                                                    && Schema.sObjectType.Task.fields.TelosTouchSF__TT_TaskId__c.isUpdateable() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible()
+                                                    && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isCreateable()) {
                                                 taskObj1.TelosTouchSF__TT_TaskId__c = otherIdVsTTTaskIdMap.get(taskObj1.Id);
+                                                taskObj1.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                                 taskLogObj.taskSuccessCount++;
                                                 newtasklist.add(taskObj1);
                                             }
@@ -619,6 +634,9 @@ global with sharing class SFDataSyncWithTelosTouch {
                             if(Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isAccessible() && Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
                                 clientlist[i].TelosTouchSF__Error_Message__c = '';
                             }
+                            if(Schema.sObjectType.Contact.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible() && Schema.sObjectType.Contact.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() ){
+                                clientlist[i].TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
+                            }                            
                             if((clientlist[i].TelosTouchSF__TT_Client_Id__c != null) && (clientlist[i].TelosTouchSF__TT_Client_Id__c != '') &&
                                     Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable()){
                                 ContactListtoBeUpdated.add(clientlist[i]);
@@ -692,6 +710,9 @@ global with sharing class SFDataSyncWithTelosTouch {
                             }
                             if(Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isAccessible() && Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
                                 clientleadlist[i].TelosTouchSF__Error_Message__c = '';
+                            }
+                            if(Schema.sObjectType.Lead.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible() && Schema.sObjectType.Lead.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() ){
+                                clientleadlist[i].TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                             }
                             if((clientleadlist[i].TelosTouchSF__TT_Client_Id__c != null) && (clientleadlist[i].TelosTouchSF__TT_Client_Id__c != '')
                                     && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
@@ -1082,7 +1103,11 @@ global with sharing class SFDataSyncWithTelosTouch {
                     List<Object> responseList = (List<Object>) JSON.deserializeUntyped(putResponse);
                     for(Object obj : responseList){
                         Map<String, Object> responseMap = (Map<String, Object>)obj;
-                        responseIDs.add(String.valueOf(responseMap.get('other_id')));
+                        if(responseMap.containsKey('other_id') && responseMap.containsKey('id') &&
+                           responseMap.get('other_id') != null && responseMap.get('id') != null){
+                               responseIDs.add(String.valueOf(responseMap.get('other_id')));
+                               OtherIdVsClientIdMap.put(String.valueOf(responseMap.get('other_id')), String.valueOf(responseMap.get('id')));
+                           }
                     }
                     for(Id requestId : requestIDs){
                         if(!responseIDs.contains(requestId)){
@@ -1501,6 +1526,7 @@ global with sharing class SFDataSyncWithTelosTouch {
         requestMap.put('email', UserInfo.getUserEmail());
         req.setBody(JSON.serialize(requestMap));
         res = http.send(req);
+        System.debug(res);
         if(res.getStatusCode() == 422){
             //Org is Already Registered
             adminCredentials.TelosTouchSF__Registration_Successful__c = true;
@@ -1537,20 +1563,24 @@ global with sharing class SFDataSyncWithTelosTouch {
 @return Boolean ....
      */
     public static Boolean checkIfEnterpriseClient(){
-        Http http = new Http();
-        HttpRequest req = new HttpRequest();
-        HttpResponse res = new HttpResponse();
-        req.setMethod('GET');
-        req.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/organization/'+UserInfo.getOrganizationId()+'?is_enterprise=true');
-        req.setHeader('Content-Type', 'application/json');
-        req.setHeader('Accept', 'application/json');
-        res = http.send(req);
-        if(res.getStatusCode()==200){
+        try{
+            Http http = new Http();
+            HttpRequest req = new HttpRequest();
+            HttpResponse res = new HttpResponse();
+            req.setMethod('GET');
+            req.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/organization/'+UserInfo.getOrganizationId()+'?is_enterprise=true');
+            req.setHeader('Content-Type', 'application/json');
+            req.setHeader('Accept', 'application/json');
+            res = http.send(req);
+            if(res.getStatusCode()==404){
+                return false;
+            }else{
+                return true;
+            }
+        }catch(Exception ex){
+            System.debug(LoggingLevel.ERROR, 'Exception: '+ex.getMessage()+' occurred at Line Number: '+ex.getLineNumber());
             return true;
-        }else if(res.getStatusCode()== 404){
-            return false;
         }
-        return  false;
     }
     @AuraEnabled
         /**

@@ -7,8 +7,8 @@
     <columns>Synced__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>CONTACT.CREATED_DATE</columns>
-    <columns>TT_Conflict__c</columns>
     <columns>Error_Message__c</columns>
+    <columns>TT_LastSyncTime__c</columns>
     <filterScope>Everything</filterScope>
     <label>TT Contacts</label>
 </ListView>

@@ -403,6 +403,7 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 							}
 							if(userMap.containsKey(obj1.assigned_user_id) && Schema.SObjectType.Task.fields.OwnerId.isCreateable() && Schema.SObjectType.Task.fields.OwnerId.isUpdateable()){
 								taskObject.OwnerId = userMap.get(obj1.assigned_user_id);
+								taskObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
 								taskUpsertList.add(taskObject);
 							}else{
 								ownerNotFoundCount++;

@@ -416,6 +416,7 @@ private static final String token = getCredentials.Token__c;*/
                                     }
                                     //contact.put('Before_Last_Modified_Date__c',null);
                                 }*/
+                                contact.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                 contactupsertList.add(contact);
                             }
                             setSFId.add(contact.Id);
@@ -600,6 +601,7 @@ private static final String token = getCredentials.Token__c;*/
                                     }
                                 }*/
                                 //leadObject.put('Before_Last_Modified_Date__c',null);
+                                leadObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                 leadupdateList.add(leadObject);
                             }
                             setSFId.add(leadObject.Id);
@@ -664,6 +666,7 @@ private static final String token = getCredentials.Token__c;*/
                                 }
                                 if(userMap.containsKey(obj1.created_by)){
                                     contactObject.OwnerId = userMap.get(obj1.created_by);
+                                    contactObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                     contactupsertList.add(contactObject);
                                 }else{
                                     ownerNotFoundCount++;
@@ -714,6 +717,7 @@ private static final String token = getCredentials.Token__c;*/
                                 }
                                 if(userMap.containsKey(obj1.created_by)){
                                     leadObject.OwnerId = userMap.get(obj1.created_by);
+                                    leadObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                     leadupdateList.add(leadObject);
                                 }else{
                                     ownerNotFoundCount++;

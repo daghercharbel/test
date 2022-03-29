@@ -24,6 +24,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -33,6 +34,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-8961a68a-f0e3-45ac-807f-e8bbd128a4de</name>
@@ -42,6 +44,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>TimelineParentComponent</componentName>
+                <identifier>TelosTouchSF_TimelineParentComponent</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-a6353e9c-7a45-469a-877d-6ab5ebc29d6c</name>
@@ -63,6 +66,7 @@
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>activityTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -76,6 +80,7 @@
                     <value>{!$Label.TelosTouchSF__Client_Timeline_Text}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e03caa7d-46fa-479b-86b3-4b1b639200fc</name>
@@ -89,6 +94,7 @@
                     <value>Facet-e03caa7d-46fa-479b-86b3-4b1b639200fc</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
@@ -98,6 +104,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e581bde0-6cf9-4658-87c6-77ea823a9803</name>
@@ -119,6 +126,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-48a4ecd4-5730-44e9-87c2-127f7827d2b7</name>
@@ -140,6 +148,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -157,6 +166,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-d0b0ef01-831c-432d-8c0f-9680c35523bb</name>
@@ -166,6 +176,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>SendInviteOrPasswordComponent</componentName>
+                <identifier>TelosTouchSF_SendInviteOrPasswordComponent1</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -175,6 +186,7 @@
                     <value>Facet-d0b0ef01-831c-432d-8c0f-9680c35523bb</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>
