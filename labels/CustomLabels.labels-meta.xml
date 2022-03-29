@@ -127,39 +127,11 @@
         <value>Back</value>
     </labels>
     <labels>
-        <fullName>Cam_Mem_Add_In_Cam_Success_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cam Mem Add In Cam Success Toast</shortDescription>
-        <value>Campaign member added in Campaign successfully.</value>
-    </labels>
-    <labels>
-        <fullName>Cam_Mem_Add_Success_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cam Mem Add Success Toast</shortDescription>
-        <value>Campaign Member Added Successfully.</value>
-    </labels>
-    <labels>
         <fullName>Cam_Not_Have_TT_Record_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Cam Not Have TT Record Toast</shortDescription>
         <value>Campaign is not having the TelosTouch record type.</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Already_Sync_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Already Sync Toast</shortDescription>
-        <value>Selected Campaign is Already Synced</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Deleted Text</shortDescription>
-        <value>Campaigns deleted from SF to TelosTouch.</value>
     </labels>
     <labels>
         <fullName>Camp_Mem_Added_Toast</fullName>
@@ -174,34 +146,6 @@
         <protected>true</protected>
         <shortDescription>Camp Mem Info Text</shortDescription>
         <value>Campaign Member Information</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Not_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Not Deleted Text</shortDescription>
-        <value>Campaigns not deleted from TT or not present on TT.</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Sync_Fail_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Sync Fail Text</shortDescription>
-        <value>Campaigns Sync Failed as Campaign Owner Not Found in Salesforce</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Sync_Success_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Sync Success Text</shortDescription>
-        <value>Campaigns sync successfully from TelosTouch to Salesforce.</value>
-    </labels>
-    <labels>
-        <fullName>Camp_Sync_Success_With_Client_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Camp Sync Success With Client Text</shortDescription>
-        <value>Campaigns sync successfully from TelosTouch to Salesforce with clients user.</value>
     </labels>
     <labels>
         <fullName>Campaign_Graph_Campaign_Performance_Text</fullName>
@@ -379,32 +323,11 @@
         <value>Choose a TouchPoint</value>
     </labels>
     <labels>
-        <fullName>Client_Added_To_Cam_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Client Added To Cam Text</shortDescription>
-        <value>Clients Added to Campaign:</value>
-    </labels>
-    <labels>
         <fullName>Client_Already_Accept_Invite_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Client Already Accept Invite Toast</shortDescription>
         <value>Client has already accepted the invite.</value>
-    </labels>
-    <labels>
-        <fullName>Client_Already_Camp_Mem_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Client Already Camp Mem Toast</shortDescription>
-        <value>Selected Clients are Already Campaign Members</value>
-    </labels>
-    <labels>
-        <fullName>Client_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Client Deleted Text</shortDescription>
-        <value>Clients deleted from SF to TelosTouch.</value>
     </labels>
     <labels>
         <fullName>Client_Invited_Success_Toast</fullName>
@@ -419,13 +342,6 @@
         <protected>true</protected>
         <shortDescription>Client Invited Toast</shortDescription>
         <value>Client invited successfully.</value>
-    </labels>
-    <labels>
-        <fullName>Client_Not_Added_To_Camp_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Client Not Added To Camp Text</shortDescription>
-        <value>Clients could Not be Added to Campaign:</value>
     </labels>
     <labels>
         <fullName>Client_Not_Have_UserID_Toast</fullName>
@@ -456,13 +372,6 @@
         <value>Client Portal is enabled successfully.</value>
     </labels>
     <labels>
-        <fullName>Client_Sync_Success_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Client Sync Success Text</shortDescription>
-        <value>Clients sync successfully from TelosTouch to Salesforce.</value>
-    </labels>
-    <labels>
         <fullName>Client_TimeLine_Attachment</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -475,13 +384,6 @@
         <protected>true</protected>
         <shortDescription>Client Timeline Text</shortDescription>
         <value>Client Timeline</value>
-    </labels>
-    <labels>
-        <fullName>Clients_Not_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Clients Not Deleted Text</shortDescription>
-        <value>Clients not deleted from TT or not present on TT.</value>
     </labels>
     <labels>
         <fullName>Clients_Text</fullName>
@@ -624,13 +526,6 @@
         <value>Create Recurring Series of Tasks</value>
     </labels>
     <labels>
-        <fullName>Create_Remote_Site_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Create Remote Site Text</shortDescription>
-        <value>Create Remote Site:</value>
-    </labels>
-    <labels>
         <fullName>Create_Task_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -743,20 +638,6 @@
         <value>Due Date</value>
     </labels>
     <labels>
-        <fullName>Duplicate_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Duplicate Text</shortDescription>
-        <value>is Duplicate.</value>
-    </labels>
-    <labels>
-        <fullName>Duplicate_Text_2</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Duplicate Text 2</shortDescription>
-        <value>Duplicate:</value>
-    </labels>
-    <labels>
         <fullName>ERROR_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -769,13 +650,6 @@
         <protected>true</protected>
         <shortDescription>Edit Button Label</shortDescription>
         <value>Edit</value>
-    </labels>
-    <labels>
-        <fullName>Email_Exist_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Exist Text</shortDescription>
-        <value>Email Already Exists:</value>
     </labels>
     <labels>
         <fullName>Email_Text</fullName>
@@ -825,27 +699,6 @@
         <protected>true</protected>
         <shortDescription>Existing Campaign Error Text</shortDescription>
         <value>Enter an existing campaign name, or create a new campaign.</value>
-    </labels>
-    <labels>
-        <fullName>Failed_Contact_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Failed Contact Sync Text</shortDescription>
-        <value>Failed Contact sync records from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
-        <fullName>Failed_Lead_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Failed Lead Sync Text</shortDescription>
-        <value>Failed Lead sync records from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
-        <fullName>Failed_Task_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Failed Task Sync Text</shortDescription>
-        <value>Failed Task sync records from Salesforce to TelosTouch</value>
     </labels>
     <labels>
         <fullName>Failed_Text</fullName>
@@ -1023,20 +876,6 @@
         <value>Knowledge Base</value>
     </labels>
     <labels>
-        <fullName>Lang_Timezone_Update_Fali_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Lang Timezone Update  Fali Text</shortDescription>
-        <value>User language/timezone updated failed</value>
-    </labels>
-    <labels>
-        <fullName>Lang_Timezone_Update_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Lang Timezone Update Text</shortDescription>
-        <value>User language/timezone updated successful.</value>
-    </labels>
-    <labels>
         <fullName>Last_Login_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1166,13 +1005,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Next</value>
     </labels>
     <labels>
-        <fullName>No_Contact_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No Contact Sync Text</shortDescription>
-        <value>No Contact records synced from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
         <fullName>No_Custom_Field_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1180,25 +1012,11 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>No Custom Fields Found</value>
     </labels>
     <labels>
-        <fullName>No_Lead_Syn_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No Lead Syn Text</shortDescription>
-        <value>No Lead records synced from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
         <fullName>No_Permit_To_Open_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Permit To Open Toast</shortDescription>
         <value>You have not permission to open it.</value>
-    </labels>
-    <labels>
-        <fullName>No_Permit_To_Person_Acc_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No Permit To Person Acc Toast</shortDescription>
-        <value>you have not permission of person Account.</value>
     </labels>
     <labels>
         <fullName>No_Results_Found_Text</fullName>
@@ -1213,13 +1031,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>No Standard Field Toast</shortDescription>
         <value>No Standard Fields Found</value>
-    </labels>
-    <labels>
-        <fullName>No_Task_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No Task Sync Text</shortDescription>
-        <value>No Task records synced from Salesforce to TelosTouch</value>
     </labels>
     <labels>
         <fullName>No_Text</fullName>
@@ -1362,13 +1173,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Please select any record.</value>
     </labels>
     <labels>
-        <fullName>Please_Unselect_Account_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Please Unselect Account Toast</shortDescription>
-        <value>Please unselect those acccount which is not synced.</value>
-    </labels>
-    <labels>
         <fullName>Prev_Button_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1430,13 +1234,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Reminder Confirmation Text</shortDescription>
         <value>Reminder Confirmation</value>
-    </labels>
-    <labels>
-        <fullName>Reminder_For_Ans_Touchpoint</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Reminder For Ans Touchpoint</shortDescription>
-        <value>Reminder for Answering Touchpoint:</value>
     </labels>
     <labels>
         <fullName>Reminder_Not_Sent_Toast</fullName>
@@ -1516,13 +1313,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Successfully Created Salesforce field in TelosTouch</value>
     </labels>
     <labels>
-        <fullName>SF_User_Sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>SF User Sync Text</shortDescription>
-        <value>Salesforce User Sync Successful with TelosTouch.</value>
-    </labels>
-    <labels>
         <fullName>SUCCESS_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1563,20 +1353,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Select Add At Least One Field Toast</shortDescription>
         <value>Please Select &amp; Add At Least One Field to Add</value>
-    </labels>
-    <labels>
-        <fullName>Select_Any_Record_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Select Any Record Toast</shortDescription>
-        <value>Please select any record.</value>
-    </labels>
-    <labels>
-        <fullName>Select_At_Least_One_Record_Toast</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Select At Least One Record Toast</shortDescription>
-        <value>Select at least one record and try again.</value>
     </labels>
     <labels>
         <fullName>Select_Record_Type_text</fullName>
@@ -1796,27 +1572,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Submit</value>
     </labels>
     <labels>
-        <fullName>Success_Contact_sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Success Contact sync Text</shortDescription>
-        <value>Successful Contact sync records from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
-        <fullName>Success_Lead_sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Success Lead sync Text</shortDescription>
-        <value>Successful Lead sync records from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
-        <fullName>Success_Task_sync_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Success Task sync Text</shortDescription>
-        <value>Successful Task sync records from Salesforce to TelosTouch</value>
-    </labels>
-    <labels>
         <fullName>Success_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1894,39 +1649,11 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Task created Successfully</value>
     </labels>
     <labels>
-        <fullName>Task_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Task Deleted Text</shortDescription>
-        <value>Task deleted from SF to TelosTouch.</value>
-    </labels>
-    <labels>
         <fullName>Task_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Label</shortDescription>
         <value>Task</value>
-    </labels>
-    <labels>
-        <fullName>Task_Not_Deleted_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Task Not Deleted Text</shortDescription>
-        <value>Task not deleted from TT or not present on TT</value>
-    </labels>
-    <labels>
-        <fullName>Task_Sync_Fail_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Task Sync Fail Text</shortDescription>
-        <value>Tasks Sync Failed as Task Owner Not Found in Salesforce</value>
-    </labels>
-    <labels>
-        <fullName>Task_Sync_Success_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Task Sync Success Text</shortDescription>
-        <value>Tasks sync successfully from TelosTouch to Salesforce.</value>
     </labels>
     <labels>
         <fullName>Task_Update_Success_Toast</fullName>
@@ -2034,27 +1761,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Update/Add Users</value>
     </labels>
     <labels>
-        <fullName>User_Activated_Fail_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>User Activated Fail Text</shortDescription>
-        <value>User activate failed from Salesforce to TelosTouch.</value>
-    </labels>
-    <labels>
-        <fullName>User_Activated_Success_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>User Activated Success Text</shortDescription>
-        <value>User activated successfully from Salesforce to TelosTouch.</value>
-    </labels>
-    <labels>
-        <fullName>User_Deactivated_Success_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>User Deactivated Success Text</shortDescription>
-        <value>User deactivated successfully from Salesforce to TelosTouch.</value>
-    </labels>
-    <labels>
         <fullName>User_Guide_Related</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2076,32 +1782,11 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>User Name</value>
     </labels>
     <labels>
-        <fullName>User_Not_Auth_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>User Not Auth Text</shortDescription>
-        <value>User Could Not be Authenticated</value>
-    </labels>
-    <labels>
         <fullName>User_Not_Valid_Cannot_Auth_App</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>User Not Valid Cannot Auth App</shortDescription>
         <value>This user is not validate with TT. So we can not authenticate your App.</value>
-    </labels>
-    <labels>
-        <fullName>User_deactivate_Fail_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>User deactivate Fail Text</shortDescription>
-        <value>User deactivate failed from Salesforce to TelosTouch.</value>
-    </labels>
-    <labels>
-        <fullName>Username_Exist_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Username Exist Text</shortDescription>
-        <value>Username Already Exists:</value>
     </labels>
     <labels>
         <fullName>Username_Text</fullName>

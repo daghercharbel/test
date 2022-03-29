@@ -99,6 +99,10 @@
         ) {
           c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
           c.set("v.data", rtnValue.userWrapperList);
+          console.log(
+            "fielterDetails==",
+            JSON.stringify(rtnValue.ttFilterWrapperObj.questionAnswerList)
+          );
         }
       });
       $A.enqueueAction(action);
