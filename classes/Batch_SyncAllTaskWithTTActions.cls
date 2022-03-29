@@ -29,13 +29,18 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 * @return Database.QueryLocator taskquery ......
 */
     global Database.QueryLocator start(Database.BatchableContext BC) {
+        System.debug('syncObject::'+syncObject);
+        System.debug('forFirstTime::'+forFirstTime);
         Datetime myDT = System.now();
-        myDT = myDT.addMinutes(-62);
+        myDT = myDT.addMinutes(-59);
         Boolean returnValue;
         if(syncObject != null){
+            System.debug('syncObject::'+syncObject);
             returnValue = !forFirstTime;
+            System.debug('returnValue when syncObject != null::'+ returnValue);
         }else{
             returnValue = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
+            System.debug('returnValue when syncObject = null::'+ returnValue);
         }
         //Boolean returnValue = TelosTouchUtility.checkAsyncApexJob('Batch_SyncAllTaskWithTTActions'); 
         String taskquery = 'SELECT Who.Name, Owner.id, ';
@@ -47,11 +52,16 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
             }
         }       
         taskquery = taskquery.subString(0, taskquery.length() - 1);
+        String sharedStatus = 'Yes';
         if(returnValue){
-            taskquery += ' FROM Task WHERE (lastmodifieddate >=:myDT OR TelosTouchSF__TT_TaskId__c = NULL) AND IsDeleted = false AND IsRecurrence = false ALL ROWS';
+            System.debug(' sync task with tt Not first time');
+            taskquery += ' FROM Task WHERE (lastmodifieddate >=:myDT OR TelosTouchSF__TT_TaskId__c = NULL) AND IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus AND WhoId != NULL ALL ROWS';
         }else{
-            taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false ALL ROWS';
+            System.debug('sync task with tt  First time');
+            taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus AND WhoId != NULL ALL ROWS';
         }
+        System.debug('taskquery::'+taskquery);
+        System.debug('task query::'+Database.query(String.escapeSingleQuotes(taskquery)));
         return Database.getQueryLocator(String.escapeSingleQuotes(taskquery));
     }
             /**

@@ -36,7 +36,7 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
         //List<Contact> contactlist = new List<Contact>();
         List<SObject> totallist = new List<SObject>();
         Datetime myDT = System.now();
-        myDT= myDT.addMinutes(-62);
+        myDT= myDT.addMinutes(-59);
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         Boolean  returnValue;
         if(this.syncObject != null){
@@ -54,9 +54,9 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
         }
         contactquery = contactquery.subString(0, contactquery.length() - 1);
         if(returnValue){
-            contactquery += ' FROM Contact WHERE (lastmodifieddate >=:myDT OR TelosTouchSF__TT_Client_Id__c = NULL) AND TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND Owner.TelosTouchSF__TT_UserId__c != NULL AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
+            contactquery += ' FROM Contact WHERE (lastmodifieddate >=:myDT OR TelosTouchSF__TT_Client_Id__c = NULL) AND TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null AND (Owner.TelosTouchSF__TT_UserId__c != NULL OR CreatedBy.TelosTouchSF__TT_UserId__c != null) AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
         }else{
-            contactquery += ' FROM Contact WHERE Email != null AND IsDeleted = false AND Owner.TelosTouchSF__TT_UserId__c != NULL AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
+            contactquery += ' FROM Contact WHERE Email != null AND IsDeleted = false AND (Owner.TelosTouchSF__TT_UserId__c != NULL OR CreatedBy.TelosTouchSF__TT_UserId__c != null) AND TelosTouchSF__TT_Conflict__c = false ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
         }  
         contactquery = contactquery.removeEnd('WHERE');
         contactquery = contactquery.removeEnd('AND');

@@ -5,6 +5,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>TTDashboardComponent</componentName>
+                <identifier>TelosTouchSF_TTDashboardComponent1</identifier>
             </componentInstance>
         </itemInstances>
         <name>left</name>
@@ -22,6 +23,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.LanguageLocaleKey}</leftValue>
@@ -42,6 +44,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard2</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.LanguageLocaleKey}</leftValue>
