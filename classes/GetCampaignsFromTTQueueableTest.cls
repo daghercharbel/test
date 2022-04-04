@@ -27,6 +27,7 @@ public with sharing class GetCampaignsFromTTQueueableTest {
             Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                 
             IsActive = false,                                                                                                                                                                                                                                                                                                                                         
             Type = 'Conference',
+            TelosTouchSF__TT_Campaign_Id__c ='5fe0d1ba1132491ed677d03b',
             TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
@@ -34,6 +35,7 @@ public with sharing class GetCampaignsFromTTQueueableTest {
         CampaignMember CampaignMemberObj = new CampaignMember();
         CampaignMemberObj.CampaignId = CampaignObj.Id;
         CampaignMemberObj.ContactId = con.Id;
+        
         insert CampaignMemberObj;
         
         //List<Insights__c> conversionlist = new list<Insights__c>();

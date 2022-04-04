@@ -1212,7 +1212,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Record Sync Success Text</shortDescription>
-        <value>Your records have been successfully synced with TelosTouch.</value>
+        <value>An asynchronous job has been scheduled to sync the records with TelosTouch.</value>
     </labels>
     <labels>
         <fullName>Record_Type_Text</fullName>
@@ -1850,5 +1850,12 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>new member added text</shortDescription>
         <value>new member was added to campaign.</value>
+    </labels>
+    <labels>
+        <fullName>TelosTouch_Permission_Set_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TelosTouch Permission Set Name</shortDescription>
+        <value>TelosTouch_Custom_Permission</value>
     </labels>
 </CustomLabels>

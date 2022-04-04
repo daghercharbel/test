@@ -58,7 +58,7 @@
                         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                             <p class="warningModalCSS">
                                 <b>
-                                    Your records have been successfully synced with TelosTouch.
+                                    An asynchronous job has been scheduled to sync the records with TelosTouch.
                                 </b>
                             </p>
                         </div>                     

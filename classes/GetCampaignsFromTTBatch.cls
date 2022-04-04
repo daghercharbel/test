@@ -114,6 +114,7 @@ private static final String token = getCredentials.Token__c;*/
                         setOfSFId.add(newCampaignsFromTT[i].other_id);
                     }
                 }
+                
                 if(setOfId.size() > 0){
                     for(CampaignMember campMemObj : [SELECT Id, Contact.TelosTouchSF__TT_Client_Id__c, Lead.TelosTouchSF__TT_Client_Id__c, Campaign.TelosTouchSF__TT_Campaign_Id__c FROM CampaignMember WHERE Campaign.TelosTouchSF__TT_Campaign_Id__c IN: setOfId LIMIT 20000]){
                         if(campMemObj.Contact.TelosTouchSF__TT_Client_Id__c != null){

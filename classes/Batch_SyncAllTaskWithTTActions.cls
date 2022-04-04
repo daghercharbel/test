@@ -40,7 +40,6 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
         taskquery = taskquery.subString(0, taskquery.length() - 1);
         String sharedStatus = 'Yes';
         taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus AND WhoId != NULL ALL ROWS';
-        System.debug(LoggingLevel.DEBUG, taskquery);
         return Database.getQueryLocator(String.escapeSingleQuotes(taskquery));
     }
     /**
@@ -66,7 +65,6 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
                       }
             }
         }
-        System.debug('taskList:: '+taskList);
         System.debug('taskList:: '+taskList);
         if((tasklist != null) && (tasklist.size() > 0)){
             TelosTouchSF.SFDataSyncWithTelosTouch.taskLogWrapper taskLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.syncAllTaskstoTTActions(tasklist);
