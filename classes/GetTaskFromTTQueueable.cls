@@ -359,6 +359,7 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 								}
 								if (userMap.containsKey(obj1.assigned_user_id)) {
 									//taskObject.OwnerId = userMap.get(obj1.assigned_user_id);
+									taskObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
 									taskUpsertList.add(taskObject);
 								} else {
 									ownerNotFoundCount++;
@@ -401,7 +402,9 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 							if(ttTaskFieldsMap.containskey('description')){
 								taskObject.put(ttTaskFieldsMap.get('description').TelosTouchSF__Salesforce_Field__c , obj1.description);
 							}
-							if(userMap.containsKey(obj1.assigned_user_id) && Schema.SObjectType.Task.fields.OwnerId.isCreateable() && Schema.SObjectType.Task.fields.OwnerId.isUpdateable()){
+							if(userMap.containsKey(obj1.assigned_user_id) && Schema.SObjectType.Task.fields.OwnerId.isCreateable() && Schema.SObjectType.Task.fields.OwnerId.isUpdateable() &&
+									 Schema.SObjectType.Task.fields.OwnerId.isUpdateable() && Schema.SObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() &&
+									Schema.SObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isCreateable() && Schema.SObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable()){
 								taskObject.OwnerId = userMap.get(obj1.assigned_user_id);
 								taskObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
 								taskUpsertList.add(taskObject);

@@ -87,8 +87,14 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
         }
         if(returnValue){
             for(Integer i=0; i < records.size() ; i++){
+                Datetime clientLastModifiedTime;
+                Datetime clientLastSyncTime;
+                if( records[i].get('TelosTouchSF__TT_LastSyncTime__c') != null){
+                    clientLastSyncTime = Datetime.newInstance(Datetime.valueOf(records[i].get('TelosTouchSF__TT_LastSyncTime__c')).date().year(), Datetime.valueOf(records[i].get('TelosTouchSF__TT_LastSyncTime__c')).date().month(), Datetime.valueOf(records[i].get('TelosTouchSF__TT_LastSyncTime__c')).date().day(), Datetime.valueOf(records[i].get('TelosTouchSF__TT_LastSyncTime__c')).time().hour(), Datetime.valueOf(records[i].get('TelosTouchSF__TT_LastSyncTime__c')).time().minute(), 0);
+                    clientLastModifiedTime = Datetime.newInstance(Datetime.valueOf(records[i].get('LastModifiedDate')).date().year(), Datetime.valueOf(records[i].get('LastModifiedDate')).date().month(), Datetime.valueOf(records[i].get('LastModifiedDate')).date().day(), Datetime.valueOf(records[i].get('LastModifiedDate')).time().hour(), Datetime.valueOf(records[i].get('LastModifiedDate')).time().minute(), 0);
+                }
                 if( !((records[i].get('TelosTouchSF__TT_LastSyncTime__c') == null && records[i].get('TelosTouchSF__TT_Client_Id__c') == null)
-                      || ( (Datetime)records[i].get('LastModifiedDate') > (Datetime)records[i].get('TelosTouchSF__TT_LastSyncTime__c'))) ){
+                      || ( clientLastModifiedTime > clientLastSyncTime )) ){
                           records.remove(i);
                           --i;
                       }

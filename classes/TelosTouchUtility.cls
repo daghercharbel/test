@@ -4,7 +4,7 @@
 * @description TelosTouchUtility class is used for multiple task for example Sync third party credentials and get token and Update  custom setting and used TelosTouch API for verify the Admin credentials.
 */
 public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
-
+    
     //Interface method 
     /**
 * @author Cloud Analogy
@@ -20,9 +20,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             System.debug(LoggingLevel.DEBUG, 'Success Result-' + result);
             System.debug(LoggingLevel.DEBUG, 'Success Context-' + context);
             List<CronJobDetail> jobList = [SELECT Id FROM CronJobDetail Where Name LIKE 'Delete Log Records%' OR
-            Name LIKE 'Update User Token Job%' OR
-            Name LIKE 'Get Clients From TT Job%' OR
-            Name LIKE 'Sync Feature Toggle Job%' WITH SECURITY_ENFORCED];
+                                           Name LIKE 'Update User Token Job%' OR
+                                           Name LIKE 'Get Clients From TT Job%' OR
+                                           Name LIKE 'Sync Feature Toggle Job%' WITH SECURITY_ENFORCED];
             System.debug(LoggingLevel.DEBUG, 'JobList Size: '+jobList.size());
             if(jobList.size()<5 && String.isNotEmpty(adminCredentials.TelosTouchSF__Access_Token_Expiration_Time__c)){
                 System.debug(LoggingLevel.DEBUG, 'Jobs Scheduled!');
@@ -59,35 +59,58 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @return TelosTouchSF__TT_Admin_Credentials__mdt TelosTouchSF__TT_Admin_Credentials__mdt ....
 */
     public static TelosTouchSF__TT_Admin_Credentials__mdt getCustomMetadata(){
-        if(Test.isRunningTest() && [SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 && 
-        [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED] == 1){
-            return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
-            TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
-            TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
-            TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
-            FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-        }else if([SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 &&
-        [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED] == 1){
-            return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
-            TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
-            TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
-            TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
-            FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-        }else{
+        try{
+            String profileName = [SELECT Profile.Name FROM User WHERE Id =: UserInfo.getUserId()].Profile.Name;
+            if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage &&
+               [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] == 0){
+                   PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: System.Label.TelosTouchSF.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED];
+                   if(Schema.SObjectType.PermissionSetAssignment.isAccessible() && Schema.SObjectType.PermissionSetAssignment.isCreateable() &&
+                      Schema.SObjectType.PermissionSetAssignment.fields.AssigneeId.isAccessible() && Schema.SObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+                      Schema.SObjectType.PermissionSetAssignment.fields.PermissionSetId.isAccessible() && Schema.SObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable() ){
+                          insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
+                      }
+               }
+            if(Test.isRunningTest() && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
+               [SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 ){
+                   return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
+                           TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
+                           TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
+                           TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
+                           FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
+               }else if([SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
+                        [SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 ){
+                            return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
+                                    TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
+                                    TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
+                                    TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
+                                    FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
+                        }else{
+                            return new TelosTouchSF__TT_Admin_Credentials__mdt();
+                        }
+        }catch(Exception e){
+            System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage() +'at line no::'+e.getLineNumber());
             return new TelosTouchSF__TT_Admin_Credentials__mdt();
         }
+        
     }
     public static TelosTouchSF__TT_Authentication_Credential__mdt getAuthenticationCustomMetadata(){
-        if(Test.isRunningTest() && [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 && 
-        [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED] == 1){
-            return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-            FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-        }else if([SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED] == 1){
-            return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-            FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-        }else{
+        try{
+            if(Test.isRunningTest() && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] >0 &&
+               [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 ){
+                   return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
+                           FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
+               }else if([SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
+                        [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 ){
+                            return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
+                                    FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
+                        }else{
+                            return new TelosTouchSF__TT_Authentication_Credential__mdt();
+                        }   
+        }catch(Exception e){
+            System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage()+' at line no:'+e.getLineNumber());
             return new TelosTouchSF__TT_Authentication_Credential__mdt();
         }
+        
     }
     /**
 * @author Cloud Analogy
@@ -111,7 +134,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }else{
             apiSetting = new AdminCredentialsWrapper();
         }
-
+        
         if(((campId != null && String.isNotBlank(campId)) || isCallingFrom == 'ManageTouchPoint' || isCallingFrom == 'TTDeshboard') && apiSetting.Access_Token != null ){
             UserCredentialsWrapper getActiveUserWrapper= new UserCredentialsWrapper();
             getActiveUserWrapper.authToken = getCurrentuserTOKEN();
@@ -208,18 +231,18 @@ return null;
             }else{
                 List<Campaign> campaigns = new List<Campaign>();
                 if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isQueryable() &&
-                        Schema.sObjectType.Campaign.fields.Name.isAccessible() &&
-                        Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() ){
-                    campaigns =[SELECT Name,TelosTouchSF__TT_Campaign_Id__c,RecordType.Name FROM Campaign WHERE Id=:recordId];
-                }
+                   Schema.sObjectType.Campaign.fields.Name.isAccessible() &&
+                   Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() ){
+                       campaigns =[SELECT Name,TelosTouchSF__TT_Campaign_Id__c,RecordType.Name FROM Campaign WHERE Id=:recordId];
+                   }
                 List<CampaignMember> campaignMembers = new List<CampaignMember>();
                 if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isQueryable() &&
-                        Schema.sObjectType.CampaignMember.fields.ContactId.isAccessible() &&
-                        Schema.sObjectType.CampaignMember.fields.LeadId.isAccessible()){
-                    campaignMembers=  [SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c,
-                    LeadId, Lead.TelosTouchSF__TT_Client_Id__c,
-                    Lead.Phone FROM CampaignMember WHERE CampaignId=:recordId];
-                }
+                   Schema.sObjectType.CampaignMember.fields.ContactId.isAccessible() &&
+                   Schema.sObjectType.CampaignMember.fields.LeadId.isAccessible()){
+                       campaignMembers=  [SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c,
+                                          LeadId, Lead.TelosTouchSF__TT_Client_Id__c,
+                                          Lead.Phone FROM CampaignMember WHERE CampaignId=:recordId];
+                   }
                 wrapper.CampId = recordId;
                 if(campaigns.size() >0 && campaigns[0].RecordType.Name != null && campaigns[0].RecordType.Name != 'TelosTouch'){
                     wrapper.returnMessage ='Campaign is not having the TelosTouch record type.';
@@ -252,7 +275,7 @@ return null;
         }
         return null;
     }
-
+    
     /*@AuraEnabled
 public static userCredentialsWrapper saveSettings_Apex(List<TelosTouch_API_Settings__c> apiSettingList, String isCallingFrom) {
 try {
@@ -466,9 +489,9 @@ return null;
             String instanceUrl = apiSettingList[0].Instance_URL.trim();
             String scope = 'offline_access';
             String body = 'scope='+EncodingUtil.urlEncode(scope,'UTF-8')
-                    +'&client_id='+EncodingUtil.urlEncode(apiSettingList[0].Client_ID,'UTF-8')
-                    +'&client_secret='+EncodingUtil.urlEncode(apiSettingList[0].Client_Secret,'UTF-8')
-                    +'&grant_type=client_credentials';
+                +'&client_id='+EncodingUtil.urlEncode(apiSettingList[0].Client_ID,'UTF-8')
+                +'&client_secret='+EncodingUtil.urlEncode(apiSettingList[0].Client_Secret,'UTF-8')
+                +'&grant_type=client_credentials';
             Http http = new Http();
             HttpRequest request = new HttpRequest();
             request.setEndpoint(apiSettingList[0].Authentication_URL+'/auth/realms/'+StringList1[0]+'/protocol/openid-connect/token');
@@ -520,10 +543,10 @@ return null;
         String[] StringList1 = StringList[1].split('\\.');
         String scope = 'profile';
         String body = 'scope='+EncodingUtil.urlEncode(scope,'UTF-8')
-                +'&client_id='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_ID__c.trim(),'UTF-8')
-                +'&client_secret='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_Secret__c.trim(),'UTF-8')
-                +'&refresh_token='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Refresh_Token__c.trim(),'UTF-8')
-                +'&grant_type=refresh_token';
+            +'&client_id='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_ID__c.trim(),'UTF-8')
+            +'&client_secret='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_Secret__c.trim(),'UTF-8')
+            +'&refresh_token='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Refresh_Token__c.trim(),'UTF-8')
+            +'&grant_type=refresh_token';
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setEndpoint(adminCredentials.TelosTouchSF__Authentication_URL__c+'/auth/realms/'+StringList1[0]+'/protocol/openid-connect/token');
@@ -556,91 +579,91 @@ return null;
         Metadata.CustomMetadata cMetadata = new Metadata.CustomMetadata();
         cMetadata.fullName = 'TelosTouchSF__TT_Admin_Credentials.TelosTouchSF__AdminDetails';
         cMetadata.label = 'AdminDetails';
-
+        
         Metadata.CustomMetadata authMetadata = new Metadata.CustomMetadata();
         authMetadata.fullName = 'TelosTouchSF__TT_Authentication_Credential__mdt.TelosTouchSF__AdminDetails';
         authMetadata.label = 'AdminDetails';
-
+        
         Metadata.CustomMetadataValue clientIdValue = new Metadata.CustomMetadataValue();
         clientIdValue.Field = 'TelosTouchSF__Client_ID__c';
         clientIdValue.Value = adminCredentials.Client_ID;
         authMetadata.values.add(clientIdValue);
-
+        
         Metadata.CustomMetadataValue clientSecretValue = new Metadata.CustomMetadataValue();
         clientSecretValue.Field = 'TelosTouchSF__Client_Secret__c';
         clientSecretValue.Value = adminCredentials.Client_Secret;
         authMetadata.values.add(clientSecretValue);
-
+        
         Metadata.CustomMetadataValue accessTokenValue = new Metadata.CustomMetadataValue();
         accessTokenValue.Field = 'TelosTouchSF__Access_Token__c';
         accessTokenValue.Value = adminCredentials.Access_Token;
         authMetadata.values.add(accessTokenValue);
-
+        
         Metadata.CustomMetadataValue instanceUrlValue = new Metadata.CustomMetadataValue();
         instanceUrlValue.Field = 'TelosTouchSF__Instance_URL__c';
         instanceUrlValue.Value = adminCredentials.Instance_URL;
         cMetadata.values.add(instanceUrlValue);
-
+        
         Metadata.CustomMetadataValue RefreshTokenValue = new Metadata.CustomMetadataValue();
         RefreshTokenValue.Field = 'TelosTouchSF__Refresh_Token__c';
         RefreshTokenValue.Value = adminCredentials.Refresh_Token;
         authMetadata.values.add(RefreshTokenValue);
-
+        
         Metadata.CustomMetadataValue ApprovalValue = new Metadata.CustomMetadataValue();
         ApprovalValue.Field = 'TelosTouchSF__Approval__c';
         ApprovalValue.Value = adminCredentials.Approval;
         cMetadata.values.add(ApprovalValue);
-
+        
         Metadata.CustomMetadataValue ForSecondTimeBatchValue = new Metadata.CustomMetadataValue();
         ForSecondTimeBatchValue.Field = 'TelosTouchSF__ForSecondTimeBatch__c';
         ForSecondTimeBatchValue.Value = adminCredentials.ForSecondTimeBatch;
         cMetadata.values.add(ForSecondTimeBatchValue);
-
+        
         Metadata.CustomMetadataValue BatchRunsForSFToTTOnTimeBasisValue = new Metadata.CustomMetadataValue();
         BatchRunsForSFToTTOnTimeBasisValue.Field = 'TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c';
         BatchRunsForSFToTTOnTimeBasisValue.Value = adminCredentials.BatchRunsForSFToTTOnTimeBasis;
         cMetadata.values.add(BatchRunsForSFToTTOnTimeBasisValue);
-
+        
         Metadata.CustomMetadataValue Authentication_URLValue = new Metadata.CustomMetadataValue();
         Authentication_URLValue.Field = 'TelosTouchSF__Authentication_URL__c';
         Authentication_URLValue.Value = adminCredentials.Authentication_URL;
         cMetadata.values.add(Authentication_URLValue);
-
+        
         Metadata.CustomMetadataValue AdminRefreshTokenLastUsedDate = new Metadata.CustomMetadataValue();
         AdminRefreshTokenLastUsedDate.Field = 'TelosTouchSF__Refresh_Token_Last_Used_Date__c';
         AdminRefreshTokenLastUsedDate.Value = adminCredentials.RefreshTokenLastUsedDate;
         cMetadata.values.add(AdminRefreshTokenLastUsedDate);
-
+        
         Metadata.CustomMetadataValue AdminTokenExpirationTimeValue = new Metadata.CustomMetadataValue();
         AdminTokenExpirationTimeValue.Field = 'TelosTouchSF__Access_Token_Expiration_Time__c';
         AdminTokenExpirationTimeValue.Value = adminCredentials.Access_Token_Expiration_Time;
         cMetadata.values.add(AdminTokenExpirationTimeValue);
-
+        
         Metadata.CustomMetadataValue Use_CreatedByIdValue = new Metadata.CustomMetadataValue();
         Use_CreatedByIdValue.Field = 'TelosTouchSF__Use_CreatedById__c';
         Use_CreatedByIdValue.Value = adminCredentials.Use_CreatedById;
         cMetadata.values.add(Use_CreatedByIdValue);
-
+        
         Metadata.CustomMetadataValue Registration_Request_ExpiryValue = new Metadata.CustomMetadataValue();
         Registration_Request_ExpiryValue.Field = 'TelosTouchSF__Registration_Request_Expiry__c';
         Registration_Request_ExpiryValue.Value = adminCredentials.Registration_Request_Expiry;
         cMetadata.values.add(Registration_Request_ExpiryValue);
-
+        
         Metadata.CustomMetadataValue Registration_SuccessfulValue = new Metadata.CustomMetadataValue();
         Registration_SuccessfulValue.Field = 'TelosTouchSF__Registration_Successful__c';
         Registration_SuccessfulValue.Value = adminCredentials.Registration_Successful;
         cMetadata.values.add(Registration_SuccessfulValue);
-
+        
         Metadata.CustomMetadataValue Registration_DateTimeValue = new Metadata.CustomMetadataValue();
         Registration_DateTimeValue.Field = 'TelosTouchSF__Registration_DateTime__c';
         Registration_DateTimeValue.Value = adminCredentials.Registration_DateTime;
         cMetadata.values.add(Registration_DateTimeValue);
-
+        
         Metadata.CustomMetadataValue Team_NameValue = new Metadata.CustomMetadataValue();
         Team_NameValue.Field = 'TelosTouchSF__Team_Name__c';
         Team_NameValue.Value = adminCredentials.Team_Name;
         cMetadata.values.add(Team_NameValue);
-
+        
         Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
         mdContainer.addMetadata(cMetadata);
         mdContainer.addMetadata(authMetadata);
@@ -649,7 +672,7 @@ return null;
             Metadata.Operations.enqueueDeployment(mdContainer, callback);
         }
     }
-
+    
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -674,20 +697,20 @@ return null;
                 TTUserWrapper  ttuserObj = new TTUserWrapper();
                 if(isCallingFrom != 'DoinitFromSetup'){
                     if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
-                            Schema.sObjectType.User.fields.Id.isAccessible() &&
-                            Schema.sObjectType.User.fields.ProfileId.isAccessible() &&
-                            Schema.sObjectType.User.fields.firstName.isAccessible() &&
-                            Schema.sObjectType.User.fields.lastName.isAccessible() &&
-                            Schema.sObjectType.User.fields.Email.isAccessible() &&
-                            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
-                            Schema.sObjectType.User.fields.IsActive.isAccessible() &&
-                            Schema.sObjectType.User.fields.phone.isAccessible() &&
-                            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() &&
-                            Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
-                        user = [SELECT Id, userName, ProfileId, Profile.Name, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c, IsActive,TelosTouchSF__Auth_Token__c FROM User
-                        WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND
-                        Id=:UserId AND profileId =:[SELECT id FROM Profile WHERE (Name = 'System Administrator' OR Name =: cstmLabel) OR (Name = 'Administrateur système' OR Name =: cstmLabel1) ] WITH SECURITY_ENFORCED LIMIT 1];
-                    }
+                       Schema.sObjectType.User.fields.Id.isAccessible() &&
+                       Schema.sObjectType.User.fields.ProfileId.isAccessible() &&
+                       Schema.sObjectType.User.fields.firstName.isAccessible() &&
+                       Schema.sObjectType.User.fields.lastName.isAccessible() &&
+                       Schema.sObjectType.User.fields.Email.isAccessible() &&
+                       Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
+                       Schema.sObjectType.User.fields.IsActive.isAccessible() &&
+                       Schema.sObjectType.User.fields.phone.isAccessible() &&
+                       Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() &&
+                       Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
+                           user = [SELECT Id, userName, ProfileId, Profile.Name, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c, IsActive,TelosTouchSF__Auth_Token__c FROM User
+                                   WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND
+                                   Id=:UserId AND profileId =:[SELECT id FROM Profile WHERE (Name = 'System Administrator' OR Name =: cstmLabel) OR (Name = 'Administrateur système' OR Name =: cstmLabel1) ] WITH SECURITY_ENFORCED LIMIT 1];
+                       }
                     if(user != null && (user.TelosTouchSF__TT_UserId__c == null )){
                         String teamId='';
                         Map<String, String> headersMap = new Map<String, String>();
@@ -753,27 +776,27 @@ return null;
                             }
                             if(userUpdateFlag){
                                 if (Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
-                                        Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
-                                        Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() &&
-                                        Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable() &&
-                                        Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
-                                        Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable()) {
-                                    user.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
-                                    user.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
-                                    ttuserObj = getTokenForEachUser(String.valueOf(getResponseMap.get('username')),adminCredentials);
-                                    user.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
-                                }
+                                    Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
+                                    Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() &&
+                                    Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable() &&
+                                    Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
+                                    Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable()) {
+                                        user.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
+                                        user.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
+                                        ttuserObj = getTokenForEachUser(String.valueOf(getResponseMap.get('username')),adminCredentials);
+                                        user.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
+                                    }
                             }
                         }else{
                             //System.debug('Else');
                             //String  body = '{"firstName": "'+user.firstName+'","lastName": "'+user.lastName+'","emailAddress": "'+user.Email+'","phoneNumber": "'+user.Phone+'","title": "Advisor","otherId": "'+user.Id+'","isActive": "'+user.IsActive+'", "userName": "'+user.userName+'","rolesIds":["58b7218cca6d3c8a3"],"rolesNames":{"58b7218cca6d3c8a3":"advisor"} }';
                             String body = '{"firstName": "'+user.firstName
-                                    +'","lastName": "'+user.lastName
-                                    +'","username": "'+user.Username
-                                    +'","phone": "'+user.Phone
-                                    +'","email": "'+user.Email
-                                    +'","role":"professional","team":"'+teamId+'","otherId":"'
-                                    +user.Id+'"}';
+                                +'","lastName": "'+user.lastName
+                                +'","username": "'+user.Username
+                                +'","phone": "'+user.Phone
+                                +'","email": "'+user.Email
+                                +'","role":"professional","team":"'+teamId+'","otherId":"'
+                                +user.Id+'"}';
                             //System.debug('Request Sent');
                             Map<String, String> responseBody = getResponse('POST', adminCredentials.Instance_url.trim()+'/api/v1/users', headersMap, body);
                             if(responseBody.get('status_code') == '401'){
@@ -793,14 +816,14 @@ return null;
                                     return null;
                                 }else if(responseMap2.containsKey('id')){
                                     if(Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
-                                            Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() &&
-                                            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
-                                        user.TelosTouchSF__TT_UserId__c = String.valueof(responseMap2.get('id'));
-                                        user.TelosTouchSF__TT_UserName__c = String.valueof(responseMap2.get('username'));
-                                        //System.debug('Username:: '+String.valueOf(responseMap2.get('username')));
-                                        ttuserObj = getTokenForEachUser(String.valueOf(responseMap2.get('username')), adminCredentials);
-                                        user.TelosTouchSF__Auth_Token__c =   ttuserObj.TTToken;
-                                    }
+                                       Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() &&
+                                       Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
+                                           user.TelosTouchSF__TT_UserId__c = String.valueof(responseMap2.get('id'));
+                                           user.TelosTouchSF__TT_UserName__c = String.valueof(responseMap2.get('username'));
+                                           //System.debug('Username:: '+String.valueOf(responseMap2.get('username')));
+                                           ttuserObj = getTokenForEachUser(String.valueOf(responseMap2.get('username')), adminCredentials);
+                                           user.TelosTouchSF__Auth_Token__c =   ttuserObj.TTToken;
+                                       }
                                 }
                             }else{
                                 getActiveUserWrapper.errorMessage = 'This user is not validate with TT.';
@@ -808,12 +831,12 @@ return null;
                             }
                         }
                         if(user.TelosTouchSF__TT_UserId__c != null && user.TelosTouchSF__TT_UserName__c != null && user.TelosTouchSF__Auth_Token__c != null
-                        && [SELECT count() FROM PermissionSetAssignment WHERE PermissionSet.Name = 'TelosTouch_Custom_Permission' AND AssigneeId =: UserInfo.getUserId()] == 0){
-                            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission'];
-                            if(ps != null && ps.Id != null){
-                                insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
-                            }
-                        }
+                           && [SELECT count() FROM PermissionSetAssignment WHERE PermissionSet.Name = 'TelosTouch_Custom_Permission' AND AssigneeId =: UserInfo.getUserId()] == 0){
+                               PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission'];
+                               if(ps != null && ps.Id != null){
+                                   insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
+                               }
+                           }
                         if(Schema.sObjectType.User.isUpdateable() && Schema.sObjectType.User.isCreateable() && User.getSObjectType().getDescribe().isAccessible() && User.getSObjectType().getDescribe().isUpdateable()){
                             update user;
                         }
@@ -835,7 +858,7 @@ return null;
             updateCustomMetadata(adminCredentials);
             getActiveUserWrapper.adminCredentials = adminCredentials;
             return getActiveUserWrapper;
-
+            
         } catch (Exception ex) {
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
         }
@@ -855,56 +878,56 @@ return null;
             List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();
             List<TelosTouchSF__TelosTouch_User_Role__c> customSettingList = new List<TelosTouchSF__TelosTouch_User_Role__c>();
             if( Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isQueryable() &&
-                    Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() &&
-                    Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible()){
-                customSettingList = [SELECT TelosTouchSF__RoleId__c, TelosTouchSF__RolesName__c FROM TelosTouchSF__TelosTouch_User_Role__c WHERE TelosTouchSF__RoleId__c != null AND TelosTouchSF__RolesName__c != null LIMIT 1];
-                if(customSettingList.size() == 0 ){
-                    TelosTouchSF__TelosTouch_User_Role__c customObjRecord = new TelosTouchSF__TelosTouch_User_Role__c();
-                    if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isAccessible()
-                            && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isUpdateable()
-                            && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isCreateable()){
-                        customObjRecord.SetupOwnerId = UserInfo.getProfileId();
-                    }
-                    if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isCreateable()
-                            && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isUpdateable()){
-                        customObjRecord.TelosTouchSF__RoleId__c = '58b7218cca6d3c8a3';
-                    }
-                    if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isCreateable()
-                            && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isUpdateable()){
-                        customObjRecord.TelosTouchSF__RolesName__c = 'Advisor';
-                    }
-                    if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isCreateable()
-                            &&  Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isUpdateable()){
-                        customSettingList.add(customObjRecord);
-                        upsert customSettingList;
-                    }
-                }
-            }
-
+               Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() &&
+               Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible()){
+                   customSettingList = [SELECT TelosTouchSF__RoleId__c, TelosTouchSF__RolesName__c FROM TelosTouchSF__TelosTouch_User_Role__c WHERE TelosTouchSF__RoleId__c != null AND TelosTouchSF__RolesName__c != null LIMIT 1];
+                   if(customSettingList.size() == 0 ){
+                       TelosTouchSF__TelosTouch_User_Role__c customObjRecord = new TelosTouchSF__TelosTouch_User_Role__c();
+                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isAccessible()
+                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isUpdateable()
+                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isCreateable()){
+                              customObjRecord.SetupOwnerId = UserInfo.getProfileId();
+                          }
+                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isCreateable()
+                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isUpdateable()){
+                              customObjRecord.TelosTouchSF__RoleId__c = '58b7218cca6d3c8a3';
+                          }
+                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isCreateable()
+                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isUpdateable()){
+                              customObjRecord.TelosTouchSF__RolesName__c = 'Advisor';
+                          }
+                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isCreateable()
+                          &&  Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isUpdateable()){
+                              customSettingList.add(customObjRecord);
+                              upsert customSettingList;
+                          }
+                   }
+               }
+            
             if(sfUserList != null && sfUserList.size() >0){
                 if(Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isQueryable() &&
-                        Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible() &&
-                        Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isAccessible() &&
-                        Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isAccessible()){
-                    permissionSetList = [SELECT Id, PermissionSetId,AssigneeId
-                    FROM PermissionSetAssignment
-                    WHERE (PermissionSet.Name = 'TelosTouch_Custom_Permission' OR  PermissionSet.Name = 'TTPSetForInsightObjMDRelations')
-                    AND AssigneeId IN: listofUserId LIMIT 2];
-                    Map<Id,PermissionSetAssignment> userIdVsPermSetAssignObjMap = new Map<Id,PermissionSetAssignment>();
-                    if(permissionSetList.size()> 0 && permissionSetList.size() == 1){
-                        for(PermissionSetAssignment psaObj : permissionSetList){
-                            userIdVsPermSetAssignObjMap.put(psaObj.AssigneeId,psaObj);
-                        }
-                    }
-                    if(sfUserList.size()>0){
-                        Database.executeBatch(new TelosTouchSF.SendSFUserBatch(sfUserList,userIdVsPermSetAssignObjMap), 20);
-                    }
-                }
+                   Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible() &&
+                   Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isAccessible() &&
+                   Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isAccessible()){
+                       permissionSetList = [SELECT Id, PermissionSetId,AssigneeId
+                                            FROM PermissionSetAssignment
+                                            WHERE (PermissionSet.Name = 'TelosTouch_Custom_Permission' OR  PermissionSet.Name = 'TTPSetForInsightObjMDRelations')
+                                            AND AssigneeId IN: listofUserId LIMIT 2];
+                       Map<Id,PermissionSetAssignment> userIdVsPermSetAssignObjMap = new Map<Id,PermissionSetAssignment>();
+                       if(permissionSetList.size()> 0 && permissionSetList.size() == 1){
+                           for(PermissionSetAssignment psaObj : permissionSetList){
+                               userIdVsPermSetAssignObjMap.put(psaObj.AssigneeId,psaObj);
+                           }
+                       }
+                       if(sfUserList.size()>0){
+                           Database.executeBatch(new TelosTouchSF.SendSFUserBatch(sfUserList,userIdVsPermSetAssignObjMap), 20);
+                       }
+                   }
                 return 'success' +'+'+sfUserList.size();
             }else{
                 return null;
             }
-
+            
         } catch (Exception ex) {
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
         }
@@ -961,11 +984,11 @@ return null;
             TTUserWrapper  ttuserObj = new TTUserWrapper();
             if(String.isNotBlank(adminCredentials.Access_Token.trim()) && String.isNotBlank(adminCredentials.Authentication_URL) ){
                 body = 'client_id='+EncodingUtil.urlEncode(adminCredentials.Client_ID.trim(),'UTF-8')
-                        +'&client_secret='+EncodingUtil.urlEncode(adminCredentials.Client_Secret.trim(),'UTF-8')
-                        +'&subject_token='+EncodingUtil.urlEncode(adminCredentials.Access_Token.trim(),'UTF-8')
-                        +'&requested_subject='+EncodingUtil.urlEncode(TTusername.trim(),'UTF-8')
-                        +'&requested_token_type=urn:ietf:params:oauth:token-type:access_token'
-                        +'&grant_type=urn:ietf:params:oauth:grant-type:token-exchange';
+                    +'&client_secret='+EncodingUtil.urlEncode(adminCredentials.Client_Secret.trim(),'UTF-8')
+                    +'&subject_token='+EncodingUtil.urlEncode(adminCredentials.Access_Token.trim(),'UTF-8')
+                    +'&requested_subject='+EncodingUtil.urlEncode(TTusername.trim(),'UTF-8')
+                    +'&requested_token_type=urn:ietf:params:oauth:token-type:access_token'
+                    +'&grant_type=urn:ietf:params:oauth:grant-type:token-exchange';
                 request.setEndpoint(adminCredentials.Authentication_URL+'/auth/realms/'+StringList1[0]+'/protocol/openid-connect/token');
                 request.setMethod('POST');
                 request.setHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -998,33 +1021,33 @@ return null;
 */
     @AuraEnabled
     public static userCredentialsWrapper getUserList(){
-
+        
         Set<Id> setProfileIds = new  Set<Id>();
         Set<String> setOfMoreThanOneEmail = new Set<String>();
         map<Id,String> mapIdVsName = new  map<Id,String>();
         List<userWrapper> userwp = new List<userWrapper>();
         List<User> userList = new List<User>();
         if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
-                Schema.sObjectType.User.fields.Id.isAccessible() &&
-                Schema.sObjectType.User.fields.ProfileId.isAccessible() &&
-                Schema.sObjectType.User.fields.firstName.isAccessible() &&
-                Schema.sObjectType.User.fields.lastName.isAccessible() &&
-                Schema.sObjectType.User.fields.Email.isAccessible() &&
-                Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
-                Schema.sObjectType.User.fields.IsActive.isAccessible() &&
-                Schema.sObjectType.User.fields.phone.isAccessible()){
-            userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND TelosTouchSF__TT_UserId__c != '1' LIMIT 5000 ];
-        }
+           Schema.sObjectType.User.fields.Id.isAccessible() &&
+           Schema.sObjectType.User.fields.ProfileId.isAccessible() &&
+           Schema.sObjectType.User.fields.firstName.isAccessible() &&
+           Schema.sObjectType.User.fields.lastName.isAccessible() &&
+           Schema.sObjectType.User.fields.Email.isAccessible() &&
+           Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
+           Schema.sObjectType.User.fields.IsActive.isAccessible() &&
+           Schema.sObjectType.User.fields.phone.isAccessible()){
+               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND TelosTouchSF__TT_UserId__c != '1' LIMIT 5000 ];
+           }
         userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
         for(User user: userList){
             setProfileIds.add(user.ProfileId);
         }
         List<Profile > profileList = new List<Profile >();
         if(Schema.SObjectType.Profile.isAccessible() && Schema.SObjectType.Profile.isQueryable() &&
-                Schema.sObjectType.Profile.fields.Id.isAccessible() &&
-                Schema.sObjectType.Profile.fields.Name.isAccessible()){
-            profileList = [SELECT Id,Name FROM Profile WHERE Id IN:setProfileIds];
-        }
+           Schema.sObjectType.Profile.fields.Id.isAccessible() &&
+           Schema.sObjectType.Profile.fields.Name.isAccessible()){
+               profileList = [SELECT Id,Name FROM Profile WHERE Id IN:setProfileIds];
+           }
         for(Profile profile: profileList){
             mapIdVsName.put(profile.Id, profile.Name);
         }
@@ -1067,13 +1090,13 @@ return null;
         try {
             List<AsyncApexJob> asyncApexJobList = new List<AsyncApexJob>();
             if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
-                    Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
-                    Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-                asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status = 'Completed' AND (ApexClass.Name ='BatchForBulkDataInsertOrUpdate'
-                OR ApexClass.Name ='GetTaskFromTTQueueable'
-                OR ApexClass.Name ='GetCampaignsFromTTQueueable')
-                LIMIT 3];
-            }
+               Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
+               Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
+                   asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status = 'Completed' AND (ApexClass.Name ='BatchForBulkDataInsertOrUpdate'
+                                                                                                   OR ApexClass.Name ='GetTaskFromTTQueueable'
+                                                                                                   OR ApexClass.Name ='GetCampaignsFromTTQueueable')
+                                       LIMIT 3];
+               }
             if (asyncApexJobList.size() < 3) {
                 //GetClientsFromTTQueueable getClientObj = new GetClientsFromTTQueueable();
                 //System.enqueueJob(getClientObj);
@@ -1170,7 +1193,7 @@ upsert apiSettingList;
 */
     private static TelosTouchWrapperUtils.userSignInWrapper generateSessionIdWrapper(String responseString) {
         TelosTouchWrapperUtils.userSignInWrapper thirdPartySignInWrapper =
-                (TelosTouchWrapperUtils.userSignInWrapper) JSON.deserialize(responseString, TelosTouchWrapperUtils.userSignInWrapper.class);
+            (TelosTouchWrapperUtils.userSignInWrapper) JSON.deserialize(responseString, TelosTouchWrapperUtils.userSignInWrapper.class);
         return thirdPartySignInWrapper;
     }
     /**
@@ -1190,9 +1213,9 @@ upsert apiSettingList;
             //User clientOwnerUser = new User();
             List<User> userList = new List<User>();
             if(Schema.sObjectType.User.isAccessible() && Schema.sObjectType.User.isQueryable() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()
-                    && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
-                userList = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c,TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c  != NULL AND isActive = true];
-            }
+               && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
+                   userList = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c,TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c  != NULL AND isActive = true];
+               }
             for(User u : userList){
                 userMap.put(u.id,u);
             }
@@ -1274,13 +1297,13 @@ count++;
                         String body = JSON.serialize(jsonMap);
                         //System.debug('body:: ' + body);
                         Map<String, String> responseString =
-                                TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
+                            TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
                         if (responseString.get('status_code') == '401') {
                             logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                         }
                         if (responseString.get('body') != null && responseString.get('body').contains('deleted')) {
                             List<Object> responseList =
-                                    (List<Object>)JSON.deserializeUntyped(responseString.get('body'));
+                                (List<Object>)JSON.deserializeUntyped(responseString.get('body'));
                             for (Object responseObj : responseList) {
                                 Map<String, Object> data = (Map<String, Object>)responseObj;
                                 if (data.containsKey('deleted') && data.get('deleted') == true) {
@@ -1405,7 +1428,7 @@ count++;
             system.debug(LoggingLevel.DEBUG, 'request endpoint TU:: '+request.getEndpoint());
             system.debug(LoggingLevel.DEBUG, 'request Method TU:: '+request.getMethod());
             system.debug(LoggingLevel.DEBUG, 'request Headers TU:: '+headersMap);
-
+            
             /* List<System.OrgLimit> limits = OrgLimits.getAll();
 for (System.OrgLimit aLimit: limits){
 if(aLimit.getName() == 'DailyApiRequests'){
@@ -1465,10 +1488,10 @@ return null;
         if(String.isNotBlank(recordId)){
             Task task = new Task();
             if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isQueryable() &&
-                    Schema.sObjectType.Task.fields.Id.isAccessible() &&
-                    Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isAccessible()){
-                task = [SELECT Id,TelosTouchSF__Share_with_client_s__c FROM Task WHERE Id =: recordId ];
-            }
+               Schema.sObjectType.Task.fields.Id.isAccessible() &&
+               Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isAccessible()){
+                   task = [SELECT Id,TelosTouchSF__Share_with_client_s__c FROM Task WHERE Id =: recordId ];
+               }
             if(task != null){
                 if(Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isUpdateable()){
                     task.TelosTouchSF__Share_with_client_s__c  = 'Yes';
@@ -1491,10 +1514,10 @@ return null;
     public static Boolean checkIfPostInstallScriptRunning_APEX() {
         List<AsyncApexJob> postInstallBatchList = new List<AsyncApexJob>();
         if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
-                Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
-                Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-            postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'BatchPostInstallScript' AND Status != 'Completed' limit 3];
-        }
+           Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
+           Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
+               postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'BatchPostInstallScript' AND Status != 'Completed' limit 3];
+           }
         if (postInstallBatchList.size() > 0) {
             return true;
         } else {
@@ -1511,10 +1534,10 @@ return null;
     public static Boolean checkAsyncApexJob(String apexJob) {
         List<AsyncApexJob> asyncApexJobList = new List<AsyncApexJob>();
         if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
-                Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
-                Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-            asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status = 'Completed' LIMIT 1];
-        }
+           Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
+           Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
+               asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status = 'Completed' LIMIT 1];
+           }
         if (asyncApexJobList.size() > 0) {
             return true;
         } else {
@@ -1577,12 +1600,12 @@ return null;
                 }
                 if(leadObject != null && action != null && action == 'updateClient'){
                     if(Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Last_Login__c.isAccessible() && Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Last_Login__c.isUpdateable()
-                            && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                        //leadObject.TT_Last_Login__c = System.Label.TelosTouchSF.After_TT_invite;
-                        leadObject.TelosTouchSF__TT_UserId__c = userId;
-                        leadObject.TelosTouchSF__TT_Last_Login__c = lastLoginDate!=null?lastLoginDate:System.Label.TelosTouchSF.After_TT_invite;
-                        update leadObject;
-                    }
+                       && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
+                           //leadObject.TT_Last_Login__c = System.Label.TelosTouchSF.After_TT_invite;
+                           leadObject.TelosTouchSF__TT_UserId__c = userId;
+                           leadObject.TelosTouchSF__TT_Last_Login__c = lastLoginDate!=null?lastLoginDate:System.Label.TelosTouchSF.After_TT_invite;
+                           update leadObject;
+                       }
                 }
                 inviteWrapper.lastLogin = leadObject.TelosTouchSF__TT_Last_Login__c;
             }else if(objectName == 'Contact' && recordObj.size() >0){
@@ -1599,12 +1622,12 @@ return null;
                 }
                 if(conObject != null && action != null && action == 'updateClient'){
                     if(Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Last_Login__c.isAccessible() && Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Last_Login__c.isUpdateable()
-                            && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable()){
-                        //conObject.TT_Last_Login__c = System.Label.TelosTouchSF.After_TT_invite;
-                        conObject.TelosTouchSF__TT_UserId__c = userId;
-                        conObject.TelosTouchSF__TT_Last_Login__c = lastLoginDate!=null?lastLoginDate:System.Label.TelosTouchSF.After_TT_invite;
-                        update conObject;
-                    }
+                       && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable()){
+                           //conObject.TT_Last_Login__c = System.Label.TelosTouchSF.After_TT_invite;
+                           conObject.TelosTouchSF__TT_UserId__c = userId;
+                           conObject.TelosTouchSF__TT_Last_Login__c = lastLoginDate!=null?lastLoginDate:System.Label.TelosTouchSF.After_TT_invite;
+                           update conObject;
+                       }
                 }
                 inviteWrapper.lastLogin = conObject.TelosTouchSF__TT_Last_Login__c;
             }
@@ -1853,15 +1876,15 @@ return null;
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
         if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
-                Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
-                Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
-            List<User> user = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c FROM User WHERE Id=:UserInfo.getUserId() AND TelosTouchSF__TT_UserId__c != Null ];
-            if( user != null && user.size() > 0  && authenticationCredential.TelosTouchSF__Access_Token__c != null){
-                if(user.size()>0 && user[0].TelosTouchSF__Auth_Token__c != null ){
-                    userAuthTOKEN = user[0].TelosTouchSF__Auth_Token__c;
-                }
-            }
-        }
+           Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
+           Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
+               List<User> user = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c FROM User WHERE Id=:UserInfo.getUserId() AND TelosTouchSF__TT_UserId__c != Null ];
+               if( user != null && user.size() > 0  && authenticationCredential.TelosTouchSF__Access_Token__c != null){
+                   if(user.size()>0 && user[0].TelosTouchSF__Auth_Token__c != null ){
+                       userAuthTOKEN = user[0].TelosTouchSF__Auth_Token__c;
+                   }
+               }
+           }
         return userAuthTOKEN;
     }
     public static boolean isObjectExist(String ObjectNameParam){
@@ -1890,13 +1913,13 @@ return null;
             }
             if(getResponseMap.containsKey('userToken')){
                 if(SObjectType.User.getSObjectType().getDescribe().isAccessible() && SObjectType.User.getSObjectType().getDescribe().isUpdateable() &&
-                        Schema.SObjectType.User.fields.Id.isAccessible() &&
-                        Schema.SObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.SObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable()){
-                    User userObj = new User();
-                    userObj.Id = getResponseMap.get('userId');
-                    userObj.TelosTouchSF__Auth_Token__c = getResponseMap.get('userToken');
-                    update userObj;
-                }
+                   Schema.SObjectType.User.fields.Id.isAccessible() &&
+                   Schema.SObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.SObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable()){
+                       User userObj = new User();
+                       userObj.Id = getResponseMap.get('userId');
+                       userObj.TelosTouchSF__Auth_Token__c = getResponseMap.get('userToken');
+                       update userObj;
+                   }
             }
             if(getResponseMap.get('status_code') == '401'){
                 logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
@@ -1984,9 +2007,9 @@ return null;
                 returnMap.put('actionRequired', (Object)false);
             }
             if([SELECT count() FROM AsyncApexJob WHERE ApexClass.Name = 'BatchAddRecipientsIntoTouchPoint'
-            AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0){
-                returnMap.put('actionRequired', (Object)false);
-            }
+                AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0){
+                    returnMap.put('actionRequired', (Object)false);
+                }
             return JSON.serialize(returnMap);
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'exception::'+ex.getMessage() +'At line ::'+ex.getLineNumber());
@@ -2017,18 +2040,18 @@ return null;
         Metadata.CustomMetadata customMetadata =  new Metadata.CustomMetadata();
         customMetadata.fullName = 'TelosTouchSF__TT_Feature_Flag' + '.' + 'TelosTouchSF__'+MasterLabel;
         customMetadata.label = MasterLabel;
-
+        
         Map<String, Object> fieldWithValuesMap = new Map<String, Object>();
         fieldWithValuesMap.put('TelosTouchSF__TT_Flag__c',isTTActive);
         fieldWithValuesMap.put('TelosTouchSF__SF_Flag__c',isSFActive);
-
+        
         for(String key : fieldWithValuesMap.keySet()){
             Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
             customField.field = key;
             customField.value = fieldWithValuesMap.get(key);
             customMetadata.values.add(customField);
         }
-
+        
         Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
         mdContainer.addMetadata(customMetadata);
         TelosTouchSF.TelosTouchUtility callback = new TelosTouchSF.TelosTouchUtility();
@@ -2048,17 +2071,17 @@ return null;
         Metadata.CustomMetadata customMetadata =  new Metadata.CustomMetadata();
         customMetadata.fullName = 'TelosTouchSF__TT_Feature_Flag' + '.' + 'TelosTouchSF__' +MasterLabel;
         customMetadata.label = MasterLabel;
-
+        
         Map<String, Object> fieldWithValuesMap = new Map<String, Object>();
         fieldWithValuesMap.put('TelosTouchSF__ShowFinestLogs__c',enableFinestLogs);
-
+        
         for(String key : fieldWithValuesMap.keySet()){
             Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
             customField.field = key;
             customField.value = fieldWithValuesMap.get(key);
             customMetadata.values.add(customField);
         }
-
+        
         Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
         mdContainer.addMetadata(customMetadata);
         TelosTouchSF.TelosTouchUtility callback = new TelosTouchSF.TelosTouchUtility();
@@ -2097,7 +2120,7 @@ return null;
     @AuraEnabled
     public static Boolean checkIfEnterpriseClient(){
         try{
-
+            
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
             if(String.isEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){
                 return true;
@@ -2167,7 +2190,7 @@ return null;
 */
         @AuraEnabled
         public String authToken{get;set;}
-
+        
     }
     /**
 * @author Cloud Analogy
@@ -2421,19 +2444,19 @@ return null;
         public AdminCredentialsWrapper(){
             TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
             if(adminCredentials.TelosTouchSF__Approval__c != null &&
-                            adminCredentials.TelosTouchSF__ForSecondTimeBatch__c != null &&
-                            adminCredentials.TelosTouchSF__Use_CreatedById__c != null &&
-                            adminCredentials.TelosTouchSF__Registration_Successful__c != null){
-                Approval = adminCredentials.TelosTouchSF__Approval__c;
-                ForSecondTimeBatch = adminCredentials.TelosTouchSF__ForSecondTimeBatch__c;
-                Use_CreatedById = adminCredentials.TelosTouchSF__Use_CreatedById__c;
-                Registration_Successful = adminCredentials.TelosTouchSF__Registration_Successful__c;
-            }else{
-                Approval = false;
-                ForSecondTimeBatch = false;
-                Use_CreatedById = false;
-                Registration_Successful = false;
-            }
+               adminCredentials.TelosTouchSF__ForSecondTimeBatch__c != null &&
+               adminCredentials.TelosTouchSF__Use_CreatedById__c != null &&
+               adminCredentials.TelosTouchSF__Registration_Successful__c != null){
+                   Approval = adminCredentials.TelosTouchSF__Approval__c;
+                   ForSecondTimeBatch = adminCredentials.TelosTouchSF__ForSecondTimeBatch__c;
+                   Use_CreatedById = adminCredentials.TelosTouchSF__Use_CreatedById__c;
+                   Registration_Successful = adminCredentials.TelosTouchSF__Registration_Successful__c;
+               }else{
+                   Approval = false;
+                   ForSecondTimeBatch = false;
+                   Use_CreatedById = false;
+                   Registration_Successful = false;
+               }
         }
         /**
 * @author Cloud Analogy
