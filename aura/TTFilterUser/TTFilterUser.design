@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="showAddToCampaign" label="Show Add To Campaign Button" />
+    <design:attribute name="showCreateMassActions" label="Show Create Mass Actions Button" />
+    <design:attribute name="showSendReminder" label="Show Send Reminder Button" />
+    <design:attribute name="showCreateSingleActions" label="Show Create Single Actions Button" />
+</design:component>

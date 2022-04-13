@@ -1572,6 +1572,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
+            System.debug('Enterprise:: '+res);
             if(res.getStatusCode()==404){
                 return false;
             }else{

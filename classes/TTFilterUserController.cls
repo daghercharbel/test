@@ -696,18 +696,32 @@ public with sharing class TTFilterUserController {
                 Id clientSfId = (Id) userMap.get('ContactOrLeadSFId');
                 String sObjName = clientSfId.getSObjectType().getDescribe().getName();
                 if(sObjName == 'Contact'){
-                    CampaignMember memberObj = new CampaignMember();
-                    memberObj.ContactId = clientSfId;
-                    memberObj.CampaignId = campRecordId;
-                    campaignMemberList.add(memberObj);
+                    if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
+                            Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.fields.ContactId.isAccessible() &&
+                            Schema.sObjectType.CampaignMember.fields.ContactId.isCreateable() && Schema.sObjectType.CampaignMember.fields.ContactId.isUpdateable() &&
+                            Schema.sObjectType.CampaignMember.fields.CampaignId.isCreateable() && Schema.sObjectType.CampaignMember.fields.CampaignId.isAccessible()
+                            && Schema.sObjectType.CampaignMember.fields.CampaignId.isUpdateable()) {
+                        CampaignMember memberObj = new CampaignMember();
+                        memberObj.ContactId = clientSfId;
+                        memberObj.CampaignId = campRecordId;
+                        campaignMemberList.add(memberObj);
+                    }
                 }else if(sObjName =='Lead'){
-                    CampaignMember memberObj = new CampaignMember();
-                    memberObj.LeadId = clientSfId;
-                    memberObj.CampaignId = campRecordId;
-                    campaignMemberList.add(memberObj);
+                    if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
+                            Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.fields.LeadId.isAccessible() &&
+                            Schema.sObjectType.CampaignMember.fields.LeadId.isCreateable() && Schema.sObjectType.CampaignMember.fields.LeadId.isUpdateable() &&
+                            Schema.sObjectType.CampaignMember.fields.CampaignId.isCreateable() && Schema.sObjectType.CampaignMember.fields.CampaignId.isAccessible()
+                            && Schema.sObjectType.CampaignMember.fields.CampaignId.isUpdateable()){
+                        CampaignMember memberObj = new CampaignMember();
+                        memberObj.LeadId = clientSfId;
+                        memberObj.CampaignId = campRecordId;
+                        campaignMemberList.add(memberObj);
+                    }
                 }
             }
-            insert campaignMemberList;
+            if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isUpdateable() && Schema.sObjectType.CampaignMember.isCreateable()){
+                insert campaignMemberList;
+            }
             return campRecordId;
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, e.getMessage() + ' at Line: '+e.getLineNumber());

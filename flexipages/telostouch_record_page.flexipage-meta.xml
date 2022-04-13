@@ -41,6 +41,22 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showAddToCampaign</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showCreateMassActions</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showCreateSingleActions</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showSendReminder</name>
+                    <value>true</value>
+                </componentInstanceProperties>
                 <componentName>TTFilterUser</componentName>
                 <identifier>TelosTouchSF_TTFilterUser</identifier>
             </componentInstance>

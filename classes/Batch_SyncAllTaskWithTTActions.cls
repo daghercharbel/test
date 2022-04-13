@@ -36,7 +36,7 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
                     taskquery += fieldAPI + ',';
                 }
             }
-        }       
+        }
         taskquery = taskquery.subString(0, taskquery.length() - 1);
         String sharedStatus = 'Yes';
         taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus AND WhoId != NULL ALL ROWS';
@@ -58,8 +58,14 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
         }
         if(returnValue){
             for(Integer i=0; i < taskList.size() ; i++){
+                Datetime taskLastModifiedTime;
+                Datetime taskLastSyncTime;
+                if( taskList[i].TelosTouchSF__TT_LastSyncTime__c != null){
+                    taskLastSyncTime = Datetime.newInstance(taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().year(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().month(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().day(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.time().hour(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.time().minute(), 0);
+                    taskLastModifiedTime = Datetime.newInstance(taskList[i].LastModifiedDate.date().year(), taskList[i].LastModifiedDate.date().month(), taskList[i].LastModifiedDate.date().day(), taskList[i].LastModifiedDate.time().hour(), taskList[i].LastModifiedDate.time().minute(), 0);
+                }
                 if( !((taskList[i].TelosTouchSF__TT_LastSyncTime__c == null && taskList[i].TelosTouchSF__TT_TaskId__c == null)
-                      || (taskList[i].LastModifiedDate > taskList[i].TelosTouchSF__TT_LastSyncTime__c)) ){
+                        || (taskLastModifiedTime > taskLastSyncTime)) ){
                           taskList.remove(i);
                           --i;
                       }
@@ -75,14 +81,14 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
                 taskErrorCount += taskLogObj.taskErrorCount;
             }
         }
-    }  
+    }
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description ......
 * @param BC ......
 */
-    global void finish(Database.BatchableContext BC) { 
+    global void finish(Database.BatchableContext BC) {
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         if(taskErrorCount != 0 || taskSuccessCount != 0){
             // createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','No Task records synced from Salesforce to TelosTouch', 'Aucun enregistrement de Tâche syncronisé de Salesforce à TelosTouch', 0));
@@ -91,7 +97,7 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Success', 'Successful Task sync records from Salesforce to TelosTouch', 'Syncronisation réussie des Tâches de Salesforce à TelosTouch' ,taskSuccessCount));
         }
         if(createListOfLog.size() >0 && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() ){
-            insert createListOfLog; 
+            insert createListOfLog;
         }
         if(adminCredentials != null && adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c == false){
             adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c = true;

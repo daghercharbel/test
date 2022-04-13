@@ -47,6 +47,14 @@ global class AuthenticationMock implements HttpCalloutMock {
       res.setStatusCode(200);
       return res;
     } else if (
+      endpoint.contains('/api/v1/users?search=test1868687687@gmail.com') && req.getMethod() == 'GET'
+    ) {
+      HttpResponse res = new HttpResponse();
+      res.setHeader('Content-Type', 'application/json');
+      res.setBody('[{"id":"5ff18c1c-94ad-4ec5-a6a5-6bc091227607","createdTimestamp":1646300848407,"username":"sfdc.techqa2@gmail.com","enabled":true,"totp":false,"emailVerified":true,"firstName":"Harpreet","lastName":"Singh","email":"sfdc.techqa2@gmail.com","attributes":{"zoneinfo":["America/Toronto"],"locale":["en-us"],"phone":["null"]},"disableableCredentialTypes":[],"requiredActions":[],"notBefore":0}]');
+      res.setStatusCode(200);
+      return res;
+    }else if (
       endpoint.contains('api/v1/users?search') && req.getMethod() == 'GET'
     ) {
       HttpResponse res = new HttpResponse();
@@ -87,6 +95,14 @@ global class AuthenticationMock implements HttpCalloutMock {
       HttpResponse res = new HttpResponse();
       res.setHeader('Content-Type', 'application/json');
       res.setBody('[]');
+      res.setStatusCode(200);
+      return res;
+    }else if (
+      endpoint.contains('/api/v1/users/5ff18c1c-94ad-4ec5-a6a5-6bc091227607/teams') && req.getMethod() == 'GET'
+    ) {
+      HttpResponse res = new HttpResponse();
+      res.setHeader('Content-Type', 'application/json');
+      res.setBody('[{"id":"fa7fa8be-f63e-4e82-97a4-72f63b6b43e7","name":"professional","path":"/00D7j000000Gyd4EAC/professional"}]');
       res.setStatusCode(200);
       return res;
     } else {
