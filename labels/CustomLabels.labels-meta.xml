@@ -1684,6 +1684,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>TelosTouch Fields</value>
     </labels>
     <labels>
+        <fullName>TelosTouch_Permission_Set_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TelosTouch Permission Set Name</shortDescription>
+        <value>TelosTouch_Custom_Permission</value>
+    </labels>
+    <labels>
         <fullName>Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
