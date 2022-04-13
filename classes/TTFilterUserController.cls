@@ -657,7 +657,15 @@ public with sharing class TTFilterUserController {
     @AuraEnabled
     public static String fetchRecordType() {
         try {
-            list<RecordType> recordTypeList = [select Id, Name from RecordType where sObjectType='Task' AND IsActive = true WITH SECURITY_ENFORCED ];
+            list<RecordType> recordTypeList = new list<RecordType>();
+            for(RecordTypeInfo info: Task.SObjectType.getDescribe().getRecordTypeInfos()) {
+                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
+                    RecordType record = new RecordType();
+                    record.Id = info.getRecordTypeId();
+                    record.Name = info.getName();
+                    recordTypeList.add(record);
+                }
+            }
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{
@@ -672,7 +680,15 @@ public with sharing class TTFilterUserController {
     @AuraEnabled
     public static String fetchCampaignRecordType() {
         try {
-            list<RecordType> recordTypeList = [select Id, Name from RecordType where sObjectType='Campaign' AND IsActive = true WITH SECURITY_ENFORCED ];
+            list<RecordType> recordTypeList = new list<RecordType>();
+            for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
+                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
+                    RecordType record = new RecordType();
+                    record.Id = info.getRecordTypeId();
+                    record.Name = info.getName();
+                    recordTypeList.add(record);
+                }
+            }
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{

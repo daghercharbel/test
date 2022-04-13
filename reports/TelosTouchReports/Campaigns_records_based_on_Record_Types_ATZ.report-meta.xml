@@ -46,7 +46,7 @@
     <name>Campaigns records based on Record Types</name>
     <params>
         <name>scopeid</name>
-        <value></value>
+        <value/>
     </params>
     <params>
         <name>co</name>

@@ -12,11 +12,11 @@
     <layouts>
         <layout>TT Client Answers Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
-    <nameFieldLabel></nameFieldLabel>
+    <nameFieldLabel><!-- Question --></nameFieldLabel>
     <startsWith>Consonant</startsWith>
     <validationRules>
         <errorMessage>Vous ne pouvez modifier l&apos;enregistrement</errorMessage>
