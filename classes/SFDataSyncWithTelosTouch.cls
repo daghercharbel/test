@@ -1526,7 +1526,6 @@ global with sharing class SFDataSyncWithTelosTouch {
         requestMap.put('email', UserInfo.getUserEmail());
         req.setBody(JSON.serialize(requestMap));
         res = http.send(req);
-        System.debug(res);
         if(res.getStatusCode() == 422){
             //Org is Already Registered
             adminCredentials.TelosTouchSF__Registration_Successful__c = true;
@@ -1572,7 +1571,6 @@ global with sharing class SFDataSyncWithTelosTouch {
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
-            System.debug('Enterprise:: '+res);
             if(res.getStatusCode()==404){
                 return false;
             }else{
@@ -1621,7 +1619,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             }
         }catch(Exception e){
             System.debug(LoggingLevel.ERROR,'ex'+e.getMessage()+'at line no:'+e.getLineNumber());
-            return 'Registration Unsuccessful';
+            return 'Package Configuration Failed! <br/>Exception: '+e.getMessage();
         }
     }
     /**

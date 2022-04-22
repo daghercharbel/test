@@ -44,7 +44,7 @@
     $A.enqueueAction(action);
   },
   selectCampaignRecordType: function (c, e, h) {
-    console.log("Record Type Id:: " + c.get("v.recordTypeId"));
+    //console.log("Record Type Id:: " + c.get("v.recordTypeId"));
     c.set("v.createCampaign", true);
     c.set("v.selectCampaignRecordType", false);
   },

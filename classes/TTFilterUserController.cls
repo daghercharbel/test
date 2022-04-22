@@ -331,7 +331,6 @@ public with sharing class TTFilterUserController {
                     userWrapperSet.add(userWrapperObj);
                 }
                 userWrapperList.addAll(userWrapperSet);
-                System.debug(userWrapperList);
                 return userWrapperList;
             }
         }catch(Exception ex){
@@ -688,7 +687,7 @@ public with sharing class TTFilterUserController {
                     record.Name = info.getName();
                     recordTypeList.add(record);
                 }
-            }
+            }            
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{

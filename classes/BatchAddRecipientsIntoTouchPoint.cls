@@ -35,8 +35,8 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Add
 * @param getwrapper ....
 */
     public void execute(Database.BatchableContext bc, List<AddRecipientsWrapper> getwrapper){
-        //System.debug('WRAPPER : '+getwrapper);
-        //System.debug('WRAPPER SIZE: '+getwrapper.size());
+        System.debug('WRAPPER : '+getwrapper);
+        System.debug('WRAPPER SIZE: '+getwrapper.size());
         String methodType = 'PUT';
         createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();

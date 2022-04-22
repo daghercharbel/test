@@ -100,7 +100,6 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
                       }
             }
         }
-        System.debug('records:: '+JSON.serialize(records));
         for(SObject sObjectIds : records){
             Schema.SObjectType entityType = sObjectIds.Id.getSobjectType();
             String objectName = String.valueOf(entityType);
@@ -111,8 +110,6 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
                 leadlist.add((Lead)sObjectIds);
             }
         }
-        System.debug('contactlist:: '+JSON.serialize(contactlist));
-        System.debug('leadlist:: '+JSON.serialize(leadlist));
         if((leadlist.size() > 0 ) || (contactlist.size() > 0)){ 
             SFDataSyncWithTelosTouch.clientLogWrapper clientLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(contactlist,leadlist,null, NULL, NULL, NULL);
             if(clientLogObj != null){

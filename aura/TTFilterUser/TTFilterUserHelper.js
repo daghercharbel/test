@@ -134,10 +134,6 @@
                 ) {
                     c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
                     c.set("v.data", rtnValue.userWrapperList);
-                    console.log(
-                        "fielterDetails==",
-                        JSON.stringify(rtnValue.ttFilterWrapperObj.questionAnswerList)
-                    );
                 }
             });
             $A.enqueueAction(action);
@@ -306,7 +302,6 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
-                console.log(rtnValue);
                 if (rtnValue != null && state == "SUCCESS") {
                     //c.set("v.isShowModel",true);
                     c.set("v.answers", rtnValue[0]);

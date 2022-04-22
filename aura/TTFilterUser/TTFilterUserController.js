@@ -72,7 +72,7 @@
               };
               finalResponse.push(responseObj);
             }
-            console.log(JSON.stringify(c.get("v.userList")));
+            //console.log(JSON.stringify(c.get("v.userList")));
             $A.createComponent(
               "c:ModalBodyComponent",
               {

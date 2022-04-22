@@ -44,7 +44,7 @@
                             c.set("v.openfromCampaign",false);
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Check_Lead_Sync_Toast"));
                         }else if(!$A.util.isEmpty(storedResponse.clientIds) && storedResponse.clientIds != undefined){
-                            var ids = '', firstBatchSize = 20;
+                            var ids = '', firstBatchSize = 1;
                             var remainingIds = [];
                             //console.log('clientIds:: '+storedResponse.clientIds);
                             //console.log('clientIds length:: '+storedResponse.clientIds.length);
@@ -73,7 +73,7 @@
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&send_touchpoint="+ids.trim()+"&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                //console.log('iframeURL::'+iframeURL);
+                                console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             }   
                         }

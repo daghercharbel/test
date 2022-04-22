@@ -130,7 +130,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         //System.debug('endPointURL::'+endPointURL);
                         Map<String, String> responseBodyMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
                         String responseBody = responseBodyMap.get('body');
-                        System.debug('responseBody::'+responseBody);
                         List<Object> responseList = (List<Object>)JSON.deserializeUntyped(responseBody);
                         Map<String, Object> getResponseMap = new Map<String, Object>();
                         if(!responseList.isEmpty()){
@@ -139,8 +138,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         //System.debug('getResponseMap:: '+getResponseMap);
                         if(!getResponseMap.keySet().isEmpty()){
                             Map<String, String> getCurrentTeamBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams', headersMap, null);
-                            System.debug(adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams');
-                            System.debug(getCurrentTeamBody.get('body'));
                             List<Object> getCurrentTeamList = (List<Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'));
                             Map<String, Object> getCurrentTeamMap = (Map<String, Object>)getCurrentTeamList[0];
                             String currentTeamName = String.valueOf(getCurrentTeamMap.get('path')).split('/')[1].trim();

@@ -101,7 +101,6 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
             OpenedAtCompletedNameList.addAll(OpenAndCompletedNameSet);
             OpenAtAndCompletedWrapperObj.OpenedAtCompletedNameList = OpenedAtCompletedNameList;
             OpenAtAndCompletedWrapperObj.OpenedAtCompletedWrapperList = OpenedAtCompletedWrapperList;
-            System.debug(JSON.serialize(OpenAtAndCompletedWrapperObj));
             return JSON.serialize(OpenAtAndCompletedWrapperObj);
         }catch (Exception ex) {
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());

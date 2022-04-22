@@ -15,6 +15,7 @@
     <aura:attribute name="pageSize" type="integer" default="10"/>
     <aura:attribute name="syncTypeValue" type="String"/>
     <aura:attribute name="syncObjectValue" type="String"/>
+    <aura:attribute name="packageConfigFailText" type="String"/>
     <aura:attribute name="manualSyncDisabled" type="Boolean" default="true"/>
     <aura:attribute name="showConfigSpinner" type="Boolean" default="true"/>
     <aura:attribute name="showConfigErrorMessage" type="Boolean" default="false"/>
@@ -26,7 +27,7 @@
         <lightning:spinner alternativeText="Loading" size="medium" />
     </aura:if>
     <aura:if isTrue="{!v.showConfigErrorMessage}">
-        <span>Package Configuration Failed! Please Reload Page.</span>
+        <span>{!v.packageConfigFailText}</span>
     </aura:if>
     <aura:if isTrue="{!v.showConfigSpinner}">
         <div class="slds-spinner_container ">

@@ -91,6 +91,7 @@ public with sharing class AddToCampaignCompController {
             }
             return campId;
         }catch(Exception ex ){
+            System.debug(LoggingLevel.ERROR, 'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
             String exceptionString = 'ERROR:' + ex.getMessage() + 'ON LINE:' + ex.getLineNumber();
             return exceptionString;           
         }
@@ -105,8 +106,13 @@ public with sharing class AddToCampaignCompController {
     public static List<RecordType> getCampaignRecordType(){
         try{
             List<RecordType> campaignRecordTypeList = new  List<RecordType>();
-            if(Schema.SObjectType.RecordType.isAccessible() && Schema.SObjectType.RecordType.isQueryable() && Schema.sObjectType.RecordType.fields.Name.isAccessible()){
-                campaignRecordTypeList = [SELECT Id,Name FROM RecordType WHERE SobjectType='Campaign' ORDER BY Name DESC LIMIT 100];
+            for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
+                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
+                    RecordType record = new RecordType();
+                    record.Id = info.getRecordTypeId();
+                    record.Name = info.getName();
+                    campaignRecordTypeList.add(record);
+                }
             }
             return campaignRecordTypeList;
         }catch(Exception ex ){
