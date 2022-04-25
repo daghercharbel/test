@@ -10,6 +10,7 @@
                 c.set('v.CampaignSynced', responseObj.synced);
                 c.set('v.ActionRequired', responseObj.actionRequired);
                 c.set('v.CampMemberPresent', responseObj.campMemberPresent);
+                c.set('v.OpenTouchPointModal', responseObj.openTouchPointModal);
             }
             if(!responseObj.synced && !responseObj.actionRequired && !responseObj.campMemberPresent){
                c.set('v.disableValue',true);
@@ -17,8 +18,11 @@
                c.set('v.disableValue',false);
             }else if(!responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent){
                c.set('v.disableValue',true);
-            }else if(responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent){
+            }else if(responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && responseObj.openTouchPointModal){
                c.set('v.disableValue',false);
+            }else if(responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && !responseObj.openTouchPointModal){
+                console.log('processing');
+               c.set('v.disableValue',true);
             }
         });
         $A.enqueueAction(action);
@@ -31,7 +35,7 @@
         action.setCallback(this, function (response) {
             if(response.getState() === 'SUCCESS'){
                 var responseObj = JSON.parse(response.getReturnValue());
-                if(responseObj.synced && responseObj.actionRequired){
+                if(responseObj.synced && responseObj.openTouchPointModal){
                     $A.createComponent("c:ModalBodyComponent", {sendTouchpoint : true},
                         function(content, status) {
                             if (status === "SUCCESS") {

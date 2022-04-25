@@ -1,78 +1,106 @@
 <aura:component
-  description="CampaignTicker"
-  controller="TelosTouchUtility"
-  implements="lightning:availableForFlowActions,Lightning:availableForFlowScreens,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
-  access="global"
+        description="CampaignTicker"
+        controller="TelosTouchUtility"
+        implements="lightning:availableForFlowActions,Lightning:availableForFlowScreens,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+        access="global"
 >
-  <aura:attribute name="CampaignSynced" type="Boolean" default="false" />
-  <aura:attribute name="ActionRequired" type="Boolean" default="false" />
-  <aura:attribute name="CampMemberPresent" type="Boolean" default="false" />
-  <aura:attribute name="disableValue" type="Boolean" default="true" />
+    <aura:attribute name="CampaignSynced" type="Boolean" default="false" />
+    <aura:attribute name="ActionRequired" type="Boolean" default="false" />
+    <aura:attribute name="OpenTouchPointModal" type="Boolean" default="false" />
+    <aura:attribute name="CampMemberPresent" type="Boolean" default="false" />
+    <aura:attribute name="disableValue" type="Boolean" default="true" />
 
-  <lightning:empApi aura:id="empApi" />
-  <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:empApi aura:id="empApi" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
 
-  <aura:handler event="c:ModalCloseEvent" action="{!c.handleModalCloseEvent}" />
-  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:ModalCloseEvent" action="{!c.handleModalCloseEvent}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
-  <lightning:card title="{!$Label.c.TT_Touchpoint_Status_Text}">
-      <aura:if isTrue="{!$Browser.isPhone}">
-          <div class="slds-p-left_small slds-p-bottom_small">
-              <lightning:button
+    <lightning:card title="{!$Label.c.TT_Touchpoint_Status_Text}">
+        <aura:if isTrue="{!$Browser.isPhone}">
+            <div class="slds-p-left_small slds-p-bottom_small">
+                <aura:if isTrue="{!and(v.ActionRequired, v.CampaignSynced)}">
+                    <lightning:button
+                            label="{!$Label.c.Send_TP_To_New_Receipient}"
+                            title="{!$Label.c.Send_TP_To_New_Receipient}"
+                            disabled="{!v.disableValue}"
+                            onclick="{! c.openChooseTouchPointModal }"
+                    />
+                    <aura:set attribute="else">
+                        <lightning:button
                                 label="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 title="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 disabled="{!v.disableValue}"
                                 onclick="{! c.openChooseTouchPointModal }"
-                                />
-              <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
-                  <lightning:button
-                                    label="Refresh"
-                                    title="Refresh"
-                                    onclick="{!c.doRefresh}"
-                                    />
-              </aura:if>
-          </div>
-      </aura:if>
-      <aura:set attribute="actions">
-          <aura:if isTrue="{!!$Browser.isPhone}">
-              <lightning:button
-                                label="{!$Label.c.Choose_a_TouchPoint_Text}"
-                                title="{!$Label.c.Choose_a_TouchPoint_Text}"
-                                disabled="{!v.disableValue}"
-                                onclick="{! c.openChooseTouchPointModal }"
-                                />
-              <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
-                  <lightning:button
-                                    label="Refresh"
-                                    title="Refresh"
-                                    onclick="{!c.doRefresh}"
-                                    />
-              </aura:if>
-          </aura:if>
-      </aura:set>
-    <aura:if isTrue="{!v.CampaignSynced}">
-      <aura:if isTrue="{!v.ActionRequired}">
-        <p class="slds-p-horizontal_medium c-red">
-          {!$Label.c.New_Camp_Member_Added_Text}
-        </p>
-        <aura:set attribute="else">
-          <p class="slds-p-horizontal_medium c-green">
-            {!$Label.c.Touchpoint_Sent_Text}
-          </p>
-        </aura:set>
-      </aura:if>
-      <aura:set attribute="else">
-        <aura:if isTrue="{!v.CampMemberPresent}">
-          <p class="slds-p-horizontal_medium c-red">
-            {!$Label.c.Touchpoint_not_sent_Text}
-          </p>
-          <aura:set attribute="else">
-            <p class="slds-p-horizontal_medium c-red">
-              {!$Label.c.Add_Cam_Mem_to_TT_Text}
-            </p>
-          </aura:set>
+                        />
+                    </aura:set>
+                </aura:if>
+                <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
+                    <lightning:button
+                            label="Refresh"
+                            title="Refresh"
+                            onclick="{!c.doRefresh}"
+                    />
+                </aura:if>
+            </div>
         </aura:if>
-      </aura:set>
-    </aura:if>
-  </lightning:card>
+        <aura:set attribute="actions">
+            <aura:if isTrue="{!!$Browser.isPhone}">
+                <aura:if isTrue="{!and(v.ActionRequired, v.CampaignSynced)}">
+                    <lightning:button
+                            label="{!$Label.c.Send_TP_To_New_Receipient}"
+                            title="{!$Label.c.Send_TP_To_New_Receipient}"
+                            disabled="{!v.disableValue}"
+                            onclick="{! c.openChooseTouchPointModal }"
+                    />
+                    <aura:set attribute="else">
+                        <lightning:button
+                                label="{!$Label.c.Choose_a_TouchPoint_Text}"
+                                title="{!$Label.c.Choose_a_TouchPoint_Text}"
+                                disabled="{!v.disableValue}"
+                                onclick="{! c.openChooseTouchPointModal }"
+                        />
+                    </aura:set>
+                </aura:if>
+                <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
+                    <lightning:button
+                            label="Refresh"
+                            title="Refresh"
+                            onclick="{!c.doRefresh}"
+                    />
+                </aura:if>
+            </aura:if>
+        </aura:set>
+        <aura:if isTrue="{!v.CampaignSynced}">
+            <aura:if isTrue="{!v.ActionRequired}">
+                <aura:if isTrue="{!v.OpenTouchPointModal}">
+                    <p class="slds-p-horizontal_medium c-red">
+                            {!$Label.c.New_Camp_Member_Added_Text}
+                    </p>
+                    <aura:set attribute="else">
+                        <p class="slds-p-horizontal_medium c-red">
+                                {!$Label.c.TouchPoint_Process_Running_Text}
+                        </p>
+                    </aura:set>
+                </aura:if>
+                <aura:set attribute="else">
+                    <p class="slds-p-horizontal_medium c-green">
+                            {!$Label.c.Touchpoint_Sent_Text}
+                    </p>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.CampMemberPresent}">
+                    <p class="slds-p-horizontal_medium c-red">
+                            {!$Label.c.Touchpoint_not_sent_Text}
+                    </p>
+                    <aura:set attribute="else">
+                        <p class="slds-p-horizontal_medium c-red">
+                                {!$Label.c.Add_Cam_Mem_to_TT_Text}
+                        </p>
+                    </aura:set>
+                </aura:if>
+            </aura:set>
+        </aura:if>
+    </lightning:card>
 </aura:component>

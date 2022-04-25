@@ -268,7 +268,7 @@
                             <lightning:layoutItem flexibility="auto"
                                                   class="header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small slds-truncate">
                             {!$Label.c.Showing_Text}&nbsp; {!v.fromEntries}-{!v.toEntries} out of {!v.filteredRecords.length}.
-                                <!--br/><span>If more than 1 user has same email, only one user will show up in the list</span-->
+                                <br/><span>{!$Label.c.IfTwoUserHaveSameEmail}</span>
                             </lightning:layoutItem>
                             <lightning:layoutItem flexibility="auto"
                                                   class="pages-area header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small">

@@ -70,7 +70,7 @@ public with sharing class TTcampaignResponse {
                                                                      ((Contact.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList) OR (Lead.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList)) WITH SECURITY_ENFORCED ];
                             CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
                         }
-                        getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
+                        //getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
                         if(!logList.isEmpty() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible()){
                             insert logList;
                         }

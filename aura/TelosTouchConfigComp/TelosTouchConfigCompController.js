@@ -45,6 +45,7 @@
                 }else if(storedResponse === 'Registration Unsuccessful'){
                     c.set("v.showConfigSpinner", false);
                     c.set("v.showConfigErrorMessage", true);
+                    c.set("v.packageConfigFailText", 'Package could not auto register on TT Server. Please Reload Page.');
                 }else if(storedResponse === 'No Action'){
                     c.set("v.showConfigSpinner", false);
                     c.set("v.isShowSpinner", true);
@@ -57,6 +58,10 @@
                             h.doinit_helper(c,e,h);
                         }), 30000
                     );
+                }else{
+                    c.set("v.showConfigSpinner", false);
+                    c.set("v.showConfigErrorMessage", true);
+                    c.set("v.packageConfigFailText", storedResponse);
                 }
             }
         });

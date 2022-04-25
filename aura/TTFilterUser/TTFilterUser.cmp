@@ -29,10 +29,10 @@
     <aura:attribute name="frenchUserFlag" type="Boolean" default="false" />
     <aura:attribute name="createAction" type="Boolean" default="false" />
     <aura:attribute name="TodayDate" type="String" />
-    <aura:attribute name="showSendReminder" type="Boolean" default="true" />
-    <aura:attribute name="showCreateMassActions" type="Boolean" default="true" />
-    <aura:attribute name="showCreateSingleActions" type="Boolean" default="true" />
-    <aura:attribute name="showAddToCampaign" type="Boolean" default="true" />
+    <aura:attribute name="showSendReminder" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="showCreateMassActions" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="showCreateSingleActions" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="showAddToCampaign" type="Boolean" default="true" access="global"/>
     <aura:attribute
                     name="newTask"
                     type="Task"

@@ -71,7 +71,6 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
                       }
             }
         }
-        System.debug('taskList:: '+taskList);
         if((tasklist != null) && (tasklist.size() > 0)){
             TelosTouchSF.SFDataSyncWithTelosTouch.taskLogWrapper taskLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.syncAllTaskstoTTActions(tasklist);
             if(taskLogObj != null && taskLogObj.taskSuccessCount != null){

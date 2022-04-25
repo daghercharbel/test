@@ -331,7 +331,6 @@ public with sharing class TTFilterUserController {
                     userWrapperSet.add(userWrapperObj);
                 }
                 userWrapperList.addAll(userWrapperSet);
-                System.debug(userWrapperList);
                 return userWrapperList;
             }
         }catch(Exception ex){
@@ -659,7 +658,7 @@ public with sharing class TTFilterUserController {
         try {
             list<RecordType> recordTypeList = new list<RecordType>();
             for(RecordTypeInfo info: Task.SObjectType.getDescribe().getRecordTypeInfos()) {
-                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
+                if(info.isAvailable() && info.isActive() && info.getDeveloperName()!='Master' && info.getDeveloperName()!='Principal') {
                     RecordType record = new RecordType();
                     record.Id = info.getRecordTypeId();
                     record.Name = info.getName();
@@ -682,13 +681,16 @@ public with sharing class TTFilterUserController {
         try {
             list<RecordType> recordTypeList = new list<RecordType>();
             for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
-                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
+                System.debug('info:: '+ info.getDeveloperName());
+                System.debug('info name:: '+ info.getName());
+                if(info.isAvailable() && info.isActive() && info.getDeveloperName()!='Master' && info.getDeveloperName()!='Principal') {
                     RecordType record = new RecordType();
                     record.Id = info.getRecordTypeId();
                     record.Name = info.getName();
                     recordTypeList.add(record);
                 }
-            }
+            }            
+            System.debug('recordTypeList:: '+recordTypeList);
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{
@@ -705,22 +707,25 @@ public with sharing class TTFilterUserController {
         try {
             List<Object> userList = new List<Object>();
             userList = (List<Object>) JSON.deserializeUntyped(userListStr);
+            System.debug('userList:: '+userList);
             List<CampaignMember> campaignMemberList = new List<CampaignMember>();
             for(Object each : userList){
                 Map<String, Object> userMap = new Map<String, Object>();
                 userMap = (Map<String, Object>) each;
                 Id clientSfId = (Id) userMap.get('ContactOrLeadSFId');
                 String sObjName = clientSfId.getSObjectType().getDescribe().getName();
+                System.debug('sObjName:: '+sObjName);
+                System.debug('clientSfId:: '+clientSfId);
                 if(sObjName == 'Contact'){
                     if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
                             Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.fields.ContactId.isAccessible() &&
-                            Schema.sObjectType.CampaignMember.fields.ContactId.isCreateable() && Schema.sObjectType.CampaignMember.fields.ContactId.isUpdateable() &&
-                            Schema.sObjectType.CampaignMember.fields.CampaignId.isCreateable() && Schema.sObjectType.CampaignMember.fields.CampaignId.isAccessible()
-                            && Schema.sObjectType.CampaignMember.fields.CampaignId.isUpdateable()) {
+                            Schema.sObjectType.CampaignMember.fields.ContactId.isCreateable() && Schema.sObjectType.CampaignMember.fields.CampaignId.isCreateable() 
+                       && Schema.sObjectType.CampaignMember.fields.CampaignId.isAccessible()) {
                         CampaignMember memberObj = new CampaignMember();
                         memberObj.ContactId = clientSfId;
                         memberObj.CampaignId = campRecordId;
                         campaignMemberList.add(memberObj);
+                                System.debug('memberObj:: '+memberObj);
                     }
                 }else if(sObjName =='Lead'){
                     if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
@@ -735,6 +740,7 @@ public with sharing class TTFilterUserController {
                     }
                 }
             }
+            System.debug('campaignMemberList:: '+campaignMemberList);
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isUpdateable() && Schema.sObjectType.CampaignMember.isCreateable()){
                 insert campaignMemberList;
             }
