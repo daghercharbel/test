@@ -21,7 +21,7 @@
             }else if(responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && responseObj.openTouchPointModal){
                c.set('v.disableValue',false);
             }else if(responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && !responseObj.openTouchPointModal){
-                console.log('processing');
+                //console.log('processing');
                c.set('v.disableValue',true);
             }
         });

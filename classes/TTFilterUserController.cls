@@ -144,7 +144,7 @@ public with sharing class TTFilterUserController {
                         }
                         ttDoinitWrapperObj.userWrapperList.add(userWrapperObj);
                     }
-                    System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
+                    //System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
                     return ttDoinitWrapperObj;
                 }
             }
@@ -681,8 +681,8 @@ public with sharing class TTFilterUserController {
         try {
             list<RecordType> recordTypeList = new list<RecordType>();
             for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
-                System.debug('info:: '+ info.getDeveloperName());
-                System.debug('info name:: '+ info.getName());
+                //System.debug('info:: '+ info.getDeveloperName());
+                //System.debug('info name:: '+ info.getName());
                 if(info.isAvailable() && info.isActive() && info.getDeveloperName()!='Master' && info.getDeveloperName()!='Principal') {
                     RecordType record = new RecordType();
                     record.Id = info.getRecordTypeId();
@@ -690,7 +690,7 @@ public with sharing class TTFilterUserController {
                     recordTypeList.add(record);
                 }
             }            
-            System.debug('recordTypeList:: '+recordTypeList);
+            //System.debug('recordTypeList:: '+recordTypeList);
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{
@@ -707,15 +707,15 @@ public with sharing class TTFilterUserController {
         try {
             List<Object> userList = new List<Object>();
             userList = (List<Object>) JSON.deserializeUntyped(userListStr);
-            System.debug('userList:: '+userList);
+            //System.debug('userList:: '+userList);
             List<CampaignMember> campaignMemberList = new List<CampaignMember>();
             for(Object each : userList){
                 Map<String, Object> userMap = new Map<String, Object>();
                 userMap = (Map<String, Object>) each;
                 Id clientSfId = (Id) userMap.get('ContactOrLeadSFId');
                 String sObjName = clientSfId.getSObjectType().getDescribe().getName();
-                System.debug('sObjName:: '+sObjName);
-                System.debug('clientSfId:: '+clientSfId);
+                //System.debug('sObjName:: '+sObjName);
+                //System.debug('clientSfId:: '+clientSfId);
                 if(sObjName == 'Contact'){
                     if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
                             Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.fields.ContactId.isAccessible() &&
@@ -725,7 +725,7 @@ public with sharing class TTFilterUserController {
                         memberObj.ContactId = clientSfId;
                         memberObj.CampaignId = campRecordId;
                         campaignMemberList.add(memberObj);
-                                System.debug('memberObj:: '+memberObj);
+                                //System.debug('memberObj:: '+memberObj);
                     }
                 }else if(sObjName =='Lead'){
                     if(Schema.sObjectType.CampaignMember.isCreateable() && Schema.sObjectType.CampaignMember.isUpdateable() &&
@@ -740,7 +740,7 @@ public with sharing class TTFilterUserController {
                     }
                 }
             }
-            System.debug('campaignMemberList:: '+campaignMemberList);
+            //System.debug('campaignMemberList:: '+campaignMemberList);
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isUpdateable() && Schema.sObjectType.CampaignMember.isCreateable()){
                 insert campaignMemberList;
             }

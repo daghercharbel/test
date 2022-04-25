@@ -1437,9 +1437,9 @@ maxlimit = aLimit.getLimit();
 }
 }*/
             // if(usagelimit < maxlimit){
-            System.debug(Datetime.now());
+            //System.debug(Datetime.now());
             response = http.send(request);
-            System.debug(Datetime.now());
+            //System.debug(Datetime.now());
             /* }
 else{
 UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has been exceeded!', 0);
@@ -1472,7 +1472,7 @@ return null;
         } catch (Exception ex) {
             String exceptionString = 'ERROR:' + ex.getMessage() + 'ON LINE:' + ex.getLineNumber();
             System.debug(LoggingLevel.ERROR, 'exceptionString:' + exceptionString);
-            System.debug(Datetime.now());
+            //System.debug(Datetime.now());
             Map<String, String> responseMap = new Map<String, String>();
             responseMap.put('error', exceptionString);
             return responseMap;
@@ -2016,7 +2016,7 @@ return null;
                 AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0){
                     returnMap.put('openTouchPointModal', (Object)false);
                 }
-            System.debug(JSON.serialize(returnMap));
+            //System.debug(JSON.serialize(returnMap));
             return JSON.serialize(returnMap);
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'exception::'+ex.getMessage() +'At line ::'+ex.getLineNumber());
