@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 f33e909ca119de62060937ac2a08e24e376f5df0 SwapnilCloudAnalogy <swapnil.sen@cloudanalogy.com> 1647353967 +0530	branch: Created from HEAD
+f33e909ca119de62060937ac2a08e24e376f5df0 f33e909ca119de62060937ac2a08e24e376f5df0 SwapnilCloudAnalogy <swapnil.sen@cloudanalogy.com> 1647354131 +0530	Branch: renamed refs/heads/main to refs/heads/main
+f33e909ca119de62060937ac2a08e24e376f5df0 21c2a8c101206b0f13c9738f7fdd1f60db0b76ae SwapnilCloudAnalogy <swapnil.sen@cloudanalogy.com> 1647354532 +0530	commit: Initial Code 15/03/2022
+21c2a8c101206b0f13c9738f7fdd1f60db0b76ae 21c2a8c101206b0f13c9738f7fdd1f60db0b76ae SwapnilTT <swapnil.sen@telostouch.com> 1647454830 +0530	Branch: renamed refs/heads/main to refs/heads/master
+21c2a8c101206b0f13c9738f7fdd1f60db0b76ae 19ff3c9319b915e938cf243a72bdb28494ede518 SwapnilCloudAnalogy <swapnil.sen@cloudanalogy.com> 1648543785 +0530	commit: APP-561 Actions which are shared and have clients will be synced.
