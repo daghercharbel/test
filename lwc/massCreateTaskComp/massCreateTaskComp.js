@@ -8,6 +8,7 @@ import getfieldVsReferenceObjects from "@salesforce/apex/MassCreateTaskCompContr
 import getReferenceObjectstAPIvsIconMap from "@salesforce/apex/MassCreateTaskCompController.getReferenceObjectstAPIvsIconMap";
 import createTasks from "@salesforce/apex/MassCreateTaskCompController.createTasks";
 import checkNamedCredentials from "@salesforce/apex/MassCreateTaskCompController.checkNamedCredentials";
+import hasActiveRecordType from "@salesforce/apex/MassCreateTaskCompController.hasActiveRecordType";
 import { registerListener, unregisterAllListeners } from "c/pubsub";
 import { CurrentPageReference } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -237,6 +238,7 @@ export default class MassCreateTaskComp extends NavigationMixin(
     }
   ];
   @track sum = 1;
+  @track recordTypePresent = false;
   @track noOfSelectedDays = 1;
   @track showSpinner = true;
   @track objectlist = [];
@@ -271,6 +273,13 @@ export default class MassCreateTaskComp extends NavigationMixin(
       this.showSpinner = false;
     }, 3000);
     registerListener("saveClicked", this.handleSave, this);
+    hasActiveRecordType()
+      .then((result) => {
+        this.recordTypePresent = result;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   getNameCredentialsInfo() {
@@ -501,11 +510,12 @@ export default class MassCreateTaskComp extends NavigationMixin(
   }
 
   handleSave(objPayload) {
-    console.log("Task::", JSON.stringify(this.Task));
     if (this.recurringEnabled) {
       this.Task.activitydate = null;
     }
-    this.Task.RecordTypeId = this.recordTypeId;
+    if (this.recordTypePresent && this.recordTypeId != "") {
+      this.Task.RecordTypeId = this.recordTypeId;
+    }
     let requiredFieldError = false;
     this.requiredFields.forEach((ele) => {
       if (

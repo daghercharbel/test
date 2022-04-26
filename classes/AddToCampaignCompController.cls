@@ -107,7 +107,7 @@ public with sharing class AddToCampaignCompController {
         try{
             List<RecordType> campaignRecordTypeList = new  List<RecordType>();
             for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
-                if(info.isAvailable() && info.isActive() && info.getDeveloperName()!='Master' && info.getDeveloperName()!='Principal') {
+                if(info.isAvailable() && info.isActive() && info.getName()!='Master') {
                     RecordType record = new RecordType();
                     record.Id = info.getRecordTypeId();
                     record.Name = info.getName();

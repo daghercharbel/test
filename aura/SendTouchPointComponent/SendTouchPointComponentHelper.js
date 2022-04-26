@@ -44,7 +44,7 @@
                             c.set("v.openfromCampaign",false);
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Check_Lead_Sync_Toast"));
                         }else if(!$A.util.isEmpty(storedResponse.clientIds) && storedResponse.clientIds != undefined){
-                            var ids = '', firstBatchSize = 0;
+                            var ids = '', firstBatchSize = 1;
                             var remainingIds = [];
                             //console.log('clientIds:: '+storedResponse.clientIds);
                             //console.log('clientIds length:: '+storedResponse.clientIds.length);
@@ -68,9 +68,9 @@
                                     c.set("v.campId",storedResponse.CampId);
                                     //iframeURL  = settingObj.Instance_URL+"/app-v2/#/contacts?page=contacts&send_touchpoint="+ids.trim()+"&auth_token="+authToken+"&sf_campaign_id="+storedResponse.CampId+"&fullscreen=true";
                                     if($A.get("$Locale.language") === 'en'){
-                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=en_US&access_token="+authToken+"&other_id="+storedResponse.CampId;
+                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=en_US&send_touchpoint="+ids.trim()+"&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }else if($A.get("$Locale.language") === 'fr'){
-                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
+                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&send_touchpoint="+ids.trim()+"&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
                                 console.log('iframeURL::'+iframeURL);
@@ -181,7 +181,6 @@
             action.setCallback(this, function (response) {
                 c.set("v.isShowSpinner",false);
                 $A.get("e.force:refreshView").fire();
-                h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                 //$A.get("e.force:closeQuickAction").fire();
                 c.find('overlayLib').notifyClose(); 
                 var state = response.getState();

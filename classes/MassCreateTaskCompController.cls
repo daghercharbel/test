@@ -11,6 +11,20 @@ public with sharing class MassCreateTaskCompController {
             return null;
         }
     }
+     @AuraEnabled
+    public static Boolean hasActiveRecordType(){
+        try {
+            for(RecordTypeInfo info: Task.SObjectType.getDescribe().getRecordTypeInfos()) {
+                if(info.isAvailable() && info.isMaster() == false) {
+                   return true;
+                }
+            }
+             return false;
+        } catch (Exception e) {
+            System.debug(e.getMessage());
+            return null;
+        }
+    }
     @AuraEnabled
     public static void createTasks(String taskObjStr, String userListStr) {
         if (String.isNotEmpty(taskObjStr)) {
@@ -39,6 +53,7 @@ public with sharing class MassCreateTaskCompController {
                 }
             }
             if (!taskList.isEmpty() && Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isCreateable()) {
+                System.debug('taskList:::'+taskList);
                 insert taskList;
             }
         }

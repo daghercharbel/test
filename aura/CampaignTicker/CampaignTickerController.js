@@ -7,7 +7,7 @@
             "-1",
             $A.getCallback((eventReceived) => {
                 // Process event (this is called each time we receive an event)\
-                //console.log('Campaign Ticker Event:: '+JSON.stringify(eventReceived));
+                console.log('Campaign Ticker Event:: '+JSON.stringify(eventReceived));
                 if (
                 c.get("v.recordId") ==
                 eventReceived.data.payload.TelosTouchSF__Campaign__c
@@ -20,7 +20,7 @@
         .then((subscription) => {
             // Subscription response received.
             // We haven't received an event yet.
-            //console.log('Ticker Subscription request sent to: ', subscription.channel);
+            console.log('Ticker Subscription request sent to: ', subscription.channel);
             // Save subscription to unsubscribe later
         });
         h.doInitHelper(c, e, h);

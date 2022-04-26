@@ -35,8 +35,8 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
 * @param getwrapper ....
 */
     public void execute(Database.BatchableContext bc, List<String> clientIds){
-        //System.debug('WRAPPER : '+getwrapper);
-        //System.debug('clientIds SIZE: '+clientIds.size());
+        System.debug('WRAPPER : '+getwrapper);
+        System.debug('clientIds SIZE: '+clientIds.size());
         String methodType = 'PUT';
         createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
@@ -95,7 +95,7 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
             }
         }
         getResponseClients = getResponseClientsMap.get('body');
-        //System.debug('getResponseClients:: '+getResponseClients);
+        System.debug('getResponseClients:: '+getResponseClients);
         Database.executeBatch(new BatchCreateInsightsForNewRecipients(getResponseClients, getwrapper), 300);
         if(createListOfLog != null){
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && createListOfLog.size() >0){

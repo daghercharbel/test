@@ -271,13 +271,8 @@ public with sharing class MassAddToCampaignButtonController {
     public static List<RecordType> getCampaignRecordType(){
         try{
             List<RecordType> campaignRecordTypeList = new  List<RecordType>();
-            for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
-                if(info.isAvailable() && info.isActive() && info.getDeveloperName()!='Master' && info.getDeveloperName()!='Principal') {
-                    RecordType record = new RecordType();
-                    record.Id = info.getRecordTypeId();
-                    record.Name = info.getName();
-                    campaignRecordTypeList.add(record);
-                }
+            if(Schema.SObjectType.RecordType.isAccessible() && Schema.SObjectType.RecordType.isQueryable() && Schema.sObjectType.RecordType.fields.Name.isAccessible()){
+                campaignRecordTypeList = [SELECT Id,Name FROM RecordType WHERE SobjectType='Campaign' ORDER BY Name DESC LIMIT 100];
             }
             return campaignRecordTypeList;
         }catch(Exception ex ){
