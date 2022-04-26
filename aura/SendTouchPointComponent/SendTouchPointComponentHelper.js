@@ -73,7 +73,7 @@
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                //console.log('iframeURL::'+iframeURL);
+                                console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             }   
                         }
