@@ -80,24 +80,34 @@
                     </p>
                     <aura:set attribute="else">
                         <p class="slds-p-horizontal_medium c-red">
-                                {!$Label.c.TouchPoint_Process_Running_Text}
+                            {!$Label.c.TouchPoint_Process_Running_Text}
                         </p>
                     </aura:set>
                 </aura:if>
                 <aura:set attribute="else">
-                    <p class="slds-p-horizontal_medium c-green">
+                    <aura:if isTrue ="{!!v.CampMemberPresent}">
+                        <p class="slds-p-horizontal_medium c-green">
+                            {!$Label.c.TouchPoint_Created}
+                        </p>
+                        <aura:set attribute="else">
+                        <p class="slds-p-horizontal_medium c-green">
                             {!$Label.c.Touchpoint_Sent_Text}
-                    </p>
+                        </p>
+                        </aura:set>
+                    </aura:if>
+                    <!-- <p class="slds-p-horizontal_medium c-green">
+                            {!$Label.c.Touchpoint_Sent_Text}
+                    </p> -->
                 </aura:set>
             </aura:if>
             <aura:set attribute="else">
                 <aura:if isTrue="{!v.CampMemberPresent}">
                     <p class="slds-p-horizontal_medium c-red">
-                            {!$Label.c.Touchpoint_not_sent_Text}
+                        {!$Label.c.Touchpoint_not_sent_Text}
                     </p>
                     <aura:set attribute="else">
                         <p class="slds-p-horizontal_medium c-red">
-                                {!$Label.c.Add_Cam_Mem_to_TT_Text}
+                        {!$Label.c.Add_Cam_Mem_to_TT_Text}
                         </p>
                     </aura:set>
                 </aura:if>

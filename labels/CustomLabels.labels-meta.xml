@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Add Cam Mem to TT Text</shortDescription>
-        <value>Please add campaign members to send touchpoint.</value>
+        <value>Please click &quot;Choose a TouchPoint&quot; to create an empty TouchPoint or add campaign members to add recipients to TouchPoint.</value>
     </labels>
     <labels>
         <fullName>Add_Campaign_Members_Text</fullName>
@@ -33,7 +33,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Add Campaign Modal Header Text</shortDescription>
-        <value>Create Campaign</value>
+        <value>Create Campaign and Send TouchPoint</value>
     </labels>
     <labels>
         <fullName>Add_Custom_Fields_Text</fullName>
@@ -2228,5 +2228,12 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>TouchPoint Process Running Text</shortDescription>
         <value>Recipients are being added to the TouchPoint. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>TouchPoint_Created</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Created</shortDescription>
+        <value>TouchPoint has been created. Please add campaign members to add recipients to TouchPoint.</value>
     </labels>
 </CustomLabels>

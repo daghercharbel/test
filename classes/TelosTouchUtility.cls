@@ -686,7 +686,9 @@ return null;
     @AuraEnabled
     public static userCredentialsWrapper getUserAccessToken(AdminCredentialsWrapper adminCredentials, String isCallingFrom){
         try {
+            System.debug('adminCredentials.Team_Name:: '+adminCredentials.Team_Name);
             String ttTeamName = String.isNotEmpty(adminCredentials.Team_Name) ? adminCredentials.Team_Name : adminCredentials.Client_ID;
+            System.debug('ttTeamName:: '+ttTeamName);
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
             Boolean userUpdateFlag = false;
@@ -731,6 +733,7 @@ return null;
                                 teamNameVsTeamIdMap.put(String.valueOf(teamResponseMap.get('name')), String.valueOf(teamResponseMap.get('id')));
                             }
                         }
+                        System.debug('teamNameVsTeamIdMap:: '+JSON.serialize(teamNameVsTeamIdMap));
                         if(teamNameVsTeamIdMap.containsKey(ttTeamName)){
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{

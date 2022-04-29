@@ -58,7 +58,6 @@
         );
     },
     skipClicked: function (c, e, h) {
-        console.log('skip clicked');
         if (e.getParam("skipClicked") === true) {
             h.doInitHelper(c, e, h);
         }

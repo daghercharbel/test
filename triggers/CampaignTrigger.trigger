@@ -13,4 +13,7 @@ trigger CampaignTrigger on Campaign (before delete, before update, after update)
     if(trigger.isAfter && trigger.isUpdate){
         CampaignTriggerHandler.createQuestionsAndAnswers(Trigger.new);
     }
+    if(trigger.isAfter && (trigger.isInsert || trigger.isUpdate)){
+        TelosTouchSF.CampaignTriggerHandler.publishEventOnInsertAndUpdate(trigger.New);
+    }
 }

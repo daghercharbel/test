@@ -8,7 +8,7 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>Questions__c</columns>
     <columns>Answers__c</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
     <filters>
         <field>CAMPAIGN.RECORDTYPE</field>
         <operation>equals</operation>

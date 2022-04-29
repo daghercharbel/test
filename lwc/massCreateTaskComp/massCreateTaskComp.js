@@ -501,7 +501,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
   }
 
   handleSave(objPayload) {
-    console.log("Task::", JSON.stringify(this.Task));
     if (this.recurringEnabled) {
       this.Task.activitydate = null;
     }
@@ -516,12 +515,10 @@ export default class MassCreateTaskComp extends NavigationMixin(
       ) {
         if (this.recurringEnabled) {
           if (ele.toLowerCase() != "activitydate") {
-            console.log("field", ele);
             requiredFieldError = true;
           }
         } else {
           requiredFieldError = true;
-          console.log("field", ele);
         }
       }
     });
@@ -578,8 +575,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
   handleRecurringRadioGroupValue(event) {
     let selectedValue = event.detail.value;
     let fieldLabel = event.target.dataset.field;
-    console.log("selectedValue:::" + selectedValue);
-    console.log("field:::" + fieldLabel);
     if (fieldLabel == "RecurrenceType") {
       if (selectedValue == "RecursDaily") {
         this.dailyRepeat = true;
@@ -696,9 +691,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
     let selectedValue = event.detail.value;
     let dataId = event.target.dataset.id;
     let dataField = event.target.dataset.field;
-    console.log("selectedValue: " + selectedValue);
-    console.log("dataId: " + dataId);
-    console.log("Field:" + dataField);
     if (
       dataField == "RecurrenceInterval" ||
       dataField == "RecurrenceDayOfMonth"

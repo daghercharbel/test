@@ -11,9 +11,8 @@
                 c.set('v.ActionRequired', responseObj.actionRequired);
                 c.set('v.CampMemberPresent', responseObj.campMemberPresent);
                 c.set('v.OpenTouchPointModal', responseObj.openTouchPointModal);
-                console.log(responseObj);
                 if (!responseObj.synced && !responseObj.actionRequired && !responseObj.campMemberPresent) {
-                    c.set('v.disableValue', true);
+                    c.set('v.disableValue', false);
                 } else if (!responseObj.actionRequired && !responseObj.synced && responseObj.campMemberPresent) {
                     c.set('v.disableValue', false);
                 } else if (!responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent) {
