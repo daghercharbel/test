@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customApplications>
-        <label><!-- TelosTouch --></label>
+        <label>
+            <!-- TelosTouch -->
+        </label>
         <name>TelosTouch</name>
     </customApplications>
     <customLabels>
@@ -21,7 +23,7 @@
         <name>Add_Campaign_Members_Text</name>
     </customLabels>
     <customLabels>
-        <label>Créer un Campagne et envoyer un TouchPoint</label>
+        <label>Créer une nouvelle Campagne</label>
         <name>Add_Campaign_Modal_Header_Text</name>
     </customLabels>
     <customLabels>
@@ -41,7 +43,9 @@
         <name>Add_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Add To Campaign Config Text --></label>
+        <label>
+            <!-- Add To Campaign Config Text -->
+        </label>
         <name>Add_To_Campaign_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -189,7 +193,9 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label><!-- CaseRaised --></label>
+        <label>
+            <!-- CaseRaised -->
+        </label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -289,7 +295,9 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Close --></label>
+        <label>
+            <!-- Close -->
+        </label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -309,7 +317,9 @@
         <name>Completed_At_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Completed Text --></label>
+        <label>
+            <!-- Completed Text -->
+        </label>
         <name>Completed_Text</name>
     </customLabels>
     <customLabels>
@@ -357,7 +367,9 @@
         <name>Contact_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Create Mass Action Config Label --></label>
+        <label>
+            <!-- Create Mass Action Config Label -->
+        </label>
         <name>Create_Mass_Action_Config_Label</name>
     </customLabels>
     <customLabels>
@@ -373,7 +385,9 @@
         <name>Create_Remote_Site_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Create Single Action Text --></label>
+        <label>
+            <!-- Create Single Action Text -->
+        </label>
         <name>Create_Sungle_Action_Text</name>
     </customLabels>
     <customLabels>
@@ -401,11 +415,15 @@
         <name>Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Admin Record Label --></label>
+        <label>
+            <!-- Custom Metadata Admin Record Label -->
+        </label>
         <name>Custom_Metadata_Admin_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Test Record Label --></label>
+        <label>
+            <!-- Custom Metadata Test Record Label -->
+        </label>
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
@@ -597,7 +615,9 @@
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- IssueDescription --></label>
+        <label>
+            <!-- IssueDescription -->
+        </label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -732,7 +752,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Valid_Client_Found_Toast</name>
     </customLabels>
     <customLabels>
-        <label><!-- Not Completed Text --></label>
+        <label>
+            <!-- Not Completed Text -->
+        </label>
         <name>Not_Completed_Text</name>
     </customLabels>
     <customLabels>
@@ -740,7 +762,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Not_Invite</name>
     </customLabels>
     <customLabels>
-        <label><!-- Not Opened Text --></label>
+        <label>
+            <!-- Not Opened Text -->
+        </label>
         <name>Not_Opened_Text</name>
     </customLabels>
     <customLabels>
@@ -760,7 +784,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Opened_At_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Opened Text --></label>
+        <label>
+            <!-- Opened Text -->
+        </label>
         <name>Opened_Text</name>
     </customLabels>
     <customLabels>
@@ -816,7 +842,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Profile_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Recipients are being added in background --></label>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en arrière-plan. Veuillez attendre...</label>
         <name>Recipients_are_being_added_in_background</name>
     </customLabels>
     <customLabels>
@@ -868,7 +894,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label><!-- Request for Enterprise Email --></label>
+        <label>
+            <!-- Request for Enterprise Email -->
+        </label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -948,7 +976,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_a_record_type_Type</name>
     </customLabels>
     <customLabels>
-        <label><!-- Send Reminder Config Text --></label>
+        <label>
+            <!-- Send Reminder Config Text -->
+        </label>
         <name>Send_Reminder_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -964,7 +994,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Send_Reminder_Time_Error_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Send TP To New Receipient --></label>
+        <label>Envoyer le Point de Contact à de nouveaux destinataires</label>
         <name>Send_TP_To_New_Receipient</name>
     </customLabels>
     <customLabels>
@@ -1152,7 +1182,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TelosTouch_Fields</name>
     </customLabels>
     <customLabels>
-        <label><!-- TelosTouch Permission Set Name --></label>
+        <label>
+            <!-- TelosTouch Permission Set Name -->
+        </label>
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
@@ -1164,7 +1196,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Total_Sync_Record_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPoint Process Running Text --></label>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact. Veuillez attendre...</label>
         <name>TouchPoint_Process_Running_Text</name>
     </customLabels>
     <customLabels>
@@ -1289,15 +1321,19 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label><!-- TouchPoints --></label>
+        <label>
+            <!-- TouchPoints -->
+        </label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
-        <flows/>
+        <flows />
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
     <quickActions>
-        <label><!-- New Task --></label>
+        <label>
+            <!-- New Task -->
+        </label>
         <name>NewTask</name>
     </quickActions>
 </Translations>

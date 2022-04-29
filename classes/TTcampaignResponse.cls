@@ -15,7 +15,7 @@ public with sharing class TTcampaignResponse {
 * @param campId stores id of campaign.
 * @param remainingClientIdsList stores id of campaign.
 */
-    public static  void getCampaignResponse(String campId, List<String> remainingClientIdsList ){
+    public static String getCampaignResponse(String campId, List<String> remainingClientIdsList ){
         try{
             //System.debug('campId::'+campId);
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
@@ -78,11 +78,13 @@ public with sharing class TTcampaignResponse {
                             System.enqueueJob(new TelosTouchSF.GetClientsFromTTQueueable(0, 9000, Null,false, null));
                         }                        
                     }
+                    return campaignList[0].TelosTouchSF__TT_Campaign_Id__c;
                 }
             }
-            
+            return null;
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            return null;
         }
     }
     @future (callout= true)

@@ -43,13 +43,15 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @param remainingClientIds stores...
 */
     @AuraEnabled
-    public static void getTTCampaignId(String campId, String remainingClientIds){
+    public static String getTTCampaignId(String campId, String remainingClientIds){
         try{
             List<String> remainingClientIdsList = new List<String>();
             remainingClientIdsList = (List<String>) JSON.deserialize(remainingClientIds, List<String>.class);
-            TTcampaignResponse.getCampaignResponse(campId, remainingClientIdsList);
+            String ttCampId = TTcampaignResponse.getCampaignResponse(campId, remainingClientIdsList);
+            return ttCampId;
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
+            return null;
         }
     }
     /**

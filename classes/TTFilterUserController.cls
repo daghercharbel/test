@@ -742,7 +742,9 @@ public with sharing class TTFilterUserController {
             }
             //System.debug('campaignMemberList:: '+campaignMemberList);
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isUpdateable() && Schema.sObjectType.CampaignMember.isCreateable()){
+                System.debug('campaignMemberList inserted:: '+ campaignMemberList);
                 insert campaignMemberList;
+                System.debug('campaignMemberList inserted:: '+ campaignMemberList);
             }
             return campRecordId;
         } catch (Exception e) {

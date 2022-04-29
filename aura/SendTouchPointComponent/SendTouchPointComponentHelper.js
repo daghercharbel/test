@@ -73,7 +73,7 @@
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                console.log('iframeURL::'+iframeURL);
+                                //console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             }   
                         }
@@ -181,21 +181,25 @@
             action.setCallback(this, function (response) {
                 c.set("v.isShowSpinner",false);
                 $A.get("e.force:refreshView").fire();
-                h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                 //$A.get("e.force:closeQuickAction").fire();
-                c.find('overlayLib').notifyClose(); 
+                //c.find('overlayLib').notifyClose(); 
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    if(!$A.util.isEmpty(c.get("v.campaignSFid")) && c.get("v.campaignSFid") != undefined){
+                    if(storedResponse != null){
                         //window.open(window.location.origin + '/lightning/r/Campaign/'+c.get("v.campaignSFid")+'/view');
-                        var navEvt = $A.get("e.force:navigateToSObject");
+                        /*var navEvt = $A.get("e.force:navigateToSObject");
                         navEvt.setParams({
                             "recordId": c.get("v.campaignSFid"),
                             "slideDevName": "detail"
                         });
-                        navEvt.fire();
+                        navEvt.fire();*/
+                        h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                         c.find("overlayLib").notifyClose();
+                        c.set("v.campId",'');
+                        c.set("v.campaignSFid",'');
+                    }else{
+                        c.find("overlayLib").notifyClose();   
                         c.set("v.campId",'');
                         c.set("v.campaignSFid",'');
                     }
@@ -245,7 +249,7 @@
         action.setCallback(this, function (response) {
             if(response.getState() === 'SUCCESS'){
                 if(response.getReturnValue()){
-                    h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Touchpoint_Sent_to_Camp_Mem_Text"));
+                    h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                     //$A.get("e.force:closeQuickAction").fire();
                     c.find('overlayLib').notifyClose();
                 }else{

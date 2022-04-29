@@ -1,3 +1,4 @@
 <aura:event type="APPLICATION" description="Event template">
   <aura:attribute name="doRefresh" type="Boolean" />
+  <aura:attribute name="skipClicked" type="Boolean" />
 </aura:event>
