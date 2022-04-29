@@ -33,7 +33,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Add Campaign Modal Header Text</shortDescription>
-        <value>Create Campaign and Send TouchPoint</value>
+        <value>Create Campaign</value>
     </labels>
     <labels>
         <fullName>Add_Custom_Fields_Text</fullName>
