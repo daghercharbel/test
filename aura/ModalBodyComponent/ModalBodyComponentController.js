@@ -8,6 +8,9 @@
   },
   closeCreateCampaignModel: function (component, event, helper) {
     component.find("overlayLib").notifyClose();
+    var myEvent = $A.get("e.c:RefreshCampaignEvent");
+    myEvent.setParams({ skipClicked: true });
+    myEvent.fire();
     //console.log(JSON.stringify(component.get("v.userList")));
   },
   itemValue: function (c, e, h) {

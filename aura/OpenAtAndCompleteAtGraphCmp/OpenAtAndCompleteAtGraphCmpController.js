@@ -25,6 +25,8 @@
     h.doinit_Helper(c, e, h);
   },
   doRefresh: function (c, e, h) {
-    h.doinit_Helper(c, e, h);
+    if (e.getParam("doRefresh") === true) {
+      h.doinit_Helper(c, e, h);
+    }
   }
 });

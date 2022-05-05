@@ -31,11 +31,15 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
                   insightsList = [SELECT Id,
                                   Name,
                                   TelosTouchSF__Opened_At__c,
-                                  TelosTouchSF__Completed_At__c
+                                  TelosTouchSF__Completed_At__c,
+                                  TelosTouchSF__Campaign2__r.TelosTouchSF__TT_Campaign_Id__c
                                   FROM TelosTouchSF__Insights__c
                                   WHERE TelosTouchSF__Campaign2__c =:recordId
                                   ORDER BY TelosTouchSF__Opened_At__c ASC LIMIT 2000];
               }
+            if(String.isNotEmpty([SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: recordId].TelosTouchSF__TT_Campaign_Id__c)){
+                OpenAtAndCompletedWrapperObj.campaignSynced = true;
+            }
             for(TelosTouchSF__Insights__c insightObj : insightsList){
                 OpenAtAndCompletedWrapperObj.userName = insightObj.Name;
                 if(insightObj.TelosTouchSF__Opened_At__c != null){
@@ -119,6 +123,11 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
         public List<OpenedAtCompletedWrapper> OpenedAtCompletedWrapperList;
         @AuraEnabled
         public String userName;
+        @AuraEnabled
+        public Boolean campaignSynced;
+        OpenAtAndCompletedWrapper(){
+            campaignSynced = false;
+        }
     }
         /**
 * @author Cloud Analogy

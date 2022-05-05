@@ -247,4 +247,25 @@ public with sharing class CampaignTriggerHandler {
             System.debug(LoggingLevel.WARN, e.getMessage()+' Occurred At Line Number: '+e.getLineNumber());
         }
     }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @param newList ......
+*/
+    public static void publishEventOnInsertAndUpdate(List<Campaign> newList){
+        try{
+            Set<String> campaignIdSet = new Set<String>();
+            List<TelosTouchSF__Insight_Creation_Event__e> insightEventList = new List<TelosTouchSF__Insight_Creation_Event__e>();
+            for(Campaign camp : newList){
+                campaignIdSet.add(camp.Id);
+            }
+            for(String campId : campaignIdSet){
+                insightEventList.add(new TelosTouchSF__Insight_Creation_Event__e(TelosTouchSF__Campaign__c = campId));
+            }
+            EventBus.publish(insightEventList);
+        }catch(Exception ex){
+            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'on Line Number:::::: '+ex.getLineNumber());
+        }
+    }
 }

@@ -24,10 +24,29 @@
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.You_Already_Sent_TouchPoint_For_Cam_Toast"));
                             return;
                         }else if(storedResponse.returnMessage == 'Please add Campaign members'){
-                            //$A.get("e.force:closeQuickAction").fire();
-                            c.find('overlayLib').notifyClose();
-                            c.set("v.openfromCampaign",false);
-                            h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Please_Add_Cam_Mem_Toast"));
+                            // //$A.get("e.force:closeQuickAction").fire();
+                            // c.find('overlayLib').notifyClose();
+                            // c.set("v.openfromCampaign",false);
+                            // h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Please_Add_Cam_Mem_Toast"));
+
+                            var remainingIds = [];
+                            c.set('v.remainingIdsList', remainingIds);
+                            var settingObj = c.get("v.settingAPIObj");
+                            var authToken = c.get("v.authToken");
+                            if(settingObj != null){
+                                var iframeURL = '';
+                                if(!$A.util.isEmpty(storedResponse.CampId) && storedResponse.CampId != undefined){
+                                    c.set("v.campId",storedResponse.CampId);
+                                    //iframeURL  = settingObj.Instance_URL+"/app-v2/#/contacts?page=contacts&send_touchpoint="+ids.trim()+"&auth_token="+authToken+"&sf_campaign_id="+storedResponse.CampId+"&fullscreen=true";
+                                    if($A.get("$Locale.language") === 'en'){
+                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=en_US&access_token="+authToken+"&other_id="+storedResponse.CampId;
+                                    }else if($A.get("$Locale.language") === 'fr'){
+                                        iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
+                                    }
+                                }
+                                //console.log('iframeURL::'+iframeURL);
+                                c.set("v.iframeUrl",iframeURL);   
+                            } 
                         }else if(storedResponse.returnMessage == 'Please check all Campaign members synced or not.'){
                             //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
@@ -73,7 +92,7 @@
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&send_touchpoint="+ids.trim()+"&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                console.log('iframeURL::'+iframeURL);
+                                //console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             }   
                         }
@@ -134,7 +153,6 @@
                             c.set("v.openfromCampaign",true);
                             h.doInit_helper(c,e,h);
                         }else{
-                            //console.log('doInit_helper');
                             var iframeURL = storedResponse.Instance_URL+"/app-v2/#/contacts?page=contacts&send_touchpoint="+null+"&auth_token="+storedResponse.authToken+"&fullscreen=true";
                             c.set("v.iframeUrl",iframeURL); 
                         }
@@ -182,19 +200,28 @@
                 c.set("v.isShowSpinner",false);
                 $A.get("e.force:refreshView").fire();
                 //$A.get("e.force:closeQuickAction").fire();
-                c.find('overlayLib').notifyClose(); 
+                //c.find('overlayLib').notifyClose(); 
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    if(!$A.util.isEmpty(c.get("v.campaignSFid")) && c.get("v.campaignSFid") != undefined){
+                    if(storedResponse != null){
                         //window.open(window.location.origin + '/lightning/r/Campaign/'+c.get("v.campaignSFid")+'/view');
-                        var navEvt = $A.get("e.force:navigateToSObject");
+                        /*var navEvt = $A.get("e.force:navigateToSObject");
                         navEvt.setParams({
                             "recordId": c.get("v.campaignSFid"),
                             "slideDevName": "detail"
                         });
-                        navEvt.fire();
+                        navEvt.fire();*/
+                        if(c.get('v.remainingIdsList').length === 0){
+                            h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.TouchPoint_Created"));
+                        }else{
+                            h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
+                        }
                         c.find("overlayLib").notifyClose();
+                        c.set("v.campId",'');
+                        c.set("v.campaignSFid",'');
+                    }else{
+                        c.find("overlayLib").notifyClose();   
                         c.set("v.campId",'');
                         c.set("v.campaignSFid",'');
                     }
@@ -244,7 +271,7 @@
         action.setCallback(this, function (response) {
             if(response.getState() === 'SUCCESS'){
                 if(response.getReturnValue()){
-                    h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Touchpoint_Sent_to_Camp_Mem_Text"));
+                    h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                     //$A.get("e.force:closeQuickAction").fire();
                     c.find('overlayLib').notifyClose();
                 }else{

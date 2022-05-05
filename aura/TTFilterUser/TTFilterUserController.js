@@ -346,6 +346,8 @@
     }
   },
   doRefresh: function (c, e, h) {
-    h.doInit_helper(c, e, h);
+    if (e.getParam("doRefresh") === true) {
+      h.doInit_helper(c, e, h);
+    }
   },
 });

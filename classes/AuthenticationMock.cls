@@ -105,6 +105,14 @@ global class AuthenticationMock implements HttpCalloutMock {
       res.setBody('[{"id":"fa7fa8be-f63e-4e82-97a4-72f63b6b43e7","name":"professional","path":"/00D7j000000Gyd4EAC/professional"}]');
       res.setStatusCode(200);
       return res;
+    }else if (
+      endpoint.contains('/api/v1/touchpoints') && endpoint.contains('/clients') && req.getMethod() == 'GET'
+    ) {
+      HttpResponse res = new HttpResponse();
+      res.setHeader('Content-Type', 'application/json');
+      res.setBody('{"id":"62668d83adeb68e8fb3a2083","created_at":"2022-04-25T12:01:07.434Z","created_by":"TT Support","created_by_id":"54315e41-0acd-4a81-a49b-7ca6743e509a","name":"Meeting Preparation","name_fr":"Planifions notre rencontre","touchpoint_template_id":"622a64385235e23907355896","conversations":[{"conversation_id":"62668d83adeb68e8fb3a2084","completed_at":"2022-04-26T09:16:46Z","opened_at":"2022-04-26T09:16:46Z","status_touchpoint":"none","user_id":null,"user_name":"HR SF Mass Contact 21-4 T1 2499","contact_id":"62610b10ef5df56030141dd6","avatarId":null,"language":"en_US"},{"conversation_id":"62668d83adeb68e8fb3a2074","completed_at":"2022-04-26T09:16:46Z","opened_at":"2022-04-26T09:16:46Z","status_touchpoint":"none","user_id":null,"user_name":"HR SF Mass Contact 21-4 T1 2499","contact_id":"62610b10ef5lf56030141dd6","avatarId":null,"language":"en_US"}]}');
+      res.setStatusCode(200);
+      return res;
     } else {
       HttpResponse res = new HttpResponse();
       res.setHeader('Content-Type', 'application/json');

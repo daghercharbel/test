@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customApplications>
-        <label><!-- TelosTouch --></label>
+        <label>
+            
+        </label>
         <name>TelosTouch</name>
     </customApplications>
     <customLabels>
@@ -13,7 +15,7 @@
         <name>Actions_Text</name>
     </customLabels>
     <customLabels>
-        <label>Veuillez ajouter des membres à la campagne pour envoyer un TouchPoint</label>
+        <label>Veuillez cliquer sur “Choisir un TouchPoint” pour créer un TouchPoint vide ou ajouter des membres à la campagne pour ajouter des destinataires au TouchPoint.</label>
         <name>Add_Cam_Mem_to_TT_Text</name>
     </customLabels>
     <customLabels>
@@ -21,7 +23,7 @@
         <name>Add_Campaign_Members_Text</name>
     </customLabels>
     <customLabels>
-        <label>Créer un Campagne et envoyer un TouchPoint</label>
+        <label>Créer une nouvelle Campagne</label>
         <name>Add_Campaign_Modal_Header_Text</name>
     </customLabels>
     <customLabels>
@@ -39,6 +41,12 @@
     <customLabels>
         <label>Ajouter</label>
         <name>Add_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>
+            
+        </label>
+        <name>Add_To_Campaign_Config_Text</name>
     </customLabels>
     <customLabels>
         <label>Veuillez inscrire une nom de Campagne</label>
@@ -129,7 +137,7 @@
         <name>Campaigns_Text</name>
     </customLabels>
     <customLabels>
-        <label>Canceller</label>
+        <label>Annuler</label>
         <name>Cancel_Button_Label</name>
     </customLabels>
     <customLabels>
@@ -153,7 +161,9 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label><!-- CaseRaised --></label>
+        <label>
+            
+        </label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -229,7 +239,9 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Close --></label>
+        <label>
+            
+        </label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -249,7 +261,7 @@
         <name>Completed_At_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Completed Text --></label>
+        <label>Complété</label>
         <name>Completed_Text</name>
     </customLabels>
     <customLabels>
@@ -297,12 +309,28 @@
         <name>Contact_Label</name>
     </customLabels>
     <customLabels>
+        <label>
+            
+        </label>
+        <name>Create_Mass_Action_Config_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Créer nouveau</label>
         <name>Create_New_Text</name>
     </customLabels>
     <customLabels>
         <label>Créer une série de tâches récurrentes</label>
         <name>Create_Recurring_Task</name>
+    </customLabels>
+    <customLabels>
+        <label>Créer site à distance:</label>
+        <name>Create_Remote_Site_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>
+            
+        </label>
+        <name>Create_Sungle_Action_Text</name>
     </customLabels>
     <customLabels>
         <label>Créer Action</label>
@@ -501,7 +529,9 @@
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- IssueDescription --></label>
+        <label>
+            
+        </label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -568,7 +598,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Named_Credential_Error</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux contacts ajoutés à la Campagne. Veuillez cliquer sur &quot;Choisir un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
+        <label>Nouveaux contacts ajoutés à la Campagne. Veuillez cliquer sur &quot;Envoyer un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
         <name>New_Camp_Member_Added_Text</name>
     </customLabels>
     <customLabels>
@@ -612,7 +642,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Valid_Client_Found_Toast</name>
     </customLabels>
     <customLabels>
-        <label><!-- Not Completed Text --></label>
+        <label>Non complété</label>
         <name>Not_Completed_Text</name>
     </customLabels>
     <customLabels>
@@ -620,7 +650,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Not_Invite</name>
     </customLabels>
     <customLabels>
-        <label><!-- Not Opened Text --></label>
+        <label>Non ouvert</label>
         <name>Not_Opened_Text</name>
     </customLabels>
     <customLabels>
@@ -640,7 +670,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Opened_At_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Opened Text --></label>
+        <label>Ouvert</label>
         <name>Opened_Text</name>
     </customLabels>
     <customLabels>
@@ -692,6 +722,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Profile_Text</name>
     </customLabels>
     <customLabels>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en arrière-plan. Veuillez attendre...</label>
+        <name>Recipients_are_being_added_in_background</name>
+    </customLabels>
+    <customLabels>
         <label>Les enregistrements seront assignés au créateur dans TT</label>
         <name>Record_Creator_Assigned_Label</name>
     </customLabels>
@@ -736,7 +770,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label><!-- Request for Enterprise Email --></label>
+        <label>
+            
+        </label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -804,6 +840,12 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_a_record_type_Type</name>
     </customLabels>
     <customLabels>
+        <label>
+            
+        </label>
+        <name>Send_Reminder_Config_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Seuls les clients n&apos;ayant pas reçu de rappel dans les dernières 24 heures recevront une nouvelles notification,</label>
         <name>Send_Reminder_Modal_Text</name>
     </customLabels>
@@ -814,6 +856,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Le Touchpoint a été créé il y a moins de 24 heures</label>
         <name>Send_Reminder_Time_Error_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Envoyer le Point de Contact à de nouveaux destinataires</label>
+        <name>Send_TP_To_New_Receipient</name>
     </customLabels>
     <customLabels>
         <label>Nouveaux contacts ajoutés à la Campagne. Souhaitez-vous envoyer un TouchPoint?</label>
@@ -836,7 +882,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>ShareConcern</name>
     </customLabels>
     <customLabels>
-        <label>Administrateur du système</label>
+        <label>Administrateur système</label>
         <name>ShowTTConfigPage</name>
     </customLabels>
     <customLabels>
@@ -860,7 +906,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Showing_docs_Knowledge_base</name>
     </customLabels>
     <customLabels>
-        <label>Passer</label>
+        <label>Pas encore</label>
         <name>Skip_Text</name>
     </customLabels>
     <customLabels>
@@ -984,6 +1030,14 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Total_Sync_Record_Text</name>
     </customLabels>
     <customLabels>
+        <label>Le TouchPoint a été créé. Veuillez ajouter des membres à la campagne afin d’ajouter des destinataires au TouchPoint.</label>
+        <name>TouchPoint_Created</name>
+    </customLabels>
+    <customLabels>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact. Veuillez attendre...</label>
+        <name>TouchPoint_Process_Running_Text</name>
+    </customLabels>
+    <customLabels>
         <label>TouchPoint transmis. Aucune autre action requise.</label>
         <name>Touchpoint_Sent_Text</name>
     </customLabels>
@@ -1081,7 +1135,9 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label><!-- TouchPoints --></label>
+        <label>
+            
+        </label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
@@ -1154,7 +1210,10 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>NewOpportunity</name>
     </quickActions>
     <quickActions>
-        <label><!-- New Task --></label>
+        <aspect>Master</aspect>
+        <label>
+            
+        </label>
         <name>NewTask</name>
     </quickActions>
     <quickActions>

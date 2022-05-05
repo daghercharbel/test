@@ -877,14 +877,14 @@ private with sharing class TelosTouchUtilityTest {
         con.FirstName = 'Test';
         con.LastName = 'Con 1';
         con.Email = 'test123@test.com';
-        con.TelosTouchSF__TT_Client_Id__c = '2893ehdj9238ujwq';
+        con.TelosTouchSF__TT_Client_Id__c = '62610b10ef5df56030141dd6';
         
         Lead ld = new Lead();
         ld.FirstName = 'Test';
         ld.LastName = 'Lead 1';
         ld.Company = 'CA';
         ld.Email = 'test122332@test.com';
-        ld.TelosTouchSF__TT_Client_Id__c = '328ye92ywqui3286';
+        ld.TelosTouchSF__TT_Client_Id__c = '62610b10ef5lf56030141dd6';
         
         insert con;
         insert ld;

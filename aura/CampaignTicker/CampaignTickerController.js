@@ -13,7 +13,7 @@
                 eventReceived.data.payload.TelosTouchSF__Campaign__c
                 ) {
                 h.doInitHelper(c, e, h);
-                h.openSendTouchpointModal(c, e, h);
+                //h.openSendTouchpointModal(c, e, h);
             }
                            })
         )
@@ -39,6 +39,7 @@
     },
     openChooseTouchPointModal: function (c, e, h) {
         //console.log("open modal on click is called");
+        c.set('v.disableValue', true);
         $A.createComponent(
             "c:SendTouchPointComponent",
             { recordId: c.get("v.recordId") },
@@ -47,10 +48,18 @@
                     c.find("overlayLib").showCustomModal({
                         body: content,
                         showCloseButton: false,
-                        cssClass: "slds-modal_large touchpoint-modal"
+                        cssClass: "slds-modal_large touchpoint-modal",
+                        closeCallback: function() {
+                            h.doInitHelper(c, e, h);
+                        }
                     });
                 }
             }
         );
+    },
+    skipClicked: function (c, e, h) {
+        if (e.getParam("skipClicked") === true) {
+            h.doInitHelper(c, e, h);
+        }
     }
 });

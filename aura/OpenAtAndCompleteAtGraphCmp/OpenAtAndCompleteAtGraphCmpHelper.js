@@ -113,7 +113,7 @@
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.font = "20px Arial";
-            if (datawrapper.userName != null) {
+            if (datawrapper.userName != null && datawrapper.campaignSynced) {
               wrapText(
                 ctx,
                 $A.get("$Label.c.Campaign_Graph_Will_Populate_Text"),
@@ -123,7 +123,16 @@
                 20 * 1.618
               );
               //ctx.fillText($A.get("$Label.c.Campaign_Graph_Will_Populate_Text"), width / 2, height / 2);
-            } else {
+            } else if(datawrapper.userName == null && datawrapper.campaignSynced){
+              wrapText(
+                ctx,
+                $A.get("$Label.c.TouchPoint_Created"),
+                width / 2,
+                height / 2,
+                width,
+                20 * 1.618
+              );
+            }else {
               //ctx.fillText($A.get("$Label.c.Campaign_Graph_Send_Touchpoint_Text"), width / 2, height / 2);
               wrapText(
                 ctx,
