@@ -35,7 +35,7 @@
         action.setCallback(this, function (response) {
             if(response.getState() === 'SUCCESS'){
                 var responseObj = JSON.parse(response.getReturnValue());
-                if(responseObj.synced && responseObj.actionRequired){
+                if(responseObj.synced && responseObj.openTouchPointModal){
                     $A.createComponent("c:ModalBodyComponent", {sendTouchpoint : true},
                         function(content, status) {
                             if (status === "SUCCESS") {

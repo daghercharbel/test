@@ -66,7 +66,7 @@ public with sharing class CampMemberNotAddInCampHandler {
 */
     public static void addRecipientsIntoTouchPoint( List<CampaignMember> memberList) {
         try{
-            System.debug('memberList:: '+memberList);
+            //System.debug('memberList:: '+memberList);
             Set<Id> leadIds = new Set<Id>();
             Set<Id> contactIds = new Set<Id>();
             Id campaignId;
@@ -90,7 +90,7 @@ public with sharing class CampMemberNotAddInCampHandler {
                 FROM Campaign
                 WHERE Id =: campaignId LIMIT 1];
             }
-            System.debug('campObj:: '+campObj);
+            //System.debug('campObj:: '+campObj);
 
             BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper objWrapper = new BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper();
             objWrapper.campId = String.valueof(campObj.ID);

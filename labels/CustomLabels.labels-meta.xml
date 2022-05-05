@@ -2202,13 +2202,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Show Create Single Actions Button</value>
     </labels>
     <labels>
-        <fullName>IfTwoUserHaveSameEmail</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>IfTwoUserHaveSameEmail</shortDescription>
-        <value>If more than one user has same email, only one user will show up in the list</value>
-    </labels>
-    <labels>
         <fullName>Recipients_are_being_added_in_background</fullName>
         <language>en_US</language>
         <protected>true</protected>
