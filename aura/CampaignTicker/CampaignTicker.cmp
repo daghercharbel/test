@@ -22,8 +22,8 @@
             <div class="slds-p-left_small slds-p-bottom_small">
                 <aura:if isTrue="{!and(v.ActionRequired, v.CampaignSynced)}">
                     <lightning:button
-                            label="{!$Label.c.Send_TP_To_New_Receipient}"
-                            title="{!$Label.c.Send_TP_To_New_Receipient}"
+                            label="{!$Label.c.Send_Touchpoint_Text}"
+                            title="{!$Label.c.Send_Touchpoint_Text}"
                             disabled="{!v.disableValue}"
                             onclick="{! c.openChooseTouchPointModal }"
                     />
@@ -49,8 +49,8 @@
             <aura:if isTrue="{!!$Browser.isPhone}">
                 <aura:if isTrue="{!and(v.ActionRequired, v.CampaignSynced)}">
                     <lightning:button
-                            label="{!$Label.c.Send_TP_To_New_Receipient}"
-                            title="{!$Label.c.Send_TP_To_New_Receipient}"
+                            label="{!$Label.c.Send_Touchpoint_Text}"
+                            title="{!$Label.c.Send_Touchpoint_Text}"
                             disabled="{!v.disableValue}"
                             onclick="{! c.openChooseTouchPointModal }"
                     />

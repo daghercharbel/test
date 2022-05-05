@@ -148,7 +148,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 return getActiveUserWrapper;
             }
         }else{
-            //System.debug('Else If Called! '+apiSetting);
             return getUserAccessToken(apiSetting, isCallingFrom);
         }
     }
