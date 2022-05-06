@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customApplications>
-        <label></label>
+        <label>
+            
+        </label>
         <name>TelosTouch</name>
     </customApplications>
     <customLabels>
@@ -41,7 +43,9 @@
         <name>Add_Text</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Add_To_Campaign_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -189,7 +193,9 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -289,7 +295,9 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -357,7 +365,9 @@
         <name>Contact_Label</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Create_Mass_Action_Config_Label</name>
     </customLabels>
     <customLabels>
@@ -373,7 +383,9 @@
         <name>Create_Remote_Site_Text</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Create_Sungle_Action_Text</name>
     </customLabels>
     <customLabels>
@@ -401,15 +413,11 @@
         <name>Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>
-            <!-- Custom Metadata Admin Record Label -->
-        </label>
+        <label><!-- Custom Metadata Admin Record Label --></label>
         <name>Custom_Metadata_Admin_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label>
-            <!-- Custom Metadata Test Record Label -->
-        </label>
+        <label><!-- Custom Metadata Test Record Label --></label>
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
@@ -601,7 +609,9 @@
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -872,7 +882,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -952,7 +964,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_a_record_type_Type</name>
     </customLabels>
     <customLabels>
-        <label></label>
+        <label>
+            
+        </label>
         <name>Send_Reminder_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -1156,9 +1170,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TelosTouch_Fields</name>
     </customLabels>
     <customLabels>
-        <label>
-            <!-- TelosTouch Permission Set Name -->
-        </label>
+        <label><!-- TelosTouch Permission Set Name --></label>
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
@@ -1299,16 +1311,20 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label></label>
+        <label>
+            
+        </label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
-        <flows />
+        <flows/>
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
     <quickActions>
         <aspect>Master</aspect>
-        <label></label>
+        <label>
+            
+        </label>
         <name>NewTask</name>
     </quickActions>
 </Translations>

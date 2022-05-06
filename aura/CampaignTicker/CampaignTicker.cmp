@@ -28,12 +28,22 @@
                             onclick="{! c.openChooseTouchPointModal }"
                     />
                     <aura:set attribute="else">
-                        <lightning:button
+                        <aura:if isTrue="{!v.CampaignSynced}">
+                            <lightning:button
+                            label="{!$Label.c.Send_Touchpoint_Text}"
+                            title="{!$Label.c.Send_Touchpoint_Text}"
+                            disabled="{!v.disableValue}"
+                            onclick="{! c.openChooseTouchPointModal }"
+                            />
+                            <aura:set attribute="else">
+                                <lightning:button
                                 label="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 title="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 disabled="{!v.disableValue}"
                                 onclick="{! c.openChooseTouchPointModal }"
-                        />
+                                />
+                            </aura:set>
+                        </aura:if>
                     </aura:set>
                 </aura:if>
                 <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
@@ -55,12 +65,22 @@
                             onclick="{! c.openChooseTouchPointModal }"
                     />
                     <aura:set attribute="else">
-                        <lightning:button
+                        <aura:if isTrue="{!v.CampaignSynced}">
+                            <lightning:button
+                            label="{!$Label.c.Send_Touchpoint_Text}"
+                            title="{!$Label.c.Send_Touchpoint_Text}"
+                            disabled="{!v.disableValue}"
+                            onclick="{! c.openChooseTouchPointModal }"
+                            />
+                            <aura:set attribute="else">
+                                <lightning:button
                                 label="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 title="{!$Label.c.Choose_a_TouchPoint_Text}"
                                 disabled="{!v.disableValue}"
                                 onclick="{! c.openChooseTouchPointModal }"
-                        />
+                                />
+                            </aura:set>
+                        </aura:if>
                     </aura:set>
                 </aura:if>
                 <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
