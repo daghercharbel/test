@@ -2236,4 +2236,11 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <shortDescription>TouchPoint Created</shortDescription>
         <value>TouchPoint has been created. Please add campaign members to add recipients to TouchPoint.</value>
     </labels>
+    <labels>
+        <fullName>TouchPoint_Created_With_Recipients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Created With Recipients</shortDescription>
+        <value>TouchPoint has been created. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
+    </labels>
 </CustomLabels>
