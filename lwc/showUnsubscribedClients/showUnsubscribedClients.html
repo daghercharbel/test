@@ -1,0 +1,105 @@
+<template>
+    <template if:true={isSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    <div if:true={dataExist}>
+        <lightning-layout class="slds-m-bottom_small slds-p-horizontal_small" multiple-rows="true">
+            <lightning-layout-item size="12">
+                <lightning-input
+                name="Search"
+                label= "{label.Search_using_name_email_text}"
+                type="search"
+                placeholder= "{label.Enter_Search_Term_Text}"
+                onchange={handleSearchOnchange}
+                oncommit={onCommitHandleJs}
+                ></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" class="slds-p-top_xx-small">
+                <lightning-button label= "{label.Search_Text}" icon-name="utility:search" variant="brand" alternative-text= "{label.Search_Text}" title= "{label.Search_Text}" onclick={onCommitHandleJs}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- <div class="slds-grid slds-wrap slds-m-bottom_small">
+            <div  class="slds-col slds-size_5-of-12 "></div>
+            <div class="slds-col slds-size_7-of-12">
+                <lightning-input
+                name="search"
+                label="Search using Name, Email or Phone"
+                type="search"
+                placeholder="Enter min 3 characters"
+                onchange={handleSearchOnchange}
+                ></lightning-input>
+            </div>    
+            <div  class="slds-col slds-size_5-of-12 "></div>
+            <div class="slds-col slds-size_7-of-12">
+                <lightning-button-icon icon-name="utility:search" class="slds-float_right" variant="brand" alternative-text="Search" title="Search" onclick={onCommitHandleJs}></lightning-button-icon>
+            </div>
+        </div> -->
+        
+        <div class="slds-scrollable_x">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate" title= "{label.Name_Text}">{label.Name_Text}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title= "{label.Email_Text}">{label.Email_Text}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title= "{label.Phone_text}">{label.Phone_text}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={listData} for:item="obj">
+                        <tr key={obj.Id}>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                        {obj.Name}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                        {obj.Email}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                        {obj.Phone}
+                                </div>
+                            </th>
+                        </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+        <div slot="actions" class="slds-p-top_x-small">
+            <lightning-button
+                variant="neutral"
+                title= "{label.Previous_Button_Label}"
+                label= "{label.Previous_Button_Label}"
+                disabled={preDisable}
+                icon-name="utility:chevronleft"
+                icon-position="left"
+                onclick={handleClick}
+            ></lightning-button>
+            <lightning-button
+                variant="neutral"
+                title= "{label.Next_Button_Label}"
+                label= "{label.Next_Button_Label}"
+                disabled={nextDisable}
+                class="slds-p-left_xx-small"
+                icon-name="utility:chevronright"
+                icon-position="left"
+                onclick={handleClick}
+            ></lightning-button>
+            <span class="slds-p-left_medium slds-float_right ">
+                {label.Page_no_text}: {pageNo} {label.of_text} {totalPages}
+            </span>
+            
+        </div>
+    </div>
+    <div if:false={dataExist}>
+        <p class="noClients"> {label.No_unsubscribed_client_text}</p>
+    </div>
+</template>
