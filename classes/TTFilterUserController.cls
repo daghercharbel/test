@@ -112,6 +112,7 @@ public with sharing class TTFilterUserController {
                             ttDoinitWrapperObj.ttFilterWrapperObj.questionAnswerList.add(questionAnswerWrapperObj);
                         }
                     }
+                    //System.debug('conv list::'+ conversationUserList);
                     for(TelosTouchSF__Insights__c conversationUserObj :conversationUserList){
                         UserWrapper userWrapperObj = new UserWrapper();
                         userWrapperObj.Id = conversationUserObj.Id;
@@ -293,8 +294,8 @@ public with sharing class TTFilterUserController {
                 conversationUserList = Database.query(String.escapeSingleQuotes(conversationUserQuery).replace('\\',''));
                 if(questionMap1.containsKey('name') &&  questionMap1.get('name') != null && String.isNotBlank(String.valueOf(questionMap1.get('name')))){
                     for(Integer i=0; i<conversationUserList.size(); i++){
-                        if((conversationUserList[i].TelosTouchSF__Contact__r.Name != null && !conversationUserList[i].TelosTouchSF__Contact__r.Name.contains((String)questionMap1.get('name'))) ||
-                                (conversationUserList[i].TelosTouchSF__Lead__r.Name != null && !conversationUserList[i].TelosTouchSF__Lead__r.Name.contains((String)questionMap1.get('name'))) ){
+                        if((conversationUserList[i].TelosTouchSF__Contact__r.Name != null && !conversationUserList[i].TelosTouchSF__Contact__r.Name.toUpperCase().contains(String.valueOf(questionMap1.get('name')).toUpperCase())) ||
+                                (conversationUserList[i].TelosTouchSF__Lead__r.Name != null && !conversationUserList[i].TelosTouchSF__Lead__r.Name.toUpperCase().contains(String.valueOf(questionMap1.get('name')).toUpperCase())) ){
                             conversationUserList.remove(i);
                             i--;
                         }
@@ -377,6 +378,7 @@ public with sharing class TTFilterUserController {
                     FROM TelosTouchSF__Insights__c
                     WHERE (Id =: recordId OR TelosTouchSF__Campaign2__c=: recordId) LIMIT 2000];
                 }
+                //System.debug('conversation list::'+ conversationUserList);
                 for(TelosTouchSF__Insights__c conversationUserObj : conversationUserList){
                     answerWrapperDetailsObj.TouchPointName = conversationUserObj.TelosTouchSF__TouchPoint_Name__c;
 
@@ -387,7 +389,6 @@ public with sharing class TTFilterUserController {
                     }else{
                         answerWrapperDetailsObj.Name = conversationUserObj.Name;
                     }
-
                     conversationUserObj.TelosTouchSF__Answers__c =   conversationUserObj.TelosTouchSF__Answers__c.unescapeHtml4();
                     if(conversationUserObj.TelosTouchSF__Answers__c != null){
                         List<Object> responseList = (List<Object>)JSON.deserializeUntyped(conversationUserObj.TelosTouchSF__Answers__c);
@@ -412,6 +413,7 @@ public with sharing class TTFilterUserController {
                         }
                     }
                 }
+                //System.debug('answer:: '+ answerWrapperDetailsList);
                 if(answerWrapperDetailsList.size() > 0){
                     return answerWrapperDetailsList;
                 }

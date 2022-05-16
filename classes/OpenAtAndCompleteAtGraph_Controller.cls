@@ -40,6 +40,9 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
             if(String.isNotEmpty([SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: recordId].TelosTouchSF__TT_Campaign_Id__c)){
                 OpenAtAndCompletedWrapperObj.campaignSynced = true;
             }
+            if([SELECT count() FROM CampaignMember WHERE CampaignId =: recordId] > 0){
+                OpenAtAndCompletedWrapperObj.campMemberPresent = true;
+            }
             for(TelosTouchSF__Insights__c insightObj : insightsList){
                 OpenAtAndCompletedWrapperObj.userName = insightObj.Name;
                 if(insightObj.TelosTouchSF__Opened_At__c != null){
@@ -125,9 +128,12 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
         public String userName;
         @AuraEnabled
         public Boolean campaignSynced;
+        @AuraEnabled
+        public Boolean campMemberPresent;
         OpenAtAndCompletedWrapper(){
             campaignSynced = false;
-        }
+            campMemberPresent = false;
+        }   
     }
         /**
 * @author Cloud Analogy

@@ -2,7 +2,7 @@
 <ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>telostouchsf@telostouch.com</sharedTo>
+        <sharedTo>test-3r5bnh9lxed2@example.com</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
     <name>TelosTouch Reports</name>

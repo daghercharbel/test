@@ -68,7 +68,7 @@ public with sharing class TTcampaignResponse {
                             List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
                                                                      Lead.Phone FROM CampaignMember WHERE (CampaignId=:campId) AND
                                                                      ((Contact.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList) OR (Lead.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList)) WITH SECURITY_ENFORCED ];
-                            //CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
+                            CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
                         }
                         //getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
                         if(!logList.isEmpty() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible()){

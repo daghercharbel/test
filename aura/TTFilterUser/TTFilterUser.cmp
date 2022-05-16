@@ -13,6 +13,19 @@
                   value="{!v.fielterDetailsChanges}"
                   action="{!c.fielterEvent}"
                   />
+
+    <aura:attribute name="preDisable" type="boolean" default="true" />
+    <aura:attribute name="end" type="boolean" default="false" />
+    <aura:attribute name="nextDisable" type="boolean" default="true" />
+    <aura:attribute name="totalPages" type="integer" default="1" />
+    <aura:attribute name="pageNo" type="integer" default="1" />
+    <aura:attribute name="startRecord" type="integer"/>
+    <aura:attribute name="endRecord" type="integer" />
+    <aura:attribute name="recordPerPage" type="integer" default="10" />
+    <aura:attribute name="listData" type="List" />
+    <aura:attribute name="count" type="integer" />
+
+
     <aura:attribute name="fielterDetails" type="Object" default="" />
     <aura:attribute name="columns" type="List" default="" />
     <aura:attribute name="answers" type="Object" default="" />
@@ -284,7 +297,7 @@
         </div>
         <br />
         <div class="slds-grid">
-            <div class="slds-col slds-size_12-of-12">
+            <div class="slds-col slds-size_12-of-12 slds-scrollable_x">
                 <lightning:datatable
                                      class="dataTable"
                                      columns="{! v.columns }"
@@ -295,7 +308,108 @@
                                      onrowaction="{!c.viewRecord}"
                                      minColumnWidth="150"
                                      />
-            </div>
+                                     </div>
+                <!-- <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th></th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">{!$Label.c.Opened_At_Text}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">{!$Label.c.Completed_At_Text}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}</div>
+                            </th>
+                            <aura:if isTrue="{!v.showCreateSingleActions}">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.Create_Task_Text}">{!$Label.c.Create_Task_Text}</div>
+                                </th>
+                            </aura:if>
+                        </tr>
+                    </thead>
+                        <aura:iteration items="{! v.listData }" var="item">
+                            <tbody>
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-checkbox">
+                                        <lightning:input type="checkbox" checked= "{!item.isChecked}" style= "padding: 7px 7px;" label= "{!item.Id}" variant="label-hidden" value= "{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
+                                    </label>
+                                </div>
+                            </div>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    {!item.name}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    {!item.TTOpened_At}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    {!item.TTCompleted_At}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    <lightning:button
+                                        variant= "neutral"
+                                        title= "{!$Label.c.Answers_Text}"
+                                        label= "{!$Label.c.Answers_Text}"
+                                        value= "{! item}"
+                                        disabled = "{! item.isActive}"
+                                        onclick= "{! c.viewRecord}"
+                                    ></lightning:button>
+                                </div>
+                            </th>
+                            <aura:if isTrue="{!v.showCreateSingleActions}">
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    <lightning:button
+                                        variant= "neutral"
+                                        aura:id ="Create Task"
+                                        value= "{! item}"
+                                        title= "{!$Label.c.Create_Task_Text}"
+                                        label= "{!$Label.c.Create_Task_Text}"
+                                        onclick= "{! c.viewRecord}"
+                                    ></lightning:button>
+                                </div>
+                            </th>
+                        </aura:if>
+                        </tbody>
+                        </aura:iteration>
+                </table>
+            </div> -->
+        </div>
+        <div slot="actions" class="slds-p-top_x-small">
+            <lightning:button
+                variant="neutral"
+                title="{!$Label.c.Previous_Button_Label}"
+                label="{!$Label.c.Previous_Button_Label}"
+                disabled= "{!v.preDisable}"
+                iconName="utility:chevronleft"
+                iconPosition="left"
+                onclick="{! c.handlePrevious}"
+            ></lightning:button>
+            <lightning:button
+                variant="neutral"
+                title="{!$Label.c.Next_Button_Label}"
+                label="{!$Label.c.Next_Button_Label}"
+                disabled= "{! v.nextDisable}"
+                class="slds-p-left_xx-small"
+                iconName="utility:chevronright"
+                iconPosition="left"
+                onclick="{! c.handleNext}"
+            ></lightning:button>
+            <span class="slds-p-left_medium slds-float_right ">
+                Page No: {! v.pageNo} of {! v.totalPages}
+            </span>
         </div>
         <aura:if isTrue="{!v.isShowModel}">
             <div style="height: 10vh"></div>

@@ -5,7 +5,7 @@
  */
 trigger CampMemberNotAddInCampaign on CampaignMember (before insert, after insert, after delete) {
     if(trigger.IsInsert && trigger.IsBefore){
-        TelosTouchSF.CampMemberNotAddInCampHandler.checkCampaignSyncOrNot(trigger.new);
+        //TelosTouchSF.CampMemberNotAddInCampHandler.checkCampaignSyncOrNot(trigger.new);
     }
     /*if(trigger.IsInsert && trigger.IsAfter && !system.isBatch()){
         //TelosTouchSF.CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(trigger.new);

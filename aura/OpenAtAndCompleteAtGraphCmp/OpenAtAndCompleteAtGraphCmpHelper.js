@@ -123,10 +123,19 @@
                 20 * 1.618
               );
               //ctx.fillText($A.get("$Label.c.Campaign_Graph_Will_Populate_Text"), width / 2, height / 2);
-            } else if(datawrapper.userName == null && datawrapper.campaignSynced){
+            } else if(datawrapper.userName == null && datawrapper.campaignSynced && !datawrapper.campMemberPresent){
               wrapText(
                 ctx,
                 $A.get("$Label.c.TouchPoint_Created"),
+                width / 2,
+                height / 2,
+                width,
+                20 * 1.618
+              );
+            }else if(datawrapper.userName == null && datawrapper.campaignSynced && datawrapper.campMemberPresent){
+              wrapText(
+                ctx,
+                $A.get("$Label.c.New_Camp_Member_Added_Text"),
                 width / 2,
                 height / 2,
                 width,

@@ -61,5 +61,5 @@
         if (e.getParam("skipClicked") === true) {
             h.doInitHelper(c, e, h);
         }
-    }
+    },
 });

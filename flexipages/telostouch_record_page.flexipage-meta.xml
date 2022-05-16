@@ -103,7 +103,13 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-6df26fd5-7e2e-426d-8c22-5edcb04dd56b</name>
+        <itemInstances>
+            <componentInstance>
+                <componentName>showUnsubscribedClients</componentName>
+                <identifier>TelosTouchSF_showUnsubscribedClients1</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-30b325fa-23d8-4121-ada3-8f4bb8aac0d0</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -157,11 +163,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-6df26fd5-7e2e-426d-8c22-5edcb04dd56b</value>
+                    <value>Facet-30b325fa-23d8-4121-ada3-8f4bb8aac0d0</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Unsubscribed Clients</value>
+                    <value>{!$Label.TelosTouchSF__Unsubscribed_Clients_Text}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab1</identifier>

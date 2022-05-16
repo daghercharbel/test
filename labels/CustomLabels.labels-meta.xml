@@ -988,7 +988,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New Camp Member Added Text</shortDescription>
-        <value>New campaign members added. Please click &quot;Choose a TouchPoint&quot; to send touchpoint to clients.</value>
+        <value>New campaign members added. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
     </labels>
     <labels>
         <fullName>New_Campaign_Header_Text</fullName>
@@ -1499,7 +1499,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Skip Text</shortDescription>
-        <value>Skip</value>
+        <value>Not Yet</value>
     </labels>
     <labels>
         <fullName>Soft_Sync_Text</fullName>
@@ -2220,7 +2220,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Send TP To New Receipient</shortDescription>
-        <value>Send TP to New Recipients</value>
+        <value>Send TouchPoints to New Recipients</value>
     </labels>
     <labels>
         <fullName>TouchPoint_Process_Running_Text</fullName>
@@ -2242,5 +2242,61 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>TouchPoint Created With Recipients</shortDescription>
         <value>TouchPoint has been created. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
+    </labels>
+    <labels>
+        <fullName>Enter_Search_Term_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Search Term Text</shortDescription>
+        <value>Enter search term and press enter or click search button</value>
+    </labels>
+    <labels>
+        <fullName>No_unsubscribed_client_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No unsubscribed client text</shortDescription>
+        <value>No unsubscribed client found</value>
+    </labels>
+    <labels>
+        <fullName>Page_no_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page no text</shortDescription>
+        <value>Page No</value>
+    </labels>
+    <labels>
+        <fullName>Phone_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Phone text</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>Search_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Text</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>Search_using_name_email_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search using name email text</shortDescription>
+        <value>Search using Name, Email, or Phone</value>
+    </labels>
+    <labels>
+        <fullName>Unsubscribed_Clients_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unsubscribed Clients Text</shortDescription>
+        <value>Unsubscribed Clients</value>
+    </labels>
+    <labels>
+        <fullName>of_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>of text</shortDescription>
+        <value>of</value>
     </labels>
 </CustomLabels>

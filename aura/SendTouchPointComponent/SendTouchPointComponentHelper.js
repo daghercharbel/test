@@ -215,7 +215,7 @@
                         if(c.get('v.remainingIdsList').length === 0){
                             h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.TouchPoint_Created"));
                         }else{
-                            h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.TouchPoint_Created_With_Recipients"));
+                            h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
                         }
                         c.find("overlayLib").notifyClose();
                         c.set("v.campId",'');
