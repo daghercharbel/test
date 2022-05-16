@@ -125,7 +125,7 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
-                //console.log('rtnValue>>');
+                //console.log('rtnValue>>'+JSON.stringify(rtnValue));
                 //console.log(rtnValue);
                 if (
                     !$A.util.isEmpty(rtnValue) &&
@@ -134,6 +134,13 @@
                 ) {
                     c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
                     c.set("v.data", rtnValue.userWrapperList);
+                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
+                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+                    c.set("v.totalPages", totPage);
+                    if(c.get("v.pageNo") == 1){
+                        c.set("v.preDisable",true);
+                    }
+                   h.preparePaginationList(c,e,h);
                 }
             });
             $A.enqueueAction(action);
@@ -153,7 +160,12 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
+                    //console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
+                    //console.log('data::'+ JSON.stringify(c.get("v.data")));
+                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+                    c.set("v.totalPages", totPage);
+                    h.preparePaginationList(c,e,h);
                 }
             });
             $A.enqueueAction(action);
@@ -305,6 +317,7 @@
                 if (rtnValue != null && state == "SUCCESS") {
                     //c.set("v.isShowModel",true);
                     c.set("v.answers", rtnValue[0]);
+                    //console.log('answers:: '+JSON.stringify(c.get("v.answers")));
                     $A.createComponents(
                         [
                             [
@@ -541,7 +554,7 @@
         }
         
         //h.getPicklistValues(c, e, h);
-    }
+    },
     
     /*getPicklistValues: function(component, event) {
         var action = component.get("c.getSubectDefaultValue");
@@ -558,4 +571,82 @@
         });
         $A.enqueueAction(action);
     }*/
+    preparePaginationList: function(c,e,h) {
+        try{
+            if(c.get("v.pageNo") <= c.get("v.totalPages") && c.get("v.pageNo") != 1){
+                c.set("v.preDisable",false);
+            }
+            if(c.get("v.pageNo") == 1){
+                c.set("v.preDisable", true);
+            }
+            if(c.get("v.totalPages") == c.get("v.pageNo")){
+                c.set("v.nextDisable", true);
+            }else{
+                c.set("v.nextDisable", false);
+            }
+            
+            let pgNo = c.get("v.pageNo");
+            let begin = (pgNo - 1) * parseInt(c.get("v.recordPerPage"));
+            let end = parseInt(begin) + parseInt(c.get("v.recordPerPage"));
+            let slicingList = c.get("v.data").slice(begin, end);
+            c.set("v.listData", slicingList);
+            let listDataSize = c.get("v.listData");
+            if(listDataSize.length == 0){
+                c.set("v.preDisable", true);
+                c.set("v.nextDisable", true);
+                let totPage = 1;
+                c.set("v.totalPages", totPage);
+                c.set("v.pageNo", totPage);
+            }
+            let startRec = begin + parseInt(1);
+            c.set("v.startRecord",startRec);
+            let endRec = end > c.get("v.data").length ? c.get("v.data").length : end;
+            c.set("v.endRecord", endRec);
+            let finalEnd = end > c.get("v.data").length ? true : false;
+            c.set("v.end", finalEnd);
+        }catch(error){
+            //console.log('error , pagination :: '+ error);
+        } 
+    },
+    getSelectedClientsRecords: function (c, e, h, updatedList) {
+        if (updatedList.length > 0 && updatedList != undefined) {
+            let count = c.get("v.count");
+            let tempFinalList = c.get("v.userList");
+            for(let i=0; i<updatedList.length; i++){
+                if(updatedList[i].isChecked == true){
+                    tempFinalList.push(updatedList[i]); 
+                    count++;
+                }
+            }
+            for(let i=0;i<tempFinalList.length; i++){
+                if(tempFinalList[i].isChecked == false){
+                    tempFinalList.splice(i, 1);
+                    count--;
+                }
+            }            
+            // for( let x of updatedList){
+            //     if(x.isChecked == true){
+            //         if(! tempFinalList.includes(x)){
+            //             console.log('no duplicate');
+            //             tempFinalList.push(x); 
+            //         }
+            //         // tempFinalList.push(x); 
+            //         count++;                   
+            //     }
+            //     if(x.isChecked == false){
+            //         count--;
+            //     }
+            // }
+            c.set("v.count", count);
+            if(c.get("v.count") >0){
+                c.set("v.isDisableSendTouchPointBtn", false);
+            }else{
+                c.set("v.isDisableSendTouchPointBtn", true);
+            }
+        //   c.set("v.isDisableSendTouchPointBtn", false);
+          c.set("v.userList", tempFinalList);
+        } else {
+           c.set("v.isDisableSendTouchPointBtn", true);
+        }
+      },
 });
