@@ -389,10 +389,6 @@
         <name>Enter_3_Letters_Text</name>
     </customLabels>
     <customLabels>
-        <label>Entrez le terme à rechercher et cliquez sur entrer ou cliquez sur le bouton rechercher</label>
-        <name>Enter_Search_Term_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Veuiller entrer les données de connexion valides</label>
         <name>Enter_Valid_Cred_Toast</name>
     </customLabels>
@@ -616,10 +612,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Valid_Client_Found_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Aucun client désabonné trouvé</label>
-        <name>No_unsubscribed_client_text</name>
-    </customLabels>
-    <customLabels>
         <label>Non complété</label>
         <name>Not_Completed_Text</name>
     </customLabels>
@@ -660,10 +652,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Package_Configured_Spinner_message</name>
     </customLabels>
     <customLabels>
-        <label>Page numéro</label>
-        <name>Page_no_text</name>
-    </customLabels>
-    <customLabels>
         <label>Pages</label>
         <name>Pages_Text</name>
     </customLabels>
@@ -678,10 +666,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Compte non activé</label>
         <name>Person_Acc_Not_Enable_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Téléphone</label>
-        <name>Phone_text</name>
     </customLabels>
     <customLabels>
         <label>Veuillez d&apos;abord ajouter des membres à la Campagne</label>
@@ -794,14 +778,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Rechercher Campagne...</label>
         <name>Search_Campaign_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Rechercher</label>
-        <name>Search_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Rechercher par Nom, Email, ou Téléphone</label>
-        <name>Search_using_name_email_text</name>
     </customLabels>
     <customLabels>
         <label>Veuillez sélectionner des données valides pour l&apos;invitation</label>
@@ -1020,6 +996,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TouchPoint_Created</name>
     </customLabels>
     <customLabels>
+        <label>Le TouchPoint a été créé. Veuillez cliquer sur &quot;Envoyer un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
+        <name>TouchPoint_Created_With_Recipients</name>
+    </customLabels>
+    <customLabels>
         <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact. Veuillez attendre...</label>
         <name>TouchPoint_Process_Running_Text</name>
     </customLabels>
@@ -1054,10 +1034,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Guide de désinstallation</label>
         <name>Uninstallation_Guide_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Clients désabonnés</label>
-        <name>Unsubscribed_Clients_Text</name>
     </customLabels>
     <customLabels>
         <label>Mettre à jour/Ajouter usagers</label>
@@ -1116,10 +1092,6 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>nouveau membre a été ajouté à la campagne.</label>
         <name>new_member_added_text</name>
     </customLabels>
-    <customLabels>
-        <label>de</label>
-        <name>of_text</name>
-    </customLabels>
     <customTabs>
         <label>Accueil</label>
         <name>TT_Home</name>
@@ -1137,15 +1109,21 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
     <prompts>
-        <name>tabletFullWidthGA</name>
-        <promptVersions>
-            <name>TabletFullWidthGA</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
         <name>SalesHVSDialer</name>
         <promptVersions>
             <name>Sales HVS Dialer</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesCoreQuoteAdminCpq</name>
+        <promptVersions>
+            <name>Sales Core Quote Admin to CPQ</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>tabletFullWidthGA</name>
+        <promptVersions>
+            <name>TabletFullWidthGA</name>
         </promptVersions>
     </prompts>
     <prompts>
@@ -1157,12 +1135,6 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <promptVersions>
             <name>IAG Feature Adoption Step 2</name>
             <stepNumber>2</stepNumber>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>SalesCoreQuoteAdminCpq</name>
-        <promptVersions>
-            <name>Sales Core Quote Admin to CPQ</name>
         </promptVersions>
     </prompts>
     <quickActions>

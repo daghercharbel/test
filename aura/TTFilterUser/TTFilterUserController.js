@@ -22,8 +22,6 @@
         //console.log('Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
-      let countV = 0;
-      c.set("v.count", countV);
     h.doInit_helper(c, e, h);
   },
   fielterEvent: function (c, e, h) {
@@ -36,30 +34,15 @@
     c.set("v.fielterDetailsChanges", "EventFire");
   },
   viewRecord: function (c, e, h) {
-    let sfId = e.getSource().get("v.value");
-    var recId = e.getSource().get("v.value").Id;
-    var fieldName='';
-    if(e.getSource().getLocalId()){
-      fieldName  = e.getSource().getLocalId();
-    }
-    if(fieldName == "Create Task"){
-      h.createAction_helper(c, e, h, sfId.ContactOrLeadSFId);
-    }else{
+    var recId = e.getParam("row").Id;
+    if (e.getParam("action").fieldName == "Create Task") {
+      h.createAction_helper(c, e, h, e.getParam("row").ContactOrLeadSFId);
+    } else {
       if (!$A.util.isEmpty(recId)) {
         c.set("v.convId", recId);
         h.viewRecord_helper(c, e, h, recId);
       }
     }
-    // var recId = e.getParam("row").Id;
-    // console.log(e.getParam("row"));
-    // if (e.getParam("action").fieldName == "Create Task") {
-    //   h.createAction_helper(c, e, h, e.getParam("row").ContactOrLeadSFId);
-    // } else {
-    //   if (!$A.util.isEmpty(recId)) {
-    //     c.set("v.convId", recId);
-    //     h.viewRecord_helper(c, e, h, recId);
-    //   }
-    // }
   },
   closeModel: function (c, e, h) {
     if (!c.get("v.clickOnInnerSection")) {
@@ -142,15 +125,15 @@
     }
   },
   //Will Work when someone click on users after filtering answers
-  // getSelectedClientsRecords: function (c, e, h) {
-  //   var selectedRows = e.getParam("selectedRows");
-  //   if (selectedRows.length > 0 && selectedRows != undefined) {
-  //     c.set("v.isDisableSendTouchPointBtn", false);
-  //     c.set("v.userList", selectedRows);
-  //   } else {
-  //     c.set("v.isDisableSendTouchPointBtn", true);
-  //   }
-  // },
+  getSelectedClientsRecords: function (c, e, h) {
+    var selectedRows = e.getParam("selectedRows");
+    if (selectedRows.length > 0 && selectedRows != undefined) {
+      c.set("v.isDisableSendTouchPointBtn", false);
+      c.set("v.userList", selectedRows);
+    } else {
+      c.set("v.isDisableSendTouchPointBtn", true);
+    }
+  },
   //Send Touch Point Modal 1
   closeCreateCampaignModel: function (component, event, helper) {
     component.set("v.createCampaign", false);
@@ -366,39 +349,5 @@
     if (e.getParam("doRefresh") === true) {
       h.doInit_helper(c, e, h);
     }
-  },
-  handleClick: function(c,e,h) {
-    let label = e.target.label;
-    if (label === "Previous") {
-        h.handlePrevious(c,e,h);
-    } else if (label === "Next") {
-        h.handleNext(c,e,h);
-    }
-},
-  handleNext: function(c,e,h) {
-    let incValue = c.get("v.pageNo");
-    incValue +=1;
-    c.set("v.pageNo", incValue);
-    h.preparePaginationList(c,e,h);
-  },
-
-  handlePrevious: function(c,e,h) {
-      if(c.get("v.pageNo")>1){
-        let decValue = c.get("v.pageNo");
-        decValue -= 1;
-        c.set("v.pageNo", decValue);
-      }
-      h.preparePaginationList(c,e,h);
-  },
-  handleCheckboxChange: function(c,e,h){
-    let updatedWithCheckboxList = [];
-    let paginationList = c.get("v.listData");
-    for(var each of paginationList){
-      if(each.Id == e.getSource().get("v.value")){
-        each.isChecked = each.isChecked!=null || each.isChecked != undefined ? each.isChecked:true;
-        updatedWithCheckboxList.push(each);
-      }
-    }
-    h.getSelectedClientsRecords(c,e,h, updatedWithCheckboxList);
   },
 });

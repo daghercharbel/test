@@ -1618,8 +1618,8 @@ global with sharing class SFDataSyncWithTelosTouch {
                 return 'No Action';
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.ERROR,'ex'+e.getMessage()+'at line no:'+e.getLineNumber());
-            return 'Package Configuration Failed! <br/>Exception: '+e.getMessage();
+            System.debug(LoggingLevel.ERROR,'ex: '+e.getMessage()+' at line no: '+e.getLineNumber());
+            return 'Package Configuration Failed! Exception: '+e.getMessage();
         }
     }
     /**

@@ -673,13 +673,6 @@
         <value>Enter Min. 3 Letters of Email/Contact Name...</value>
     </labels>
     <labels>
-        <fullName>Enter_Search_Term_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Enter Search Term Text</shortDescription>
-        <value>Enter search term and press enter or click search button</value>
-    </labels>
-    <labels>
         <fullName>Enter_Valid_Cred_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1068,13 +1061,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>No Valid Clients Were Found</value>
     </labels>
     <labels>
-        <fullName>No_unsubscribed_client_text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No unsubscribed client text</shortDescription>
-        <value>No unsubscribed client found</value>
-    </labels>
-    <labels>
         <fullName>Not_Completed_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1145,13 +1131,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Please wait while the package is being configured</value>
     </labels>
     <labels>
-        <fullName>Page_no_text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Page no text</shortDescription>
-        <value>Page No</value>
-    </labels>
-    <labels>
         <fullName>Pages_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1178,13 +1157,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Person Acc Not Enable Toast</shortDescription>
         <value>Person Account Not Enabled</value>
-    </labels>
-    <labels>
-        <fullName>Phone_text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Phone text</shortDescription>
-        <value>Phone</value>
     </labels>
     <labels>
         <fullName>Please_Add_Cam_Mem_Toast</fullName>
@@ -1381,20 +1353,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Search Campaign Text</shortDescription>
         <value>Search Campaign...</value>
-    </labels>
-    <labels>
-        <fullName>Search_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Search Text</shortDescription>
-        <value>Search</value>
-    </labels>
-    <labels>
-        <fullName>Search_using_name_email_text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Search using name email text</shortDescription>
-        <value>Search using Name, Email, or Phone</value>
     </labels>
     <labels>
         <fullName>Selece_Valid_Record_Invite_Toast</fullName>
@@ -1775,6 +1733,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>TouchPoint has been created. Please add campaign members to add recipients to TouchPoint.</value>
     </labels>
     <labels>
+        <fullName>TouchPoint_Created_With_Recipients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Created With Recipients</shortDescription>
+        <value>TouchPoint has been created. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
+    </labels>
+    <labels>
         <fullName>TouchPoint_Process_Running_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1836,13 +1801,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Uninstallation Guide Text</shortDescription>
         <value>Uninstallation Guide</value>
-    </labels>
-    <labels>
-        <fullName>Unsubscribed_Clients_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Unsubscribed Clients Text</shortDescription>
-        <value>Unsubscribed Clients</value>
     </labels>
     <labels>
         <fullName>Update_Add_Users_Button_Label</fullName>
@@ -1941,12 +1899,5 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>new member added text</shortDescription>
         <value>new member was added to campaign.</value>
-    </labels>
-    <labels>
-        <fullName>of_text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>of text</shortDescription>
-        <value>of</value>
     </labels>
 </CustomLabels>

@@ -18,7 +18,7 @@ public with sharing class CreateRemoteSiteSetting {
         req.setHeader('Content-Type', 'application/json');
         req.setEndpoint(
             URL.getSalesforceBaseUrl().toExternalForm() +
-            '/services/data/v44.0/tooling/query/?q=Select+EndpointUrl,SiteName+from+RemoteProxy'
+            '/services/data/v51.0/tooling/query/?q=Select+EndpointUrl,SiteName+from+RemoteProxy'
         );
         req.setMethod('GET');
         Http http = new Http();

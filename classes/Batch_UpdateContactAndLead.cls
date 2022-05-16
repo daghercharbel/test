@@ -132,16 +132,16 @@ global with sharing class Batch_UpdateContactAndLead implements Database.batchab
             Batch_SyncAllTaskWithTTActions taskBatch = new Batch_SyncAllTaskWithTTActions(null, null);
             Database.executeBatch((taskBatch),90);
         }
-        if(contactErrorCount != 0 || contactSuccessCount != 0){
-            //createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','No Contact records synced from Salesforce to TelosTouch','Aucun enregstrement de Contact syncronisé de Salesforce à TelosTouch',0));
-      //  }else{
+        if(contactErrorCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Failed Contact sync records from Salesforce to TelosTouch','Échec de la Syncronisation des enregistrements entre Salesforce et TelosTouch',contactErrorCount));
+        }
+        if(contactSuccessCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Success','Successful Contact sync records from Salesforce to TelosTouch','Syncronisation réussie des Contacts de Salesforce à TelosTouch',contactSuccessCount));
         }
-        if(leadErrorCount != 0 || leadSuccessCount != 0){
-           // createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','No Lead records synced from Salesforce to TelosTouch','Aucune donnée de propect syncronisée de Salesforce à TelosTouch', 0));
-       // }else{
+        if(leadErrorCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Failed Lead sync records from Salesforce to TelosTouch','Échec de la syncronisation des prospects de Salesforce à TelosTouch',leadErrorCount));
+        }
+        if(leadSuccessCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Success','Successful Lead sync records from Salesforce to TelosTouch','Syncronisation réussie des Prospects de Salesforce à TelosTouch', leadSuccessCount));
         }
         if(createListOfLog.size() >0 && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() ){

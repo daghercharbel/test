@@ -133,7 +133,7 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
         OpenAtAndCompletedWrapper(){
             campaignSynced = false;
             campMemberPresent = false;
-        }   
+        }
     }
         /**
 * @author Cloud Analogy
