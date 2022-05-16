@@ -298,7 +298,7 @@
         <br />
         <div class="slds-grid">
             <div class="slds-col slds-size_12-of-12 slds-scrollable_x">
-                <!-- <lightning:datatable
+                <lightning:datatable
                                      class="dataTable"
                                      columns="{! v.columns }"
                                      data="{! v.data }"
@@ -308,8 +308,8 @@
                                      onrowaction="{!c.viewRecord}"
                                      minColumnWidth="150"
                                      />
-                                     </div> -->
-                <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
+                                     </div>
+                <!-- <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
                         <tr class="slds-text-title_caps">
                             <th></th>
@@ -385,7 +385,7 @@
                         </tbody>
                         </aura:iteration>
                 </table>
-            </div>
+            </div> -->
         </div>
         <div slot="actions" class="slds-p-top_x-small">
             <lightning:button
