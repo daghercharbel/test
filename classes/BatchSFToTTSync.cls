@@ -130,16 +130,6 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         List<Contact> conNullEmailList = [SELECT Id FROM Contact WHERE Email = NULL AND ID IN : recordIds WITH SECURITY_ENFORCED];
         List<Lead> leadNullEmailList = [SELECT Id FROM Lead WHERE Email = NULL AND ID IN : recordIds WITH SECURITY_ENFORCED];
-        if(conNullEmailList != null && conNullEmailList.size() > 0){
-            for(Contact conNullEmail : conNullEmailList){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Record With Record Id: '+conNullEmail.Id+' Failed to Sync With Due to Empty Email Field.','Enregistrement avec Id d’enregistrement: '+conNullEmail.Id+' n’a pas réussi à synchroniser avec en raison du champ d’e-mail vide.',0));
-            }
-        }
-        if(leadNullEmailList != null && leadNullEmailList.size() > 0){
-            for(Lead leadNullEmail : leadNullEmailList){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Record With Record Id: '+leadNullEmail.Id+' Failed to Sync With Due to Empty Email Field.','Enregistrement avec Id d’enregistrement: '+leadNullEmail.Id+' n’a pas réussi à synchroniser avec en raison du champ d’e-mail vide.',0));
-            }
-        }
         if(contactErrorCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Failed Contact sync records from Salesforce to TelosTouch','Échec de la Syncronisation des enregistrements entre Salesforce et TelosTouch',contactErrorCount));
         }
