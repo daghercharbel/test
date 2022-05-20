@@ -46,20 +46,15 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
     pageNo=1;
 
     handleonchange(event){
-        console.log('handle change');
         this.search = event.target.value;
-        console.log('s:: '+ this.search);
         // var isEnterKey = false;
         // if(event !== undefined && event["keyCode"] !== undefined && event.keyCode !== undefined && event.keyCode !== null){
         //     isEnterKey = event.keyCode == 13?true:false;
         // }
         if(this.search.trim()){
-            console.log('if');
             this.searchData();
         }else if(!this.search){
-            console.log('else');
             this.returnedData = this.searchStringList;
-            console.log('data in else:: '+ JSON.stringify(this.returnedData));  
             this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
             if(this.pageNo == 1){
                 this.preDisable = true;
