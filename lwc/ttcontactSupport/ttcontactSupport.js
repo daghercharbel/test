@@ -67,8 +67,10 @@ export default class ttcontactSupport extends LightningElement {
         subInputCmp.reportValidity();
         descInputCmp.reportValidity();
 
-        if((this.requestBody.description.length > 1) && (this.requestBody.subject.length > 1)){
+        if((this.requestBody.description.length > 0) && (this.requestBody.subject.length > 0)){
             logIssue({subject: this.requestBody.subject, description: this.requestBody.description }).then((result) => {
+                this.requestBody.subject = '';
+                this.requestBody.description = '';
                 if (result === 'success') {
                   this.showModal = false;
                   this.displayToast('success', this.label.CASE_RAISED);

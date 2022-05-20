@@ -89,10 +89,10 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 */
     global void finish(Database.BatchableContext BC) {
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-        if(taskErrorCount != 0 || taskSuccessCount != 0){
-            // createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','No Task records synced from Salesforce to TelosTouch', 'Aucun enregistrement de Tâche syncronisé de Salesforce à TelosTouch', 0));
-            // }else{
+        if(taskErrorCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure', 'Failed Task sync records from Salesforce to TelosTouch', 'Échec de la syncronisation des Tâches de Salesforce à TelosTouch', taskErrorCount));
+        }
+        if(taskSuccessCount > 0){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Success', 'Successful Task sync records from Salesforce to TelosTouch', 'Syncronisation réussie des Tâches de Salesforce à TelosTouch' ,taskSuccessCount));
         }
         if(createListOfLog.size() >0 && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() ){
