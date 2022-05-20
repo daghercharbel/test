@@ -3,7 +3,7 @@ public with sharing class FetchUnsubscribedClients {
     public static List<Object> getUnsubscribedClientsFromCampaign(String recId) {
         try {
             //String val= '\'%' + String.escapeSingleQuotes(name.trim()) + '%\'';
-            String query = 'SELECT Name, Email, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c = \'No\' OR Lead.TelosTouchSF__Subscribed__c = \'No\')';
+            String query = 'SELECT Name, Email,ContactId, LeadId, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c = \'No\' OR Lead.TelosTouchSF__Subscribed__c = \'No\')';
             List<Object> cmData = Database.query(query);
             System.debug(cmData);
             //List<CampaignMember> cmList = [SELECT Name, Email, Phone FROM CampaignMember WHERE CampaignId =: recId AND (Contact.TelosTouchSF__Subscribed__c = 'No' OR Lead.TelosTouchSF__Subscribed__c = 'No') WITH Security_Enforced];

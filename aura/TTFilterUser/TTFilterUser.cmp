@@ -17,14 +17,16 @@
     <aura:attribute name="preDisable" type="boolean" default="true" />
     <aura:attribute name="end" type="boolean" default="false" />
     <aura:attribute name="nextDisable" type="boolean" default="true" />
+    <aura:attribute name="selectAllList" type="boolean" default="false" />
     <aura:attribute name="totalPages" type="integer" default="1" />
     <aura:attribute name="pageNo" type="integer" default="1" />
     <aura:attribute name="startRecord" type="integer"/>
     <aura:attribute name="endRecord" type="integer" />
     <aura:attribute name="recordPerPage" type="integer" default="10" />
     <aura:attribute name="listData" type="List" />
+    <aura:attribute name="isCheckedList" type="List" default=""/>
     <aura:attribute name="count" type="integer" />
-
+    <aura:attribute name="countSelectAll" type="integer" />
 
     <aura:attribute name="fielterDetails" type="Object" default="" />
     <aura:attribute name="columns" type="List" default="" />
@@ -311,8 +313,10 @@
                                      </div> -->
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
-                        <tr class="slds-text-title_caps">
-                            <th></th>
+                        <tr>
+                            <th>
+                                <lightning:input type="checkbox" class="buttonSelectAll"  variant="label-hidden" checked="{! v.selectAllList}" onchange="{! c.selectAll}"></lightning:input>
+                            </th>
                             <th scope="col">
                                 <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
                             </th>
@@ -327,7 +331,7 @@
                             </th>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                                 <th scope="col">
-                                    <div class="slds-truncate" title="{!$Label.c.Create_Task_Text}">{!$Label.c.Create_Task_Text}</div>
+                                    <div class="slds-truncate" title="{!$Label.c.Actions_Text}">{!$Label.c.Actions_Text}</div>
                                 </th>
                             </aura:if>
                         </tr>
@@ -337,13 +341,13 @@
                             <div class="slds-form-element">
                                 <div class="slds-form-element__control">
                                     <label class="slds-checkbox">
-                                        <lightning:input type="checkbox" checked= "{!item.isChecked}" style= "padding: 7px 7px;" label= "{!item.Id}" variant="label-hidden" value= "{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
+                                        <lightning:input type="checkbox" checked= "{!item.isChecked}" class="specialForCheckbox" label= "{!item.Id}" variant="label-hidden" value= "{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
                                     </label>
                                 </div>
                             </div>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                    {!item.name}
+                                    <a href="{!item.nameURL}" target="_blank">{!item.name}</a>
                                 </div>
                             </th>
                             <th scope="row">
@@ -370,7 +374,7 @@
                             </th>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                             <th scope="row">
-                                <div class="slds-truncate">
+                                <div class="slds-truncate table-width">
                                     <lightning:button
                                         variant= "neutral"
                                         aura:id ="Create Task"

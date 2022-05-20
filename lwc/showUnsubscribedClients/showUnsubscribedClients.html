@@ -10,31 +10,14 @@
                 label= "{label.Search_using_name_email_text}"
                 type="search"
                 placeholder= "{label.Enter_Search_Term_Text}"
-                onchange={handleSearchOnchange}
-                oncommit={onCommitHandleJs}
+                oncommit={searchData}
+                onchange={handleonchange}
                 ></lightning-input>
             </lightning-layout-item>
             <lightning-layout-item size="6" class="slds-p-top_xx-small">
-                <lightning-button label= "{label.Search_Text}" icon-name="utility:search" variant="brand" alternative-text= "{label.Search_Text}" title= "{label.Search_Text}" onclick={onCommitHandleJs}></lightning-button>
+                <lightning-button label= "{label.Search_Text}" icon-name="utility:search" variant="brand" alternative-text= "{label.Search_Text}" title= "{label.Search_Text}" onclick={onSearchButton}></lightning-button>
             </lightning-layout-item>
         </lightning-layout>
-        <!-- <div class="slds-grid slds-wrap slds-m-bottom_small">
-            <div  class="slds-col slds-size_5-of-12 "></div>
-            <div class="slds-col slds-size_7-of-12">
-                <lightning-input
-                name="search"
-                label="Search using Name, Email or Phone"
-                type="search"
-                placeholder="Enter min 3 characters"
-                onchange={handleSearchOnchange}
-                ></lightning-input>
-            </div>    
-            <div  class="slds-col slds-size_5-of-12 "></div>
-            <div class="slds-col slds-size_7-of-12">
-                <lightning-button-icon icon-name="utility:search" class="slds-float_right" variant="brand" alternative-text="Search" title="Search" onclick={onCommitHandleJs}></lightning-button-icon>
-            </div>
-        </div> -->
-        
         <div class="slds-scrollable_x">
             <table class="slds-table slds-table_bordered slds-table_cell-buffer">
                 <thead>
@@ -55,7 +38,7 @@
                         <tr key={obj.Id}>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                        {obj.Name}
+                                        <a data-id={obj.Id} onclick={navigateToRecordPage}>{obj.Name}</a>
                                 </div>
                             </th>
                             <th scope="row">

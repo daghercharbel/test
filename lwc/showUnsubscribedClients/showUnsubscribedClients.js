@@ -11,8 +11,9 @@ import Phone_text from "@salesforce/label/c.Phone_text";
 import Page_no_text from "@salesforce/label/c.Page_no_text";
 import of_text from "@salesforce/label/c.of_text";
 import No_unsubscribed_client_text from "@salesforce/label/c.No_unsubscribed_client_text";
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class ShowUnsubscribedClients extends LightningElement {
+export default class ShowUnsubscribedClients extends NavigationMixin(LightningElement) {
     label = {
         Name_Text,
         Email_Text,
@@ -36,81 +37,108 @@ export default class ShowUnsubscribedClients extends LightningElement {
     startRecord;
     endRecord;
     currentPage = 1;
-    @api recordPerPage = 10;
-    @api preDisable = false;
-    @api nextDisable = false;
+    recordPerPage = 10;
+    preDisable = false;
+    nextDisable = false;
     totalPages = 1; 
     end = false;
     dataExist = false;
     pageNo=1;
 
-    handleSearchOnchange(event){
+    handleonchange(event){
+        console.log('handle change');
         this.search = event.target.value;
-        if(!this.search){
-            this.onCommitHandleJs();
+        console.log('s:: '+ this.search);
+        // var isEnterKey = false;
+        // if(event !== undefined && event["keyCode"] !== undefined && event.keyCode !== undefined && event.keyCode !== null){
+        //     isEnterKey = event.keyCode == 13?true:false;
+        // }
+        if(this.search.trim()){
+            console.log('if');
+            this.searchData();
+        }else if(!this.search){
+            console.log('else');
+            this.returnedData = this.searchStringList;
+            console.log('data in else:: '+ JSON.stringify(this.returnedData));  
+            this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
+            if(this.pageNo == 1){
+                this.preDisable = true;
+            }
+            this.preparePaginationList();
+            this.search=''; 
         }
-        this.returnedData = this.searchStringList;
     }
-    onCommitHandleJs(){
-        this.isSpinner = true;
-        if(this.isSpinner){
-            this.dataExist = true;
+    onclickHandle(){
+        if(this.search){
+            this.searchData();
         }
-        this.isSpinner = true;
-        let updateSearchList = [];
-        if((this.search)){
-            for(var i=0; i<this.returnedData.length; i++){
-                if(this.returnedData[i].Name && this.returnedData[i].Email && this.returnedData[i].Phone){
-                    if(this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) || 
-                        this.returnedData[i].Phone.includes(this.search) ||
-                        this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())){
-                            updateSearchList.push(this.returnedData[i]);
-                    }
-                }else if(this.returnedData[i].Name && this.returnedData[i].Email){
-                    if(this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) || 
-                        this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())){
-                            updateSearchList.push(this.returnedData[i]);
+    }
+    searchData(){
+        try {
+            this.returnedData = this.searchStringList;
+            this.isSpinner = true;
+            if(this.isSpinner){
+                this.dataExist = true;
+            }
+            this.isSpinner = true;
+            let updateSearchList = [];
+            if((this.search)){
+                for(var i=0; i<this.returnedData.length; i++){
+                    if(this.returnedData[i].Name && this.returnedData[i].Email && this.returnedData[i].Phone){
+                        if(this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) || 
+                            this.returnedData[i].Phone.includes(this.search) ||
+                            this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())){
+                                updateSearchList.push(this.returnedData[i]);
+                        }
+                    }else if(this.returnedData[i].Name && this.returnedData[i].Email){
+                        if(this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) || 
+                            this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())){
+                                updateSearchList.push(this.returnedData[i]);
+                        }
                     }
                 }
+                this.returnedData = updateSearchList;
             }
-            this.returnedData = updateSearchList;
-        }else{
-            this.returnedData = this.searchStringList;
-        }
-        this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
-        if(this.pageNo == 1){
-            this.preDisable = true;
-        }
-        this.preparePaginationList();
-        this.isSpinner = false;
+            this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
+            if(this.pageNo == 1){
+                this.preDisable = true;
+            }
+            this.preparePaginationList();
+            this.isSpinner = false;
+        } catch (error) {
+            //console.log(error);
+        }        
         // this.returnedData = this.searchStringList;
     }
     connectedCallback(){
         if(this.isSpinner){
             this.dataExist = true;
         }
-        getUnsubscribedClientsFromCampaign({recId: this.recordId})
-        .then(data => {
-            if(data){
-                this.dataExist = true;
-                this.returnedData = data;
-                this.searchStringList = this.returnedData;
-                this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
-                 if(this.pageNo == 1){
-                     this.preDisable = true;
-                 }
-                this.preparePaginationList();
-                this.isSpinner = false;
-            }else{
-                this.dataExist = false;
-                this.isSpinner = false;
-            }  
-        })
-        .catch(error => {
-            this.error = error;
-            this.isSpinner = false;
-        });
+        this.getDataFromApex();
    }  
+   getDataFromApex(){
+    getUnsubscribedClientsFromCampaign({recId: this.recordId})
+    .then(data => {
+        if(data){
+            this.dataExist = true;
+            this.returnedData = data;
+            this.searchStringList = data;
+            this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage );
+             if(this.pageNo == 1){
+                 this.preDisable = true;
+             }
+            this.preparePaginationList();
+            this.isSpinner = false;
+        }else{
+            this.dataExist = false;
+            this.isSpinner = false;
+        }  
+    })
+    .catch(error => {
+        this.error = error;
+        this.isSpinner = false;
+    });
+   }
    handleClick(event) {
         let label = event.target.label;
         if (label === "Previous" || label === "Précédent") {
@@ -130,8 +158,6 @@ export default class ShowUnsubscribedClients extends LightningElement {
         }
         this.preparePaginationList();
     }
- 
-    
     preparePaginationList() {
         try{
             if(this.pageNo <= this.totalPages && this.pageNo != 1){
@@ -164,8 +190,40 @@ export default class ShowUnsubscribedClients extends LightningElement {
             });
             this.dispatchEvent(event);  
         }catch(error){
-            console.log('error , pagination :: '+ error);
-        }
-        
+            //console.log('error , pagination :: '+ error);
+        } 
+    }
+    navigateToRecordPage(event) {
+        try {
+            let recordId ;
+            let cmId = event.currentTarget.dataset.id;
+            for(let x of this.listData){
+                if(x.Id == cmId){
+                    if(x.ContactId){
+                        recordId = x.ContactId;    
+                    }else if(x.LeadId){
+                        recordId = x.LeadId;
+                    }
+                }
+            }
+            this[NavigationMixin.GenerateUrl]({
+                type: "standard__recordPage",
+                attributes: {
+                    recordId: recordId,
+                    actionName: 'view'
+                }
+            }).then(url => {
+                window.open(url, "_blank");
+            });
+            // this[NavigationMixin.Navigate]({
+            //     type: 'standard__recordPage',
+            //     attributes: {
+            //         recordId: recordId,
+            //         actionName: 'view'
+            //     }
+            // });
+        } catch (error) {
+            //console.log(error);
+        }   
     }
 }

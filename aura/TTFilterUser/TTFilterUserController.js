@@ -24,6 +24,7 @@
       });
       let countV = 0;
       c.set("v.count", countV);
+      c.set("v.countSelectAll", countV);
     h.doInit_helper(c, e, h);
   },
   fielterEvent: function (c, e, h) {
@@ -379,26 +380,101 @@
     let incValue = c.get("v.pageNo");
     incValue +=1;
     c.set("v.pageNo", incValue);
+    c.set("v.isCheckedList", []);
     h.preparePaginationList(c,e,h);
+    let flag = 0;
+     for(let x of c.get("v.listData")){
+       if(!x.isChecked){
+        flag = 1;
+        break;
+       }
+     }
+     if(flag){
+        c.set("v.selectAllList", false);
+      }else{
+        c.set("v.selectAllList", true);
+      }
   },
 
   handlePrevious: function(c,e,h) {
-      if(c.get("v.pageNo")>1){
-        let decValue = c.get("v.pageNo");
-        decValue -= 1;
-        c.set("v.pageNo", decValue);
+    if(c.get("v.pageNo")>1){
+      let decValue = c.get("v.pageNo");
+      decValue -= 1;
+      c.set("v.pageNo", decValue);
+    }
+    c.set("v.isCheckedList", []);
+    h.preparePaginationList(c,e,h);
+    let flag = 0;
+    for(let x of c.get("v.listData")){
+      if(!x.isChecked){
+        flag = 1;
+        break;
       }
-      h.preparePaginationList(c,e,h);
+    }
+    if(flag){
+      c.set("v.selectAllList", false);
+    }else{
+      c.set("v.selectAllList", true);
+    }
   },
   handleCheckboxChange: function(c,e,h){
+    try {
+      let updatedWithCheckboxList = [];
+      let paginationList = c.get("v.listData");
+      for(var each of paginationList){
+        if(each.Id == e.getSource().get("v.value")){
+          each.isChecked = each.isChecked!=null || each.isChecked != undefined ? each.isChecked:true;
+          updatedWithCheckboxList.push(each);
+        }
+      }
+     let flag = 0;
+     for(let x of paginationList){
+       if(!x.isChecked){
+        flag = 1;
+        break;
+       }
+     }
+     if(flag){
+        c.set("v.selectAllList", false);
+      }else{
+        c.set("v.selectAllList", true);
+      }
+      h.getSelectedClientsRecords(c,e,h, updatedWithCheckboxList);
+    } catch (error) {
+      console.log(error);
+    }
+    
+  },
+  selectAll: function(c,e,h){
+    //console.log('Event value >> '+ e.getSource().get("v.checked"))
     let updatedWithCheckboxList = [];
     let paginationList = c.get("v.listData");
+    c.set("v.selectAllList",e.getSource().get("v.checked"));
     for(var each of paginationList){
-      if(each.Id == e.getSource().get("v.value")){
-        each.isChecked = each.isChecked!=null || each.isChecked != undefined ? each.isChecked:true;
+      if(e.getSource().get("v.checked")){
+        each.isChecked = true;
+        updatedWithCheckboxList.push(each);
+      }else {
+        each.isChecked = false;
         updatedWithCheckboxList.push(each);
       }
     }
-    h.getSelectedClientsRecords(c,e,h, updatedWithCheckboxList);
+    //console.log('updatedWithCheckboxList >> '+ JSON.stringify(updatedWithCheckboxList))
+    c.set("v.listData", updatedWithCheckboxList);
+    let flag = 0;
+     for(let x of updatedWithCheckboxList){
+       if(!x.isChecked){
+        flag = 1;
+        break;
+       }
+     }
+     if(flag){
+        c.set("v.selectAllList", false);
+      }else{
+        c.set("v.selectAllList", true);
+      }
+    h.getSelectedAllClientsRecords(c,e,h, updatedWithCheckboxList);
+    //h.onOffSelectAll(c,e,h);
   },
+  
 });

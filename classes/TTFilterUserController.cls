@@ -266,7 +266,7 @@ public with sharing class TTFilterUserController {
                     }
                 }
                 if(containsNA){
-                    for(TelosTouchSF__Insights__c each : [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Completed_At__c = null WITH SECURITY_ENFORCED LIMIT 20000]){
+                    for(TelosTouchSF__Insights__c each : [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Completed_At__c = null AND TelosTouchSF__Campaign2__c =:campainId WITH SECURITY_ENFORCED LIMIT 20000]){
                         conversationIdSet.add(each.TelosTouchSF__Conversation_Id__c);
                     }
                 }

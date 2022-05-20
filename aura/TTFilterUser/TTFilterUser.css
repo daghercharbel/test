@@ -63,3 +63,12 @@
     background:rgb(243, 242, 242);
     cursor:pointer;
 }
+.THIS .table-width{
+    width: max-content;
+}
+.THIS .buttonSelectAll{
+    margin-left: -17px;
+}
+.THIS .specialForCheckbox{
+    padding: 7px 7px;
+}
