@@ -1,0 +1,14 @@
+<aura:component>
+    <aura:attribute name="selectedRecordId" type="String" default=""/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <div class="slds-float_right slds-m-top_small">
+        <lightning:button variant="neutral"
+                          label="{!$Label.c.Cancel_Button_Label}"
+                          title="{!$Label.c.Cancel_Button_Label}"
+                          onclick="{! c.CloseModal }"/>
+        <lightning:button variant="brand" class="slds-p-left_small"
+                          label="{!$Label.c.Save_Button_Label}"
+                          title="{!$Label.c.Save_Button_Label}"
+                          onclick="{! c.saveCampaign}"/>
+    </div>
+</aura:component>
