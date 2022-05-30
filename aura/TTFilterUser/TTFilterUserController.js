@@ -73,41 +73,35 @@
   },
   //Will WOrk when someone click on send Touch Point Btn after selecting SOme lead/contacts
   sendTouchPoint: function (c, e, h) {
-    if (h.selectedUserList_Helper(c, e, h) != false) {
-      //c.set("v.createCampaign",true);
-      let action = c.get("c.fetchCampaignRecordType");
-      action.setCallback(this, (result) => {
-        if (result.getState() === "SUCCESS") {
-          if (
-            result.getReturnValue() != null &&
-            result.getReturnValue() !== "No record type found"
-          ) {
-            var finalResponse = [];
-            for (let x of JSON.parse(result.getReturnValue())) {
-              var responseObj = {
-                label: x.Name,
-                value: x.Id,
-              };
-              finalResponse.push(responseObj);
-            }
+    // if (h.selectedUserList_Helper(c, e, h) != false) {
+    //   //c.set("v.createCampaign",true);
+    //   let action = c.get("c.fetchCampaignRecordType");
+    //   action.setCallback(this, (result) => {
+    //     if (result.getState() === "SUCCESS") {
+    //       if (
+    //         result.getReturnValue() != null &&
+    //         result.getReturnValue() !== "No record type found"
+    //       ) {
+    //         var finalResponse = [];
+    //         for (let x of JSON.parse(result.getReturnValue())) {
+    //           var responseObj = {
+    //             label: x.Name,
+    //             value: x.Id,
+    //           };
+    //           finalResponse.push(responseObj);
+    //         }
             //console.log(JSON.stringify(c.get("v.userList")));
-            $A.createComponent(
-              "c:ModalBodyComponent",
-              {
-                selectCampaignRecordType: true,
-                userList: c.get("v.userList"),
-                recordTypeOptions: finalResponse,
-                recordTypeId: finalResponse[0].value,
-              },
+            $A.createComponents([
+              ["c:TTFilterAddToCampaign",{userList: c.get("v.userList")}],
+              ["c:TTFilterAddToCampaignFooter",{userList: c.get("v.userList")}]
+          ],
               function (content, status) {
                 if (status === "SUCCESS") {
                   c.find("overlayLib")
                     .showCustomModal({
-                      //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                       header: $A.get("$Label.c.Add_Campaign_Modal_Header_Text"),
                       body: content,
                       showCloseButton: true,
-                      cssClass: "padding-initial",
                     })
                     .then(function (overlay) {
                       c._overlay = overlay;
@@ -115,21 +109,20 @@
                 }
               }
             );
-          } else {
-          }
-        } else {
-          h.showSuccess(
-            c,
-            e,
-            h,
-            "Error",
-            "error",
-            "Campaign creation failed to initialize. Please try again."
-          );
-        }
-      });
+      //     } else {
+      //     }
+      //   } else {
+      //     h.showSuccess(
+      //       c,
+      //       e,
+      //       h,
+      //       "Error",
+      //       "error",
+      //       "Campaign creation failed to initialize. Please try again."
+      //     );
+      //   }
+      // });
       $A.enqueueAction(action);
-    }
   },
 
   // Send Reminder to the Clients

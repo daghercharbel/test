@@ -17,10 +17,37 @@
                 <lightning-button label= "{label.Search_Text}" icon-name="utility:search" variant="brand" alternative-text= "{label.Search_Text}" title= "{label.Search_Text}" onclick={onSearchButton}></lightning-button>
             </lightning-layout-item> -->
         </lightning-layout>
-        <div class="slds-scrollable_x">
+        <lightning-layout class ="slds-m-bottom_small slds-p-horizontal_small" multiple-rows="true">
+            <div>
+                <lightning-layout-item alignment-bump="right" size="12">
+                    <lightning-button
+                        variant="brand"
+                        title= "{label.Resubscribe_Client_Text}"
+                        label= "{label.Resubscribe_Client_Text}"
+                        disabled={isDisableBtnFunctionality}
+                        onclick={resubscribeClients}
+                        class="slds-m-around_xxx-small slds-size_1-of-1"
+                    ></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item alignment-bump="right" size="12">
+                    <lightning-button
+                        variant="brand"
+                        title= "{label.Remove_Client_Text}"
+                        label= "{label.Remove_Client_Text}"
+                        class="slds-m-around_xxx-small slds-size_1-of-1"
+                        disabled={isDisableBtnFunctionality}
+                        onclick={removeClients}
+                    ></lightning-button>
+                </lightning-layout-item>
+                </div>     
+            </lightning-layout>      
+        <div class="slds-scrollable_x slds-p-horizontal_small">
             <table class="slds-table slds-table_bordered slds-table_cell-buffer">
                 <thead>
                     <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <lightning-input type="checkbox" checked= "{selectAllCheckbox}" label= "" variant="label-hidden" onchange={handleSelectAllCheckboxChange}></lightning-input>
+                        </th>
                         <th scope="col">
                             <div class="slds-truncate" title= "{label.Name_Text}">{label.Name_Text}</div>
                         </th>
@@ -37,17 +64,22 @@
                         <tr key={obj.Id}>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                        <a data-id={obj.Id} onclick={navigateToRecordPage}>{obj.Name}</a>
+                                    <lightning-input type="checkbox" checked= "{obj.isChecked}" label= "{obj.Id}" variant="label-hidden" value= "{obj.Id}"  onchange={handleCheckboxChange}></lightning-input>
                                 </div>
                             </th>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                        {obj.Email}
+                                    <a data-id={obj.Id} onclick={navigateToRecordPage}>{obj.Name}</a>
                                 </div>
                             </th>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                        {obj.Phone}
+                                    {obj.Email}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    {obj.Phone}
                                 </div>
                             </th>
                         </tr>
@@ -55,7 +87,7 @@
                 </tbody>
             </table>
         </div>
-        <div slot="actions" class="slds-p-top_x-small">
+        <div slot="actions" class="slds-p-top_x-small slds-p-horizontal_small">
             <lightning-button
                 variant="neutral"
                 title= "{label.Previous_Button_Label}"

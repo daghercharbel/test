@@ -109,7 +109,7 @@
                 <identifier>TelosTouchSF_showUnsubscribedClients1</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-1db48bc2-6ff4-45f4-9d5a-f53dc304e32b</name>
+        <name>Facet-835047be-0e55-464c-bed4-674b5f493c59</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -163,7 +163,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-1db48bc2-6ff4-45f4-9d5a-f53dc304e32b</value>
+                    <value>Facet-835047be-0e55-464c-bed4-674b5f493c59</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -232,7 +232,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>TelosTouch Campaign Record Page</masterLabel>
+    <masterLabel>TelosTouch Campaign Record Page with Unsubcribed Clients</masterLabel>
     <sobjectType>Campaign</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>

@@ -41,9 +41,11 @@ public with sharing class TTFilterUserController {
                     TelosTouchSF__Conversation_Id__c,
                     TelosTouchSF__Campaign2__c,
                     TelosTouchSF__Contact__c,
-                    TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c ,
+                    TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c,
+                    TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c  ,
                     TelosTouchSF__Contact__r.Name,
                     TelosTouchSF__Lead__r.Name,
+                    TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c  ,
                     TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,
                     TelosTouchSF__Lead__c,
                     TelosTouchSF__Answers__c,
@@ -120,12 +122,16 @@ public with sharing class TTFilterUserController {
                             userWrapperObj.name = conversationUserObj.TelosTouchSF__Contact__r.Name;
                             userWrapperObj.ContactCLientId = conversationUserObj.TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c;
                             userWrapperObj.ContactOrLeadSFId = conversationUserObj.TelosTouchSF__Contact__c;
+                            userWrapperObj.ContactOrLeadSubscribed = conversationUserObj.TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c;
+
 
                         }else if(conversationUserObj.TelosTouchSF__Lead__c != null){
                             userWrapperObj.nameURL = System.URL.getSalesforceBaseUrl().toExternalForm()+'/lightning/r/Lead/'+conversationUserObj.TelosTouchSF__Lead__c+'/view';
                             userWrapperObj.name = conversationUserObj.TelosTouchSF__Lead__r.Name;
                             userWrapperObj.LeadCLientId = conversationUserObj.TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c;
                             userWrapperObj.ContactOrLeadSFId = conversationUserObj.TelosTouchSF__Lead__c;
+                            userWrapperObj.ContactOrLeadSubscribed = conversationUserObj.TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c;
+
                         }
 
                         if(conversationUserObj.TelosTouchSF__Opened_At__c != null){
@@ -144,7 +150,7 @@ public with sharing class TTFilterUserController {
                         }
                         ttDoinitWrapperObj.userWrapperList.add(userWrapperObj);
                     }
-                    //System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
+                    System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
                     return ttDoinitWrapperObj;
                 }
             }
@@ -269,7 +275,7 @@ public with sharing class TTFilterUserController {
                         conversationIdSet.add(each.TelosTouchSF__Conversation_Id__c);
                     }
                 }
-                String conversationUserQuery = 'SELECT Id, Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c, TelosTouchSF__Completed_At__c, TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Lead__r.Name,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c ';
+                String conversationUserQuery = 'SELECT Id, Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c, TelosTouchSF__Completed_At__c, TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c ';
                 if(!formStringMap.isEmpty() && (formStringMap.keySet()).size() > 0){
                     conversationUserQuery +=  ' WHERE TelosTouchSF__Conversation_Id__c IN:conversationIdSet ';
                 }else{
@@ -308,11 +314,15 @@ public with sharing class TTFilterUserController {
                         userWrapperObj.name = conversationUserObj.TelosTouchSF__Contact__r.Name;
                         userWrapperObj.ContactCLientId = conversationUserObj.TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c;
                         userWrapperObj.ContactOrLeadSFId = conversationUserObj.TelosTouchSF__Contact__c;
+                        userWrapperObj.ContactOrLeadSubscribed = conversationUserObj.TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c;
+
                     }else if(conversationUserObj.TelosTouchSF__Lead__c != null){
                         userWrapperObj.nameURL = System.URL.getSalesforceBaseUrl().toExternalForm()+'/lightning/r/Lead'+conversationUserObj.TelosTouchSF__Lead__c+'/view';
                         userWrapperObj.name = conversationUserObj.TelosTouchSF__Lead__r.Name;
                         userWrapperObj.LeadCLientId = conversationUserObj.TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c;
                         userWrapperObj.ContactOrLeadSFId = conversationUserObj.TelosTouchSF__Lead__c;
+                        userWrapperObj.ContactOrLeadSubscribed = conversationUserObj.TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c;
+
                     }
                     if(conversationUserObj.TelosTouchSF__Opened_At__c != null){
                         userWrapperObj.TTOpened_At = String.valueOf(conversationUserObj.TelosTouchSF__Opened_At__c);
@@ -679,6 +689,7 @@ public with sharing class TTFilterUserController {
     @AuraEnabled
     public static String fetchCampaignRecordType() {
         try {
+            System.debug('fetch Campaign Record Type method called');
             list<RecordType> recordTypeList = new list<RecordType>();
             for(RecordTypeInfo info: Campaign.SObjectType.getDescribe().getRecordTypeInfos()) {
                 //System.debug('info:: '+ info.getDeveloperName());
@@ -749,7 +760,79 @@ public with sharing class TTFilterUserController {
             return campRecordId;
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, e.getMessage() + ' at Line: '+e.getLineNumber());
-            throw new AuraHandledException(e.getMessage());
+            if(e.getMessage().contains('Already a campaign member')){
+                System.debug('return label value::'+System.Label.Clients_Already_Added_To_Campaign_Text );
+                return ('error#'+ System.Label.Clients_Already_Added_To_Campaign_Text);
+            }else{
+                return ('error#'+e.getMessage());
+            }
+        }
+    }
+    @AuraEnabled 
+    public static String fetchRecords( String objectName, String filterField, String searchString ) {
+        try{ 
+            List<RecordsData> recordsDataList = new List<RecordsData>();
+            try {
+                String query = 'SELECT Id, ' + filterField+ ' FROM '+objectName+' WHERE '+filterField+' LIKE ' + '\'%' + String.escapeSingleQuotes(searchString.trim()) + '%\'' + ' LIMIT 5';
+                for(SObject s : Database.query(query)){
+                    recordsDataList.add( new RecordsData((String)s.get(filterField), (String)s.get('id')) );
+                } 
+            } catch(Exception err) {
+                if ( String.isNotBlank( err.getMessage() ) && err.getMessage().contains( 'error:' ) ) {
+                    throw new AuraHandledException(err.getMessage().split('error:')[1].split(':')[0] + '.');
+                } else {
+                    throw new AuraHandledException(err.getMessage());
+                }
+            }
+            System.debug('return search data::'+recordsDataList);
+            return JSON.serialize(recordsDataList);
+        }catch(Exception e){
+            system.debug('Error'+e.getMessage());
+            return '';
+        }
+    }
+    @AuraEnabled 
+    public static String fetchLimitedRecords() { 
+            try {
+                List<RecordsData> recordsDataList = new List<RecordsData>();
+                String query = 'SELECT Id, Name FROM Campaign LIMIT 5';
+                for(SObject s : Database.query(query)){
+                    recordsDataList.add( new RecordsData((String)s.get('Name'), (String)s.get('id')) );
+                } 
+                System.debug('data:: '+ recordsDataList);
+                return JSON.serialize(recordsDataList);
+            } catch(Exception e) {
+                System.debug('Error is:: '+e.getMessage()+'at line no:: '+ e.getLineNumber());
+                return '';
+            }
+    }
+    
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description RecordsData is used to get CampaignRecords.
+*/
+    public class RecordsData{
+     /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description RecordsData is used tto get CampaignRecords.
+*/
+    @AuraEnabled public String label;
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description RecordsData is used to get CampaignRecords.
+*/
+    @AuraEnabled public String value;
+          /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description RecordsData is used to get CampaignRecords.
+*/
+        public RecordsData(String label, String value) {
+            this.label = label;
+            this.value = value;
         }
     }
 
@@ -1045,6 +1128,13 @@ public with sharing class TTFilterUserController {
 * @description ......
 */
         @AuraEnabled public String ContactOrLeadSFId { get; set; }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+*/
+@AuraEnabled public String ContactOrLeadSubscribed { get; set; }
+
     }
     /**
 * @author Cloud Analogy

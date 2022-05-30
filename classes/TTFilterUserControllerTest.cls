@@ -153,4 +153,42 @@ private with sharing class TTFilterUserControllerTest {
         tasklist = [select id from Task];
         System.assert(tasklist.size()>0, tasklist.size());
     }
+    @isTest
+    public static void fetchLimitedRecordsTest()
+    {
+        Test.startTest();
+        Campaign camp = new Campaign();
+        camp.Name='Test Camp';
+        Insert camp;
+        TTFilterUserController.fetchLimitedRecords();
+        System.assert(camp != null);
+        Test.stopTest();
+    }
+    @isTest
+    public static void fetchRecordsTest()
+    {
+        Test.startTest();
+        Campaign camp = new Campaign();
+        camp.Name='Test Camp';
+        Insert camp;
+        TTFilterUserController.fetchRecords('Campaign','Name',camp.Name);
+        
+        Test.stopTest();
+    }
+    @isTest
+    public static void addClientsToCampaignTest()
+    {
+        Test.startTest();
+        Campaign camp = new Campaign();
+        camp.Name='Test Camp1';
+        Insert camp;
+        Campaign camp1 = new Campaign();
+        camp1.Name='Test Camp11';
+        Insert camp1;
+        String userList = '[{"ContactCLientId":"6274ebdad01bdb0e7f00bf3f","ContactOrLeadSFId":"0031y00000KIf3qAAD","Id":"a011y0000033fwVAAQ","isActive":true,"name":"Test Con 1","nameURL":"https://customer-app-586-dev-ed.cs114.my.salesforce.com/lightning/r/Contact/0031y00000KIf3qAAD/view","TTCompleted_At":"Pending","TTOpened_At":"Pending"}]';
+        String userList1 = '[{"ContactCLientId":"6274ebdad01bdb0e7f00bf3f","ContactOrLeadSFId":"00QN000000AgDGtMAN","Id":"a011y0000033fwVAAQ","isActive":true,"name":"Test Con 1","nameURL":"https://customer-app-586-dev-ed.cs114.my.salesforce.com/lightning/r/Contact/0031y00000KIf3qAAD/view","TTCompleted_At":"Pending","TTOpened_At":"Pending"}]';
+        TTFilterUserController.addClientsToCampaign(camp.Id,userList);
+        TTFilterUserController.addClientsToCampaign(camp1.Id,userList1);
+        Test.stopTest();
+    }
 }
