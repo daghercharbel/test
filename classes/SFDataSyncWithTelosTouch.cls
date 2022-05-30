@@ -446,7 +446,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             Integer offset = (pNumber - 1) * pSize;
             Integer totalRecords;
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isQueryable()){
-                totalRecords = [SELECT COUNT() FROM TelosTouchSF__TT_Log__c LIMIT 50000];
+                totalRecords = [SELECT COUNT() FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c='Main Log' LIMIT 50000];
             }
             Integer recordEnd = pSize * pNumber;
             contactDataTableWrapper objDT =  new contactDataTableWrapper();

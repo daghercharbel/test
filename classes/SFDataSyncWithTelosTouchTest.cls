@@ -218,7 +218,7 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         Campaign campobj = new Campaign();
         campobj.Name = 'Test Purpose 123';
         campobj.OwnerId = userList[0].id;
-        campobj.TT_Campaign_Id__c ='1234524234234';
+        //campobj.TT_Campaign_Id__c ='1234524234234';
         List<Campaign> campaignlist = new List<Campaign>();
         campaignlist.add(campobj);
         insert campaignlist;

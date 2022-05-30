@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Is_Sync_Empty_Field__c</fullName>
     <defaultValue>false</defaultValue>
-    <deprecated>false</deprecated>
     <description>If this field is checked then empty field in TT will be synced to Salesforce</description>
     <externalId>false</externalId>
     <label>Is Sync Empty Field</label>

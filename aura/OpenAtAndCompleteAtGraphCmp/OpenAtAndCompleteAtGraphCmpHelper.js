@@ -24,7 +24,6 @@
     try {
       var maximumList = 0;
       var datawrapper = JSON.parse(resp);
-        console.log(datawrapper);
       var dataObj = datawrapper.OpenedAtCompletedWrapperList;
       var titleName = "";
       if (!$A.util.isEmpty(dataObj)) {
