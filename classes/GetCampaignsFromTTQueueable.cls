@@ -128,7 +128,7 @@ global with sharing class GetCampaignsFromTTQueueable implements Queueable, Data
             
             if(endPoint == NumberOfRecords){
                 if(!Test.isRunningTest() && forFirstTime == false && syncObject == null){
-                    Batch_UpdateContactAndLead batchObj = new Batch_UpdateContactAndLead(null, null);
+                    Batch_UpdateContactAndLead2 batchObj = new Batch_UpdateContactAndLead2(null, null, 'Contact');
                     Database.executeBatch(batchObj,90);
                 }
                 TelosTouchSF.TelosTouchUtility.AdminCredentialsWrapper adminCredentialsWrapper = new TelosTouchSF.TelosTouchUtility.AdminCredentialsWrapper(adminCredentials, authenticationCredential);

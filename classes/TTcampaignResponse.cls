@@ -70,7 +70,9 @@ public with sharing class TTcampaignResponse {
                                                                      ((Contact.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList) OR (Lead.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList)) WITH SECURITY_ENFORCED ];
                             //CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
                         }
-                        //getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
+                        if(Test.isRunningTest()){
+                            getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
+                        }
                         if(!logList.isEmpty() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible()){
                             insert logList;
                         }
@@ -195,21 +197,27 @@ public with sharing class TTcampaignResponse {
                                     }
                                 }
                                 if(responseMap2.containsKey('completed_at') && responseMap2.get('completed_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('completed_at')))){
-                                    String dates = String.valueOf(responseMap2.get('completed_at'));
+                                    /*String dates = String.valueOf(responseMap2.get('completed_at'));
                                     dates = dates.replace('T', ' ');
                                     dates = dates.replace('.', '#');
-                                    List<String> strList = dates.split('#');
+                                    List<String> strList = dates.split('#');*/
+                                    JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('completed_at'))+'"}');
+                                    parser.nextToken();
+                                    parser.nextValue();
                                     if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Completed_At__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Completed_At__c.isCreateable()){
-                                        conversation_UserObj.TelosTouchSF__Completed_At__c = Datetime.valueOf(strList[0]);
+                                        conversation_UserObj.TelosTouchSF__Completed_At__c = DateTime.newInstance( parser.getDateTimeValue().getTime() );
                                     }
                                 }
                                 if(responseMap2.containsKey('opened_at') && responseMap2.get('opened_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('opened_at')))){
-                                    String dates = String.valueOf(responseMap2.get('opened_at'));
+                                    /*String dates = String.valueOf(responseMap2.get('opened_at'));
                                     dates = dates.replace('T', ' ');
                                     dates = dates.replace('.', '#');
-                                    List<String> strList = dates.split('#');
+                                    List<String> strList = dates.split('#');*/
+                                    JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('opened_at'))+'"}');
+                                    parser.nextToken();
+                                    parser.nextValue();
                                     if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Opened_At__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Opened_At__c.isCreateable()){
-                                        conversation_UserObj.TelosTouchSF__Opened_At__c = Datetime.valueOf(strList[0]);
+                                        conversation_UserObj.TelosTouchSF__Opened_At__c = DateTime.newInstance( parser.getDateTimeValue().getTime() );
                                     }
                                 }
                                 if(responseMap2.containsKey('user_name') && responseMap2.get('user_name') !=  null){

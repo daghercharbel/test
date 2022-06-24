@@ -91,12 +91,6 @@
                 <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>TTFilterAddToCampaign</componentName>
-                <identifier>TelosTouchSF_TTFilterAddToCampaign1</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>

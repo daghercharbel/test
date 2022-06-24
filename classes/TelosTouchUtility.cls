@@ -720,7 +720,7 @@ return null;
                         headersMap.put('Accept', 'application/json');
                         headersMap.put('Content-Type', 'application/json');
                         headersMap.put('Authorization', 'Bearer '+adminCredentials.Access_Token);
-                        Map<String, String> teamsResponseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, null);
+                        Map<String, String> teamsResponseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/teams?search='+ttTeamName, headersMap, null);
                         if(teamsResponseBody.get('status_code') == '401'){
                             logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                         }

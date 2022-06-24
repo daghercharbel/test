@@ -1,5 +1,5 @@
-.THIS{
-
+.THIS .create-campaign-form .slds-input__icon-group.slds-input__icon-group_right{
+    display: none;
 }
 .THIS .subjectItem {
     position: absolute !important;

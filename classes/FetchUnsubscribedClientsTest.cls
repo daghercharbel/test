@@ -20,6 +20,7 @@ public class FetchUnsubscribedClientsTest {
         
         Campaign camp = new Campaign();
         camp.Name = 'Test Campaign 1';
+        camp.TelosTouchSF__TT_Campaign_Id__c = '45654345';
         insert camp;
         
         Campaign camp2 = new Campaign();
@@ -30,6 +31,24 @@ public class FetchUnsubscribedClientsTest {
         cm1.CampaignId = camp.Id;
         cm1.ContactId = con.Id;
         insert cm1;
+        CampaignMember cm2 = new CampaignMember();
+        cm2.CampaignId = camp.Id;
+        cm2.LeadId = leadObj.Id;
+        insert cm2; 
+        TelosTouchSF__Insights__c insightsObj = new TelosTouchSF__Insights__c();
+        insightsObj.Name = 'insightName';
+        insightsObj.TelosTouchSF__Campaign2__c = camp.Id;
+        insightsObj.TelosTouchSF__Opened_At__c = DateTime.now();
+        insightsObj.TelosTouchSF__Contact__c = con.Id;
+        insightsObj.TelosTouchSF__Completed_At__c = DateTime.now();
+        insert insightsObj;
+        TelosTouchSF__Insights__c insightsObj1 = new TelosTouchSF__Insights__c();
+        insightsObj1.Name = 'insightName1';
+        insightsObj1.TelosTouchSF__Campaign2__c = camp.Id;
+        insightsObj1.TelosTouchSF__Opened_At__c = DateTime.now();
+        insightsObj1.TelosTouchSF__Contact__c = con.Id;
+        insightsObj1.TelosTouchSF__Completed_At__c = DateTime.now();
+        insert insightsObj1;
     }
     @isTest
     static void getUnsubscribedClientsFromCampaignTest(){
@@ -50,9 +69,7 @@ public class FetchUnsubscribedClientsTest {
         }
         String response = TelosTouchSF.FetchUnsubscribedClients.removeClient(JSON.serialize(campMemIdList2));
         String response2 = TelosTouchSF.FetchUnsubscribedClients.removeClient(JSON.serialize(campMemIdList));
-        //system.assert(campMemIdList2 == null);
         System.assert(response == null);
-        System.debug('response2:::'+response2);
         System.assert(response2 != null);
         test.stopTest();
     }

@@ -171,6 +171,7 @@
     <div class="slds-var-p-around_medium">
       <lightning:recordForm
         objectApiName="Campaign"
+        class="create-campaign-form"
         recordTypeId="{!v.recordTypeId}"
         layoutType="Full"
         onsuccess="{!c.submitCreateCampaignDetails}"

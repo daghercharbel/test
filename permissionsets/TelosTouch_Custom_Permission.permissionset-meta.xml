@@ -1362,6 +1362,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>TT_Home</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>TT_Setup</tab>
         <visibility>Visible</visibility>
     </tabSettings>

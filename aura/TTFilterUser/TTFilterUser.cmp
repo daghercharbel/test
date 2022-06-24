@@ -329,7 +329,7 @@
                                 <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">{!$Label.c.Completed_At_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Subscribed_Text}">{!$Label.c.Subscribed_Text}</div>
+                                <div class="slds-truncate slds-align_absolute-center" title="{!$Label.c.Subscribed_Text}">{!$Label.c.Subscribed_Text}</div>
                             </th>
                             <th scope="col">
                                 <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}</div>
@@ -350,24 +350,24 @@
                                     </label>
                                 </div>
                             </div>
-                            <th scope="row">
+                            <td scope="row">
                                 <div class="slds-truncate">
                                     <a href="{!item.nameURL}" target="_blank">{!item.name}</a>
                                 </div>
-                            </th>
-                            <th scope="row">
+                            </td>
+                            <td scope="row">
                                 <div class="slds-truncate">
                                     {!item.TTOpened_At}
                                 </div>
-                            </th>
+                            </td>
                             
-                            <th scope="row">
+                            <td scope="row">
                                 <div class="slds-truncate">
                                     {!item.TTCompleted_At}
                                 </div>
-                            </th>
-                            <th scope="row">
-                                <div class="slds-truncate">
+                            </td>
+                            <td scope="row">
+                                <div class="slds-align_absolute-center">
                                     <aura:if isTrue="{!item.ContactOrLeadSubscribed == 'No'}">
                                         <img src="{!$Resource.TelosTouch + '/images/CrossCheckbox1.png'}" class="imageCss"/>
                                         <aura:set attribute="else">
@@ -375,8 +375,8 @@
                                         </aura:set>
                                     </aura:if>
                                 </div>
-                            </th>
-                            <th scope="row">
+                            </td>
+                            <td scope="row">
                                 <div class="slds-truncate">
                                     <lightning:button
                                         variant= "neutral"
@@ -387,9 +387,9 @@
                                         onclick= "{! c.viewRecord}"
                                     ></lightning:button>
                                 </div>
-                            </th>
+                            </td>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
-                            <th scope="row">
+                            <td scope="row">
                                 <div class="slds-truncate table-width">
                                     <lightning:button
                                         variant= "neutral"
@@ -400,7 +400,7 @@
                                         onclick= "{! c.viewRecord}"
                                     ></lightning:button>
                                 </div>
-                            </th>
+                            </td>
                         </aura:if>
                         </tbody>
                         </aura:iteration>

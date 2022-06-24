@@ -92,20 +92,21 @@
     //         }
             //console.log(JSON.stringify(c.get("v.userList")));
             $A.createComponents([
-              ["c:TTFilterAddToCampaign",{userList: c.get("v.userList")}],
+                ["c:TTFilterAddToCampaign",{userList: c.get("v.userList"), recordId : c.get('v.recordId')}],
               ["c:TTFilterAddToCampaignFooter",{userList: c.get("v.userList")}]
           ],
               function (content, status) {
                 if (status === "SUCCESS") {
                   c.find("overlayLib")
-                    .showCustomModal({
+                  .showCustomModal({
                       header: $A.get("$Label.c.Add_Campaign_Modal_Header_Text"),
-                      body: content,
+                      body: content[0],
+                      footer: content[1],
                       showCloseButton: true,
-                    })
-                    .then(function (overlay) {
+                  })
+                  .then(function (overlay) {
                       c._overlay = overlay;
-                    });
+                  });
                 }
               }
             );

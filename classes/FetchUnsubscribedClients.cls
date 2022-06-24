@@ -22,9 +22,59 @@ public with sharing class FetchUnsubscribedClients {
         try {
             List<Id> deleteIdSet = (List<Id>) JSON.deserialize(idsData, List<Id>.class);
             System.debug(deleteIdSet);
-            Database.DeleteResult[] drList = Database.delete(deleteIdSet, true);
-            if(drList.size()>0){
+            List<CampaignMember> campaignMemList = new List<CampaignMember>();
+            campaignMemList = [SELECT Id, ContactId, LeadId, CampaignId FROM CampaignMember WHERE Id IN: deleteIdSet WITH SECURITY_ENFORCED];
+            Map<Id, CampaignMember> clientIdVsCampMemMap = new Map<Id, CampaignMember>();
+            Set<Id> contactIdSet = new Set<Id>();
+            Set<Id> leadIdSet = new Set<Id>();
+            Boolean campaignSynced = false;
+            if(campaignMemList.size() > 0){
+                campaignSynced = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campaignMemList[0].CampaignId].TelosTouchSF__TT_Campaign_Id__c != null ? true : false;
+                if(campaignSynced){
+                    for(CampaignMember campMemObj : campaignMemList){
+                        if(campMemObj.ContactId != null && campMemObj.LeadId == null){
+                            contactIdSet.add(campMemObj.ContactId);
+                            clientIdVsCampMemMap.put(campMemObj.ContactId, campMemObj);
+                        }else if(campMemObj.ContactId == null && campMemObj.LeadId != null){
+                            leadIdSet.add(campMemObj.LeadId);
+                            clientIdVsCampMemMap.put(campMemObj.LeadId, campMemObj);
+                        }
+                    }
+                    if(contactIdSet.size() > 0 || leadIdSet.size() > 0){
+                        List<TelosTouchSF__Insights__c> insightsList = new List<TelosTouchSF__Insights__c>();
+                        insightsList = [SELECT Id, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c FROM TelosTouchSF__Insights__c 
+                        WHERE (TelosTouchSF__Campaign2__c =: campaignMemList[0].CampaignId) AND
+                        (TelosTouchSF__Contact__c IN: contactIdSet OR TelosTouchSF__Lead__c IN: leadIdSet) WITH SECURITY_ENFORCED];
+                        for(TelosTouchSF__Insights__c insight : insightsList){
+                            if(insight.TelosTouchSF__Contact__c != null && insight.TelosTouchSF__Lead__c == null && clientIdVsCampMemMap.containsKey(insight.TelosTouchSF__Contact__c)){
+                                clientIdVsCampMemMap.remove(insight.TelosTouchSF__Contact__c);
+                            }else if(insight.TelosTouchSF__Contact__c == null && insight.TelosTouchSF__Lead__c != null && clientIdVsCampMemMap.containsKey(insight.TelosTouchSF__Lead__c)){
+                                clientIdVsCampMemMap.remove(insight.TelosTouchSF__Lead__c);
+                            }
+                        }
+                    }
+                }else{
+                    for(CampaignMember campMemObj : campaignMemList){
+                        if(campMemObj.ContactId != null && campMemObj.LeadId == null){
+                            clientIdVsCampMemMap.put(campMemObj.ContactId, campMemObj);
+                        }else if(campMemObj.ContactId == null && campMemObj.LeadId != null){
+                            clientIdVsCampMemMap.put(campMemObj.LeadId, campMemObj);
+                        }
+                    }
+                }
+            }else{
+                return null;
+            }
+            Database.DeleteResult[] drList;
+            if(deleteIdSet.size() == clientIdVsCampMemMap.values().size()){
+                drList = Database.delete(deleteIdSet, true);
+            }else if(clientIdVsCampMemMap.values().size() < deleteIdSet.size()){
+                drList = Database.delete(clientIdVsCampMemMap.values(), true);
+            }
+            if(drList.size()>0 && drList.size() == deleteIdSet.size()){
                 return 'success';
+            }else if(drList.size()>0 && drList.size() == clientIdVsCampMemMap.values().size()){
+                return 'partial success';
             }
             return null;
         } catch (Exception e) {

@@ -60,7 +60,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         System.assertEquals(0, ct.TimesTriggered, 'ct.TimesTriggered should be equal to 0');
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.SFDataSyncWithTelosTouchMock2());
         Test.startTest();
-        TelosTouchSF.Batch_UpdateContactAndLead batchObj = new TelosTouchSF.Batch_UpdateContactAndLead(null, null);
+        TelosTouchSF.Batch_UpdateContactAndLead2 batchObj = new TelosTouchSF.Batch_UpdateContactAndLead2(null, null, 'Contact');
         Database.executeBatch(batchObj);
         Test.stopTest();
     }
@@ -97,7 +97,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         System.assertEquals(0, ct.TimesTriggered, 'ct.TimesTriggered should be equal to 0');
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.SFDataSyncWithTelosTouchMock2());
         Test.startTest();
-        TelosTouchSF.Batch_UpdateContactAndLead batchObj = new TelosTouchSF.Batch_UpdateContactAndLead('Contact', false);
+        TelosTouchSF.Batch_UpdateContactAndLead2 batchObj = new TelosTouchSF.Batch_UpdateContactAndLead2('Contact', false, 'Contact');
         Database.executeBatch(batchObj);
         Test.stopTest();
     }

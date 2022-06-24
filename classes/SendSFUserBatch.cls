@@ -89,7 +89,7 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                     headersMap.put('Content-Type', 'application/json');
                     headersMap.put('Authorization', 'Bearer '+authenticationCredential.TelosTouchSF__Access_Token__c);
                 }
-                Map<String, String> teamsResponseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/teams', headersMap, null);
+                Map<String, String> teamsResponseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/teams?search='+ttTeamName, headersMap, null);
                  if(teamsResponseBody.get('status_code') == '401'){
 					createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                 }else{
