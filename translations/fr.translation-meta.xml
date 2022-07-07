@@ -15,7 +15,7 @@
         <name>Actions_Text</name>
     </customLabels>
     <customLabels>
-        <label>Veuillez cliquer sur “Choisir un TouchPoint” pour créer un TouchPoint vide ou ajouter des membres à la campagne pour ajouter des destinataires au TouchPoint.</label>
+        <label>Commencez par choisir un TouchPoint ou ajouter des membres à la campagne avant de pouvoir « Envoyer un TouchPoint »</label>
         <name>Add_Cam_Mem_to_TT_Text</name>
     </customLabels>
     <customLabels>
@@ -702,7 +702,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Named_Credential_Error</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux contacts ajoutés à la Campagne. Veuillez cliquer sur &quot;Envoyer un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
+        <label>TouchPoint sélectionné et contacts ajoutés à la campagne. Veuillez cliquer sur « Envoyer un Touchpoint »si vous êtes prêts à envoyer le TouchPoint au (x) client(s).</label>
         <name>New_Camp_Member_Added_Text</name>
     </customLabels>
     <customLabels>
@@ -1198,7 +1198,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TT_API_Setup_Title</name>
     </customLabels>
     <customLabels>
-        <label>Statut des TouchPoint de TelosTouch</label>
+        <label>Statut du TouchPoint TelosTouch</label>
         <name>TT_Touchpoint_Status_Text</name>
     </customLabels>
     <customLabels>

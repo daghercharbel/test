@@ -3,12 +3,13 @@
     <aura:attribute name="boolForNoRecord" type="boolean" default="false"/>
     <aura:attribute name="boolForInput" type="boolean" default="true"/>
     <aura:attribute name="isShowIconForCreatingCampRecord" type="boolean" default="true"/>
-    <aura:attribute name="selectedRecord" type="String" default=""/>
+    <aura:attribute name="selectedRecord" type="Object" default=""/>
     <aura:attribute name="searchString" type="String" default=""/>
     <aura:attribute name="recordsList" type="List" default=""/>
     <aura:attribute name="userList" type="List" default=""/>
     <aura:attribute name="message" type="String" default="No Record Found"/>
     <aura:attribute name="lookUpLabel" type="String" default="Campaign"/>
+    <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -24,7 +25,7 @@
 
     <label class="slds-form-element__label" >
         <abbr class="slds-required" title="required">*</abbr>
-        <span >{!$Label.c.Campaigns_Text}</span>
+        <span >{!$Label.c.Campaign_Text}</span>
     </label>     
     <div class="slds-combobox_container slds-has-inline-listbox" aura:id="addborder">
         <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open combowidth"
@@ -33,8 +34,7 @@
         <div>      
             <aura:if isTrue="{!v.boolForInput}">
                 <lightning:input type="text" role="textbox" placeholder="{!$Label.c.Search_Campaign_Text}" required="true" label="" variant="label-hidden"
-                    value="{!v.selectedRecord}"  onclick="{!c.onClickInputHandle}" onchange="{!c.setInputValue}"
-                    oncommit="{!c.searchCampaign}" />
+                    value="{!v.selectedRecord}"  onclick="{!c.onClickInputHandle}" onchange="{!c.setInputValue}" />
                 <aura:set attribute="else">
                     <span class="slds-pill slds-pill_link  pillWidth" >
                         <a href="javascript:void(0);"
@@ -79,11 +79,11 @@
                         <span class="slds-media__figure optionIcon">
                             <span class="slds-icon_container">
                                 <lightning:icon iconName="utility:add" size="small"/>
-                                <span class="slds-assistive-text">{!$Label.c.Campaigns_Text}</span>
+                                <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
                             </span>
                         </span>
                         <span class="slds-media__body singleRow">
-                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaigns_Text}</span>
+                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
                         </span>
                     </span>
                     </li>
@@ -110,11 +110,11 @@
                         <span class="slds-media__figure optionIcon">
                             <span class="slds-icon_container">
                                 <lightning:icon iconName="utility:add" size="small"/>
-                                <span class="slds-assistive-text">{!$Label.c.Campaigns_Text}</span>
+                                <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
                             </span>
                         </span>
                         <span class="slds-media__body singleRow">
-                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaigns_Text}</span>
+                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
                         </span>
                     </span>
                 </li>

@@ -775,6 +775,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.TT_Conflict__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.TT_LastSyncTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.TT_Last_Login__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1021,6 +1031,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.TT_Client_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.TT_Conflict__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.TT_LastSyncTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
