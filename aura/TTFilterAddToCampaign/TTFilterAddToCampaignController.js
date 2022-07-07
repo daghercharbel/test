@@ -1,28 +1,6 @@
 ({
     doInit : function(c, e, h) {
-        c.set('v.isShowSpinner', true);
-        c.set("v.hideOptions", true);
-        var action = c.get('c.fetchLimitedRecords');
-        action.setCallback(this,function(response){ 
-            try{
-                //c.set('v.isShowSpinner', false);
-                var result = response.getReturnValue();
-                if(response.getState() === 'SUCCESS') {
-                    if(!$A.util.isEmpty(result)) {
-                        c.set('v.recordsList', JSON.parse(result));        
-                    } else {
-                        c.set('v.boolForNoRecord', true);
-
-                    }
-                }else{
-                    c.set('v.boolForNoRecord', true);
-                }
-                c.set('v.isShowSpinner', false);
-            }catch(e){
-                //console.log(e);
-            }
-        });
-        $A.enqueueAction(action);
+        h.doInit_Helper(c, e, h);
     },
     onClickInputHandle: function(c,e,h){
         c.set('v.isShowSpinner', true);
@@ -51,52 +29,25 @@
     },
     setInputValue: function(c,e,h){
         c.set("v.searchString", e.getSource().get("v.value"));
-    },
-    searchCampaign: function(c,e,h){
-        c.set('v.isShowSpinner', true);
         if(!$A.util.isEmpty(c.get("v.searchString"))){
-            var action = c.get('c.fetchRecords');
-            action.setParams({
-                'objectName' : 'Campaign',
-                'filterField' : 'Name',
-                'searchString' : c.get('v.searchString')
-            });
-            action.setCallback(this,function(response){ 
-                try{
-                    c.set('v.isShowSpinner', false);
-                    var result = response.getReturnValue();
-                    if(response.getState() === 'SUCCESS') {
-                        if(!$A.util.isEmpty(result) && JSON.parse(result) != '') {
-                            c.set('v.recordsList', JSON.parse(result)); 
-                            c.set("v.hideOptions", true);
-                            c.set("v.boolForNoRecord", false);
-
-                        } else {
-                            c.set('v.hideOptions', false);
-                            c.set('v.recordsList', []); 
-                            c.set("v.boolForNoRecord", true);
-                        }
-                    }
-                }catch(e){
-                    //console.log(e);
-                }
-            });
-            $A.enqueueAction(action);
+            h.searchCampaign(c, e, h);
         }else{
-            c.set('v.isShowSpinner', false);
+            c.set('v.isShowSpinner', true);
             c.set("v.hideOptions", true);
             c.set("v.boolForNoRecord", false);
-            c.set('v.recordsList', []); 
+            c.set('v.recordsList', []);
+            h.doInit_Helper(c, e, h);
         }
     },
     selectCampaignValue: function(c,e,h){
         var selectedCampignId = e.currentTarget.id;
         try {
             if(selectedCampignId != null){
+                var selectedRecord = {};
                 var recordsList = c.get('v.recordsList');
                 var index = recordsList.findIndex(x => x.value === selectedCampignId)
                 if(index != -1)
-                    var selectedRecord = recordsList[index];
+                    selectedRecord = recordsList[index];
                 c.set('v.selectedRecord', selectedRecord);
                 c.set("v.hideOptions", false);
                 c.set("v.boolForInput", false);
@@ -143,6 +94,7 @@
         c.set('v.searchString','');
         c.set("v.boolForInput", true);
         c.set("v.boolForNoRecord", false);
+        h.doInit_Helper(c, e, h);
     },
     createNewRecord: function(c,e,h){
         try {

@@ -515,9 +515,9 @@ public with sharing class TTFilterUserController {
             Long now0TimeinMilliseconds = Datetime.now().getTime();
             Long createdTimeinMilliseconds = campaignObj.CreatedDate.getTime();
             Long hourDifference = (now0TimeinMilliseconds - createdTimeinMilliseconds)/(1000*60*60);
-            /*if(hourDifference <= 24 && !Test.isRunningTest()){
+            if(hourDifference <= 24 && !Test.isRunningTest()){
                 return 'The Touchpoint was created less than 24 Hours ago';
-            }*/
+            }
             userwrapperlist =  (List<UserWrapper>) JSON.deserialize(userList, List<UserWrapper>.class);
             if(campaignObj.Id != null){
                 if(String.isNotEmpty(authenticationCredential.TelosTouchSF__Access_Token__c) &&  String.isNotEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){
