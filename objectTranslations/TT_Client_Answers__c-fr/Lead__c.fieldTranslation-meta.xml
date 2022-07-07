@@ -2,5 +2,5 @@
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>Prospect</label>
     <name>Lead__c</name>
-    <relationshipLabel></relationshipLabel>
+    <relationshipLabel><!-- TelosTouch  Answers --></relationshipLabel>
 </CustomFieldTranslation>
