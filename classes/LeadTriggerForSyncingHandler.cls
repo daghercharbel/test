@@ -195,4 +195,26 @@ public with sharing class LeadTriggerForSyncingHandler {
             System.debug(LoggingLevel.WARN, 'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
         }
     }
+
+    //Method responsible to update the last modified date field if any of the fields relevant to sync is modified
+    public static void checkSyncLastModifiedData(list<Lead> lstLead){
+
+        set<String> setField = new set<String>();
+        for(TelosTouchSF__TT_Salesforce_Mapping__c aField : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                WHERE TelosTouchSF__Object_Name__c = 'Lead'])
+        {
+            setField.add(aField.TelosTouchSF__Salesforce_Field__c);
+        }
+
+        for(Lead aLead : lstLead){
+            for(String aField : setField){
+                if(TriggerUtils.wasChanged(aLead, aField)){
+                    aLead.TelosTouchSF__TT_Last_Modified_Date__c = System.now();
+                    break;
+                }
+            }
+        }
+
+    }
 }
