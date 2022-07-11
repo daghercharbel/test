@@ -4,9 +4,8 @@
     <externalId>false</externalId>
     <formula>OR(
 				ISNULL(TT_LastSyncTime__c),
-				Last_Modified_Date__c &gt; TT_LastSyncTime__c
+				TT_Last_Modified_Date__c &gt; TT_LastSyncTime__c
 )</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TT Needs Sync</label>
     <type>Checkbox</type>
 </CustomField>
