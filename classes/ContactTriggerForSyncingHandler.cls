@@ -215,6 +215,8 @@ public with sharing class ContactTriggerForSyncingHandler {
         {
             setField.add(aField.TelosTouchSF__Salesforce_Field__c);
         }
+        //OwnerId is not mapped but is sent in the sync, we are looking a better way to add it dynamically
+        setField.add('OwnerId');
 
         for(Contact ctt : lstContact){
             for(String aField : setField){

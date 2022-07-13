@@ -12,9 +12,9 @@ trigger ContactTriggerForSyncing on Contact (after insert,before update, after d
     //BEFORE
     if(trigger.isBefore){
         //INSERT
-        if(trigger.isInsert){
+        /*if(trigger.isInsert){
 
-        }
+        }*/
         //UPDATE
         if(trigger.isUpdate){
             TelosTouchSF.ContactTriggerForSyncingHandler.updateTaskRecords(Trigger.new, Trigger.oldMap);
@@ -22,9 +22,9 @@ trigger ContactTriggerForSyncing on Contact (after insert,before update, after d
             TelosTouchSF.ContactTriggerForSyncingHandler.checkSyncLastModifiedData(Trigger.new);
         }
         //DELETE
-        if(trigger.isDelete){
+        /*if(trigger.isDelete){
 
-        }
+        }*/
     }
     
     //AFTER
@@ -42,9 +42,9 @@ trigger ContactTriggerForSyncing on Contact (after insert,before update, after d
             TelosTouchSF.ContactTriggerForSyncingHandler.getDeleteRecord(Trigger.old); 
         }
         //UNDELETE
-        if(trigger.isUndelete){
+        /*if(trigger.isUndelete){
 
-        }
+        }*/
     }
 
 }

@@ -3,9 +3,9 @@ trigger LeadTriggerForSyncing on Lead (after insert, before update,after delete,
     //BEFORE
     if(trigger.isBefore){
         //INSERT
-        if(trigger.isInsert){
+        /*if(trigger.isInsert){
 
-        }
+        }*/
         //UPDATE
         if(trigger.isUpdate){
             if(!System.isBatch()) TelosTouchSF.ContactTriggerForSyncingHandler.updateTaskRecords(Trigger.new, Trigger.oldMap);
@@ -13,9 +13,9 @@ trigger LeadTriggerForSyncing on Lead (after insert, before update,after delete,
             TelosTouchSF.LeadTriggerForSyncingHandler.checkSyncLastModifiedData(Trigger.new);
         }
         //DELETE
-        if(trigger.isDelete){
+        /*if(trigger.isDelete){
 
-        }
+        }*/
     }
     
     //AFTER
@@ -35,8 +35,8 @@ trigger LeadTriggerForSyncing on Lead (after insert, before update,after delete,
             TelosTouchSF.LeadTriggerForSyncingHandler.getDeleteRecord(Trigger.old);
         }
         //UNDELETE
-        if(trigger.isUndelete){
+        /*if(trigger.isUndelete){
 
-        }
+        }*/
     }
 }
