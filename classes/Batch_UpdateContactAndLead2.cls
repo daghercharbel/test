@@ -41,8 +41,9 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
          String duplicateStr = 'Duplicate Email';
 
          Boolean isSoftSync;
-         if(this.syncObject != null) isSoftSync = !forFirstTime; 
-         else{
+         if(this.syncObject != null) {
+            isSoftSync = !forFirstTime; 
+         } else{
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
             isSoftSync = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
          }
@@ -56,19 +57,19 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
              //         contactquery += fieldAPI + ',';
              //     }
              // }
-             for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c = 'Contact']){
-                 if(fieldAPI.TelosTouchSF__Salesforce_Field__c != 'AccountId'){
-                     contactquery += fieldAPI.TelosTouchSF__Salesforce_Field__c + ',';
-                 }
+             for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                    FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                    WHERE TelosTouchSF__Object_Name__c = 'Contact' 
+                                                                    AND TelosTouchSF__Salesforce_Field__c != 'AccountId'])
+             {
+                contactquery += fieldAPI.TelosTouchSF__Salesforce_Field__c + ',';
              }
              contactquery = contactquery.subString(0, contactquery.length() - 1);
              contactquery += ' FROM Contact WHERE TelosTouchSF__Error_Message__c !=: duplicateStr AND Email != null';
              contactquery += ' AND IsDeleted = false AND (Owner.TelosTouchSF__TT_UserId__c != NULL OR CreatedBy.TelosTouchSF__TT_UserId__c != null)';
              contactquery += ' AND TelosTouchSF__TT_Conflict__c = false';
-             if(isSoftSync) contactquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true';
+             if(isSoftSync){ contactquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true'; }
              contactquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-             contactquery = contactquery.removeEnd('WHERE');
-             contactquery = contactquery.removeEnd('AND');
              // totallist.addAll(Database.query(String.escapeSingleQuotes(contactquery)));
              return Database.getQueryLocator(String.escapeSingleQuotes(contactquery));
          }else{
@@ -82,9 +83,7 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
              leadquery += ' FROM Lead WHERE IsConverted = false AND TelosTouchSF__Error_Message__c !=: duplicateStr';
              leadquery += ' AND Email != null AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false';
              leadquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true';
-             if(isSoftSync) leadquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
-             leadquery = leadquery.removeEnd('WHERE');
-             leadquery = leadquery.removeEnd('AND');
+             if(isSoftSync){ leadquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS'; }
              //System.debug(String.escapeSingleQuotes(leadquery).replace('\\',''));
              // totallist.addAll(Database.query(String.escapeSingleQuotes(leadquery).replace('\\','')));
              return Database.getQueryLocator(String.escapeSingleQuotes(leadquery).replace('\\',''));
