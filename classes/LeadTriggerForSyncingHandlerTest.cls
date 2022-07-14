@@ -43,7 +43,8 @@ public with sharing class LeadTriggerForSyncingHandlerTest {
 
     }
 
-    static testMethod void testUnit() {
+    @IsTest
+    static void testUnit() {
         
         list<Lead> lstLead = [SELECT Id FROM Lead WHERE email LIKE 'LeadTriggerForSyncingHandler%'];
         System.assert(!lstLead.isEmpty());

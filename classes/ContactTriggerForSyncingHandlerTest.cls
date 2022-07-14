@@ -40,7 +40,8 @@ public with sharing class ContactTriggerForSyncingHandlerTest {
 
     }
 
-    static testMethod void testUnit() {
+    @IsTest
+    static void testUnit() {
         
         list<Contact> lstCtt = [SELECT Id FROM Contact WHERE email LIKE 'ContactTriggerForSyncingHandler%'];
         System.assert(!lstCtt.isEmpty());
