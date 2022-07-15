@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Add Cam Mem to TT Text</shortDescription>
-        <value>Please click &quot;Choose a TouchPoint&quot; to create an empty TouchPoint or add campaign members to add recipients to TouchPoint.</value>
+        <value>Start by choosing a TouchPoint or adding members to the campaign before you can &quot;Send a TouchPoint&quot;</value>
     </labels>
     <labels>
         <fullName>Add_Campaign_Members_Text</fullName>
@@ -1009,7 +1009,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New Camp Member Added Text</shortDescription>
-        <value>New campaign members added. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
+        <value>TouchPoint selected and contacts added to the campaign. Please click on &quot;Send TouchPoint&quot; if you are ready to send the TouchPoint to the client(s).</value>
     </labels>
     <labels>
         <fullName>New_Campaign_Header_Text</fullName>

@@ -702,7 +702,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Named_Credential_Error</name>
     </customLabels>
     <customLabels>
-        <label>TouchPoint sélectionné et contacts ajoutés à la campagne. Veuillez cliquer sur « Envoyer un Touchpoint »si vous êtes prêts à envoyer le TouchPoint au (x) client(s).</label>
+        <label>TouchPoint sélectionné et contacts ajoutés à la campagne. Veuillez cliquer sur «Envoyer un Touchpoint» si vous êtes prêts à envoyer le TouchPoint au(x) client(s).</label>
         <name>New_Camp_Member_Added_Text</name>
     </customLabels>
     <customLabels>

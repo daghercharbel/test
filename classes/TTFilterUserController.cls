@@ -816,6 +816,7 @@ picklistWrapperObj.ShareWithClientlist.add(String.valueOf(obj.getValue()));
     @AuraEnabled 
     public static String fetchLimitedRecords(Id campaignRecordId) { 
         try {
+            System.debug('recordId:: '+ campaignRecordId);
             List<RecordsData> recordsDataList = new List<RecordsData>();
             String query = 'SELECT Id, Name FROM Campaign WHERE Id !=: campaignRecordId ORDER BY CreatedDate DESC LIMIT 5';
             for(SObject s : Database.query(query)){
