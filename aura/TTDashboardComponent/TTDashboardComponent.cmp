@@ -12,12 +12,11 @@
         <lightning:spinner alternativeText="Loading" size="medium" />
     </aura:if>
     <aura:if isTrue="{!!empty(v.IframeUrl)}">
-        <!-- <iframe src="{!v.IframeUrl}"
+        <iframe src="{!v.IframeUrl}"
                 frameBorder="{!v.frameBorder}"
                 scrolling="{!v.scrolling}"
                 onload="{!c.setHeight}"
-                id = "frame"/> -->
-                <c:tTNativeDashboardComp/>
+                id = "frame"/>
     </aura:if>
     <aura:if isTrue="{!or(v.isNotAuthenticate,empty(v.IframeUrl))}">
         <p ><strong class ="fontCss">{!$Label.c.Dashboard_Non_TT_User_Text}</strong></p>
