@@ -188,13 +188,10 @@ public with sharing class ContactTriggerForSyncingHandler {
 * @param oldMap ......
 */
     public static void removeConflict(List<Contact> newList, Map<Id, Contact> oldMap){
-        try{
-            String message = 'Duplicate Email';
+        try{        
             if(newList != null && newList.size()>0){
                 for(Contact con : newList){
-                    if((con.TelosTouchSF__TT_Conflict__c || con.TelosTouchSF__Error_Message__c == message) 
-                        && con.Email != oldMap.get(con.Id).Email)
-                    {
+                    if(con.TelosTouchSF__TT_Conflict__c && con.Email != oldMap.get(con.Id).Email){
                         con.TelosTouchSF__TT_Conflict__c = false;
                         con.TelosTouchSF__Error_Message__c = '';
                     }
