@@ -183,12 +183,9 @@ public with sharing class LeadTriggerForSyncingHandler {
 */
     public static void removeConflict(List<Lead> newList, Map<Id, Lead> oldMap){
         try{
-            String message = 'Duplicate Email';
             if(newList != null && newList.size()>0){
                 for(Lead ld : newList){
-                    if((ld.TelosTouchSF__TT_Conflict__c || ld.TelosTouchSF__Error_Message__c == message) 
-                        && ld.Email != oldMap.get(ld.Id).Email)
-                    {
+                    if(ld.TelosTouchSF__TT_Conflict__c && ld.Email != oldMap.get(ld.Id).Email){
                         ld.TelosTouchSF__TT_Conflict__c = false;
                         ld.TelosTouchSF__Error_Message__c = '';
                     }
