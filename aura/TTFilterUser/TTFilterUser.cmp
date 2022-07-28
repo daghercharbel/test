@@ -1,18 +1,11 @@
-<aura:component
-                description="TTFilterUser"
-                controller="TTFilterUserController"
-                implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"
-                access="global"
-                >
+<aura:component description="TTFilterUser" controller="TTFilterUserController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"
+    access="global">
     <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
     <!--aura:attribute name="fieldMap" type="Map"/-->
     <lightning:overlayLibrary aura:id="overlayLib" />
     <aura:handler event="force:refreshView" action="{!c.doInit}" />
-    <aura:handler
-                  name="change"
-                  value="{!v.fielterDetailsChanges}"
-                  action="{!c.fielterEvent}"
-                  />
+    <aura:handler name="change" value="{!v.fielterDetailsChanges}" action="{!c.fielterEvent}" />
 
     <aura:attribute name="preDisable" type="boolean" default="true" />
     <aura:attribute name="end" type="boolean" default="false" />
@@ -20,11 +13,11 @@
     <aura:attribute name="selectAllList" type="boolean" default="false" />
     <aura:attribute name="totalPages" type="integer" default="1" />
     <aura:attribute name="pageNo" type="integer" default="1" />
-    <aura:attribute name="startRecord" type="integer"/>
+    <aura:attribute name="startRecord" type="integer" />
     <aura:attribute name="endRecord" type="integer" />
     <aura:attribute name="recordPerPage" type="integer" default="10" />
     <aura:attribute name="listData" type="List" />
-    <aura:attribute name="isCheckedList" type="List" default=""/>
+    <aura:attribute name="isCheckedList" type="List" default="" />
     <aura:attribute name="count" type="integer" />
     <aura:attribute name="countSelectAll" type="integer" />
     <aura:attribute name="IsSubscribed" type="String" />
@@ -46,141 +39,83 @@
     <aura:attribute name="frenchUserFlag" type="Boolean" default="false" />
     <aura:attribute name="createAction" type="Boolean" default="false" />
     <aura:attribute name="TodayDate" type="String" />
-    <aura:attribute name="showSendReminder" type="Boolean" default="true" access="global"/>
-    <aura:attribute name="showCreateMassActions" type="Boolean" default="true" access="global"/>
-    <aura:attribute name="showCreateSingleActions" type="Boolean" default="true" access="global"/>
-    <aura:attribute name="showAddToCampaign" type="Boolean" default="true" access="global"/>
-    <aura:attribute
-                    name="newTask"
-                    type="Task"
-                    default="{ 'sobjectType': 'Task'}"
-                    access="public"
-                    />
+    <aura:attribute name="showSendReminder" type="Boolean" default="true" access="global" />
+    <aura:attribute name="showCreateMassActions" type="Boolean" default="true" access="global" />
+    <aura:attribute name="showCreateSingleActions" type="Boolean" default="true" access="global" />
+    <aura:attribute name="showAddToCampaign" type="Boolean" default="true" access="global" />
+    <aura:attribute name="newTask" type="Task" default="{ 'sobjectType': 'Task'}" access="public" />
     <aura:attribute name="wrapperList" type="object" />
     <aura:attribute name="currentUser" type="object" access="public" />
-    
-    <aura:attribute
-                    name="isDisableSendTouchPointBtn"
-                    type="Boolean"
-                    default="true"
-                    />
+
+    <aura:attribute name="isDisableSendTouchPointBtn" type="Boolean" default="true" />
     <aura:attribute name="SubjectListItems" type="Boolean" default="false" />
     <aura:attribute name="contactVsClientId" type="Map" default="{}" />
     <aura:attribute name="userList" type="List" />
-    <aura:attribute
-                    name="campaignName"
-                    type="String"
-                    description="Input Field Value at the popup"
-                    />
-    <aura:attribute
-                    name="clientIdsList"
-                    type="List"
-                    description="Client id generated from action method"
-                    />
-    <aura:attribute
-                    name="campaignSFid"
-                    type="String"
-                    description="SF id generated from action method"
-                    />
-    
+    <aura:attribute name="campaignName" type="String" description="Input Field Value at the popup" />
+    <aura:attribute name="clientIdsList" type="List" description="Client id generated from action method" />
+    <aura:attribute name="campaignSFid" type="String" description="SF id generated from action method" />
+
     <aura:attribute name="variant" type="String" />
     <aura:attribute name="message" type="String" />
     <aura:attribute name="subjectMessage" type="String" default="" />
     <aura:attribute name="showToast" type="Boolean" default="false" />
     <aura:attribute name="isSendReminder" type="Boolean" default="false" />
-    
+
     <aura:handler event="c:ModalCloseEvent" action="{!c.handleModalCloseEvent}" />
     <aura:handler event="c:RefreshCampaignEvent" action="{!c.doRefresh}" />
-    <aura:handler
-                  event="c:TT_AddToCampMobile_Evt"
-                  action="{!c.onEventHandle_Save}"
-                  />
-    
+    <aura:handler event="c:TT_AddToCampMobile_Evt" action="{!c.onEventHandle_Save}" />
+
     <lightning:empApi aura:id="empApi" />
-    
+
     <aura:if isTrue="{!v.showToast}">
-        <c:TT_Custom_Toast
-                           variant="{!v.variant}"
-                           message="{!v.message}"
-                           showToast="{!v.showToast}"
-                           />
+        <c:TT_Custom_Toast variant="{!v.variant}" message="{!v.message}" showToast="{!v.showToast}" />
     </aura:if>
     <ltng:require styles="{!$Resource.TelosTouch + '/TTFilterUser.css'}" />
-    
+
     <div class="slds-box sldsbox slds-box_xx-small">
         <lightning:layout multipleRows="true">
             <aura:if isTrue="{!or($Browser.isPhone, $Browser.isTablet)}">
                 <aura:if isTrue="{!v.showAddToCampaign}">
                     <lightning:layoutItem padding="horizontal-small" size="12">
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Add_to_Campaign_Text}"
-                                          title="{!$Label.c.Add_to_Campaign_Text}"
-                                          iconName="utility:add"
-                                          disabled="{! v.isDisableSendTouchPointBtn}"
-                                          onclick="{!c.sendTouchPoint}"
-                                          class="slds-m-around_xxx-small slds-size_1-of-1"
-                                          />
+                        <lightning:button variant="brand" label="{!$Label.c.Add_to_Campaign_Text}"
+                            title="{!$Label.c.Add_to_Campaign_Text}" iconName="utility:add"
+                            disabled="{! v.isDisableSendTouchPointBtn}" onclick="{!c.sendTouchPoint}"
+                            class="slds-m-around_xxx-small slds-size_1-of-1" />
                     </lightning:layoutItem>
                 </aura:if>
                 <aura:if isTrue="{!v.showCreateMassActions}">
                     <lightning:layoutItem padding="horizontal-small" size="12">
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Create_Task_Text}"
-                                          title="{!$Label.c.Create_Task_Text}"
-                                          iconName="utility:event"
-                                          disabled="{! v.isDisableSendTouchPointBtn}"
-                                          onclick="{!c.createAction}"
-                                          class="slds-m-around_xxx-small slds-size_1-of-1"
-                                          />
+                        <lightning:button variant="brand" label="{!$Label.c.Create_Task_Text}"
+                            title="{!$Label.c.Create_Task_Text}" iconName="utility:event"
+                            disabled="{! v.isDisableSendTouchPointBtn}" onclick="{!c.createAction}"
+                            class="slds-m-around_xxx-small slds-size_1-of-1" />
                     </lightning:layoutItem>
                 </aura:if>
                 <aura:if isTrue="{!v.showSendReminder}">
                     <lightning:layoutItem padding="horizontal-small" size="12">
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Send_Reminder_Text}"
-                                          title="{!$Label.c.Send_Reminder_Text}"
-                                          disabled="{!(empty(v.data))}"
-                                          iconName="utility:email"
-                                          onclick="{!c.openSendReminderModal}"
-                                          class="slds-m-around_xxx-small slds-size_1-of-1"
-                                          />
+                        <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
+                            title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
+                            iconName="utility:email" onclick="{!c.openSendReminderModal}"
+                            class="slds-m-around_xxx-small slds-size_1-of-1" />
                     </lightning:layoutItem>
                 </aura:if>
                 <aura:set attribute="else">
                     <lightning:layoutItem size="12" alignmentBump="right">
                         <div class="slds-float--right">
                             <aura:if isTrue="{!v.showAddToCampaign}">
-                                <lightning:button
-                                                  variant="brand"
-                                                  label="{!$Label.c.Add_to_Campaign_Text}"
-                                                  title="{!$Label.c.Add_to_Campaign_Text}"
-                                                  iconName="utility:add"
-                                                  disabled="{! v.isDisableSendTouchPointBtn}"
-                                                  onclick="{!c.sendTouchPoint}"
-                                                  />
+                                <lightning:button variant="brand" label="{!$Label.c.Add_to_Campaign_Text}"
+                                    title="{!$Label.c.Add_to_Campaign_Text}" iconName="utility:add"
+                                    disabled="{! v.isDisableSendTouchPointBtn}" onclick="{!c.sendTouchPoint}" />
                             </aura:if>
                             <aura:if isTrue="{!v.showCreateMassActions}">
-                                <lightning:button
-                                                  variant="brand"
-                                                  label="{!$Label.c.Create_Task_Text}"
-                                                  title="{!$Label.c.Create_Task_Text}"
-                                                  iconName="utility:event"
-                                                  disabled="{! v.isDisableSendTouchPointBtn}"
-                                                  onclick="{!c.createAction}"
-                                                  />
+                                <lightning:button variant="brand" label="{!$Label.c.Create_Task_Text}"
+                                    title="{!$Label.c.Create_Task_Text}" iconName="utility:event"
+                                    disabled="{! v.isDisableSendTouchPointBtn}" onclick="{!c.createAction}" />
                             </aura:if>
                             <aura:if isTrue="{!v.showSendReminder}">
-                                <lightning:button
-                                                  variant="brand"
-                                                  label="{!$Label.c.Send_Reminder_Text}"
-                                                  title="{!$Label.c.Send_Reminder_Text}"
-                                                  disabled="{!(empty(v.data))}"
-                                                  iconName="utility:email"
-                                                  onclick="{!c.openSendReminderModal}"
-                                                  />
+                                <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
+                                    title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
+                                    iconName="utility:email" onclick="{!c.openSendReminderModal}" />
                             </aura:if>
                         </div>
                     </lightning:layoutItem>
@@ -190,39 +125,25 @@
         <aura:if isTrue="{!v.isShowSpinner}">
             <lightning:spinner alternativeText="Loading" size="medium" />
         </aura:if>
-        
+
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_4-of-12">
-                <lightning:input
-                                 name="Name"
-                                 type="search"
-                                 class="slds-p-horizontal_x-small"
-                                 label="{!$Label.c.Name_Text}"
-                                 value="{!v.fielterDetails.name}"
-                                 onchange="{!c.fielterDetailsChanges}"
-                                 />
+                <lightning:input name="Name" type="search" class="slds-p-horizontal_x-small"
+                    label="{!$Label.c.Name_Text}" value="{!v.fielterDetails.name}"
+                    onchange="{!c.fielterDetailsChanges}" />
             </div>
             <div class="slds-col slds-size_4-of-12">
-                <lightning:select
-                                  name="OpenedAt"
-                                  class="slds-p-horizontal_x-small"
-                                  label="{!$Label.c.Opened_At_Text}"
-                                  value="{!v.fielterDetails.pendingOpened_At}"
-                                  onchange="{!c.fielterDetailsChanges}"
-                                  >
+                <lightning:select name="OpenedAt" class="slds-p-horizontal_x-small" label="{!$Label.c.Opened_At_Text}"
+                    value="{!v.fielterDetails.pendingOpened_At}" onchange="{!c.fielterDetailsChanges}">
                     <option value="Anytime">{!$Label.c.All_Label}</option>
                     <option value="Opened">{!$Label.c.Opened_Text}</option>
                     <option value="Pending">{!$Label.c.Not_Opened_Text}</option>
                 </lightning:select>
             </div>
             <div class="slds-col slds-size_4-of-12">
-                <lightning:select
-                                  name="CompletedAt"
-                                  class="slds-p-horizontal_x-small"
-                                  label="{!$Label.c.Completed_At_Text}"
-                                  value="{!v.fielterDetails.pendingCompleted_At}"
-                                  onchange="{!c.fielterDetailsChanges}"
-                                  >
+                <lightning:select name="CompletedAt" class="slds-p-horizontal_x-small"
+                    label="{!$Label.c.Completed_At_Text}" value="{!v.fielterDetails.pendingCompleted_At}"
+                    onchange="{!c.fielterDetailsChanges}">
                     <option value="Anytime">{!$Label.c.All_Label}</option>
                     <option value="Completed">{!$Label.c.Completed_Text}</option>
                     <option value="Pending">{!$Label.c.Not_Completed_Text}</option>
@@ -235,69 +156,37 @@
         </div>-->
         <div class="slds-grid questions slds-grid slds-wrap">
             <aura:if isTrue="{!v.frenchUserFlag}">
-                <aura:iteration
-                                items="{!v.fielterDetails.questionAnswerList}"
-                                var="item"
-                                >
+                <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
                     <aura:if isTrue="{!item.questionType != 'form'}">
                         <div
-                             class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small"
-                             >
-                            <c:multiSelectPicklist
-                                                   label="{!item.question_fr}"
-                                                   fielterDetailsChanges="{!v.fielterDetailsChanges}"
-                                                   questionList="{!item.picklistValueList_fr}"
-                                                   answerList="{!item.answerList}"
-                                                   />
+                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                            <c:multiSelectPicklist label="{!item.question_fr}"
+                                fielterDetailsChanges="{!v.fielterDetailsChanges}"
+                                questionList="{!item.picklistValueList_fr}" answerList="{!item.answerList}" />
                         </div>
                         <aura:set attribute="else">
                             <div
-                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small"
-                                 >
-                                <lightning:input
-                                                 name="Name"
-                                                 type="search"
-                                                 label="{!item.question_fr}"
-                                                 value="{!item.answer}"
-                                                 onchange="{!c.fielterDetailsChanges}"
-                                                 />
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                <lightning:input name="Name" type="search" label="{!item.question_fr}"
+                                    value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
                             </div>
                         </aura:set>
                     </aura:if>
                 </aura:iteration>
                 <aura:set attribute="else">
-                    <aura:iteration
-                                    items="{!v.fielterDetails.questionAnswerList}"
-                                    var="item"
-                                    >
+                    <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
                         <aura:if isTrue="{!item.questionType != 'form'}">
                             <div
-                                 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small"
-                                 >
-                                 <c:multiSelectPicklist
-                                 label="{!item.question}"
-                                 fielterDetailsChanges="{!v.fielterDetailsChanges}"
-                                 questionList="{!item.picklistValueList}"
-                                 answerList="{!item.answerList}"
-                                 />
-                                <!-- <c:lwcMultiSelectPicklist
-                                                       label="{!item.question}"
-                                                       fielterDetailsChanges="{!v.fielterDetailsChanges}"
-                                                       questionList="{!item.picklistValueList}"
-                                                       answerList="{!item.answerList}"
-                                                       /> -->
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                <c:multiSelectPicklist label="{!item.question}"
+                                    fielterDetailsChanges="{!v.fielterDetailsChanges}"
+                                    questionList="{!item.picklistValueList}" answerList="{!item.answerList}" />
                             </div>
                             <aura:set attribute="else">
                                 <div
-                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small"
-                                     >
-                                    <lightning:input
-                                                     name="Name"
-                                                     type="search"
-                                                     label="{!item.question}"
-                                                     value="{!item.answer}"
-                                                     onchange="{!c.fielterDetailsChanges}"
-                                                     />
+                                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                    <lightning:input name="Name" type="search" label="{!item.question}"
+                                        value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
                                 </div>
                             </aura:set>
                         </aura:if>
@@ -323,36 +212,44 @@
                     <thead>
                         <tr>
                             <th>
-                                <lightning:input type="checkbox" class="buttonSelectAll"  variant="label-hidden" checked="{! v.selectAllList}" onchange="{! c.selectAll}"></lightning:input>
+                                <lightning:input type="checkbox" class="buttonSelectAll" variant="label-hidden"
+                                    checked="{! v.selectAllList}" onchange="{! c.selectAll}"></lightning:input>
                             </th>
                             <th scope="col">
                                 <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">{!$Label.c.Opened_At_Text}</div>
+                                <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">{!$Label.c.Opened_At_Text}
+                                </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">{!$Label.c.Completed_At_Text}</div>
+                                <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">
+                                    {!$Label.c.Completed_At_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate slds-align_absolute-center" title="{!$Label.c.Subscribed_Text}">{!$Label.c.Subscribed_Text}</div>
+                                <div class="slds-truncate slds-align_absolute-center"
+                                    title="{!$Label.c.Subscribed_Text}">{!$Label.c.Subscribed_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}</div>
+                                <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}
+                                </div>
                             </th>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                                 <th scope="col">
-                                    <div class="slds-truncate" title="{!$Label.c.Actions_Text}">{!$Label.c.Actions_Text}</div>
+                                    <div class="slds-truncate" title="{!$Label.c.Actions_Text}">{!$Label.c.Actions_Text}
+                                    </div>
                                 </th>
                             </aura:if>
                         </tr>
                     </thead>
-                        <aura:iteration items="{! v.listData }" var="item">
-                            <tbody>
+                    <aura:iteration items="{! v.listData }" var="item">
+                        <tbody>
                             <div class="slds-form-element">
                                 <div class="slds-form-element__control">
                                     <label class="slds-checkbox">
-                                        <lightning:input type="checkbox" checked= "{!item.isChecked}" class="specialForCheckbox" label= "{!item.Id}" variant="label-hidden" value= "{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
+                                        <lightning:input type="checkbox" checked="{!item.isChecked}"
+                                            class="specialForCheckbox" label="{!item.Id}" variant="label-hidden"
+                                            value="{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
                                     </label>
                                 </div>
                             </div>
@@ -366,7 +263,7 @@
                                     {!item.TTOpened_At}
                                 </div>
                             </td>
-                            
+
                             <td scope="row">
                                 <div class="slds-truncate">
                                     {!item.TTCompleted_At}
@@ -375,91 +272,56 @@
                             <td scope="row">
                                 <div class="slds-align_absolute-center">
                                     <aura:if isTrue="{!item.ContactOrLeadSubscribed == 'No'}">
-                                        <img src="{!$Resource.TelosTouch + '/images/CrossCheckbox1.png'}" class="imageCss"/>
+                                        <img src="{!$Resource.TelosTouch + '/images/CrossCheckbox1.png'}"
+                                            class="imageCss" />
                                         <aura:set attribute="else">
-                                            <img src="{!$Resource.TelosTouch + '/images/RightCheckbox.webp'}" class="imageCss"/>
+                                            <img src="{!$Resource.TelosTouch + '/images/RightCheckbox.webp'}"
+                                                class="imageCss" />
                                         </aura:set>
                                     </aura:if>
                                 </div>
                             </td>
                             <td scope="row">
                                 <div class="slds-truncate">
-                                    <lightning:button
-                                        variant= "neutral"
-                                        title= "{!$Label.c.Answers_Text}"
-                                        label= "{!$Label.c.Answers_Text}"
-                                        value= "{! item}"
-                                        disabled = "{! item.isActive}"
-                                        onclick= "{! c.viewRecord}"
-                                    ></lightning:button>
+                                    <lightning:button variant="neutral" title="{!$Label.c.Answers_Text}"
+                                        label="{!$Label.c.Answers_Text}" value="{! item}" disabled="{! item.isActive}"
+                                        onclick="{! c.viewRecord}"></lightning:button>
                                 </div>
                             </td>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
-                            <td scope="row">
-                                <div class="slds-truncate table-width">
-                                    <lightning:button
-                                        variant= "neutral"
-                                        aura:id ="Create Task"
-                                        value= "{! item}"
-                                        title= "{!$Label.c.Create_Task_Text}"
-                                        label= "{!$Label.c.Create_Task_Text}"
-                                        onclick= "{! c.viewRecord}"
-                                    ></lightning:button>
-                                </div>
-                            </td>
-                        </aura:if>
+                                <td scope="row">
+                                    <div class="slds-truncate table-width">
+                                        <lightning:button variant="neutral" aura:id="Create Task" value="{! item}"
+                                            title="{!$Label.c.Create_Task_Text}" label="{!$Label.c.Create_Task_Text}"
+                                            onclick="{! c.viewRecord}"></lightning:button>
+                                    </div>
+                                </td>
+                            </aura:if>
                         </tbody>
-                        </aura:iteration>
+                    </aura:iteration>
                 </table>
             </div>
         </div>
         <div slot="actions" class="slds-p-top_x-small">
-            <lightning:button
-                variant="neutral"
-                title="{!$Label.c.Previous_Button_Label}"
-                label="{!$Label.c.Previous_Button_Label}"
-                disabled= "{!v.preDisable}"
-                iconName="utility:chevronleft"
-                iconPosition="left"
-                onclick="{! c.handlePrevious}"
-            ></lightning:button>
-            <lightning:button
-                variant="neutral"
-                title="{!$Label.c.Next_Button_Label}"
-                label="{!$Label.c.Next_Button_Label}"
-                disabled= "{! v.nextDisable}"
-                class="slds-p-left_xx-small"
-                iconName="utility:chevronright"
-                iconPosition="left"
-                onclick="{! c.handleNext}"
-            ></lightning:button>
+            <lightning:button variant="neutral" title="{!$Label.c.Previous_Button_Label}"
+                label="{!$Label.c.Previous_Button_Label}" disabled="{!v.preDisable}" iconName="utility:chevronleft"
+                iconPosition="left" onclick="{! c.handlePrevious}"></lightning:button>
+            <lightning:button variant="neutral" title="{!$Label.c.Next_Button_Label}"
+                label="{!$Label.c.Next_Button_Label}" disabled="{! v.nextDisable}" class="slds-p-left_xx-small"
+                iconName="utility:chevronright" iconPosition="left" onclick="{! c.handleNext}"></lightning:button>
             <span class="slds-p-left_medium slds-float_right ">
                 Page No: {! v.pageNo} of {! v.totalPages}
             </span>
         </div>
         <aura:if isTrue="{!v.isShowModel}">
             <div style="height: 10vh"></div>
-            <section
-                     role="dialog"
-                     tabindex="-1"
-                     aria-labelledby="modal-heading-01"
-                     aria-modal="true"
-                     aria-describedby="modal-content-id-1"
-                     class="slds-modal slds-fade-in-open"
-                     onclick="{!c.closeModel}"
-                     >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open" onclick="{!c.closeModel}">
                 <div class="slds-modal__container">
-                    <header
-                            class="slds-modal__header"
-                            onclick="{!c.closeModelInnerSection}"
-                            >
+                    <header class="slds-modal__header" onclick="{!c.closeModelInnerSection}">
                         <lightning:buttonIcon
-                                              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse iconColor"
-                                              title="Close"
-                                              iconName="utility:close"
-                                              alternativeText="close"
-                                              onclick="{!c.closeModel}"
-                                              />
+                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse iconColor"
+                            title="Close" iconName="utility:close" alternativeText="close" onclick="{!c.closeModel}" />
                         <div class="slds-col slds-size_11-of-12 slds-align-bottom">
                             <p class="answerModal">{!v.answers.TouchPointName}</p>
                         </div>
@@ -467,40 +329,28 @@
                             <p class="answerModal">{!v.answers.Name}</p>
                         </div>
                     </header>
-                    <div
-                         class="slds-modal__content slds-p-around_medium"
-                         id="modal-content-id-1"
-                         onclick="{!c.closeModelInnerSection}"
-                         >
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"
+                        onclick="{!c.closeModelInnerSection}">
                         <aura:iteration items="{!v.answers.answerWrapperList}" var="item">
                             <aura:if isTrue="{!item.is_robot}">
                                 <li class="slds-chat-listitem slds-chat-listitem_outbound">
                                     <div class="slds-chat-message">
                                         <div class="slds-chat-message__body">
-                                            <div
-                                                 class="slds-chat-message__text slds-chat-message__text_outbound"
-                                                 >
+                                            <div class="slds-chat-message__text slds-chat-message__text_outbound">
                                                 <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
                                                 <aura:if isTrue="{!item.type == 'image'}">
                                                     <a href="{!item.resource_url}" target="_blank">
-                                                        <img
-                                                             src="{!item.resource_url}"
-                                                             id="{!item.resource_url}"
-                                                             name="{!item.content}"
-                                                             />
+                                                        <img src="{!item.resource_url}" id="{!item.resource_url}"
+                                                            name="{!item.content}" />
                                                     </a>
                                                     <aura:set attribute="else">
                                                         <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
                                                         <aura:if
-                                                                 isTrue="{!or(item.type == 'application', item.type == 'video')}"
-                                                                 >
+                                                            isTrue="{!or(item.type == 'application', item.type == 'video')}">
                                                             <a href="{!item.resource_url}" target="_blank">
-                                                                <lightning:formattedText
-                                                                                         value="{!item.content}"
-                                                                                         id="{!item.resource_url}"
-                                                                                         title="{!item.content}"
-                                                                                         linkify="true"
-                                                                                         />
+                                                                <lightning:formattedText value="{!item.content}"
+                                                                    id="{!item.resource_url}" title="{!item.content}"
+                                                                    linkify="true" />
                                                             </a>
                                                             <aura:set attribute="else">
                                                                 <span> {!item.content} </span>
@@ -516,30 +366,21 @@
                                     <li class="slds-chat-listitem slds-chat-listitem_inbound">
                                         <div class="slds-chat-message">
                                             <div class="slds-chat-message__body">
-                                                <div
-                                                     class="slds-chat-message__text slds-chat-message__text_inbound"
-                                                     >
+                                                <div class="slds-chat-message__text slds-chat-message__text_inbound">
                                                     <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
                                                     <aura:if isTrue="{!item.type == 'image'}">
                                                         <a href="{!item.resource_url}" target="_blank">
-                                                            <img
-                                                                 src="{!item.resource_url}"
-                                                                 id="{!item.resource_url}"
-                                                                 name="{!item.content}"
-                                                                 />
+                                                            <img src="{!item.resource_url}" id="{!item.resource_url}"
+                                                                name="{!item.content}" />
                                                         </a>
                                                         <aura:set attribute="else">
                                                             <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
                                                             <aura:if
-                                                                     isTrue="{!or(item.type == 'application', item.type == 'video')}"
-                                                                     >
+                                                                isTrue="{!or(item.type == 'application', item.type == 'video')}">
                                                                 <a href="{!item.resource_url}" target="_blank">
-                                                                    <lightning:formattedText
-                                                                                             value="{!item.content}"
-                                                                                             id="{!item.resource_url}"
-                                                                                             title="{!item.content}"
-                                                                                             linkify="true"
-                                                                                             />
+                                                                    <lightning:formattedText value="{!item.content}"
+                                                                        id="{!item.resource_url}"
+                                                                        title="{!item.content}" linkify="true" />
                                                                 </a>
                                                                 <aura:set attribute="else">
                                                                     <span> {!item.content} </span>
@@ -562,151 +403,72 @@
         </aura:if>
         <!-- Send Touch Point after filtering Users-->
         <aura:if isTrue="{!v.createCampaign}">
-            <section
-                     role="dialog"
-                     tabindex="-1"
-                     aria-labelledby="modal-heading-01"
-                     aria-modal="true"
-                     aria-describedby="modal-content-id-1"
-                     class="slds-modal slds-fade-in-open slds-modal_medium"
-                     >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
                 <div class="slds-modal__container">
                     <!-- Modal/Popup Box Header Starts here-->
                     <header class="slds-modal__header">
-                        <lightning:buttonIcon
-                                              iconName="utility:close"
-                                              onclick="{! c.closeCreateCampaignModel }"
-                                              alternativeText="close"
-                                              variant="bare-inverse"
-                                              class="slds-modal__close"
-                                              />
-                        <h2
-                            id="modal-heading-01"
-                            class="slds-text-heading_medium slds-hyphenate"
-                            >
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeCreateCampaignModel }"
+                            alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
                             {!$Label.c.Add_Campaign_Modal_Header_Text}
                         </h2>
                     </header>
                     <!--Modal/Popup Box Body Starts here-->
-                    <div
-                         class="slds-modal__content slds-p-around_medium"
-                         id="modal-content-id-1"
-                         >
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                         <lightning:layout multipleRows="true">
-                            <lightning:layoutItem
-                                                  size="12"
-                                                  smallDeviceSize="12"
-                                                  mediumDeviceSize="12"
-                                                  largeDeviceSize="12"
-                                                  >
-                                <lightning:input
-                                                 aura:id="Campaigninput"
-                                                 name="campaignName"
-                                                 label="{!$Label.c.Name_Text}"
-                                                 placeholder="Campaign ABC"
-                                                 required="true"
-                                                 value="{!v.campaignName}"
-                                                 />
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:input aura:id="Campaigninput" name="campaignName"
+                                    label="{!$Label.c.Name_Text}" placeholder="Campaign ABC" required="true"
+                                    value="{!v.campaignName}" />
                             </lightning:layoutItem>
-                            <lightning:layoutItem
-                                                  size="12"
-                                                  smallDeviceSize="12"
-                                                  mediumDeviceSize="12"
-                                                  largeDeviceSize="12"
-                                                  >
-                                <lightning:input
-                                                 aura:id="Campaigninput"
-                                                 name="RecordType"
-                                                 label="{!$Label.c.Record_Type_Text}"
-                                                 value="TelosTouch"
-                                                 disabled="true"
-                                                 />
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:input aura:id="Campaigninput" name="RecordType"
+                                    label="{!$Label.c.Record_Type_Text}" value="TelosTouch" disabled="true" />
                             </lightning:layoutItem>
                         </lightning:layout>
                         <!-- value = {!v.campaignRecordType} -->
                     </div>
                     <!--Modal/Popup Box Footer Starts here-->
                     <footer class="slds-modal__footer">
-                        <lightning:button
-                                          variant="neutral"
-                                          label="{!$Label.c.Cancel_Button_Label}"
-                                          title="{!$Label.c.Cancel_Button_Label}"
-                                          onclick="{! c.closeCreateCampaignModel }"
-                                          />
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Submit_Text}"
-                                          title="{!$Label.c.Submit_Text}"
-                                          onclick="{!c.submitCreateCampaignDetails}"
-                                          />
+                        <lightning:button variant="neutral" label="{!$Label.c.Cancel_Button_Label}"
+                            title="{!$Label.c.Cancel_Button_Label}" onclick="{! c.closeCreateCampaignModel }" />
+                        <lightning:button variant="brand" label="{!$Label.c.Submit_Text}"
+                            title="{!$Label.c.Submit_Text}" onclick="{!c.submitCreateCampaignDetails}" />
                     </footer>
                 </div>
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </aura:if>
-        
+
         <!-- Create Action -->
         <aura:if isTrue="{!v.createAction}">
-            <section
-                     role="dialog"
-                     tabindex="-1"
-                     aria-labelledby="modal-heading-01"
-                     aria-modal="true"
-                     aria-describedby="modal-content-id-1"
-                     class="slds-modal slds-fade-in-open"
-                     >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
                 <aura:if isTrue="{!v.isShowSpinner}">
                     <lightning:spinner alternativeText="Loading" size="medium" />
                 </aura:if>
                 <div class="slds-modal__container">
                     <!-- Modal/Popup Box Header Starts here-->
                     <header class="slds-modal__header">
-                        <lightning:buttonIcon
-                                              iconName="utility:close"
-                                              onclick="{! c.CloseModal}"
-                                              alternativeText="close"
-                                              variant="bare-inverse"
-                                              class="slds-modal__close"
-                                              />
-                        <h2
-                            id="modal-heading-01"
-                            class="slds-text-heading_medium slds-hyphenate"
-                            >
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.CloseModal}"
+                            alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
                             {!$Label.c.Create_Task_Text}
                         </h2>
                     </header>
                     <!--Modal/Popup Box Body Starts here-->
-                    <div
-                         class="slds-modal__content slds-p-around_medium"
-                         id="modal-content-id-1"
-                         >
-                        <c:FilterLookUpParentDependentCmp
-                                                          objectName="User"
-                                                          field_API_text="Name"
-                                                          field_API_val="Id"
-                                                          limit="5"
-                                                          field_API_search="Name"
-                                                          lookupIcon="standard:user"
-                                                          selItem="{!v.currentUser}"
-                                                          placeholder="Search User..."
-                                                          lookUpLabel="{!$Label.c.Assigned_To_Label}"
-                                                          isRequired="True"
-                                                          isShowStandardMessage="false"
-                                                          isShowIconForCreatingChalidRecord="false"
-                                                          sObjectName="User"
-                                                          recordId=""
-                                                          />
-                        <lightning:select
-                                          name="select1"
-                                          label="{!$Label.c.Show_on_client_timeline_Label}"
-                                          aura:id="validFields"
-                                          value="{!v.newTask.wrapperList.ShareWithClientlist}"
-                                          required="true"
-                                          >
-                            <aura:iteration
-                                            items="{!v.wrapperList.ShareWithClientlist}"
-                                            var="clientobj"
-                                            >
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <c:FilterLookUpParentDependentCmp objectName="User" field_API_text="Name" field_API_val="Id"
+                            limit="5" field_API_search="Name" lookupIcon="standard:user" selItem="{!v.currentUser}"
+                            placeholder="Search User..." lookUpLabel="{!$Label.c.Assigned_To_Label}" isRequired="True"
+                            isShowStandardMessage="false" isShowIconForCreatingChalidRecord="false" sObjectName="User"
+                            recordId="" />
+                        <lightning:select name="select1" label="{!$Label.c.Show_on_client_timeline_Label}"
+                            aura:id="validFields" value="{!v.newTask.wrapperList.ShareWithClientlist}" required="true">
+                            <aura:iteration items="{!v.wrapperList.ShareWithClientlist}" var="clientobj">
                                 {!clientobj.value}--
                                 <option value="{!clientobj.value}" selected="No">
                                     {!clientobj.label}
@@ -716,17 +478,9 @@
                         <div class="slds-p-bottom_xx-small slds-p-top_xx-small">
                             <span class="subject">*</span>&nbsp;{!$Label.c.Subject_Label}
                         </div>
-                        <lightning:input
-                                         type="text"
-                                         name="Subject"
-                                         label="{!$Label.c.Subject_Label}"
-                                         onclick="{!c.showlist}"
-                                         onfocusout="{!c.hidelist}"
-                                         onchange="{!c.showpList}"
-                                         value="{!v.newTask.Subject}"
-                                         aura:id="subjectId"
-                                         variant="label-hidden"
-                                         />
+                        <lightning:input type="text" name="Subject" label="{!$Label.c.Subject_Label}"
+                            onclick="{!c.showlist}" onfocusout="{!c.hidelist}" onchange="{!c.showpList}"
+                            value="{!v.newTask.Subject}" aura:id="subjectId" variant="label-hidden" />
                         <aura:if isTrue="{!!empty(v.subjectMessage)}">
                             <p class="subject">{!v.subjectMessage}</p>
                         </aura:if>
@@ -738,85 +492,47 @@
                                             <p class="slds-p-left_x-small">{!opt.value}</p>
                                         </li>
                                     </aura:iteration>-->
-                                    <aura:iteration
-                                                    items="{!v.wrapperList.SubjectDefaultValuePicklist}"
-                                                    var="obj"
-                                                    indexVar="key"
-                                                    >
+                                    <aura:iteration items="{!v.wrapperList.SubjectDefaultValuePicklist}" var="obj"
+                                        indexVar="key">
                                         <li class="picklistLI">
-                                            <option
-                                                    text="{!obj.label}"
-                                                    value="{!obj.value}"
-                                                    data-id="{!obj.value}"
-                                                    onclick="{!c.itemValue}"
-                                                    />
+                                            <option text="{!obj.label}" value="{!obj.value}" data-id="{!obj.value}"
+                                                onclick="{!c.itemValue}" />
                                         </li>
                                     </aura:iteration>
                                 </ul>
                             </div>
                         </aura:if>
-                        <lightning:input
-                                         type="date"
-                                         name="ActivityDate"
-                                         label="{!$Label.c.Due_Date_Label}"
-                                         aura:id="validFields"
-                                         value="{!v.newTask.ActivityDate}"
-                                         required="true"
-                                         />
+                        <lightning:input type="date" name="ActivityDate" label="{!$Label.c.Due_Date_Label}"
+                            aura:id="validFields" value="{!v.newTask.ActivityDate}" required="true" />
                         <label class="slds-form-element__label">Client(s)</label>
                         <div class="slds-box slds-box_x-small">
                             <ul>
                                 <aura:iteration items="{!v.userList}" var="pill">
-                                    <lightning:pill
-                                                    name="{!pill.Id}"
-                                                    label="{!pill.name}"
-                                                    class="pillcss"
-                                                    >
+                                    <lightning:pill name="{!pill.Id}" label="{!pill.name}" class="pillcss">
                                         <aura:set attribute="media">
-                                            <lightning:icon
-                                                            iconName="standard:user"
-                                                            alternativeText="User"
-                                                            />
+                                            <lightning:icon iconName="standard:user" alternativeText="User" />
                                         </aura:set>
                                     </lightning:pill>
                                 </aura:iteration>
                             </ul>
                         </div>
                         <div>
-                            <lightning:select
-                                              name="select1"
-                                              label="{!$Label.c.Status_Text}"
-                                              value="{!v.newTask.wrapperList.StatusPicklist}"
-                                              >
-                                <aura:iteration
-                                                items="{!v.wrapperList.StatusPicklist}"
-                                                var="obj"
-                                                >
+                            <lightning:select name="select1" label="{!$Label.c.Status_Text}"
+                                value="{!v.newTask.wrapperList.StatusPicklist}">
+                                <aura:iteration items="{!v.wrapperList.StatusPicklist}" var="obj">
                                     <option value="{!obj.value}">{!obj.label}</option>
                                 </aura:iteration>
                             </lightning:select>
                         </div>
-                        
-                        <lightning:textarea
-                                            name="Description"
-                                            label="Description"
-                                            value="{!v.newTask.Description}"
-                                            />
+
+                        <lightning:textarea name="Description" label="Description" value="{!v.newTask.Description}" />
                     </div>
                     <!--Modal/Popup Box Footer Starts here-->
                     <footer class="slds-modal__footer">
-                        <lightning:button
-                                          variant="neutral"
-                                          label="{!$Label.c.Cancel_Button_Label}"
-                                          title="{!$Label.c.Cancel_Button_Label}"
-                                          onclick="{! c.CloseModal }"
-                                          />
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Save_Button_Label}"
-                                          title="{!$Label.c.Save_Button_Label}"
-                                          onclick="{! c.SaveCreateAction }"
-                                          />
+                        <lightning:button variant="neutral" label="{!$Label.c.Cancel_Button_Label}"
+                            title="{!$Label.c.Cancel_Button_Label}" onclick="{! c.CloseModal }" />
+                        <lightning:button variant="brand" label="{!$Label.c.Save_Button_Label}"
+                            title="{!$Label.c.Save_Button_Label}" onclick="{! c.SaveCreateAction }" />
                     </footer>
                 </div>
             </section>
@@ -824,52 +540,27 @@
         </aura:if>
         <!-- Send Reminder after filtering Users-->
         <aura:if isTrue="{!v.isSendReminder}">
-            <section
-                     role="dialog"
-                     tabindex="-1"
-                     aria-labelledby="modal-heading-01"
-                     aria-modal="true"
-                     aria-describedby="modal-content-id-1"
-                     class="slds-modal slds-fade-in-open"
-                     >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
                 <div class="slds-modal__container">
                     <!-- Modal/Popup Box Header Starts here-->
                     <header class="slds-modal__header">
-                        <lightning:buttonIcon
-                                              iconName="utility:close"
-                                              onclick="{! c.CloseModal }"
-                                              alternativeText="close"
-                                              variant="bare-inverse"
-                                              class="slds-modal__close"
-                                              />
-                        <h2
-                            id="modal-heading-01"
-                            class="slds-text-heading_medium slds-hyphenate"
-                            >
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.CloseModal }"
+                            alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
                             {!$Label.c.Reminder_Confirmation_Text}
                         </h2>
                     </header>
                     <!--Modal/Popup Box Body Starts here-->
-                    <div
-                         class="slds-modal__content slds-p-around_medium"
-                         id="modal-content-id-1"
-                         >
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                         <p class="modalText">{!$Label.c.Send_Reminder_Modal_Text}</p>
                     </div>
                     <!--Modal/Popup Box Footer Starts here-->
                     <footer class="slds-modal__footer">
-                        <lightning:button
-                                          variant="neutral"
-                                          label="{!$Label.c.Cancel_Button_Label}"
-                                          title="{!$Label.c.Cancel_Button_Label}"
-                                          onclick="{!c.CloseModal }"
-                                          />
-                        <lightning:button
-                                          variant="brand"
-                                          label="{!$Label.c.Confirm_Text}"
-                                          title="{!$Label.c.Confirm_Text}"
-                                          onclick="{!c.sendReminderController}"
-                                          />
+                        <lightning:button variant="neutral" label="{!$Label.c.Cancel_Button_Label}"
+                            title="{!$Label.c.Cancel_Button_Label}" onclick="{!c.CloseModal }" />
+                        <lightning:button variant="brand" label="{!$Label.c.Confirm_Text}"
+                            title="{!$Label.c.Confirm_Text}" onclick="{!c.sendReminderController}" />
                     </footer>
                 </div>
             </section>
