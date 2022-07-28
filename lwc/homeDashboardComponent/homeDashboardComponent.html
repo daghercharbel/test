@@ -1,0 +1,16 @@
+<template>
+    <div if:true={isShowSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <div if:true={showIframe}>
+        <iframe src={IframeUrl}
+                class="iframe-style"
+                scrolling={scrolling}
+                onload={setHeight}
+               >
+        </iframe>
+    </div>
+    <div if:true={isNotAuthenticate}>
+        <p ><strong class ="fontCss">{label.Dashboard_Non_TT_User_Text}</strong></p>
+    </div>
+</template>

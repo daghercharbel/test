@@ -274,12 +274,18 @@
                             <div
                                  class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small"
                                  >
-                                <c:multiSelectPicklist
+                                 <c:multiSelectPicklist
+                                 label="{!item.question}"
+                                 fielterDetailsChanges="{!v.fielterDetailsChanges}"
+                                 questionList="{!item.picklistValueList}"
+                                 answerList="{!item.answerList}"
+                                 />
+                                <!-- <c:lwcMultiSelectPicklist
                                                        label="{!item.question}"
                                                        fielterDetailsChanges="{!v.fielterDetailsChanges}"
                                                        questionList="{!item.picklistValueList}"
                                                        answerList="{!item.answerList}"
-                                                       />
+                                                       /> -->
                             </div>
                             <aura:set attribute="else">
                                 <div
