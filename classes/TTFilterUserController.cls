@@ -347,6 +347,66 @@ public with sharing class TTFilterUserController {
             System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
         return null;
     }
+
+    /**
+    * @author Vinicius Duarte
+    * @date 21/07/2022
+    * @description This method callout to the app to update the conversation JSON of the Insight
+    */
+    @AuraEnabled
+    public static string insightCallout(String recordId){
+        try {
+
+            List<TelosTouchSF__Insights__c> lstInsight = [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE Id =: recordId];
+            if(lstInsight.isEmpty()){ throw new AuraHandledException('Insight not found.'); } 
+
+            if(adminCredentials.TelosTouchSF__Instance_URL__c == null || String.isBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
+                return null;
+            }
+
+            String methodType = 'GET';
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/chat/conversations-messages?conversation_id='+lstInsight[0].TelosTouchSF__Conversation_Id__c;
+
+            String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
+            if(userAuthTOKEN == null){ throw new AuraHandledException('User does not have a auth token.'); }
+            
+            Map<String, String> headersMap = new Map<String, String>();
+            headersMap.put('Authorization','Bearer '+userAuthTOKEN);
+            headersMap.put('Content-Type', 'application/json');
+            headersMap.put('Accept', 'application/json');
+
+            Map<String, String> responseBodyMap = TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
+            String responseBody = responseBodyMap.get('body');
+            if(responseBody == null){ return null; }
+
+            List<Object> lstAnswer = new List<Object>();
+            for(Object conversationObj : (List<Object>)JSON.deserializeUntyped(responseBody)){
+                Map<String, Object> conversationMap1 =
+                        (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(conversationObj));
+                if (conversationMap1.containsKey('content') && conversationMap1.get('content') != null &&
+                    conversationMap1.containsKey('conversation_id') && conversationMap1.get('conversation_id') != null)
+                {
+                    map<String, object> cbjectObj = new map<String, object>();
+                    cbjectObj.put('is_robot',Boolean.valueOf(conversationMap1.get('is_robot')));
+                    cbjectObj.put('content',String.valueOf(conversationMap1.get('content')));
+                    cbjectObj.put('conversation_id',String.valueOf(conversationMap1.get('conversation_id')));
+                    cbjectObj.put('type',String.valueOf(conversationMap1.get('type')));
+                    cbjectObj.put('resource_url',String.valueOf(conversationMap1.get('resource_url')));
+
+                    lstAnswer.add(cbjectObj);
+                }
+            }
+
+            lstInsight[0].TelosTouchSF__Answers__c = JSON.serialize(lstAnswer);
+            Database.update(lstInsight);
+
+            return null;
+        } catch (Exception ex) {
+            System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            throw new AuraHandledException(ex.getMessage());
+        }
+    }
+
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -738,8 +798,7 @@ picklistWrapperObj.ShareWithClientlist.add(String.valueOf(obj.getValue()));
     @AuraEnabled
     public static string addClientsToCampaign(String campRecordId, String userListStr){
         try {
-            List<Object> userList = new List<Object>();
-            userList = (List<Object>) JSON.deserializeUntyped(userListStr);
+            List<Object> userList = (List<Object>) JSON.deserializeUntyped(userListStr);
             //System.debug('userList:: '+userList);
             List<CampaignMember> campaignMemberList = new List<CampaignMember>();
             for(Object each : userList){

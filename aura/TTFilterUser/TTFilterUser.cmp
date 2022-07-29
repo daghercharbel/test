@@ -383,7 +383,6 @@
                                         title= "{!$Label.c.Answers_Text}"
                                         label= "{!$Label.c.Answers_Text}"
                                         value= "{! item}"
-                                        disabled = "{! item.isActive}"
                                         onclick= "{! c.viewRecord}"
                                     ></lightning:button>
                                 </div>

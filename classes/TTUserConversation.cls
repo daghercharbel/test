@@ -2,6 +2,7 @@
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description TTUserConversation batch class is used to get the last one-hour user conversation updated records and after that, I have updated insights records.
+* @update 27/Jul/2022 - Class was replaced by a direct callout in TTFilterUserController. This class now is OBSOLETE.
 */
 global with sharing class TTUserConversation implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
     /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
