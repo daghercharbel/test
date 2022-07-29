@@ -36,32 +36,32 @@
   fielterDetailsChanges: function (c, e, h) {
     c.set("v.fielterDetailsChanges", "EventFire");
   },
+
   viewRecord: function (c, e, h) {
+
     let sfId = e.getSource().get("v.value");
     var recId = e.getSource().get("v.value").Id;
     var fieldName='';
+
     if(e.getSource().getLocalId()){
       fieldName  = e.getSource().getLocalId();
     }
+
     if(fieldName == "Create Task"){
       h.createAction_helper(c, e, h, sfId.ContactOrLeadSFId);
     }else{
       if (!$A.util.isEmpty(recId)) {
         c.set("v.convId", recId);
-        h.viewRecord_helper(c, e, h, recId);
+        if(sfId.TTCompleted_At == $A.get("$Label.c.Pending_Text")){
+          h.handleInsightCallout(c, recId);
+        } else {
+          h.viewRecord_helper(c, e, h, recId);
+        }
       }
     }
-    // var recId = e.getParam("row").Id;
-    // console.log(e.getParam("row"));
-    // if (e.getParam("action").fieldName == "Create Task") {
-    //   h.createAction_helper(c, e, h, e.getParam("row").ContactOrLeadSFId);
-    // } else {
-    //   if (!$A.util.isEmpty(recId)) {
-    //     c.set("v.convId", recId);
-    //     h.viewRecord_helper(c, e, h, recId);
-    //   }
-    // }
+
   },
+
   closeModel: function (c, e, h) {
     if (!c.get("v.clickOnInnerSection")) {
       c.set("v.isShowModel", false);

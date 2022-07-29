@@ -441,7 +441,7 @@ private static final String token = getCredentials.Token__c;*/
         //Call TTUserConversation batch for conversation
         //Added new constructor 
         if(Test.isRunningTest() == false){
-            TTUserConversation obj = new TTUserConversation(forFirstTime, upsertedCampaignList);
+            TTUserConversationUpdate obj = new TTUserConversationUpdate(upsertedCampaignList);
             Database.executeBatch(obj);
         }
     }
