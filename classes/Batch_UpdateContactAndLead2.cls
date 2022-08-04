@@ -82,8 +82,8 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
              leadquery = leadquery.subString(0, leadquery.length() - 1);
              leadquery += ' FROM Lead WHERE IsConverted = false AND TelosTouchSF__Error_Message__c !=: duplicateStr';
              leadquery += ' AND Email != null AND IsDeleted = false AND TelosTouchSF__TT_Conflict__c = false';
-             leadquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true';
-             if(isSoftSync){ leadquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS'; }
+             if(isSoftSync){ leadquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true'; }
+             leadquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
              //System.debug(String.escapeSingleQuotes(leadquery).replace('\\',''));
              // totallist.addAll(Database.query(String.escapeSingleQuotes(leadquery).replace('\\','')));
              return Database.getQueryLocator(String.escapeSingleQuotes(leadquery).replace('\\',''));

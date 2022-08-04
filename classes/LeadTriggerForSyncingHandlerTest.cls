@@ -46,7 +46,12 @@ public with sharing class LeadTriggerForSyncingHandlerTest {
     @IsTest
     static void testUnit() {
         
-        list<Lead> lstLead = [SELECT Id FROM Lead WHERE email LIKE 'LeadTriggerForSyncingHandler%'];
+        list<String> lstEmail = new list<String>{
+            'LeadTriggerForSyncingHandler@test.com', 
+            'LeadTriggerForSyncingHandler@test2.com', 
+            'LeadTriggerForSyncingHandler@test3.com'
+        };
+        list<Lead> lstLead = [SELECT Id FROM Lead WHERE email IN: lstEmail];
         System.assert(!lstLead.isEmpty());
         
         Test.startTest();
@@ -55,7 +60,7 @@ public with sharing class LeadTriggerForSyncingHandlerTest {
             lstLead[2].FirstName = 'Nameeee';
             update lstLead;
 
-            list<Lead> lstLeadUpt = [SELECT Id,TelosTouchSF__TT_Last_Modified_Date__c FROM Lead WHERE email LIKE 'LeadTriggerForSyncingHandler%'];
+            list<Lead> lstLeadUpt = [SELECT Id,TelosTouchSF__TT_Last_Modified_Date__c FROM Lead WHERE email IN: lstEmail];
             System.assert(!lstLeadUpt.isEmpty());
             System.assert(lstLeadUpt[0].TelosTouchSF__TT_Last_Modified_Date__c != null);
             System.assert(lstLeadUpt[1].TelosTouchSF__TT_Last_Modified_Date__c == null);
