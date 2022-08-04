@@ -43,7 +43,12 @@ public with sharing class ContactTriggerForSyncingHandlerTest {
     @IsTest
     static void testUnit() {
         
-        list<Contact> lstCtt = [SELECT Id FROM Contact WHERE email LIKE 'ContactTriggerForSyncingHandler%'];
+        list<String> lstEmail = new list<String>{
+            'ContactTriggerForSyncingHandler@test.com', 
+            'ContactTriggerForSyncingHandler@test2.com', 
+            'ContactTriggerForSyncingHandler@test3.com'
+        };
+        list<Contact> lstCtt = [SELECT Id FROM Contact WHERE email IN: lstEmail];
         System.assert(!lstCtt.isEmpty());
         
         Test.startTest();
@@ -52,7 +57,7 @@ public with sharing class ContactTriggerForSyncingHandlerTest {
             lstCtt[2].FirstName = 'Nameeee';
             update lstCtt;
 
-            list<Contact> lstCttUpt = [SELECT Id,TelosTouchSF__TT_Last_Modified_Date__c FROM Contact WHERE email LIKE 'ContactTriggerForSyncingHandler%'];
+            list<Contact> lstCttUpt = [SELECT Id,TelosTouchSF__TT_Last_Modified_Date__c FROM Contact WHERE email IN: lstEmail];
             System.assert(!lstCtt.isEmpty());
             System.assert(lstCttUpt[0].TelosTouchSF__TT_Last_Modified_Date__c != null);
             System.assert(lstCttUpt[1].TelosTouchSF__TT_Last_Modified_Date__c == null);
