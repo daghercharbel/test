@@ -1,13 +1,22 @@
-<apex:page standardController="Campaign"  showHeader="false" recordSetVar="member">
-    <apex:includeLightning />   
+<apex:page standardController="Campaign" showHeader="false" recordSetVar="member">
+    <apex:includeLightning />
     <div id="ShowComponent"></div>
     <script>
-    $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function(){
-        $Lightning.createComponent("TelosTouchSF:TouchPointPreviewComp",{},
-                                   "ShowComponent",
-                                   function(cmp) {
-                                       //console.log('>>>>> App is hosted');
-                                   });
-    });
+        $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function () {
+            $Lightning.createComponent("TelosTouchSF:nativeTouchPointPreviewLV", {
+                "navigateToList": navigateToList
+            },
+                "ShowComponent",
+                function (cmp) {
+                    //console.log('>>>>> App is hosted');
+                });
+        });
+        function navigateToList(url) {
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                sforce.one.navigateToList(url, null, 'Campaign');
+            } else {
+                window.location.href = url;
+            }
+        }
     </script>
 </apex:page>

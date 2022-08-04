@@ -1,0 +1,16 @@
+.container{
+  height: 83vh;
+}
+.language-select{
+  justify-content: flex-end;
+}
+.iframe-style{
+  width: 100%;
+  height: 63vh;
+  border: none;
+}
+@media screen and (min-width: 1600px) { 
+  .iframe-style{
+    height: 70vh;
+  }
+}

@@ -4,10 +4,10 @@
     <name>Source__c</name>
     <picklistValues>
         <masterLabel>Salesforce</masterLabel>
-        <translation></translation>
+        <translation><!-- Salesforce --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>TelosTouch</masterLabel>
-        <translation></translation>
+        <translation><!-- TelosTouch --></translation>
     </picklistValues>
 </CustomFieldTranslation>

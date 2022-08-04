@@ -148,6 +148,13 @@
         <value>Campaign Member Information</value>
     </labels>
     <labels>
+        <fullName>Camp_Members_Partially_Removed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Members Partially Removed</shortDescription>
+        <value>Selected Campaign Members to whom TouchPoint hasn&apos;t been sent yet have been removed</value>
+    </labels>
+    <labels>
         <fullName>Campaign_Graph_Campaign_Performance_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2048,61 +2055,62 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>of</value>
     </labels>
     <labels>
-        <fullName>Add_To_Campaign_Config_Text</fullName>
+        <fullName>TouchpointPreview_NoData_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Add To Campaign Config Text</shortDescription>
-        <value>Show Add To Campaign Button</value>
+        <shortDescription>TouchpointPreview NoData Text</shortDescription>
+        <value>No Data</value>
     </labels>
     <labels>
-        <fullName>Cam_Mem_Add_In_Cam_Success_Toast</fullName>
+        <fullName>TouchpointPreview_All_Templates</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Cam Mem Add In Cam Success Toast</shortDescription>
-        <value>Campaign member added in Campaign successfully.</value>
+        <shortDescription>TouchpointPreview All Templates</shortDescription>
+        <value>All</value>
     </labels>
     <labels>
-        <fullName>Cam_Mem_Add_Success_Toast</fullName>
+        <fullName>TouchpointPreview_Private_Template</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Cam Mem Add Success Toast</shortDescription>
-        <value>Campaign Member Added Successfully.</value>
+        <shortDescription>TouchpointPreview Private Template</shortDescription>
+        <value>Private</value>
     </labels>
     <labels>
-        <fullName>Camp_Already_Sync_Toast</fullName>
+        <fullName>TouchPoint_Preview_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Camp Already Sync Toast</shortDescription>
-        <value>Selected Campaign is Already Synced</value>
+        <shortDescription>TouchPoint Preview Text</shortDescription>
+        <value>Preview</value>
     </labels>
     <labels>
-        <fullName>Camp_Deleted_Text</fullName>
+        <fullName>French_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Camp Deleted Text</shortDescription>
-        <value>Campaigns deleted from SF to TelosTouch.</value>
+        <shortDescription>French Text</shortDescription>
+        <value>French</value>
     </labels>
     <labels>
-        <fullName>Camp_Members_Partially_Removed</fullName>
+        <fullName>English_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Camp Members Partially Removed</shortDescription>
-        <value>Selected Campaign Members to whom TouchPoint hasn&apos;t been sent yet have been removed</value>
+        <shortDescription>English Text</shortDescription>
+        <value>English</value>
     </labels>
     <labels>
-        <fullName>Camp_Not_Deleted_Text</fullName>
+        <fullName>TouchPoint_Experience_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Camp Not Deleted Text</shortDescription>
-        <value>Campaigns not deleted from TT or not present on TT.</value>
+        <shortDescription>TouchPoint Experience Text</shortDescription>
+        <value>TouchPoint Experience</value>
     </labels>
     <labels>
-        <fullName>Camp_Sync_Fail_Text</fullName>
+        <fullName>Language_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Camp Sync Fail Text</shortDescription>
-        <value>Campaigns Sync Failed as Campaign Owner Not Found in Salesforce</value>
+        <shortDescription>Language Text</shortDescription>
+        <value>Language</value>
     </labels>
+<<<<<<< HEAD
     <labels>
         <fullName>Camp_Sync_Success_Text</fullName>
         <language>en_US</language>
@@ -2405,3 +2413,6 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Warning</value>
     </labels>
 </CustomLabels>
+=======
+</CustomLabels>
+>>>>>>> 0a26896c2d74e86200b9d776bba9d07e0801d612
