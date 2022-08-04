@@ -1,0 +1,20 @@
+/**
+* @File Name     : KnowledgeBaseCompControllerTest.cls
+* @author        : CD
+* @date          : 27/07/2022
+* @description   : Test Class for the apex class <KnowledgeBaseCompController>
+*/
+
+@isTest
+public without sharing class KnowledgeBaseCompControllerTest {
+
+@isTest
+static void GetImagesLinksKnowledgebaseTest(){
+Test.startTest();
+Map<String,String> Teste = KnowledgeBaseCompController.GetImagesLinksKnowledgebase();
+system.debug(Teste);
+Test.stopTest();
+//System.assertEquals();
+
+}
+}
