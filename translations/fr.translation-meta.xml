@@ -593,6 +593,10 @@
         <name>IfTwoUserHaveSameEmail</name>
     </customLabels>
     <customLabels>
+        <label>Conversation introuvable ou démarrée</label>
+        <name>InsightAnswersEmpty</name>
+    </customLabels>
+    <customLabels>
         <label>Cliquez sur ce document pour obtenir de l&apos;aide pour l&apos;installation de l&apos;application Salesforce de TelosTouch</label>
         <name>Installation_Guide_Related</name>
     </customLabels>
@@ -1352,6 +1356,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Code d&apos;utilisateur</label>
         <name>Username_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Attention</label>
+        <name>Warning</name>
     </customLabels>
     <customLabels>
         <label>Hebdomadaire</label>

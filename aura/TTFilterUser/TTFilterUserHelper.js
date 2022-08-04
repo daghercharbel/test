@@ -378,9 +378,9 @@
                         c,
                         e,
                         h,
-                        "Error",
-                        "error",
-                        "Conversation Details Not found"
+                        $A.get("$Label.c.Warning"),
+                        "warning",
+                        $A.get("$Label.c.InsightAnswersEmpty")
                     );
                 }
             });
