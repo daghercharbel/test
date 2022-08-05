@@ -2103,4 +2103,11 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <shortDescription>Language Text</shortDescription>
         <value>Language</value>
     </labels>
+    <labels>
+        <fullName>Knowledge_Base_Image_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Knowledge Base Image Error</shortDescription>
+        <value>Error loading image!</value>
+    </labels>
 </CustomLabels>

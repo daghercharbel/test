@@ -20,8 +20,8 @@ public without sharing class KnowledgeBaseCompController {
             }
             return imgList;
         }catch(Exception ex){
-            System.debug('Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
-            return null;
+            System.debug(LoggingLevel.ERROR,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            throw new AuraHandledException(ex.getMessage());
         }
     }
 }

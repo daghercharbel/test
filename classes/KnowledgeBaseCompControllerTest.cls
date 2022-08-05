@@ -7,14 +7,13 @@
 
 @isTest
 public without sharing class KnowledgeBaseCompControllerTest {
-
-@isTest
-static void GetImagesLinksKnowledgebaseTest(){
-Test.startTest();
-Map<String,String> Teste = KnowledgeBaseCompController.GetImagesLinksKnowledgebase();
-system.debug(Teste);
-Test.stopTest();
-//System.assertEquals();
-
-}
+    
+    @isTest
+    static void GetImagesLinksKnowledgebaseTest(){
+        Test.startTest();
+        Map<String,String> Teste = KnowledgeBaseCompController.GetImagesLinksKnowledgebase();
+        Test.stopTest();
+        System.assert(Teste !=null); 
+        
+    }
 }

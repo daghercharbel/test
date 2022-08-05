@@ -1,7 +1,7 @@
 ({
-	doInit : function(component, event, helper) {
-	  helper.GetImagesLinksKnowledgebaseHelper(component);
-	},
+    doInit : function(component, event, helper) {
+        helper.GetImagesLinksKnowledgebaseHelper(component);
+      },    
 	handleCarouselClick : function(c, e, h) {
         c.set('v.showCarousel', false);
         c.set('v.showBackButton', true);
