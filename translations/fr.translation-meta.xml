@@ -1052,6 +1052,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Tech_Error_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Erreur lors du chargement de l&apos;image!</label>
+        <name>Knowledge_Base_Image_Error</name>
+    </customLabels>
+    <customLabels>
         <label>Champs TelosTouch</label>
         <name>TelosTouch_Fields</name>
     </customLabels>
