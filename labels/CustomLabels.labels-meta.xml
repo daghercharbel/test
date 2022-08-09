@@ -2097,7 +2097,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>TouchPoint Experience</value>
     </labels>
     <labels>
-        <fullName>Language_Text</fullName>
+        <fullName>Language_Text</fullName>  
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Language Text</shortDescription>
