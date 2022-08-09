@@ -4,8 +4,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>TTDashboardComponent</componentName>
-                <identifier>TelosTouchSF_TTDashboardComponent1</identifier>
+                <componentName>homeDashboardComponent</componentName>
+                <identifier>TelosTouchSF_homeDashboardComponent</identifier>
             </componentInstance>
         </itemInstances>
         <name>left</name>

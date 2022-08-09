@@ -221,7 +221,11 @@ private static final String token = getCredentials.Token__c;*/
                             Schema.sObjectType.Campaign.fields.TelosTouchSF__TempTTCampId__c.isAccessible() &&
                             Schema.sObjectType.Campaign.fields.TelosTouchSF__TempTTCampId__c.isUpdateable() &&
                             Schema.sObjectType.Campaign.fields.TelosTouchSF__TempTTCampId__c.isCreateable()){
-                        getSFCampaignsMap = new Map<Id, Campaign>([SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TempTTCampId__c FROM Campaign WHERE IsDeleted = false AND TelosTouchSF__TT_Campaign_Id__c IN: setOfId WITH SECURITY_ENFORCED LIMIT 10000 ALL ROWS]);
+                        getSFCampaignsMap = new Map<Id, Campaign>([SELECT Id, Name, TelosTouchSF__TT_Campaign_Id__c,
+                                                                    TelosTouchSF__TempTTCampId__c, TelosTouchSF__Questions__c
+                                                                    FROM Campaign WHERE IsDeleted = false AND 
+                                                                    TelosTouchSF__TT_Campaign_Id__c IN: setOfId 
+                                                                    WITH SECURITY_ENFORCED LIMIT 10000 ALL ROWS]);
                         if(getSFCampaignsMap.values().size()>0){
                             upsertedCampaignList.addAll(getSFCampaignsMap.values());
                         }
@@ -441,7 +445,7 @@ private static final String token = getCredentials.Token__c;*/
         //Call TTUserConversation batch for conversation
         //Added new constructor 
         if(Test.isRunningTest() == false){
-            TTUserConversation obj = new TTUserConversation(forFirstTime, upsertedCampaignList);
+            TTCampaignUserConversation obj = new TTCampaignUserConversation(upsertedCampaignList);
             Database.executeBatch(obj);
         }
     }

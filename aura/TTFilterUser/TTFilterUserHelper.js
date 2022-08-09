@@ -303,6 +303,29 @@
             }
         }
     },
+
+    handleInsightCallout: function(c, recordId){
+
+        c.set("v.isShowSpinner", true);
+        var action = c.get("c.insightCallout");
+        action.setParams({
+            recordId: recordId
+        });
+
+        action.setCallback(this, function (response) {
+            let state = response.getState();
+            if(state == 'SUCCESS'){
+                this.viewRecord_helper(c, undefined, this, recordId);
+            } else {
+                console.log('Failed with State: '+state);
+                console.log('Response: '+response);
+                c.set("v.isShowSpinner", false);
+            }
+        });
+        $A.enqueueAction(action);
+
+    },
+
     viewRecord_helper: function (c, e, h, recordId) {
         try {
             var count = 2;
@@ -355,9 +378,9 @@
                         c,
                         e,
                         h,
-                        "Error",
-                        "error",
-                        "Conversation Details Not found"
+                        $A.get("$Label.c.Warning"),
+                        "warning",
+                        $A.get("$Label.c.InsightAnswersEmpty")
                     );
                 }
             });

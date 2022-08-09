@@ -3,7 +3,6 @@
  <aura:attribute name="timeLineWrapper" type="Object" />
     <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
     <aura:handler name="init" value="{! this }" action="{! c.doInit }"/> 
-    <!-- Spinner starts here-->
     <aura:if isTrue="{!v.isShowSpinner}">
         <lightning:spinner alternativeText="Loading" size="medium" />
     </aura:if>
