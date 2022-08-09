@@ -968,7 +968,7 @@ private static final String token = getCredentials.Token__c;*/
                     Database.executeBatch(new TelosTouchSF.BatchForBulkDataInsertOrUpdate(null, null, null, 'Task', null, null, null));
                 }else{
                     Batch_UpdateContactAndLead2 batchObj = new Batch_UpdateContactAndLead2(syncObject, forFirstTime, 'Contact');
-                    Database.executeBatch(batchObj,90);
+                    Database.executeBatch(batchObj,500);
                 }
             }
         }catch(Exception ex){

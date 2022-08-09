@@ -14,6 +14,6 @@ global with sharing class ScheduleSyncingContactsAndLeads implements schedulable
     global void execute(SchedulableContext sc)
     {
         TelosTouchSF.Batch_UpdateContactAndLead2 batchobj = new TelosTouchSF.Batch_UpdateContactAndLead2(null, null, 'Contact');
-        Database.executeBatch(batchobj,95);
+        Database.executeBatch(batchobj,500);
     }
 }

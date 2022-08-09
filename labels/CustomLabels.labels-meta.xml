@@ -2047,4 +2047,74 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <shortDescription>of text</shortDescription>
         <value>of</value>
     </labels>
+    <labels>
+        <fullName>TouchpointPreview_NoData_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview NoData Text</shortDescription>
+        <value>No Data</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_All_Templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview All Templates</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_Private_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview Private Template</shortDescription>
+        <value>Private</value>
+    </labels>
+    <labels>
+        <fullName>TouchPoint_Preview_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Preview Text</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>French_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>French Text</shortDescription>
+        <value>French</value>
+    </labels>
+    <labels>
+        <fullName>English_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>English Text</shortDescription>
+        <value>English</value>
+    </labels>
+    <labels>
+        <fullName>TouchPoint_Experience_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Experience Text</shortDescription>
+        <value>TouchPoint Experience</value>
+    </labels>
+    <labels>
+        <fullName>Language_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Language Text</shortDescription>
+        <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>Refresh_Token_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Button Label</shortDescription>
+        <value>Refresh Token</value>
+    </labels>
+    <labels>
+        <fullName>Refresh_Token_Save_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Save Toast</shortDescription>
+        <value>A synchronous job to refresh token is enqueued.</value>
+    </labels>
 </CustomLabels>

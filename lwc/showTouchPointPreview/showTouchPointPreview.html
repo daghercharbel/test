@@ -1,0 +1,21 @@
+<template>
+  <div class="container">
+    <lightning-layout class="language-select">
+      <lightning-layout-item class="slds-var-p-horizontal_medium" size="12" small-device-size="6"
+        medium-device-size="3">
+        <lightning-combobox name="language" label={label.Language_Text} value={langValue} placeholder="Select Language"
+          options={langOptions} onchange={handleLangChange}></lightning-combobox>
+      </lightning-layout-item>
+    </lightning-layout>
+    <div class="slds-float_none">
+      <lightning-tabset>
+        <lightning-tab label={label.Email_Text}>
+          <iframe src={urls.email} class="iframe-style" onload={resizeIframe}></iframe>
+        </lightning-tab>
+        <lightning-tab label={label.TouchPoint_Experience_Text}>
+          <iframe src={urls.touchpoint} class="iframe-style" onload={resizeIframe}></iframe>
+        </lightning-tab>
+      </lightning-tabset>
+    </div>
+  </div>
+</template>

@@ -188,10 +188,13 @@ public with sharing class ContactTriggerForSyncingHandler {
 * @param oldMap ......
 */
     public static void removeConflict(List<Contact> newList, Map<Id, Contact> oldMap){
-        try{        
+        try{
+            String message = 'Duplicate Email';
             if(newList != null && newList.size()>0){
                 for(Contact con : newList){
-                    if(con.TelosTouchSF__TT_Conflict__c && con.Email != oldMap.get(con.Id).Email){
+                    if((con.TelosTouchSF__TT_Conflict__c || con.TelosTouchSF__Error_Message__c == message) 
+                        && con.Email != oldMap.get(con.Id).Email)
+                    {
                         con.TelosTouchSF__TT_Conflict__c = false;
                         con.TelosTouchSF__Error_Message__c = '';
                     }
@@ -200,5 +203,29 @@ public with sharing class ContactTriggerForSyncingHandler {
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN, 'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
         }
+    }
+
+    //Method responsible to update the last modified date field if any of the fields relevant to sync is modified
+    public static void checkSyncLastModifiedData(list<Contact> lstContact){
+
+        set<String> setField = new set<String>();
+        for(TelosTouchSF__TT_Salesforce_Mapping__c aField : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                WHERE TelosTouchSF__Object_Name__c = 'Contact'])
+        {
+            setField.add(aField.TelosTouchSF__Salesforce_Field__c);
+        }
+        //OwnerId is not mapped but is sent in the sync, we are looking a better way to add it dynamically
+        setField.add('OwnerId');
+
+        for(Contact ctt : lstContact){
+            for(String aField : setField){
+                if(TriggerUtils.wasChanged(ctt, aField)){
+                    ctt.TelosTouchSF__TT_Last_Modified_Date__c = System.now();
+                    break;
+                }
+            }
+        }
+
     }
 }
