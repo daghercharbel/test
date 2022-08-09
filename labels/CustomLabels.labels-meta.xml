@@ -2117,4 +2117,18 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <shortDescription>Language Text</shortDescription>
         <value>Language</value>
     </labels>
+    <labels>
+        <fullName>Refresh_Token_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Button Label</shortDescription>
+        <value>Refresh Token</value>
+    </labels>
+    <labels>
+        <fullName>Refresh_Token_Save_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Save Toast</shortDescription>
+        <value>A synchronous job to refresh token is enqueued.</value>
+    </labels>
 </CustomLabels>
