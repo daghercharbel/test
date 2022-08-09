@@ -203,7 +203,19 @@
         });
         $A.enqueueAction(action);
     },
-
+    //The Refresh Token is clicked
+    //Call updateusertokenqueueable UpdateUserTokenBatch 
+    refreshTokenHelper: function (c, e, h) {
+        c.set("v.isShowSpinner",true);
+        var action = c.get("c.refreshTokenController");
+        action.setCallback(this, function (response) {
+            c.set("v.isShowSpinner",false);
+            if (response.getState() === 'SUCCESS') {
+                h.showToast(c,e,h,'success',$A.get("$Label.c.Refresh_Token_Save_Toast"),3000);
+            }
+        });
+        $A.enqueueAction(action);
+    },
     scheduleAllJobs: function (c, e, h) {
         var action = c.get("c.scheduleAllJobsFromHere");
         action.setCallback(this, function (r) {

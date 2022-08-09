@@ -134,6 +134,9 @@
             <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Save_Button_Label}" disabled="{!or(!v.isEdit,v.isPostInstallBatchRunning)}" onclick="{!c.saveSettings}" />
             <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Edit_Button_Label}" onclick="{!c.editSettings}" disabled="{!v.isPostInstallBatchRunning}"/>
             <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Update_Add_Users_Button_Label}" onclick="{!c.updateAndAddUsers}" disabled = "{!or(or(v.isEdit,!v.setting.Approval),v.isPostInstallBatchRunning)}"/>
+            <aura:if isTrue="{!v.showAdvancedOptions}">
+                 <lightning:button variant="Brand" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Refresh_Token_Button_Label}" onclick="{!c.refreshToken}" disabled="{!!v.setting.Approval}"/>
+            </aura:if>
             <lightning:button variant="brand-outline" class="slds-button slds-m-top_xx-small" label="{!$Label.c.Cancel_Button_Label}" disabled="{!or(!v.isEdit,v.isPostInstallBatchRunning)}" onclick="{!c.cancelSettings}"/>
         </div>
         <footer>

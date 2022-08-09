@@ -49,6 +49,12 @@
             h.getUsersListHelper(c, e, h);
         }
     },
+    //The Refresh Token is clicked 
+    refreshToken: function (c, e, h) {
+        if (c.get("v.setting.Approval")) {
+            h.refreshTokenHelper(c, e, h);
+        }
+    },
     saveSettings: function (c, e, h) {
         var settingsObj = c.get("v.setting");
         if (settingsObj.Client_Secret != undefined) {
