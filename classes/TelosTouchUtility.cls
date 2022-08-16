@@ -13,6 +13,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @param result ....
 * @param context ....
 */
+
+    public class CustomException extends Exception {}
+
     public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
         if (result.status == Metadata.DeployStatus.Succeeded) {
             //Success
@@ -499,9 +502,11 @@ return null;
             request.setMethod('POST');
             request.setHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.setBody(body);
+            System.debug('VOD ------------------- request endpoint: '+request.getEndpoint());
+            System.debug('VOD ------------------- request body: '+request.getBody());
             HttpResponse response = http.send(request);
-            //System.debug('response Status: '+response.getStatusCode());
-            //System.debug('response BODY: '+response.getBody());
+            System.debug('VOD ------------------- response status: '+response.getStatusCode());
+            System.debug('VOD ------------------- response body: '+response.getBody());
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 //System.debug('responseMap:: '+responseMap.get('access_token'));
@@ -2179,6 +2184,25 @@ return null;
             return true;
         }
     }
+
+    public static void generateErrorLog(Exception ex, String className, String classMethod, String recordId){
+        String aError = ex.getTypeName()+': '+ex.getMessage()+' '+className+'.'+classMethod+': line '+ex.getLineNumber();
+        System.debug(logginglevel.ERROR, aError);
+        if(TT_FeatureSettingsController.getFinestLogValue()){
+            if(aError.length() > 255){aError = aError.substring(0, 255);}
+            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError, recordId));
+        }
+    }
+
+    public static void generateLog(String message, String className, String classMethod, String recordId){
+        String aMessage = className+'.'+classMethod+': '+message;
+        System.debug(aMessage);
+        if(TT_FeatureSettingsController.getFinestLogValue()){
+            if(aMessage.length() > 255){aMessage = aMessage.substring(0, 255);}
+            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Log', aMessage, recordId));
+        }
+    }
+    
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
