@@ -19,14 +19,10 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
             System.debug(LoggingLevel.DEBUG, 'Success Result-' + result);
             System.debug(LoggingLevel.DEBUG, 'Success Context-' + context);
-            String strDeleteLogRecords      = 'Delete Log Records%';
-            String strUpdateUserTokenJob    = 'Update User Token Job%';
-            String strGetClientsFromTTJob   = 'Get Clients From TT Job%';
-            String strSyncFeatureToggleJob  = 'Sync Feature Toggle Job%';
-            List<CronJobDetail> jobList = [SELECT Id FROM CronJobDetail Where Name LIKE :strDeleteLogRecords OR
-                                           Name LIKE :strUpdateUserTokenJob OR
-                                           Name LIKE :strGetClientsFromTTJob OR
-                                           Name LIKE :strSyncFeatureToggleJob WITH SECURITY_ENFORCED];
+            List<CronJobDetail> jobList = [SELECT Id FROM CronJobDetail Where Name LIKE 'Delete Log Records%' OR
+                                           Name LIKE 'Update User Token Job%' OR
+                                           Name LIKE 'Get Clients From TT Job%' OR
+                                           Name LIKE 'Sync Feature Toggle Job%' WITH SECURITY_ENFORCED];
             System.debug(LoggingLevel.DEBUG, 'JobList Size: '+jobList.size());
             if(jobList.size()<5 && String.isNotEmpty(adminCredentials.TelosTouchSF__Access_Token_Expiration_Time__c)){
                 System.debug(LoggingLevel.DEBUG, 'Jobs Scheduled!');
@@ -506,10 +502,10 @@ return null;
             HttpResponse response = http.send(request);
             //System.debug('response Status: '+response.getStatusCode());
             //System.debug('response BODY: '+response.getBody());
-            
+
             String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getAdminAccessToken', null);
-            
+
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 //System.debug('responseMap:: '+responseMap.get('access_token'));
@@ -567,7 +563,7 @@ return null;
 
         String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
         TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'refreshAdminAccessToken', null);
-            
+
         if (response.getStatusCode() == 200) {
             Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
             //System.debug('responseMap:: ' + responseMap.get('access_token'));
@@ -722,12 +718,9 @@ return null;
                        Schema.sObjectType.User.fields.phone.isAccessible() &&
                        Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() &&
                        Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
-                        String strSalesforce = 'Salesforce';
-                        String strSystemAdministrator = 'System Administrator';
-                        String strAdministrateursysteme = 'Administrateur système';
                            user = [SELECT Id, userName, ProfileId, Profile.Name, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c, IsActive,TelosTouchSF__Auth_Token__c FROM User
-                                   WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name =: strSalesforce AND
-                                   Id=:UserId AND profileId =:[SELECT id FROM Profile WHERE (Name =: strSystemAdministrator OR Name =: cstmLabel) OR (Name =: strAdministrateursysteme OR Name =: cstmLabel1) ] WITH SECURITY_ENFORCED LIMIT 1];
+                                   WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND
+                                   Id=:UserId AND profileId =:[SELECT id FROM Profile WHERE (Name = 'System Administrator' OR Name =: cstmLabel) OR (Name = 'Administrateur système' OR Name =: cstmLabel1) ] WITH SECURITY_ENFORCED LIMIT 1];
                        }
                     if(user != null && (user.TelosTouchSF__TT_UserId__c == null )){
                         String teamId='';
@@ -736,7 +729,6 @@ return null;
                         headersMap.put('Content-Type', 'application/json');
                         headersMap.put('Authorization', 'Bearer '+adminCredentials.Access_Token);
                         Map<String, String> teamsResponseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/teams?search='+ttTeamName, headersMap, null);
-                    
                         if(teamsResponseBody.get('status_code') == '401'){
                             logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                         }
@@ -753,15 +745,15 @@ return null;
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
-                    
+
                         String respMessage = 'Response Status Code: '+teamIdResponse.get('status_code')+'| Response Body: '+teamIdResponse.get('body');	
                         TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getUserAccessToken', null);
-                            
+
                             teamId = teamIdResponse.get('body');
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;
                         Map<String, String> getResponseBody = getResponse('GET', endpoint, headersMap, null);
-                        
+                        //System.debug('getResponseBody:: '+getResponseBody);
                         if(getResponseBody.get('status_code') == '401'){
                             logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                         }else if(getResponseBody.get('status_code') == '500'){
@@ -776,7 +768,6 @@ return null;
                         if(!getResponseMap.keySet().isEmpty()){
                             //System.debug('If');
                             Map<String, String> getCurrentTeamBody = TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams', headersMap, null);
- 
                             if(getCurrentTeamBody.get('status_code') == '401'){
                                 logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                             }
@@ -787,7 +778,6 @@ return null;
                             //System.debug('current Profile Name:: '+user.Profile.Name);
                             if(ttTeamName != currentTeamName){
                                 Map<String,String> teamChangeReponseBody = TelosTouchSF.TelosTouchUtility.getResponse('PUT', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams/'+teamId, headersMap, null);
-                               
                                 if(teamChangeReponseBody.get('status_code') == '401'){
                                     logList.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                                 }
@@ -856,10 +846,9 @@ return null;
                                 return null;
                             }
                         }
-                        String strTelosTouch_Custom_Permission = 'TelosTouch_Custom_Permission';
                         if(user.TelosTouchSF__TT_UserId__c != null && user.TelosTouchSF__TT_UserName__c != null && user.TelosTouchSF__Auth_Token__c != null
-                           && [SELECT count() FROM PermissionSetAssignment WHERE PermissionSet.Name =: strTelosTouch_Custom_Permission AND AssigneeId =: UserInfo.getUserId()] == 0){
-                               PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: strTelosTouch_Custom_Permission];
+                           && [SELECT count() FROM PermissionSetAssignment WHERE PermissionSet.Name = 'TelosTouch_Custom_Permission' AND AssigneeId =: UserInfo.getUserId()] == 0){
+                               PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission'];
                                if(ps != null && ps.Id != null){
                                    insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
                                }
@@ -936,12 +925,9 @@ return null;
                    Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible() &&
                    Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isAccessible() &&
                    Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isAccessible()){
-                    String strTelosTouch_Custom_Permission = 'TelosTouch_Custom_Permission';
-                    String strTTPSetForInsightObjMDRelations = 'TTPSetForInsightObjMDRelations';
-
                        permissionSetList = [SELECT Id, PermissionSetId,AssigneeId
                                             FROM PermissionSetAssignment
-                                            WHERE (PermissionSet.Name =: strTelosTouch_Custom_Permission OR  PermissionSet.Name =: strTTPSetForInsightObjMDRelations)
+                                            WHERE (PermissionSet.Name = 'TelosTouch_Custom_Permission' OR  PermissionSet.Name = 'TTPSetForInsightObjMDRelations')
                                             AND AssigneeId IN: listofUserId LIMIT 2];
                        Map<Id,PermissionSetAssignment> userIdVsPermSetAssignObjMap = new Map<Id,PermissionSetAssignment>();
                        if(permissionSetList.size()> 0 && permissionSetList.size() == 1){
@@ -1026,10 +1012,11 @@ return null;
             }
             //System.debug('Request Body:: '+body);
             HttpResponse response = http.send(request);
-            
+
             String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getTokenForEachUser', null);
-            
+
+            //System.debug('Response Body:: '+response.getBody());
             if(response.getBody() != null){
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 //System.debug('responseMap:: '+responseMap);
@@ -1069,10 +1056,7 @@ return null;
            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
            Schema.sObjectType.User.fields.IsActive.isAccessible() &&
            Schema.sObjectType.User.fields.phone.isAccessible()){
-            String strSalesforce = 'Salesforce';
-            String str1 = '1';
-
-               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 LIMIT 5000 ];
+               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND TelosTouchSF__TT_UserId__c != '1' LIMIT 5000 ];
            }
         userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
         for(User user: userList){
@@ -1115,6 +1099,25 @@ return null;
         }
     }
     /**
+* @author Charbel Dagher
+* @date 19/07/2022
+* @description This method calls the job to refresh the token
+* @return response
+*/
+@AuraEnabled
+public static string refreshTokenController(){
+    try {
+        system.debug('!!!entrer refreshTokenController');
+        System.enqueueJob(new UpdateUserTokenQueueable());
+        system.debug('!!!DONE');
+        return 'success';
+    }catch (Exception ex) {
+        System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+        return null;
+    }
+
+}
+    /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description This method schedules all the jobs.
@@ -1128,14 +1131,9 @@ return null;
             if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
                Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
                Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-                String strCompleted = 'Completed';
-                String strBatchForBulkDataInsertOrUpdate = 'BatchForBulkDataInsertOrUpdate';
-                String strGetTaskFromTTQueueable = 'GetTaskFromTTQueueable';
-                String strGetCampaignsFromTTQueueable = 'GetCampaignsFromTTQueueable';
-
-                   asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status =: strCompleted AND (ApexClass.Name =: strBatchForBulkDataInsertOrUpdate
-                                                                                                   OR ApexClass.Name =: strGetTaskFromTTQueueable
-                                                                                                   OR ApexClass.Name =: strGetCampaignsFromTTQueueable)
+                   asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status = 'Completed' AND (ApexClass.Name ='BatchForBulkDataInsertOrUpdate'
+                                                                                                   OR ApexClass.Name ='GetTaskFromTTQueueable'
+                                                                                                   OR ApexClass.Name ='GetCampaignsFromTTQueueable')
                                        LIMIT 3];
                }
             if (asyncApexJobList.size() < 3) {
@@ -1148,15 +1146,11 @@ return null;
             ///List<CronJobDetail> jobList4 = new List<CronJobDetail>();
             List<CronJobDetail> jobList5 = new List<CronJobDetail>();
             List<CronJobDetail> jobList6 = new List<CronJobDetail>();
-            String strDeleteLogRecords = 'Delete Log Records%';
-            jobList = [SELECT Id FROM CronJobDetail Where Name LIKE :strDeleteLogRecords WITH SECURITY_ENFORCED];
-            String strUpdateUserTokenJob = 'Update User Token Job%';
-            jobList3 = [SELECT Id FROM CronJobDetail Where Name LIKE :strUpdateUserTokenJob WITH SECURITY_ENFORCED];
+            jobList = [SELECT Id FROM CronJobDetail Where Name LIKE 'Delete Log Records%' WITH SECURITY_ENFORCED];
+            jobList3 = [SELECT Id FROM CronJobDetail Where Name LIKE 'Update User Token Job%' WITH SECURITY_ENFORCED];
             //jobList4 = [SELECT Id FROM CronJobDetail Where Name LIKE 'Get Delete Records From TT Job%'];
-            String strGetClientsFromTTJob = 'Get Clients From TT Job%';
-            jobList5 = [SELECT Id FROM CronJobDetail Where Name LIKE :strGetClientsFromTTJob WITH SECURITY_ENFORCED];
-            String strSyncFeatureToggleJob = 'Sync Feature Toggle Job%';
-            jobList6 = [SELECT Id FROM CronJobDetail Where Name LIKE :strSyncFeatureToggleJob WITH SECURITY_ENFORCED];
+            jobList5 = [SELECT Id FROM CronJobDetail Where Name LIKE 'Get Clients From TT Job%' WITH SECURITY_ENFORCED];
+            jobList6 = [SELECT Id FROM CronJobDetail Where Name LIKE 'Sync Feature Toggle Job%' WITH SECURITY_ENFORCED];
             if(jobList5.size() == 0){
                 System.schedule('Get Clients From TT Job', '0 0 0/1 1/1 * ? *', new TelosTouchSF.GetClientsFromTTScheduler());
             }if(jobList3.size() == 0){
@@ -1346,7 +1340,6 @@ count++;
                         if (responseString.get('status_code') == '401') {
                             logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                         }
-                        
                         if (responseString.get('body') != null && responseString.get('body').contains('deleted')) {
                             List<Object> responseList =
                                 (List<Object>)JSON.deserializeUntyped(responseString.get('body'));
@@ -1412,7 +1405,6 @@ count++;
                         jsonMap.put('ids',ttClientIdList);
                         String body = JSON.serialize(jsonMap);
                         Map<String, String> responseString = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
-                        
                         if(responseString.get('body') != null && responseString.get('body').contains('deleted')){
                             List<Object> responseList = (List<Object>)JSON.deserializeUntyped(responseString.get('body'));
                             for(Object responseObj : responseList){
@@ -1566,10 +1558,7 @@ return null;
         if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
            Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
            Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-            String strBatchPostInstallScript = 'BatchPostInstallScript';
-            String strCompleted = 'Completed';
-
-               postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =: strBatchPostInstallScript AND Status !=: strCompleted limit 3];
+               postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'BatchPostInstallScript' AND Status != 'Completed' limit 3];
            }
         if (postInstallBatchList.size() > 0) {
             return true;
@@ -1589,8 +1578,7 @@ return null;
         if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
            Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
            Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-            String strCompleted = 'Completed';
-               asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status =: strCompleted LIMIT 1];
+               asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status = 'Completed' LIMIT 1];
            }
         if (asyncApexJobList.size() > 0) {
             return true;
@@ -2063,9 +2051,7 @@ return null;
             if(returnMap.containsKey('actionRequired')){
                 returnMap.put('openTouchPointModal', returnMap.get('actionRequired'));
             }
-            String strBatchCreateInsightsForNewRecipients = 'BatchCreateInsightsForNewRecipients';
-            String strBatchAddRecipientsIntoTouchPoint  = 'BatchAddRecipientsIntoTouchPoint';
-            if(returnMap.containsKey('openTouchPointModal') && [SELECT count() FROM AsyncApexJob WHERE (ApexClass.Name =: strBatchCreateInsightsForNewRecipients OR ApexClass.Name =: strBatchAddRecipientsIntoTouchPoint)
+            if(returnMap.containsKey('openTouchPointModal') && [SELECT count() FROM AsyncApexJob WHERE (ApexClass.Name = 'BatchCreateInsightsForNewRecipients' OR ApexClass.Name = 'BatchAddRecipientsIntoTouchPoint')
                 AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0){
                     returnMap.put('openTouchPointModal', (Object)false);
                 }
@@ -2158,8 +2144,7 @@ return null;
     @AuraEnabled
     public static Boolean getInviteFlag(){
         try {
-            String strInvite = 'Invite';
-            TelosTouchSF__TT_Feature_Flag__mdt inviteRecord = [SELECT Id,MasterLabel ,TelosTouchSF__TT_Flag__c, TelosTouchSF__SF_Flag__c from TelosTouchSF__TT_Feature_Flag__mdt WHERE MasterLabel=: strInvite WITH SECURITY_ENFORCED LIMIT 1];
+            TelosTouchSF__TT_Feature_Flag__mdt inviteRecord = [SELECT Id,MasterLabel ,TelosTouchSF__TT_Flag__c, TelosTouchSF__SF_Flag__c from TelosTouchSF__TT_Feature_Flag__mdt WHERE MasterLabel='Invite' WITH SECURITY_ENFORCED LIMIT 1];
             if(inviteRecord.TelosTouchSF__TT_Flag__c && inviteRecord.TelosTouchSF__SF_Flag__c){
                 return true;
             }
@@ -2200,9 +2185,10 @@ return null;
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
-            
+
             String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+res.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'checkIfEnterpriseClient', null); 
+
             if(res.getStatusCode()==404){
                 return false;
             }else{
