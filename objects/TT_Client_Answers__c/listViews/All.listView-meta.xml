@@ -9,6 +9,6 @@
     <columns>Lead__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>CREATEDBY_USER.ALIAS</columns>
-    <filterScope>Everything</filterScope>
+    <filterScope>Mine</filterScope>
     <label>All</label>
 </ListView>

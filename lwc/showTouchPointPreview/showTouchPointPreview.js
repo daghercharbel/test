@@ -1,7 +1,7 @@
 import { api, LightningElement } from "lwc";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
-import { loadStyle, loadScript } from "lightning/platformResourceLoader";
-// import getIFrameUrls from "@salesforce/apex/ShowTouchPointPreviewController.getIFrameUrls";
+import { loadStyle } from "lightning/platformResourceLoader";
+import getIFrameUrls from "@salesforce/apex/ShowTouchPointPreviewController.getIFrameUrls";
 import getIFrameUrlsFromTemplateId from "@salesforce/apex/ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId";
 import Email_Text from "@salesforce/label/c.Email_Text";
 import Language_Text from "@salesforce/label/c.Language_Text";
@@ -14,10 +14,11 @@ export default class ShowTouchPointPreview extends LightningElement {
   urls = {};
   @api recordId;
   @api templateId;
+  @api touchpointSelectionPreview = false;
   label = {
-    Email_Text,//Email
-    Language_Text,//Language
-    TouchPoint_Experience_Text,//
+    Email_Text,
+    Language_Text,
+    TouchPoint_Experience_Text,
     English_Text,
     French_Text
   };
@@ -37,32 +38,32 @@ export default class ShowTouchPointPreview extends LightningElement {
     if (this.templateId) {
       this.getUrlfromTemplate();
     }
-    // else{
-    //   this.getUrls();
-    // }
+    else{
+      this.getUrls();
+    }
   }
 
   connectedCallback() {
-    console.log('templateId-==', this.templateId);
     loadStyle(this, TelosTouch + "/PreviewTouchPoint.css");
     if (this.templateId) {
       this.getUrlfromTemplate();
     }
-    // else{
-    //   this.getUrls();
-    // }
+    else{
+      this.getUrls();
+    }
   }
 
-  // getUrls() {
-  //   getIFrameUrls({ recordId: this.recordId, language: this.langValue })
-  //     .then((result) => {
-  //       this.urls = JSON.parse(result);
-  //       console.log(this.urls);
-  //     })
-  //     .catch((error) => {
-  //       this.error = error.message;
-  //     });
-  // }
+  getUrls() {
+    getIFrameUrls({ recordId: this.recordId, language: this.langValue })
+      .then((result) => {
+        this.urls = JSON.parse(result);
+        console.log(this.urls);
+      })
+      .catch((error) => {
+        this.error = error.message;
+      });
+  }
+
   getUrlfromTemplate() {
     getIFrameUrlsFromTemplateId({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
@@ -72,9 +73,5 @@ export default class ShowTouchPointPreview extends LightningElement {
       .catch((error) => {
         this.error = error.message;
       });
-  }
-  resizeIframe(event) {
-    let iframe = this.template.querySelector('lightning-tab');
-    console.log(iframe);
   }
 }

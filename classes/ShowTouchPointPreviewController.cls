@@ -1,7 +1,14 @@
 public with sharing class ShowTouchPointPreviewController {
     private static final TelosTouchSF__TT_Admin_Credentials__mdt ADMINCREDENTIALS = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt AUTHENTICATIONCREDENTIALS = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
-
+    
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to savE the touchpoint.
+* @param recordId stores the campaign Id
+* @param language   stores the selected language
+*/
     @AuraEnabled
     public static string getIFrameUrls(Id recordId, String language){
         try {
@@ -69,16 +76,29 @@ public with sharing class ShowTouchPointPreviewController {
             if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){
                 UPDATE campObj;
             }
+            if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() ){
+                insert createListOfLog;
+            }
             return JSON.serialize(urlMap);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to generate the iframe url for the preview touchpoint the touchpoint.
+* @param templateId stores the campaign Id
+* @param language   stores the selected language
+*/
+
     @AuraEnabled
     public static string getIFrameUrlsFromTemplateId(String templateId, String language){
         try {
-            List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             Map<String,String> urlMap = new Map<String, String>();
+            List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             urlMap.put('email', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/public/email?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken());
             Map<String, String> headersMap = new Map<String, String>();
             String endPointURL = '';
@@ -112,5 +132,4 @@ public with sharing class ShowTouchPointPreviewController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
 }

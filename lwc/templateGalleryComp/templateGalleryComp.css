@@ -1,0 +1,171 @@
+.imgCard {
+  border: 1px solid #e8ebf0;
+}
+
+.hrclass {
+  margin: 0;
+}
+
+.imgStyleCard {
+  height: 122px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.noDataStyle {
+  height: 418px;
+  text-align: center;
+}
+
+.tpName {
+  font-weight: 650;
+  font-size: 16px;
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tpDate {
+  color: grey;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.private-badge {
+  --sds-c-badge-color-background: #3744BD;
+  --slds-c-badge-icon-color-foreground: #ffffff;
+}
+
+.imgCard:hover {
+  box-shadow: 0 0 20px rgba(33, 33, 33, .5);
+  transition: 0.1s;
+}
+
+.container {
+  height: 77vh;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip:hover .tooltip-drop {
+  opacity: 1;
+}
+
+.tooltip:hover .tooltip-drop.tooltip-top,
+.tooltip:hover .tooltip-drop.tooltip-bottom {
+  transform: translate(-50%, 0);
+}
+
+.tooltip .tooltip-drop {
+  position: absolute;
+  max-width: 200px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  opacity: 0;
+  padding: 0.75rem 0.875rem;
+  background-color: #404040;
+  font-size: 0.875rem;
+  text-align: center;
+  z-index: 1;
+  transition: all 0.15s ease-in-out;
+  border-radius: 0.188rem;
+  color: #fff;
+  pointer-events: none;
+}
+
+.tooltip .tooltip-drop::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0.375rem solid transparent;
+  border-top-color: #404040;
+}
+
+.btnBorderInActive {
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.leftIconStyle {
+  border-radius: 5px;
+}
+
+.btnBorderActive {
+  border: 0.1px solid #2a739e;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.tooltip .tooltip-drop.tooltip-top,
+.tooltip .tooltip-drop.tooltip-bottom {
+  left: 50%;
+  transform: translate(-50%, 0.625rem);
+}
+
+.tooltip .tooltip-drop.tooltip-top:before,
+.tooltip .tooltip-drop.tooltip-bottom:before {
+  left: 50%;
+}
+
+.iframe-style {
+  width: 100%;
+  height: 63vh;
+  border: none;
+}
+
+.tooltip .tooltip-drop.tooltip-top {
+  bottom: calc(100% + 0.625rem);
+}
+
+.tooltip .tooltip-drop.tooltip-top:before {
+  top: 100%;
+  transform: translate(-50%, 0);
+}
+
+.previewSaveButton {
+  float: right;
+}
+
+@media screen and (min-width: 1600px) {
+  .layoutScroll {
+    padding-top: 0px;
+  }
+
+  .imgStyleCard {
+    height: 198px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .iframe-style {
+    height: 70vh;
+  }
+}
+
+/* For tablet(Ipad) between 700px to 900px */
+@media screen and (max-width: 900px) and (min-width: 700px) {
+  .imgStyleCard {
+    height: 165px;
+  }
+
+  .container {
+    height: 80vh;
+  }
+}
+
+/* For Mobile between 350 to 420px */
+@media screen and (max-width: 430px) and (min-width: 320px) {
+  .imgStyleCard {
+    height: 165px;
+  }
+
+}

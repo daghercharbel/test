@@ -1083,25 +1083,6 @@ return null;
         }
     }
     /**
-* @author Charbel Dagher
-* @date 19/07/2022
-* @description This method calls the job to refresh the token
-* @return response
-*/
-@AuraEnabled
-public static string refreshTokenController(){
-    try {
-        system.debug('!!!entrer refreshTokenController');
-        System.enqueueJob(new UpdateUserTokenQueueable());
-        system.debug('!!!DONE');
-        return 'success';
-    }catch (Exception ex) {
-        System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
-        return null;
-    }
-
-}
-    /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description This method schedules all the jobs.
@@ -1959,6 +1940,14 @@ return null;
         }
         return false;
     }
+
+
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to fetch the campaign detail.
+* @param campSfId stores the campaign Id
+*/
     @AuraEnabled
     public static String getCampaignDetails(Id campSfId){
         try{
@@ -1966,12 +1955,13 @@ return null;
             TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
             Set<Id> insightsIdSet = new Set<Id>();
             Map<String, Object> returnMap = new Map<String, Object>();
+            returnMap.put('campMemList', (Object) new List<Object>());
             if(String.isNotEmpty(authenticationCredential.TelosTouchSF__Access_Token__c)){
                 returnMap.put('accessTokenPresent', (Object)true);
             }else{
                 returnMap.put('accessTokenPresent', (Object)false);
             }
-            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campSfId LIMIT 1];
+            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: campSfId LIMIT 1];
             if(campObj != null && String.isNotEmpty(campObj.TelosTouchSF__TT_Campaign_Id__c)){
                 returnMap.put('synced', (Object)true);
                 List<CampaignMember> campMemList = new List<CampaignMember>();
@@ -2032,6 +2022,9 @@ return null;
                 returnMap.put('synced', (Object)false);
                 returnMap.put('actionRequired', (Object)false);
             }
+            if(String.isNotEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
+                returnMap.put('templateId', (Object)campObj.TelosTouchSF__TouchPoint_Template_Id__c);
+            }
             if(returnMap.containsKey('actionRequired')){
                 returnMap.put('openTouchPointModal', returnMap.get('actionRequired'));
             }
@@ -2046,6 +2039,14 @@ return null;
             return null;
         }
     }
+
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to add clients in the touchpoint.
+* @param campMemListStr stores the camapaignMember list
+*/
+
     @AuraEnabled
     public static Boolean addClientsToTouchpoint(String campMemListStr){
         try{
@@ -2179,6 +2180,229 @@ return null;
             return true;
         }
     }
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to fetch the touchpoint templates.
+*/
+    @AuraEnabled
+    public static string getTouchPointTemplates(){
+        try {
+            List<Map<String, String>> returnList = new List<Map<String, String>>();
+            List<Object> responseList = new List<Object>();
+            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+            TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+            String endPointURL ='', userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
+            List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
+            Map<String, String> headersMap = new Map<String, String>();
+            if(userToken != null && String.isNotBlank(userToken) ){
+                headersMap.put('Authorization','Bearer ' +userToken);
+                headersMap.put('Accept', 'application/json');
+                headersMap.put('Content-Type', 'application/json');
+            }
+            if(adminCredentials.TelosTouchSF__Instance_URL__c!= null && String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
+                endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates';
+            } 
+            Map<String, String> responseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
+            if(responseBody.get('status_code') == '401'){
+                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+            }else if(responseBody.get('status_code') == '500'){
+                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
+            }else{
+                if(responseBody.get('status_code').length() > 0){
+                    list<String> statusCodeList = responseBody.get('status_code').split('0');
+                    if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+responseBody.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+responseBody.get('status_code'),1));
+                    }
+                }
+            }
+            if(responseBody.get('body') != null){
+                responseList = (List<Object>)JSON.deserializeUntyped(responseBody.get('body'));
+                for(Object obj : responseList){
+                    Map<String, Object> responseMap = new Map<String, Object>();
+                    responseMap = (Map<String, Object>) obj;
+                    Map<String, String> returnMap = new Map<String, String>();
+                    JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap.get('modified_at'))+'"}');
+                    parser.nextToken();
+                    parser.nextValue();
+                    Datetime dt = DateTime.newInstance( parser.getDateTimeValue().getTime());
+                    if(UserInfo.getLanguage().contains('en')){
+                        if(responseMap.get('is_private') == true){
+                            returnMap.put('label', String.valueOf(responseMap.get('name')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss') + ' : 🔒');
+                        }else{
+                            returnMap.put('label', String.valueOf(responseMap.get('name')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
+                        }
+                        returnMap.put('value', String.valueOf(responseMap.get('id')));
+                    }else if(UserInfo.getLanguage().contains('fr')){
+                        returnMap.put('label', String.valueOf(responseMap.get('name_fr')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
+                        returnMap.put('value', String.valueOf(responseMap.get('id')));
+                    }
+                    returnList.add(returnMap);
+                }
+            }
+            if(!createListOfLog.isEmpty()){
+                insert createListOfLog;
+            }
+            return JSON.serialize(returnList);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage()+ 'at line no: '+e.getLineNumber());
+        }
+    }
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to savE the touchpoint template Id in the campaign.
+* @param campaignRecordId stores the campaign Id
+* @param touchPointTemplateId   stores the touchpoint template id
+*/
+    @AuraEnabled
+    public static string setTouchPointTemplateId(Id campaignRecordId, String touchPointTemplateId){
+        try {
+            Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: campaignRecordId WITH SECURITY_ENFORCED LIMIT 1];
+            campObj.TelosTouchSF__TouchPoint_Template_Id__c = touchPointTemplateId;
+            update campObj;
+            return campObj.Id;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static string getCurrentTemplateId(Id campaignRecordId){
+        try {
+            return [SELECT TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: campaignRecordId WITH SECURITY_ENFORCED LIMIT 1].TelosTouchSF__TouchPoint_Template_Id__c;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to savE the touchpoint.
+* @param campaignSFId stores the campaign Id
+* @param touchPointTemplateId   stores the touchpoint templateId
+* @param isSynced   stores if the camapign is synced or not
+*/
+    @AuraEnabled
+    public static String sendTouchPointFromSF(String campaignSFId, String touchPointTemplateId, Boolean isSynced){
+        try{
+            if( !isSynced ){
+                Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__Questions__c FROM Campaign WHERE Id=:campaignSFId WITH SECURITY_ENFORCED LIMIT 1];
+                String methodType = 'POST';
+                List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
+                String endPointURL;
+                String getResponseClients;
+                String userAuthTOKEN;
+                Map<String, Object> bodyMap = new Map<String, Object>();
+                bodyMap.put('all_recipients',(Object)false);
+                bodyMap.put('other_id', (Object)campaignSFId);
+                bodyMap.put('recipients', (Object)new List<Object>());
+                bodyMap.put('template_id', (Object)touchPointTemplateId);
+                Map<String, String> headersMap = new Map<String, String>();
+                userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
+                headersMap.put('Authorization','Bearer '+userAuthTOKEN);
+                headersMap.put('Content-Type', 'application/json');
+                headersMap.put('Accept', 'application/json');
+                TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+                if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints';
+                }
+                Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, JSON.serialize(bodyMap));
+                if(getResponseMap.get('status_code') == '200' && String.isNotEmpty(getResponseMap.get('body'))){
+                    Map<String, Object> responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(getResponseMap.get('body'));
+                    Map<String, Object> responseMap2 = (Map<String, Object>) responseMap1.get('touchpoint');
+                    if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable() &&  
+                        Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() && Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isCreateable() &&
+                        Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isUpdateable() && camp!= null){
+                            camp.TelosTouchSF__TT_Campaign_Id__c = (String) responseMap2.get('id');
+                            camp.TelosTouchSF__Questions__c =  JSON.serialize(responseMap2.get('questions'));
+                            update camp;
+                    }
+                }else if(getResponseMap.get('status_code') == '401'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+                }else if(getResponseMap.get('status_code') == '500'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
+                }else if(getResponseMap.get('status_code').length() > 0){
+                    list<String> statusCodeList = getResponseMap.get('status_code').split('0');
+                    if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+                    }
+                }
+                if(!createListOfLog.isEmpty()){
+                    insert createListOfLog;
+                }
+                if(camp != null){
+                    List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
+                                                                        Lead.Phone FROM CampaignMember WHERE (CampaignId=:camp.Id) WITH SECURITY_ENFORCED LIMIT 44999];
+                    CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
+                }
+            }
+            return 'success';
+        }catch(Exception ex){
+            return ('error#'+ex.getMessage());
+        }
+    }
+
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to savE the touchpoint.
+* @param templateId stores the touchpoint template Id
+*/
+    @AuraEnabled
+    public static String generateCustomizeIFrame(String templateId){
+        try {
+            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
+            String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
+            String iFrameURL;
+            if(UserInfo.getLanguage() == 'en_US'){
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken + '&lang=en_US';
+            }else if(UserInfo.getLanguage() == 'fr_FR'){
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken  + '&lang=en_US';
+            }
+            System.debug('iframe url:: '+ iFrameURL);
+            return iFrameURL;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to fetch the touchpoint template.
+* @param recordId stores the campaign  Id
+*/    
+    @AuraEnabled
+    public static String fetchSelectedTouchPointTemplate(String recordId){
+        try {
+            String templateName = '';
+            Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
+            if(campObj.TelosTouchSF__TouchPoint_Template_Id__c !=null){
+                String response = TemplateGalleryCompHandler.getTouchPointTemplates();
+                System.debug('response : '+ response);
+                List<Object> returnedObjList = (List<Object>) JSON.deserializeUntyped(response);
+                System.debug('returned list: '+ returnedObjList);
+                if(returnedObjList.size()>0){
+                    for(Object obj : returnedObjList){
+                        Map<String, Object> objectMap  = (Map<String, Object>) obj; 
+                        if(objectMap.containsKey('id') && objectMap.get('id') == campObj.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage() == 'en_US')){
+                            templateName = (String) objectMap.get('name');
+                        }else if(objectMap.containsKey('id') && objectMap.get('id') == campObj.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage() == 'fr_FR')){
+                            templateName = (String) objectMap.get('name_fr');
+
+                        }
+                    }
+                }
+            }
+            return templateName;
+        } catch (Exception e) {
+            System.debug('Error is:'+ e.getMessage()+' at line no: '+ e.getLineNumber());
+            return null;
+        }
+    }
+
+
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
