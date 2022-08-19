@@ -284,7 +284,7 @@
                             <td scope="row">
                                 <div class="slds-truncate">
                                     <lightning:button variant="neutral" title="{!$Label.c.Answers_Text}"
-                                        label="{!$Label.c.Answers_Text}" value="{! item}" disabled="{! item.isActive}"
+                                        label="{!$Label.c.Answers_Text}" value="{! item}"
                                         onclick="{! c.viewRecord}"></lightning:button>
                                 </div>
                             </td>

@@ -49,6 +49,7 @@ public with sharing class TTFilterUserController {
                                                TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,
                                                TelosTouchSF__Lead__c,
                                                TelosTouchSF__Answers__c,
+                                               TelosTouchSF__Completed_and_Sync__c,
                                                TelosTouchSF__Completed_At__c,
                                                TelosTouchSF__Opened_At__c
                                                FROM TelosTouchSF__Insights__c
@@ -117,6 +118,7 @@ public with sharing class TTFilterUserController {
                     for(TelosTouchSF__Insights__c conversationUserObj :conversationUserList){
                         UserWrapper userWrapperObj = new UserWrapper();
                         userWrapperObj.Id = conversationUserObj.Id;
+                        userWrapperObj.CompletedAndSync = conversationUserObj.TelosTouchSF__Completed_and_Sync__c;
                         if(conversationUserObj.TelosTouchSF__Contact__c != null){
                             userWrapperObj.nameURL = System.URL.getSalesforceBaseUrl().toExternalForm()+'/lightning/r/Contact/'+conversationUserObj.TelosTouchSF__Contact__c+'/view';
                             userWrapperObj.name = conversationUserObj.TelosTouchSF__Contact__r.Name;
@@ -355,9 +357,11 @@ public with sharing class TTFilterUserController {
     */
     @AuraEnabled
     public static string insightCallout(String recordId){
+        //System.Label.MyLabelName
         try {
 
-            List<TelosTouchSF__Insights__c> lstInsight = [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE Id =: recordId];
+            List<TelosTouchSF__Insights__c> lstInsight = [SELECT Id, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Completed_At__c 
+                                                          FROM TelosTouchSF__Insights__c WHERE Id =: recordId];
             if(lstInsight.isEmpty()){ throw new AuraHandledException('Insight not found.'); } 
 
             if(adminCredentials.TelosTouchSF__Instance_URL__c == null || String.isBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
@@ -398,6 +402,7 @@ public with sharing class TTFilterUserController {
             }
 
             lstInsight[0].TelosTouchSF__Answers__c = JSON.serialize(lstAnswer);
+            if(lstInsight[0].TelosTouchSF__Completed_At__c != null){lstInsight[0].TelosTouchSF__Completed_and_Sync__c = true;}
             Database.update(lstInsight);
 
             return null;
@@ -1216,6 +1221,7 @@ picklistWrapperObj.ShareWithClientlist.add(String.valueOf(obj.getValue()));
 * @description ......
 */
         @AuraEnabled public String ContactOrLeadSubscribed { get; set; }
+        @AuraEnabled public Boolean completedAndSync { get; set; }
         
     }
     /**

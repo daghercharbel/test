@@ -52,7 +52,7 @@
     } else {
       if (!$A.util.isEmpty(recId)) {
         c.set("v.convId", recId);
-        if (sfId.TTCompleted_At == $A.get("$Label.c.Pending_Text")) {
+        if (!sfId.completedAndSync) {
           h.handleInsightCallout(c, recId);
         } else {
           h.viewRecord_helper(c, e, h, recId);
