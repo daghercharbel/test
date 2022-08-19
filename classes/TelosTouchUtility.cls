@@ -1451,6 +1451,7 @@ return null;
 }*/
             system.debug(LoggingLevel.DEBUG, 'response body TU::'+response.getBody());
             system.debug(LoggingLevel.DEBUG, 'response Status Code TU::'+response.getStatusCode());
+            responseMap.put('status_code', String.valueOf(response.getStatusCode()));
             if(response.getstatusCode() == 200 && response.getbody() != null){
                 if(response.getstatus() =='panding'){
                     responseMap.put('body', response.getStatus());
@@ -2024,6 +2025,12 @@ return null;
             }
             if(String.isNotEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
                 returnMap.put('templateId', (Object)campObj.TelosTouchSF__TouchPoint_Template_Id__c);
+            }else{
+                TelosTouchSF.ShowTouchPointPreviewController.getIFrameUrls(campSfId, 'en');
+                campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: campSfId LIMIT 1];
+                if(String.isNotEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
+                    returnMap.put('templateId', (Object)campObj.TelosTouchSF__TouchPoint_Template_Id__c);
+                }
             }
             if(returnMap.containsKey('actionRequired')){
                 returnMap.put('openTouchPointModal', returnMap.get('actionRequired'));

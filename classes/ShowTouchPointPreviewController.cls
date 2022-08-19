@@ -28,22 +28,27 @@ public with sharing class ShowTouchPointPreviewController {
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoint/templates/send/'+campObj.Id;
                 } 
                 Map<String, String> responseBody = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
-                if(responseBody.get('status_code') == '401'){
-                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
-                }else if(responseBody.get('status_code') == '500'){
-                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
-                }else{
-                    if(responseBody.get('status_code').length() > 0){
-                        list<String> statusCodeList = responseBody.get('status_code').split('0');
-                        if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
-                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+responseBody.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+responseBody.get('status_code'),1));
+                if(responseBody != null && responseBody.containsKey('status_code') && responseBody.containsKey('body')){
+                    if(responseBody.get('status_code') == '401'){
+                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+                    }else if(responseBody.get('status_code') == '500'){
+                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
+                    }else{
+                        if(responseBody.get('status_code').length() > 0){
+                            list<String> statusCodeList = responseBody.get('status_code').split('0');
+                            if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+responseBody.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+responseBody.get('status_code'),1));
+                            }
                         }
                     }
-                }
-                if(responseBody.get('body') != null){
-                    Map<String, Object> responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(responseBody.get('body'));
-                    if(Schema.sObjectType.Campaign.fields.TelosTouchSF__TouchPoint_Template_Id__c.isUpdateable()){
-                        campObj.TelosTouchSF__TouchPoint_Template_Id__c =  String.valueof(responseMap1.get('touchpoint_template_id'));
+                    if(responseBody.get('body') != null && responseBody.get('status_code') == '200'){
+                        Map<String, Object> responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(responseBody.get('body'));
+                        if(Schema.sObjectType.Campaign.fields.TelosTouchSF__TouchPoint_Template_Id__c.isUpdateable()){
+                            campObj.TelosTouchSF__TouchPoint_Template_Id__c =  String.valueof(responseMap1.get('touchpoint_template_id'));
+                        }
+                    }
+                    if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){
+                        UPDATE campObj;
                     }
                 }
             }
@@ -73,14 +78,12 @@ public with sharing class ShowTouchPointPreviewController {
             }
             urlMap.put('touchpoint', getResponseMap.get('body'));
             System.debug(LoggingLevel.DEBUG, urlMap);
-            if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){
-                UPDATE campObj;
-            }
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() ){
                 insert createListOfLog;
             }
             return JSON.serialize(urlMap);
         } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage() + ' occurred at line: '+e.getLineNumber());
             throw new AuraHandledException(e.getMessage());
         }
     }
