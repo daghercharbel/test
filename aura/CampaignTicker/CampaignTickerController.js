@@ -51,14 +51,14 @@
               showCloseButton: true,
               cssClass: "slds-modal_large touchpoint-modal",
               closeCallback: function () {
-                //h.doInitHelper(c, e, h);
+                h.doInitHelper(c, e, h);
               }
             });
           }
         }
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     //console.log("open modal on click is called");
   },
@@ -85,7 +85,7 @@
         }
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
 
@@ -94,16 +94,15 @@
     if (!c.get("v.CampaignSynced")) {
       h.createTouchPointinTT_helper(c, e, h);
     } else {
-      console.log(c.get("v.campMemList"));
+      // console.log(c.get("v.campMemList"));
       h.addClientsToTouchpoint(c, e, h, c.get("v.campMemList"));
     }
   },
   handleCustomizeClick: function (c, e, h) {
     try {
       h.getUserAccessToken(c, e, h);
-      
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   }
 });

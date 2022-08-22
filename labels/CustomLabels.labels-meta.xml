@@ -2201,4 +2201,53 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <shortDescription>Customize_PreviewLabel_Text</shortDescription>
         <value>You can now Customize/Preview the template or Send Touchpoint to clients added. Note: Customize,Touchpoint Template Selection will be disabled after sending TouchPoint</value>
     </labels>
+    <labels>
+        <fullName>Private_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Private_Text</shortDescription>
+        <value>Private</value>
+    </labels>
+    <labels>
+        <fullName>TouchPointTemplateSaved_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPointTemplateSaved_Text</shortDescription>
+        <value>TouchPoint template is successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>TouchPointTemplateNotSaved_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPointTemplateNotSaved_Text</shortDescription>
+        <value>TouchPoint template is not saved.</value>
+    </labels>
+    <labels>
+        <fullName>Customize_Template_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize_Template_Text</shortDescription>
+        <value>Customize Template</value>
+    </labels>
+    <labels>
+        <fullName>Customize_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize_Text</shortDescription>
+        <value>Customize</value>
+    </labels>
+    <labels>
+        <fullName>Preview_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Preview_Text</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>Send_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send_Text</shortDescription>
+        <value>Send</value>
+    </labels>
 </CustomLabels>

@@ -1,5 +1,5 @@
 ({
-  doInit: function (component, event, helper) {
+  doInit: function (c, e, h) {
     /*document.getElementsByClassName('modal-glass slds-backdrop fadein slds-backdrop--open').addEventListener('click', $A.getCallback(function(){
             if(c.isValid()) {
                 console.log('Clicked');
@@ -73,7 +73,6 @@
   CloseModal: function (component, event, helper) {
     component.find("overlayLib").notifyClose();
   },
-
   onEventHandle_Save: function (c, e, h) {
     var eventMessage = e.getParam("isCreateTask");
     //console.log(eventMessage);
@@ -137,5 +136,19 @@
     myEvent.setParams({ SendTouchpoint: true });
     myEvent.fire();
     c.find("overlayLib").notifyClose();
-  }
+  },
+  setHeight : function(c, e, h) {
+    if($A.get("$Browser.isTablet") == true || $A.get("$Browser.isPhone") == true){
+        // var Height = screen.availHeight - 305;
+        // document.getElementById("frame").style.height = Height+"px";
+        // document.getElementById("frame").style.width = "100%";
+        c.set("v.isShowSpinner",false);
+    }else{
+        // var Height = screen.availHeight - 225;
+        // console.log('height: '+ Height);
+        // document.getElementById("frame").style.height = Height+"px";
+        // document.getElementById("frame").style.width = "100%";
+        c.set("v.isShowSpinner",false);
+    }
+  },
 });

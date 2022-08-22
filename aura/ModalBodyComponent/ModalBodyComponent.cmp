@@ -3,6 +3,7 @@
 
   <lightning:overlayLibrary aura:id="overlayLib" />
   <lightning:overlayLibrary aura:id="overlayLib2" />
+
   <aura:attribute name="showAnswerModal" type="Boolean" default="false" />
   <aura:attribute name="createCampaign" type="Boolean" default="false" />
   <aura:attribute
@@ -12,6 +13,9 @@
   />
   <aura:attribute name="createAction" type="Boolean" default="false" />
   <aura:attribute name="sendTouchpoint" type="Boolean" default="false" />
+  <aura:attribute name="openCustomize" type="Boolean" default="false" />
+  <aura:attribute name="iFrameURL" type="String" />
+
   <aura:attribute
     name="campaignName"
     type="String"
@@ -215,5 +219,12 @@
         onclick="{!c.sendTouchpoint}"
       />
     </footer>
+  </aura:if>
+  <aura:if isTrue="{!v.openCustomize}">
+      <iframe src="{! v.iFrameURL}"
+                frameBorder="0"
+                scrolling="none"
+                onload="{!c.setHeight}"
+                id = "frame"/>
   </aura:if>
 </aura:component>

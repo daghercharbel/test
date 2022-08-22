@@ -12,7 +12,14 @@ import All_Label from '@salesforce/label/c.All_Label';
 import TouchPoint_Experience_Text from "@salesforce/label/c.TouchPoint_Experience_Text";
 import English_Text from "@salesforce/label/c.English_Text";
 import French_Text from "@salesforce/label/c.French_Text";
+import TouchPointTemplateNotSaved_Text from "@salesforce/label/c.TouchPointTemplateNotSaved_Text";
+import TouchPointTemplateSaved_Text from "@salesforce/label/c.TouchPointTemplateSaved_Text";
+import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
+import Back_Button_Label from "@salesforce/label/c.Back_Button_Label";
+import Private_Text from "@salesforce/label/c.Private_Text";
+import Search_Text from "@salesforce/label/c.Search_Text";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 
 export default class TemplateGalleryComp extends LightningElement {
   label = {
@@ -22,12 +29,17 @@ export default class TemplateGalleryComp extends LightningElement {
     English_Text,
     French_Text,
     All_Label,
-    
+    TouchPointTemplateSaved_Text,
+    TouchPointTemplateNotSaved_Text,
+    Back_Button_Label,
+    Save_Button_Label,
+    Private_Text,
+    Search_Text
   };
   @api isOpenTouchPoints = false;
   @api campSfId;
   langValue = "en_US";
-  topButtonLabel = 'Back';
+  // topButtonLabel = 'Back';
   @track isPrivateToggle = false;
   showPagination = false;
   privateTemplatesList = [];
@@ -163,13 +175,13 @@ export default class TemplateGalleryComp extends LightningElement {
           });
           //console.log('filtered in private list: '+ JSON.stringify(filteredTemplates));
         } else {
-          //console.log('all');
-          this.templatesList.forEach((ele) => {
+          // console.log('templateList size:: '+ this.templatesList.length);
+          this.mainTemplateList.forEach((ele) => {
             if (ele.name.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
-          //console.log('filtered in all list: '+ JSON.stringify(filteredTemplates));
+          // console.log('filtered in all list: '+ JSON.stringify(filteredTemplates));
         }
       }else{
         //console.log('french');
@@ -180,7 +192,7 @@ export default class TemplateGalleryComp extends LightningElement {
             }
           });
         } else {
-          this.templatesList.forEach((ele) => {
+          this.mainTemplateList.forEach((ele) => {
             if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
@@ -306,7 +318,7 @@ export default class TemplateGalleryComp extends LightningElement {
   handleBackbuttonAction() {
     this.isTemplatePage = true;
     this.previewBody = false;
-    this.topButtonLabel = "Back";
+    // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
 
@@ -320,31 +332,37 @@ export default class TemplateGalleryComp extends LightningElement {
         if (data) {
           this.dispatchEvent(
             new ShowToastEvent({
-                title: 'Success!!',
-                message: 'TouchPoint template is successfully saved',
+                title: 'Success!',
+                message: this.label.TouchPointTemplateSaved_Text,
                 variant: 'success'
             }),
         );
+        this.isTemplatePage = true;
+        this.previewBody = false;;
         }else{
           this.dispatchEvent(
             new ShowToastEvent({
-                title: 'Error!!',
-                message: 'TouchPoint template is not saved',
+                title: 'Error!',
+                message: this.label.TouchPointTemplateNotSaved_Text,
                 variant: 'error'
             }),
         );
+        this.isTemplatePage = true;
+        this.previewBody = false;
         }
       })
       .catch((error) => {
         // console.log("show error toast");
         this.dispatchEvent(
           new ShowToastEvent({
-              title: 'Error!!',
+              title: 'Error!',
               message: error,
               variant: 'error'
           }),
       );
-        // console.log(error);
+      this.isTemplatePage = true;
+      this.previewBody = false;
+      // console.log(error);
       });
   }
 
@@ -357,7 +375,7 @@ export default class TemplateGalleryComp extends LightningElement {
         //console.log(JSON.stringify(this.urls));
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       }); 
   }
 

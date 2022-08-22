@@ -42,8 +42,8 @@
             </lightning:layoutItem>
           </aura:if>
           <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="Customize" class="slds-size_1-of-1" disabled="{!v.customizeDisabled}"
-              onclick="{! c.handleCustomizeClick}" />
+            <lightning:button label="{!$Label.c.Customize_Text}" class="slds-size_1-of-1"
+              disabled="{!v.customizeDisabled}" onclick="{! c.handleCustomizeClick}" />
           </lightning:layoutItem>
           <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
 
@@ -52,12 +52,12 @@
               onclick="{! c.openChooseTouchPointModal }" />
           </lightning:layoutItem>
           <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="Preview" disabled="{!v.previewDisabled}" class="slds-size_1-of-1"
+            <lightning:button label="{!$Label.c.Preview_Text}" disabled="{!v.previewDisabled}" class="slds-size_1-of-1"
               onclick="{! c.previewSelectedTouchPoint }" />
           </lightning:layoutItem>
           <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="Send" variant="brand" disabled="{!v.sendDisabled}" class="slds-size_1-of-1"
-              onclick="{! c.createTouchPointinTT }" />
+            <lightning:button label="{!$Label.c.Send_Text}" variant="brand" disabled="{!v.sendDisabled}"
+              class="slds-size_1-of-1" onclick="{! c.createTouchPointinTT }" />
           </lightning:layoutItem>
           <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
             <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
@@ -139,7 +139,7 @@
             </lightning:layoutItem>
           </aura:if>
           <lightning:layoutItem flexibility="auto" padding="horizontal-small">
-            <lightning:button label="Customize" disabled="{!v.customizeDisabled}"
+            <lightning:button label="{!$Label.c.Customize_Text}" disabled="{!v.customizeDisabled}"
               onclick="{! c.handleCustomizeClick}" />
           </lightning:layoutItem>
           <lightning:layoutItem flexibility="auto" padding="horizontal-small">
@@ -147,11 +147,11 @@
               disabled="{! v.templateDisabled}" onclick="{! c.openChooseTouchPointModal }" />
           </lightning:layoutItem>
           <lightning:layoutItem flexibility="auto">
-            <lightning:button label="Preview" disabled="{!v.previewDisabled}"
+            <lightning:button label="{!$Label.c.Preview_Text}" disabled="{!v.previewDisabled}"
               onclick="{! c.previewSelectedTouchPoint }" />
           </lightning:layoutItem>
           <lightning:layoutItem flexibility="auto" class="slds-var-p-left_small">
-            <lightning:button label="Send" variant="brand" disabled="{!v.sendDisabled}"
+            <lightning:button label="{!$Label.c.Send_Text}" variant="brand" disabled="{!v.sendDisabled}"
               onclick="{! c.createTouchPointinTT }" />
           </lightning:layoutItem>
         </lightning:layout>

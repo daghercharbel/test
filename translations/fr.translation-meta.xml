@@ -1295,6 +1295,18 @@ Remarque : la personnalisation et la sélection du modèle de point de contact s
         <label>Point de contact envoyé. Aucune autre action n&apos;est nécessaire. Vous pouvez ajouter plus de clients à cette campagne en leur envoyant le point de contact.&lt;br/ &gt; Remarque : la personnalisation et la sélection du modèle de point de contact sont désormais désactivées car le point de contact a été envoyé.</label>
         <name>TPSentText</name>
     </customLabels>
+    <customLabels>
+        <label>
+            <!-- TouchPointTemplateNotSaved_Text -->
+        </label>
+        <name>TouchPointTemplateNotSaved_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>
+            <!-- TouchPointTemplateSaved_Text -->
+        </label>
+        <name>TouchPointTemplateSaved_Text</name>
+    </customLabels>
     <customTabs>
         <label>Accueil</label>
         <name>TT_Home</name>
