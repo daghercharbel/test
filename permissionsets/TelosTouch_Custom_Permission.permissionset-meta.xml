@@ -940,6 +940,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insights__c.Completed_and_Sync__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insights__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
