@@ -29,17 +29,18 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 * @return Database.QueryLocator taskquery ......
 */
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        String taskquery = 'SELECT Who.Name, Owner.id, ';
-        if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isQueryable()){
-            for(String fieldAPI : Schema.getGlobalDescribe().get('Task').getDescribe().fields.getMap().keySet()){
-                if((fieldAPI != 'whatid') && (fieldAPI != 'type')){
-                    taskquery += fieldAPI + ',';
-                }
-            }
+        String taskquery = 'SELECT Who.Name, Owner.id ';
+        
+        for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                WHERE TelosTouchSF__Object_Name__c = 'Task' 
+                                                                AND TelosTouchSF__Salesforce_Field__c != 'WhatId'])
+        {
+            taskquery += ',' + fieldAPI.TelosTouchSF__Salesforce_Field__c;
         }
-        taskquery = taskquery.subString(0, taskquery.length() - 1);
         String sharedStatus = 'Yes';
-        taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus AND WhoId != NULL ALL ROWS';
+        taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus';
+        taskquery += ' AND WhoId != NULL AND TelosTouchSF__TT_Needs_Sync__c = true ALL ROWS';
         return Database.getQueryLocator(String.escapeSingleQuotes(taskquery));
     }
     /**
@@ -50,27 +51,6 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 * @param tasklist ...
 */
     global void execute(Database.BatchableContext BC, List<Task> tasklist) {
-        Boolean returnValue;
-        if(syncObject != null){
-            returnValue = !forFirstTime;
-        }else{
-            returnValue = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
-        }
-        if(returnValue){
-            for(Integer i=0; i < taskList.size() ; i++){
-                Datetime taskLastModifiedTime;
-                Datetime taskLastSyncTime;
-                if( taskList[i].TelosTouchSF__TT_LastSyncTime__c != null){
-                    taskLastSyncTime = Datetime.newInstance(taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().year(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().month(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.date().day(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.time().hour(), taskList[i].TelosTouchSF__TT_LastSyncTime__c.time().minute(), 0);
-                    taskLastModifiedTime = Datetime.newInstance(taskList[i].LastModifiedDate.date().year(), taskList[i].LastModifiedDate.date().month(), taskList[i].LastModifiedDate.date().day(), taskList[i].LastModifiedDate.time().hour(), taskList[i].LastModifiedDate.time().minute(), 0);
-                }
-                if( !((taskList[i].TelosTouchSF__TT_LastSyncTime__c == null && taskList[i].TelosTouchSF__TT_TaskId__c == null)
-                        || (taskLastModifiedTime > taskLastSyncTime)) ){
-                          taskList.remove(i);
-                          --i;
-                      }
-            }
-        }
         if((tasklist != null) && (tasklist.size() > 0)){
             TelosTouchSF.SFDataSyncWithTelosTouch.taskLogWrapper taskLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.syncAllTaskstoTTActions(tasklist);
             if(taskLogObj != null && taskLogObj.taskSuccessCount != null){
