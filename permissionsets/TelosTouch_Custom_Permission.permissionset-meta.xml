@@ -895,6 +895,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.TT_Needs_Sync__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.TT_TaskId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -931,11 +936,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insights__c.Completed_At__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insights__c.Completed_and_Sync__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1241,6 +1241,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.TT_Client_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TT_Needs_Sync__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
