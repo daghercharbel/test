@@ -456,6 +456,22 @@
         <value>Completed</value>
     </labels>
     <labels>
+        <fullName>Compliance_Message</fullName>
+        <categories>Touchpoint Template</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Compliance Message</shortDescription>
+        <value>I confirm that I have followed all of the required steps of my firm&apos;s compliance processes for external communications, including the approval of such communication as and when required. I further acknowledge that a copy of this touchpoint will be sent to my inbox as part of my firm’s internal records retention and compliance supervision framework.</value>
+    </labels>
+    <labels>
+        <fullName>Compliance_Title</fullName>
+        <categories>Touchpoint Template</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Compliance Title</shortDescription>
+        <value>Compliance Confirmation</value>
+    </labels>
+    <labels>
         <fullName>Config_Authentication_URL</fullName>
         <language>en_US</language>
         <protected>true</protected>

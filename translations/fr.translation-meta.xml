@@ -265,6 +265,14 @@
         <name>Completed_Text</name>
     </customLabels>
     <customLabels>
+        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme concernant les communications externes, incluant l&apos;approbation de ces communications, si et quand il est requis de la faire. Je comprends aussi qu&apos;une copie de ce TouchPoint sera transmise à ma boîte de courriels et sera assujettie aux règles de rétention et au processus de supervision de la firme.</label>
+        <name>Compliance_Message</name>
+    </customLabels>
+    <customLabels>
+        <label>Conformité confirmation</label>
+        <name>Compliance_Title</name>
+    </customLabels>
+    <customLabels>
         <label>URL d&apos;identification</label>
         <name>Config_Authentication_URL</name>
     </customLabels>
