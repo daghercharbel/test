@@ -2365,7 +2365,7 @@ return null;
             if(UserInfo.getLanguage() == 'en_US'){
                 iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken + '&lang=en_US';
             }else if(UserInfo.getLanguage() == 'fr_FR'){
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken  + '&lang=en_US';
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken  + '&lang=fr_FR';
             }
             System.debug('iframe url:: '+ iFrameURL);
             return iFrameURL;
