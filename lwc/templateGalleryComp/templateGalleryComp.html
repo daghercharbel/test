@@ -83,7 +83,7 @@
           <lightning-button variant="brand" label={label.Back_Button_Label} title={label.Back_Button_Label}
             icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
           <lightning-button variant="brand" class="previewSaveButton" label={label.Save_Button_Label}
-            title={label.Save_Button_Label} onclick={complianceMessage}>
+            title={label.Save_Button_Label} onclick={toggleCompliance}>
           </lightning-button>
         </div>
         <hr class="hrclass">
@@ -102,7 +102,7 @@
           <p>{label.Compliance_Message}</p>
         </div>
         <div class="slds-modal__footer">
-          <lightning-button label={label.Cancel_Button_Label} onclick={complianceMessage} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small"></lightning-button>
           <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate} class="slds-m-left_x-small"></lightning-button>
         </div>
       </div>

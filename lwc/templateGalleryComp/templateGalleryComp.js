@@ -329,7 +329,7 @@ export default class TemplateGalleryComp extends LightningElement {
     this.connectedCallback();
   }
 
-  complianceMessage(){
+  toggleCompliance(){
     this.showCompliance = !this.showCompliance;
   }
 
@@ -373,7 +373,7 @@ export default class TemplateGalleryComp extends LightningElement {
       // console.log(error);
       })
       .finally(() => {
-          this.complianceMessage();
+          this.toggleCompliance();
       });
   }
 
