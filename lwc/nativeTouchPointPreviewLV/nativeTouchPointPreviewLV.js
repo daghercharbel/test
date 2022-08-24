@@ -121,12 +121,41 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
   handleSearchInput(event) {
     let searchKey = event.target.value.toLowerCase();
     let filteredTemplates = [];
-    this.templateList.forEach(ele => {
-      if (ele.name.toLowerCase().includes(searchKey)) {
-        filteredTemplates.push(ele);
+    if(!this.fr){
+      if(this.privateFlag){
+        this.privateTemplateList.forEach((ele) => {
+          if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
+      }else{
+        this.alltemplateList.forEach((ele) => {
+          if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
       }
-    })
-    if (event.target.value.length > 0) {
+    }else{
+      if(this.privateFlag){
+        this.privateTemplateList.forEach((ele) => {
+          if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
+      }else{
+        this.alltemplateList.forEach((ele) => {
+          if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
+      }
+    }
+    // this.templateList.forEach(ele => {
+    //   if (ele.name.toLowerCase().includes(searchKey)) {
+    //     filteredTemplates.push(ele);
+    //   }
+    // })
+    if (event.target.value.trim().length > 0) {
       this.templateList = filteredTemplates;
     } else {
       if (this.privateFlag) {
@@ -148,6 +177,9 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     } else {
       this.templateList = this.alltemplateList;
     }
+    this.currentPage = 1;
+    this.prevPage = 1;
+    this.nextPage = 2;
     this.totalPage = Math.ceil(this.templateList.length / this.recordSize);
     this.updateRecords();
   }
