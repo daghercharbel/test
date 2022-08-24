@@ -2188,6 +2188,23 @@ return null;
         }
     }
     /**
+* @author Charbel Dagher
+* @date 19/07/2022
+* @description This method calls the job to refresh the token
+* @return response
+*/
+    @AuraEnabled
+    public static string refreshTokenController(){
+        try {
+            System.enqueueJob(new TelosTouchSF.UpdateUserTokenQueueable());
+            return 'success';
+        }catch (Exception ex) {
+            System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            return null;
+        }
+        
+    }    
+    /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to fetch the touchpoint templates.
@@ -2395,7 +2412,7 @@ return null;
                         Map<String, Object> objectMap  = (Map<String, Object>) obj; 
                         if(objectMap.containsKey('id') && objectMap.get('id') == campObj.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage() == 'en_US')){
                             templateName = (String) objectMap.get('name');
-                        }else if(objectMap.containsKey('id') && objectMap.get('id') == campObj.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage() == 'fr_FR')){
+                        }else if(objectMap.containsKey('id') && objectMap.get('id') == campObj.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage() == 'fr')){
                             templateName = (String) objectMap.get('name_fr');
 
                         }
