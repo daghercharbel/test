@@ -2188,6 +2188,23 @@ return null;
         }
     }
     /**
+* @author Charbel Dagher
+* @date 19/07/2022
+* @description This method calls the job to refresh the token
+* @return response
+*/
+    @AuraEnabled
+    public static string refreshTokenController(){
+        try {
+            System.enqueueJob(new TelosTouchSF.UpdateUserTokenQueueable());
+            return 'success';
+        }catch (Exception ex) {
+            System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            return null;
+        }
+        
+    }    
+    /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to fetch the touchpoint templates.
@@ -2233,7 +2250,6 @@ return null;
                     parser.nextToken();
                     parser.nextValue();
                     Datetime dt = DateTime.newInstance( parser.getDateTimeValue().getTime());
-                    system.debug('Test');
                     if(UserInfo.getLanguage().contains('en')){
                         if(responseMap.get('is_private') == true){
                             returnMap.put('label', String.valueOf(responseMap.get('name')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss') + ' : 🔒');
