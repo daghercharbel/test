@@ -49,7 +49,6 @@ export default  class KnowledgeBase extends LightningElement {
 
     @track mapData2 = {};
     connectedCallback() {
-        console.log('BeginTEst');
         if(FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small'){
             isSmallDevice = true;
         }
