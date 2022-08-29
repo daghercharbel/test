@@ -328,7 +328,7 @@
 
         this.getTemplateAmount(c).then(function(result){
             let initialAmount = result;
-            if(!isNaN(initialAmount)){ c.set('v.initialTemplateAmount', initialAmount); }
+            c.set('v.initialTemplateAmount', initialAmount);
         })
         
     },
