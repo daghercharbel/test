@@ -2403,10 +2403,8 @@ return null;
             String templateName = '';
             Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             if(campObj.TelosTouchSF__TouchPoint_Template_Id__c !=null){
-                String response = TemplateGalleryCompHandler.getTouchPointTemplates();
-                System.debug('response : '+ response);
+                String response = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin();
                 List<Object> returnedObjList = (List<Object>) JSON.deserializeUntyped(response);
-                System.debug('returned list: '+ returnedObjList);
                 if(returnedObjList.size()>0){
                     for(Object obj : returnedObjList){
                         Map<String, Object> objectMap  = (Map<String, Object>) obj; 
