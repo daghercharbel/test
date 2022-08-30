@@ -18,7 +18,6 @@ public without sharing class KnowledgeBaseCompController {
             for (TelosTouchSF__Knowledge_base_image__mdt TTKbi : TTKbis) {
                 imgMap.put(TTKbi.QualifiedApiName,TTKbi.TelosTouchSF__Image_Url__c);
             }
-            system.debug('imgMap'+ imgMap);
             return JSON.serialize(imgMap);
             
         }catch(Exception ex){
