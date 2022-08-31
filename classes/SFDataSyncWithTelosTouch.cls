@@ -263,6 +263,7 @@ global with sharing class SFDataSyncWithTelosTouch {
                                                 && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isCreateable()
                                                 && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() ) {
                                             taskObj1.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
+                                            taskObj1.TelosTouchSF__TT_Needs_Sync__c = false;
                                             newtasklist.add(taskObj1);
                                         }
                                     }
@@ -312,6 +313,7 @@ global with sharing class SFDataSyncWithTelosTouch {
                                                     && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() && Schema.sObjectType.Task.fields.TelosTouchSF__TT_LastSyncTime__c.isCreateable()) {
                                                 taskObj1.TelosTouchSF__TT_TaskId__c = otherIdVsTTTaskIdMap.get(taskObj1.Id);
                                                 taskObj1.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
+                                                taskObj1.TelosTouchSF__TT_Needs_Sync__c = false;
                                                 taskLogObj.taskSuccessCount++;
                                                 newtasklist.add(taskObj1);
                                             }

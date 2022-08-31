@@ -76,7 +76,14 @@
         <connector>
             <targetReference>Filter_Task</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>TT_Needs_Sync__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <filters>
             <field>Share_with_client_s__c</field>
             <operator>EqualTo</operator>
@@ -84,9 +91,16 @@
                 <stringValue>Yes</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>Share_with_client_s__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <object>Task</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>
