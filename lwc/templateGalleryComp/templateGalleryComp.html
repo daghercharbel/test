@@ -83,7 +83,7 @@
           <lightning-button variant="brand" label={label.Back_Button_Label} title={label.Back_Button_Label}
             icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
           <lightning-button variant="brand" class="previewSaveButton" label={label.Save_Button_Label}
-            title={label.Save_Button_Label} onclick={storeTemplate}>
+            title={label.Save_Button_Label} onclick={toggleCompliance}>
           </lightning-button>
         </div>
         <hr class="hrclass">
@@ -91,5 +91,22 @@
         </c-show-touch-point-preview>
       </div>
     </template>
+  </template>
+  <template if:true={showCompliance}>
+    <section class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <div class="slds-modal__header">
+          <h1 class="slds-modal__title slds-hyphenate">{label.Compliance_Title}</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_medium" >
+          <p>{label.Compliance_Message}</p>
+        </div>
+        <div class="slds-modal__footer">
+          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate} class="slds-m-left_x-small"></lightning-button>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
   </template>
 </template>

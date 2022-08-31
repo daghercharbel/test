@@ -247,6 +247,7 @@
                     if (!$A.util.isEmpty(storedResponse)){
                        
                         c.set("v.iFrameURL", storedResponse);
+                        this.setInitialTemplateAmount(c);
                         $A.createComponent(
                             "c:ModalBodyComponent",
                             {
@@ -262,7 +263,21 @@
                                   body: content,
                                   showCloseButton: true,
                                   cssClass: "customize-modal",
-                                  closeCallback: function () { }
+                                  closeCallback: function () { 
+                                    
+                                    let initialAmount = c.get('v.initialTemplateAmount');
+                                    
+                                    h.getTemplateAmount(c).then(function(result){
+
+                                        let currentAmount = result;
+
+                                        if(!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount){
+                                            h.clearTemplateId(c, e, h);
+                                        }
+
+                                    });
+
+                                  }
                                 });
                               }
                             }
@@ -285,6 +300,48 @@
             //console.log(ex);
         }
     },
+
+    getTemplateAmount : function(c){
+
+        var p = new Promise( $A.getCallback( function( resolve , reject ) { 
+            var action = c.get('c.getTouchPointTemplates');
+            action.setCallback(this,function (response) {
+                var state = response.getState();
+                var result = response.getReturnValue();
+                if(state == 'SUCCESS'){
+                    if(!$A.util.isEmpty(result)){
+                        let lstTemplate = JSON.parse(result);
+                        resolve(lstTemplate.length);
+                    } else {
+                        resolve(null);
+                    }
+                } else {
+                    resolve(null);
+                }
+            });
+            $A.enqueueAction(action);
+        }));            
+        return p;
+    },
+
+    setInitialTemplateAmount : function(c){
+
+        this.getTemplateAmount(c).then(function(result){
+            let initialAmount = result;
+            c.set('v.initialTemplateAmount', initialAmount);
+        })
+        
+    },
+    
+    clearTemplateId : function(c, e, h){
+
+        c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', null);
+        c.find("recordHandler").saveRecord();
+        c.set('v.templateValue', "");
+        $A.get('e.force:refreshView').fire();
+        
+    },
+
     showTemplateName: function (c, e, h) {
         try {
             var action = c.get('c.fetchSelectedTouchPointTemplate');

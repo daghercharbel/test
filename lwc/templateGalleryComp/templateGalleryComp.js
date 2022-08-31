@@ -15,7 +15,10 @@ import French_Text from "@salesforce/label/c.French_Text";
 import TouchPointTemplateNotSaved_Text from "@salesforce/label/c.TouchPointTemplateNotSaved_Text";
 import TouchPointTemplateSaved_Text from "@salesforce/label/c.TouchPointTemplateSaved_Text";
 import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
+import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
 import Back_Button_Label from "@salesforce/label/c.Back_Button_Label";
+import Compliance_Title from "@salesforce/label/c.Compliance_Title";
+import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Private_Text from "@salesforce/label/c.Private_Text";
 import Search_Text from "@salesforce/label/c.Search_Text";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -32,9 +35,12 @@ export default class TemplateGalleryComp extends LightningElement {
     TouchPointTemplateSaved_Text,
     TouchPointTemplateNotSaved_Text,
     Back_Button_Label,
+    Cancel_Button_Label,
     Save_Button_Label,
     Private_Text,
-    Search_Text
+    Search_Text,
+    Compliance_Title,
+    Compliance_Message
   };
   @api isOpenTouchPoints = false;
   @api campSfId;
@@ -50,6 +56,7 @@ export default class TemplateGalleryComp extends LightningElement {
   previewBody = false;
   isTemplatePresent = false;
   fr = false;
+  showCompliance = false;
   iframeURL;
   @track urls={};
   templatesList = [];
@@ -322,11 +329,12 @@ export default class TemplateGalleryComp extends LightningElement {
     this.connectedCallback();
   }
 
-
+  toggleCompliance(){
+    this.showCompliance = !this.showCompliance;
+  }
 
   storeTemplate() {
-    // console.log('template id: '+ this.templateId);
-    // console.log('Campaign Id: '+ this.campSfId);
+
     SaveTouchPointTemplate({campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId})
       .then((data) => {
         if (data) {
@@ -363,6 +371,9 @@ export default class TemplateGalleryComp extends LightningElement {
       this.isTemplatePage = true;
       this.previewBody = false;
       // console.log(error);
+      })
+      .finally(() => {
+          this.toggleCompliance();
       });
   }
 
