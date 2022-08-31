@@ -30,6 +30,13 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 */
     global Database.QueryLocator start(Database.BatchableContext BC) {
         String taskquery = 'SELECT Who.Name, Owner.id ';
+
+        Boolean isSoftSync;
+        if(syncObject != null){
+            isSoftSync = !forFirstTime;
+        }else{
+            isSoftSync = adminCredentials.TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c;
+        }
         
         for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                                 FROM TelosTouchSF__TT_Salesforce_Mapping__c 
@@ -40,7 +47,8 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
         }
         String sharedStatus = 'Yes';
         taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus';
-        taskquery += ' AND WhoId != NULL AND TelosTouchSF__TT_Needs_Sync__c = true ALL ROWS';
+        if(isSoftSync){ taskquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true'; }
+        taskquery += ' AND WhoId != NULL ALL ROWS';
         return Database.getQueryLocator(String.escapeSingleQuotes(taskquery));
     }
     /**
