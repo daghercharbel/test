@@ -1760,7 +1760,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             contactSuccessCount = 0;
             contactErrorCount = 0;
             leadSuccessCount = 0;
-            leadErrorCount = 0;
+            leadErrorCount = 0; 
         }
     }
     /**
