@@ -2791,7 +2791,7 @@ return null;
 */
         public AdminCredentialsWrapper(TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials, TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials){
             Access_Token = authenticationCredentials.TelosTouchSF__Access_Token__c;
-            Approval = adminCredentials.TelosTouchSF__Approval__c;
+            Approval = adminCredentials.TelosTouchSF__Approval__c; 
             Client_ID = authenticationCredentials.TelosTouchSF__Client_ID__c;
             Client_Secret = authenticationCredentials.TelosTouchSF__Client_Secret__c;
             ConfigPageVisible = adminCredentials.TelosTouchSF__ConfigPageVisible__c;
