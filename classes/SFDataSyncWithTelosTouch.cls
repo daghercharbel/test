@@ -52,7 +52,9 @@ global with sharing class SFDataSyncWithTelosTouch {
         //string cstmLabel1 = System.Label.ShowTTConfigPageFrench;
         if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() && Schema.SObjectType.Profile.isAccessible() && Schema.SObjectType.Profile.isQueryable() &&
                 Schema.sObjectType.User.fields.profileId.isAccessible()){
-            user = [SELECT Id FROM User WHERE Id=:UserId AND profileId =:[SELECT Id FROM Profile WHERE (Name = 'System Administrator' OR Name =: adminCredentials.TelosTouchSF__ConfigPageVisible__c) OR (Name = 'Administrateur système')]];
+            String strSystemAdministrator = 'System Administrator';
+            String strAdministrateursysteme = 'Administrateur système';
+            user = [SELECT Id FROM User WHERE Id=:UserId AND profileId =:[SELECT Id FROM Profile WHERE (Name =: strSystemAdministrator OR Name =: adminCredentials.TelosTouchSF__ConfigPageVisible__c) OR (Name =: strAdministrateursysteme)]];
             if(user.size() >0){
                 isAdmin = true;
             }else{
@@ -105,7 +107,8 @@ global with sharing class SFDataSyncWithTelosTouch {
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isAccessible()){
-                TasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c='Task' AND TelosTouchSF__Is_Deleted__c= false LIMIT 50000];
+                        String strTask = 'Task';
+                        TasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: strTask AND TelosTouchSF__Is_Deleted__c= false LIMIT 50000];
             }
             if(adminCredentials != null){
                 String endPointURL='';
@@ -446,7 +449,8 @@ global with sharing class SFDataSyncWithTelosTouch {
             Integer offset = (pNumber - 1) * pSize;
             Integer totalRecords;
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isQueryable()){
-                totalRecords = [SELECT COUNT() FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c='Main Log' LIMIT 50000];
+                String strMainLog = 'Main Log';
+                totalRecords = [SELECT COUNT() FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c =: strMainLog LIMIT 50000];
             }
             Integer recordEnd = pSize * pNumber;
             contactDataTableWrapper objDT =  new contactDataTableWrapper();
@@ -468,7 +472,8 @@ global with sharing class SFDataSyncWithTelosTouch {
                     Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Total_Records_Count__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.Name.isAccessible()){
-                objDT.allLogsList = [SELECT id, Name, TelosTouchSF__Result__c, TelosTouchSF__LastUpdated__c, CreatedDate, TelosTouchSF__Total_Records_Count__c, TelosTouchSF__Comments__c, TelosTouchSF__Comments_FR__c FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c='Main Log'  ORDER  BY CreatedDate DESC LIMIT :pSize OFFSET :offset];
+                String strMainLog = 'Main Log';
+                objDT.allLogsList = [SELECT id, Name, TelosTouchSF__Result__c, TelosTouchSF__LastUpdated__c, CreatedDate, TelosTouchSF__Total_Records_Count__c, TelosTouchSF__Comments__c, TelosTouchSF__Comments_FR__c FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c =: strMainLog ORDER  BY CreatedDate DESC LIMIT :pSize OFFSET :offset];
 
             }
             return objDT;
@@ -494,7 +499,8 @@ global with sharing class SFDataSyncWithTelosTouch {
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isQueryable() &&
                     Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__LastUpdated__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible()){
-                logsList = [SELECT id,TelosTouchSF__LastUpdated__c,TelosTouchSF__Comments__c, TelosTouchSF__Comments_FR__c FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c='Main Log' ORDER  BY TelosTouchSF__LastUpdated__c  DESC LIMIT 1];
+                String strMainLog = 'Main Log';
+                logsList = [SELECT id,TelosTouchSF__LastUpdated__c,TelosTouchSF__Comments__c, TelosTouchSF__Comments_FR__c FROM TelosTouchSF__TT_Log__c WHERE TelosTouchSF__Log_Type__c =: strMainLog ORDER  BY TelosTouchSF__LastUpdated__c  DESC LIMIT 1];
             }
             if(logsList.size() >0){
                 wrapper.allLogsList = logsList;
@@ -506,9 +512,16 @@ global with sharing class SFDataSyncWithTelosTouch {
             if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
                     Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
                     Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
-                asyncApexJobList = [SELECT Id,ApexClass.Name FROM AsyncApexJob WHERE (Status != 'Aborted' AND Status != 'Completed' AND Status != 'Failed') AND (ApexClass.Name ='GetClientsFromTTQueueable'
-                OR ApexClass.Name ='GetTaskFromTTQueueable'
-                OR ApexClass.Name ='GetCampaignsFromTTQueueable')
+                        String strAborted                       = 'Aborted';
+                        String strCompleted                     = 'Completed';
+                        String strFailed                        = 'Failed';
+                        String strGetClientsFromTTQueueable     = 'GetClientsFromTTQueueable';
+                        String strGetTaskFromTTQueueable        = 'GetTaskFromTTQueueable';
+                        String strGetCampaignsFromTTQueueable   = 'GetCampaignsFromTTQueueable';
+
+                asyncApexJobList = [SELECT Id,ApexClass.Name FROM AsyncApexJob WHERE (Status !=: strAborted AND Status !=: strCompleted AND Status !=: strFailed ) AND (ApexClass.Name =: strGetClientsFromTTQueueable
+                OR ApexClass.Name =: strGetTaskFromTTQueueable
+                OR ApexClass.Name =: strGetCampaignsFromTTQueueable)
                 LIMIT 3];
             }
             if (asyncApexJobList.size() > 0) {
@@ -572,14 +585,16 @@ global with sharing class SFDataSyncWithTelosTouch {
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible()){
-                contactTelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c='Contact' AND TelosTouchSF__Is_Deleted__c=false LIMIT 500 ];
+                String strContact = 'Contact';
+                contactTelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: strContact AND TelosTouchSF__Is_Deleted__c=false LIMIT 500 ];
             }
             if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isQueryable() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible()){
-                leadTelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c='Lead' AND TelosTouchSF__Is_Deleted__c = false LIMIT 500  ];
+                String strLead = 'Lead';
+                leadTelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: strLead AND TelosTouchSF__Is_Deleted__c = false LIMIT 500  ];
             }
             clientLogWrapper clientLogObj = new clientLogWrapper();
             if(createdcontactlist != null && createdcontactlist.size()> 0){
@@ -1529,7 +1544,7 @@ global with sharing class SFDataSyncWithTelosTouch {
 
 	String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+res.getBody();	
         TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'registerOrgOnTelosTouch', null);
-
+        
         if(res.getStatusCode() == 422){
             //Org is Already Registered
             adminCredentials.TelosTouchSF__Registration_Successful__c = true;
@@ -1575,10 +1590,9 @@ global with sharing class SFDataSyncWithTelosTouch {
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
-
+            
             String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+res.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'checkIfEnterpriseClient', null)
-
             if(res.getStatusCode()==404){
                 return false;
             }else{
@@ -1777,4 +1791,4 @@ global with sharing class SFDataSyncWithTelosTouch {
             taskErrorCount = 0;
         }
     }
-}
+} 
