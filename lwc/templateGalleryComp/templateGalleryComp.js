@@ -310,6 +310,10 @@ export default class TemplateGalleryComp extends LightningElement {
     this.generateIFrame();         
 
   }
+
+  /**
+   * Responsible for state management of the All/Private toggle
+   */
   showDataBasedOnPrivate(){
     // console.log('private toogle on? '+ this.isPrivateToggle);
     if(this.isPrivateToggle){
