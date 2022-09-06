@@ -110,7 +110,7 @@
                     <aura:set attribute="label">
                             {!$Label.c.Knowledge_Base_Text}
                     </aura:set>
-                    <c:KnowledgeBase></c:KnowledgeBase> 
+                    <c:knowledgeBase></c:knowledgeBase> 
                     <c:ttcontactSupport tabName="NotTelosTouchSync"/>
                 </lightning:tab>
             </lightning:tabset>
