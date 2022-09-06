@@ -435,7 +435,7 @@
       }
       h.getSelectedClientsRecords(c, e, h, updatedWithCheckboxList);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
   },

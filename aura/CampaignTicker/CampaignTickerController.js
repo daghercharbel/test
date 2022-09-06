@@ -12,7 +12,7 @@
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
-            console.log('inside emp');
+            // console.log('inside emp');
             h.doInitHelper(c, e, h);
             //h.openSendTouchpointModal(c, e, h);
           }
@@ -24,7 +24,7 @@
         // console.log('Ticker Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
-      console.log('outside emp');
+      // console.log('outside emp');
     h.doInitHelper(c, e, h);
   },
   
