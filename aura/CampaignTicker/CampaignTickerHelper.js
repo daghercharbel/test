@@ -1,6 +1,7 @@
 ({
     doInitHelper: function (c, e, h) {
         try {
+            console.log('campaign ticker comp:');
             var action = c.get('c.getCampaignDetails');
         action.setParams({
             'campSfId': c.get('v.recordId')
@@ -334,12 +335,16 @@
     },
     
     clearTemplateId : function(c, e, h){
-
-        c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', null);
-        c.find("recordHandler").saveRecord();
-        c.set('v.templateValue', "");
-        $A.get('e.force:refreshView').fire();
-        
+        try {
+            c.set("v.templateNamePresent", false);
+            c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', null);
+            c.find("recordHandler").saveRecord($A.getCallback(function(saveResult) {
+            }));
+            c.set('v.templateValue', "");
+            $A.get('e.force:refreshView').fire();
+        } catch (error) {
+            
+        }
     },
 
     showTemplateName: function (c, e, h) {
