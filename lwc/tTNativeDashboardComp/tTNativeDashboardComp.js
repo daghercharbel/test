@@ -40,7 +40,7 @@ export default class TTNativeDashboardComp extends NavigationMixin(LightningElem
           this.progressDataPresent = true;
         }
       }).catch(error => {
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -48,22 +48,22 @@ export default class TTNativeDashboardComp extends NavigationMixin(LightningElem
     getChartData()
       .then(data => {
         let dataObj = JSON.parse(data);
-        console.log(dataObj);
-        console.log(Object.keys(dataObj));
+        // console.log(dataObj);
+        // console.log(Object.keys(dataObj));
         let keyList = Object.keys(dataObj);
-        console.log(keyList);
+        // console.log(keyList);
         keyList.forEach(element => {
-          console.log(dataObj[element]);
-          console.log(Math.round((dataObj[element].opened / dataObj[element].sent) * 100));
-          console.log(Math.round((dataObj[element].completed / dataObj[element].sent) * 100));
-          console.log(element);
+          // console.log(dataObj[element]);
+          // console.log(Math.round((dataObj[element].opened / dataObj[element].sent) * 100));
+          // console.log(Math.round((dataObj[element].completed / dataObj[element].sent) * 100));
+          // console.log(element);
           this.chartLabels.push(element);
           this.chartData.push(Math.round((dataObj[element].opened / dataObj[element].sent) * 100));
           this.chartData2.push(Math.round((dataObj[element].completed / dataObj[element].sent) * 100));
         });
         this.intializeCharts();
       }).catch(error => {
-        console.log(error);
+        // console.log(error);
       });
   }
   intializeCharts() {

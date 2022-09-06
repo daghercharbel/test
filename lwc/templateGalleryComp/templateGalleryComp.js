@@ -113,9 +113,9 @@ export default class TemplateGalleryComp extends LightningElement {
     getTouchPointTemplates()
       .then((data) => {
         if (data) {
-          console.log(
-            " response templates: " + JSON.stringify(JSON.parse(data))
-          );
+          // console.log(
+          //   " response templates: " + JSON.stringify(JSON.parse(data))
+          // );
           this.templatesList = JSON.parse(data);
           this.mainTemplateList = this.templatesList;
           for (let x of this.templatesList) {
