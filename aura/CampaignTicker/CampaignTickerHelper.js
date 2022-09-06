@@ -1,6 +1,7 @@
 ({
     doInitHelper: function (c, e, h) {
         try {
+            console.log('campaign ticker comp:');
             var action = c.get('c.getCampaignDetails');
         action.setParams({
             'campSfId': c.get('v.recordId')

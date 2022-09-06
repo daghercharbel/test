@@ -1,6 +1,7 @@
 ({
     doInit_helper: function (c, e, h) {
         try {
+            console.log('doinit of ttfilter');
             if(c.get('v.showCreateSingleActions')){
                 c.set("v.columns", [
                     {

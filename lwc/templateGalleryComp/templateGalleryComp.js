@@ -109,14 +109,13 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   };
 
-
   getTemplates() {
     getTouchPointTemplates()
       .then((data) => {
         if (data) {
-          // console.log(
-          //   " response templates: " + JSON.stringify(JSON.parse(data))
-          // );
+          console.log(
+            " response templates: " + JSON.stringify(JSON.parse(data))
+          );
           this.templatesList = JSON.parse(data);
           this.mainTemplateList = this.templatesList;
           for (let x of this.templatesList) {
@@ -165,7 +164,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.updateRecords();
   }
 
-
   handleSearchInput(event) {
     try {
       let searchKey = event.target.value.toLowerCase();
@@ -176,7 +174,7 @@ export default class TemplateGalleryComp extends LightningElement {
         if (this.isPrivateToggle) {
           //console.log('private');
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -184,7 +182,7 @@ export default class TemplateGalleryComp extends LightningElement {
         } else {
           // console.log('templateList size:: '+ this.templatesList.length);
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -194,13 +192,13 @@ export default class TemplateGalleryComp extends LightningElement {
         //console.log('french');
         if (this.isPrivateToggle) {
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
         } else {
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -237,8 +235,6 @@ export default class TemplateGalleryComp extends LightningElement {
     return this.currentPage >= this.totalPage;
   }
 
-
-
   previousHandler() {
     if (this.currentPage > 1) {
       this.currentPage = this.currentPage - 1;
@@ -247,7 +243,6 @@ export default class TemplateGalleryComp extends LightningElement {
       this.updateRecords();
     }
   }
-
 
   nextHandler() {
     if (this.currentPage < this.totalPage) {
@@ -258,20 +253,15 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   nextPageAction() {
     this.currentPage = this.nextPage;
     this.updateRecords();
   }
 
-
-
   prevPageAction() {
     this.currentPage = this.prevPage;
     this.updateRecords();
   }
-
-
 
   updateRecords() {
     try {
@@ -312,7 +302,6 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   openSelectedTemplatePreview(event) {
     this.templateId = event.currentTarget.dataset.id;
     this.isTemplatePage = false;
@@ -320,7 +309,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.generateIFrame();         
 
   }
-
 
   handleBackbuttonAction() {
     this.isTemplatePage = true;
@@ -334,7 +322,6 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   storeTemplate() {
-
     SaveTouchPointTemplate({campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId})
       .then((data) => {
         if (data) {
@@ -377,8 +364,6 @@ export default class TemplateGalleryComp extends LightningElement {
       });
   }
 
-
-
   generateIFrame(){
     generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
@@ -389,7 +374,6 @@ export default class TemplateGalleryComp extends LightningElement {
         // console.log(error);
       }); 
   }
-
 
   handleLangChange(event) {
     try {

@@ -1,6 +1,7 @@
 ({
   doinit_Helper: function (c, e, h) {
     try {
+      console.log('doinit of openat completed at :');
       var recordId = c.get("v.recordId");
       var action = c.get("c.getConversationRecords");
       action.setParams({
