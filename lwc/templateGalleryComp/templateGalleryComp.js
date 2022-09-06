@@ -137,6 +137,7 @@ export default class TemplateGalleryComp extends LightningElement {
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
       }
+        this.showDataBasedOnPrivate();
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
         this.updateRecords();
       })
@@ -309,10 +310,22 @@ export default class TemplateGalleryComp extends LightningElement {
     this.generateIFrame();         
 
   }
+  showDataBasedOnPrivate(){
+    // console.log('private toogle on? '+ this.isPrivateToggle);
+    if(this.isPrivateToggle){
+      this.templatesList = this.privateTemplatesList;
+    }else{
+      this.templatesList = this.mainTemplateList;
+    }
+  }
 
   handleBackbuttonAction() {
     this.isTemplatePage = true;
     this.previewBody = false;
+    this.privateTemplatesList = [];
+    this.templatesList = [];
+    this.mainTemplateList = [];
+    this.isPrivateToggle = this.isPrivateToggle? this.isPrivateToggle:this.isPrivateToggle;
     // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
