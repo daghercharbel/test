@@ -287,7 +287,7 @@ returnMap.put(dfield.getLabel(),dfield.getName());
                     request.setBody(jsonMap);
                     request.setTimeout(45000);
                     HttpResponse response = http.send(request);
-                    String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();
+                    String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
                     TelosTouchUtility.generateLog(respMessage, 'TelosTouchMapping', 'sendCustomFieldsSFToTT', null);
                     
                     if (response.getStatusCode() == 200) {
