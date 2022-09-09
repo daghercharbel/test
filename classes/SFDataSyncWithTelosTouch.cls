@@ -1592,7 +1592,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             res = http.send(req);
             
             String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+res.getBody();	
-            TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'checkIfEnterpriseClient', null)
+            TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'checkIfEnterpriseClient', null);
             if(res.getStatusCode()==404){
                 return false;
             }else{
