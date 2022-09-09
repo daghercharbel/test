@@ -24,7 +24,7 @@ public with sharing class CreateRemoteSiteSetting {
         Http http = new Http();
         HttpResponse res = http.send(req);
         string resbody = res.getBody();
-        String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+resbody;
+        String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+resbody;
         TelosTouchUtility.generateLog(respMessage, 'CreateRemoteSiteSetting', 'getremoteSiteSetting', null);
         remotesitesettingswrapper rss = new remotesitesettingswrapper();
         rss = (remotesitesettingswrapper) System.JSON.deserialize(
@@ -127,7 +127,7 @@ UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has bee
             request.setBody(json);
             Http http = new Http();
             HttpResponse response = http.send(request);
-            String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();
+            String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
             TelosTouchUtility.generateLog(respMessage, 'CreateRemoteSiteSetting', 'remoteSiteSetting1', null);
             return response;
         } catch (Exception ex) {

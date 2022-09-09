@@ -503,7 +503,7 @@ return null;
             request.setHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.setBody(body);
             HttpResponse response = http.send(request);
-	        String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
+	        String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getAdminAccessToken', null);
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -559,7 +559,7 @@ return null;
         request.setBody(body);
         HttpResponse response = http.send(request);
         //System.debug('response Body:: '+response.getBody());
-	    String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
+	    String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
         TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'refreshAdminAccessToken', null);
         if (response.getStatusCode() == 200) {
             Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -742,7 +742,7 @@ return null;
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
-	                        String respMessage = 'Response Status Code: '+teamIdResponse.get('status_code')+'| Response Body: '+teamIdResponse.get('body');	
+	                        String respMessage = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');	
                             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getUserAccessToken', null);
                             teamId = teamIdResponse.get('body');
                         }
@@ -1008,7 +1008,7 @@ return null;
             //System.debug('Request Body:: '+body);
             HttpResponse response = http.send(request);
             //System.debug('Response Body:: '+response.getBody());
-	        String respMessage = 'Response Status Code: '+response.getstatusCode()+'| Response Body: '+response.getBody();	
+	        String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getTokenForEachUser', null);
             if(response.getBody() != null){
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -2205,7 +2205,7 @@ return null;
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
-            String respMessage = 'Response Status Code: '+res.getstatusCode()+'| Response Body: '+res.getBody();	
+            String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
             TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'checkIfEnterpriseClient', null); 
             if(res.getStatusCode()==404){
                 return false;
@@ -2232,7 +2232,7 @@ return null;
         System.debug(aMessage);
         if(TT_FeatureSettingsController.getFinestLogValue()){
             aMessage = aMessage.abbreviate(255);
-            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Log', aMessage, recordId));
+            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));
         }
     }
     
