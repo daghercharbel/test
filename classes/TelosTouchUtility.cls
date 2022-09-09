@@ -2231,7 +2231,7 @@ return null;
         String aMessage = className+'.'+classMethod+': '+message;
         System.debug(aMessage);
         if(TT_FeatureSettingsController.getFinestLogValue()){
-            aError = aError.abbreviate(255);
+            aMessage = aMessage.abbreviate(255);
             Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Log', aMessage, recordId));
         }
     }
