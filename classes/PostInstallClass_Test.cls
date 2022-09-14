@@ -21,7 +21,6 @@ public with sharing class PostInstallClass_Test {
             TelosTouchSF.PermissionSetForInsightObjMD obj = new  TelosTouchSF.PermissionSetForInsightObjMD();
             obj.createPermissionSet('Test','Test1');
             String jobId = System.schedule('ScheduleApexClassTest', cronExp, new TelosTouchSF.ScheduleSyncingContactsAndLeads());
-            //ID jobID12 = 
             Database.ExecuteBatch(new TelosTouchSF.BatchPostInstallScript('Contact'));
             CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered, NextFireTime FROM CronTrigger WHERE id = :jobId];
             System.assertEquals(cronExp, ct.CronExpression, 'ct.CronExpression should be equal to 0 0 0 15 3 ? *');

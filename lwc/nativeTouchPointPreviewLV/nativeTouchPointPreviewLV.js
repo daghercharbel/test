@@ -150,11 +150,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         });
       }
     }
-    // this.templateList.forEach(ele => {
-    //   if (ele.name.toLowerCase().includes(searchKey)) {
-    //     filteredTemplates.push(ele);
-    //   }
-    // })
     if (event.target.value.trim().length > 0) {
       this.templateList = filteredTemplates;
     } else {

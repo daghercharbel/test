@@ -12,7 +12,6 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    //console.log(storedResponse);
                     if(!$A.util.isEmpty(storedResponse) && !$A.util.isEmpty(storedResponse.adminCredentials.Client_ID)
                         && !$A.util.isEmpty(storedResponse.adminCredentials.Client_Secret) && !$A.util.isEmpty(storedResponse.adminCredentials.Instance_URL)
                         && storedResponse != undefined && storedResponse != null){
@@ -74,7 +73,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     waitingTimeId: null,
@@ -103,7 +101,6 @@
             var settingAPIList = c.get("v.settingAPIList");
             var settingsObj = c.get("v.setting");
             settingAPIList.push(settingsObj);
-            //console.log(JSON.stringify(settingsObj));
             var action = c.get("c.getAdminAccessToken");
             action.setParams({
                 apiSetting : JSON.stringify(settingAPIList),
@@ -129,7 +126,6 @@
                         if(!$A.util.isEmpty(storedResponse.adminCredentials) && storedResponse.adminCredentials != undefined && storedResponse.adminCredentials != null){
                             c.set("v.setting",storedResponse.adminCredentials);
                             c.set("v.isEdit",false);
-                            //h.scheduleAllJobs(c,e,h);
                             c.set("v.afterSaveCredentials",true);
                             h.showToast(c,e,h,'success',$A.get("$Label.c.Config_Save_Toast"),3000);
 
@@ -159,7 +155,6 @@
                 }
                 else if (state === 'ERROR'){
                     c.set("v.setting.TelosTouchSF__Approval__c",false);
-                    //h.abortScheduleJobs(c,e,h);
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
@@ -173,7 +168,6 @@
             $A.enqueueAction(action);
 
         } catch (ex) {
-            //console.log(ex);
         }
 
     },
@@ -282,19 +276,15 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            //console.log("Error message: " +errors[0].message);
                             h.showToast(c,e,h,'error',response.getError(),4000);
-                            //    c.set('v.errorMessage',errors[0].message);
                         }
                     }
                 }else{
                     h.showToast(c,e,h,'error',response.getError(),4000);
-                    //console.log('Something went wrong, Please check with your admin');
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     showRecords: function(c, e, h) {
@@ -363,7 +353,6 @@
             }), time);
     },
     searchUsersHelper: function(c, e, h){
-        //console.log('value : '+document.getElementById("search").value);
         var searchFilter = document.getElementById("search").value;
         if($A.util.isEmpty(searchFilter)){
             if(c.get("v.setting.Approval")){
@@ -374,8 +363,6 @@
             var tempArray =[];
             for(var i=0; i<allRecords.length; i++){
                 if(allRecords[i].Email.toUpperCase().includes(searchFilter.toUpperCase()) || allRecords[i].Username.toUpperCase().includes(searchFilter.toUpperCase())){
-                    //console.log('allRecords[i].Username : '+allRecords[i].Username);
-                    //console.log('searchFilter : '+searchFilter);
                     tempArray.push(allRecords[i]);
                 }
             }

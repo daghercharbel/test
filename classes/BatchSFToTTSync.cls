@@ -104,8 +104,6 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
 * @param sObjList ......
 */
     global void execute(Database.BatchableContext bc, List<Sobject> sObjList) {
-        //system.debug('sObjList::'+sObjList);
-        //system.debug('action:: '+action);
         if(objectName == 'Contact' && action == 'insertContact' || action == 'updateContact'){
             TelosTouchSF.SFDataSyncWithTelosTouch.clientLogWrapper clientLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(sObjList, null, action, oldContactMap, oldLeadMap, oldAccountMap);
             if(clientLogObj != null){

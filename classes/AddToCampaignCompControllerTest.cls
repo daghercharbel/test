@@ -3,8 +3,8 @@ public with sharing class AddToCampaignCompControllerTest {
     @testSetup static void setupMethod(){
         Id campaignRecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
         Campaign campaignObj = new Campaign(
-            Name = 'Test bhoopesh',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            RecordTypeId = campaignRecordTypeId                                                                                                                                                                                                                                                                                                                                          // Active
+            Name = 'Test bhoopesh',
+            RecordTypeId = campaignRecordTypeId
         );
         insert campaignObj;
         
@@ -54,9 +54,7 @@ public with sharing class AddToCampaignCompControllerTest {
         System.assertEquals(resultOfcampaignRecordTypeList != null, true, 'resultOfcampaignRecordTypeList should not be NULL');
         Campaign resultOfupdateCampaign = AddToCampaignCompController.createNewCampaignApex('Test Campaign','TelosTouch');
         System.assertEquals(resultOfupdateCampaign.Name,'Test Campaign', 'resultOfupdateCampaign.Name should be eqaul to Test Campaign');
-        //string result1 = 
         AddToCampaignCompController.getObjectDetails('Account',accountList[0].Id);
-        //string resultOfupdateCampaignRecord3 = 
         AddToCampaignCompController.updateCampaignRecord('Account',accountList[0].Id,campaignList[0].Id,'Test Campaign');
         Test.stopTest();
     }

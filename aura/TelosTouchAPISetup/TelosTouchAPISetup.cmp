@@ -179,22 +179,6 @@
 
                     </header>
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"  style="overflow:scroll;">
-                        <!--<aura:if isTrue="{!!empty(v.data)}">
-                            <div class = "tableHeight" >
-                                <lightning:datatable
-                                                     columns="{! v.columns }"
-                                                     data="{! v.data }"
-                                                     keyField="id"
-                                                     onrowselection="{! c.updateSelectedText }"/>
-                                
-                                <aura:set attribute="else">
-                                    <div align="center">
-                                        <p class="customCss"><strong>No Active User</strong></p>
-                                    </div>
-                                </aura:set>
-                            </div>
-                        </aura:if>-->
-
 
                         <table class="slds-table slds-table_bordered slds-table_cell-buffer">
                             <thead>

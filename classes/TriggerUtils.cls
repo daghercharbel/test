@@ -19,6 +19,7 @@ public with sharing class TriggerUtils {
         return record.get(field) != Trigger.oldMap.get(record.Id).get(field);
     }
 
+    //COMMENTED TO BE IMPLEMENTED IN THE FUTURE
     /*public static Boolean wasChangedFrom(SObject record, String field, Object expectedValue){
         assertTrigger();
         if(Trigger.isInsert) return false;

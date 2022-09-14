@@ -14,7 +14,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log(ex);
         }
     },
 })

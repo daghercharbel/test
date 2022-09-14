@@ -4,12 +4,11 @@
 * @description TTCampaignUserConversation class is a Batch Class and is used to get all TelosTouch touchpoints using TelosTouch API.
 */
 global with sharing class TTCampaignUserConversation implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
-    /* private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.TelosTouchSF__Instance_URL__c;
-    private static final String token = getCredentials.Token__c;*/
+
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
     global List<Campaign> campaignGlobalList;
+    
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -47,10 +46,8 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
                         String methodType = 'GET';
                         String endPointURL = '';
                         Map<String, String> headersMap = new Map<String, String>();
-                        //String userAuthTOKEN = TelosTouchUtility.getCurrentUserTOKEN();
                         if (String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c)) {
                             headersMap.put('Authorization', 'Bearer ' + authenticationCredential.TelosTouchSF__Access_Token__c);
-                            //headersMap.put('espo-Authorization', adminCredentials.TelosTouchSF__Access_Token__c);
                         }
                         if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
                             endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/touchpoints/' +

@@ -80,7 +80,6 @@
                                 </aura:if>
                             </div>
                         </lightning:layoutItem >
-                        <!--lightning:layoutItem  size="6"/-->
                         <lightning:layoutItem  size="12">
                             <p class="slds-p-left_small slds-m-top_x-small slds-p-bottom_medium colorCss">
                                 {!$Label.c.Last_Sync_Completed}&nbsp; {!v.logsList[0].TelosTouchSF__LastUpdated__c}

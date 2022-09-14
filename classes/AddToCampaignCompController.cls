@@ -19,7 +19,6 @@ public with sharing class AddToCampaignCompController {
             if(Test.isRunningTest() || getIsPerson){
                 if(Test.isRunningTest()){
                     String queryStr12 = 'SELECT Id, Name FROM ' + objectName +' WHERE Id=:recordId';
-                    //sobject obj = 
                     Database.query(String.escapeSingleQuotes(queryStr12));
                     recordId = null;
                 }else{
@@ -58,7 +57,6 @@ public with sharing class AddToCampaignCompController {
                 if(Test.isRunningTest() || getIsPerson){
                     if(Test.isRunningTest()){
                         String queryStr12 = 'SELECT Id, Name FROM ' + objectName +' WHERE Id=:recordId';
-                        //sobject obj = 
                         Database.query(String.escapeSingleQuotes(queryStr12));
                         recordId = null;
                     }else{

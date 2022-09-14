@@ -49,7 +49,6 @@
     },
     serverCall: function (component, event, helper) {
         var target = event.target;
-        // var searchText = target.value;  
         var searchText = component.get("v.searchText");
         var last_SearchText = component.get("v.last_SearchText");
         //Escape button pressed
@@ -122,7 +121,6 @@
                 return SelIndex;
             }
         }catch(ex){
-            //  console.log(ex);
         }
     },
     clearSelection: function (component, event, helper) {
@@ -131,7 +129,6 @@
         component.set("v.searchText", '');
         var cmp = component.find('addborder');
         helper.firstServerCall(component, event, helper);
-        //  $A.util.removeClass(cmp,'slds-has-inline-listbox');
     },
     createNewRecord_Helper: function (component, event, helper) {
         try{
@@ -161,7 +158,6 @@
                   );
             }
         }catch(ex){
-            //  console.log(ex);
         }
     },
     
