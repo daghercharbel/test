@@ -334,7 +334,6 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   storeTemplate() {
-
     SaveTouchPointTemplate({campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId})
       .then((data) => {
         if (data) {
