@@ -72,7 +72,7 @@
         </lightning-layout>
       </div>
       <div if:false={isTemplatePresent} class="noDataStyle">
-        <span>No data </span>
+        <span>{label.No_Data_Text} </span>
       </div>
     </div>
   </template>
@@ -98,12 +98,14 @@
         <div class="slds-modal__header">
           <h1 class="slds-modal__title slds-hyphenate">{label.Compliance_Title}</h1>
         </div>
-        <div class="slds-modal__content slds-p-around_medium" >
+        <div class="slds-modal__content slds-p-around_medium">
           <p>{label.Compliance_Message}</p>
         </div>
         <div class="slds-modal__footer">
-          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small"></lightning-button>
-          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small">
+          </lightning-button>
+          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate}
+            class="slds-m-left_x-small"></lightning-button>
         </div>
       </div>
     </section>
