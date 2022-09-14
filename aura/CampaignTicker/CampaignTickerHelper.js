@@ -7,6 +7,9 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
+                    if ($A.util.isEmpty(response.getReturnValue())) {
+                        return;
+                    }
                     var responseObj = JSON.parse(response.getReturnValue());
                     //console.log('response:: '+ JSON.stringify(responseObj));
                     if (responseObj.hasOwnProperty('synced')) {
@@ -21,10 +24,10 @@
                     if (responseObj.hasOwnProperty('openTouchPointModal')) {
                         c.set('v.OpenTouchPointModal', responseObj.openTouchPointModal);
                     }
-                    if (responseObj.hasOwnProperty('templateId')) {
+                    if (responseObj.hasOwnProperty('templateId') && $A.util.isEmpty(responseObj.templateId)) {
                         c.set("v.templateId", responseObj.templateId);
                     }
-                    if (responseObj.hasOwnProperty('campMemList')) {
+                    if (responseObj.hasOwnProperty('campMemList') && $A.util.isEmpty(responseObj.campMemList)) {
                         c.set("v.campMemList", responseObj.campMemList);
                     }
                     // console.log(responseObj.synced);
