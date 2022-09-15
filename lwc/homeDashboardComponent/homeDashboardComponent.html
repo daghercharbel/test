@@ -3,14 +3,15 @@
         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </div>
     <div if:true={showIframe}>
-        <iframe src={IframeUrl}
+        <!-- <iframe src={IframeUrl}
                 class="iframe-style"
                 scrolling={scrolling}
                 onload={setHeight}
                >
-        </iframe>
+        </iframe> -->
+        <c-t-t-native-dashboard-comp></c-t-t-native-dashboard-comp>
     </div>
     <div if:true={isNotAuthenticate}>
-        <p ><strong class ="fontCss">{label.Dashboard_Non_TT_User_Text}</strong></p>
+        <p><strong class="fontCss">{label.Dashboard_Non_TT_User_Text}</strong></p>
     </div>
 </template>

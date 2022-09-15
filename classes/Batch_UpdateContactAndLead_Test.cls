@@ -6,7 +6,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         credential.Token__c = 'dGVsb3N0b3VjaF9hZHZpc2dmVmdW4xMjNA';
         credential.Instance_url__c = 'https://test.com';
         insert credential;
-
+        
         List<TT_Salesforce_Mapping__c> mappingList = new List<TT_Salesforce_Mapping__c>();
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='FirstName', TT_Field__c='firstName', Object_Name__c='Lead'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='LastName', TT_Field__c='lastName', Object_Name__c='Lead'));
@@ -28,7 +28,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Description', TT_Field__c='description', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Share_with_client_s__c', TT_Field__c='shared', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Category__c', TT_Field__c='type', Object_Name__c='Task'));
-
+        
         insert mappingList;
     }
     @isTest
@@ -62,6 +62,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         Test.startTest();
         TelosTouchSF.Batch_UpdateContactAndLead2 batchObj = new TelosTouchSF.Batch_UpdateContactAndLead2(null, null, 'Contact');
         Database.executeBatch(batchObj);
+        Database.executeBatch(new Batch_UpdateContactAndLead(null, null, 'Contact'));
         Test.stopTest();
     }
     @isTest
@@ -99,6 +100,7 @@ private with sharing class Batch_UpdateContactAndLead_Test {
         Test.startTest();
         TelosTouchSF.Batch_UpdateContactAndLead2 batchObj = new TelosTouchSF.Batch_UpdateContactAndLead2('Contact', false, 'Contact');
         Database.executeBatch(batchObj);
+        Database.executeBatch(new Batch_UpdateContactAndLead('Contact', false, 'Contact'));
         Test.stopTest();
     }
 }

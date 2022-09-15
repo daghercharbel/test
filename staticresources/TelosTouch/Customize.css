@@ -1,0 +1,8 @@
+.customize-modal .slds-modal__container{
+	max-width: 95vw !important;
+	width:100% !important;
+	padding: 0rem;
+}
+.customize-modal .slds-modal__content{
+	padding: 0rem!important;
+}

@@ -456,6 +456,22 @@
         <value>Completed</value>
     </labels>
     <labels>
+        <fullName>Compliance_Message</fullName>
+        <categories>Touchpoint Template</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Compliance Message</shortDescription>
+        <value>I confirm that I have followed all of the required steps of my firm&apos;s compliance processes for external communications, including the approval of such communication as and when required. I further acknowledge that a copy of this touchpoint will be sent to my inbox as part of my firm’s internal records retention and compliance supervision framework.</value>
+    </labels>
+    <labels>
+        <fullName>Compliance_Title</fullName>
+        <categories>Touchpoint Template</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Compliance Title</shortDescription>
+        <value>Compliance Confirmation</value>
+    </labels>
+    <labels>
         <fullName>Config_Authentication_URL</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -687,6 +703,13 @@
         <value>End Date</value>
     </labels>
     <labels>
+        <fullName>English_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>English Text</shortDescription>
+        <value>English</value>
+    </labels>
+    <labels>
         <fullName>Enter_3_Letters_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -783,6 +806,13 @@
         <protected>true</protected>
         <shortDescription>Fill Required Value Toast</shortDescription>
         <value>Please fill required value.</value>
+    </labels>
+    <labels>
+        <fullName>French_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>French Text</shortDescription>
+        <value>French</value>
     </labels>
     <labels>
         <fullName>Frequency_Text</fullName>
@@ -911,11 +941,25 @@
         <value>Description</value>
     </labels>
     <labels>
+        <fullName>Knowledge_Base_Image_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Knowledge Base Image Error</shortDescription>
+        <value>Error loading image!</value>
+    </labels>
+    <labels>
         <fullName>Knowledge_Base_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Knowledge Base Text</shortDescription>
         <value>Knowledge Base</value>
+    </labels>
+    <labels>
+        <fullName>Language_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Language Text</shortDescription>
+        <value>Language</value>
     </labels>
     <labels>
         <fullName>Last_Login_Text</fullName>
@@ -1325,6 +1369,20 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Records were resubscribed Text</shortDescription>
         <value>Records were resubscribed</value>
+    </labels>
+    <labels>
+        <fullName>Refresh_Token_Button_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Button Label</shortDescription>
+        <value>Refresh Token</value>
+    </labels>
+    <labels>
+        <fullName>Refresh_Token_Save_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Token Save Toast</shortDescription>
+        <value>A synchronous job to refresh token is enqueued.</value>
     </labels>
     <labels>
         <fullName>Rejected_Text</fullName>
@@ -1880,11 +1938,53 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>TouchPoint has been created. Please click &quot;Send Touchpoint&quot; to send touchpoint to clients.</value>
     </labels>
     <labels>
+        <fullName>TouchPoint_Experience_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Experience Text</shortDescription>
+        <value>TouchPoint Experience</value>
+    </labels>
+    <labels>
         <fullName>TouchPoint_Process_Running_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TouchPoint Process Running Text</shortDescription>
         <value>Recipients are being added to the TouchPoint. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_All_Templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview All Templates</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_BackToListView</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview BackToListView</shortDescription>
+        <value>Back to list view</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_BackToTemplates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview BackToTemplates</shortDescription>
+        <value>Back to templates</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_NoData_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview NoData Text</shortDescription>
+        <value>No Data</value>
+    </labels>
+    <labels>
+        <fullName>TouchpointPreview_Private_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchpointPreview Private Template</shortDescription>
+        <value>Private</value>
     </labels>
     <labels>
         <fullName>Touchpoint_Sent_Text</fullName>
@@ -2062,25 +2162,46 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>of</value>
     </labels>
     <labels>
-        <fullName>TouchpointPreview_NoData_Text</fullName>
+        <fullName>New_Client_Added_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>TouchpointPreview NoData Text</shortDescription>
-        <value>No Data</value>
+        <shortDescription>New Client Added Text</shortDescription>
+        <value>New Clients added, Please click &quot;Send&quot; to send the TouchPoint to the clients added.</value>
     </labels>
     <labels>
-        <fullName>TouchpointPreview_All_Templates</fullName>
+        <fullName>SendTP_CustomizeText</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>TouchpointPreview All Templates</shortDescription>
-        <value>All</value>
+        <shortDescription>SendTP/CustomizeText</shortDescription>
+        <value>Please select a TouchPoint Template to Customize/Preview or Send the TouchPoint to the clients.</value>
     </labels>
     <labels>
-        <fullName>TouchpointPreview_Private_Template</fullName>
+        <fullName>Customize_AddClientText</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>TouchpointPreview Private Template</shortDescription>
-        <value>Private</value>
+        <shortDescription>Customize/AddClientText</shortDescription>
+        <value>You can now Customize/Preview the template or add clients to the campaign.</value>
+    </labels>
+    <labels>
+        <fullName>Customize_PreviewLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize PreviewLabel</shortDescription>
+        <value>You can now Customize/Preview the template or Send Touchpoint to clients added.&lt;br /&gt;Note: Customize,Touchpoint Template Selection will be disabled after sending TouchPoint</value>
+    </labels>
+    <labels>
+        <fullName>StartByChoosingTP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StartByChoosingTP</shortDescription>
+        <value>Start by choosing a TouchPoint Template or adding clients before you can send the Touchpoint.</value>
+    </labels>
+    <labels>
+        <fullName>TPSentText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TPSentText</shortDescription>
+        <value>TouchPoint sent. No further action is required. You can add more clients to this campaign by sending the Touchpoint to them. &lt;br /&gt; Note: Customize, and Touchpoint Template Selection is now disabled as TouchPoint has been sent.</value>
     </labels>
     <labels>
         <fullName>TouchPoint_Preview_Text</fullName>
@@ -2090,52 +2211,402 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Preview</value>
     </labels>
     <labels>
-        <fullName>French_Text</fullName>
+        <fullName>Customize_PreviewLabel_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>French Text</shortDescription>
-        <value>French</value>
+        <shortDescription>Customize_PreviewLabel_Text</shortDescription>
+        <value>You can now Customize/Preview the template or Send Touchpoint to clients added. Note: Customize,Touchpoint Template Selection will be disabled after sending TouchPoint</value>
     </labels>
     <labels>
-        <fullName>English_Text</fullName>
+        <fullName>Private_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>English Text</shortDescription>
-        <value>English</value>
+        <shortDescription>Private_Text</shortDescription>
+        <value>Private</value>
     </labels>
     <labels>
-        <fullName>TouchPoint_Experience_Text</fullName>
+        <fullName>TouchPointTemplateSaved_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>TouchPoint Experience Text</shortDescription>
-        <value>TouchPoint Experience</value>
+        <shortDescription>TouchPointTemplateSaved_Text</shortDescription>
+        <value>TouchPoint template is successfully saved.</value>
     </labels>
     <labels>
-        <fullName>Language_Text</fullName>  
+        <fullName>TouchPointTemplateNotSaved_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Language Text</shortDescription>
-        <value>Language</value>
+        <shortDescription>TouchPointTemplateNotSaved_Text</shortDescription>
+        <value>TouchPoint template is not saved.</value>
     </labels>
     <labels>
-        <fullName>Refresh_Token_Button_Label</fullName>
+        <fullName>Customize_Template_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Refresh Token Button Label</shortDescription>
-        <value>Refresh Token</value>
+        <shortDescription>Customize_Template_Text</shortDescription>
+        <value>Customize Template</value>
     </labels>
     <labels>
-        <fullName>Refresh_Token_Save_Toast</fullName>
+        <fullName>Customize_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Refresh Token Save Toast</shortDescription>
-        <value>A synchronous job to refresh token is enqueued.</value>
+        <shortDescription>Customize_Text</shortDescription>
+        <value>Customize</value>
     </labels>
     <labels>
-        <fullName>Knowledge_Base_Image_Error</fullName>
+        <fullName>Preview_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Knowledge Base Image Error</shortDescription>
-        <value>Error loading image!</value>
+        <shortDescription>Preview_Text</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>Send_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send_Text</shortDescription>
+        <value>Send</value>
+    </labels>
+    <labels>
+        <fullName>Add_To_Campaign_Config_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add To Campaign Config Text</shortDescription>
+        <value>Show Add To Campaign Button</value>
+    </labels>
+    <labels>
+        <fullName>Cam_Mem_Add_In_Cam_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cam Mem Add In Cam Success Toast</shortDescription>
+        <value>Campaign member added in Campaign successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Cam_Mem_Add_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cam Mem Add Success Toast</shortDescription>
+        <value>Campaign Member Added Successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Already_Sync_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Already Sync Toast</shortDescription>
+        <value>Selected Campaign is Already Synced</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Deleted Text</shortDescription>
+        <value>Campaigns deleted from SF to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Not_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Not Deleted Text</shortDescription>
+        <value>Campaigns not deleted from TT or not present on TT.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Sync_Fail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Sync Fail Text</shortDescription>
+        <value>Campaigns Sync Failed as Campaign Owner Not Found in Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Sync_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Sync Success Text</shortDescription>
+        <value>Campaigns sync successfully from TelosTouch to Salesforce.</value>
+    </labels>
+    <labels>
+        <fullName>Camp_Sync_Success_With_Client_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Camp Sync Success With Client Text</shortDescription>
+        <value>Campaigns sync successfully from TelosTouch to Salesforce with clients user.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Added_To_Cam_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Added To Cam Text</shortDescription>
+        <value>Clients Added to Campaign:</value>
+    </labels>
+    <labels>
+        <fullName>Client_Already_Camp_Mem_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Already Camp Mem Toast</shortDescription>
+        <value>Selected Clients are Already Campaign Members</value>
+    </labels>
+    <labels>
+        <fullName>Client_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Deleted Text</shortDescription>
+        <value>Clients deleted from SF to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Client_Not_Added_To_Camp_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Not Added To Camp Text</shortDescription>
+        <value>Clients could Not be Added to Campaign:</value>
+    </labels>
+    <labels>
+        <fullName>Client_Sync_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Client Sync Success Text</shortDescription>
+        <value>Clients sync successfully from TelosTouch to Salesforce.</value>
+    </labels>
+    <labels>
+        <fullName>Clients_Not_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clients Not Deleted Text</shortDescription>
+        <value>Clients not deleted from TT or not present on TT.</value>
+    </labels>
+    <labels>
+        <fullName>Create_Mass_Action_Config_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Mass Action Config Label</shortDescription>
+        <value>Show Create Mass Actions Button</value>
+    </labels>
+    <labels>
+        <fullName>Create_Remote_Site_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Remote Site Text</shortDescription>
+        <value>Create Remote Site:</value>
+    </labels>
+    <labels>
+        <fullName>Create_Sungle_Action_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Single Action Text</shortDescription>
+        <value>Show Create Single Actions Button</value>
+    </labels>
+    <labels>
+        <fullName>Duplicate_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Duplicate Text</shortDescription>
+        <value>is Duplicate.</value>
+    </labels>
+    <labels>
+        <fullName>Duplicate_Text_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Duplicate Text 2</shortDescription>
+        <value>Duplicate:</value>
+    </labels>
+    <labels>
+        <fullName>Email_Exist_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Exist Text</shortDescription>
+        <value>Email Already Exists:</value>
+    </labels>
+    <labels>
+        <fullName>Failed_Contact_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Failed Contact Sync Text</shortDescription>
+        <value>Failed Contact sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Failed_Lead_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Failed Lead Sync Text</shortDescription>
+        <value>Failed Lead sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Failed_Task_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Failed Task Sync Text</shortDescription>
+        <value>Failed Task sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Lang_Timezone_Update_Fali_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lang Timezone Update  Fali Text</shortDescription>
+        <value>User language/timezone updated failed</value>
+    </labels>
+    <labels>
+        <fullName>Lang_Timezone_Update_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lang Timezone Update Text</shortDescription>
+        <value>User language/timezone updated successful.</value>
+    </labels>
+    <labels>
+        <fullName>No_Contact_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Contact Sync Text</shortDescription>
+        <value>No Contact records synced from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>No_Lead_Syn_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Lead Syn Text</shortDescription>
+        <value>No Lead records synced from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>No_Permit_To_Person_Acc_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Permit To Person Acc Toast</shortDescription>
+        <value>you have not permission of person Account.</value>
+    </labels>
+    <labels>
+        <fullName>No_Task_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Task Sync Text</shortDescription>
+        <value>No Task records synced from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Please_Unselect_Account_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please Unselect Account Toast</shortDescription>
+        <value>Please unselect those acccount which is not synced.</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_For_Ans_Touchpoint</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder For Ans Touchpoint</shortDescription>
+        <value>Reminder for Answering Touchpoint:</value>
+    </labels>
+    <labels>
+        <fullName>SF_User_Sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SF User Sync Text</shortDescription>
+        <value>Salesforce User Sync Successful with TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Select_Any_Record_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Any Record Toast</shortDescription>
+        <value>Please select any record.</value>
+    </labels>
+    <labels>
+        <fullName>Select_At_Least_One_Record_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select At Least One Record Toast</shortDescription>
+        <value>Select at least one record and try again.</value>
+    </labels>
+    <labels>
+        <fullName>Send_Reminder_Config_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Reminder Config Text</shortDescription>
+        <value>Show Send Reminder Button</value>
+    </labels>
+    <labels>
+        <fullName>Success_Contact_sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success Contact sync Text</shortDescription>
+        <value>Successful Contact sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Success_Lead_sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success Lead sync Text</shortDescription>
+        <value>Successful Lead sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Success_Task_sync_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success Task sync Text</shortDescription>
+        <value>Successful Task sync records from Salesforce to TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Task_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Deleted Text</shortDescription>
+        <value>Task deleted from SF to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Not_Deleted_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Not Deleted Text</shortDescription>
+        <value>Task not deleted from TT or not present on TT</value>
+    </labels>
+    <labels>
+        <fullName>Task_Sync_Fail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Sync Fail Text</shortDescription>
+        <value>Tasks Sync Failed as Task Owner Not Found in Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>Task_Sync_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Sync Success Text</shortDescription>
+        <value>Tasks sync successfully from TelosTouch to Salesforce.</value>
+    </labels>
+    <labels>
+        <fullName>User_Activated_Fail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Activated Fail Text</shortDescription>
+        <value>User activate failed from Salesforce to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>User_Activated_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Activated Success Text</shortDescription>
+        <value>User activated successfully from Salesforce to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>User_Deactivated_Success_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Deactivated Success Text</shortDescription>
+        <value>User deactivated successfully from Salesforce to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>User_Not_Auth_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Not Auth Text</shortDescription>
+        <value>User Could Not be Authenticated</value>
+    </labels>
+    <labels>
+        <fullName>User_deactivate_Fail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User deactivate Fail Text</shortDescription>
+        <value>User deactivate failed from Salesforce to TelosTouch.</value>
+    </labels>
+    <labels>
+        <fullName>Username_Exist_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Username Exist Text</shortDescription>
+        <value>Username Already Exists:</value>
     </labels>
 </CustomLabels>

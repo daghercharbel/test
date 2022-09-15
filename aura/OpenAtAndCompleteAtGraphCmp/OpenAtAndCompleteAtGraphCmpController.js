@@ -7,11 +7,12 @@
         "-1",
         $A.getCallback((eventReceived) => {
           // Process event (this is called each time we receive an event)
-          //console.log('Graph Event:: '+JSON.stringify(eventReceived));
+          // console.log('Graph Event:: '+JSON.stringify(eventReceived));
           if (
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
+            // console.log('calling');
             h.doinit_Helper(c, e, h);
           }
         })

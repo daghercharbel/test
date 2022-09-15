@@ -18,6 +18,7 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
             List<OpenedAtCompletedWrapper> OpenedAtCompletedWrapperList = new List<OpenedAtCompletedWrapper>();
             List<TelosTouchSF__Insights__c> insightsList = new List<TelosTouchSF__Insights__c>();
             List<StartAtEndAtWraper> startAtEndAtwrapperList = new List<StartAtEndAtWraper>();
+            Set<Id> insightIds = new Set<Id>();
             Map<Date,Map<String,Integer>> DateVSStartEndDateAtNameVSContactSizeMap = new Map<Date,Map<String,Integer>>();
             Set<Date> sameDate = new Set<Date>();
             Set<string> OpenAndCompletedNameSet = new Set<string>();
@@ -31,7 +32,7 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
                   insightsList = [SELECT Id,
                                   Name,
                                   TelosTouchSF__Opened_At__c,
-                                  TelosTouchSF__Completed_At__c,
+                                  TelosTouchSF__Completed_At__c,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c,
                                   TelosTouchSF__Campaign2__r.TelosTouchSF__TT_Campaign_Id__c
                                   FROM TelosTouchSF__Insights__c
                                   WHERE TelosTouchSF__Campaign2__c =:recordId
@@ -40,9 +41,13 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
             if(String.isNotEmpty([SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: recordId].TelosTouchSF__TT_Campaign_Id__c)){
                 OpenAtAndCompletedWrapperObj.campaignSynced = true;
             }
+            if(String.isNotEmpty([SELECT TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: recordId].TelosTouchSF__TouchPoint_Template_Id__c )){
+                OpenAtAndCompletedWrapperObj.templatePresent = true;
+            }
             if([SELECT count() FROM CampaignMember WHERE CampaignId =: recordId] > 0){
                 OpenAtAndCompletedWrapperObj.campMemberPresent = true;
             }
+
             for(TelosTouchSF__Insights__c insightObj : insightsList){
                 OpenAtAndCompletedWrapperObj.userName = insightObj.Name;
                 if(insightObj.TelosTouchSF__Opened_At__c != null){
@@ -51,6 +56,12 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
                 }if(insightObj.TelosTouchSF__Completed_At__c != null){
                     Date completedDate = date.newinstance(insightObj.TelosTouchSF__Completed_At__c.year(), insightObj.TelosTouchSF__Completed_At__c.month(), insightObj.TelosTouchSF__Completed_At__c.day());
                     sameDate.add(completedDate);
+                }
+                if(insightObj.TelosTouchSF__Contact__c !=null){
+                    insightIds.add(insightObj.TelosTouchSF__Contact__c);
+
+                }else if(insightObj.TelosTouchSF__Lead__c !=null){
+                    insightIds.add(insightObj.TelosTouchSF__Lead__c );
                 }
             }
             for(DateTime dt : sameDate){
@@ -71,6 +82,11 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
                         }
                     }
                 }
+            }
+            if([SELECT Count() FROM CampaignMember WHERE ContactId NOT IN: insightIds AND LeadId NOT IN: insightIds AND CampaignId =:recordId] > 0){
+                OpenAtAndCompletedWrapperObj.newMemberAdded = true;
+            }else {
+                OpenAtAndCompletedWrapperObj.newMemberAdded = false;
             }
             for(StartAtEndAtWraper starEndObj : startAtEndAtwrapperList){
                 if(String.isNotBlank(starEndObj.openNameAndCompletedName)){
@@ -130,9 +146,15 @@ public with sharing class OpenAtAndCompleteAtGraph_Controller {
         public Boolean campaignSynced;
         @AuraEnabled
         public Boolean campMemberPresent;
+        @AuraEnabled
+        public Boolean templatePresent;
+        @AuraEnabled
+        public Boolean newMemberAdded;
         OpenAtAndCompletedWrapper(){
             campaignSynced = false;
             campMemberPresent = false;
+            templatePresent = false;
+            newMemberAdded = false;
         }
     }
         /**

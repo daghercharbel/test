@@ -10,6 +10,7 @@
         var state = response.getState();
         if (state === "SUCCESS") {
           var resp = response.getReturnValue();
+          // console.log('response openAtAndCompletedAt: '+(resp));
           if (!$A.util.isEmpty(resp) && resp != undefined) {
             h.scriptsLoaded_helper(c, e, h, resp);
           }
@@ -113,7 +114,7 @@
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.font = "20px Arial";
-            if (datawrapper.userName != null && datawrapper.campaignSynced) {
+            if (datawrapper.userName != null && datawrapper.campaignSynced && !datawrapper.newMemberAdded) {
               wrapText(
                 ctx,
                 $A.get("$Label.c.Campaign_Graph_Will_Populate_Text"),
@@ -123,19 +124,38 @@
                 20 * 1.618
               );
               //ctx.fillText($A.get("$Label.c.Campaign_Graph_Will_Populate_Text"), width / 2, height / 2);
-            } else if(datawrapper.userName == null && datawrapper.campaignSynced && !datawrapper.campMemberPresent){
+            } 
+            else if(datawrapper.userName != null && datawrapper.campaignSynced && datawrapper.campMemberPresent && datawrapper.templatePresent && datawrapper.newMemberAdded){
               wrapText(
                 ctx,
-                $A.get("$Label.c.TouchPoint_Created"),
+                $A.get("$Label.c.New_Client_Added_Text"),
                 width / 2,
                 height / 2,
                 width,
                 20 * 1.618
               );
-            }else if(datawrapper.userName == null && datawrapper.campaignSynced && datawrapper.campMemberPresent){
+            }else if(datawrapper.userName == null && !datawrapper.campaignSynced && datawrapper.campMemberPresent && !datawrapper.templatePresent){
               wrapText(
                 ctx,
-                $A.get("$Label.c.New_Camp_Member_Added_Text"),
+                $A.get("$Label.c.SendTP_CustomizeText"),
+                width / 2,
+                height / 2,
+                width,
+                20 * 1.618
+              );
+            }else if(datawrapper.userName == null && !datawrapper.campaignSynced && !datawrapper.campMemberPresent && datawrapper.templatePresent){
+              wrapText(
+                ctx,
+                $A.get("$Label.c.Customize_AddClientText"),
+                width / 2,
+                height / 2,
+                width,
+                20 * 1.618
+              );
+            }else if(datawrapper.userName == null && !datawrapper.campaignSynced && datawrapper.campMemberPresent && datawrapper.templatePresent){
+              wrapText(
+                ctx,
+                $A.get("$Label.c.Customize_PreviewLabel_Text"),
                 width / 2,
                 height / 2,
                 width,
@@ -145,7 +165,7 @@
               //ctx.fillText($A.get("$Label.c.Campaign_Graph_Send_Touchpoint_Text"), width / 2, height / 2);
               wrapText(
                 ctx,
-                $A.get("$Label.c.Campaign_Graph_Send_Touchpoint_Text"),
+                $A.get("$Label.c.StartByChoosingTP"),
                 width / 2,
                 height / 2,
                 width,

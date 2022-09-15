@@ -22,9 +22,9 @@
         //console.log('Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
-      let countV = 0;
-      c.set("v.count", countV);
-      c.set("v.countSelectAll", countV);
+    let countV = 0;
+    c.set("v.count", countV);
+    c.set("v.countSelectAll", countV);
     h.doInit_helper(c, e, h);
   },
   fielterEvent: function (c, e, h) {
@@ -41,18 +41,18 @@
 
     let sfId = e.getSource().get("v.value");
     var recId = e.getSource().get("v.value").Id;
-    var fieldName='';
+    var fieldName = '';
 
-    if(e.getSource().getLocalId()){
-      fieldName  = e.getSource().getLocalId();
+    if (e.getSource().getLocalId()) {
+      fieldName = e.getSource().getLocalId();
     }
 
-    if(fieldName == "Create Task"){
+    if (fieldName == "Create Task") {
       h.createAction_helper(c, e, h, sfId.ContactOrLeadSFId);
-    }else{
+    } else {
       if (!$A.util.isEmpty(recId)) {
         c.set("v.convId", recId);
-        if(sfId.TTCompleted_At == $A.get("$Label.c.Pending_Text")){
+        if (!sfId.completedAndSync) {
           h.handleInsightCallout(c, recId);
         } else {
           h.viewRecord_helper(c, e, h, recId);
@@ -90,40 +90,40 @@
     //           };
     //           finalResponse.push(responseObj);
     //         }
-            //console.log(JSON.stringify(c.get("v.userList")));
-            $A.createComponents([
-                ["c:TTFilterAddToCampaign",{userList: c.get("v.userList"), recordId : c.get('v.recordId')}],
-              ["c:TTFilterAddToCampaignFooter",{userList: c.get("v.userList")}]
-          ],
-              function (content, status) {
-                if (status === "SUCCESS") {
-                  c.find("overlayLib")
-                  .showCustomModal({
-                      header: $A.get("$Label.c.Add_Campaign_Modal_Header_Text"),
-                      body: content[0],
-                      footer: content[1],
-                      showCloseButton: true,
-                  })
-                  .then(function (overlay) {
-                      c._overlay = overlay;
-                  });
-                }
-              }
-            );
-      //     } else {
-      //     }
-      //   } else {
-      //     h.showSuccess(
-      //       c,
-      //       e,
-      //       h,
-      //       "Error",
-      //       "error",
-      //       "Campaign creation failed to initialize. Please try again."
-      //     );
-      //   }
-      // });
-      $A.enqueueAction(action);
+    //console.log(JSON.stringify(c.get("v.userList")));
+    $A.createComponents([
+      ["c:TTFilterAddToCampaign", { userList: c.get("v.userList"), recordId: c.get('v.recordId') }],
+      ["c:TTFilterAddToCampaignFooter", { userList: c.get("v.userList") }]
+    ],
+      function (content, status) {
+        if (status === "SUCCESS") {
+          c.find("overlayLib")
+            .showCustomModal({
+              header: $A.get("$Label.c.Add_Campaign_Modal_Header_Text"),
+              body: content[0],
+              footer: content[1],
+              showCloseButton: true,
+            })
+            .then(function (overlay) {
+              c._overlay = overlay;
+            });
+        }
+      }
+    );
+    //     } else {
+    //     }
+    //   } else {
+    //     h.showSuccess(
+    //       c,
+    //       e,
+    //       h,
+    //       "Error",
+    //       "error",
+    //       "Campaign creation failed to initialize. Please try again."
+    //     );
+    //   }
+    // });
+    // $A.enqueueAction(action);
   },
 
   // Send Reminder to the Clients
@@ -362,93 +362,93 @@
       h.doInit_helper(c, e, h);
     }
   },
-  handleClick: function(c,e,h) {
+  handleClick: function (c, e, h) {
     let label = e.target.label;
     if (label === "Previous") {
-        h.handlePrevious(c,e,h);
+      h.handlePrevious(c, e, h);
     } else if (label === "Next") {
-        h.handleNext(c,e,h);
+      h.handleNext(c, e, h);
     }
-},
-  handleNext: function(c,e,h) {
+  },
+  handleNext: function (c, e, h) {
     let incValue = c.get("v.pageNo");
-    incValue +=1;
+    incValue += 1;
     c.set("v.pageNo", incValue);
     c.set("v.isCheckedList", []);
-    h.preparePaginationList(c,e,h);
+    h.preparePaginationList(c, e, h);
     let flag = 0;
-     for(let x of c.get("v.listData")){
-       if(!x.isChecked){
+    for (let x of c.get("v.listData")) {
+      if (!x.isChecked) {
         flag = 1;
         break;
-       }
-     }
-     if(flag){
-        c.set("v.selectAllList", false);
-      }else{
-        c.set("v.selectAllList", true);
       }
+    }
+    if (flag) {
+      c.set("v.selectAllList", false);
+    } else {
+      c.set("v.selectAllList", true);
+    }
   },
 
-  handlePrevious: function(c,e,h) {
-    if(c.get("v.pageNo")>1){
+  handlePrevious: function (c, e, h) {
+    if (c.get("v.pageNo") > 1) {
       let decValue = c.get("v.pageNo");
       decValue -= 1;
       c.set("v.pageNo", decValue);
     }
     c.set("v.isCheckedList", []);
-    h.preparePaginationList(c,e,h);
+    h.preparePaginationList(c, e, h);
     let flag = 0;
-    for(let x of c.get("v.listData")){
-      if(!x.isChecked){
+    for (let x of c.get("v.listData")) {
+      if (!x.isChecked) {
         flag = 1;
         break;
       }
     }
-    if(flag){
+    if (flag) {
       c.set("v.selectAllList", false);
-    }else{
+    } else {
       c.set("v.selectAllList", true);
     }
   },
-  handleCheckboxChange: function(c,e,h){
+  handleCheckboxChange: function (c, e, h) {
     try {
       let updatedWithCheckboxList = [];
       let paginationList = c.get("v.listData");
-      for(var each of paginationList){
-        if(each.Id == e.getSource().get("v.value")){
-          each.isChecked = each.isChecked!=null || each.isChecked != undefined ? each.isChecked:true;
+      for (var each of paginationList) {
+        if (each.Id == e.getSource().get("v.value")) {
+          each.isChecked = each.isChecked != null || each.isChecked != undefined ? each.isChecked : true;
           updatedWithCheckboxList.push(each);
         }
       }
-     let flag = 0;
-     for(let x of paginationList){
-       if(!x.isChecked){
-        flag = 1;
-        break;
-       }
-     }
-     if(flag){
+      let flag = 0;
+      for (let x of paginationList) {
+        if (!x.isChecked) {
+          flag = 1;
+          break;
+        }
+      }
+      if (flag) {
         c.set("v.selectAllList", false);
-      }else{
+      } else {
         c.set("v.selectAllList", true);
       }
-      h.getSelectedClientsRecords(c,e,h, updatedWithCheckboxList);
+      h.getSelectedClientsRecords(c, e, h, updatedWithCheckboxList);
     } catch (error) {
       console.log(error);
     }
-    
+
   },
-  selectAll: function(c,e,h){
+  selectAll: function (c, e, h) {
     //console.log('Event value >> '+ e.getSource().get("v.checked"))
     let updatedWithCheckboxList = [];
     let paginationList = c.get("v.listData");
-    c.set("v.selectAllList",e.getSource().get("v.checked"));
-    for(var each of paginationList){
-      if(e.getSource().get("v.checked")){
+    c.set("v.selectAllList", e.getSource().get("v.checked"));
+    for (var each of paginationList) {
+      if (e.getSource().get("v.checked")) {
         each.isChecked = true;
         updatedWithCheckboxList.push(each);
-      }else {
+      } else {
         each.isChecked = false;
         updatedWithCheckboxList.push(each);
       }
@@ -456,19 +456,19 @@
     //console.log('updatedWithCheckboxList >> '+ JSON.stringify(updatedWithCheckboxList))
     c.set("v.listData", updatedWithCheckboxList);
     let flag = 0;
-     for(let x of updatedWithCheckboxList){
-       if(!x.isChecked){
+    for (let x of updatedWithCheckboxList) {
+      if (!x.isChecked) {
         flag = 1;
         break;
-       }
-     }
-     if(flag){
-        c.set("v.selectAllList", false);
-      }else{
-        c.set("v.selectAllList", true);
       }
-    h.getSelectedAllClientsRecords(c,e,h, updatedWithCheckboxList);
+    }
+    if (flag) {
+      c.set("v.selectAllList", false);
+    } else {
+      c.set("v.selectAllList", true);
+    }
+    h.getSelectedAllClientsRecords(c, e, h, updatedWithCheckboxList);
     //h.onOffSelectAll(c,e,h);
   },
-  
+
 });
