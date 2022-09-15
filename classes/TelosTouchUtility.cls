@@ -559,8 +559,6 @@ return null;
         request.setBody(body);
         HttpResponse response = http.send(request);
         //System.debug('response Body:: '+response.getBody());
-	    String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
-        TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'refreshAdminAccessToken', null);
         if (response.getStatusCode() == 200) {
             Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
             //System.debug('responseMap:: ' + responseMap.get('access_token'));
@@ -1008,8 +1006,6 @@ return null;
             //System.debug('Request Body:: '+body);
             HttpResponse response = http.send(request);
             //System.debug('Response Body:: '+response.getBody());
-	        String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
-            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getTokenForEachUser', null);
             if(response.getBody() != null){
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 //System.debug('responseMap:: '+responseMap);
