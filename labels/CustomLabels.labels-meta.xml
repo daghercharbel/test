@@ -1140,6 +1140,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>No Custom Fields Found</value>
     </labels>
     <labels>
+        <fullName>No_Description_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Description Text</shortDescription>
+        <value>No description found</value>
+    </labels>
+    <labels>
         <fullName>No_Data_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>

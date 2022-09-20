@@ -1256,6 +1256,9 @@
     <layoutAssignments>
         <layout>TT_Salesforce_Mapping__c-TT Salesforce Mapping Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>User-User Layout</layout>
+    </layoutAssignments>
     <loginIpRanges>
         <endAddress>255.255.255.255</endAddress>
         <startAddress>0.0.0.0</startAddress>

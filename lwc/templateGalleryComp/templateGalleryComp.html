@@ -8,7 +8,8 @@
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
             <lightning-input type="toggle" message-toggle-active={label.Private_Text}
-              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} label="" variant="label-hidden">
+              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} checked={isPrivateToggle} label=""
+              variant="label-hidden">
             </lightning-input>
           </div>
         </lightning-layout-item>
@@ -40,6 +41,10 @@
                 <div class="tooltip">
                   <div if:true={fr} class="tpName">{each.name_fr}</div>
                   <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
+                </div>
+                <div class="tooltip">
+                  <div class="tpDate">{each.Description}</div>
+                  <span class="tooltip-drop tooltip-top">{each.Description}</span>
                 </div>
                 <div class="tpDate">{each.modified_at}</div>
               </div>
