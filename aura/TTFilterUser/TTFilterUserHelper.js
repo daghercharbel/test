@@ -134,13 +134,21 @@
                 ) { 
                     c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
                     c.set("v.data", rtnValue.userWrapperList);
-                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
-                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    c.set("v.totalPages", totPage);
-                    if(c.get("v.pageNo") == 1){
-                        c.set("v.preDisable",true);
+                    if(c.get("v.data")){
+                        c.set("v.disableSelectAllList", false);
+                    }else{
+                        c.set("v.disableSelectAllList", true);
                     }
-                   h.preparePaginationList(c,e,h);
+                    h.updateCheckedData(c,e,h,c.get("v.data"));
+                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
+                //     let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+                //     c.set("v.totalPages", totPage);
+                //     if(c.get("v.pageNo") == 1){
+                //         c.set("v.preDisable",true);
+                //     }
+                //    h.preparePaginationList(c,e,h);
+                }else{
+                    c.set("v.disableSelectAllList", true);
                 }
             });
             $A.enqueueAction(action);
@@ -162,11 +170,43 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    //console.log('return value:: '+JSON.stringify(rtnValue));
+                    // console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
+                    for(let x of rtnValue){
+                        for(let y of c.get("v.storeCheckedValues")){
+                            if(x.Id == y.Id){
+                                x.isChecked = y.isChecked;
+                            }
+                        }
+                    }
                     let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
                     c.set("v.totalPages", totPage);
+                    if(c.get("v.pageNo") == 1){
+                        c.set("v.preDisable",true);
+                    }
                     h.preparePaginationList(c,e,h);
+                    let flag = 0;
+                    if(c.get("v.listData").length >0){
+                        for(let x of c.get("v.listData")){
+                            if(!x.isChecked){
+                                flag = 1;
+                                break;
+                            }
+                        }
+                        //console.log('flag:: '+ flag);
+                        if(flag){
+                            c.set("v.selectAllList", false);
+                        }else{
+                            c.set("v.selectAllList", true);
+                        }
+                        c.set("v.disableSelectAllList", false);
+                    }else{
+                        c.set("v.selectAllList", false);
+                        c.set("v.disableSelectAllList", true);
+                    }     
+                    // let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+                    // c.set("v.totalPages", totPage);
+                    // h.preparePaginationList(c,e,h);
                 }
             });
             $A.enqueueAction(action);
@@ -636,28 +676,42 @@
     },
     getSelectedClientsRecords: function (c, e, h, updatedList) {
         if (updatedList.length > 0 && updatedList != undefined) {
-            let count = c.get("v.count");
             let tempFinalList = c.get("v.userList");
             //console.log('tempFinalList:: '+ JSON.stringify(tempFinalList));
             for(let i=0; i<updatedList.length; i++){
-                if(updatedList[i].isChecked == true && !tempFinalList.includes(updatedList[i])){
+                const isFound = tempFinalList.some(element => {
+                    if (element.Id === updatedList[i].Id) {
+                      return true;
+                    }
+                    return false;
+                  });
+                //console.log(tempFinalList.includes(updatedList[i]));
+                if(updatedList[i].isChecked == true && !isFound){
+                    //console.log("updatedList loop success:: " + JSON.stringify(updatedList[i]));
                     tempFinalList.push(updatedList[i]); 
-                    count++;
+                    // count++;
                 }
             }
             for(let i=0;i<tempFinalList.length; i++){
                 if(tempFinalList[i].isChecked == false){
                     tempFinalList.splice(i, 1);
-                    if(c.get("v.countSelectAll")>0){
-                        c.set("v.countSelectAll", c.get("v.countSelectAll")-1);
-                    }
-                    if(count>0){
-                        count--;
+                }else{
+                    for(let x of updatedList){
+                        if(x.Id == tempFinalList[i].Id && x.isChecked == false){
+                            tempFinalList.splice(i,1);
+                        }
                     }
                 }
-            }            
-            c.set("v.count", count);
-            //c.set("v.countSelectAll", c.get("v.countSelectAll")-c.get("v.count"));
+            }   
+            for(let x of tempFinalList){
+                for(let y of c.get("v.storeCheckedValues")){
+                    if(x.Id == y.Id){
+                        x.Id = y.Id;
+                    }
+                }
+            }       
+            c.set("v.storeCheckedValues", tempFinalList);
+
             c.set("v.userList", tempFinalList);
             if(c.get("v.userList").length >0 ){
                 c.set("v.isDisableSendTouchPointBtn", false);
@@ -670,33 +724,47 @@
            c.set("v.isDisableSendTouchPointBtn", true);
 
         }
-      },
-      getSelectedAllClientsRecords: function(c,e,h,updatedList){
+    },
+    getSelectedAllClientsRecords: function(c,e,h,updatedList){
           if (updatedList.length > 0 && updatedList != undefined) {
             let count = c.get("v.countSelectAll");
             let tempFinalList = c.get("v.userList");
-            let temp = []
+            let temp = [];
             for(let i=0; i<updatedList.length; i++){
-                if(updatedList[i].isChecked == true && !tempFinalList.includes(updatedList[i])){
+                const isFound = tempFinalList.some(element => {
+                    if (element.Id === updatedList[i].Id) {
+                      return true;
+                    }
+                    return false;
+                  });
+                 // console.log("isFound:: "+ isFound);
+                if(updatedList[i].isChecked == true && !isFound){
+                    //console.log('updatedList[i]:: '+JSON.stringify(updatedList[i]));
                     tempFinalList.push(updatedList[i]); 
                     count++;
-                }else if(updatedList[i].isChecked == false){
-                    if(count>0){
-                        count--;
-                    }
+                }
+                else if(updatedList[i].isChecked == false){
+                        for( let x of tempFinalList){
+                            if(x.Id == updatedList[i].Id){
+                                x.isChecked = updatedList[i].isChecked;
+                                //console.log('x: '+JSON.stringify(x));
+                            }
+                        }
                 }
             }
             for ( let k in tempFinalList){
                 if(tempFinalList[k].isChecked ){
                     temp.push(tempFinalList[k])
                 }
-            }         
-            c.set("v.countSelectAll", count);
-            if(c.get("v.count")>=1){
-                let countVar = c.get("v.count");
-                countVar--;
-                c.set("v.count",countVar);
-            }
+            }        
+            for(let x of temp){
+                for(let y of c.get("v.storeCheckedValues")){
+                    if(x.Id == y.Id){
+                        x.isChecked = y.isChecked;
+                    }
+                }
+            } 
+            c.set("v.storeCheckedValues", temp);
             c.set("v.userList", temp);
             if(c.get("v.userList").length >0 ){
                 c.set("v.isDisableSendTouchPointBtn", false);
@@ -712,7 +780,7 @@
 
         }
         h.onOffSelectAll(c,e,h);
-      },
+    },
       onOffSelectAll: function(c,e,h){
           let count = c.get("v.countSelectAll");
           let tempList = c.get("v.listData");
@@ -732,5 +800,54 @@
               console.log(error);
           }
           //console.log('final value:: '+ c.get("v.selectAllList"));
+      },
+      updateCheckedData: function(c,e,h,mainList){
+        if(mainList.length>0){
+            for(let x of mainList){
+                for(let y of c.get("v.storeCheckedValues")){
+                    if(x.Id == y.Id){
+                        x.isChecked = y.isChecked;
+                    }
+                }
+            }
+            c.set("v.data", mainList);
+            let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+            c.set("v.totalPages", totPage);
+            // let pgno = 1;
+            // c.set("v.pageNo",pgno);
+            if(c.get("v.pageNo") == 1){
+                c.set("v.preDisable",true);
+            }
+            h.preparePaginationList(c,e,h);
+            let flag = 0;
+            if(c.get("v.listData").length >0){
+                for(let x of c.get("v.listData")){
+                    if(!x.isChecked){
+                        flag = 1;
+                        break;
+                    }
+                }
+                //console.log('flag:: '+ flag);
+                if(flag){
+                    c.set("v.selectAllList", false);
+                }else{
+                    c.set("v.selectAllList", true);
+                }
+            }else{
+                c.set("v.selectAllList", false);
+                c.set("v.disableSelectAllList", true);
+            }
+            
+        }else{
+            c.set("v.selectAllList", false);
+            c.set("v.data", mainList);
+            let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+            c.set("v.totalPages", totPage);
+            if(c.get("v.pageNo") == 1){
+                c.set("v.preDisable",true);
+            }
+            h.preparePaginationList(c,e,h);
+        }
+        //console.log('mainList after pagination:: '+ JSON.stringify(mainList));
       },
 });
