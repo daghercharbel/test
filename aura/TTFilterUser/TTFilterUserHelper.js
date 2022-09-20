@@ -160,7 +160,6 @@
     fielterEvent_helper: function (c, e, h, isFormType) {
         try {
             c.set("v.isShowSpinner", true);
-            console.log(JSON.stringify(c.get("v.fielterDetails")));
             var action = c.get("c.getUserDetails");
             action.setParams({
                 campainId: c.get("v.recordId"),
@@ -174,7 +173,6 @@
                 if (rtnValue != null && state == "SUCCESS") {
                     // console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
-                    console.log(JSON.stringify(c.get("v.data")));
                     if(c.get("v.data").length !=0 ){
                         c.set("v.disableSelectAllList", false);
                     }else{
