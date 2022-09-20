@@ -1,6 +1,7 @@
 ({
     doInit_helper: function (c, e, h) {
         try {
+            // console.log('doinit of ttfilter');
             if(c.get('v.showCreateSingleActions')){
                 c.set("v.columns", [
                     {
@@ -357,8 +358,8 @@
             if(state == 'SUCCESS'){
                 this.viewRecord_helper(c, undefined, this, recordId);
             } else {
-                console.log('Failed with State: '+state);
-                console.log('Response: '+response);
+                // console.log('Failed with State: '+state);
+                // console.log('Response: '+response);
                 c.set("v.isShowSpinner", false);
             }
         });
@@ -797,7 +798,7 @@
             }
             c.set("v.countSelectAll", count);
           } catch (error) {
-              console.log(error);
+            //   console.log(error);
           }
           //console.log('final value:: '+ c.get("v.selectAllList"));
       },
