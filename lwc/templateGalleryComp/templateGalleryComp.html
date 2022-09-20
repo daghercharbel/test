@@ -8,7 +8,8 @@
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
             <lightning-input type="toggle" message-toggle-active={label.Private_Text}
-              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} label="" variant="label-hidden">
+              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} checked={isPrivateToggle} label=""
+              variant="label-hidden">
             </lightning-input>
           </div>
         </lightning-layout-item>
@@ -40,6 +41,10 @@
                 <div class="tooltip">
                   <div if:true={fr} class="tpName">{each.name_fr}</div>
                   <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
+                </div>
+                <div class="tooltip">
+                  <div class="tpDate">{each.Description}</div>
+                  <span class="tooltip-drop tooltip-top">{each.Description}</span>
                 </div>
                 <div class="tpDate">{each.modified_at}</div>
               </div>
@@ -98,12 +103,14 @@
         <div class="slds-modal__header">
           <h1 class="slds-modal__title slds-hyphenate">{label.Compliance_Title}</h1>
         </div>
-        <div class="slds-modal__content slds-p-around_medium" >
+        <div class="slds-modal__content slds-p-around_medium">
           <p>{label.Compliance_Message}</p>
         </div>
         <div class="slds-modal__footer">
-          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small"></lightning-button>
-          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small">
+          </lightning-button>
+          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate}
+            class="slds-m-left_x-small"></lightning-button>
         </div>
       </div>
     </section>

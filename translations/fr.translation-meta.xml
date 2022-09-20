@@ -81,6 +81,14 @@
         <name>Cam_Not_Have_TT_Record_Toast</name>
     </customLabels>
     <customLabels>
+        <label>La Campagne sélectionnée est déjà syncronisée</label>
+        <name>Camp_Already_Sync_Toast</name>
+    </customLabels>
+    <customLabels>
+        <label>Campagnes supprimées de SF à TT</label>
+        <name>Camp_Deleted_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Un Membre a été ajouté à la campagne avec succès.</label>
         <name>Camp_Mem_Added_Toast</name>
     </customLabels>
@@ -157,7 +165,7 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label/>
+        <label><!-- CaseRaised --></label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -241,7 +249,7 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label/>
+        <label><!-- Close --></label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -558,7 +566,7 @@
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label/>
+        <label><!-- IssueDescription --></label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -655,6 +663,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Aucun Champs personnalisé n&apos;a été trouvé</label>
         <name>No_Custom_Field_Toast</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- No Description Text --></label>
+        <name>No_Description_Text</name>
     </customLabels>
     <customLabels>
         <label>Vous n&apos;êtes pas autorisé à l&apos;ouvrir</label>
@@ -865,7 +877,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label/>
+        <label><!-- Request for Enterprise Email --></label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -1310,16 +1322,115 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label/>
+        <label><!-- TouchPoints --></label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
         <flows/>
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
+    <prompts>
+        <name>IAGFeatureAdoption</name>
+        <promptVersions>
+            <name>IAG Feature Adoption Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>IAG Feature Adoption Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesCoreQuoteAdminCpq</name>
+        <promptVersions>
+            <name>Sales Core Quote Admin to CPQ</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EinsteinPredictionBuilderSetupPagePrompt</name>
+        <promptVersions>
+            <name>Einstein Prediction Builder Setup Page Prompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>CDPOnboardingInAppGuidance</name>
+        <promptVersions>
+            <name>CDP Onboarding InApp Guidance</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesHVSDialer</name>
+        <promptVersions>
+            <name>Sales HVS Dialer</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>tabletFullWidthGA</name>
+        <promptVersions>
+            <name>TabletFullWidthGA</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>FieldServiceHolidayManagement</name>
+        <promptVersions>
+            <name>Schedule Holiday Hours</name>
+        </promptVersions>
+    </prompts>
     <quickActions>
-        <aspect>Master</aspect>
-        <label/>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Task --></label>
         <name>NewTask</name>
     </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+    <reportTypes>
+        <description><!-- Screen Flows --></description>
+        <label><!-- Screen Flows --></label>
+        <name>screen_flows_prebuilt_crt</name>
+        <sections>
+            <label><!-- Flow Interview Log Entries --></label>
+            <name>Flow Interview Log Entries</name>
+        </sections>
+        <sections>
+            <label><!-- Flow Interview Logs --></label>
+            <name>Flow Interview Logs</name>
+        </sections>
+    </reportTypes>
 </Translations>

@@ -109,7 +109,6 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   };
 
-
   getTemplates() {
     getTouchPointTemplates()
       .then((data) => {
@@ -138,6 +137,7 @@ export default class TemplateGalleryComp extends LightningElement {
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
       }
+        this.showDataBasedOnPrivate();
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
         this.updateRecords();
       })
@@ -165,7 +165,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.updateRecords();
   }
 
-
   handleSearchInput(event) {
     try {
       let searchKey = event.target.value.toLowerCase();
@@ -176,7 +175,7 @@ export default class TemplateGalleryComp extends LightningElement {
         if (this.isPrivateToggle) {
           //console.log('private');
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -184,7 +183,7 @@ export default class TemplateGalleryComp extends LightningElement {
         } else {
           // console.log('templateList size:: '+ this.templatesList.length);
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -194,13 +193,13 @@ export default class TemplateGalleryComp extends LightningElement {
         //console.log('french');
         if (this.isPrivateToggle) {
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
         } else {
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -237,8 +236,6 @@ export default class TemplateGalleryComp extends LightningElement {
     return this.currentPage >= this.totalPage;
   }
 
-
-
   previousHandler() {
     if (this.currentPage > 1) {
       this.currentPage = this.currentPage - 1;
@@ -247,7 +244,6 @@ export default class TemplateGalleryComp extends LightningElement {
       this.updateRecords();
     }
   }
-
 
   nextHandler() {
     if (this.currentPage < this.totalPage) {
@@ -258,20 +254,15 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   nextPageAction() {
     this.currentPage = this.nextPage;
     this.updateRecords();
   }
 
-
-
   prevPageAction() {
     this.currentPage = this.prevPage;
     this.updateRecords();
   }
-
-
 
   updateRecords() {
     try {
@@ -312,7 +303,6 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   openSelectedTemplatePreview(event) {
     this.templateId = event.currentTarget.dataset.id;
     this.isTemplatePage = false;
@@ -321,10 +311,25 @@ export default class TemplateGalleryComp extends LightningElement {
 
   }
 
+  /**
+   * Responsible for state management of the All/Private toggle
+   */
+  showDataBasedOnPrivate(){
+    // console.log('private toogle on? '+ this.isPrivateToggle);
+    if(this.isPrivateToggle){
+      this.templatesList = this.privateTemplatesList;
+    }else{
+      this.templatesList = this.mainTemplateList;
+    }
+  }
 
   handleBackbuttonAction() {
     this.isTemplatePage = true;
     this.previewBody = false;
+    this.privateTemplatesList = [];
+    this.templatesList = [];
+    this.mainTemplateList = [];
+    this.isPrivateToggle = this.isPrivateToggle? this.isPrivateToggle:this.isPrivateToggle;
     // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
@@ -334,7 +339,6 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   storeTemplate() {
-
     SaveTouchPointTemplate({campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId})
       .then((data) => {
         if (data) {
@@ -377,8 +381,6 @@ export default class TemplateGalleryComp extends LightningElement {
       });
   }
 
-
-
   generateIFrame(){
     generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
@@ -389,7 +391,6 @@ export default class TemplateGalleryComp extends LightningElement {
         // console.log(error);
       }); 
   }
-
 
   handleLangChange(event) {
     try {
