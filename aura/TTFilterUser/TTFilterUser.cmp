@@ -15,7 +15,7 @@
     <aura:attribute name="pageNo" type="integer" default="1" />
     <aura:attribute name="startRecord" type="integer" />
     <aura:attribute name="endRecord" type="integer" />
-    <aura:attribute name="recordPerPage" type="integer" default="1" />
+    <aura:attribute name="recordPerPage" type="integer" default="10" />
     <aura:attribute name="listData" type="List" />
     <aura:attribute name="isCheckedList" type="List" default="" />
     <aura:attribute name="storeCheckedValues" type="List" default="" />
