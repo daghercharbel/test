@@ -1,6 +1,7 @@
 ({
     doInit_helper: function (c, e, h) {
         try {
+            // console.log('doinit of ttfilter');
             if(c.get('v.showCreateSingleActions')){
                 c.set("v.columns", [
                     {
@@ -141,12 +142,12 @@
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
                     //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
-                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    c.set("v.totalPages", totPage);
-                    if(c.get("v.pageNo") == 1){
-                        c.set("v.preDisable",true);
-                    }
-                   h.preparePaginationList(c,e,h);
+                //     let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+                //     c.set("v.totalPages", totPage);
+                //     if(c.get("v.pageNo") == 1){
+                //         c.set("v.preDisable",true);
+                //     }
+                //    h.preparePaginationList(c,e,h);
                 }else{
                     c.set("v.disableSelectAllList", true);
                 }
@@ -171,7 +172,7 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    //console.log('return value:: '+JSON.stringify(rtnValue));
+                    // console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
                     console.log(JSON.stringify(c.get("v.data")));
                     if(c.get("v.data").length !=0 ){
@@ -335,8 +336,8 @@
             if(state == 'SUCCESS'){
                 this.viewRecord_helper(c, undefined, this, recordId);
             } else {
-                console.log('Failed with State: '+state);
-                console.log('Response: '+response);
+                // console.log('Failed with State: '+state);
+                // console.log('Response: '+response);
                 c.set("v.isShowSpinner", false);
             }
         });

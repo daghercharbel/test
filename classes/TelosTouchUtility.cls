@@ -2256,11 +2256,12 @@ return null;
                         }else{
                             returnMap.put('label', String.valueOf(responseMap.get('name')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
                         }
-                        returnMap.put('value', String.valueOf(responseMap.get('id')));
                     }else if(UserInfo.getLanguage().contains('fr')){
                         returnMap.put('label', String.valueOf(responseMap.get('name_fr')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
-                        returnMap.put('value', String.valueOf(responseMap.get('id')));
                     }
+                    returnMap.put('value', String.valueOf(responseMap.get('id')));
+                    returnMap.put('createdDate', String.valueOf(responseMap.get('created_at')));
+                    returnMap.put('isPrivate', String.valueOf(responseMap.get('is_private')));
                     returnList.add(returnMap);
                 }
             }

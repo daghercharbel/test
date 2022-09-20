@@ -1,126 +1,142 @@
-<aura:component description="TTFilterUser" controller="TTFilterUserController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName" access="global">
-	<aura:attribute name="hideOptions" type="boolean" default="true"/>
-    <aura:attribute name="boolForNoRecord" type="boolean" default="false"/>
-    <aura:attribute name="boolForInput" type="boolean" default="true"/>
-    <aura:attribute name="isShowIconForCreatingCampRecord" type="boolean" default="true"/>
-    <aura:attribute name="selectedRecord" type="Object" default=""/>
-    <aura:attribute name="searchString" type="String" default=""/>
-    <aura:attribute name="recordsList" type="List" default=""/>
-    <aura:attribute name="userList" type="List" default=""/>
-    <aura:attribute name="message" type="String" default="No Record Found"/>
-    <aura:attribute name="lookUpLabel" type="String" default="Campaign"/>
-    <aura:attribute name="recordId" type="String"/>
-    <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
+<aura:component description="TTFilterUser" controller="TTFilterUserController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"
+    access="global">
+    <aura:attribute name="hideOptions" type="boolean" default="true" />
+    <aura:attribute name="boolForNoRecord" type="boolean" default="false" />
+    <aura:attribute name="boolForInput" type="boolean" default="true" />
+    <aura:attribute name="isShowIconForCreatingCampRecord" type="boolean" default="true" />
+    <aura:attribute name="selectedRecord" type="Object" default="" />
+    <aura:attribute name="searchString" type="String" default="" />
+    <aura:attribute name="recordsList" type="List" default="" />
+    <aura:attribute name="userList" type="List" default="" />
+    <aura:attribute name="message" type="String" default="No Record Found" />
+    <aura:attribute name="lookUpLabel" type="String" default="Campaign" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isShowSpinner" type="boolean" default="false" />
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler
-    event="c:TT_AddToCampMobile_Evt"
-    action="{!c.onEventHandle_Save}"
-    />
-    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:TT_AddToCampMobile_Evt" action="{!c.onEventHandle_Save}" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
 
     <aura:if isTrue="{!v.isShowSpinner}">
         <lightning:spinner alternativeText="Loading" size="medium" />
     </aura:if>
 
-    <label class="slds-form-element__label" >
+    <label class="slds-form-element__label">
         <abbr class="slds-required" title="required">*</abbr>
-        <span >{!$Label.c.Campaign_Text}</span>
-    </label>     
+        <span>{!$Label.c.Campaign_Text}</span>
+    </label>
     <div class="slds-combobox_container slds-has-inline-listbox" aura:id="addborder">
         <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open combowidth"
-                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+            aria-expanded="true" aria-haspopup="listbox" role="combobox">
             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right combopadding">
-        <div>      
-            <aura:if isTrue="{!v.boolForInput}">
-                <lightning:input type="text" role="textbox" placeholder="{!$Label.c.Search_Campaign_Text}" required="true" label="" variant="label-hidden"
-                    value="{!v.selectedRecord}"  onclick="{!c.onClickInputHandle}" onchange="{!c.setInputValue}" />
-                <aura:set attribute="else">
-                    <span class="slds-pill slds-pill_link  pillWidth" >
-                        <a href="javascript:void(0);"
-                            class="slds-pill__action slds-p-left_x-small"
-                            title="{!v.selectedRecord.label}">
-                            <lightning:icon iconName="standard:campaign" size="small"/>
-                            <span class="slds-pill__label slds-p-left_x-small">{!v.selectedRecord.label}</span>
-                        </a>
-                        <button onclick="{!c.removeItem}"
-                                class="slds-button slds-button_icon slds-button_icon slds-pill__remove pillRemove"
-                                title="{!$Label.c.Remove_Text}" >
-                            <lightning:icon iconName="utility:close" size="medium"
-                                            alternativeText="Press delete or backspace to remove"/>
-                            <span class="slds-assistive-text">{!$Label.c.Remove_Text}</span>
-                        </button>
+                <div>
+                    <aura:if isTrue="{!v.boolForInput}">
+                        <lightning:input type="text" role="textbox" placeholder="{!$Label.c.Search_Campaign_Text}"
+                            required="true" label="" variant="label-hidden" value="{!v.selectedRecord}"
+                            onclick="{!c.onClickInputHandle}" onchange="{!c.setInputValue}" />
+                        <aura:set attribute="else">
+                            <span class="slds-pill slds-pill_link  pillWidth">
+                                <a href="javascript:void(0);" class="slds-pill__action slds-p-left_x-small"
+                                    title="{!v.selectedRecord.label}">
+                                    <lightning:icon iconName="standard:campaign" size="small" />
+                                    <span class="slds-pill__label slds-p-left_x-small">{!v.selectedRecord.label}</span>
+                                </a>
+                                <button onclick="{!c.removeItem}"
+                                    class="slds-button slds-button_icon slds-button_icon slds-pill__remove pillRemove"
+                                    title="{!$Label.c.Remove_Text}">
+                                    <lightning:icon iconName="utility:close" size="medium"
+                                        alternativeText="Press delete or backspace to remove" />
+                                    <span class="slds-assistive-text">{!$Label.c.Remove_Text}</span>
+                                </button>
+                            </span>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.hideOptions}">
+                <div id="listbox-unique-id" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical slds-dropup slds-dropdown_fluid itemSelectCss"
+                        role="presentation">
+                        <aura:iteration items="{!v.recordsList}" var="item" indexVar="i">
+                            <li id="{#item.value}" role="presentation" class="slds-listbox__item"
+                                data-selectedIndex="{#i}" onclick="{!c.selectCampaignValue}">
+                                <span id="{#item.value}"
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option">
+                                    <span class="slds-media__figure">
+                                        <span class="slds-icon_container">
+                                            <lightning:icon iconName="standard:campaign" size="small" />
+                                            <span class="slds-assistive-text">{!item.label}</span>
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span
+                                            class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!item.label}</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </aura:iteration>
+                        <aura:if isTrue="{! v.isShowIconForCreatingCampRecord }">
+                            <li role="presentation" class="slds-listbox__item" data-selectedIndex="{#i}"
+                                onclick="{!c.createNewRecord}">
+                                <span id="{#'listbox-option-unique-id-'+i+1}"
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option">
+                                    <span class="slds-media__figure">
+                                        <span class="slds-icon_container">
+                                            <lightning:icon iconName="utility:add" size="small" />
+                                            <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span
+                                            class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </aura:if>
+                    </ul>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.boolForNoRecord}">
+                <span
+                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-m-top_small"
+                    role="option">
+                    <span class="slds-media__figure">
+                        <span class="slds-icon_container slds-p-left_x-small">
+                            <lightning:icon iconName="standard:campaign" size="small" />
+                            <span class="slds-assistive-text">{!$Label.c.No_Record_Found_Text}</span>
+                        </span>
                     </span>
-                </aura:set>
+                    <span>
+                        <span
+                            class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity norecordfound">{!$Label.c.No_Record_Found_Text}</span>
+                    </span>
+                </span>
+                <aura:if isTrue="{! v.isShowIconForCreatingCampRecord }">
+                    <ul class="slds-listbox slds-listbox_vertical slds-dropup slds-dropdown_fluid itemSelectCss"
+                        role="presentation">
+                        <li role="presentation" class="slds-listbox__item slds-m-top_x-small" data-selectedIndex="{#i}"
+                            onclick="{!c.createNewRecord}">
+                            <span id="{#'listbox-option-unique-id-'+i+1}"
+                                class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                role="option">
+                                <span class="slds-media__figure">
+                                    <span class="slds-icon_container">
+                                        <lightning:icon iconName="utility:add" size="small" />
+                                        <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
+                                    </span>
+                                </span>
+                                <span class="slds-media__body">
+                                    <span
+                                        class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+                </aura:if>
             </aura:if>
         </div>
     </div>
-    <aura:if isTrue="{!v.hideOptions}">
-        <div id="listbox-unique-id" role="listbox">
-            <ul class="slds-listbox slds-listbox_vertical slds-dropup slds-dropdown_fluid itemSelectCss" role="presentation">
-                <aura:iteration items="{!v.recordsList}" var="item" indexVar="i">
-                    <li id="{#item.value}" role="presentation" class="slds-listbox__item" data-selectedIndex="{#i}" onclick="{!c.selectCampaignValue}">
-                        <span id="{#item.value}" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                            <span class="slds-media__figure optionIcon">
-                                <span class="slds-icon_container">
-                                    <lightning:icon iconName="standard:campaign" size="small"/>
-                                    <span class="slds-assistive-text">{!item.label}</span>
-                                </span>
-                            </span>
-                            <span class="slds-media__body singleRow">
-                                <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!item.label}</span>
-                            </span>
-                        </span>
-                    </li>
-                </aura:iteration>
-                <aura:if isTrue="{! v.isShowIconForCreatingCampRecord }">
-                    <li role="presentation" class="slds-listbox__item" data-selectedIndex="{#i}" onclick="{!c.createNewRecord}">
-                    <span id="{#'listbox-option-unique-id-'+i+1}" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                        <span class="slds-media__figure optionIcon">
-                            <span class="slds-icon_container">
-                                <lightning:icon iconName="utility:add" size="small"/>
-                                <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
-                            </span>
-                        </span>
-                        <span class="slds-media__body singleRow">
-                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
-                        </span>
-                    </span>
-                    </li>
-                </aura:if>
-            </ul>
-        </div>
-    </aura:if>
-    <aura:if isTrue="{!v.boolForNoRecord}">
-        <span class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-m-top_small" role="option">
-            <span class="slds-media__figure optionIcon">
-                <span class="slds-icon_container slds-p-left_x-small">
-                    <lightning:icon iconName="standard:campaign" size="small"/>
-                    <span class="slds-assistive-text">{!$Label.c.No_Record_Found_Text}</span>
-                </span>
-            </span>
-            <span class="slds-media__body singleRow">
-                <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.No_Record_Found_Text}</span>
-            </span>
-        </span>
-        <aura:if isTrue="{! v.isShowIconForCreatingCampRecord }">
-            <ul class="slds-listbox slds-listbox_vertical slds-dropup slds-dropdown_fluid itemSelectCss" role="presentation">
-                <li role="presentation" class="slds-listbox__item slds-m-top_x-small" data-selectedIndex="{#i}" onclick="{!c.createNewRecord}">
-                    <span id="{#'listbox-option-unique-id-'+i+1}" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                        <span class="slds-media__figure optionIcon">
-                            <span class="slds-icon_container">
-                                <lightning:icon iconName="utility:add" size="small"/>
-                                <span class="slds-assistive-text">{!$Label.c.Campaign_Text}</span>
-                            </span>
-                        </span>
-                        <span class="slds-media__body singleRow">
-                            <span class="optionTitle slds-listbox__option-text slds-listbox__option-text_entity">{!$Label.c.Create_New_Text}&nbsp;{!$Label.c.Campaign_Text}</span>
-                        </span>
-                    </span>
-                </li>
-            </ul>
-        </aura:if>
-        </aura:if>
-    </div>
-</div>
 </aura:component>

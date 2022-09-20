@@ -7,6 +7,9 @@
         c.set("v.hideOptions", true);
         c.set("v.boolForNoRecord", false);
         var action = c.get('c.fetchLimitedRecords');
+        action.setParams({
+            campaignRecordId : c.get('v.recordId')
+        });
         action.setCallback(this,function(response){ 
             try{
                 c.set('v.isShowSpinner', false);
@@ -15,7 +18,7 @@
                     if(!$A.util.isEmpty(result) && JSON.parse(result) != '') {
                         c.set('v.recordsList', JSON.parse(result));        
                     } else {
-                        c.set('v.boolForNoRecord', true);
+                        //c.set('v.boolForNoRecord', true);
 
                     }
                 }else{
