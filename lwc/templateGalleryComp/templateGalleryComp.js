@@ -21,6 +21,7 @@ import Compliance_Title from "@salesforce/label/c.Compliance_Title";
 import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Private_Text from "@salesforce/label/c.Private_Text";
 import Search_Text from "@salesforce/label/c.Search_Text";
+import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
@@ -32,6 +33,7 @@ export default class TemplateGalleryComp extends LightningElement {
     English_Text,
     French_Text,
     All_Label,
+    No_Data_Text,
     TouchPointTemplateSaved_Text,
     TouchPointTemplateNotSaved_Text,
     Back_Button_Label,
@@ -79,15 +81,11 @@ export default class TemplateGalleryComp extends LightningElement {
 
   connectedCallback() {
     loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
-    // window.addEventListener('resize', this.updateRecordSize);
-   // console.log(window.screen.availWidth);
     if (window.screen.availWidth < 900) {
       this.recordSize = 6;
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
       this.updateRecords();
-    } else {
-      // this.topButtonStyle = "slds-var-p-bottom_small";
-    }
+    } 
     if (this.lang === "fr") {
       this.fr = true;
     }
@@ -100,23 +98,16 @@ export default class TemplateGalleryComp extends LightningElement {
 
   updateRecordSize = () => {
     if (window.screen.availWidth <= 900) {
-
       this.recordSize = 6;
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
       this.updateRecords();
-    } else {
-      // this.topButtonStyle = "slds-var-p-bottom_small";
     }
   };
-
 
   getTemplates() {
     getTouchPointTemplates()
       .then((data) => {
         if (data) {
-          // console.log(
-          //   " response templates: " + JSON.stringify(JSON.parse(data))
-          // );
           this.templatesList = JSON.parse(data);
           this.mainTemplateList = this.templatesList;
           for (let x of this.templatesList) {
@@ -138,6 +129,7 @@ export default class TemplateGalleryComp extends LightningElement {
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
       }
+        this.showDataBasedOnPrivate();
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
         this.updateRecords();
       })
@@ -165,42 +157,34 @@ export default class TemplateGalleryComp extends LightningElement {
     this.updateRecords();
   }
 
-
   handleSearchInput(event) {
     try {
       let searchKey = event.target.value.toLowerCase();
-      // console.log('searchKey : '+ searchKey);
       let filteredTemplates = [];
       if(!this.fr){
-        // console.log('english');
         if (this.isPrivateToggle) {
-          //console.log('private');
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
-          //console.log('filtered in private list: '+ JSON.stringify(filteredTemplates));
         } else {
-          // console.log('templateList size:: '+ this.templatesList.length);
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
-          // console.log('filtered in all list: '+ JSON.stringify(filteredTemplates));
         }
       }else{
-        //console.log('french');
         if (this.isPrivateToggle) {
           this.privateTemplatesList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
         } else {
           this.mainTemplateList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim())) {
+            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
               filteredTemplates.push(ele);
             }
           });
@@ -215,7 +199,6 @@ export default class TemplateGalleryComp extends LightningElement {
           this.templatesList = this.mainTemplateList;
         }
       }
-      this.currentPage = 1;
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
       this.updateRecords();
     } catch (error) {
@@ -237,8 +220,6 @@ export default class TemplateGalleryComp extends LightningElement {
     return this.currentPage >= this.totalPage;
   }
 
-
-
   previousHandler() {
     if (this.currentPage > 1) {
       this.currentPage = this.currentPage - 1;
@@ -247,7 +228,6 @@ export default class TemplateGalleryComp extends LightningElement {
       this.updateRecords();
     }
   }
-
 
   nextHandler() {
     if (this.currentPage < this.totalPage) {
@@ -258,20 +238,15 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   nextPageAction() {
     this.currentPage = this.nextPage;
     this.updateRecords();
   }
 
-
-
   prevPageAction() {
     this.currentPage = this.prevPage;
     this.updateRecords();
   }
-
-
 
   updateRecords() {
     try {
@@ -282,9 +257,7 @@ export default class TemplateGalleryComp extends LightningElement {
       }
       if (this.totalPage > 1) {
         this.showPagination = true;
-        //this.isTemplatePresent = true;
       } else {
-        //this.isTemplatePresent = false;
         this.showPagination = false;
       }
       if (this.currentPage == this.prevPage) {
@@ -312,7 +285,6 @@ export default class TemplateGalleryComp extends LightningElement {
     }
   }
 
-
   openSelectedTemplatePreview(event) {
     this.templateId = event.currentTarget.dataset.id;
     this.isTemplatePage = false;
@@ -321,10 +293,24 @@ export default class TemplateGalleryComp extends LightningElement {
 
   }
 
+  /**
+   * Responsible for state management of the All/Private toggle
+   */
+  showDataBasedOnPrivate(){
+    // console.log('private toogle on? '+ this.isPrivateToggle);
+    if(this.isPrivateToggle){
+      this.templatesList = this.privateTemplatesList;
+    }else{
+      this.templatesList = this.mainTemplateList;
+    }
+  }
 
   handleBackbuttonAction() {
     this.isTemplatePage = true;
     this.previewBody = false;
+    this.privateTemplatesList = [];
+    this.templatesList = [];
+    this.mainTemplateList = [];
     // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
@@ -359,7 +345,6 @@ export default class TemplateGalleryComp extends LightningElement {
         }
       })
       .catch((error) => {
-        // console.log("show error toast");
         this.dispatchEvent(
           new ShowToastEvent({
               title: 'Error!',
@@ -376,27 +361,21 @@ export default class TemplateGalleryComp extends LightningElement {
       });
   }
 
-
-
   generateIFrame(){
     generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
         this.urls = (JSON.parse(result));
-        //console.log(JSON.stringify(this.urls));
       })
       .catch((error) => {
         // console.log(error);
       }); 
   }
 
-
   handleLangChange(event) {
     try {
       this.langValue = event.detail.value;
-      // console.log(this.langValue);
       this.generateIFrame();         
   } catch (error) {
-      // console.error(error);
     }
   }
 }

@@ -3,5 +3,5 @@
     <description>For TelosTouch</description>
     <disableProtocolSecurity>false</disableProtocolSecurity>
     <isActive>true</isActive>
-    <url>https://connect-agility-5804-dev-ed--telostouchsf.vf.force.com</url>
+    <url>https://force-ruby-3155-dev-ed--telostouchsf.vf.force.com</url>
 </RemoteSiteSetting>
