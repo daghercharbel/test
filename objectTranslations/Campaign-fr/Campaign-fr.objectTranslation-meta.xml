@@ -6,19 +6,15 @@
         <name>Send_TouchPoint</name>
     </quickActions>
     <recordTypes>
-        <label></label>
+        <label><!-- Salesforce --></label>
         <name>Salesforce_Campaign</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- TelosTouch --></label>
         <name>TelosTouch_Campaign</name>
     </recordTypes>
     <webLinks>
-        <label>Aperçu de TouchPoint</label>
+        <label>Inventaire de Points de contact</label>
         <name>TouchPoint_Preview</name>
-    </webLinks>
-    <webLinks>
-        <label></label>
-        <name>ViewCampaignInfluenceReport</name>
     </webLinks>
 </CustomObjectTranslation>

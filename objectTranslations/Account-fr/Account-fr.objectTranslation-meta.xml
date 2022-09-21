@@ -6,16 +6,12 @@
         <name>Add_To_Campaign</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Task --></label>
         <name>Create_Task</name>
     </quickActions>
     <webLinks>
         <label>Ajouter à Campagne</label>
         <name>Add_To_Campaign_List</name>
-    </webLinks>
-    <webLinks>
-        <label></label>
-        <name>Billing</name>
     </webLinks>
     <webLinks>
         <label>Invitation</label>

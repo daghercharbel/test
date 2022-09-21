@@ -26,7 +26,7 @@
                         c.set('v.OpenTouchPointModal', responseObj.openTouchPointModal);
                     }
                     if (responseObj.hasOwnProperty('templateId') && $A.util.isEmpty(responseObj.templateId)) {
-                        c.set("v.templateId", responseObj.templateId);
+                        c.set("v.templateValue", responseObj.templateId);
                     }
                     if (responseObj.hasOwnProperty('campMemList') && $A.util.isEmpty(responseObj.campMemList)) {
                         c.set("v.campMemList", responseObj.campMemList);
@@ -98,7 +98,7 @@
                 }
             });
             $A.enqueueAction(action);
-            h.getCurrentTemplateId(c, e, h);
+            // h.getCurrentTemplateId(c, e, h);
             h.showTemplateName(c, e, h);
             // h.getUserAccessToken(c, e, h);
         } catch (error) {
@@ -253,7 +253,7 @@
             //console.log($A.get("$Locale.language"));
             var action = c.get("c.generateCustomizeIFrame");
             action.setParams({
-                templateId: c.get("v.templateId"),
+                templateId: c.get("v.templateValue"),
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -281,16 +281,14 @@
                                         cssClass: "customize-modal",
                                         closeCallback: function () {
 
-                                        let currentAmount = result.length;
+                                            let initialAmount = c.get('v.initialTemplateAmount');
 
-                                        if(!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount){
-                                            h.replaceTemplateId(c, result);
-                                        }
+                                            h.getTemplateAmount(c).then(function (result) {
 
-                                                let currentAmount = result;
+                                                let currentAmount = result.length;
 
                                                 if (!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount) {
-                                                    h.clearTemplateId(c, e, h);
+                                                    h.replaceTemplateId(c, result);
                                                 }
 
                                             });
@@ -344,19 +342,19 @@
 
     setInitialTemplateAmount: function (c) {
 
-        this.getTemplateAmount(c).then(function(result){
+        this.getTemplateAmount(c).then(function (result) {
             let initialAmount = result.length;
             c.set('v.initialTemplateAmount', initialAmount);
         })
 
     },
-    
-    replaceTemplateId : function(c, lstTemplates){
+
+    replaceTemplateId: function (c, lstTemplates) {
         try {
 
             let lastestDate, templateId;
-            for(let i=0; i<lstTemplates.length; i++){
-                if(lstTemplates[i].isPrivate === 'true' && (!lastestDate || lastestDate.localeCompare(lstTemplates[i].createdDate) == -1)){
+            for (let i = 0; i < lstTemplates.length; i++) {
+                if (lstTemplates[i].isPrivate === 'true' && (!lastestDate || lastestDate.localeCompare(lstTemplates[i].createdDate) == -1)) {
                     lastestDate = lstTemplates[i].createdDate;
                     templateId = lstTemplates[i].value;
                 }
@@ -364,7 +362,7 @@
 
             c.set("v.templateNamePresent", true);
             c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', templateId);
-            c.find("recordHandler").saveRecord($A.getCallback(function(saveResult) {
+            c.find("recordHandler").saveRecord($A.getCallback(function (saveResult) {
             }));
             c.set('v.templateValue', templateId);
             $A.get('e.force:refreshView').fire();
