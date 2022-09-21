@@ -60,6 +60,19 @@ public with sharing class TemplateGalleryCompHandler {
                     'modified_at',
                     (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                 );
+                // if(templateMap.containsKey('description') && UserInfo.getLanguage().contains('en')){
+                //     if(templateMap.get('description') != null){
+                //         templateMap.put('Description', (Object) templateMap.get('description'));
+                //     }else{
+                //         templateMap.put('Description', (Object) System.Label.No_Description_Text);
+                //     }
+                // }else if(templateMap.containsKey('description_fr') && UserInfo.getLanguage().contains('fr')){
+                //     if(templateMap.get('description_fr') != null){
+                //         templateMap.put('Description', (Object) templateMap.get('description_fr'));
+                //     }else{
+                //         templateMap.put('Description', (Object) System.Label.No_Description_Text);
+                //     }
+                // }
                 templateObjects.add((Object) templateMap);
             }
         } else if (getResponseMap.get('status_code') == '401') {
@@ -137,6 +150,19 @@ public with sharing class TemplateGalleryCompHandler {
                     'modified_at',
                     (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                 );
+                if(templateMap.containsKey('description') && UserInfo.getLanguage().contains('en')){
+                    if(templateMap.get('description') != null){
+                        templateMap.put('Description', (Object) templateMap.get('description'));
+                    }else{
+                        templateMap.put('Description', (Object) System.Label.No_Description_Text);
+                    }
+                }else if(templateMap.containsKey('description_fr') && UserInfo.getLanguage().contains('fr')){
+                    if(templateMap.get('description_fr') != null){
+                        templateMap.put('Description', (Object) templateMap.get('description_fr'));
+                    }else{
+                        templateMap.put('Description', (Object) System.Label.No_Description_Text);
+                    }
+                }
                 templateObjects.add((Object) templateMap);
             }
         } else if (getResponseMap.get('status_code') == '401') {
@@ -172,14 +198,8 @@ public with sharing class TemplateGalleryCompHandler {
         try {
             Map<String, String> dataMap = new Map<String, String>();
             if (dataMap.isEmpty()) {
-                dataMap.put(
-                    'instanceURL',
-                    adminCredentials.TelosTouchSF__Instance_URL__c
-                );
-                datamap.put(
-                    'accessToken',
-                    TelosTouchSF.TelosTouchUtility.getCurrentUserToken()
-                );
+                dataMap.put('instanceURL', adminCredentials.TelosTouchSF__Instance_URL__c);
+                datamap.put('accessToken',TelosTouchSF.TelosTouchUtility.getCurrentUserToken());
             }
             if (dataMap.size() > 0) {
                 return dataMap;
@@ -187,13 +207,7 @@ public with sharing class TemplateGalleryCompHandler {
                 return null;
             }
         } catch (Exception e) {
-            System.debug(
-                LoggingLevel.ERROR,
-                'Error is::' +
-                e.getMessage() +
-                ' at line no::' +
-                e.getLineNumber()
-            );
+            System.debug(LoggingLevel.ERROR,'Error is::' + e.getMessage() + ' at line no::' + e.getLineNumber());
             return null;
         }
     }

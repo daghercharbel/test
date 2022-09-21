@@ -1,6 +1,7 @@
 ({
     doInitHelper: function (c, e, h) {
         try {
+            // console.log('campaign ticker comp:');
             var action = c.get('c.getCampaignDetails');
             action.setParams({
                 'campSfId': c.get('v.recordId')
@@ -280,9 +281,11 @@
                                         cssClass: "customize-modal",
                                         closeCallback: function () {
 
-                                            let initialAmount = c.get('v.initialTemplateAmount');
+                                        let currentAmount = result.length;
 
-                                            h.getTemplateAmount(c).then(function (result) {
+                                        if(!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount){
+                                            h.replaceTemplateId(c, result);
+                                        }
 
                                                 let currentAmount = result;
 
@@ -326,7 +329,7 @@
                 if (state == 'SUCCESS') {
                     if (!$A.util.isEmpty(result)) {
                         let lstTemplate = JSON.parse(result);
-                        resolve(lstTemplate.length);
+                        resolve(lstTemplate);
                     } else {
                         resolve(null);
                     }
@@ -341,20 +344,29 @@
 
     setInitialTemplateAmount: function (c) {
 
-        this.getTemplateAmount(c).then(function (result) {
-            let initialAmount = result;
+        this.getTemplateAmount(c).then(function(result){
+            let initialAmount = result.length;
             c.set('v.initialTemplateAmount', initialAmount);
         })
 
     },
-
-    clearTemplateId: function (c, e, h) {
+    
+    replaceTemplateId : function(c, lstTemplates){
         try {
-            c.set("v.templateNamePresent", false);
-            c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', null);
-            c.find("recordHandler").saveRecord($A.getCallback(function (saveResult) {
+
+            let lastestDate, templateId;
+            for(let i=0; i<lstTemplates.length; i++){
+                if(lstTemplates[i].isPrivate === 'true' && (!lastestDate || lastestDate.localeCompare(lstTemplates[i].createdDate) == -1)){
+                    lastestDate = lstTemplates[i].createdDate;
+                    templateId = lstTemplates[i].value;
+                }
+            }
+
+            c.set("v.templateNamePresent", true);
+            c.set('v.recordFields.TelosTouchSF__TouchPoint_Template_Id__c', templateId);
+            c.find("recordHandler").saveRecord($A.getCallback(function(saveResult) {
             }));
-            c.set('v.templateValue', "");
+            c.set('v.templateValue', templateId);
             $A.get('e.force:refreshView').fire();
         } catch (error) {
 

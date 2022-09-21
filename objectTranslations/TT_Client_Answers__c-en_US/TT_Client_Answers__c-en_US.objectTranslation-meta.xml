@@ -11,13 +11,13 @@
     <layouts>
         <layout>TT Client Answers Layout</layout>
         <sections>
-            <label><!-- Custom Links --></label>
+            <label></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage><!-- You can&apos;t modify the record. --></errorMessage>
+        <errorMessage></errorMessage>
         <name>Disable_Edit</name>
     </validationRules>
 </CustomObjectTranslation>
