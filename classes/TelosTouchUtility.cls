@@ -2030,6 +2030,8 @@ return null;
                 campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: campSfId LIMIT 1];
                 if(String.isNotEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
                     returnMap.put('templateId', (Object)campObj.TelosTouchSF__TouchPoint_Template_Id__c);
+                }else {
+                    returnMap.put('templateId', (Object)'');
                 }
             }
             if(returnMap.containsKey('actionRequired')){

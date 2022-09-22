@@ -297,7 +297,7 @@
                 label="{!$Label.c.Next_Button_Label}" disabled="{! v.nextDisable}" class="slds-p-left_xx-small"
                 iconName="utility:chevronright" iconPosition="left" onclick="{! c.handleNext}"></lightning:button>
             <span class="slds-p-left_medium slds-float_right ">
-                {!$Label.c.Page_no_text}: {! v.pageNo} {!$Label.c.of_text}&nbsp;{! v.totalPages}
+                {!$Label.c.Page_no_text}:&nbsp;{! v.pageNo}&nbsp;{!$Label.c.of_text}&nbsp;{! v.totalPages}
             </span>
         </div>
         <aura:if isTrue="{!v.isShowModel}">

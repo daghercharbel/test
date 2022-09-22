@@ -1,7 +1,6 @@
 ({
     doInitHelper: function (c, e, h) {
         try {
-            // console.log('campaign ticker comp:');
             var action = c.get('c.getCampaignDetails');
             action.setParams({
                 'campSfId': c.get('v.recordId')
@@ -12,7 +11,7 @@
                         return;
                     }
                     var responseObj = JSON.parse(response.getReturnValue());
-                    //console.log('response:: '+ JSON.stringify(responseObj));
+                    //console.log(responseObj);
                     if (responseObj.hasOwnProperty('synced')) {
                         c.set('v.CampaignSynced', responseObj.synced);
                     }
@@ -25,74 +24,62 @@
                     if (responseObj.hasOwnProperty('openTouchPointModal')) {
                         c.set('v.OpenTouchPointModal', responseObj.openTouchPointModal);
                     }
-                    if (responseObj.hasOwnProperty('templateId') && $A.util.isEmpty(responseObj.templateId)) {
+                    if (responseObj.hasOwnProperty('templateId')) {
                         c.set("v.templateValue", responseObj.templateId);
                     }
-                    if (responseObj.hasOwnProperty('campMemList') && $A.util.isEmpty(responseObj.campMemList)) {
+                    if (responseObj.hasOwnProperty('campMemList')) {
                         c.set("v.campMemList", responseObj.campMemList);
                     }
-                    // console.log(responseObj.synced);
-                    // console.log(responseObj.actionRequired);
-                    // console.log(responseObj.campMemberPresent);
-                    // console.log(responseObj.openTouchPointModal);
-                    // console.log(responseObj.templateId);
-                    // console.log(responseObj.campMemList);
-                    if (responseObj.hasOwnProperty('synced') && responseObj.hasOwnProperty('actionRequired') && responseObj.hasOwnProperty('campMemberPresent') && !responseObj.synced && !responseObj.actionRequired && !responseObj.campMemberPresent) {
-                        c.set('v.disableValue', false);
-                    } else if (responseObj.hasOwnProperty('actionRequired') && responseObj.hasOwnProperty('synced') && responseObj.hasOwnProperty('campMemberPresent') && !responseObj.actionRequired && !responseObj.synced && responseObj.campMemberPresent) {
-                        c.set('v.disableValue', false);
-
-                    } else if (responseObj.hasOwnProperty('actionRequired') && responseObj.hasOwnProperty('synced') && responseObj.hasOwnProperty('campMemberPresent') && !responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent) {
-                        c.set('v.disableValue', true);
-
-                    } else if (responseObj.hasOwnProperty('actionRequired') && responseObj.hasOwnProperty('synced') && responseObj.hasOwnProperty('campMemberPresent') && responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && responseObj.openTouchPointModal) {
-                        c.set('v.disableValue', false);
-
-                    } else if (responseObj.hasOwnProperty('actionRequired') && responseObj.hasOwnProperty('synced') && responseObj.hasOwnProperty('campMemberPresent') && responseObj.hasOwnProperty('openTouchPointModal') && responseObj.actionRequired && responseObj.synced && responseObj.campMemberPresent && !responseObj.openTouchPointModal) {
-                        //console.log('processing');
-                        c.set('v.disableValue', true);
-                    }
                     //console.log(c.get('v.templateValue'));
+                    //console.log($A.util.isEmpty(c.get('v.templateValue')));
                     if (!$A.util.isEmpty(c.get('v.templateValue'))) {
-                        // console.log('if');
+                        //console.log('if');
                         c.set('v.previewDisabled', false);
                         c.set("v.customizeDisabled", false);
                     } else {
-                        // console.log('else');
+                        //console.log('else');
                         c.set('v.previewDisabled', true);
                         c.set("v.customizeDisabled", true);
                     }
-
-
-                    if (!$A.util.isEmpty(c.get('v.templateValue')) && c.get("v.CampaignSynced") && !responseObj.actionRequired) {
-                        // console.log('send if2');
+                    if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && !responseObj.actionRequired) {
                         c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue')) && c.get("v.CampaignSynced") && responseObj.actionRequired && !responseObj.openTouchPointModal) {
-                        // console.log('send else if 2');
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && responseObj.actionRequired
+                        && responseObj.hasOwnProperty('openTouchPointModal')
+                        && !responseObj.openTouchPointModal) {
                         c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue')) && c.get("v.CampaignSynced") && responseObj.actionRequired && responseObj.openTouchPointModal) {
-                        // console.log('send else if 3');
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && responseObj.actionRequired
+                        && responseObj.hasOwnProperty('openTouchPointModal')
+                        && responseObj.openTouchPointModal) {
+                        c.set("v.sendDisabled", false);
+                    } else if ($A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
+                        c.set("v.sendDisabled", true);
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && !responseObj.actionRequired
+                        && responseObj.hasOwnProperty('campMemberPresent')
+                        && responseObj.campMemberPresent) {
                         c.set("v.sendDisabled", false);
                     }
-                    else if ($A.util.isEmpty(c.get('v.templateValue')) && !c.get("v.CampaignSynced")) {
-                        // console.log('send else  if 4');
-                        // c.set("v.customizeDisabled", false);
-                        c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue')) && !c.get("v.CampaignSynced") && !responseObj.actionRequired && responseObj.campMemberPresent) {
-                        // console.log('send else if 5');
-                        c.set("v.sendDisabled", false);
-                    }
-
-                    if (!$A.util.isEmpty(c.get('v.templateValue')) && c.get("v.CampaignSynced")) {
-                        // console.log('if2');
+                    if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")) {
                         c.set("v.customizeDisabled", true);
                         c.set("v.templateDisabled", true);
-                    } else if ($A.util.isEmpty(c.get('v.templateValue')) && !c.get("v.CampaignSynced")) {
-                        // console.log('else if 2');
-                        // c.set("v.customizeDisabled", false);
+                    } else if ($A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
                         c.set("v.templateDisabled", false);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue')) && !c.get("v.CampaignSynced")) {
-                        // console.log('else if 2');
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
                         c.set("v.templateDisabled", false);
                     }
                 }
@@ -379,15 +366,12 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
-                    if (response.getReturnValue()) {
-                        var storedResponse = response.getReturnValue();
-                        c.set("v.templateName", storedResponse);
-                        if (!$A.util.isEmpty(storedResponse)) {
-                            c.set("v.templateNamePresent", true);
-                        } else {
-                            c.set("v.templateNamePresent", false);
-                        }
-                        // console.log('response: '+ storedResponse);
+                    //console.log('response: '+ response.getReturnValue());
+                    c.set("v.templateName", response.getReturnValue());
+                    if (!$A.util.isEmpty(response.getReturnValue())) {
+                        c.set("v.templateNamePresent", true);
+                    } else {
+                        c.set("v.templateNamePresent", false);
                     }
                 }
             });
