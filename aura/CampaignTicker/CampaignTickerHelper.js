@@ -52,14 +52,13 @@
                         && responseObj.actionRequired
                         && responseObj.hasOwnProperty('openTouchPointModal')
                         && !responseObj.openTouchPointModal) {
-
                         c.set("v.sendDisabled", true);
-                    }else if (!$A.util.isEmpty(c.get('v.templateValue')) 
-                               && c.get("v.CampaignSynced") 
-                               && responseObj.hasOwnProperty('actionRequired')
-                               && responseObj.actionRequired 
-                               && responseObj.hasOwnProperty('openTouchPointModal')
-                               && responseObj.openTouchPointModal) {
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && responseObj.actionRequired
+                        && responseObj.hasOwnProperty('openTouchPointModal')
+                        && responseObj.openTouchPointModal) {
                         c.set("v.sendDisabled", false);
                     }else if ($A.util.isEmpty(c.get('v.templateValue')) 
                              && !c.get("v.CampaignSynced")) {
