@@ -5,17 +5,16 @@
   <template if:true={isTemplatePage}>
     <div class="container">
       <lightning-layout>
+        <lightning-layout-item padding="around-small">
+          <lightning-combobox
+            label="Show"
+            value={templateType}
+            options={templateOptions}
+            onchange={handleFilterChange} ></lightning-combobox>
+        </lightning-layout-item>
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
-            <lightning-input type="toggle" message-toggle-active={label.Private_Text}
-              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} checked={isPrivateToggle} label=""
-              variant="label-hidden">
-            </lightning-input>
-          </div>
-        </lightning-layout-item>
-        <lightning-layout-item padding="around-small">
-          <div class=" slds-text-align_center">
-            <lightning-input label="" variant="label-hidden" type="search" placeholder={label.Search_Text}
+            <lightning-input label="" type="search" placeholder={label.Search_Text}
               onchange={handleSearchInput}>
             </lightning-input>
           </div>

@@ -20,6 +20,7 @@ import Back_Button_Label from "@salesforce/label/c.Back_Button_Label";
 import Compliance_Title from "@salesforce/label/c.Compliance_Title";
 import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Private_Text from "@salesforce/label/c.Private_Text";
+import Public_Text from "@salesforce/label/c.Public_Text";
 import Search_Text from "@salesforce/label/c.Search_Text";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -40,6 +41,7 @@ export default class TemplateGalleryComp extends LightningElement {
     Cancel_Button_Label,
     Save_Button_Label,
     Private_Text,
+    Public_Text,
     Search_Text,
     Compliance_Title,
     Compliance_Message
@@ -51,6 +53,7 @@ export default class TemplateGalleryComp extends LightningElement {
   @track isPrivateToggle = false;
   showPagination = false;
   privateTemplatesList = [];
+  publicTemplatesList = [];
   @api templateId;
   isTemplatePage = false;
   lang = LANG;
@@ -62,6 +65,7 @@ export default class TemplateGalleryComp extends LightningElement {
   iframeURL;
   @track urls={};
   templatesList = [];
+  templateType = 'All';
   mainTemplateList = [];
   paginationList = [];
   currentPage = 1;
@@ -76,6 +80,14 @@ export default class TemplateGalleryComp extends LightningElement {
     return [
       { label: this.label.English_Text, value: "en_US" },
       { label: this.label.French_Text, value: "fr_FR" }
+    ];
+  }
+
+  get templateOptions(){
+    return [
+      { label: this.label.All_Label, value: "All" },
+      { label: this.label.Public_Text, value: "Public" },
+      { label: this.label.Private_Text, value: "Private" }
     ];
   }
 
@@ -113,6 +125,8 @@ export default class TemplateGalleryComp extends LightningElement {
           for (let x of this.templatesList) {
             if (x.is_private) {
               this.privateTemplatesList.push(x);
+            } else {
+              this.publicTemplatesList.push(x);
             }
           }
           if (this.templatesList.length > 0) {
@@ -141,14 +155,14 @@ export default class TemplateGalleryComp extends LightningElement {
       });
   }
 
-
-  handleToggleChange(event) {
-    if (event.target.checked) {
-      this.isPrivateToggle = true;
-      this.templatesList = this.privateTemplatesList;
-    } else {
-      this.isPrivateToggle = false;
+  handleFilterChange(event) {
+    this.templateType = event.detail.value;
+    if(this.templateType == 'All'){
       this.templatesList = this.mainTemplateList;
+    } else if(this.templateType == 'Public'){
+      this.templatesList = this.publicTemplatesList;
+    } else if(this.templateType == 'Private'){
+      this.templatesList = this.privateTemplatesList;
     }
     this.currentPage = 1;
     this.prevPage = 1;
@@ -161,43 +175,33 @@ export default class TemplateGalleryComp extends LightningElement {
     try {
       let searchKey = event.target.value.toLowerCase();
       let filteredTemplates = [];
+      let currentTemplates = [];
+
+      if(this.templateType == 'All'){
+        currentTemplates = this.mainTemplateList;
+      } else if(this.templateType == 'Public'){
+        currentTemplates = this.publicTemplatesList;
+      } else if(this.templateType == 'Private'){
+        currentTemplates = this.privateTemplatesList;
+      }
+
       if(!this.fr){
-        if (this.isPrivateToggle) {
-          this.privateTemplatesList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
-              filteredTemplates.push(ele);
-            }
-          });
-        } else {
-          this.mainTemplateList.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
-              filteredTemplates.push(ele);
-            }
-          });
-        }
+        currentTemplates.forEach((ele) => {
+          if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
       }else{
-        if (this.isPrivateToggle) {
-          this.privateTemplatesList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
-              filteredTemplates.push(ele);
-            }
-          });
-        } else {
-          this.mainTemplateList.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
-              filteredTemplates.push(ele);
-            }
-          });
-        }
+        currentTemplates.forEach((ele) => {
+          if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+            filteredTemplates.push(ele);
+          }
+        });
       }
       if (searchKey.trim().length > 0) {
         this.templatesList = filteredTemplates;
       } else {
-        if (this.isPrivateToggle) {
-          this.templatesList = this.privateTemplatesList;
-        } else {
-          this.templatesList = this.mainTemplateList;
-        }
+        this.templatesList = currentTemplates;
       }
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
       this.updateRecords();
@@ -298,19 +302,22 @@ export default class TemplateGalleryComp extends LightningElement {
    */
   showDataBasedOnPrivate(){
     // console.log('private toogle on? '+ this.isPrivateToggle);
-    if(this.isPrivateToggle){
-      this.templatesList = this.privateTemplatesList;
-    }else{
+    if(this.templateType == 'All'){
       this.templatesList = this.mainTemplateList;
+    } else if(this.templateType == 'Public'){
+      this.templatesList = this.publicTemplatesList;
+    } else if(this.templateType == 'Private'){
+      this.templatesList = this.privateTemplatesList;
     }
   }
 
   handleBackbuttonAction() {
     this.isTemplatePage = true;
     this.previewBody = false;
+    this.mainTemplateList = [];
+    this.publicTemplatesList = [];
     this.privateTemplatesList = [];
     this.templatesList = [];
-    this.mainTemplateList = [];
     // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
