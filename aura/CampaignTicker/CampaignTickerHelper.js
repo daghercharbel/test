@@ -41,8 +41,8 @@
                         c.set('v.previewDisabled', true);
                         c.set("v.customizeDisabled", true);
                     }
-                    if (!$A.util.isEmpty(c.get('v.templateValue')) 
-                        && c.get("v.CampaignSynced") 
+                    if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && c.get("v.CampaignSynced")
                         && responseObj.hasOwnProperty('actionRequired')
                         && !responseObj.actionRequired) {
                         c.set("v.sendDisabled", true);
@@ -60,26 +60,26 @@
                         && responseObj.hasOwnProperty('openTouchPointModal')
                         && responseObj.openTouchPointModal) {
                         c.set("v.sendDisabled", false);
-                    }else if ($A.util.isEmpty(c.get('v.templateValue')) 
-                             && !c.get("v.CampaignSynced")) {
+                    } else if ($A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
                         c.set("v.sendDisabled", true);
-                    }else if (!$A.util.isEmpty(c.get('v.templateValue')) 
-                              && !c.get("v.CampaignSynced") 
-                              && responseObj.hasOwnProperty('actionRequired')
-                              && !responseObj.actionRequired 
-                              && responseObj.hasOwnProperty('campMemberPresent')
-                              && responseObj.campMemberPresent) {
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")
+                        && responseObj.hasOwnProperty('actionRequired')
+                        && !responseObj.actionRequired
+                        && responseObj.hasOwnProperty('campMemberPresent')
+                        && responseObj.campMemberPresent) {
                         c.set("v.sendDisabled", false);
                     }
-                    if (!$A.util.isEmpty(c.get('v.templateValue')) 
+                    if (!$A.util.isEmpty(c.get('v.templateValue'))
                         && c.get("v.CampaignSynced")) {
                         c.set("v.customizeDisabled", true);
                         c.set("v.templateDisabled", true);
-                    } else if ($A.util.isEmpty(c.get('v.templateValue')) 
-                               && !c.get("v.CampaignSynced")) {
+                    } else if ($A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
                         c.set("v.templateDisabled", false);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue')) 
-                               && !c.get("v.CampaignSynced")) {
+                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+                        && !c.get("v.CampaignSynced")) {
                         c.set("v.templateDisabled", false);
                     }
                 }
