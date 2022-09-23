@@ -329,9 +329,10 @@ export default class TemplateGalleryComp extends LightningElement {
                 message: this.label.TouchPointTemplateSaved_Text,
                 variant: 'success'
             }),
-        );
-        this.isTemplatePage = true;
-        this.previewBody = false;;
+          );
+          this.isTemplatePage = true;
+          this.previewBody = false;
+          this.closeModal();
         }else{
           this.dispatchEvent(
             new ShowToastEvent({
@@ -375,7 +376,13 @@ export default class TemplateGalleryComp extends LightningElement {
     try {
       this.langValue = event.detail.value;
       this.generateIFrame();         
-  } catch (error) {
+    } catch (error) {
     }
+  }
+
+  closeModal(){
+    const closeModalEvent = new CustomEvent('closemodalevent', {
+    });
+    this.dispatchEvent(closeModalEvent);
   }
 }

@@ -14,6 +14,7 @@
   <aura:attribute name="templateId" type="String" />
   <aura:attribute name="templateName" type="String" />
   <aura:attribute name="templateNamePresent" type="Boolean" default="false" />
+  <aura:attribute name="modalPromise" type="Aura.Action"/>
 
 
   <aura:attribute name="iFrameURL" type="String" />
