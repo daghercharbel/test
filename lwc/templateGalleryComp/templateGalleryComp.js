@@ -204,6 +204,9 @@ export default class TemplateGalleryComp extends LightningElement {
         this.templatesList = currentTemplates;
       }
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
+      this.currentPage = 1;
+      this.prevPage = 1;
+      this.nextPage = 2;
       this.updateRecords();
     } catch (error) {
       // console.log(error);
