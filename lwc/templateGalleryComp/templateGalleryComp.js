@@ -23,6 +23,8 @@ import Private_Text from "@salesforce/label/c.Private_Text";
 import Public_Text from "@salesforce/label/c.Public_Text";
 import Search_Text from "@salesforce/label/c.Search_Text";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
+import Template_Gallery_Save_Text from '@salesforce/label/c.Template_Gallery_Save_Text';
+import Compliance_Confirm_Text from '@salesforce/label/c.Compliance_Confirm_Text';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
@@ -44,13 +46,16 @@ export default class TemplateGalleryComp extends LightningElement {
     Public_Text,
     Search_Text,
     Compliance_Title,
-    Compliance_Message
+    Compliance_Message,
+    Template_Gallery_Save_Text,
+    Compliance_Confirm_Text
   };
   @api isOpenTouchPoints = false;
   @api campSfId;
   langValue = "en_US";
   // topButtonLabel = 'Back';
   @track isPrivateToggle = false;
+  @track previewSaveDisabled = false;
   showPagination = false;
   privateTemplatesList = [];
   publicTemplatesList = [];
@@ -63,7 +68,7 @@ export default class TemplateGalleryComp extends LightningElement {
   fr = false;
   showCompliance = false;
   iframeURL;
-  @track urls={};
+  @track urls = {};
   templatesList = [];
   templateType = 'All';
   mainTemplateList = [];
@@ -83,7 +88,7 @@ export default class TemplateGalleryComp extends LightningElement {
     ];
   }
 
-  get templateOptions(){
+  get templateOptions() {
     return [
       { label: this.label.All_Label, value: "All" },
       { label: this.label.Public_Text, value: "Public" },
@@ -93,11 +98,12 @@ export default class TemplateGalleryComp extends LightningElement {
 
   connectedCallback() {
     loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
+    this.previewSaveDisabled = false;
     if (window.screen.availWidth < 900) {
       this.recordSize = 6;
       this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
       this.updateRecords();
-    } 
+    }
     if (this.lang === "fr") {
       this.fr = true;
     }
@@ -142,7 +148,7 @@ export default class TemplateGalleryComp extends LightningElement {
           this.isSpinner = false;
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
-      }
+        }
         this.showDataBasedOnPrivate();
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
         this.updateRecords();
@@ -157,11 +163,11 @@ export default class TemplateGalleryComp extends LightningElement {
 
   handleFilterChange(event) {
     this.templateType = event.detail.value;
-    if(this.templateType == 'All'){
+    if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
-    } else if(this.templateType == 'Public'){
+    } else if (this.templateType == 'Public') {
       this.templatesList = this.publicTemplatesList;
-    } else if(this.templateType == 'Private'){
+    } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
     this.currentPage = 1;
@@ -177,21 +183,21 @@ export default class TemplateGalleryComp extends LightningElement {
       let filteredTemplates = [];
       let currentTemplates = [];
 
-      if(this.templateType == 'All'){
+      if (this.templateType == 'All') {
         currentTemplates = this.mainTemplateList;
-      } else if(this.templateType == 'Public'){
+      } else if (this.templateType == 'Public') {
         currentTemplates = this.publicTemplatesList;
-      } else if(this.templateType == 'Private'){
+      } else if (this.templateType == 'Private') {
         currentTemplates = this.privateTemplatesList;
       }
 
-      if(!this.fr){
+      if (!this.fr) {
         currentTemplates.forEach((ele) => {
           if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
             filteredTemplates.push(ele);
           }
         });
-      }else{
+      } else {
         currentTemplates.forEach((ele) => {
           if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
             filteredTemplates.push(ele);
@@ -211,7 +217,7 @@ export default class TemplateGalleryComp extends LightningElement {
     } catch (error) {
       // console.log(error);
     }
-    
+
   }
 
   goBackToMainPage() {
@@ -296,20 +302,20 @@ export default class TemplateGalleryComp extends LightningElement {
     this.templateId = event.currentTarget.dataset.id;
     this.isTemplatePage = false;
     this.previewBody = true;
-    this.generateIFrame();         
+    this.generateIFrame();
 
   }
 
   /**
    * Responsible for state management of the All/Private toggle
    */
-  showDataBasedOnPrivate(){
+  showDataBasedOnPrivate() {
     // console.log('private toogle on? '+ this.isPrivateToggle);
-    if(this.templateType == 'All'){
+    if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
-    } else if(this.templateType == 'Public'){
+    } else if (this.templateType == 'Public') {
       this.templatesList = this.publicTemplatesList;
-    } else if(this.templateType == 'Private'){
+    } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
   }
@@ -325,72 +331,73 @@ export default class TemplateGalleryComp extends LightningElement {
     this.connectedCallback();
   }
 
-  toggleCompliance(){
+  toggleCompliance() {
     this.showCompliance = !this.showCompliance;
+    this.previewSaveDisabled = !this.previewSaveDisabled;
   }
 
   storeTemplate() {
-    SaveTouchPointTemplate({campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId})
+    SaveTouchPointTemplate({ campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId })
       .then((data) => {
         if (data) {
           this.dispatchEvent(
             new ShowToastEvent({
-                title: 'Success!',
-                message: this.label.TouchPointTemplateSaved_Text,
-                variant: 'success'
+              title: 'Success!',
+              message: this.label.TouchPointTemplateSaved_Text,
+              variant: 'success'
             }),
           );
           this.isTemplatePage = true;
           this.previewBody = false;
           this.closeModal();
-        }else{
+        } else {
           this.dispatchEvent(
             new ShowToastEvent({
-                title: 'Error!',
-                message: this.label.TouchPointTemplateNotSaved_Text,
-                variant: 'error'
+              title: 'Error!',
+              message: this.label.TouchPointTemplateNotSaved_Text,
+              variant: 'error'
             }),
-        );
-        this.isTemplatePage = true;
-        this.previewBody = false;
+          );
+          this.isTemplatePage = true;
+          this.previewBody = false;
         }
       })
       .catch((error) => {
         this.dispatchEvent(
           new ShowToastEvent({
-              title: 'Error!',
-              message: error,
-              variant: 'error'
+            title: 'Error!',
+            message: error,
+            variant: 'error'
           }),
-      );
-      this.isTemplatePage = true;
-      this.previewBody = false;
-      // console.log(error);
+        );
+        this.isTemplatePage = true;
+        this.previewBody = false;
+        // console.log(error);
       })
       .finally(() => {
-          this.toggleCompliance();
+        this.toggleCompliance();
       });
   }
 
-  generateIFrame(){
+  generateIFrame() {
     generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
         this.urls = (JSON.parse(result));
       })
       .catch((error) => {
         // console.log(error);
-      }); 
+      });
   }
 
   handleLangChange(event) {
     try {
       this.langValue = event.detail.value;
-      this.generateIFrame();         
+      this.generateIFrame();
     } catch (error) {
     }
   }
 
-  closeModal(){
+  closeModal() {
     const closeModalEvent = new CustomEvent('closemodalevent', {
     });
     this.dispatchEvent(closeModalEvent);

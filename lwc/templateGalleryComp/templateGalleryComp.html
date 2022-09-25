@@ -6,16 +6,12 @@
     <div class="container">
       <lightning-layout>
         <lightning-layout-item padding="around-small">
-          <lightning-combobox
-            label="Show"
-            value={templateType}
-            options={templateOptions}
-            onchange={handleFilterChange} ></lightning-combobox>
+          <lightning-combobox label="Show" value={templateType} options={templateOptions} onchange={handleFilterChange}>
+          </lightning-combobox>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
-            <lightning-input label="" type="search" placeholder={label.Search_Text}
-              onchange={handleSearchInput}>
+            <lightning-input label="" type="search" placeholder={label.Search_Text} onchange={handleSearchInput}>
             </lightning-input>
           </div>
         </lightning-layout-item>
@@ -86,8 +82,8 @@
         <div class="slds-var-m-bottom_medium">
           <lightning-button variant="brand" label={label.Back_Button_Label} title={label.Back_Button_Label}
             icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
-          <lightning-button variant="brand" class="previewSaveButton" label={label.Save_Button_Label}
-            title={label.Save_Button_Label} onclick={toggleCompliance}>
+          <lightning-button variant="brand" class="previewSaveButton" label={label.Template_Gallery_Save_Text}
+            title={label.Template_Gallery_Save_Text} onclick={toggleCompliance} disabled={previewSaveDisabled}>
           </lightning-button>
         </div>
         <hr class="hrclass">
@@ -108,7 +104,7 @@
         <div class="slds-modal__footer">
           <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small">
           </lightning-button>
-          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate}
+          <lightning-button variant="brand" label={label.Compliance_Confirm_Text} onclick={storeTemplate}
             class="slds-m-left_x-small"></lightning-button>
         </div>
       </div>
