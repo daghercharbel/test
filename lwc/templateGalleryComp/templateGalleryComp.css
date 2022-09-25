@@ -65,6 +65,7 @@
 
 .tooltip .tooltip-drop {
   position: absolute;
+  word-break: break-word;
   max-width: 200px;
   width: -webkit-max-content;
   width: -moz-max-content;
