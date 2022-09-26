@@ -73,6 +73,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             this.searchData();
         } else if (!this.search) {
             this.pageNo = this.currentPage;
+            this.disableSelectAll = false;
             this.returnedData = this.searchStringList;
             this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
             if (this.pageNo == 1) {
@@ -159,6 +160,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                 }
             }else{
                 this.isSpinner = false;
+                this.disableSelectAll = false;
                 this.pageNo = this.currentPage;
                 this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
                 if (this.pageNo == 1) {
