@@ -1,0 +1,87 @@
+.scrollableDiv {
+    border-top: 1px solid rgb(192 189 189);
+    border-bottom: 1px solid rgb(192 189 189);
+    padding: 1%;
+    overflow: auto;
+    height: 55vh;
+    margin-top: 1%;
+}
+
+.cursorPointer:hover {
+    cursor: pointer;
+}
+
+:host .deleteIconColor {
+    --lwc-colorTextIconDefault: #c43d18;
+}
+
+.spinnerPosition {
+    position: fixed;
+}
+
+.tableCol1 {
+    width: 20%;
+}
+
+.tableCol2 {
+    width: 7.5%;
+}
+
+.tableCol3 {
+    width: 35%;
+}
+
+.tableCol4 {
+    width: 30%;
+}
+
+.boxContent {
+    width: fit-content;
+}
+
+.modalHeaderContent {
+    display: flex;
+}
+
+.backButtonAllign {
+    margin-top: 1%;
+}
+
+.headingAllign {
+    padding-right: 4%;
+}
+
+.ObjectSelectWidth {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.togglePosition {
+    justify-content: center;
+    display: flex;
+}
+
+.footerElementsDesktop {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    background-color: rgb(249, 249, 250);
+    border-top: 2px solid rgb(217, 219, 221);
+}
+
+.footerElements {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.innerDivItems {
+    padding: 1%;
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+}
