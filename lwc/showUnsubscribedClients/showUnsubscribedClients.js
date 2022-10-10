@@ -125,7 +125,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     }
                 }
                 this.returnedData = updateSearchList;
-                if(this.returnedData.length > 0){
+                if (this.returnedData.length > 0) {
                     this.disableSelectAll = false;
                     this.pageNo = 1;
                     this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
@@ -147,7 +147,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     } else {
                         this.selectAllCheckbox = true;
                     }
-                }else{
+                } else {
                     this.selectAllCheckbox = false;
                     this.disableSelectAll = true;
                     this.pageNo = 1;
@@ -158,7 +158,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     this.preparePaginationList();
                     this.isSpinner = false;
                 }
-            }else{
+            } else {
                 this.isSpinner = false;
                 this.disableSelectAll = false;
                 this.pageNo = this.currentPage;
@@ -227,9 +227,9 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
     }
     handleNext() {
         this.pageNo += 1;
-        if(!this.search){
+        if (!this.search) {
             this.currentPage = this.pageNo;
-        }      
+        }
         this.preparePaginationList();
         let flag = 0;
         for (let x of this.listData) {
@@ -249,7 +249,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
         if (this.pageNo > 1) {
             this.pageNo -= 1;
         }
-        if(!this.search){
+        if (!this.search) {
             this.currentPage = this.pageNo;
         }
         this.preparePaginationList();

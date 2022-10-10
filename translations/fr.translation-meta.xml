@@ -57,7 +57,7 @@
         <name>After_TT_invite</name>
     </customLabels>
     <customLabels>
-        <label>Tous les</label>
+        <label>Tous</label>
         <name>All_Label</name>
     </customLabels>
     <customLabels>
@@ -109,7 +109,7 @@
         <name>Campaign_Graph_Send_Touchpoint_Text</name>
     </customLabels>
     <customLabels>
-        <label>Le graphique apparaitra losqu&apos;au moins un client aura complété ou ouvert ? le Touchpoint</label>
+        <label>Le graphique apparaitra losqu&apos;au moins un client aura complété ou ouvert le Point de contact</label>
         <name>Campaign_Graph_Will_Populate_Text</name>
     </customLabels>
     <customLabels>
@@ -189,7 +189,7 @@
         <name>Choose_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionnez un Point de Contact/Changez de Point de contact</label>
+        <label>Sélectionner/Changer de Point de contact</label>
         <name>Choose_a_TouchPoint_Text</name>
     </customLabels>
     <customLabels>
@@ -361,24 +361,23 @@
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le modèle ou ajouter des clients à la campagne.</label>
+        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou ajouter des clients à la campagne.</label>
         <name>Customize_AddClientText</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le modèle ou envoyer un point de contact aux clients ajoutés. &lt;br /&gt; Remarque : la personnalisation et la sélection du modèle de point de contact seront désactivées après l&apos;envoi du point de contact.</label>
+        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. &lt;br /&gt; Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
         <name>Customize_PreviewLabel</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le modèle ou envoyer un point de contact aux clients ajoutés.
-    Remarque : la personnalisation et la sélection du modèle de point de contact seront désactivées après l&apos;envoi du point de contact.</label>
+        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
         <name>Customize_PreviewLabel_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Customize_Template_Text --></label>
+        <label>Personnalisation du Point de contact</label>
         <name>Customize_Template_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Customize_Text --></label>
+        <label>Personnaliser</label>
         <name>Customize_Text</name>
     </customLabels>
     <customLabels>
@@ -574,7 +573,7 @@
         <name>Knowledge_Base_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Language Text --></label>
+        <label>Langue</label>
         <name>Language_Text</name>
     </customLabels>
     <customLabels>
@@ -789,7 +788,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Prev_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Preview_Text --></label>
+        <label>Prévisualiser</label>
         <name>Preview_Text</name>
     </customLabels>
     <customLabels>
@@ -985,7 +984,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Send_TP_To_New_Receipient</name>
     </customLabels>
     <customLabels>
-        <label><!-- Send_Text --></label>
+        <label>Envoyer</label>
         <name>Send_Text</name>
     </customLabels>
     <customLabels>
@@ -1061,7 +1060,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionnez un Point de contact et ajoutez des clients pour envoyer un Campagne</label>
+        <label>Sélectionnez un Point de contact et ajoutez des clients pour envoyer une Campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
@@ -1117,7 +1116,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Synced_Text</name>
     </customLabels>
     <customLabels>
-        <label>Point de contact envoyé. Aucune autre action n&apos;est nécessaire. Vous pouvez ajouter plus de clients à cette campagne en leur envoyant le point de contact.&lt;br/ &gt; Remarque : la personnalisation et la sélection du modèle de point de contact sont désormais désactivées car le point de contact a été envoyé.</label>
+        <label>Point de contact envoyé. Aucune autre action n&apos;est nécessaire. Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.&lt;br/ &gt; Remarque : La personnalisation de ce Point de contact est désormais désactivée.</label>
         <name>TPSentText</name>
     </customLabels>
     <customLabels>
@@ -1125,7 +1124,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TT_API_Setup_Title</name>
     </customLabels>
     <customLabels>
-        <label>Statut du TouchPoint TelosTouch</label>
+        <label>Statut du Point de contact TelosTouch</label>
         <name>TT_Touchpoint_Status_Text</name>
     </customLabels>
     <customLabels>
@@ -1161,7 +1160,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionner le Point de contact</label>
+        <label>Sélectionner ce Point de contact</label>
         <name>Template_Gallery_Save_Text</name>
     </customLabels>
     <customLabels>
@@ -1189,11 +1188,11 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TouchPoint_Created_With_Recipients</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPoint Experience Text --></label>
+        <label>Point de Contact</label>
         <name>TouchPoint_Experience_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPoint Preview Text --></label>
+        <label>Prévisualisation</label>
         <name>TouchPoint_Preview_Text</name>
     </customLabels>
     <customLabels>

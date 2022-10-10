@@ -3,12 +3,6 @@
         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </div>
     <div if:true={showIframe}>
-        <!-- <iframe src={IframeUrl}
-                class="iframe-style"
-                scrolling={scrolling}
-                onload={setHeight}
-               >
-        </iframe> -->
         <c-t-t-native-dashboard-comp></c-t-t-native-dashboard-comp>
     </div>
     <div if:true={isNotAuthenticate}>
