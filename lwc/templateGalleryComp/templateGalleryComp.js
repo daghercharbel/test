@@ -25,7 +25,7 @@ import Search_Text from "@salesforce/label/c.Search_Text";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
 import None_Text from "@salesforce/label/c.None_Text";
-import Title from "@salesforce/label/c.Title";
+import TitleText from "@salesforce/label/c.TitleText";
 import CreatedDateText from "@salesforce/label/c.CreatedDateText";
 import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
 import Template_Gallery_Save_Text from '@salesforce/label/c.Template_Gallery_Save_Text';
@@ -36,7 +36,7 @@ export default class TemplateGalleryComp extends LightningElement {
   label = {
     LastModifiedDate,
     Sort_By_Text,
-    Title,
+    TitleText,
     CreatedDateText,
     None_Text,
     Email_Text,
@@ -108,7 +108,7 @@ export default class TemplateGalleryComp extends LightningElement {
   get sortingOptions() {
     return [
       { label: this.label.None_Text, value: "none"},
-      { label: this.label.Title, value: "title" },
+      { label: this.label.TitleText, value: "title" },
       { label: this.label.CreatedDateText, value: "createdDate" },
       { label: this.label.LastModifiedDate, value: "modifiedDate" }
     ];
@@ -238,7 +238,7 @@ export default class TemplateGalleryComp extends LightningElement {
       let temp=0;
       for(let x = 0; x < list.length - 1; x++){       
         for(let y = 0; y < list.length - x - 1; y++){          
-            if(list[y].created_at > list[y + 1].created_at ){               
+            if(list[y].created_at < list[y + 1].created_at ){               
                 temp = list[y];
                 list[y] = list[y + 1];
                 list[y + 1] = temp;
@@ -249,7 +249,7 @@ export default class TemplateGalleryComp extends LightningElement {
       let temp = 0;
       for(let x = 0; x < list.length - 1; x++){       
         for(let y = 0; y < list.length - x - 1; y++){          
-            if(list[y].modifiedAt > list[y + 1].modifiedAt ){               
+            if(list[y].modifiedAt < list[y + 1].modifiedAt ){               
                 temp = list[y];
                 list[y] = list[y + 1];
                 list[y + 1] = temp;
