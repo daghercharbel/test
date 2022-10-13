@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label>
+            
+        </label>
+        <name>TelosTouch</name>
+    </customApplications>
     <customLabels>
         <label>Accès usager àTelosTouch</label>
         <name>Access_To_TT</name>
@@ -1528,4 +1534,29 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>de</label>
         <name>of_text</name>
     </customLabels>
+    <customTabs>
+        <label>Accueil</label>
+        <name>TT_Home</name>
+    </customTabs>
+    <customTabs>
+        <label>Configuration TT</label>
+        <name>TT_Setup</name>
+    </customTabs>
+    <customTabs>
+        <label>
+            
+        </label>
+        <name>TouchPoints</name>
+    </customTabs>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <aspect>Master</aspect>
+        <label>
+            
+        </label>
+        <name>NewTask</name>
+    </quickActions>
 </Translations>
