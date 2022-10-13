@@ -151,17 +151,9 @@ public with sharing class TemplateGalleryCompHandler {
                     (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                 );
                 if(templateMap.containsKey('description') && UserInfo.getLanguage().contains('en')){
-                    if(templateMap.get('description') != null){
-                        templateMap.put('Description', (Object) templateMap.get('description'));
-                    }else{
-                        templateMap.put('Description', (Object) System.Label.No_Description_Text);
-                    }
+                    templateMap.put('Description', (Object) templateMap.get('description'));
                 }else if(templateMap.containsKey('description_fr') && UserInfo.getLanguage().contains('fr')){
-                    if(templateMap.get('description_fr') != null){
-                        templateMap.put('Description', (Object) templateMap.get('description_fr'));
-                    }else{
-                        templateMap.put('Description', (Object) System.Label.No_Description_Text);
-                    }
+                    templateMap.put('Description', (Object) templateMap.get('description_fr'));
                 }
                 templateObjects.add((Object) templateMap);
             }

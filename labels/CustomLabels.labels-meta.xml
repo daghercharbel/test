@@ -630,28 +630,28 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize/AddClientText</shortDescription>
-        <value>You can now Customize/Preview the template or add clients to the campaign.</value>
+        <value>You can now Customize/Preview the TouchPoint or add clients to the campaign.</value>
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize PreviewLabel</shortDescription>
-        <value>You can now Customize/Preview the template or Send Touchpoint to clients added.&lt;br /&gt;Note: Customize,Touchpoint Template Selection will be disabled after sending TouchPoint</value>
+        <value>You can Customize, Preview the TouchPoint or proceed to sending &lt;br /&gt; Note: Customize, Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize_PreviewLabel_Text</shortDescription>
-        <value>You can now Customize/Preview the template or Send Touchpoint to clients added. Note: Customize,Touchpoint Template Selection will be disabled after sending TouchPoint</value>
+        <value>You can Customize, Preview the TouchPoint or proceed to sending. Note: Customize, Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
         <fullName>Customize_Template_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize_Template_Text</shortDescription>
-        <value>Customize Template</value>
+        <value>Customize TouchPoint</value>
     </labels>
     <labels>
         <fullName>Customize_Text</fullName>
@@ -854,7 +854,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>French Text</shortDescription>
-        <value>French</value>
+        <value>Français</value>
     </labels>
     <labels>
         <fullName>Frequency_Text</fullName>
@@ -1536,7 +1536,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Request for Enterprise Email</shortDescription>
-        <value>admin@telostouch.com</value>
+        <value>salesforce-enterprise@telostouch.com</value>
     </labels>
     <labels>
         <fullName>Required_Field_Missing</fullName>
@@ -1949,7 +1949,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TPSentText</shortDescription>
-        <value>TouchPoint sent. No further action is required. You can add more clients to this campaign by sending the Touchpoint to them. &lt;br /&gt; Note: Customize, and Touchpoint Template Selection is now disabled as TouchPoint has been sent.</value>
+        <value>You can send the TouchPoint to more recipients by adding additional members to the campaign. &lt;br /&gt; Note: Customizing TouchPoint is now disabled.</value>
     </labels>
     <labels>
         <fullName>TT_API_Setup_Title</fullName>
