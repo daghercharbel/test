@@ -7,7 +7,7 @@
 }
 
 .imgStyleCard {
-  height: 122px;
+  height: 106px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -29,8 +29,11 @@
 
 .tpDate {
   color: grey;
-  font-size: 14px;
-  padding-bottom: 5px;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 6px 3px 6px;
 }
 
 .private-badge {
@@ -62,6 +65,7 @@
 
 .tooltip .tooltip-drop {
   position: absolute;
+  word-break: break-word;
   max-width: 200px;
   width: -webkit-max-content;
   width: -moz-max-content;
@@ -140,7 +144,7 @@
   }
 
   .imgStyleCard {
-    height: 198px;
+    height: 188px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

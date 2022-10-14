@@ -5,7 +5,7 @@
     <displayType>massActionButton</displayType>
     <height>600</height>
     <linkType>page</linkType>
-    <masterLabel>TouchPoint Preview</masterLabel>
+    <masterLabel>TouchPoint Library</masterLabel>
     <openType>sidebar</openType>
     <page>TouchPointPreview</page>
     <protected>false</protected>

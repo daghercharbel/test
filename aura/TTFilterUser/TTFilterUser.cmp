@@ -18,9 +18,11 @@
     <aura:attribute name="recordPerPage" type="integer" default="10" />
     <aura:attribute name="listData" type="List" />
     <aura:attribute name="isCheckedList" type="List" default="" />
+    <aura:attribute name="storeCheckedValues" type="List" default="" />
     <aura:attribute name="count" type="integer" />
     <aura:attribute name="countSelectAll" type="integer" />
     <aura:attribute name="IsSubscribed" type="String" />
+    <aura:attribute name="disableSelectAllList" type="boolean" default="true" />
 
 
     <aura:attribute name="fielterDetails" type="Object" default="" />
@@ -125,7 +127,6 @@
         <aura:if isTrue="{!v.isShowSpinner}">
             <lightning:spinner alternativeText="Loading" size="medium" />
         </aura:if>
-
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_4-of-12">
                 <lightning:input name="Name" type="search" class="slds-p-horizontal_x-small"
@@ -150,10 +151,6 @@
                 </lightning:select>
             </div>
         </div>
-        <!--<div class="slds-p-left_x-small slds-p-top_x-small">
-            <lightning:input type="toggle" label="Choose Language" name="languageToggle" checked="{!v.frenchUserFlag}"
-                             messageToggleActive="French" messageToggleInactive="English" />
-        </div>-->
         <div class="slds-grid questions slds-grid slds-wrap">
             <aura:if isTrue="{!v.frenchUserFlag}">
                 <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
@@ -197,22 +194,12 @@
         <br />
         <div class="slds-grid">
             <div class="slds-col slds-size_12-of-12 slds-scrollable_x">
-                <!-- <lightning:datatable
-                                     class="dataTable"
-                                     columns="{! v.columns }"
-                                     data="{! v.data }"
-                                     keyField="Id"
-                                     onrowselection="{! c.getSelectedClientsRecords }"
-                                     hideCheckboxColumn="false"
-                                     onrowaction="{!c.viewRecord}"
-                                     minColumnWidth="150"
-                                     />
-                                     </div> -->
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
                         <tr>
                             <th>
-                                <lightning:input type="checkbox" class="buttonSelectAll" variant="label-hidden"
+                                <lightning:input type="checkbox" class="buttonSelectAll"
+                                    disabled="{! v.disableSelectAllList}" variant="label-hidden"
                                     checked="{! v.selectAllList}" onchange="{! c.selectAll}"></lightning:input>
                             </th>
                             <th scope="col">
@@ -284,8 +271,8 @@
                             <td scope="row">
                                 <div class="slds-truncate">
                                     <lightning:button variant="neutral" title="{!$Label.c.Answers_Text}"
-                                        label="{!$Label.c.Answers_Text}" value="{! item}"
-                                        onclick="{! c.viewRecord}"></lightning:button>
+                                        label="{!$Label.c.Answers_Text}" value="{! item}" onclick="{! c.viewRecord}">
+                                    </lightning:button>
                                 </div>
                             </td>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
@@ -310,7 +297,7 @@
                 label="{!$Label.c.Next_Button_Label}" disabled="{! v.nextDisable}" class="slds-p-left_xx-small"
                 iconName="utility:chevronright" iconPosition="left" onclick="{! c.handleNext}"></lightning:button>
             <span class="slds-p-left_medium slds-float_right ">
-                Page No: {! v.pageNo} of {! v.totalPages}
+                {!$Label.c.Page_no_text}:&nbsp;{! v.pageNo}&nbsp;{!$Label.c.of_text}&nbsp;{! v.totalPages}
             </span>
         </div>
         <aura:if isTrue="{!v.isShowModel}">

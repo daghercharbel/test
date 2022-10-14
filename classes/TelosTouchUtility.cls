@@ -2054,6 +2054,8 @@ return null;
                 campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: campSfId LIMIT 1];
                 if(String.isNotEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
                     returnMap.put('templateId', (Object)campObj.TelosTouchSF__TouchPoint_Template_Id__c);
+                }else{
+                    returnMap.put('templateId', (Object)'');
                 }
             }
             if(returnMap.containsKey('actionRequired')){
@@ -2301,11 +2303,12 @@ return null;
                         }else{
                             returnMap.put('label', String.valueOf(responseMap.get('name')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
                         }
-                        returnMap.put('value', String.valueOf(responseMap.get('id')));
                     }else if(UserInfo.getLanguage().contains('fr')){
                         returnMap.put('label', String.valueOf(responseMap.get('name_fr')) + ' : ' + dt.format('yyyy-MM-dd HH:mm:ss'));
-                        returnMap.put('value', String.valueOf(responseMap.get('id')));
                     }
+                    returnMap.put('value', String.valueOf(responseMap.get('id')));
+                    returnMap.put('createdDate', String.valueOf(responseMap.get('created_at')));
+                    returnMap.put('isPrivate', String.valueOf(responseMap.get('is_private')));
                     returnList.add(returnMap);
                 }
             }

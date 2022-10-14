@@ -12,6 +12,7 @@
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
+            // console.log('inside emp');
             h.doInitHelper(c, e, h);
             //h.openSendTouchpointModal(c, e, h);
           }
@@ -23,6 +24,7 @@
         // console.log('Ticker Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
+      // console.log('outside emp');
     h.doInitHelper(c, e, h);
   },
   
@@ -43,10 +45,14 @@
       c.set("v.disableValue", true);
       $A.createComponent(
         "c:templateGalleryComp",
-        { isOpenTouchPoints: true, campSfId: c.get("v.recordId") },
+        { 
+          onclosemodalevent: c.getReference("c.handleModalClose"),
+          isOpenTouchPoints: true, 
+          campSfId: c.get("v.recordId")
+        },
         function (content, status) {
           if (status === "SUCCESS") {
-            c.find("overlayLib").showCustomModal({
+            var modalPromise = c.find("overlayLib").showCustomModal({
               body: content,
               showCloseButton: true,
               cssClass: "slds-modal_large touchpoint-modal",
@@ -54,6 +60,7 @@
                 h.doInitHelper(c, e, h);
               }
             });
+            c.set("v.modalPromise", modalPromise);
           }
         }
       );
@@ -62,6 +69,16 @@
     }
     //console.log("open modal on click is called");
   },
+
+  handleModalClose: function (c, e, h){
+    var modalPromise = c.get('v.modalPromise');
+    modalPromise.then(
+      function (modal) {
+          modal.close();
+      }
+    );
+  },
+
   skipClicked: function (c, e, h) {
     if (e.getParam("skipClicked") === true) {
       h.doInitHelper(c, e, h);
