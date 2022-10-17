@@ -17,9 +17,6 @@
                 if(response.getState() === 'SUCCESS') {
                     if(!$A.util.isEmpty(result) && JSON.parse(result) != '') {
                         c.set('v.recordsList', JSON.parse(result));        
-                    } else {
-                        //c.set('v.boolForNoRecord', true);
-
                     }
                 }else{
                     c.set('v.boolForNoRecord', true);

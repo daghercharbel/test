@@ -134,7 +134,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     }
                     this.preparePaginationList();
                     this.isSpinner = false;
-                    //console.log('list data search:: '+JSON.stringify(this.listData));
                     let flag = 0;
                     for (let x of this.listData) {
                         if (!x.isChecked) {

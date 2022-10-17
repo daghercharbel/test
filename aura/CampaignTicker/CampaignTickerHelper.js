@@ -11,7 +11,6 @@
                         return;
                     }
                     var responseObj = JSON.parse(response.getReturnValue());
-                    //console.log(responseObj);
                     if (responseObj.hasOwnProperty('synced')) {
                         c.set('v.CampaignSynced', responseObj.synced);
                     }
@@ -30,14 +29,10 @@
                     if (responseObj.hasOwnProperty('campMemList')) {
                         c.set("v.campMemList", responseObj.campMemList);
                     }
-                    //console.log(c.get('v.templateValue'));
-                    //console.log($A.util.isEmpty(c.get('v.templateValue')));
                     if (!$A.util.isEmpty(c.get('v.templateValue'))) {
-                        //console.log('if');
                         c.set('v.previewDisabled', false);
                         c.set("v.customizeDisabled", false);
                     } else {
-                        //console.log('else');
                         c.set('v.previewDisabled', true);
                         c.set("v.customizeDisabled", true);
                     }
@@ -85,10 +80,9 @@
                 }
             });
             $A.enqueueAction(action);
-            // h.getCurrentTemplateId(c, e, h);
             h.showTemplateName(c, e, h);
-            // h.getUserAccessToken(c, e, h);
         } catch (error) {
+            console.error(error);
         }
     },
     openSendTouchpointModal: function (c, e, h) {
@@ -118,7 +112,7 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            // console.log(error);
+            console.error(error);
         }
     },
     sendTouchpointHelper: function (c, e, h) {
@@ -247,7 +241,6 @@
                             },
                             function (content, status) {
                                 if (status === "SUCCESS") {
-                                    // console.log('success');
                                     c.find("overlayLib").showCustomModal({
                                         header: $A.get("$Label.c.Customize_Template_Text"),
                                         body: content,
@@ -273,8 +266,6 @@
                             }
                         );
                     } else {
-                        //show error toast for not having the template Id
-                        // console.log('no template Id');
                     }
                 } else if (state === 'ERROR') {
                     var errors = response.getError();
@@ -351,7 +342,6 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
-                    //console.log('response: '+ response.getReturnValue());
                     c.set("v.templateName", response.getReturnValue());
                     if (!$A.util.isEmpty(response.getReturnValue())) {
                         c.set("v.templateNamePresent", true);

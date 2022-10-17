@@ -300,11 +300,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
   }
 
-  /**
-   * Responsible for state management of the All/Private toggle
-   */
   showDataBasedOnPrivate() {
-    // console.log('private toogle on? '+ this.isPrivateToggle);
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -321,7 +317,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.publicTemplatesList = [];
     this.privateTemplatesList = [];
     this.templatesList = [];
-    // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
 
@@ -366,7 +361,6 @@ export default class TemplateGalleryComp extends LightningElement {
         );
         this.isTemplatePage = true;
         this.previewBody = false;
-        // console.log(error);
       })
       .finally(() => {
         this.toggleCompliance();
@@ -379,7 +373,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.urls = (JSON.parse(result));
       })
       .catch((error) => {
-        // console.log(error);
       });
   }
 

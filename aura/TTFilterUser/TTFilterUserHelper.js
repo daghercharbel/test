@@ -1,7 +1,6 @@
 ({
     doInit_helper: function (c, e, h) {
         try {
-            // console.log('doinit of ttfilter');
             if(c.get('v.showCreateSingleActions')){
                 c.set("v.columns", [
                     {
@@ -138,13 +137,6 @@
                         c.set("v.disableSelectAllList", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
-                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
-                //     let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                //     c.set("v.totalPages", totPage);
-                //     if(c.get("v.pageNo") == 1){
-                //         c.set("v.preDisable",true);
-                //     }
-                //    h.preparePaginationList(c,e,h);
                 }else{
                     c.set("v.disableSelectAllList", true);
                 }
@@ -174,9 +166,6 @@
                         c.set("v.disableSelectAllList", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
-                    // let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    // c.set("v.totalPages", totPage);
-                    // h.preparePaginationList(c,e,h);
                 }else{
                     c.set("v.disableSelectAllList", true);
                 }
@@ -321,8 +310,6 @@
             if(state == 'SUCCESS'){
                 this.viewRecord_helper(c, undefined, this, recordId);
             } else {
-                // console.log('Failed with State: '+state);
-                // console.log('Response: '+response);
                 c.set("v.isShowSpinner", false);
             }
         });
@@ -618,11 +605,8 @@
                     }
                     return false;
                   });
-                //console.log(tempFinalList.includes(updatedList[i]));
                 if(updatedList[i].isChecked == true && !isFound){
-                    //console.log("updatedList loop success:: " + JSON.stringify(updatedList[i]));
-                    tempFinalList.push(updatedList[i]); 
-                    // count++;
+                    tempFinalList.push(updatedList[i]);
                 }
             }
             for(let i=0;i<tempFinalList.length; i++){
@@ -669,9 +653,7 @@
                   }
                   return false;
                 });
-               // console.log("isFound:: "+ isFound);
               if(updatedList[i].isChecked == true && !isFound){
-                  //console.log('updatedList[i]:: '+JSON.stringify(updatedList[i]));
                   tempFinalList.push(updatedList[i]); 
                   count++;
               }
@@ -679,7 +661,6 @@
                       for( let x of tempFinalList){
                           if(x.Id == updatedList[i].Id){
                               x.isChecked = updatedList[i].isChecked;
-                              //console.log('x: '+JSON.stringify(x));
                           }
                       }
               }
@@ -705,7 +686,6 @@
               c.set("v.isDisableSendTouchPointBtn", true);
 
           }
-      //   c.set("v.isDisableSendTouchPointBtn", false);
        
       } else {
          c.set("v.isDisableSendTouchPointBtn", true);
@@ -731,7 +711,6 @@
         } catch (error) {
             console.log(error);
         }
-        //console.log('final value:: '+ c.get("v.selectAllList"));
     },
     updateCheckedData: function(c,e,h,mainList){
         if(mainList.length>0){
@@ -759,7 +738,6 @@
                         break;
                     }
                 }
-                //console.log('flag:: '+ flag);
                 if(flag){
                     c.set("v.selectAllList", false);
                 }else{
@@ -780,6 +758,5 @@
             }
             h.preparePaginationList(c,e,h);
         }
-        //console.log('mainList after pagination:: '+ JSON.stringify(mainList));
       }
 });
