@@ -11,15 +11,14 @@
   <aura:attribute name="templateDisabled" type="Boolean" default="true" />
   <aura:attribute name="customizeDisabled" type="Boolean" default="true" />
   <aura:attribute name="campMemList" type="List" default="[]" />
-  <aura:attribute name="templateId" type="String" />
   <aura:attribute name="templateName" type="String" />
   <aura:attribute name="templateNamePresent" type="Boolean" default="false" />
   <aura:attribute name="modalPromise" type="Aura.Action"/>
-
+  
+  <aura:attribute name="CreatedDate" type="date"/>
 
   <aura:attribute name="iFrameURL" type="String" />
   <ltng:require styles="{!$Resource.TelosTouch + '/Customize.css'}" />
-
 
   <aura:attribute name="templateOptions" type="List" default="[]" />
   <aura:attribute name="templateValue" type="String" default="" />
@@ -45,31 +44,32 @@
     <aura:if isTrue="{!or($Browser.isPhone, $Browser.isTablet)}">
       <div class="slds-var-p-left_small slds-var-p-bottom_small">
         <lightning:layout multipleRows="true" class="slds-var-p-horizontal_medium">
-          <aura:if isTrue="{!v.templateNamePresent}">
-            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small tooltip">
-              <lightning:input disabled="true" class="slds-size_1-of-1" value="{!v.templateName}"
-                variant="label-hidden"></lightning:input>
-              <span class="tooltip-drop tooltip-top">{!v.templateName}</span>
+          <!-- CUSTOMIZE -->
+          <aura:if isTrue="{!!v.customizeDisabled}">
+            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
+              <lightning:button label="{!$Label.c.Customize_Text}" class="slds-size_1-of-1" onclick="{!c.handleCustomizeClick}"/>
             </lightning:layoutItem>
           </aura:if>
-          <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="{!$Label.c.Customize_Text}" class="slds-size_1-of-1"
-              disabled="{!v.customizeDisabled}" onclick="{! c.handleCustomizeClick}" />
-          </lightning:layoutItem>
-          <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-
-            <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}" class="slds-size_1-of-1"
-              title="{!$Label.c.Choose_a_TouchPoint_Text}" disabled="{! v.templateDisabled}"
-              onclick="{! c.openChooseTouchPointModal }" />
-          </lightning:layoutItem>
-          <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="{!$Label.c.Preview_Text}" disabled="{!v.previewDisabled}" class="slds-size_1-of-1"
-              onclick="{! c.previewSelectedTouchPoint }" />
-          </lightning:layoutItem>
-          <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-            <lightning:button label="{!$Label.c.Send_Text}" variant="brand" disabled="{!v.sendDisabled}"
-              class="slds-size_1-of-1" onclick="{! c.createTouchPointinTT }" />
-          </lightning:layoutItem>
+          <!-- SELECT TEMPLATE -->
+          <aura:if isTrue="{!!v.templateValue}">
+            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
+              <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}" class="slds-size_1-of-1"
+                title="{!$Label.c.Choose_a_TouchPoint_Text}" onclick="{!c.openChooseTouchPointModal}"/>
+            </lightning:layoutItem>
+          </aura:if>
+          <!-- PREVIEW -->
+          <aura:if isTrue="{!v.templateValue}">
+            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
+              <lightning:button label="{!$Label.c.Preview_Text}" class="slds-size_1-of-1" onclick="{!c.previewSelectedTouchPoint}"/>
+            </lightning:layoutItem>
+          </aura:if>
+          <!-- SEND -->
+          <aura:if isTrue="{!v.templateValue}">
+            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
+              <lightning:button label="{!$Label.c.Send_Text}" variant="brand" class="slds-size_1-of-1" 
+                disabled="{!v.sendDisabled}" onclick="{!c.createTouchPointinTT}"/>
+            </lightning:layoutItem>
+          </aura:if>
           <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
             <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
               <lightning:button label="Refresh" title="Refresh" onclick="{!c.doRefresh}" class="slds-size_1-of-1" />
@@ -143,33 +143,77 @@
       <aura:if isTrue="{!and(!$Browser.isPhone, !$Browser.isTablet)}">
 
         <lightning:layout multipleRows="true" class="slds-var-p-horizontal_medium">
-          <aura:if isTrue="{!v.templateNamePresent}">
-            <lightning:layoutItem flexibility="auto" class="tooltip">
-              <lightning:input disabled="true" value="{!v.templateName}" variant="label-hidden"></lightning:input>
-              <span class="tooltip-drop tooltip-top">{!v.templateName}</span>
+          <!-- CUSTOMIZE -->
+          <aura:if isTrue="{!!v.customizeDisabled}">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+              <lightning:button label="{!$Label.c.Customize_Text}" onclick="{!c.handleCustomizeClick}"/>
             </lightning:layoutItem>
           </aura:if>
-          <lightning:layoutItem flexibility="auto" padding="horizontal-small">
-            <lightning:button label="{!$Label.c.Customize_Text}" disabled="{!v.customizeDisabled}"
-              onclick="{! c.handleCustomizeClick}" />
-          </lightning:layoutItem>
-          <lightning:layoutItem flexibility="auto" padding="horizontal-small">
-            <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}" title="{!$Label.c.Choose_a_TouchPoint_Text}"
-              disabled="{! v.templateDisabled}" onclick="{! c.openChooseTouchPointModal }" />
-          </lightning:layoutItem>
-          <lightning:layoutItem flexibility="auto">
-            <lightning:button label="{!$Label.c.Preview_Text}" disabled="{!v.previewDisabled}"
-              onclick="{! c.previewSelectedTouchPoint }" />
-          </lightning:layoutItem>
-          <lightning:layoutItem flexibility="auto" class="slds-var-p-left_small">
-            <lightning:button label="{!$Label.c.Send_Text}" variant="brand" disabled="{!v.sendDisabled}"
-              onclick="{! c.createTouchPointinTT }" />
-          </lightning:layoutItem>
+          <!-- SELECT TEMPLATE -->
+          <aura:if isTrue="{!!v.templateValue}">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+              <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}" title="{!$Label.c.Choose_a_TouchPoint_Text}"
+                onclick="{!c.openChooseTouchPointModal}"/>
+            </lightning:layoutItem>
+          </aura:if>
+          <!-- PREVIEW -->
+          <aura:if isTrue="{!v.templateValue}">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+              <lightning:button label="{!$Label.c.Preview_Text}" onclick="{!c.previewSelectedTouchPoint}"/>
+            </lightning:layoutItem>
+          </aura:if>
+          <!-- SEND -->
+          <aura:if isTrue="{!v.templateValue}">
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+              <lightning:button label="{!$Label.c.Send_Text}" variant="brand" 
+                disabled="{!v.sendDisabled}" onclick="{!c.createTouchPointinTT}"/>
+            </lightning:layoutItem>
+          </aura:if>
         </lightning:layout>
         <aura:if isTrue="{!or($Browser.isTablet,$Browser.isPhone)}">
           <lightning:button label="Refresh" title="Refresh" onclick="{!c.doRefresh}" />
         </aura:if>
       </aura:if>
     </aura:set>
+    <!--cd-->
+  <br></br>
+    <table class = "c-width33">
+      <thead>
+        <tr>
+          <th scope="col">
+            <div class="slds-p-left_medium" title="Name">Selected TouchPoint:</div>
+          </th>
+          <th scope="col">
+              <div class="slds-p-left_medium" title="Members">Members</div>
+          </th>
+          <th scope="col">
+              <div class="slds-p-left_medium" title="Date Created">Date Created</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>
+
+            <aura:if isTrue="{!!v.divDisabled}">
+              <div class="slds-p-left_medium">
+                {!v.templateName} <a href="javascript:void(0)" onclick="{!c.openChooseTouchPointModal}"> Change</a>
+            </div>
+              </aura:if>
+            </td>
+            <td>
+              <div class="slds-p-left_medium">
+                {!v.campMemList.length}
+              </div>
+            </td>
+            <td>
+              <div class="slds-p-left_medium">
+                {!v.CreatedDate}
+              </div>
+            </td>
+            </tr>
+      </tbody>
+    </table>
+    <!--cd-->
   </lightning:card>
 </aura:component>
