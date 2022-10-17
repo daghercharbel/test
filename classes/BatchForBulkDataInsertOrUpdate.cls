@@ -113,6 +113,8 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                     }
                 }
                 response = http.send(request);
+                String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                TelosTouchUtility.generateLog(respMessage, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
                 if(response.getstatusCode() == 200){
                     if(objectName == 'Contact'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
@@ -121,6 +123,9 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                     }else if(objectName == 'Campaign'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
                     }
+                } else {
+                    String errorMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                    throw new TelosTouchUtility.CustomException(errorMessage);
                 }
             }
             if(startPoint == null){
@@ -140,6 +145,7 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
             }
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
+            TelosTouchUtility.generateErrorLog(ex, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
         }
     }
             /**

@@ -7,6 +7,7 @@ trigger AccountTrigger on Account (after insert, before insert, before Update, a
     }
     if(trigger.isBefore && trigger.isUpdate){
         AccountTriggerForPersonAccountHandler.beforeUpdateHandler(Trigger.new, Trigger.oldMap);
+        AccountTriggerForPersonAccountHandler.checkSyncLastModifiedData(Trigger.new);
     }
     if(trigger.isAfter && trigger.isUpdate && !System.isBatch()){
         AccountTriggerForPersonAccountHandler.afterUpdateHandler(Trigger.new, Trigger.oldMap);

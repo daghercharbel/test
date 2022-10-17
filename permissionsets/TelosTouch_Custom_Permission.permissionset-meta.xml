@@ -57,6 +57,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateContactAndLead2</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateContactAndLead_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -77,6 +81,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactTriggerForSyncingHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateRemoteSiteSetting</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -90,6 +98,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DeleteTaskMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FetchUnsubscribedClients</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FetchUnsubscribedClientsTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -157,6 +173,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>KnowledgeBaseCompController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>KnowledgeBaseCompControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LayoutRecord</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -166,6 +190,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LeadTriggerForSyncingHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadTriggerForSyncingHandlerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -281,6 +309,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ShowTouchPointPreviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SingleRequestMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -306,6 +338,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TTFilterUserControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TTNativeHomeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TTNativeHomeControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -429,6 +469,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TemplateGalleryCompHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TemplateGalleryCompHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TimelineParentComponentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -450,6 +498,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TouchPointPreviewControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TriggerUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -480,6 +532,10 @@
         <apexClass>UserTriggerHandlerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Knowledge_base_image__mdt</name>
+    </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>TT_Admin_Credentials__mdt</name>
@@ -641,6 +697,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Campaign.TempTTCampId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Campaign.TouchPoint_Template_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

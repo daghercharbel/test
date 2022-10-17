@@ -18,7 +18,6 @@
       .then((subscription) => {
         // Subscription response received.
         // We haven't received an event yet.
-        //console.log('Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
     let countV = 0;
@@ -35,17 +34,13 @@
   fielterDetailsChanges: function (c, e, h) {
     c.set("v.fielterDetailsChanges", "EventFire");
   },
-
   viewRecord: function (c, e, h) {
-
     let sfId = e.getSource().get("v.value");
     var recId = e.getSource().get("v.value").Id;
     var fieldName = '';
-
     if (e.getSource().getLocalId()) {
       fieldName = e.getSource().getLocalId();
     }
-
     if (fieldName == "Create Task") {
       h.createAction_helper(c, e, h, sfId.ContactOrLeadSFId);
     } else {
@@ -58,7 +53,6 @@
         }
       }
     }
-
   },
 
   closeModel: function (c, e, h) {
@@ -387,9 +381,8 @@
       }
       h.getSelectedClientsRecords(c, e, h, updatedWithCheckboxList);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
-
   },
   selectAll: function (c, e, h) {
     let updatedWithCheckboxList = [];

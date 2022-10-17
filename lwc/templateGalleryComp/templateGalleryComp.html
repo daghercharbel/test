@@ -5,17 +5,13 @@
   <template if:true={isTemplatePage}>
     <div class="container">
       <lightning-layout>
+        <lightning-layout-item padding="around-small">
+          <lightning-combobox label="Show" value={templateType} options={templateOptions} onchange={handleFilterChange}>
+          </lightning-combobox>
+        </lightning-layout-item>
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
-            <lightning-input type="toggle" message-toggle-active={label.Private_Text}
-              message-toggle-inactive={label.All_Label} onchange={handleToggleChange} label="" variant="label-hidden">
-            </lightning-input>
-          </div>
-        </lightning-layout-item>
-        <lightning-layout-item padding="around-small">
-          <div class=" slds-text-align_center">
-            <lightning-input label="" variant="label-hidden" type="search" placeholder={label.Search_Text}
-              onchange={handleSearchInput}>
+            <lightning-input label="" type="search" placeholder={label.Search_Text} onchange={handleSearchInput}>
             </lightning-input>
           </div>
         </lightning-layout-item>
@@ -28,8 +24,7 @@
               class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
               <div data-id={each.id} class="slds-text-align_center imgCard" onclick={openSelectedTemplatePreview}>
                 <div class="imgStyleCard" style={each.imageURL}>
-                  <lightning-badge if:true={each.is_private} label="" icon-name="utility:lock"
-                    class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small private-badge">
+                  <lightning-badge if:true={each.is_private} label={label.Private_Text} class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small">
                   </lightning-badge>
                 </div>
                 <div class="tooltip">
@@ -39,6 +34,10 @@
                 <div class="tooltip">
                   <div if:true={fr} class="tpName">{each.name_fr}</div>
                   <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
+                </div>
+                <div class="tooltip">
+                  <div class="tpDate">{each.Description}</div>
+                  <span class="tooltip-drop tooltip-top">{each.Description}</span>
                 </div>
                 <div class="tpDate">{each.modified_at}</div>
               </div>
@@ -71,7 +70,7 @@
         </lightning-layout>
       </div>
       <div if:false={isTemplatePresent} class="noDataStyle">
-        <span>No data </span>
+        <span>{label.No_Data_Text} </span>
       </div>
     </div>
   </template>
@@ -81,8 +80,8 @@
         <div class="slds-var-m-bottom_medium">
           <lightning-button variant="brand" label={label.Back_Button_Label} title={label.Back_Button_Label}
             icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
-          <lightning-button variant="brand" class="previewSaveButton" label={label.Save_Button_Label}
-            title={label.Save_Button_Label} onclick={toggleCompliance}>
+          <lightning-button variant="brand" class="previewSaveButton" label={label.Template_Gallery_Save_Text}
+            title={label.Template_Gallery_Save_Text} onclick={toggleCompliance} disabled={previewSaveDisabled}>
           </lightning-button>
         </div>
         <hr class="hrclass">
@@ -97,12 +96,14 @@
         <div class="slds-modal__header">
           <h1 class="slds-modal__title slds-hyphenate">{label.Compliance_Title}</h1>
         </div>
-        <div class="slds-modal__content slds-p-around_medium" >
+        <div class="slds-modal__content slds-p-around_medium">
           <p>{label.Compliance_Message}</p>
         </div>
         <div class="slds-modal__footer">
-          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small"></lightning-button>
-          <lightning-button variant="brand" label={label.Save_Button_Label} onclick={storeTemplate} class="slds-m-left_x-small"></lightning-button>
+          <lightning-button label={label.Cancel_Button_Label} onclick={toggleCompliance} class="slds-m-left_x-small">
+          </lightning-button>
+          <lightning-button variant="brand" label={label.Compliance_Confirm_Text} onclick={storeTemplate}
+            class="slds-m-left_x-small"></lightning-button>
         </div>
       </div>
     </section>

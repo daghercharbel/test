@@ -230,9 +230,12 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled
     public static Boolean sendCustomFieldsSFToTT(List<String> Selectedfieldslist, String objectName) {
         try{
+            
             if(Selectedfieldslist.size() >0){
+                
                 List<String> labellist = new List<String>();
                 List<TelosTouchSF__TT_Salesforce_Mapping__c> customMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
+
                 for(String selectedField : Selectedfieldslist){
                     labellist.add(selectedField);
                     TelosTouchSF__TT_Salesforce_Mapping__c mappingCustomFields = new TelosTouchSF__TT_Salesforce_Mapping__c();
@@ -246,11 +249,14 @@ public with sharing class TelosTouchMapping {
                         mappingCustomFields.TelosTouchSF__Salesforce_Field__c = selectedField;
                     }
                     customMappingList.add(mappingCustomFields);
-                } 
+                }
+
                 if((labellist.size() > 0) && (labellist != null)){
+
                     String jsonMap = JSON.serialize(labellist);         
                     Http http = new Http();
                     HttpRequest request = new HttpRequest();
+
                     if(adminCredentials != null){
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
                             request.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/settings/touchpoint.custom.fields');
@@ -262,9 +268,13 @@ public with sharing class TelosTouchMapping {
                         request.setHeader('Content-Type', 'application/json'); 
                         request.setHeader('Accept', 'application/json');
                     }
+
                     request.setBody(jsonMap);
                     request.setTimeout(45000);
                     HttpResponse response = http.send(request);
+                    String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                    TelosTouchUtility.generateLog(respMessage, 'TelosTouchMapping', 'sendCustomFieldsSFToTT', null);
+                    
                     if (response.getStatusCode() == 200) {
                         if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible()){
                             insert customMappingList;
