@@ -24,6 +24,8 @@ public with sharing class CreateRemoteSiteSetting {
         Http http = new Http();
         HttpResponse res = http.send(req);
         string resbody = res.getBody();
+        String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+resbody;
+        TelosTouchUtility.generateLog(respMessage, 'CreateRemoteSiteSetting', 'getremoteSiteSetting', null);
         remotesitesettingswrapper rss = new remotesitesettingswrapper();
         rss = (remotesitesettingswrapper) System.JSON.deserialize(
             resbody,
@@ -124,20 +126,10 @@ UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has bee
             request.setMethod(method);
             request.setBody(json);
             Http http = new Http();
-            /*List<System.OrgLimit> limits = OrgLimits.getAll();
-for (System.OrgLimit aLimit: limits){
-if(aLimit.getName() == 'DailyApiRequests'){
-usagelimit = aLimit.getValue();
-maxlimit = aLimit.getLimit();
-}
-}
-if(usagelimit < maxlimit){*/
             HttpResponse response = http.send(request);
+            String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+            TelosTouchUtility.generateLog(respMessage, 'CreateRemoteSiteSetting', 'remoteSiteSetting1', null);
             return response;
-            /* } else{
-UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has been exceeded!', 0);
-return null;
-}*/
         } catch (Exception ex) {
             String[] stList = ex.getMessage().split('=');
             String[] stList2 = stList[1].split('.com');

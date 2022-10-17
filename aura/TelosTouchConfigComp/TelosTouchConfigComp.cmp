@@ -49,7 +49,7 @@
                         <aura:set attribute="label">
                             {!$Label.c.Configuration_Tab_Label}
                         </aura:set>
-                        <c:TelosTouchAPISetup/>
+                        <c:telostouchSetupConfiguration/>
                         <c:ttcontactSupport tabName="NotTelosTouchSync"/>
                     </lightning:tab>
                     <lightning:tab onactive="{! c.handleActive }" id="fieldMapping">

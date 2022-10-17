@@ -13,6 +13,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @param result ....
 * @param context ....
 */
+
+    public class CustomException extends Exception {}
+
     public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
         if (result.status == Metadata.DeployStatus.Succeeded) {
             //Success
@@ -500,8 +503,8 @@ return null;
             request.setHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.setBody(body);
             HttpResponse response = http.send(request);
-            //System.debug('response Status: '+response.getStatusCode());
-            //System.debug('response BODY: '+response.getBody());
+	        String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();	
+            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getAdminAccessToken', null);
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 //System.debug('responseMap:: '+responseMap.get('access_token'));
@@ -737,6 +740,8 @@ return null;
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
+	                        String respMessage = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');	
+                            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getUserAccessToken', null);
                             teamId = teamIdResponse.get('body');
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;
@@ -1082,6 +1087,25 @@ return null;
             return null;
         }
     }
+    /**
+* @author Charbel Dagher
+* @date 19/07/2022
+* @description This method calls the job to refresh the token
+* @return response
+*/
+@AuraEnabled
+public static string refreshTokenController(){
+    try {
+        system.debug('!!!entrer refreshTokenController');
+        System.enqueueJob(new UpdateUserTokenQueueable());
+        system.debug('!!!DONE');
+        return 'success';
+    }catch (Exception ex) {
+        System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+        return null;
+    }
+
+}
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -2179,6 +2203,8 @@ return null;
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
+            String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
+            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'checkIfEnterpriseClient', null); 
             if(res.getStatusCode()==404){
                 return false;
             }else{
@@ -2189,6 +2215,25 @@ return null;
             return true;
         }
     }
+
+    public static void generateErrorLog(Exception ex, String className, String classMethod, String recordId){
+        String aError = ex.getTypeName()+': '+ex.getMessage()+' '+className+'.'+classMethod+': line '+ex.getLineNumber();
+        System.debug(logginglevel.ERROR, aError);
+        if(TT_FeatureSettingsController.getFinestLogValue()){
+	    aError = aError.abbreviate(255);
+            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError, recordId));
+        }
+    }
+
+    public static void generateLog(String message, String className, String classMethod, String recordId){
+        String aMessage = className+'.'+classMethod+': '+message;
+        System.debug(aMessage);
+        if(TT_FeatureSettingsController.getFinestLogValue()){
+            aMessage = aMessage.abbreviate(255);
+            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));
+        }
+    }
+    
     /**
 * @author Charbel Dagher
 * @date 19/07/2022
@@ -2745,7 +2790,7 @@ return null;
 */
         public AdminCredentialsWrapper(TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials, TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials){
             Access_Token = authenticationCredentials.TelosTouchSF__Access_Token__c;
-            Approval = adminCredentials.TelosTouchSF__Approval__c;
+            Approval = adminCredentials.TelosTouchSF__Approval__c; 
             Client_ID = authenticationCredentials.TelosTouchSF__Client_ID__c;
             Client_Secret = authenticationCredentials.TelosTouchSF__Client_Secret__c;
             ConfigPageVisible = adminCredentials.TelosTouchSF__ConfigPageVisible__c;

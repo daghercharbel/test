@@ -2,9 +2,7 @@
 
 
 
-
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    
     
     
     
@@ -12,9 +10,7 @@
     
     
     
-    
     <isExposed>true</isExposed>
-    
     
     
     
@@ -22,14 +18,11 @@
         
         
         
-        
         <target>lightning__RecordPage</target>
         
         
         
-        
     </targets>
-    
     
     
     
