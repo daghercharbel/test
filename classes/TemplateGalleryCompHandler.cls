@@ -116,7 +116,7 @@ public with sharing class TemplateGalleryCompHandler {
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
             endPointURL =
-                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates';
+                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates?sort=[{"modified_at":"DESC"},{"id":"DESC"}]';
         }
         Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(
             methodType,
