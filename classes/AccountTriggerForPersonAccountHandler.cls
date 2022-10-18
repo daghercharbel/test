@@ -12,7 +12,6 @@ public with sharing class AccountTriggerForPersonAccountHandler {
    */
   public static void afterInsertHandler(List<Account> newAccountList) {
     try {
-      System.debug('Test');
       List<Id> contactIds = new List<Id>();
       for (Account ac : newAccountList) {
         boolean getIsPerson = Schema.sObjectType.Account.fields.getMap()
