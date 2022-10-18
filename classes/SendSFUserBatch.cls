@@ -78,7 +78,9 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                 List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();
                 List<PermissionSet> getPermissionSetList = new  List<PermissionSet>();
                 if( Schema.sObjectType.PermissionSet.isAccessible() && Schema.sObjectType.PermissionSet.isQueryable()){
-                    getPermissionSetList = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission' OR Name = 'TTPSetForInsightObjMDRelations' WITH SECURITY_ENFORCED];
+                    String strTelosTouch_Custom_Permission = 'TelosTouch_Custom_Permission';
+                    String strTTPSetForInsightObjMDRelations = 'TTPSetForInsightObjMDRelations';
+                    getPermissionSetList = [SELECT Id FROM PermissionSet WHERE Name =: strTelosTouch_Custom_Permission OR Name =: strTTPSetForInsightObjMDRelations WITH SECURITY_ENFORCED];
                 }
                 if(String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
                     headersMap.put('Accept', 'application/json');

@@ -4,7 +4,7 @@
 * @description GetTaskFromTTQueueable is a Queueable class and used to get actions within last 2 hours from TT and insert those tasks in SF.
 */
 global with sharing class GetTaskFromTTQueueable implements Queueable, Database.AllowsCallouts{
-	
+
 	private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
 	private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
 	global String message;
@@ -112,7 +112,8 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 					}
 				}
 				List<TelosTouchSF__TT_Salesforce_Mapping__c> tasktelosTouchMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-				tasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c,TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c='Task' AND TelosTouchSF__Is_Deleted__c = false WITH SECURITY_ENFORCED LIMIT 1000 ];
+				String strTask = 'Task';
+				tasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c,TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =:strTask AND TelosTouchSF__Is_Deleted__c = false WITH SECURITY_ENFORCED LIMIT 1000 ];
 				Map<String, TelosTouchSF__TT_Salesforce_Mapping__c> ttTaskFieldsMap = new Map<String, TelosTouchSF__TT_Salesforce_Mapping__c>();
 				for(contact conObj : [SELECT id,TelosTouchSF__TT_Client_Id__c,Name FROM Contact WHERE IsDeleted = false AND TelosTouchSF__TT_Client_Id__c IN:setTTClientId WITH SECURITY_ENFORCED LIMIT 1600 ALL ROWS]){
 					contactMap.put(conObj.TelosTouchSF__TT_Client_Id__c, conObj);

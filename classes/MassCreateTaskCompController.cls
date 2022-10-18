@@ -2,7 +2,8 @@ public with sharing class MassCreateTaskCompController {
     @AuraEnabled
     public static Boolean checkNamedCredentials(){
         try {
-            if( [SELECT count() FROM NamedCredential WHERE DeveloperName = 'ToolingRest' WITH SECURITY_ENFORCED LIMIT 1] > 0 ){
+            String strToolingRest = 'ToolingRest';
+            if( [SELECT count() FROM NamedCredential WHERE DeveloperName = :strToolingRest WITH SECURITY_ENFORCED LIMIT 1] > 0 ){
                 return true;
             }
             return false;

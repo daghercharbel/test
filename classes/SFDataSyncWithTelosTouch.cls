@@ -140,7 +140,7 @@ global with sharing class SFDataSyncWithTelosTouch {
 
                 }
                 for(Id ownerId : ownerIdVsTaskListMap.keySet()){
-                    String UserToken, Status = '', isShareWithClient = 'false', bodynew = '', bodyold = '', body1 = '{"actions" :[', body2 = '{"actions" :[';
+                    String UserToken, Status = '', isShareWithClient = 'false',bodynew = '', bodyold = '', body1 = '{"actions" :[', body2 = '{"actions" :[';
                     taskOwnerUser = userMap.get(ownerId);
                     if(taskOwnerUser != null && taskOwnerUser.TelosTouchSF__TT_UserName__c != null && taskOwnerUser.TelosTouchSF__Auth_Token__c != null){
                         UserToken = taskOwnerUser.TelosTouchSF__Auth_Token__c;
@@ -356,7 +356,6 @@ global with sharing class SFDataSyncWithTelosTouch {
         }
     }
 
-    //Share with client button on task Object Functionality To sync Selected Task with TelosTouch
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -772,6 +771,7 @@ global with sharing class SFDataSyncWithTelosTouch {
      */
     public static Map<String, String> makePostCallout(List<Contact> clientlist,List<Lead> clientleadlist,List<TelosTouchSF__TT_Salesforce_Mapping__c> contactTelosTouchMappingList, List<TelosTouchSF__TT_Salesforce_Mapping__c> leadTelosTouchMappingList, Map<Id, User> userMap, Map<Id, Contact> oldContactMap, Map<Id, Lead> oldLeadMap, Map<ID, Account> oldAccountMap) {
         try{
+            //Integer usagelimit, maxlimit,usagelimit1, maxlimit1;
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
             String postBody = '', putBody = '', addCustomFields = '',finalJSONPost = '{"contacts" :[',finalJSONPut = '{"contacts" :[', endpoint;
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
@@ -1194,44 +1194,6 @@ global with sharing class SFDataSyncWithTelosTouch {
                 }else{
                     ownerIdVsTtTaskIdMap.get(taskObject.OwnerId).add(taskObject.TelosTouchSF__TT_TaskId__c);
                 }
-                /*List<Task> newtasklist = new List<Task>(); 
-                String UserToken,endPointURL='';
-                
-                if(getCredentials != null){
-                    String methodType = 'PUT';
-                    Map<String, String> headersMap = new Map<String, String>();
-                    if(String.isNotBlank(instanceUrl) ){
-                        if(Schema.sObjectType.Task.fields.TT_TaskId__c.isAccessible()){
-                            endPointURL =   instanceUrl + '/api/v1/action/'+taskObject.TT_TaskId__c ; 
-                        }
-                        headersMap.put('instance-name', instanceUrl);
-                    }
-                    headersMap.put('Content-Type', 'application/json');
-                    if(Schema.sObjectType.Task.fields.OwnerId.isAccessible()){
-                        String  taskOwnerId = taskObject.OwnerId;
-                        campaignOwnerUser = userMap.get(taskOwnerId);
-                    }
-                    if(Schema.sObjectType.User.fields.TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TT_UserId__c.isAccessible()){
-                        if(campaignOwnerUser != null && campaignOwnerUser.TT_UserName__c !=null && campaignOwnerUser.Auth_Token__c != null){
-                            Blob blobValue = Blob.valueOf(campaignOwnerUser.TT_UserName__c + ':' + campaignOwnerUser.Auth_Token__c);
-                            UserToken = EncodingUtil.base64Encode(blobValue);
-                            headersMap.put('Authorization', 'Basic '+ UserToken);
-                            headersMap.put('espo-authorization', UserToken);
-                        }
-                    }
-                    Map<String,String> jsonMap = new  Map<String,String>();
-                    jsonMap.put('deleted','true');
-                    String body = JSON.serialize(jsonMap);
-                    String responseString = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
-                    if(responseString != null && responseString.contains('deleted')){
-                        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(responseString);
-                        if(responseMap.containsKey('deleted') && responseMap.get('deleted') == true){
-                            deleted = deleted+1;
-                        }else{
-                            undeleted = undeleted+1;
-                        }
-                    }
-                }*/
             }
             for(Id ownerId : ownerIdVsTtTaskIdMap.keySet()){
                 if(adminCredentials != null){
@@ -1626,7 +1588,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             contactSuccessCount = 0;
             contactErrorCount = 0;
             leadSuccessCount = 0;
-            leadErrorCount = 0; 
+            leadErrorCount = 0;
         }
     }
     /**
@@ -1657,4 +1619,4 @@ global with sharing class SFDataSyncWithTelosTouch {
             taskErrorCount = 0;
         }
     }
-} 
+}
