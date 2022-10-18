@@ -42,7 +42,6 @@
             c.set('v.fieldsToAdd', selectedOptionValue.toString());
         }
         catch(e){
-            //console.log(e);
         }
     },
     revertBackToMainPage: function (c, e, h) {
@@ -62,20 +61,6 @@
         }
         
     },
-    /*clearAll: function (c,e,h) {
-        var mappingList = [];
-        c.set("v.mappingList", mappingList);
-        h.showToast_Helper(c,'success','All mapping is clear');
-        var TTFieldsList = c.get("v.TTFieldsList");
-        for (var i = 0; i < TTFieldsList.length; i++) {
-            var mappingObjNotFound = {};
-            mappingObjNotFound.TT_Field__c = TTFieldsList[i].fieldAPINameTT;
-            mappingObjNotFound.fieldNameTT = TTFieldsList[i].fieldNameTT;
-            mappingObjNotFound.sobjectType = 'TT_Salesforce_Mapping__c';
-            mappingList.push(mappingObjNotFound);
-        }
-        c.set("v.mappingList", mappingList);
-    },*/
     closeToast: function (c, e, h) {
         if(c.get("v.isShowTost")){
             c.set("v.isShowTost",false); 
@@ -126,7 +111,6 @@
     handleChange: function (c, event,h) {
         // This will contain an array of the "value" attribute of the selected options
         var selectedOptionsList = event.getParam("value");
-        //console.log(selectedOptionsList);
         c.set('v.selectedArray', selectedOptionsList);
     },
     // This is used to when someone clicks on delete button of custom fields 
@@ -158,38 +142,6 @@
     isAvoid: function(c, e, h) {
         c.set("v.isChangeField",false);
         h.FieldSelected_Helper(c,e ,h);
-       /* var index = e.getSource().get("v.value");
-        var mappingList =c.get('v.mappingList');
-        var checked = e.getSource().get("v.checked");
-        console.log('index::'+mappingList[index].TT_Field__c);
-        console.log('checked::'+checked);
-        var getMappings = c.get("v.saveTTandSF_Field");
-         var mappingList = c.get("v.mappingList");
-        var saveTTandSF_Field = [];
-        if(getMappings != undefined && getMappings != ''){
-            console.log('getMappings'+getMappings);
-            for (var i = 0; i < getMappings.length; i++) {
-                c.set("v.saveTTandSF_Field", []);
-                if(getMappings[i].TT_Field__c == mappingList[index].TT_Field__c){
-                    saveTTandSF_Field.push(getMappings[i]);
-                }
-            }
-            
-        }else if(mappingList != undefined && mappingList != ''){
-             console.log('mappingList');
-            for (var i = 0; i < mappingList.length; i++) {
-                if(mappingList[i].Salesforce_Field__c != ""){
-                    saveTTandSF_Field.push(mappingList[i]);
-                }
-            }
-        }
-        console.log(saveTTandSF_Field);
-        c.set("v.saveTTandSF_Field", saveTTandSF_Field);  
-        console.log(c.get("v.saveTTandSF_Field"));
-        //
-        if(mappingList[index].TT_Field__c == 'phoneNumber' || mappingList[index].TT_Field__c == 'language' || mappingList[index].TT_Field__c == 'subscribed' || mappingList[index].TT_Field__c == 'description' || mappingList[index].TT_Field__c == 'type'){
-            //h.isAvoidHelper(c, e, h, checked, mappingList[index].TT_Field__c);
-        }*/
     },
     addFieldsShow: function(c, e, h){
         c.set('v.showAddFields', true);

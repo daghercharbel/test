@@ -21,7 +21,6 @@ export default class LwcMultilookup extends LightningElement {
   @track showPill = false;
   @track showLookupField = true;
   @track MsgCondition = true;
-  // @track SaveButtonClicked=false;
   @track selectedIconName = "standard:account";
   connectedCallback() {
     if (this.resultsDivClass.includes("slds-is-open")) {
@@ -52,7 +51,6 @@ export default class LwcMultilookup extends LightningElement {
   searchRecords(event) {
     this.searchString = event.target.value;
     this.objectDataDiv = this.objectDataDiv.replace("slds-is-open", "");
-    // this.resultsDivClass='slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open';
 
     if (this.searchString.length > 0) {
       this.spinnerClass = this.spinnerClass.replace("slds-hide", "");

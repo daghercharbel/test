@@ -4,9 +4,7 @@
 * @description GetCampaignsFromTTQueueable class is used to get campaigns within last 2 hours from TT and insert those reocords in SF.
 */
 global with sharing class GetCampaignsFromTTQueueable implements Queueable, Database.AllowsCallouts{
-   /* private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
+    
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
     public Integer startPoint;
@@ -42,7 +40,6 @@ global with sharing class GetCampaignsFromTTQueueable implements Queueable, Data
             Map<String, String> headersMap = new Map<String, String>();
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             String methodType = 'GET',endPointURL = '',responseBody;
-            //userAuthToken = TelosTouchUtility.getCurrentUserToken();
             headersMap.put('Content-Type', 'application/json');
             headersMap.put('Accept', 'application/json');
 
@@ -60,7 +57,6 @@ global with sharing class GetCampaignsFromTTQueueable implements Queueable, Data
                             endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c +
                                     '/api/v1/admin/touchpoints?modified_at={">=":"' + formatted + '"}&skip=' + i +
                                     '&limit=200';
-                            //System.debug(endPointURL);
                         }
                         if (responseBody == null && authenticationCredential.TelosTouchSF__Access_Token__c != null) {
                             Map<String, String> responseBodyMap =
@@ -80,7 +76,6 @@ global with sharing class GetCampaignsFromTTQueueable implements Queueable, Data
                                 }
                             }
                             responseBody = responseBodyMap.get('body');
-                            //System.debug('responseBody:: '+responseBody);
                         } else {
                             String response;
                             if (authenticationCredential.TelosTouchSF__Access_Token__c != null) {

@@ -11,7 +11,6 @@ global with sharing class GetClientsFromTTScheduler implements Schedulable{
 * @param sc ...
 */
     global void execute(SchedulableContext sc) {
-        //System.enqueueJob(new TelosTouchSF.GetClientsFromTTQueueable());
         Database.executeBatch(new BatchForBulkDataInsertOrUpdate(null, null, null, 'Contact', null, null, null));
     }
 }

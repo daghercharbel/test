@@ -32,7 +32,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
     @isTest 
     static void testTaskSync() {
         Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
-        //List<user> userList = new List<User>();
         User u = new User(Alias = 'standt', email = 'standarduser@testorg.com', EmailEncodingKey = 'UTF-8', 
                           LastName = 'Testing', LanguageLocaleKey = 'en_US', LocaleSidKey = 'en_US', ProfileId = p.Id, 
                           TT_UserName__c ='standarduser12345@testorg.com', 
@@ -43,7 +42,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
                                       TT_UserName__c ='standarduser12345@testorg.com', 
                                       Auth_Token__c = '973e878d316e6fb88a38c6591a5f7', TimeZoneSidKey = 'America/Los_Angeles', 
                                       username = 'standarduser12345@testorg.com', TT_UserId__c = '123798');
-        //System.debug(u.Id);
         Map<String,User> userMapTest = new Map<String,User>();
         userMapTest.put(u.id, u);
         taskOwnerUser = userMapTest.get('ownerId');  
@@ -184,7 +182,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         System.assert(leadobj != null, 'leadobj must not be NULL');
         test.startTest();
         SFDataSyncWithTelosTouch.updateContactDetails(conList, leadList, null, NULL, NULL, NULL);
-        //SFDataSyncWithTelosTouch.SyncAllRecords_APEX();
         SFDataSyncWithTelosTouch.getAllLogs(10,5);
         SFDataSyncWithTelosTouch.GetLatestLogs();
         

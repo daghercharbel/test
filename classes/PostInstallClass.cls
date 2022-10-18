@@ -191,9 +191,6 @@ global with sharing class PostInstallClass implements InstallHandler {
                     insert TelosTouchList;
                 }
             }
-            //system.debug('TelosTouchList>>'+TelosTouchList);
         }
-        //Database.executeBatch(new BatchPostInstallScript('Lead'), 500);
-        //Database.executeBatch(new BatchPostInstallScript('Task'), 1000);
     }
 }

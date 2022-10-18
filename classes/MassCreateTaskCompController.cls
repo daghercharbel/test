@@ -67,7 +67,6 @@ public with sharing class MassCreateTaskCompController {
                 .fields.getMap();
         List<TaskFieldsWrapper> wrapperList = new List<TaskFieldsWrapper>();
         for (String str : mfields.keySet()) {
-            // if(!(str.toLowerCase().contains('recurrence'))){
             TaskFieldsWrapper wrap = new TaskFieldsWrapper();
             String fieldApiName = str.toLowerCase();
             wrap.apiName = fieldApiName;
@@ -112,7 +111,6 @@ public with sharing class MassCreateTaskCompController {
             } else {
                 wrapperList.add(wrap);
             }
-            // }
         }
         return wrapperList;
     }

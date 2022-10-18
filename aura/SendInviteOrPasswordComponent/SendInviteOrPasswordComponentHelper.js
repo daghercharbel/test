@@ -20,7 +20,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     massSendInviteToClients: function (c, e, h) {
@@ -101,7 +100,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     showToast_Helper: function (c, variant, message) {

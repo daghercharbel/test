@@ -61,23 +61,13 @@ public with sharing class PermissionSetForInsightObjMD {
             List<FieldPermissions> fieldPerms = new List<FieldPermissions>();
             Map<String, List<Boolean>> fieldsAndCRUD = new Map<String, List<Boolean>>();
             List<Map<String, List<Boolean>>> fieldsAndFSLcollection = new List <Map<String, List<Boolean>>>();
-            //objectsAndCRUD.put('TelosTouchSF__Insights__c', new List<Boolean>{True, True, True, True,True,True});
             objectsAndCRUD.put('Campaign', new List<Boolean>{True, True, True, True});
             objectsAndCRUD.put('Contact', new List<Boolean>{True, True, True, True});
             objectsAndCRUD.put('Lead', new List<Boolean>{True, True, True, True});
 
             objectsAndCRUDcollection.add(objectsAndCRUD);
-           /* fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Answers__c', new List<Boolean>{True, True,True, True}); 	
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Completed_At__c', new List<Boolean>{True, True,True, True});
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Contact__c', new List<Boolean>{True, True,True, True}); 	
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Conversation_Id__c', new List<Boolean>{True, True,True, True});	
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Lead__c', new List<Boolean>{True, True,True, True});
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Opened_At__c', new List<Boolean>{True, True,True, True});	
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__TouchPoint_Name__c', new List<Boolean>{True, True,True, True});
-            fieldsAndCRUD.put('TelosTouchSF__Insights__c.TelosTouchSF__Campaign2__c', new List<Boolean>{True, True,True, True});*/
 
             fieldsAndCRUD.put('Lead.TelosTouchSF__TT_Last_Login__c', new List<Boolean>{True, True,True, True});
-            //fieldsAndCRUD.put('Lead.TelosTouchSF__Before_Last_Modified_Date__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Lead.TelosTouchSF__Error_Message__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Lead.TelosTouchSF__isDeletedFromTT__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Lead.TelosTouchSF__IsTelosTouchSyncAllowed__c', new List<Boolean>{True, True,True, True});
@@ -92,7 +82,6 @@ public with sharing class PermissionSetForInsightObjMD {
             fieldsAndCRUD.put('Lead.Phone', new List<Boolean>{True, True,True, True});
  
             fieldsAndCRUD.put('Contact.TelosTouchSF__TT_Last_Login__c', new List<Boolean>{True, True,True, True});
-            //fieldsAndCRUD.put('Contact.TelosTouchSF__Before_Last_Modified_Date__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Contact.TelosTouchSF__Error_Message__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Contact.TelosTouchSF__isDeletedFromTT__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Contact.TelosTouchSF__IsTelosTouchSyncAllowed__c', new List<Boolean>{True, True,True, True});
@@ -153,7 +142,6 @@ public with sharing class PermissionSetForInsightObjMD {
                 objPermission.PermissionsModifyAllRecords = false;
                 objPermission.PermissionsViewAllRecords =  false;
             }else{
-                //objPermission.PermissionsModifyAllRecords = True;
                 objPermission.PermissionsViewAllRecords =  True;
             }
                 

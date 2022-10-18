@@ -20,9 +20,8 @@ public with sharing class ShowTouchPointPreviewController {
                 Map<String, String> headersMap = new Map<String, String>();
                 if(userToken != null && String.isNotBlank(userToken) ){
                     headersMap.put('Authorization','Bearer ' +userToken);
-                    //headersMap.put('espo-Authorization', adminCredentials.Access_Token__c);
-                        headersMap.put('Accept', 'application/json');
-                        headersMap.put('Content-Type', 'application/json');
+                    headersMap.put('Accept', 'application/json');
+                    headersMap.put('Content-Type', 'application/json');
                 }
                 if(adminCredentials.TelosTouchSF__Instance_URL__c!= null && String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoint/templates/send/'+campObj.Id;

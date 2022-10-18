@@ -6,7 +6,6 @@
             myEvent.setParams({"isCreateTask" : false });
             myEvent.fire();
         }catch(err){
-            //console.log(err);
         }
     }
 })

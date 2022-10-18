@@ -38,7 +38,6 @@ export default class TtFeatureSettings extends LightningElement {
                 this.inviteFlag = true;
             }else{
                 this.inviteFlag = false;
-                // console.log('1 TT Flag',this.isTTActive);
             }
             this.error = undefined;
         })
@@ -49,10 +48,8 @@ export default class TtFeatureSettings extends LightningElement {
 
         IsUserSystemAdmin()
 		.then(result => {
-            // console.log('2 IsUserSystemAdmin',result);
             if(result == false){
                 this.inviteFlag = true;
-                // console.log('3 IsUserSystemAdmin',result);
             }
 			this.error = undefined;
 		})

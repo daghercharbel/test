@@ -1,7 +1,6 @@
 ({
     doInit_helper : function(c,e,h) {
         try{
-            //console.log('doInit_helper');
             c.set("v.isShowSpinner",true);
             var action = c.get("c.sendCampaignTouchPoint");
             action.setParams({
@@ -14,20 +13,14 @@
                     var storedResponse = response.getReturnValue();
                     if(!$A.util.isEmpty(storedResponse) && storedResponse != undefined && storedResponse != null){
                         if(storedResponse.returnMessage == 'Campaign is not having the TelosTouch record type.'){
-                            //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Cam_Not_Have_TT_Record_Toast"));
                             return;
                         }else if(storedResponse.returnMessage == 'You have already sent a touchpoint for this campaign.'){
-                            //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.You_Already_Sent_TouchPoint_For_Cam_Toast"));
                             return;
                         }else if(storedResponse.returnMessage == 'Please add Campaign members'){
-                            // //$A.get("e.force:closeQuickAction").fire();
-                            // c.find('overlayLib').notifyClose();
-                            // c.set("v.openfromCampaign",false);
-                            // h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Please_Add_Cam_Mem_Toast"));
 
                             var remainingIds = [];
                             c.set('v.remainingIdsList', remainingIds);
@@ -37,36 +30,29 @@
                                 var iframeURL = '';
                                 if(!$A.util.isEmpty(storedResponse.CampId) && storedResponse.CampId != undefined){
                                     c.set("v.campId",storedResponse.CampId);
-                                    //iframeURL  = settingObj.Instance_URL+"/app-v2/#/contacts?page=contacts&send_touchpoint="+ids.trim()+"&auth_token="+authToken+"&sf_campaign_id="+storedResponse.CampId+"&fullscreen=true";
                                     if($A.get("$Locale.language") === 'en'){
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=en_US&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }else if($A.get("$Locale.language") === 'fr'){
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                //console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             } 
                         }else if(storedResponse.returnMessage == 'Please check all Campaign members synced or not.'){
-                            //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
                             c.set("v.openfromCampaign",false);
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Check_Cam_Mem_Sync_Toast"));
                         }else if(storedResponse.returnMessage == 'not synced contact'){
-                            //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
                             c.set("v.openfromCampaign",false);
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Check_Contact_Sync_Toast"));
                         }else if(storedResponse.returnMessage == 'not synced lead'){
-                            //$A.get("e.force:closeQuickAction").fire();
                             c.find('overlayLib').notifyClose();
                             c.set("v.openfromCampaign",false);
                             h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Check_Lead_Sync_Toast"));
                         }else if(!$A.util.isEmpty(storedResponse.clientIds) && storedResponse.clientIds != undefined){
                             var ids = '', firstBatchSize = 0;
                             var remainingIds = [];
-                            //console.log('clientIds:: '+storedResponse.clientIds);
-                            //console.log('clientIds length:: '+storedResponse.clientIds.length);
                             for(var i=0;i<storedResponse.clientIds.length;i++){
                                 if(i < firstBatchSize){
                                     if($A.util.isEmpty(ids)){
@@ -85,14 +71,12 @@
                                 var iframeURL = '';
                                 if(!$A.util.isEmpty(storedResponse.CampId) && storedResponse.CampId != undefined){
                                     c.set("v.campId",storedResponse.CampId);
-                                    //iframeURL  = settingObj.Instance_URL+"/app-v2/#/contacts?page=contacts&send_touchpoint="+ids.trim()+"&auth_token="+authToken+"&sf_campaign_id="+storedResponse.CampId+"&fullscreen=true";
                                     if($A.get("$Locale.language") === 'en'){
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=en_US&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }else if($A.get("$Locale.language") === 'fr'){
                                         iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&lang=fr_FR&access_token="+authToken+"&other_id="+storedResponse.CampId;
                                     }
                                 }
-                                //console.log('iframeURL::'+iframeURL);
                                 c.set("v.iframeUrl",iframeURL);   
                             }   
                         }
@@ -112,7 +96,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     getAuthToken_helper : function(c,e,h) {
@@ -139,11 +122,8 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    //console.log('storedResponse');
-                    //console.log(storedResponse);
                     if(storedResponse != null && !$A.util.isEmpty(storedResponse.authToken) && storedResponse.authToken != undefined && storedResponse.authToken != null){
                         c.set("v.authToken",storedResponse.authToken);
-                        //console.log('v.authToken:: '+c.get('v.authToken'));
                     }
                     if(storedResponse != null &&  !$A.util.isEmpty(storedResponse.adminCredentials) && storedResponse.adminCredentials != undefined && storedResponse.adminCredentials != null){
                         c.set("v.settingAPIObj",storedResponse.adminCredentials);
@@ -158,7 +138,6 @@
                         }
                         c.set("v.iframeUrl2",iframeURL); 
                     }else if(storedResponse == null || storedResponse == undefined){
-                        //$A.get("e.force:closeQuickAction").fire();
                         c.find('overlayLib').notifyClose();
                         h.showInfoToast(c,e,h,'Error!', 'error',$A.get("$Label.c.Current_User_No_Auth_Toast"));
                     }
@@ -177,7 +156,6 @@
             $A.enqueueAction(action);
             
         } catch (ex) {
-            //console.log(ex);
         }
     },
     
@@ -199,19 +177,10 @@
             action.setCallback(this, function (response) {
                 c.set("v.isShowSpinner",false);
                 $A.get("e.force:refreshView").fire();
-                //$A.get("e.force:closeQuickAction").fire();
-                //c.find('overlayLib').notifyClose(); 
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
                     if(storedResponse != null){
-                        //window.open(window.location.origin + '/lightning/r/Campaign/'+c.get("v.campaignSFid")+'/view');
-                        /*var navEvt = $A.get("e.force:navigateToSObject");
-                        navEvt.setParams({
-                            "recordId": c.get("v.campaignSFid"),
-                            "slideDevName": "detail"
-                        });
-                        navEvt.fire();*/
                         if(c.get('v.remainingIdsList').length === 0){
                             h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.TouchPoint_Created"));
                         }else{
@@ -230,14 +199,12 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            //c.set('v.errorMessage',errors[0].message);
                         }
                     } 
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     showInfoToast: function (c, e, h, title,type, message) {
@@ -250,15 +217,12 @@
         toastEvent.fire();
     },  
     campaignnewHelper : function (c, e, h) {
-        //console.log('campaignnewHelper');
         var campaignid = c.get("v.campaignSFid");
         var TTClientIds = c.get("v.clientIdsList");
         var settingObj = c.get("v.settingAPIObj");
         var authToken = c.get("v.authToken");
         if(settingObj != null){
             var iframeURL  = settingObj.Instance_URL+"/app/v1/#/contacts?fullscreen=true&send_touchpoint="+TTClientIds+"&access_token="+authToken+"&other_id="+campaignid;
-            //console.log('iframeURL::'+iframeURL);
-            //console.log('TTClientIds::'+TTClientIds);
             c.set("v.iframeUrl",iframeURL);
             c.set("v.openfromCampaign",true);
         }   
@@ -272,16 +236,13 @@
             if(response.getState() === 'SUCCESS'){
                 if(response.getReturnValue()){
                     h.showInfoToast(c, e, h, $A.get("$Label.c.Success_Toast"), 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
-                    //$A.get("e.force:closeQuickAction").fire();
                     c.find('overlayLib').notifyClose();
                 }else{
                     h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
-                    //$A.get("e.force:closeQuickAction").fire();
                     c.find('overlayLib').notifyClose();
                 }
             }else{
                 h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
-                //$A.get("e.force:closeQuickAction").fire();
                 c.find('overlayLib').notifyClose();
             }
         });

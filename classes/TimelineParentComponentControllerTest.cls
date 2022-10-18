@@ -5,12 +5,12 @@ private with sharing class TimelineParentComponentControllerTest {
         Id campaignRecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
         Campaign CampaignObj = new Campaign(
             Name = 'Test bhoopesh',
-            RecordTypeId = campaignRecordTypeId                                                                                                                                                                                                                                                                                                                                          // Active
+            RecordTypeId = campaignRecordTypeId
         );
         insert CampaignObj;
         Campaign CampaignObj1 = new Campaign(
             Name = 'Test bhoopesh',
-            RecordTypeId = campaignRecordTypeId                                                                                                                                                                                                                                                                                                                                          // Active
+            RecordTypeId = campaignRecordTypeId
         );
         insert CampaignObj1;
         

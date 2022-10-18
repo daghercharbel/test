@@ -26,7 +26,6 @@
             var state = response.getState();
             if (state === "SUCCESS") {
                 var storedResponse = response.getReturnValue();
-                //console.log('storedResponse::'+JSON.stringify(storedResponse));
                 if(storedResponse != null && storedResponse.allLogsList != null){
                     c.set("v.logsList", storedResponse.allLogsList );
                }if(storedResponse != null && storedResponse.getCustomMetadataSetting != null){
@@ -34,8 +33,6 @@
                }if(storedResponse != null && storedResponse.asyncJobstatus != null){
                     c.set("v.asyncJobStatus", storedResponse.asyncJobstatus );
                }
-               //console.log('v.asyncJobStatus:: '+c.get('v.asyncJobStatus'));
-               //console.log('v.setting.Approval__c:: '+c.get('v.setting.Approval__c'));
             }
         });
         $A.enqueueAction(action); 

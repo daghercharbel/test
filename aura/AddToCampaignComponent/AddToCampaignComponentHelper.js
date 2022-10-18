@@ -11,11 +11,9 @@
                  c.set('v.isShowSpinner', false);
                 var state = response.getState();
                 if (state === "SUCCESS") {
-                    //console.log(response.getReturnValue());
                     if(response.getReturnValue() != null && response.getReturnValue() != undefined){
                         if(response.getReturnValue() == 'IsNotPersonAccount'){
                             h.showToast_Helper(c,'error',$A.get("$Label.c.No_Permit_To_Open_Toast"));
-                            //c.set("v.isNewOrExistCampaign",false);
                             window.setTimeout(
                                 $A.getCallback(function () {
                                     $A.get("e.force:closeQuickAction").fire();
@@ -29,7 +27,6 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                           // console.log("Error message: " +errors[0].message);
                         }
                     } 
                     $A.get("e.force:closeQuickAction").fire();
@@ -37,7 +34,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     saveCampaign_helper : function(c,e,h) {
@@ -64,7 +60,6 @@
                         h.showToast_Helper(c,'error',$A.get("$Label.c.Something_Wrong_Contact_Admin_Toast"));
                     }else{
                         h.showToast_Helper(c,'success',$A.get("$Label.c.Camp_Mem_Added_Toast"));
-                        //window.open(window.location.origin+'/lightning/r/Campaign/'+response.getReturnValue()+'/view', '_self');
                         var navEvt = $A.get("e.force:navigateToSObject");
                             navEvt.setParams({
                               "recordId": response.getReturnValue(),
@@ -84,7 +79,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     showToast_Helper: function (c, variant, message) {
