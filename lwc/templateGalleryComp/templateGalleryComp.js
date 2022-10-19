@@ -107,7 +107,7 @@ export default class TemplateGalleryComp extends LightningElement {
   }
   get sortingOptions() {
     return [
-      { label: this.label.None_Text, value: "none"},
+      { label: this.label.None_Text, value: "none" },
       { label: this.label.TitleText, value: "title" },
       { label: this.label.CreatedDateText, value: "createdDate" },
       { label: this.label.LastModifiedDate, value: "modifiedDate" }
@@ -179,17 +179,17 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   handleFilterChange(event) {
-    if(event.target.dataset.id == 'templateShow'){
+    if (event.target.dataset.id == 'templateShow') {
       this.templateType = event.detail.value;
-    }else if(event.target.dataset.id == 'templateFilter'){
+    } else if (event.target.dataset.id == 'templateFilter') {
       this.sortingType = event.detail.value;
     }
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
-      if(this.sortingType == 'title') { this.sortTemplatesList('title');}
-      else if(this.sortingType == 'createdDate') { this.sortTemplatesList('createdDate');}
-      else if(this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedDate');}
-      else{
+      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
+      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else {
         this.isSpinner = true;
         this.mainTemplateList = [];
         this.publicTemplatesList = [];
@@ -199,10 +199,10 @@ export default class TemplateGalleryComp extends LightningElement {
       }
     } else if (this.templateType == 'Public') {
       this.templatesList = this.publicTemplatesList;
-      if(this.sortingType == 'title') { this.sortTemplatesList('title');}
-      else if(this.sortingType == 'createdDate') { this.sortTemplatesList('createdDate');}
-      else if(this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedDate');}
-      else{
+      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
+      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else {
         this.isSpinner = true;
         this.mainTemplateList = [];
         this.publicTemplatesList = [];
@@ -212,11 +212,10 @@ export default class TemplateGalleryComp extends LightningElement {
       }
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
-      if(this.sortingType == 'title') 
-      { this.sortTemplatesList('title');}
-      else if(this.sortingType == 'createdDate') { this.sortTemplatesList('createdDate');}
-      else if(this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedDate');}
-      else{
+      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
+      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else {
         this.isSpinner = true;
         this.mainTemplateList = [];
         this.publicTemplatesList = [];
@@ -232,51 +231,28 @@ export default class TemplateGalleryComp extends LightningElement {
     this.updateRecords();
   }
 
-  sortTemplatesList(sortBy){
+  sortTemplatesList(sortBy) {
     let list = this.templatesList;
-    if(sortBy === 'createdDate'){
-      let temp=0;
-      for(let x = 0; x < list.length - 1; x++){       
-        for(let y = 0; y < list.length - x - 1; y++){          
-            if(list[y].created_at < list[y + 1].created_at ){               
-                temp = list[y];
-                list[y] = list[y + 1];
-                list[y + 1] = temp;
-            }
-        }
-      }
-    } else if(sortBy === 'modifiedDate'){
+    if (sortBy !== 'title') {
       let temp = 0;
-      for(let x = 0; x < list.length - 1; x++){       
-        for(let y = 0; y < list.length - x - 1; y++){          
-            if(list[y].modifiedAt < list[y + 1].modifiedAt ){               
-                temp = list[y];
-                list[y] = list[y + 1];
-                list[y + 1] = temp;
-            }
-        }
-      }
-    }else if(sortBy === 'title'){
-      if(!this.fr){
-        let temp = 0;
-        for(let x = 0; x < list.length - 1; x++){       
-          for(let y = 0; y < list.length - x - 1; y++){          
-              if(list[y].name.toLowerCase() > list[y + 1].name.toLowerCase()){               
-                  temp = list[y];
-                  list[y] = list[y + 1];
-                  list[y + 1] = temp;
-              }
+      for (let x = 0; x < list.length - 1; x++) {
+        for (let y = 0; y < list.length - x - 1; y++) {
+          if (list[y][sortBy] < list[y + 1][sortBy]) {
+            temp = list[y];
+            list[y] = list[y + 1];
+            list[y + 1] = temp;
           }
         }
-      }else{
-        let temp = 0;
-        for(let x = 0; x < list.length - 1; x++){       
-          for(let y = 0; y < list.length - x - 1; y++){          
-              if(list[y].name_fr.toLowerCase() > list[y + 1].name_fr.toLowerCase()){               
-                  temp = list[y];
-                  list[y] = list[y + 1];
-                  list[y + 1] = temp;
-              }
+      }
+    } else if (sortBy === 'title') {
+      sortBy = (this.fr) ? 'name_fr' : 'name';
+      let temp = 0;
+      for (let x = 0; x < list.length - 1; x++) {
+        for (let y = 0; y < list.length - x - 1; y++) {
+          if (list[y][sortBy].toLowerCase() > list[y + 1][sortBy].toLowerCase()) {
+            temp = list[y];
+            list[y] = list[y + 1];
+            list[y + 1] = temp;
           }
         }
       }
@@ -284,7 +260,7 @@ export default class TemplateGalleryComp extends LightningElement {
     this.templatesList = list;
     // console.log('sortedData: '+ JSON.stringify(this.templatesList));
   }
-  
+
   handleSearchInput(event) {
     try {
       let searchKey = event.target.value.toLowerCase();
@@ -422,7 +398,7 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
-    if(this.sortingType != 'none'){
+    if (this.sortingType != 'none') {
       this.sortTemplatesList(this.sortingType);
     }
   }
