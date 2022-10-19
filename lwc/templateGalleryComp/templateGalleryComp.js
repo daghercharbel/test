@@ -150,6 +150,11 @@ export default class TemplateGalleryComp extends LightningElement {
             } else {
               this.publicTemplatesList.push(x);
             }
+            if(x.Description){
+              x.isDescriptionNull = false;
+            }else{
+              x.isDescriptionNull = true;
+            }
           }
           if (this.templatesList.length > 0) {
             this.isTemplatePage = true;

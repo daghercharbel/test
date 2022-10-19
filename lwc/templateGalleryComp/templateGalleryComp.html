@@ -30,7 +30,8 @@
               class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
               <div data-id={each.id} class="slds-text-align_center imgCard" onclick={openSelectedTemplatePreview}>
                 <div class="imgStyleCard" style={each.imageURL}>
-                  <lightning-badge if:true={each.is_private} label={label.Private_Text} class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small">
+                  <lightning-badge if:true={each.is_private} label={label.Private_Text}
+                    class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small">
                   </lightning-badge>
                 </div>
                 <div class="tooltip">
@@ -41,10 +42,15 @@
                   <div if:true={fr} class="tpName">{each.name_fr}</div>
                   <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
                 </div>
-                <div class="tooltip">
-                  <div class="tpDate">{each.Description}</div>
-                  <span class="tooltip-drop tooltip-top">{each.Description}</span>
-                </div>
+                <template if:false={each.isDescriptionNull}>
+                  <div class="tooltip">
+                    <div class="tpDate">{each.Description}</div>
+                    <span class="tooltip-drop tooltip-top">{each.Description}</span>
+                  </div>
+                </template>
+                <template if:true={each.isDescriptionNull}>
+                  <div class="tpDate description-null-height">{each.Description}</div>
+                </template>
                 <div class="tpDate">{each.modified_at}</div>
               </div>
             </div>
