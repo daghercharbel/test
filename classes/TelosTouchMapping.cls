@@ -15,8 +15,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled 
     public static List<FieldWrapper> getTelosTouchFields(){
         try{
+            String strContact = 'Contact';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Contact' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strContact AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -26,6 +28,7 @@ public with sharing class TelosTouchMapping {
             }
             List<String> orderingList = new List<String>();
             orderingList.addAll(myMap.keyset());
+            //Sort the List 
             orderingList.sort();  
             for(String key : orderingList){
                 FieldWrapper wp = new FieldWrapper();
@@ -49,8 +52,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled
     public static List<FieldWrapper> getTelosTouchLeadFields(){
         try{
+            String strLead = 'Lead';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Lead' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strLead AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -60,6 +65,7 @@ public with sharing class TelosTouchMapping {
             }
             List<String> orderingList = new List<String>();
             orderingList.addAll(myMap.keyset());
+            //Sort the List
             orderingList.sort();
             for(String key : orderingList){
                 FieldWrapper wp = new FieldWrapper();
@@ -83,8 +89,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled 
     public static List<FieldWrapper> getTelosTouchTaskFields(){
         try{
+            String strTask = 'Task';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Task' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strTask AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -94,6 +102,7 @@ public with sharing class TelosTouchMapping {
             }
             List<String> orderingList = new List<String>();
             orderingList.addAll(myMap.keyset());
+            //Sort the List
             orderingList.sort();
             for(String key : orderingList){
                 FieldWrapper wp = new FieldWrapper();
@@ -120,7 +129,6 @@ public with sharing class TelosTouchMapping {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(sObjectApiName).getDescribe().fields.getMap();
         Map<String, String> returnMap = new Map<String, String>();
-
         if(adminCredentials.TelosTouchSF__RestrictedTTFieldMapping__c != null){
             String restrictedFields = adminCredentials.TelosTouchSF__RestrictedTTFieldMapping__c;
             List<String> restrictedFieldsList = restrictedFields.split(',');
@@ -145,6 +153,7 @@ public with sharing class TelosTouchMapping {
         
         List<String> orderingList = new List<String>();
         orderingList.addAll(returnMap.keyset());
+        //Sort the List
         orderingList.sort();
         for(String key : orderingList){
             FieldWrapper wObj = new FieldWrapper();
@@ -230,12 +239,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled
     public static Boolean sendCustomFieldsSFToTT(List<String> Selectedfieldslist, String objectName) {
         try{
-            
+
             if(Selectedfieldslist.size() >0){
-                
                 List<String> labellist = new List<String>();
                 List<TelosTouchSF__TT_Salesforce_Mapping__c> customMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-
                 for(String selectedField : Selectedfieldslist){
                     labellist.add(selectedField);
                     TelosTouchSF__TT_Salesforce_Mapping__c mappingCustomFields = new TelosTouchSF__TT_Salesforce_Mapping__c();
@@ -249,17 +256,15 @@ public with sharing class TelosTouchMapping {
                         mappingCustomFields.TelosTouchSF__Salesforce_Field__c = selectedField;
                     }
                     customMappingList.add(mappingCustomFields);
-                }
-
+                } 
                 if((labellist.size() > 0) && (labellist != null)){
-
                     String jsonMap = JSON.serialize(labellist);         
                     Http http = new Http();
                     HttpRequest request = new HttpRequest();
-
                     if(adminCredentials != null){
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
                             request.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/settings/touchpoint.custom.fields');
+
                         }
                         if(String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c)){
                             request.setHeader('Authorization', 'Bearer '+ authenticationCredential.TelosTouchSF__Access_Token__c);
@@ -268,8 +273,8 @@ public with sharing class TelosTouchMapping {
                         request.setHeader('Content-Type', 'application/json'); 
                         request.setHeader('Accept', 'application/json');
                     }
-
                     request.setBody(jsonMap);
+
                     request.setTimeout(45000);
                     HttpResponse response = http.send(request);
                     String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
@@ -284,6 +289,7 @@ public with sharing class TelosTouchMapping {
                     else {  
                         return false;
                     }
+
                 }
             }
         }
@@ -302,6 +308,7 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled
     public static Boolean deleteCustomFields(List<String> selectedfieldslist, String objectName) {
         try{
+            String strCustomFields = 'Custom Fields';
             Boolean flag = false;
             if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isQueryable()){
                 if(selectedfieldslist.size() > 0){
@@ -312,7 +319,7 @@ public with sharing class TelosTouchMapping {
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() &&
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() &&
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible()){
-                           fetchedFields = [SELECT Id, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c,TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: objectName AND TelosTouchSF__Is_Deleted__c = false AND ((TelosTouchSF__Salesforce_Field__c =:selectedfieldslist AND TelosTouchSF__TT_Field__c = 'Custom Fields' ) OR TelosTouchSF__TT_Field__c =:selectedfieldslist) LIMIT 5000 ];
+                           fetchedFields = [SELECT Id, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c,TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: objectName AND TelosTouchSF__Is_Deleted__c = false AND ((TelosTouchSF__Salesforce_Field__c =:selectedfieldslist AND TelosTouchSF__TT_Field__c = :strCustomFields ) OR TelosTouchSF__TT_Field__c =:selectedfieldslist) LIMIT 5000 ];
                        } 
                     if((fetchedFields.size()>0)&& (fetchedFields != null)){
                         for(TelosTouchSF__TT_Salesforce_Mapping__c each : fetchedFields) {

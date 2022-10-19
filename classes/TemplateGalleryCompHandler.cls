@@ -138,6 +138,7 @@ public with sharing class TemplateGalleryCompHandler {
                               templateMap.get('image_id') +
                               ')')
                 );
+                templateMap.put('modifiedAt', (Object) templateMap.get('modified_at'));
                 JSONParser parser = JSON.createParser(
                     '{"t":"' +
                     String.valueOf(templateMap.get('modified_at')) +

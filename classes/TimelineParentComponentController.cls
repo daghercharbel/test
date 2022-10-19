@@ -4,9 +4,7 @@
 * @description TimelineParentComponentController class is used to show only those task/campaign on client timeline whose have "show on client timeline" as "yes".
 */
 public with sharing class TimelineParentComponentController {
-
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-    
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -70,7 +68,8 @@ public with sharing class TimelineParentComponentController {
                     }
                     taskList = Database.query(String.escapeSingleQuotes('SELECT Id, subject, WhoCount, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE Id IN: taskIdSet AND Share_with_client_s__c=\'Yes\' AND IsRecurrence = false LIMIT 1000').replace('\\',''));
                 }else{
-                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c=:'Yes' AND IsRecurrence = false LIMIT 1000];
+                    String strYes = 'Yes';
+                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c =: strYes AND IsRecurrence = false LIMIT 1000];
                 }
                }
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isQueryable() &&
@@ -195,8 +194,7 @@ public with sharing class TimelineParentComponentController {
                     }
                 }
                 responseBody = '{'+pastBody+','+futureBody+'}';
-                if(responseBody != null){
-                    
+                if(responseBody != null){              
                     timeLineWrapperObj = (TelosTouchSF.TimelineWrapper) System.JSON.deserialize(responseBody, TelosTouchSF.TimelineWrapper.class);
                     pastList = timeLineWrapperObj.past;
                     futureList = timeLineWrapperObj.future;

@@ -2,8 +2,8 @@ public with sharing class FetchUnsubscribedClients {
     @AuraEnabled
     public static List<Object> getUnsubscribedClientsFromCampaign(String recId) {
         try {
-            String query = 'SELECT Name, Email,ContactId, LeadId, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c = \'No\' OR Lead.TelosTouchSF__Subscribed__c = \'No\')';
-            List<Object> cmData = Database.query(query);
+            String strNo = 'No';
+            List<Object> cmData = [SELECT Name, Email,ContactId, LeadId, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c =: strNo OR Lead.TelosTouchSF__Subscribed__c = :strNo)];
             System.debug(cmData);
             if(cmData.size()>0 && cmData != Null){
                 System.debug('data:: '+ cmData);

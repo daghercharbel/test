@@ -703,6 +703,13 @@
         <value>Create Action</value>
     </labels>
     <labels>
+        <fullName>CreatedDateText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CreatedDateText</shortDescription>
+        <value>Last created date</value>
+    </labels>
+    <labels>
         <fullName>Created_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1186,6 +1193,13 @@
         <value>Language</value>
     </labels>
     <labels>
+        <fullName>LastModifiedDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LastModifiedDate</shortDescription>
+        <value>Last modified date</value>
+    </labels>
+    <labels>
         <fullName>Last_Login_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1439,6 +1453,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>No unsubscribed client text</shortDescription>
         <value>No unsubscribed client found</value>
+    </labels>
+    <labels>
+        <fullName>None_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>None Text</shortDescription>
+        <value>None</value>
     </labels>
     <labels>
         <fullName>Not_Completed_Text</fullName>
@@ -2092,6 +2113,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>: Something went wrong.</value>
     </labels>
     <labels>
+        <fullName>Sort_By_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sort By Text</shortDescription>
+        <value>Sort by</value>
+    </labels>
+    <labels>
         <fullName>Standard_Fields_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2335,6 +2363,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Title</shortDescription>
         <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>TitleText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TitleText</shortDescription>
+        <value>Title (A to Z)</value>
     </labels>
     <labels>
         <fullName>Total_Sync_Record_Text</fullName>

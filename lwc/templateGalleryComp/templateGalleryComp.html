@@ -6,7 +6,13 @@
     <div class="container">
       <lightning-layout>
         <lightning-layout-item padding="around-small">
-          <lightning-combobox label="Show" value={templateType} options={templateOptions} onchange={handleFilterChange}>
+          <lightning-combobox label="Show" value={templateType} data-id="templateShow" options={templateOptions}
+            onchange={handleFilterChange}>
+          </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+          <lightning-combobox label={label.Sort_By_Text} value={sortingType} data-id="templateFilter"
+            options={sortingOptions} onchange={handleFilterChange}>
           </lightning-combobox>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" alignment-bump="left">
