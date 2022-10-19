@@ -255,7 +255,6 @@ export default class TemplateGalleryComp extends LightningElement {
       }
     }
     this.templatesList = list;
-    // console.log('sortedData: '+ JSON.stringify(this.templatesList));
   }
 
   handleSearchInput(event) {
