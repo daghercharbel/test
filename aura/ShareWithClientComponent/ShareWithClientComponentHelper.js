@@ -27,7 +27,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     showInfoToast: function (c, e, h, title,type, message) {

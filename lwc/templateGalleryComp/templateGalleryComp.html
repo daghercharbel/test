@@ -30,11 +30,9 @@
               class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
               <div data-id={each.id} class="slds-text-align_center imgCard" onclick={openSelectedTemplatePreview}>
                 <div class="imgStyleCard" style={each.imageURL}>
-                  <lightning-badge if:true={each.is_private} label="" icon-name="utility:lock"
-                    class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small private-badge">
+                  <lightning-badge if:true={each.is_private} label={label.Private_Text} class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small">
                   </lightning-badge>
                 </div>
-                <!-- <div class="bankDiv"></div> -->
                 <div class="tooltip">
                   <div if:false={fr} class="tpName">{each.name}</div>
                   <span class="tooltip-drop tooltip-top">{each.name}</span>

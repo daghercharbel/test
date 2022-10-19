@@ -4,10 +4,9 @@
 * @description TTcampaignResponse class is used to get new created TouchPoint record from SF to TelosTouch which is got through TelosTouch API.
 */
 public with sharing class TTcampaignResponse {
-    /*private static final TelosTouch_API_Settings__c getCredentials = TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
+    
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -17,23 +16,16 @@ public with sharing class TTcampaignResponse {
 */
     public static String getCampaignResponse(String campId, List<String> remainingClientIdsList ){
         try{
-            //System.debug('campId::'+campId);
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             if(campId != null && String.isNotBlank(campId)){
                 List<Campaign> campaignList = new List<Campaign>();
-              /*  if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isQueryable() && 
-                   Schema.sObjectType.Campaign.fields.TT_Campaign_Id__c.isAccessible() &&
-                   Schema.sObjectType.Campaign.fields.Id.isAccessible() &&
-                   Schema.sObjectType.Campaign.fields.Name.isAccessible() && Schema.sObjectType.Campaign.fields.Questions__c.isAccessible()){*/
                        campaignList = [SELECT Id, Name, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__Questions__c FROM Campaign WHERE Id =: campId AND TelosTouchSF__TT_Campaign_Id__c = null WITH SECURITY_ENFORCED LIMIT 1];
-                   //}
                 if(campaignList.size() > 0){
                     String methodType = 'GET';
                     String endPointURL ='', userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
                     Map<String, String> headersMap = new Map<String, String>();
                     if(userToken != null && String.isNotBlank(userToken) ){
                         headersMap.put('Authorization','Bearer ' +userToken);
-                        //headersMap.put('espo-Authorization', adminCredentials.Access_Token__c);
                          headersMap.put('Accept', 'application/json');
                          headersMap.put('Content-Type', 'application/json');
                     }
@@ -68,7 +60,6 @@ public with sharing class TTcampaignResponse {
                             List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
                                                                      Lead.Phone FROM CampaignMember WHERE (CampaignId=:campId) AND
                                                                      ((Contact.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList) OR (Lead.TelosTouchSF__TT_Client_Id__c IN: remainingClientIdsList)) WITH SECURITY_ENFORCED ];
-                            //CampMemberNotAddInCampHandler.addRecipientsIntoTouchPoint(campaignMembers);
                         }
                         if(Test.isRunningTest()){
                             getTTCampaignConversationResponse(campId, String.valueOf(responseMap1.get('id')));
@@ -197,10 +188,6 @@ public with sharing class TTcampaignResponse {
                                     }
                                 }
                                 if(responseMap2.containsKey('completed_at') && responseMap2.get('completed_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('completed_at')))){
-                                    /*String dates = String.valueOf(responseMap2.get('completed_at'));
-                                    dates = dates.replace('T', ' ');
-                                    dates = dates.replace('.', '#');
-                                    List<String> strList = dates.split('#');*/
                                     JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('completed_at'))+'"}');
                                     parser.nextToken();
                                     parser.nextValue();
@@ -209,10 +196,6 @@ public with sharing class TTcampaignResponse {
                                     }
                                 }
                                 if(responseMap2.containsKey('opened_at') && responseMap2.get('opened_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('opened_at')))){
-                                    /*String dates = String.valueOf(responseMap2.get('opened_at'));
-                                    dates = dates.replace('T', ' ');
-                                    dates = dates.replace('.', '#');
-                                    List<String> strList = dates.split('#');*/
                                     JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('opened_at'))+'"}');
                                     parser.nextToken();
                                     parser.nextValue();
@@ -227,7 +210,6 @@ public with sharing class TTcampaignResponse {
                                 }
                                 conversation_UserList.add(conversation_UserObj);
                             }
-                            //System.debug('conversation_UserList:: '+conversation_UserList);
                             if(conversation_UserList.size() > 0){
                                 if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isCreateable() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()){
                                     UPSERT  conversation_UserList TelosTouchSF__Conversation_Id__c;

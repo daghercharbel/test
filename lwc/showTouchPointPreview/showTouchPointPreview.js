@@ -34,7 +34,6 @@ export default class ShowTouchPointPreview extends LightningElement {
     this.urls.email = "about:blank";
     this.urls.touchpoint = "about:blank";
     this.langValue = event.detail.value;
-    // console.log(this.langValue);
     if (this.templateId) {
       this.getUrlfromTemplate();
     }
@@ -57,7 +56,6 @@ export default class ShowTouchPointPreview extends LightningElement {
     getIFrameUrls({ recordId: this.recordId, language: this.langValue })
       .then((result) => {
         this.urls = JSON.parse(result);
-        // console.log(this.urls);
       })
       .catch((error) => {
         this.error = error.message;
@@ -68,7 +66,6 @@ export default class ShowTouchPointPreview extends LightningElement {
     getIFrameUrlsFromTemplateId({ templateId: this.templateId, language: this.langValue })
       .then((result) => {
         this.urls = JSON.parse(result);
-        // console.log(this.urls);
       })
       .catch((error) => {
         this.error = error.message;

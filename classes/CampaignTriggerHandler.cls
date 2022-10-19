@@ -23,7 +23,6 @@ public with sharing class CampaignTriggerHandler {
                 }
             }
             if(updatedCampaignList.size() > 0){
-                //String jobId = 
                 Database.executeBatch(new TelosTouchSF.CampaignDelete_Batch(updatedCampaignList), 90);
             }
             if(campaignIdSet.size() > 0){
@@ -66,61 +65,14 @@ public with sharing class CampaignTriggerHandler {
     public static void createQuestionsAndAnswers(List<Campaign> campaignList){
         try{
             if(campaignList != null && campaignList.size()>0){
-                // List<TelosTouchSF__TT_Template_Questions__c> questionInsertList = new List<TelosTouchSF__TT_Template_Questions__c>();
                 List<TelosTouchSF__TT_Client_Answers__c> answersInsertList = new List<TelosTouchSF__TT_Client_Answers__c>();
-                //Set<Id> campaignIdSet = new Set<Id>();
                 Set<String> userIdSet = new Set<String>();
                 Set<String> accountIdSet = new Set<String>();
                 Set<String> conversationIdSet = new Set<String>();
-                //Map<String, Id> questionVsSfIdMap = new Map<String, Id>();
                 Map<String, String> userIdVsAccountIdMap = new Map<String, String>();
                 Map<String, Id> userIdvsSfIdMap = new Map<String, Id>();
                 Map<String, Id> userIdvsOwnerIdMap = new Map<String, Id>();
                 Map<String, Boolean> conversationIdvsFlag = new Map<String, Boolean>();
-                //Map<String, Boolean> campaignIdvsFlag = new Map<String, Boolean>();
-                /* for(Campaign each : campaignList){
-					  campaignIdSet.add(each.Id);
-				  }
-				  List<TelosTouchSF__TT_Template_Questions__c> QuestionList = new List<TelosTouchSF__TT_Template_Questions__c>();
-				  if(Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.isQueryable() &&
-					 Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.fields.Id.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.fields.TelosTouchSF__Campaign__c.isAccessible()){
-						 QuestionList = [SELECT Id, TelosTouchSF__Campaign__c FROM TelosTouchSF__TT_Template_Questions__c WHERE TelosTouchSF__Campaign__c IN: campaignIdSet];
-					 }
-				  for(Id campaignId : campaignIdSet){
-					  Integer count = 0;
-					  for(TelosTouchSF__TT_Template_Questions__c each : QuestionList){
-						  if(campaignId == each.TelosTouchSF__Campaign__c){
-							  count++;
-						  }
-					  }
-					  if(count>0){
-						  campaignIdvsFlag.put(campaignId, false);
-					  }else{
-						  campaignIdvsFlag.put(campaignId, true);
-					  }
-				  }
-				  for(Campaign each : campaignList){
-					  if(String.isNotBlank(each.TelosTouchSF__Answers__c) && String.isNotBlank(each.TelosTouchSF__Questions__c) && campaignIdvsFlag.get(each.Id)){
-						  List<Object> questionsObjList = new List<Object>();
-						  questionsObjList = (List<Object>)JSON.deserializeUntyped(each.TelosTouchSF__Questions__c.unescapeHtml4());
-						  for(Object questionObj : questionsObjList){
-							  Map<String, Object> questionsObjMap = (Map<String, Object>)questionObj;
-							  TelosTouchSF__TT_Template_Questions__c question = new TelosTouchSF__TT_Template_Questions__c();
-							  question.TelosTouchSF__Key__c = String.valueOf(questionsObjMap.get('key'));
-							  question.TelosTouchSF__type__c = String.valueOf(questionsObjMap.get('type'));
-							  question.Name = String.valueOf(questionsObjMap.get('question')).abbreviate(250);
-							  question.TelosTouchSF__Answer__c = String.valueOf(questionsObjMap.get('answers')).removeStart('(').removeEnd(')');
-							  question.TelosTouchSF__Campaign__c = each.Id;
-							  questionInsertList.add(question);
-						  }
-					  }
-				  }
-				  if(questionInsertList.size()>0 && Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Template_Questions__c.isCreateable()){
-					  insert questionInsertList;
-				  }
-				  for(TelosTouchSF__TT_Template_Questions__c each : questionInsertList){
-					  questionVsSfIdMap.put(each.Name, each.Id);
-				  }*/
                 for(Campaign each : campaignList){
                     if(String.isNotBlank(each.TelosTouchSF__Answers__c) && String.isNotBlank(each.TelosTouchSF__Questions__c)){
                         List<Object> answersObjList = new List<Object>();
@@ -214,10 +166,7 @@ public with sharing class CampaignTriggerHandler {
                                             answer.Name = String.valueOf(questionsandanswersObjMap.get('question')).abbreviate(80);
                                             answer.TelosTouchSF__Question__c = String.valueOf(questionsandanswersObjMap.get('question')).abbreviate(255);
                                             answer.TelosTouchSF__Campaign__c = each.Id;
-                                            //answer.TelosTouchSF__Questions__c = String.valueOf(questionsandanswersObjMap.get('question'));
-                                            //answer.TelosTouchSF__TT_Template_Questions__c = questionVsSfIdMap.get(String.valueOf(questionsandanswersObjMap.get('question')));
                                             answer.TelosTouchSF__Answer__c = (String.valueOf(questionsandanswersObjMap.get('answers')).abbreviate(255)).removeStart('(').removeEnd(')');
-                                            //answer.TelosTouchSF__Key__c = String.valueOf(questionsandanswersObjMap.get('key'));
                                             answer.TelosTouchSF__TT_Conversation_Id__c = String.valueOf(answersObjMap.get('conversation_id'));
                                             String sObjName = userIdvsSfIdMap.get(String.valueOf(answersObjMap.get('client_id'))).getSObjectType().getDescribe().getName();
                                             if(sObjName == 'Contact'){

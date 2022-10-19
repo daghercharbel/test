@@ -1,7 +1,6 @@
 <aura:component description="multiSelectPicklist" >
-    <!--declare attributes--> 
+
     <aura:attribute name="label" type="string" default=""/>
-    
     <aura:attribute name="values" type="string" default=""/>
     <aura:attribute name="answerList" type="string" default=""/>
     <aura:attribute name="fielterDetailsChanges" type="String" />

@@ -29,7 +29,6 @@
             });
             $A.enqueueAction(action);
         }catch(ex){
-            //console.log('Exception::'+ex);
         }
     },
     showSuccess : function(component, event, helper, title, type, message) {
@@ -73,9 +72,6 @@
                     $A.get('e.force:refreshView').fire();
                     c.set("v.newTask", {'sobjectType': 'Task'});
                     h.showSuccess(c,e,h,'Sucesss','success',$A.get("$Label.c.Task_Create_Success_Text"));
-                    //h.showToast_Helper(c,'success',$A.get("$Label.c.Task_Create_Success_Text"));
-                    //window.location.reload()
-                    //c.set("v.createAction", false);
                     var result = response.getReturnValue();
                     c.find('overlayLib2').notifyClose();
                 }
@@ -83,7 +79,6 @@
             $A.enqueueAction(action);
         }
         catch(error){
-            //console.log(error);
         }
     },
     SaveCreateAction : function(c, e, h) {

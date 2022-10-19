@@ -45,10 +45,6 @@ public with sharing class TaskTriggerHandler {
         try{
             Set<Id> contactIds = new Set<Id>();
             Set<Id> leadIds = new Set<Id>();
-            //List<Contact> contactlist = new List<Contact>();
-            //List<Lead> leadlist = new List<Lead>();
-            //map<Id,Contact> mapIdVsContact = new  map<Id,Contact>();
-            //map<Id,Lead> mapIdVslead = new  map<Id,Lead>();
             if(oldMap != null){
                 for(Task taskObj : taskList){
                     if(taskObj.WhoId != null){

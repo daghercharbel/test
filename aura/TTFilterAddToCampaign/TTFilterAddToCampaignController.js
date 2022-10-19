@@ -17,15 +17,11 @@
                 if(response.getState() === 'SUCCESS') {
                     if(!$A.util.isEmpty(result) && JSON.parse(result) != '') {
                         c.set('v.recordsList', JSON.parse(result));        
-                    } else {
-                        //c.set('v.boolForNoRecord', true);
-
                     }
                 }else{
                     c.set('v.boolForNoRecord', true);
                 }
             }catch(e){
-                //console.log(e);
             }
         });
         $A.enqueueAction(action);
@@ -56,7 +52,6 @@
                 c.set("v.boolForInput", false);
             }     
         } catch (error) {
-            //console.log(error);
         }
     },
     onEventHandle_Save: function(c,e,h){
@@ -70,7 +65,6 @@
                 try{
                     if(response.getState() === 'SUCCESS') {
                         var result = response.getReturnValue();
-                        //console.log('resut:: '+ JSON.stringify(result));
                         if(result.includes('error')){
                             h.showSuccess(c,e,h,"Error","error",result.split('#')[1]);
                         }else{
@@ -84,7 +78,6 @@
                         }
                     }
                 }catch(e){
-                    //console.log(e);
                 }
             });
             $A.enqueueAction(action);
@@ -157,7 +150,6 @@
             }  else{
             } 
         } catch (error) {
-            //console.log(error);
         }
     }
 })

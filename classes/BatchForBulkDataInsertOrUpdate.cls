@@ -12,10 +12,6 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
     public Id JobId;
     public String syncType;
     public String syncObject;
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;
-    private static final Boolean secondTime = getCredentials.ForSecondTimeBatch__c;*/
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
         /**
@@ -96,7 +92,6 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                 }else if(objectName == 'Campaign'){
                     if(!forFirstTime){
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/admin/touchpoints?modified_at={">=":"'+formatted+'"}';
-                        //System.debug(endPointURL);
                     }else{
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/admin/touchpoints';
                     }
@@ -107,7 +102,6 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/admin/contacts?deleted=false';
                     }
                 }
-                //System.debug('endPointURL>>'+endPointURL);
                 HttpRequest request = new HttpRequest();
                 Http http = new Http();
                 HttpResponse response = new HttpResponse();
@@ -119,15 +113,19 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                     }
                 }
                 response = http.send(request);
+                String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                TelosTouchUtility.generateLog(respMessage, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
                 if(response.getstatusCode() == 200){
                     if(objectName == 'Contact'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
-                        //system.debug('numberOfRecords>>'+numberOfRecords);
                     }else if(objectName == 'Task'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
                     }else if(objectName == 'Campaign'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
                     }
+                } else {
+                    String errorMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                    throw new TelosTouchUtility.CustomException(errorMessage);
                 }
             }
             if(startPoint == null){
@@ -147,6 +145,7 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
             }
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
+            TelosTouchUtility.generateErrorLog(ex, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
         }
     }
             /**
@@ -162,7 +161,6 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
             }else if(ObjectName == 'Campaign'){
                 JobId = System.enqueueJob(new TelosTouchSF.GetCampaignsFromTTQueueable(this.startPoint, this.endPoint, this.NumberOfRecords, forFirstTime, syncObject ));
             }else if(ObjectName == 'Contact'){
-                //System.debug('Contact');
                	JobId = System.enqueueJob(new TelosTouchSF.GetClientsFromTTQueueable(this.startPoint, this.endPoint, this.NumberOfRecords, forFirstTime, syncObject ));
             }
         }

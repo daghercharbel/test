@@ -67,7 +67,6 @@ public with sharing class MassCreateTaskCompController {
                 .fields.getMap();
         List<TaskFieldsWrapper> wrapperList = new List<TaskFieldsWrapper>();
         for (String str : mfields.keySet()) {
-            // if(!(str.toLowerCase().contains('recurrence'))){
             TaskFieldsWrapper wrap = new TaskFieldsWrapper();
             String fieldApiName = str.toLowerCase();
             wrap.apiName = fieldApiName;
@@ -112,7 +111,6 @@ public with sharing class MassCreateTaskCompController {
             } else {
                 wrapperList.add(wrap);
             }
-            // }
         }
         return wrapperList;
     }
@@ -355,6 +353,8 @@ public with sharing class MassCreateTaskCompController {
             hr.setEndpoint(endPoint);
             hr.setMethod('GET');
             HttpResponse r = h.send(hr);
+            String respMessage = 'Response Status Code: '+r.getstatusCode()+' | Response Body: '+r.getBody();
+            TelosTouchUtility.generateLog(respMessage, 'MassCreateTaskCompController', 'restGet', null);
             return r.getBody();
         } catch (Exception ex) {
             system.debug(LoggingLevel.ERROR,'Exception in tooling API Call:' + ex.getMessage());

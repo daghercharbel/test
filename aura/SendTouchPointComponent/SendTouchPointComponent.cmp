@@ -23,7 +23,6 @@
     </aura:if>
     <!-- Loading spinner end-->   
     <aura:if isTrue="{!v.openfromCampaign}">
-        <!--lightning:formattedRichText value="{!v.iframeUrl}"/-->
         <iframe src="{!v.iframeUrl}"
                 frameBorder="{!v.frameBorder}"
                 id = "frame"/>

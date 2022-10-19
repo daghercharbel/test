@@ -1,8 +1,6 @@
 ({
     doInit : function(c, e, h) {
-        //console.log('per>>'+c.get("v.isPersonAccount"));
         if(c.get("v.isPersonAccount") == 'true'){
-            //console.log('perll');
             if(c.get("v.selectedRecordIds").length >2){
                 h.doInit_helper(c,e,h);
             }else{
@@ -14,7 +12,6 @@
             }
             
         }else{
-            //console.log('no');
             h.showToast_Helper(c,'error','Person Account is not enabled.');
             window.setTimeout(
                 $A.getCallback(function() {
@@ -24,7 +21,6 @@
         
     },
     showAddCampaignMemberDetails: function(c,e,h){
-        //console.log(c.get("v.campaignObj"));
         if(!$A.util.isEmpty(c.get("v.campaignObj"))){
             h.SaveContactIntoCampaign_Helper(c,e,h,c.get("v.campaignObj"));
         }else{

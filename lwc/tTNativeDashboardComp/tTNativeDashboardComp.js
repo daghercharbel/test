@@ -94,12 +94,6 @@ export default class TTNativeDashboardComp extends NavigationMixin(LightningElem
       },
       options: {
         responsive: true,
-        // legend: {
-        //   display: true,
-        //   labels: {
-        //     usePointStyle: true
-        //   }
-        // }
         maintainAspectRatio: false,
         legend: {
           display: true,
@@ -143,7 +137,6 @@ export default class TTNativeDashboardComp extends NavigationMixin(LightningElem
         });
         const ctx = this.template.querySelector('canvas.barChart').getContext('2d');
         this.chart = new window.Chart(ctx, JSON.parse(JSON.stringify(this.chartConfig)));
-        //this.chart.canvas.style.height = '292px';
         this.chart.canvas.parentNode.style.width = '100%';
       })
       .catch(error => {

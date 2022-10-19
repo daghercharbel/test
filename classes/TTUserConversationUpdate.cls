@@ -4,12 +4,11 @@
 * @description TTUserConversationUpdate class is used to get one TouchPoint conversation record which is got through TelosTouch API.
 */
 global with sharing class TTUserConversationUpdate implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
+    
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
     global List<Campaign> campaignGlobalList;
+
             /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -46,10 +45,8 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                     String methodType = 'GET';
                     String endPointURL = '';
                     Map<String, String> headersMap = new Map<String, String>();
-                   // String userAuthTOKEN = TelosTouchUtility.getCurrentUserTOKEN();
                     if(authenticationCredential.TelosTouchSF__Access_Token__c != null && String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
                         headersMap.put('Authorization','Bearer ' +authenticationCredential.TelosTouchSF__Access_Token__c);
-                        //headersMap.put('espo-Authorization', adminCredentials.Access_Token__c);
                     }
                     if(adminCredentials.TelosTouchSF__Instance_URL__c != null && String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints/'+campaignObj.TelosTouchSF__TT_Campaign_Id__c+'/clients';
@@ -99,13 +96,9 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                                     String.valueOf(responseMap1.get('name'));
                                         }
                                     }
-                                    if (responseMap2.containsKey('completed_at') &&
-                                                    responseMap2.get('completed_at') != null &&
-                                            String.isNotBlank(String.valueOf(responseMap2.get('completed_at')))) {
-                                        /*String dates = String.valueOf(responseMap2.get('completed_at'));
-                                        dates = dates.replace('T', ' ');
-                                        dates = dates.replace('.', '#');
-                                        List<String> strList = dates.split('#');*/
+                                    if (responseMap2.containsKey('completed_at') && responseMap2.get('completed_at') != null &&
+                                        String.isNotBlank(String.valueOf(responseMap2.get('completed_at')))) 
+                                    {
                                         JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('completed_at'))+'"}');
                                         parser.nextToken();
                                         parser.nextValue();
@@ -115,13 +108,9 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                             conversation_UserObj.TelosTouchSF__Completed_At__c = DateTime.newInstance( parser.getDateTimeValue().getTime() );
                                         }
                                     }
-                                    if (responseMap2.containsKey('opened_at') &&
-                                                    responseMap2.get('opened_at') != null &&
-                                            String.isNotBlank(String.valueOf(responseMap2.get('opened_at')))) {
-                                        /*String dates = String.valueOf(responseMap2.get('opened_at'));
-                                        dates = dates.replace('T', ' ');
-                                        dates = dates.replace('.', '#');
-                                        List<String> strList = dates.split('#');*/
+                                    if (responseMap2.containsKey('opened_at') && responseMap2.get('opened_at') != null &&
+                                        String.isNotBlank(String.valueOf(responseMap2.get('opened_at')))) 
+                                    {
                                         JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('opened_at'))+'"}');
                                         parser.nextToken();
                                         parser.nextValue();

@@ -10,7 +10,6 @@
         var state = response.getState();
         if (state === "SUCCESS") {
           var resp = response.getReturnValue();
-          // console.log('response openAtAndCompletedAt: '+(resp));
           if (!$A.util.isEmpty(resp) && resp != undefined) {
             h.scriptsLoaded_helper(c, e, h, resp);
           }
@@ -18,7 +17,6 @@
       });
       $A.enqueueAction(action);
     } catch (ex) {
-      //console.log('error in code'+ex);
     }
   },
   scriptsLoaded_helper: function (c, e, h, resp) {
@@ -123,7 +121,6 @@
                 width,
                 20 * 1.618
               );
-              //ctx.fillText($A.get("$Label.c.Campaign_Graph_Will_Populate_Text"), width / 2, height / 2);
             } 
             else if(datawrapper.userName != null && datawrapper.campaignSynced && datawrapper.campMemberPresent && datawrapper.templatePresent && datawrapper.newMemberAdded){
               wrapText(
@@ -162,7 +159,6 @@
                 20 * 1.618
               );
             }else {
-              //ctx.fillText($A.get("$Label.c.Campaign_Graph_Send_Touchpoint_Text"), width / 2, height / 2);
               wrapText(
                 ctx,
                 $A.get("$Label.c.StartByChoosingTP"),
@@ -206,7 +202,6 @@
           datasets: dataList
         },
         options: {
-          //responsive: true,
           title: {
             display: true,
             text: titleName
@@ -229,7 +224,6 @@
         }
       });
     } catch (ex) {
-      //console.log(ex);
     }
   }
 });

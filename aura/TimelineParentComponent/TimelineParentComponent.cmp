@@ -11,31 +11,25 @@
         <aura:set attribute="else">
             <lightning:accordion allowMultipleSectionsOpen="true" aura:id="accordion" activeSectionName="A">
                 <aura:if isTrue="{!!empty(v.timeLineWrapper.futureTimelineList)}">
-                    <!--lightning:accordionSection name="A" label="Future"-->
                     <ul class="slds-timeline">
                         <aura:iteration items="{!v.timeLineWrapper.futureTimelineList}" var="futureTimeline">
                             <c:TimelineChildComponent timelineRecord="{!futureTimeline}"/>
                         </aura:iteration>
                     </ul>
-                    <!--/lightning:accordionSection-->
                 </aura:if> 
                 <aura:if isTrue="{!!empty(v.timeLineWrapper.pastTimelineList)}">
-                    <!--lightning:accordionSection name="A" label="Past"-->
                     <ul class="slds-timeline">
                         <aura:iteration items="{!v.timeLineWrapper.pastTimelineList}" var="pastTimeline">
                             <c:TimelineChildComponent timelineRecord="{!pastTimeline}"/>
                         </aura:iteration>
                     </ul>
-                    <!--/lightning:accordionSection-->
                 </aura:if>
                 <aura:if isTrue="{!!empty(v.timeLineWrapper.attachmentTimelinelist)}">
-                    <!--lightning:accordionSection name="A" label="Past"-->
                     <ul class="slds-timeline">
                         <aura:iteration items="{!v.timeLineWrapper.attachmentTimelinelist}" var="attachmentTimeline">
                             <c:TimelineChildComponent timelineRecord="{!attachmentTimeline}"/>
                         </aura:iteration>
                     </ul>
-                    <!--/lightning:accordionSection-->
                 </aura:if>
                 <aura:if isTrue="{!and(empty(v.timeLineWrapper.pastTimelineList),empty(v.timeLineWrapper.futureTimelineList))}">
                     <p><strong>{!$Label.c.No_Timeline_Text}</strong></p>

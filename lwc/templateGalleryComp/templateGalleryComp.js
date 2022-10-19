@@ -62,7 +62,6 @@ export default class TemplateGalleryComp extends LightningElement {
   @api isOpenTouchPoints = false;
   @api campSfId;
   langValue = "en_US";
-  // topButtonLabel = 'Back';
   @track isPrivateToggle = false;
   @track previewSaveDisabled = false;
   showPagination = false;
@@ -161,7 +160,6 @@ export default class TemplateGalleryComp extends LightningElement {
           }
           this.isSpinner = false;
         } else {
-          // console.log("no data");
           this.isSpinner = false;
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
@@ -171,7 +169,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.updateRecords();
       })
       .catch((error) => {
-        // console.log(error);
         this.isSpinner = false;
         this.isTemplatePage = true;
         this.isTemplatePresent = false;
@@ -297,7 +294,6 @@ export default class TemplateGalleryComp extends LightningElement {
       this.nextPage = 2;
       this.updateRecords();
     } catch (error) {
-      // console.log(error);
     }
   }
 
@@ -375,7 +371,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.isTemplatePresent = false;
       }
     } catch (error) {
-      //console.log(error);
     }
   }
 
@@ -386,11 +381,7 @@ export default class TemplateGalleryComp extends LightningElement {
     this.generateIFrame();
   }
 
-  /**
-   * Responsible for state management of the All/Private toggle
-   */
   showDataBasedOnPrivate() {
-    // console.log('private toogle on? '+ this.isPrivateToggle);
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -410,7 +401,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.publicTemplatesList = [];
     this.privateTemplatesList = [];
     this.templatesList = [];
-    // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
 
@@ -455,7 +445,6 @@ export default class TemplateGalleryComp extends LightningElement {
         );
         this.isTemplatePage = true;
         this.previewBody = false;
-        // console.log(error);
       })
       .finally(() => {
         this.toggleCompliance();
@@ -468,7 +457,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.urls = (JSON.parse(result));
       })
       .catch((error) => {
-        // console.log(error);
       });
   }
 
@@ -478,6 +466,12 @@ export default class TemplateGalleryComp extends LightningElement {
       this.generateIFrame();
     } catch (error) {
     }
+  }
+
+  closeModal() {
+    const closeModalEvent = new CustomEvent('closemodalevent', {
+    });
+    this.dispatchEvent(closeModalEvent);
   }
 
   closeModal() {
