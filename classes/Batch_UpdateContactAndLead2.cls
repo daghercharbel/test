@@ -48,10 +48,12 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
              contactquery = 'SELECT Id, Owner.id, Owner.TelosTouchSF__TT_UserName__c,Owner.TelosTouchSF__TT_UserId__c,Owner.TelosTouchSF__Token__c, ';
              contactquery += 'CreatedBy.id, CreatedBy.TelosTouchSF__TT_UserName__c,CreatedBy.TelosTouchSF__TT_UserId__c,CreatedBy.TelosTouchSF__Token__c, LastModifiedDate, ';
              contactquery += 'TelosTouchSF__Error_Message__c, TelosTouchSF__Source__c, TelosTouchSF__TT_Client_Id__c, TelosTouchSF__TT_Conflict__c, TelosTouchSF__TT_LastSyncTime__c, ';
+             String strContact ='Contact';
+             String strAccountId = 'AccountId';
              for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                                     FROM TelosTouchSF__TT_Salesforce_Mapping__c 
-                                                                    WHERE TelosTouchSF__Object_Name__c = 'Contact' 
-                                                                    AND TelosTouchSF__Salesforce_Field__c != 'AccountId'])
+                                                                    WHERE TelosTouchSF__Object_Name__c =: strContact 
+                                                                    AND TelosTouchSF__Salesforce_Field__c !=: strAccountId])
              {
                 contactquery += fieldAPI.TelosTouchSF__Salesforce_Field__c + ',';
              }

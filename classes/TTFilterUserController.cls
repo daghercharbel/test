@@ -692,11 +692,11 @@ public with sharing class TTFilterUserController {
         Schema.DescribeSObjectResult sobject_describe = sobject_type.getDescribe(); //describe the sobject
         Map<String, Schema.SObjectField> field_map = sobject_describe.fields.getMap(); //get a map of fields for the passed sobject
         List<Schema.PicklistEntry> pick_list_values = field_map.get(Field_name).getDescribe().getPickListValues(); //grab the list of picklist values for the passed field on the sobject
-        for (Schema.PicklistEntry pickObj : pick_list_values) {
+        for (Schema.PicklistEntry pickObj : pick_list_values) { //for all values in the picklist list
             listObject obj = new listObject();
             obj.label = pickObj.getLabel();
             obj.value = pickObj.getValue();
-            lstPickvals.add(obj);
+            lstPickvals.add(obj);//add the value  to our final list
         }
         return lstPickvals;
     }
@@ -762,7 +762,7 @@ public with sharing class TTFilterUserController {
                     record.Name = info.getName();
                     recordTypeList.add(record);
                 }
-            }
+            }            
             if (recordTypeList.size() > 0 && recordTypeList != null) {
                 return JSON.serialize(recordTypeList);
             }else{
@@ -828,7 +828,7 @@ public with sharing class TTFilterUserController {
         try{ 
             List<RecordsData> recordsDataList = new List<RecordsData>();
             try {
-                String query = 'SELECT Id, ' + filterField+ ' FROM '+objectName+' WHERE Id !=: campaignRecordId AND '+filterField+' LIKE ' + '\'%' + String.escapeSingleQuotes(searchString.trim()) + '%\'' + ' ORDER BY CreatedDate DESC LIMIT 5';
+               	String query = 'SELECT Id, ' + String.escapeSingleQuotes(filterField).replace('\\','')+ ' FROM '+String.escapeSingleQuotes(objectName).replace('\\','')+' WHERE Id !=: campaignRecordId AND '+String.escapeSingleQuotes(filterField).replace('\\','')+' LIKE ' + '\'%' + String.escapeSingleQuotes(searchString.trim()) + '%\'' + ' ORDER BY CreatedDate DESC LIMIT 5';
                 for(SObject s : Database.query(query)){
                     recordsDataList.add( new RecordsData((String)s.get(filterField), (String)s.get('id')) );
                 } 

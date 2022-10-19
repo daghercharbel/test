@@ -14,10 +14,11 @@ public with sharing class PermissionSetForInsightObjMD {
     public void createPermissionSet(String permissionSetName, String permissionSetLabel){
         try{
             String permSetId = '';
+            String strTTPSetForInsightObjMDRelations = 'TTPSetForInsightObjMDRelations';
             List<PermissionSet> getPermissionSetList = new  List<PermissionSet>();
             if(Schema.sObjectType.PermissionSet.isAccessible() && Schema.sObjectType.PermissionSet.isQueryable() &&
               Schema.sObjectType.PermissionSet.fields.Id.isAccessible() && Schema.sObjectType.PermissionSet.fields.Name.isAccessible()){
-                getPermissionSetList = [SELECT Id,Name FROM PermissionSet WHERE Name = 'TTPSetForInsightObjMDRelations' LIMIT 1];
+                getPermissionSetList = [SELECT Id,Name FROM PermissionSet WHERE Name = :strTTPSetForInsightObjMDRelations LIMIT 1];
                 if(getPermissionSetList.size() >0){
                     permSetId = getPermissionSetList[0].Id;
                 }else{
@@ -66,6 +67,7 @@ public with sharing class PermissionSetForInsightObjMD {
             objectsAndCRUD.put('Lead', new List<Boolean>{True, True, True, True});
 
             objectsAndCRUDcollection.add(objectsAndCRUD);
+
 
             fieldsAndCRUD.put('Lead.TelosTouchSF__TT_Last_Login__c', new List<Boolean>{True, True,True, True});
             fieldsAndCRUD.put('Lead.TelosTouchSF__Error_Message__c', new List<Boolean>{True, True,True, True});
