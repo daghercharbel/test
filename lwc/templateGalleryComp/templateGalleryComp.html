@@ -61,7 +61,7 @@
         <lightning-layout>
           <lightning-layout-item class="leftIconStyle" alignment-bump="left">
             <div class="slds-text-align_center">
-              <lightning-button-icon icon-name="utility:chevronleft" onclick={previousHandler}
+              <lightning-button-icon icon-name="utility:chevronleft" variant="brand" onclick={previousHandler}
                 disabled={disablePrevious} size="large" alternative-text="View More"></lightning-button-icon>
             </div>
           </lightning-layout-item>
@@ -69,14 +69,16 @@
             <lightning-button label={prevPage} title="Non-primary action" onclick={prevPageAction}>
             </lightning-button>
           </lightning-layout-item>
-          <lightning-layout-item class={nextBtnClass}>
-            <lightning-button label={nextPage} disabled={secondPageDisabled} onclick={nextPageAction}
-              title="Non-primary action"></lightning-button>
-          </lightning-layout-item>
+          <template if:false={hideLastButton}>
+            <lightning-layout-item class={nextBtnClass}>
+              <lightning-button label={nextPage} disabled={secondPageDisabled} onclick={nextPageAction}
+                title="Non-primary action"></lightning-button>
+            </lightning-layout-item>
+          </template>
           <lightning-layout-item>
             <div class="slds-text-align_center btnBorderInActive">
-              <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler} disabled={disableNext}
-                size="large" alternative-text="View More"></lightning-button-icon>
+              <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler} variant="brand"
+                disabled={disableNext} size="large" alternative-text="View More"></lightning-button-icon>
             </div>
           </lightning-layout-item>
         </lightning-layout>

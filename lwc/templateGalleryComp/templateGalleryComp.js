@@ -62,6 +62,8 @@ export default class TemplateGalleryComp extends LightningElement {
   @api isOpenTouchPoints = false;
   @api campSfId;
   langValue = "en_US";
+  hideLastButton = false;
+  // topButtonLabel = 'Back';
   @track isPrivateToggle = false;
   @track previewSaveDisabled = false;
   showPagination = false;
@@ -317,8 +319,11 @@ export default class TemplateGalleryComp extends LightningElement {
   previousHandler() {
     if (this.currentPage > 1) {
       this.currentPage = this.currentPage - 1;
-      this.prevPage = this.currentPage;
-      this.nextPage = this.prevPage + 1;
+      // this.prevPage = this.currentPage;
+      // this.nextPage = this.prevPage + 1;
+      this.prevPage = this.currentPage ;
+      this.nextPage = this.prevPage +1;
+      this.hideLastButton = false;
       this.updateRecords();
     }
   }
@@ -326,19 +331,32 @@ export default class TemplateGalleryComp extends LightningElement {
   nextHandler() {
     if (this.currentPage < this.totalPage) {
       this.currentPage = this.currentPage + 1;
-      this.nextPage = this.currentPage;
-      this.prevPage = this.nextPage - 1;
+      // this.nextPage = this.currentPage;
+      // this.prevPage = this.nextPage - 1;
+      this.prevPage = this.currentPage;
+      this.nextPage = this.prevPage+1;
+      this.hideLastButton = false;
+      this.updateRecords();
+    }
+    if(this.currentPage === this.totalPage){
+      this.prevPage = this.currentPage;
+      this.hideLastButton = true;
       this.updateRecords();
     }
   }
 
   nextPageAction() {
     this.currentPage = this.nextPage;
+    if(this.currentPage === this.totalPage){
+      this.prevPage = this.currentPage;
+      this.hideLastButton = true;
+    }
     this.updateRecords();
   }
 
   prevPageAction() {
     this.currentPage = this.prevPage;
+    this.hideLastButton = false;
     this.updateRecords();
   }
 
