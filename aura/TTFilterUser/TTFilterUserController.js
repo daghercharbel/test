@@ -7,7 +7,6 @@
         "-1",
         $A.getCallback((eventReceived) => {
           // Process event (this is called each time we receive an event)\
-          //console.log('TTFilterEvent:: '+JSON.stringify(eventReceived));
           if (
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
@@ -19,7 +18,6 @@
       .then((subscription) => {
         // Subscription response received.
         // We haven't received an event yet.
-        //console.log('Subscription request sent to: ', subscription.channel);
         // Save subscription to unsubscribe later
       });
     let countV = 0;
@@ -36,17 +34,13 @@
   fielterDetailsChanges: function (c, e, h) {
     c.set("v.fielterDetailsChanges", "EventFire");
   },
-
   viewRecord: function (c, e, h) {
-
     let sfId = e.getSource().get("v.value");
     var recId = e.getSource().get("v.value").Id;
     var fieldName = '';
-
     if (e.getSource().getLocalId()) {
       fieldName = e.getSource().getLocalId();
     }
-
     if (fieldName == "Create Task") {
       h.createAction_helper(c, e, h, sfId.ContactOrLeadSFId);
     } else {
@@ -59,7 +53,6 @@
         }
       }
     }
-
   },
 
   closeModel: function (c, e, h) {
@@ -73,24 +66,6 @@
   },
   //Will WOrk when someone click on send Touch Point Btn after selecting SOme lead/contacts
   sendTouchPoint: function (c, e, h) {
-    // if (h.selectedUserList_Helper(c, e, h) != false) {
-    //   //c.set("v.createCampaign",true);
-    //   let action = c.get("c.fetchCampaignRecordType");
-    //   action.setCallback(this, (result) => {
-    //     if (result.getState() === "SUCCESS") {
-    //       if (
-    //         result.getReturnValue() != null &&
-    //         result.getReturnValue() !== "No record type found"
-    //       ) {
-    //         var finalResponse = [];
-    //         for (let x of JSON.parse(result.getReturnValue())) {
-    //           var responseObj = {
-    //             label: x.Name,
-    //             value: x.Id,
-    //           };
-    //           finalResponse.push(responseObj);
-    //         }
-    //console.log(JSON.stringify(c.get("v.userList")));
     $A.createComponents([
       ["c:TTFilterAddToCampaign", { userList: c.get("v.userList"), recordId: c.get('v.recordId') }],
       ["c:TTFilterAddToCampaignFooter", { userList: c.get("v.userList") }]
@@ -110,20 +85,6 @@
         }
       }
     );
-    //     } else {
-    //     }
-    //   } else {
-    //     h.showSuccess(
-    //       c,
-    //       e,
-    //       h,
-    //       "Error",
-    //       "error",
-    //       "Campaign creation failed to initialize. Please try again."
-    //     );
-    //   }
-    // });
-    // $A.enqueueAction(action);
   },
 
   // Send Reminder to the Clients
@@ -136,16 +97,6 @@
       c.set("v.isSendReminder", true);
     }
   },
-  //Will Work when someone click on users after filtering answers
-  // getSelectedClientsRecords: function (c, e, h) {
-  //   var selectedRows = e.getParam("selectedRows");
-  //   if (selectedRows.length > 0 && selectedRows != undefined) {
-  //     c.set("v.isDisableSendTouchPointBtn", false);
-  //     c.set("v.userList", selectedRows);
-  //   } else {
-  //     c.set("v.isDisableSendTouchPointBtn", true);
-  //   }
-  // },
   //Send Touch Point Modal 1
   closeCreateCampaignModel: function (component, event, helper) {
     component.set("v.createCampaign", false);
@@ -223,7 +174,6 @@
 
   itemValue: function (c, e, h) {
     var select = e.currentTarget.name;
-    //c.set('v.newTask.Subject',select);
     var select = e.currentTarget.dataset.id;
     c.set("v.newTask.Subject", select);
     c.set("v.SubjectListItems", false);
@@ -255,14 +205,12 @@
     }
   },
   handleModalCloseEvent: function (c, e, h) {
-    //console.log(e.getParam("CloseModal"));
     if (e.getParam("CloseModal") == true) {
       c._overlay.close();
     }
   },
   createAction: function (c, e, h) {
     if (h.selectedUserList_Helper(c, e, h) != false) {
-      //c.set("v.createAction",true);
       var action = c.get("c.fetchRecordType");
       action.setCallback(this, function (response) {
         var state = response.getState();
@@ -297,7 +245,6 @@
                 if (status === "SUCCESS") {
                   c.find("overlayLib")
                     .showCustomModal({
-                      //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                       header: $A.get("$Label.c.Create_Task_Text"),
                       body: content[0],
                       footer: content[1],
@@ -311,7 +258,6 @@
               }
             );
           } else if (response.getReturnValue() === "No record type found") {
-            //alert('No Record Type Found');
             $A.createComponents(
               [
                 [
@@ -435,12 +381,9 @@
       }
       h.getSelectedClientsRecords(c, e, h, updatedWithCheckboxList);
     } catch (error) {
-      console.log(error);
     }
-
   },
   selectAll: function (c, e, h) {
-    //console.log('Event value >> '+ e.getSource().get("v.checked"))
     let updatedWithCheckboxList = [];
     let paginationList = c.get("v.listData");
     c.set("v.selectAllList", e.getSource().get("v.checked"));
@@ -453,7 +396,6 @@
         updatedWithCheckboxList.push(each);
       }
     }
-    //console.log('updatedWithCheckboxList >> '+ JSON.stringify(updatedWithCheckboxList))
     c.set("v.listData", updatedWithCheckboxList);
     let flag = 0;
     for (let x of updatedWithCheckboxList) {
@@ -468,7 +410,6 @@
       c.set("v.selectAllList", true);
     }
     h.getSelectedAllClientsRecords(c, e, h, updatedWithCheckboxList);
-    //h.onOffSelectAll(c,e,h);
   },
 
 });

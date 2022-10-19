@@ -45,8 +45,9 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
         Camp_Members_Partially_Removed
     };
     @api recordId;
-    selectAllCheckbox = false
+    selectAllCheckbox = false;
     isDisableBtnFunctionality = true;
+    disableSelectAll = true;
     isSpinner = true;
     search = '';
     returnedData = [];
@@ -56,6 +57,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
     startRecord;
     endRecord;
     currentPage = 1;
+    currentPage1 = 1;
     recordPerPage = 10;
     preDisable = false;
     nextDisable = false;
@@ -67,13 +69,11 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
 
     handleonchange(event) {
         this.search = event.target.value;
-        // var isEnterKey = false;
-        // if(event !== undefined && event["keyCode"] !== undefined && event.keyCode !== undefined && event.keyCode !== null){
-        //     isEnterKey = event.keyCode == 13?true:false;
-        // }
-        if (this.search.trim()) {
+        if (this.search) {
             this.searchData();
         } else if (!this.search) {
+            this.pageNo = this.currentPage;
+            this.disableSelectAll = false;
             this.returnedData = this.searchStringList;
             this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
             if (this.pageNo == 1) {
@@ -81,6 +81,18 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             }
             this.preparePaginationList();
             this.search = '';
+            let flag = 0;
+            for (let x of this.listData) {
+                if (!x.isChecked) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag) {
+                this.selectAllCheckbox = false;
+            } else {
+                this.selectAllCheckbox = true;
+            }
         }
     }
     onclickHandle() {
@@ -101,29 +113,74 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                 for (var i = 0; i < this.returnedData.length; i++) {
                     if (this.returnedData[i].Name && this.returnedData[i].Email && this.returnedData[i].Phone) {
                         if (this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) ||
-                            this.returnedData[i].Phone.includes(this.search) ||
-                            this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())) {
+                            this.returnedData[i].Phone.includes(this.search.trim()) ||
+                            this.returnedData[i].Name.toUpperCase().includes(this.search.trim().toUpperCase())) {
                             updateSearchList.push(this.returnedData[i]);
                         }
                     } else if (this.returnedData[i].Name && this.returnedData[i].Email) {
                         if (this.returnedData[i].Email.toUpperCase().includes(this.search.toUpperCase()) ||
-                            this.returnedData[i].Name.toUpperCase().includes(this.search.toUpperCase())) {
+                            this.returnedData[i].Name.toUpperCase().includes(this.search.trim().toUpperCase())) {
                             updateSearchList.push(this.returnedData[i]);
                         }
                     }
                 }
                 this.returnedData = updateSearchList;
+                if (this.returnedData.length > 0) {
+                    this.disableSelectAll = false;
+                    this.pageNo = 1;
+                    this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
+                    if (this.pageNo == 1) {
+                        this.preDisable = true;
+                    }
+                    this.preparePaginationList();
+                    this.isSpinner = false;
+                    let flag = 0;
+                    for (let x of this.listData) {
+                        if (!x.isChecked) {
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        this.selectAllCheckbox = false;
+                    } else {
+                        this.selectAllCheckbox = true;
+                    }
+                } else {
+                    this.selectAllCheckbox = false;
+                    this.disableSelectAll = true;
+                    this.pageNo = 1;
+                    this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
+                    if (this.pageNo == 1) {
+                        this.preDisable = true;
+                    }
+                    this.preparePaginationList();
+                    this.isSpinner = false;
+                }
+            } else {
+                this.isSpinner = false;
+                this.disableSelectAll = false;
+                this.pageNo = this.currentPage;
+                this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
+                if (this.pageNo == 1) {
+                    this.preDisable = true;
+                }
+                this.preparePaginationList();
+                let flag = 0;
+                for (let x of this.listData) {
+                    if (!x.isChecked) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag) {
+                    this.selectAllCheckbox = false;
+                } else {
+                    this.selectAllCheckbox = true;
+                }
             }
-            this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
-            if (this.pageNo == 1) {
-                this.preDisable = true;
-            }
-            this.preparePaginationList();
-            this.isSpinner = false;
         } catch (error) {
-            //console.log(error);
         }
-        // this.returnedData = this.searchStringList;
     }
     connectedCallback() {
         if (this.isSpinner) {
@@ -137,20 +194,22 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                 if (data) {
                     this.dataExist = true;
                     this.returnedData = data;
-                    //console.log(this.returnedData.length);
                     this.searchStringList = data;
                     this.totalPages = Math.ceil(this.returnedData.length / this.recordPerPage);
                     if (this.pageNo == 1) {
                         this.preDisable = true;
                     }
+                    this.disableSelectAll = false;
                     this.preparePaginationList();
                     this.isSpinner = false;
                 } else {
+                    this.disableSelectAll = true;
                     this.dataExist = false;
                     this.isSpinner = false;
                 }
             })
             .catch(error => {
+                this.disableSelectAll = false;
                 this.error = error;
                 this.isSpinner = false;
             });
@@ -165,6 +224,9 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
     }
     handleNext() {
         this.pageNo += 1;
+        if (!this.search) {
+            this.currentPage = this.pageNo;
+        }
         this.preparePaginationList();
         let flag = 0;
         for (let x of this.listData) {
@@ -183,6 +245,9 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
     handlePrevious() {
         if (this.pageNo > 1) {
             this.pageNo -= 1;
+        }
+        if (!this.search) {
+            this.currentPage = this.pageNo;
         }
         this.preparePaginationList();
         let flag = 0;
@@ -230,7 +295,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             });
             this.dispatchEvent(event);
         } catch (error) {
-            //console.log('error , pagination :: '+ error);
         }
     }
     navigateToRecordPage(event) {
@@ -255,19 +319,10 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             }).then(url => {
                 window.open(url, "_blank");
             });
-            // this[NavigationMixin.Navigate]({
-            //     type: 'standard__recordPage',
-            //     attributes: {
-            //         recordId: recordId,
-            //         actionName: 'view'
-            //     }
-            // });
         } catch (error) {
-            //console.log(error);
         }
     }
     handleCheckboxChange(event) {
-        //console.log('handle checkbox');
         try {
             let tempSelectedRecords = [];
             for (var each of this.listData) {
@@ -302,7 +357,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     }
                 }
                 this.selectedRecordsList = tempFinalList;
-                //console.log(this.selectedRecordsList.length);
                 if (this.selectedRecordsList.length > 0) {
                     this.isDisableBtnFunctionality = false;
                 } else {
@@ -311,9 +365,7 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             } else {
                 this.isDisableBtnFunctionality = true;
             }
-            //console.log('final particular check:: '+ JSON.stringify(this.selectedRecordsList));
         } catch (error) {
-            //console.log(error);
         }
     }
     handleSelectAllCheckboxChange(event) {
@@ -321,7 +373,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             let updatedWithCheckboxList = [];
             let paginationList = this.listData;
             this.selectAllCheckbox = event.target.checked;
-            //console.log(event.target.checked);
             for (var each of paginationList) {
                 if (event.target.checked) {
                     each.isChecked = true;
@@ -331,7 +382,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     updatedWithCheckboxList.push(each);
                 }
             }
-            //console.log('updatedWithCheckboxList >> '+ JSON.stringify(updatedWithCheckboxList))
             this.listData = updatedWithCheckboxList;
             let flag = 0;
             for (let x of updatedWithCheckboxList) {
@@ -340,7 +390,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     break;
                 }
             }
-            //console.log('flag:: '+ flag);
             if (flag) {
                 this.selectAllCheckbox = false;
             } else {
@@ -352,8 +401,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                 for (let i = 0; i < updatedWithCheckboxList.length; i++) {
                     if (updatedWithCheckboxList[i].isChecked == true && !tempFinalList.includes(updatedWithCheckboxList[i])) {
                         tempFinalList.push(updatedWithCheckboxList[i]);
-                    } else if (updatedWithCheckboxList[i].isChecked == false) {
-
                     }
                 }
                 for (let k in tempFinalList) {
@@ -362,27 +409,22 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     }
                 }
                 this.selectedRecordsList = temp;
-                //console.log('selectAll:: '+ this.selectedRecordsList.length);
-                //console.log("final selectAll: "+ JSON.stringify(this.selectedRecordsList));
                 if (this.selectedRecordsList.length > 0) {
                     this.isDisableBtnFunctionality = false;
                 } else {
                     this.isDisableBtnFunctionality = true;
 
                 }
-                //   c.set("v.isDisableSendTouchPointBtn", false);
 
             } else {
                 this.isDisableBtnFunctionality = true;
             }
             this.onOffSelectAll(event);
         } catch (error) {
-            //console.log(error);
         }
     }
     onOffSelectAll(event) {
         let tempList = this.listData;
-        //console.log(JSON.stringify(tempList));
         let flag = 0;
         for (let x of tempList) {
             x.isChecked ? flag = 0 : flag = 1;
@@ -395,7 +437,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                 this.selectAllCheckbox = false;
             }
         } catch (error) {
-            //console.log(error);
         }
     }
     removeClients(event) {
@@ -408,7 +449,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             }
         }
         if (ids.length > 0) {
-            //console.log(typeof(ids));
             removeClient({ idsData: JSON.stringify(ids) })
                 .then(data => {
                     if (data === 'success') {
@@ -463,7 +503,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     this.isDisableBtnFunctionality = true;
                 });
         }
-        //this.onOffSelectAll(event);
     }
     resubscribeClients(event) {
         let conIds = [];
@@ -478,7 +517,6 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
             }
         }
         if (conIds.length > 0 || leadIds.length > 0) {
-            //console.log(typeof(conIds));
             resubscribeClient({ conIds: JSON.stringify(conIds), leadIds: JSON.stringify(leadIds) })
                 .then(data => {
                     if (data) {
@@ -521,6 +559,5 @@ export default class ShowUnsubscribedClients extends NavigationMixin(LightningEl
                     this.isDisableBtnFunctionality = true;
                 });
         }
-        //this.onOffSelectAll(event);
     }
 }

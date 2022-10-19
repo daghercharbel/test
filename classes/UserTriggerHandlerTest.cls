@@ -34,8 +34,6 @@ private with sharing class UserTriggerHandlerTest {
             update userObj2;
             update userObj3;
             
-            //Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
-            
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock1());
             Test.stopTest();

@@ -4,7 +4,6 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 	public Map<String, Object> responseMap1;
 
 	public BatchCreateInsightsForNewRecipients(String getResponseClients, BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper getwrapper){
-		//System.debug('getWrapper:: '+getwrapper);
 		responseMap1 = new Map<String, Object>();
 		responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(getResponseClients);
 		this.getwrapper = new BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper();
@@ -17,8 +16,6 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 		return conversationList;
 	}
 	public void execute(Database.BatchableContext bc, List<Object> responseList){
-		//System.debug('responseList Size:: '+responseList.size());
-		//System.debug('getwrapper:: '+getwrapper);
 		List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
 		if ((getwrapper.TTClientIdVsLeadId != null && !getwrapper.TTClientIdVsLeadId.isEmpty()) || (getwrapper.TTClientIdVsContId != null && !getwrapper.TTClientIdVsContId.isEmpty())) {
 			if(responseMap1 != null && !responseMap1.keySet().isEmpty()){
@@ -49,10 +46,6 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 									}
 								}
 								if(responseMap2.containsKey('completed_at') && responseMap2.get('completed_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('completed_at')))){
-									/*String dates = String.valueOf(responseMap2.get('completed_at'));
-									dates = dates.replace('T', ' ');
-									dates = dates.replace('.', '#');
-									List<String> strList = dates.split('#');*/
 									JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('completed_at'))+'"}');
 									parser.nextToken();
 									parser.nextValue();
@@ -61,10 +54,6 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 									}
 								}
 								if(responseMap2.containsKey('opened_at') && responseMap2.get('opened_at') !=  null && String.isNotBlank(String.valueOf(responseMap2.get('opened_at')))){
-									/*String dates = String.valueOf(responseMap2.get('opened_at'));
-									dates = dates.replace('T', ' ');
-									dates = dates.replace('.', '#');
-									List<String> strList = dates.split('#');*/
 									JSONParser parser = JSON.createParser( '{"t":"'+String.valueOf(responseMap2.get('opened_at'))+'"}');
 									parser.nextToken();
 									parser.nextValue();
@@ -89,7 +78,6 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 				createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Clients could Not be Added to Campaign:'+' '+getwrapper.CampName,'Des Clients n\'ont pu être ajoutés à la Campagne:'+' '+getwrapper.CampName,1));
 			}
 		}
-		//System.debug('Insights:: '+conversation_UserList);
 		if(conversation_UserList.size() > 0 && Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isCreateable() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()){
 			UPSERT  conversation_UserList TelosTouchSF__Conversation_Id__c;
 		}

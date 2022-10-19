@@ -71,8 +71,6 @@ public with sharing class MassAddToCampaignButtonController {
 @return string ...
          */
     public static String checkPersonAccountOrNot(String recordIdsList, String objectName){
-        //List<Contact> contactList = new List<Contact>();
-        //List<Lead> leadList = new List<Lead>();
         String endPointURL,body,str='',str2='',returnString,responseBody,userAuthTOKEN;
         Integer count = 0;
         Map<String, String> headersMap = new Map<String, String>();
@@ -184,7 +182,6 @@ public with sharing class MassAddToCampaignButtonController {
             if(Test.isRunningTest() || getIsPerson){
                 if(Test.isRunningTest()){
                     String queryStr12 = 'SELECT Id, Name FROM ' + objectName +' WHERE Id=:recordId';
-                    //sobject obj = 
                     Database.query(String.escapeSingleQuotes(queryStr12));
                     recordId = null;
                 }else{
@@ -224,7 +221,6 @@ public with sharing class MassAddToCampaignButtonController {
                 if(Test.isRunningTest() || getIsPerson){
                     if(Test.isRunningTest()){
                         String queryStr12 = 'SELECT Id, Name FROM ' + objectName +' WHERE Id=:recordId';
-                        //sobject obj = 
                         Database.query(String.escapeSingleQuotes(queryStr12));
                         recordId = null;
                     }else{

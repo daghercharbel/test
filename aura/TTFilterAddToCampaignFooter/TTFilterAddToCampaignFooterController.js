@@ -5,7 +5,6 @@
             myEvent.setParams({ CloseModal: true });
             myEvent.fire();
         }catch(e){
-            //console.error(e);
         }
     },
     saveCampaign: function(c,e,h){

@@ -111,7 +111,6 @@
             $A.enqueueAction(action);
             h.initializeWrapper(c, e, h);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     initializeWrapper: function (c, e, h) {
@@ -125,8 +124,6 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
-                //console.log('rtnValue>>'+JSON.stringify(rtnValue));
-                //console.log(rtnValue);
                 if (
                     !$A.util.isEmpty(rtnValue) &&
                     rtnValue != null &&
@@ -134,18 +131,18 @@
                 ) { 
                     c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
                     c.set("v.data", rtnValue.userWrapperList);
-                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
-                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    c.set("v.totalPages", totPage);
-                    if(c.get("v.pageNo") == 1){
-                        c.set("v.preDisable",true);
+                    if(c.get("v.data")){
+                        c.set("v.disableSelectAllList", false);
+                    }else{
+                        c.set("v.disableSelectAllList", true);
                     }
-                   h.preparePaginationList(c,e,h);
+                    h.updateCheckedData(c,e,h,c.get("v.data"));
+                }else{
+                    c.set("v.disableSelectAllList", true);
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     fielterEvent_helper: function (c, e, h, isFormType) {
@@ -162,16 +159,19 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    //console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
-                    let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    c.set("v.totalPages", totPage);
-                    h.preparePaginationList(c,e,h);
+                    if(c.get("v.data").length !=0 ){
+                        c.set("v.disableSelectAllList", false);
+                    }else{
+                        c.set("v.disableSelectAllList", true);
+                    }
+                    h.updateCheckedData(c,e,h,c.get("v.data"));
+                }else{
+                    c.set("v.disableSelectAllList", true);
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     sendReminder_Helper: function (c, e, h, recordId) {
@@ -199,7 +199,6 @@
                         "success",
                         $A.get("$Label.c.Reminder_Sent_Successfully_Text")
                     );
-                    //h.showToast_Helper(c,'success',rtnValue);
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -213,7 +212,6 @@
                         "error",
                         $A.get("$Label.c.No_Valid_Client_Found_Toast")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.No_Valid_Client_Found_Toast"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -227,7 +225,6 @@
                         "error",
                         $A.get("$Label.c.Send_Reminder_Time_Error_Text")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Send_Reminder_Time_Error_Text"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -241,7 +238,6 @@
                         "error",
                         $A.get("$Label.c.Unauthorized_User_Label")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Unauthorized_User_Label"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -255,7 +251,6 @@
                         "error",
                         $A.get("$Label.c.Internal_Server_Error_Text")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Internal_Server_Error_Text"));
                 } else {
                     h.showSuccess(
                         c,
@@ -265,12 +260,10 @@
                         "error",
                         $A.get("$Label.c.Reminder_Not_Sent_Toast")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Reminder_Not_Sent_Toast"));
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     selectedUserList_Helper: function (c, e, h) {
@@ -317,8 +310,6 @@
             if(state == 'SUCCESS'){
                 this.viewRecord_helper(c, undefined, this, recordId);
             } else {
-                console.log('Failed with State: '+state);
-                console.log('Response: '+response);
                 c.set("v.isShowSpinner", false);
             }
         });
@@ -339,9 +330,7 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    //c.set("v.isShowModel",true);
                     c.set("v.answers", rtnValue[0]);
-                    //console.log('answers:: '+JSON.stringify(c.get("v.answers")));
                     $A.createComponents(
                         [
                             [
@@ -362,7 +351,6 @@
                             if (status === "SUCCESS") {
                                 c.find("overlayLib")
                                 .showCustomModal({
-                                    //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                                     header: components[0],
                                     body: components[1],
                                     showCloseButton: true,
@@ -372,7 +360,6 @@
                             }
                         }
                     );
-                    //console.log('answers::'+JSON.stringify(c.get("v.answers")));
                 } else {
                     h.showSuccess(
                         c,
@@ -386,7 +373,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     
@@ -452,7 +438,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     
@@ -493,7 +478,6 @@
                         "success",
                         $A.get("$Label.c.Task_Create_Success_Text")
                     );
-                    //h.showToast_Helper(c,'success',$A.get("$Label.c.Task_Create_Success_Text"));
                     window.location.reload();
                     c.set("v.createAction", false);
                     var result = response.getReturnValue();
@@ -501,7 +485,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
     
@@ -515,7 +498,6 @@
         c.set("v.newTask.ActivityDate", today);
         c.set("v.TodayDate", today);
         if (h.selectedUserList_Helper(c, e, h) != false) {
-            //c.set("v.createAction",true);
             var action = c.get("c.fetchRecordType");
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -549,7 +531,6 @@
                                 if (status === "SUCCESS") {
                                     c.find("overlayLib")
                                     .showCustomModal({
-                                        //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                                         header: $A.get("$Label.c.Create_Task_Text"),
                                         body: content[0],
                                         footer: content[1],
@@ -576,25 +557,8 @@
             });
             $A.enqueueAction(action);
         }
-        
-        //h.getPicklistValues(c, e, h);
     },
-    
-    /*getPicklistValues: function(component, event) {
-        var action = component.get("c.getSubectDefaultValue");
-        action.setCallback(this, function(response) {
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                var result = response.getReturnValue();
-                var fieldMap = [];
-                for(var key in result){
-                    fieldMap.push({key: key, value: result[key]});
-                }
-                component.set("v.fieldMap", fieldMap);
-            }
-        });
-        $A.enqueueAction(action);
-    }*/
+
     preparePaginationList: function(c,e,h) {
         try{
             if(c.get("v.pageNo") <= c.get("v.totalPages") && c.get("v.pageNo") != 1){
@@ -628,36 +592,43 @@
             c.set("v.endRecord", endRec);
             let finalEnd = end > c.get("v.data").length ? true : false;
             c.set("v.end", finalEnd);
-            //console.log('data:: '+JSON.stringify(c.get("v.listData")));
-            //h.onOffSelectAll(c,e,h);
         }catch(error){
-            //console.log('error , pagination :: '+ error);
         } 
     },
     getSelectedClientsRecords: function (c, e, h, updatedList) {
         if (updatedList.length > 0 && updatedList != undefined) {
-            let count = c.get("v.count");
             let tempFinalList = c.get("v.userList");
-            //console.log('tempFinalList:: '+ JSON.stringify(tempFinalList));
             for(let i=0; i<updatedList.length; i++){
-                if(updatedList[i].isChecked == true && !tempFinalList.includes(updatedList[i])){
-                    tempFinalList.push(updatedList[i]); 
-                    count++;
+                const isFound = tempFinalList.some(element => {
+                    if (element.Id === updatedList[i].Id) {
+                      return true;
+                    }
+                    return false;
+                  });
+                if(updatedList[i].isChecked == true && !isFound){
+                    tempFinalList.push(updatedList[i]);
                 }
             }
             for(let i=0;i<tempFinalList.length; i++){
                 if(tempFinalList[i].isChecked == false){
                     tempFinalList.splice(i, 1);
-                    if(c.get("v.countSelectAll")>0){
-                        c.set("v.countSelectAll", c.get("v.countSelectAll")-1);
-                    }
-                    if(count>0){
-                        count--;
+                }else{
+                    for(let x of updatedList){
+                        if(x.Id == tempFinalList[i].Id && x.isChecked == false){
+                            tempFinalList.splice(i,1);
+                        }
                     }
                 }
-            }            
-            c.set("v.count", count);
-            //c.set("v.countSelectAll", c.get("v.countSelectAll")-c.get("v.count"));
+            }   
+            for(let x of tempFinalList){
+                for(let y of c.get("v.storeCheckedValues")){
+                    if(x.Id == y.Id){
+                        x.Id = y.Id;
+                    }
+                }
+            }       
+            c.set("v.storeCheckedValues", tempFinalList);
+
             c.set("v.userList", tempFinalList);
             if(c.get("v.userList").length >0 ){
                 c.set("v.isDisableSendTouchPointBtn", false);
@@ -665,72 +636,127 @@
                 c.set("v.isDisableSendTouchPointBtn", true);
 
             }
-        //   c.set("v.isDisableSendTouchPointBtn", false);
         } else {
            c.set("v.isDisableSendTouchPointBtn", true);
 
         }
-      },
-      getSelectedAllClientsRecords: function(c,e,h,updatedList){
-          if (updatedList.length > 0 && updatedList != undefined) {
-            let count = c.get("v.countSelectAll");
-            let tempFinalList = c.get("v.userList");
-            let temp = []
-            for(let i=0; i<updatedList.length; i++){
-                if(updatedList[i].isChecked == true && !tempFinalList.includes(updatedList[i])){
-                    tempFinalList.push(updatedList[i]); 
-                    count++;
-                }else if(updatedList[i].isChecked == false){
-                    if(count>0){
-                        count--;
+    },
+    getSelectedAllClientsRecords: function(c,e,h,updatedList){
+        if (updatedList.length > 0 && updatedList != undefined) {
+          let count = c.get("v.countSelectAll");
+          let tempFinalList = c.get("v.userList");
+          let temp = [];
+          for(let i=0; i<updatedList.length; i++){
+              const isFound = tempFinalList.some(element => {
+                  if (element.Id === updatedList[i].Id) {
+                    return true;
+                  }
+                  return false;
+                });
+              if(updatedList[i].isChecked == true && !isFound){
+                  tempFinalList.push(updatedList[i]); 
+                  count++;
+              }
+              else if(updatedList[i].isChecked == false){
+                      for( let x of tempFinalList){
+                          if(x.Id == updatedList[i].Id){
+                              x.isChecked = updatedList[i].isChecked;
+                          }
+                      }
+              }
+          }
+          for ( let k in tempFinalList){
+              if(tempFinalList[k].isChecked ){
+                  temp.push(tempFinalList[k])
+              }
+          }        
+          for(let x of temp){
+              for(let y of c.get("v.storeCheckedValues")){
+                  if(x.Id == y.Id){
+                      x.isChecked = y.isChecked;
+                  }
+              }
+          } 
+          c.set("v.storeCheckedValues", temp);
+          c.set("v.userList", temp);
+          if(c.get("v.userList").length >0 ){
+              c.set("v.isDisableSendTouchPointBtn", false);
+
+          }else{
+              c.set("v.isDisableSendTouchPointBtn", true);
+
+          }
+       
+      } else {
+         c.set("v.isDisableSendTouchPointBtn", true);
+
+      }
+      h.onOffSelectAll(c,e,h);
+    },
+    onOffSelectAll: function(c,e,h){
+        let count = c.get("v.countSelectAll");
+        let tempList = c.get("v.listData");
+        let flag = 0;
+        for(let x of tempList){
+          x.isChecked? flag = 0 : flag =1;
+        }
+        try {
+          if(flag == 0){
+          c.set("v.selectAllList", true);
+          }
+          else{
+          c.set("v.selectAllList", false);
+          }
+          c.set("v.countSelectAll", count);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    updateCheckedData: function(c,e,h,mainList){
+        if(mainList.length>0){
+            for(let x of mainList){
+                for(let y of c.get("v.storeCheckedValues")){
+                    if(x.Id == y.Id){
+                        x.isChecked = y.isChecked;
                     }
                 }
             }
-            for ( let k in tempFinalList){
-                if(tempFinalList[k].isChecked ){
-                    temp.push(tempFinalList[k])
+            c.set("v.data", mainList);
+            let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+            c.set("v.totalPages", totPage);
+            let pgno = 1;
+            c.set("v.pageNo",pgno);
+            if(c.get("v.pageNo") == 1){
+                c.set("v.preDisable",true);
+            }
+            h.preparePaginationList(c,e,h);
+            let flag = 0;
+            if(c.get("v.listData").length >0){
+                for(let x of c.get("v.listData")){
+                    if(!x.isChecked){
+                        flag = 1;
+                        break;
+                    }
                 }
-            }         
-            c.set("v.countSelectAll", count);
-            if(c.get("v.count")>=1){
-                let countVar = c.get("v.count");
-                countVar--;
-                c.set("v.count",countVar);
-            }
-            c.set("v.userList", temp);
-            if(c.get("v.userList").length >0 ){
-                c.set("v.isDisableSendTouchPointBtn", false);
-
+                if(flag){
+                    c.set("v.selectAllList", false);
+                }else{
+                    c.set("v.selectAllList", true);
+                }
             }else{
-                c.set("v.isDisableSendTouchPointBtn", true);
-
+                c.set("v.selectAllList", false);
+                c.set("v.disableSelectAllList", true);
             }
-        //   c.set("v.isDisableSendTouchPointBtn", false);
-         
-        } else {
-           c.set("v.isDisableSendTouchPointBtn", true);
-
-        }
-        h.onOffSelectAll(c,e,h);
-      },
-      onOffSelectAll: function(c,e,h){
-          let count = c.get("v.countSelectAll");
-          let tempList = c.get("v.listData");
-          let flag = 0;
-          for(let x of tempList){
-            x.isChecked? flag = 0 : flag =1;
-          }
-          try {
-            if(flag == 0){
-            c.set("v.selectAllList", true);
-            }
-            else{
+            
+        }else{
             c.set("v.selectAllList", false);
+            c.set("v.data", mainList);
+            let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
+            c.set("v.totalPages", totPage);
+            if(c.get("v.pageNo") == 1){
+                c.set("v.preDisable",true);
             }
-            c.set("v.countSelectAll", count);
-          } catch (error) {
-              console.log(error);
-          }
-          //console.log('final value:: '+ c.get("v.selectAllList"));
-      },
+            h.preparePaginationList(c,e,h);
+        }
+      }
 });

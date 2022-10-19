@@ -22,7 +22,6 @@ global  with sharing class UpdateUserTokenQueueable implements Queueable, Databa
                   userList = [SELECT id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserName__c, TelosTouchSF__TT_UserId__c FROM User LIMIT 10000];
               }
           }
-        //System.debug(userList);
         if(userList.size() >0){
             Database.executeBatch(new UpdateUserTokenBatch(userList),50);
         }

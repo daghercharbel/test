@@ -1,0 +1,11 @@
+.refresh-button {
+    margin-right: 0;
+    margin-left: auto;
+    width: fit-content;
+}
+
+.info-text {
+    text-align: center; 
+    font: 20px Arial; 
+    color: #666666;
+}

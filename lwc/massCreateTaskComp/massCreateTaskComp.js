@@ -63,7 +63,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
   recurringEnabled = false;
   recurringEndDateValidation = false;
   RecurrenceTypeValue = "RecursDaily";
-  // repeatValue = '1';
   defaultStartDate = "";
   defaultEndDate = "";
   get RecurrenceTypeOptions() {
@@ -553,7 +552,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
         userListStr: JSON.stringify(this.userList)
       })
         .then((result) => {
-          //window.location.reload();
           this.Task = {};
           this.userList = [];
           this[NavigationMixin.Navigate]({
@@ -767,7 +765,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
     let mm = String(today.getMonth() + 1).padStart(2, "0");
     let yyyy = today.getFullYear();
     this.defaultStartDate = yyyy + "-" + mm + "-" + dd;
-    // this.defaultActivityDate = yyyy + '-' + mm + '-' + dd;
     mm = String(today.getMonth() + 2).padStart(2, "0");
     this.defaultEndDate = yyyy + "-" + mm + "-" + dd;
     this.template.querySelector(".activityDate").value = "";
@@ -781,7 +778,6 @@ export default class MassCreateTaskComp extends NavigationMixin(
       this.Task.RecurrenceStartDateOnly = this.defaultStartDate;
       this.Task.RecurrenceEndDateOnly = this.defaultEndDate;
       this.disableActivityDate = true;
-      // this.defaultActivityDate ='';
       this.sections.forEach((ele) => {
         ele.fieldObjects.forEach((obj) => {
           if (obj.Name == "activitydate") {

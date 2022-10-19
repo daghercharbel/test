@@ -5,57 +5,42 @@
     <div if:true={dataExist}>
         <lightning-layout class="slds-m-bottom_small slds-p-horizontal_small" multiple-rows="true">
             <lightning-layout-item size="12">
-                <lightning-input
-                name="Search"
-                label= "{label.Search_using_name_email_text}"
-                type="search"
-                oncommit={searchData}
-                onchange={handleonchange}
-                ></lightning-input>
+                <lightning-input name="Search" label={label.Search_using_name_email_text} type="search"
+                    oncommit={searchData} onchange={handleonchange}></lightning-input>
             </lightning-layout-item>
-            <!-- <lightning-layout-item size="6" class="slds-p-top_xx-small">
-                <lightning-button label= "{label.Search_Text}" icon-name="utility:search" variant="brand" alternative-text= "{label.Search_Text}" title= "{label.Search_Text}" onclick={onSearchButton}></lightning-button>
-            </lightning-layout-item> -->
         </lightning-layout>
-        <lightning-layout class ="slds-m-bottom_small slds-p-horizontal_small" multiple-rows="true">
+        <lightning-layout class="slds-m-bottom_small slds-p-horizontal_small" multiple-rows="true">
             <div>
                 <lightning-layout-item alignment-bump="right" size="12">
-                    <lightning-button
-                        variant="brand"
-                        title= "{label.Resubscribe_Client_Text}"
-                        label= "{label.Resubscribe_Client_Text}"
-                        disabled={isDisableBtnFunctionality}
-                        onclick={resubscribeClients}
-                        class="slds-m-around_xxx-small slds-size_1-of-1"
-                    ></lightning-button>
+                    <lightning-button variant="brand" title={label.Resubscribe_Client_Text}
+                        label={label.Resubscribe_Client_Text} disabled={isDisableBtnFunctionality}
+                        onclick={resubscribeClients} class="slds-m-around_xxx-small slds-size_1-of-1">
+                    </lightning-button>
                 </lightning-layout-item>
                 <lightning-layout-item alignment-bump="right" size="12">
-                    <lightning-button
-                        variant="brand"
-                        title= "{label.Remove_Client_Text}"
-                        label= "{label.Remove_Client_Text}"
-                        class="slds-m-around_xxx-small slds-size_1-of-1"
-                        disabled={isDisableBtnFunctionality}
-                        onclick={removeClients}
-                    ></lightning-button>
+                    <lightning-button variant="brand" title={label.Remove_Client_Text} label={label.Remove_Client_Text}
+                        class="slds-m-around_xxx-small slds-size_1-of-1" disabled={isDisableBtnFunctionality}
+                        onclick={removeClients}></lightning-button>
                 </lightning-layout-item>
-                </div>     
-            </lightning-layout>      
+            </div>
+        </lightning-layout>
         <div class="slds-scrollable_x slds-p-horizontal_small">
             <table class="slds-table slds-table_bordered slds-table_cell-buffer">
                 <thead>
                     <tr class="slds-text-title_caps">
                         <th scope="col">
-                            <lightning-input type="checkbox" checked= "{selectAllCheckbox}" label= "" variant="label-hidden" onchange={handleSelectAllCheckboxChange}></lightning-input>
+                            <lightning-input type="checkbox" checked={selectAllCheckbox} disabled={disableSelectAll}
+                                label="" variant="label-hidden" onchange={handleSelectAllCheckboxChange}>
+                            </lightning-input>
                         </th>
                         <th scope="col">
-                            <div class="slds-truncate" title= "{label.Name_Text}">{label.Name_Text}</div>
+                            <div class="slds-truncate" title={label.Name_Text}>{label.Name_Text}</div>
                         </th>
                         <th scope="col">
-                            <div class="slds-truncate" title= "{label.Email_Text}">{label.Email_Text}</div>
+                            <div class="slds-truncate" title={label.Email_Text}>{label.Email_Text}</div>
                         </th>
                         <th scope="col">
-                            <div class="slds-truncate" title= "{label.Phone_text}">{label.Phone_text}</div>
+                            <div class="slds-truncate" title={label.Phone_text}>{label.Phone_text}</div>
                         </th>
                     </tr>
                 </thead>
@@ -64,7 +49,9 @@
                         <tr key={obj.Id}>
                             <th scope="row">
                                 <div class="slds-truncate">
-                                    <lightning-input type="checkbox" checked= "{obj.isChecked}" label= "{obj.Id}" variant="label-hidden" value= "{obj.Id}"  onchange={handleCheckboxChange}></lightning-input>
+                                    <lightning-input type="checkbox" checked={obj.isChecked} label={obj.Id}
+                                        variant="label-hidden" value={obj.Id} onchange={handleCheckboxChange}>
+                                    </lightning-input>
                                 </div>
                             </th>
                             <th scope="row">
@@ -83,34 +70,20 @@
                                 </div>
                             </th>
                         </tr>
-                </template>
+                    </template>
                 </tbody>
             </table>
         </div>
         <div slot="actions" class="slds-p-top_x-small slds-p-horizontal_small">
-            <lightning-button
-                variant="neutral"
-                title= "{label.Previous_Button_Label}"
-                label= "{label.Previous_Button_Label}"
-                disabled={preDisable}
-                icon-name="utility:chevronleft"
-                icon-position="left"
-                onclick={handleClick}
-            ></lightning-button>
-            <lightning-button
-                variant="neutral"
-                title= "{label.Next_Button_Label}"
-                label= "{label.Next_Button_Label}"
-                disabled={nextDisable}
-                class="slds-p-left_xx-small"
-                icon-name="utility:chevronright"
-                icon-position="left"
-                onclick={handleClick}
-            ></lightning-button>
+            <lightning-button variant="neutral" title={label.Previous_Button_Label} label={label.Previous_Button_Label}
+                disabled={preDisable} icon-name="utility:chevronleft" icon-position="left" onclick={handleClick}>
+            </lightning-button>
+            <lightning-button variant="neutral" title={label.Next_Button_Label} label={label.Next_Button_Label}
+                disabled={nextDisable} class="slds-p-left_xx-small" icon-name="utility:chevronright"
+                icon-position="left" onclick={handleClick}></lightning-button>
             <span class="slds-p-left_medium slds-float_right ">
                 {label.Page_no_text}: {pageNo} {label.of_text} {totalPages}
             </span>
-            
         </div>
     </div>
     <div if:false={dataExist}>

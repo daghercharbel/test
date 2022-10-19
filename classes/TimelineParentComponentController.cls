@@ -4,9 +4,6 @@
 * @description TimelineParentComponentController class is used to show only those task/campaign on client timeline whose have "show on client timeline" as "yes".
 */
 public with sharing class TimelineParentComponentController {
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         /**
 * @author Cloud Analogy
@@ -20,7 +17,6 @@ public with sharing class TimelineParentComponentController {
     public static TelosTouchSF.TimelineWrapper getTaskData(String recordId, String objectName) {
         try {
             TelosTouchSF.TimelineWrapper timeLineWrapperObj = new TelosTouchSF.TimelineWrapper();
-            // string contactrecordId;
             if(objectName == 'Account'){
                 boolean isPersonAccountEnabled = Schema.sObjectType.Account.fields.getMap().containsKey('isPersonAccount');
                 if(isPersonAccountEnabled == true){
@@ -38,7 +34,6 @@ public with sharing class TimelineParentComponentController {
                 }
             }
             
-            //Set<String> ttTaskIdsset = new Set<String>();
             Map<String,Task> taskMap = new Map<String,Task>();
             Map<String,Task> taskMultipleMap = new Map<String,Task>();
             Map<String,CampaignMember> campMemberMap = new Map<String,CampaignMember>();
@@ -73,7 +68,8 @@ public with sharing class TimelineParentComponentController {
                     }
                     taskList = Database.query(String.escapeSingleQuotes('SELECT Id, subject, WhoCount, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE Id IN: taskIdSet AND Share_with_client_s__c=\'Yes\' AND IsRecurrence = false LIMIT 1000').replace('\\',''));
                 }else{
-                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c=:'Yes' AND IsRecurrence = false LIMIT 1000];
+                    String strYes = 'Yes';
+                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c =: strYes AND IsRecurrence = false LIMIT 1000];
                 }
                }
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isQueryable() &&
@@ -146,7 +142,6 @@ public with sharing class TimelineParentComponentController {
             if(String.isNotEmpty(clientId) && clientId != null){
                 String methodType = 'GET';
                 Map<String, String> headersMap = new Map<String, String>();
-                //headersMap.put('instance-name', +adminCredentials.Instance_URL__c);
                 userAuthTOKEN = TelosTouchUtility.getCurrentUserTOKEN();
                 if(userAuthTOKEN != null){
                     headersMap.put('Authorization','Bearer '+userAuthTOKEN);
@@ -156,7 +151,6 @@ public with sharing class TimelineParentComponentController {
                 Map<String, Object> tempResponseMap = new Map<String, Object>();
                 String responseBody = '', pastBody = '"past": [', futureBody  = '"future": [';
                 for(Integer i=0;i<=1980;i=i+90){
-                    //endPointURL = adminCredentials.Instance_URL__c+'/api/v1/getClientTimeline?limit=90&skip='+i+'&period=all&orderBy=DESC&clientId='+clientId;
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/contacts/'+clientId+'/timeline?includeChats=true&limit=90&skip='+i+'&period=all&orderBy=DESC';
                     if(getResponse == null && userAuthTOKEN != null){
                         Map<String, String> getResponseMap = TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
@@ -200,9 +194,7 @@ public with sharing class TimelineParentComponentController {
                     }
                 }
                 responseBody = '{'+pastBody+','+futureBody+'}';
-                if(responseBody != null){
-                    //Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
-                    
+                if(responseBody != null){              
                     timeLineWrapperObj = (TelosTouchSF.TimelineWrapper) System.JSON.deserialize(responseBody, TelosTouchSF.TimelineWrapper.class);
                     pastList = timeLineWrapperObj.past;
                     futureList = timeLineWrapperObj.future;

@@ -14,6 +14,7 @@
   <aura:attribute name="templateId" type="String" />
   <aura:attribute name="templateName" type="String" />
   <aura:attribute name="templateNamePresent" type="Boolean" default="false" />
+  <aura:attribute name="modalPromise" type="Aura.Action"/>
 
 
   <aura:attribute name="iFrameURL" type="String" />
@@ -80,7 +81,7 @@
 
     <aura:if isTrue="{!v.CampaignSynced}">
       <aura:if isTrue="{!v.CampMemberPresent}">
-        <aura:if isTrue="{!v.templateId}">
+        <aura:if isTrue="{!v.templateValue}">
           <aura:if isTrue="{!v.ActionRequired}">
             <aura:if isTrue="{!v.OpenTouchPointModal}">
               <p class="slds-p-horizontal_medium c-red">
@@ -102,7 +103,7 @@
       </aura:if>
       <aura:set attribute="else">
         <aura:if isTrue="{!v.CampMemberPresent}">
-          <aura:if isTrue="{!v.templateId}">
+          <aura:if isTrue="{!v.templateValue}">
             <aura:if isTrue="{!!v.ActionRequired}">
               <p class="slds-p-horizontal_medium c-red">
 
@@ -118,7 +119,7 @@
             </aura:set>
           </aura:if>
           <aura:set attribute="else">
-            <aura:if isTrue="{!v.templateId}">
+            <aura:if isTrue="{!v.templateValue}">
               <aura:if isTrue="{!!v.ActionRequired}">
                 <p class="slds-p-horizontal_medium c-red">
                   {!$Label.c.Customize_AddClientText}
