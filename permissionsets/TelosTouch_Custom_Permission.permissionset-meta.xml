@@ -956,6 +956,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.TT_LastSyncTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.TT_Needs_Sync__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1307,6 +1312,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.TT_Client_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TT_LastSyncTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

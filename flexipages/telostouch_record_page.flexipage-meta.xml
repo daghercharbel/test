@@ -36,6 +36,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>openAndCompleteGraph</componentName>
+                <identifier>TelosTouchSF_openAndCompleteGraph</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

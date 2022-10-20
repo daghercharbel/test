@@ -827,24 +827,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return null;
         }
     }
-	    /**	
-* @author Charbel Dagher	
-* @date 19/07/2022	
-* @description This method calls the job to refresh the token	
-* @return response	
-*/	
-@AuraEnabled	
-public static string refreshTokenController(){	
-    try {	
-        system.debug('!!!entrer refreshTokenController');	
-        System.enqueueJob(new UpdateUserTokenQueueable());	
-        system.debug('!!!DONE');	
-        return 'success';	
-    }catch (Exception ex) {	
-        System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());	
-        return null;	
-    }	
-}
     /**
 * @author Cloud Analogy
 * @date 02/08/2021

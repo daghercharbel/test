@@ -22,7 +22,7 @@ import User_Guide_Related from "@salesforce/label/c.User_Guide_Related";
 import Uninstallation_Guide_Text from "@salesforce/label/c.Uninstallation_Guide_Text";
 import Uninstallation_Guide_Related from "@salesforce/label/c.Uninstallation_Guide_Related";
 import Looking_for_help_text from "@salesforce/label/c.Looking_for_help_text";
-export default  class KnowledgeBase extends LightningElement {
+export default class KnowledgeBase extends LightningElement {
     label = {
         Welcome_to_Knowledge_base,
         Showing_docs_Knowledge_base,
@@ -49,42 +49,44 @@ export default  class KnowledgeBase extends LightningElement {
 
     @track mapData2 = {};
     connectedCallback() {
-        if(FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small'){
+        if (FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small') {
             isSmallDevice = true;
         }
-//Get all the custom medta data links
+        //Get all the custom medta data links
         GetImagesLinksKnowledgebase()
-        .then((data) => {
+            .then((data) => {
+                console.log(JSON.parse(data));
                 this.mapData2 = JSON.parse(data);
 
-        })
-        .catch((error) => {
-            this.error = error;
-            this.mapData2 = undefined;
-        });
-    
+            })
+            .catch((error) => {
+                console.log(error);
+                this.error = error;
+                this.mapData2 = undefined;
+            });
+
     }
-// When the Back Button is Clicked
-    handleBack(){
+    // When the Back Button is Clicked
+    handleBack() {
         this.showOnboard = false;
         this.showInstallation = false;
         this.showUserGuide = false;
         this.showUninstallation = false;
         this.showBackButton = false;
-        this.showCarousel=true;
+        this.showCarousel = true;
     }
-// When the somethins on the Carousel is Clicked
-    handleCarouselClick(event){
-        this.showCarousel=false;
+    // When the somethins on the Carousel is Clicked
+    handleCarouselClick(event) {
+        this.showCarousel = false;
         this.showBackButton = true;
-        console.log('event.currentTarget.id'+event.currentTarget.id);
-        if(event.currentTarget.id.includes('onboard')){
+        console.log('event.currentTarget.id' + event.currentTarget.id);
+        if (event.currentTarget.id.includes('onboard')) {
             this.showOnboard = true;
-        }else if(event.currentTarget.id.includes('install') && !event.currentTarget.id.includes('uninstall')){
+        } else if (event.currentTarget.id.includes('install') && !event.currentTarget.id.includes('uninstall')) {
             this.showInstallation = true;
-        }else if(event.currentTarget.id.includes('userGuide')){
+        } else if (event.currentTarget.id.includes('userGuide')) {
             this.showUserGuide = true;
-        }else if(event.currentTarget.id.includes('uninstall') || event.currentTarget.id.includes('uninstallsmallDevice')){
+        } else if (event.currentTarget.id.includes('uninstall') || event.currentTarget.id.includes('uninstallsmallDevice')) {
             this.showUninstallation = true;
         }
 

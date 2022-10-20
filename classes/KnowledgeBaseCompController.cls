@@ -15,7 +15,7 @@ public without sharing class KnowledgeBaseCompController {
             Map<String,String> imgMap = new Map<String,String>();
             TelosTouchSF__Knowledge_base_image__mdt[] TTKbis = [SELECT QualifiedApiName, TelosTouchSF__Image_Url__c FROM TelosTouchSF__Knowledge_base_image__mdt order by QualifiedApiName];
 
-            for (TelosTouchSF__Knowledge_base_image__mdt TTKbi : TTKbis) {
+            for (TelosTouchSF__Knowledge_base_image__mdt TTKbi : TTKbis) { 
                 imgMap.put(TTKbi.QualifiedApiName,TTKbi.TelosTouchSF__Image_Url__c);
             }
             return JSON.serialize(imgMap);
