@@ -44,14 +44,14 @@
             <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
                 <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Client_ID}</legend>
                 <div class="slds-form-element">
-                    <lightning-input name="" data-id="formId" placeholder="3MVG9n_HvETGhr3BjkZS8f..." value={setting_Client_ID} onblur={handleSetting_Client_IDChange} label={label.Config_Client_ID} required ="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
+                    <lightning-input name="" data-id="formIdClientId" placeholder="3MVG9n_HvETGhr3BjkZS8f..." value={setting_Client_ID} onblur={handleSetting_Client_IDChange} label={label.Config_Client_ID} required ="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
                 </div>
             </div>
     
             <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
                 <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Client_Secret}</legend>
                 <div class="slds-form-element">
-                    <lightning-input name="" data-id="formId" type="password" placeholder="79DDB36DE1E6BC4C..." value={setting_Client_Secret} onblur={handleSetting_Client_Secret} label={label.Config_Client_Secret} required ="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
+                    <lightning-input name="" data-id="formIdClientSec" type="password" placeholder="79DDB36DE1E6BC4C..." value={setting_Client_Secret} onblur={handleSetting_Client_Secret} label={label.Config_Client_Secret} required ="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
                 </div>
             </div>
         </div>
@@ -59,14 +59,14 @@
             <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
                 <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Instance_URL}</legend>
                 <div class="slds-form-element">
-                    <lightning-input name="" data-id="formId" placeholder="https://instanceurl.com" value={setting_Instance_URL} onblur={handleSetting_Instance_URL} label={label.Config_Instance_URL} required ="true" disabled={isNotEdit} variant="label-hidden" ></lightning-input>
-    
+                    <lightning-input name="" data-id="formIdInstance" placeholder="https://instanceurl.com" value={setting_Instance_URL} onblur={handleSetting_Instance_URL} label={label.Config_Instance_URL} required ="true" disabled={isNotEdit} variant="label-hidden" ></lightning-input>
+                    
                 </div>
             </div>
             <div if:true ={showAdvancedOptions} class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
                     <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Authentication_URL}</legend>
                     <div class="slds-form-element">
-                        <lightning-input name="" data-id="formId" value={setting_Authentication_URL} label={label.Config_Authentication_URL} onblur={handlesetting_Authentication_URL} required ="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
+                        <lightning-input name="" data-id="formIdAuthent" value={setting_Authentication_URL} label={label.Config_Authentication_URL} onblur={handlesetting_Authentication_URL} required ="true" disabled={isNotEdit} variant="label-hidden" ></lightning-input>
                     </div>
                     <a onclick={toggleAdvancedOptions}>{label.Hide_Advanced_Options_Text}</a>
                 </div>
@@ -93,9 +93,9 @@
         </div>
     </template>
     <div class="slds-text-align--center">
-        <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Save_Button_Label} disabled={isNotEdit} onclick={saveSettings} ></lightning-button>
+        <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Save_Button_Label} disabled={isDisSave} onclick={saveSettings} ></lightning-button>
         <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Edit_Button_Label} onclick={editSettings} ></lightning-button>
-        <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Update_Add_Users_Button_Label} onclick={updateAndAddUsers} disabled = {isEditAndnotsettingApproval}></lightning-button>
+        <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Update_Add_Users_Button_Label} onclick={updateAndAddUsers} disabled ={isEditAndnotsettingApproval}></lightning-button>
         <template if:true={showAdvancedOptions}>
                 <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Refresh_Token_Button_Label} onclick={refreshToken} disabled={notsettingApproval}></lightning-button>
         </template>

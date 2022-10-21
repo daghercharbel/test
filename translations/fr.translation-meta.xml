@@ -365,6 +365,14 @@
         <name>Config_Instance_URL</name>
     </customLabels>
     <customLabels>
+        <label>URL d'identification doit commencer par https</label>
+        <name>Authentication_URL_Error</name>
+    </customLabels>
+    <customLabels>
+        <label>URL du portail doit commencer par https</label>
+        <name>Instance_URL_Error</name>
+    </customLabels>
+    <customLabels>
         <label>Détails sauvegardés avec succès.</label>
         <name>Config_Save_Toast</name>
     </customLabels>
