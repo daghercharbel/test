@@ -46,6 +46,8 @@ import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTo
 import checkIfEnterpriseClient from "@salesforce/apex/TelosTouchUtility.checkIfEnterpriseClient";
 import getSettingAPI from "@salesforce/apex/TelosTouchUtility.getSettingAPI";
 import sendSFUserToTT from "@salesforce/apex/TelosTouchUtility.sendSFUserToTT";
+import sendRegistrationRequest from '@salesforce/apex/TelosTouchUtility.sendRegistrationRequest';
+import ContactMobile from "@salesforce/schema/Case.ContactMobile";
 import Authentication_URL_Error from "@salesforce/label/c.Authentication_URL_Error";
 import Instance_URL_Error from "@salesforce/label/c.Instance_URL_Error";
 export default class telosTouchSetupConfiguration extends LightningElement {
