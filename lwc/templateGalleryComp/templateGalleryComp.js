@@ -356,7 +356,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
   prevPageAction() {
     this.currentPage = this.prevPage;
-    this.hideLastButton = false;
+    this.hideLastButton = this.currentPage === this.totalPage ? true: false;
     this.updateRecords();
   }
 
