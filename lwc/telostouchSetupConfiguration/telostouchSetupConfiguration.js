@@ -570,6 +570,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.isEdit = false;
         this.isNotEdit = true;
         this.isDisSave = true;
+        this.isEditAndnotsettingApproval = false;
     }
 
     //'Edit button' is clicked
