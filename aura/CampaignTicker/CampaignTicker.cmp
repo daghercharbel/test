@@ -176,7 +176,6 @@
         </aura:if>
       </aura:if>
     </aura:set>
-    <!--cd-->
   <br></br>
     <table class = "c-width33">
       <thead>
@@ -215,6 +214,5 @@
             </tr>
       </tbody>
     </table>
-    <!--cd-->
   </lightning:card>
 </aura:component>

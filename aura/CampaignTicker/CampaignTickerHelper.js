@@ -32,20 +32,14 @@
                     if (responseObj.hasOwnProperty('campMemberAmount')) {
                         c.set("v.campMemberAmount", responseObj.campMemberAmount);
                     }
-                    //cd
                     if (responseObj.hasOwnProperty('CreatedDate')) {
                         var output = $A.localizationService.formatDate(responseObj.CreatedDate,"DD MM YYYY");
                         c.set("v.CreatedDate", output);
                     }
-                    // cd
-                    //console.log(c.get('v.templateValue'));
-                    //console.log($A.util.isEmpty(c.get('v.templateValue')));
                     if (!$A.util.isEmpty(c.get('v.templateValue'))) {
-                        //console.log('if');
                         c.set('v.previewDisabled', false);
                         c.set("v.customizeDisabled", false);
                     } else {
-                        //console.log('else');
                         c.set('v.previewDisabled', true);
                         c.set("v.customizeDisabled", true);
                     }
@@ -93,11 +87,8 @@
                 }
             });
             $A.enqueueAction(action);
-            // h.getCurrentTemplateId(c, e, h);
             h.showTemplateName(c, e, h);
-            // h.getUserAccessToken(c, e, h);
         } catch (error) {
-            // console.log(error);
         }
     },
     openSendTouchpointModal: function (c, e, h) {
@@ -127,7 +118,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            // console.log(error);
         }
     },
     sendTouchpointHelper: function (c, e, h) {
@@ -150,7 +140,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
     addClientsToTouchpoint: function (c, e, h, campMemList) {
@@ -173,7 +162,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
 
     },
@@ -192,12 +180,10 @@
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     c.set('v.templateOptions', JSON.parse(response.getReturnValue()));
-                    // c.find("templateSelect").set("v.spinnerActive", false);
                 }
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
 
@@ -210,16 +196,13 @@
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     if (response.getReturnValue() !== null && response.getReturnValue() !== undefined) {
-                        // console.log('template current: ' + response.getReturnValue());
                         c.set("v.templateValue", response.getReturnValue());
                         h.fetchTouchPointTemplates(c, e, h);
-                        // console.log('template current attribute: ' + c.get('v.templateValue'));
                     }
                 }
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
     createTouchPointinTT_helper: function (c, e, h) {
@@ -233,19 +216,15 @@
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     if (response.getReturnValue() !== null && response.getReturnValue() !== undefined && response.getReturnValue() === 'success') {
-                        // console.log(response.getReturnValue());
                     }
                 }
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
     getUserAccessToken: function (c, e, h) {
         try {
-            // console.log('template Id:: ' + c.get("v.templateId"));
-            //console.log($A.get("$Locale.language"));
             var action = c.get("c.generateCustomizeIFrame");
             action.setParams({
                 templateId: c.get("v.templateValue"),
@@ -254,7 +233,6 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    //console.log('stored response: '+ JSON.stringify(storedResponse));
                     if (!$A.util.isEmpty(storedResponse)) {
 
                         c.set("v.iFrameURL", storedResponse);
@@ -268,7 +246,6 @@
                             },
                             function (content, status) {
                                 if (status === "SUCCESS") {
-                                    // console.log('success');
                                     c.find("overlayLib").showCustomModal({
                                         header: $A.get("$Label.c.Customize_Template_Text"),
                                         body: content,
@@ -294,21 +271,17 @@
                             }
                         );
                     } else {
-                        //show error toast for not having the template Id
-                        // console.log('no template Id');
                     }
                 } else if (state === 'ERROR') {
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            // console.log("Error message: " + errors[0].message);
                         }
                     }
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
 
@@ -374,7 +347,6 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
-                    //console.log('response: '+ response.getReturnValue());
                     c.set("v.templateName", response.getReturnValue());
                     if (!$A.util.isEmpty(response.getReturnValue())) {
                         c.set("v.templateNamePresent", true);
@@ -385,7 +357,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            // console.log(error);
         }
     }
 })
