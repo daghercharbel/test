@@ -11,6 +11,7 @@
   <aura:attribute name="templateDisabled" type="Boolean" default="true" />
   <aura:attribute name="customizeDisabled" type="Boolean" default="true" />
   <aura:attribute name="campMemList" type="List" default="[]" />
+  <aura:attribute name="campMemberAmount" type="Integer" />
   <aura:attribute name="templateName" type="String" />
   <aura:attribute name="templateNamePresent" type="Boolean" default="false" />
   <aura:attribute name="modalPromise" type="Aura.Action"/>
@@ -203,7 +204,7 @@
             </td>
             <td>
               <div class="slds-p-left_medium">
-                {!v.campMemList.length}
+                {!v.campMemberAmount}
               </div>
             </td>
             <td>

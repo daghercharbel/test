@@ -1986,12 +1986,18 @@ return null;
             }else{
                 returnMap.put('accessTokenPresent', (Object)false);
             }
-            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c  FROM Campaign WHERE Id =: campSfId LIMIT 1];
+            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c,CreatedDate  FROM Campaign WHERE Id =: campSfId LIMIT 1];
+            // cd
+            if(campObj != null && campObj.CreatedDate !=null){
+                returnMap.put('CreatedDate', (Object)campObj.CreatedDate);
+            }
+            // cd
             if(campObj != null && String.isNotEmpty(campObj.TelosTouchSF__TT_Campaign_Id__c)){
                 returnMap.put('synced', (Object)true);
                 List<CampaignMember> campMemList = new List<CampaignMember>();
                 List<CampaignMember> campMemReturnList = new List<CampaignMember>();
                 Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id];
+                returnMap.put('campMemberAmount', campMemCount);
                 if(campMemCount == 0){
                     returnMap.put('campMemberPresent', (Object)false);
                 }else{
@@ -2039,6 +2045,7 @@ return null;
                 }
             }else if(campObj != null){
                 Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id];
+                returnMap.put('campMemberAmount', campMemCount);
                 if(campMemCount == 0){
                     returnMap.put('campMemberPresent', (Object)false);
                 }else{

@@ -11,7 +11,7 @@
                         return;
                     }
                     var responseObj = JSON.parse(response.getReturnValue());
-                    //console.log(responseObj);
+                    console.log('VID ------------------- responseObj ',responseObj);
                     if (responseObj.hasOwnProperty('synced')) {
                         c.set('v.CampaignSynced', responseObj.synced);
                     }
@@ -30,6 +30,15 @@
                     if (responseObj.hasOwnProperty('campMemList')) {
                         c.set("v.campMemList", responseObj.campMemList);
                     }
+                    if (responseObj.hasOwnProperty('campMemberAmount')) {
+                        c.set("v.campMemberAmount", responseObj.campMemberAmount);
+                    }
+                    //cd
+                    if (responseObj.hasOwnProperty('CreatedDate')) {
+                        var output = $A.localizationService.formatDate(responseObj.CreatedDate,"DD MM YYYY");
+                        c.set("v.CreatedDate", output);
+                    }
+                    // cd
                     //console.log(c.get('v.templateValue'));
                     //console.log($A.util.isEmpty(c.get('v.templateValue')));
                     if (!$A.util.isEmpty(c.get('v.templateValue'))) {
