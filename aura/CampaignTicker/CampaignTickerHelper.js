@@ -11,7 +11,6 @@
                         return;
                     }
                     var responseObj = JSON.parse(response.getReturnValue());
-                    console.log('VID ------------------- responseObj ',responseObj);
                     if (responseObj.hasOwnProperty('synced')) {
                         c.set('v.CampaignSynced', responseObj.synced);
                     }
