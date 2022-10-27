@@ -32,9 +32,6 @@ public with sharing class MassAddToCampaignButtonControllerTest {
     }
     @isTest
     public static void checkPersonAccountOrNotTest(){
-        //Contact conObj = [SELECT Id, LastName FROM Contact WHERE LastName = 'LastName' LIMIT 1];
-        
-        //Lead leadObj = [SELECT Id, Company, LastName, Status FROM Lead WHERE Company = 'adidas' LIMIT 1];
         
         Account accObj = [SELECT Id, Name FROM Account WHERE Name = 'testName' LIMIT 1]; 
         Account accObj2 = [SELECT Id, Name FROM Account WHERE Name = 'testName' LIMIT 1];
@@ -60,8 +57,6 @@ public with sharing class MassAddToCampaignButtonControllerTest {
         newIdSet.add(accObj.Id);
         
         String recordIdsList =JSON.serialize(newIdSet);
-        
-        //Contact conObj = [SELECT Id, LastName FROM Contact WHERE LastName = 'LastName' LIMIT 1];
         
         Test.StartTest(); 
         String result = MassAddToCampaignButtonController.addCamapignMember(campaignObject, recordIdsList);

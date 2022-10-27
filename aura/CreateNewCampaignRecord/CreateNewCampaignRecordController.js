@@ -7,7 +7,6 @@
         component.set("v.isRecordTypeScreen",false);
         component.set("v.isNewCampaigScreen",false);
         location.reload();
-        // component.find("overlayLib").notifyClose();
     },
     newCampaignPage: function (c, e, h) {
         if(c.get("v.isRecordTypeScreen")){
@@ -16,8 +15,7 @@
         }
     },
     createNewCampaign : function(c, e, h){
-        try{ 
-            //console.log('createNewCampaign::');
+        try{
             var campName = c.get('v.campName');
             if(!$A.util.isEmpty(campName)){
                 campName = campName.trim();
@@ -33,7 +31,6 @@
                 h.showInfoToast(c, e, h, 'Error', 'Please fill required value.', 'info_alt', 'error', 'dismissible'); 
             } 
         }catch(ex){
-            //console.log('error is-->'+ex);
         }
     },
 })

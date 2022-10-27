@@ -6,6 +6,10 @@
   margin: 0;
 }
 
+.description-null-height {
+  height: 22px;
+}
+
 .imgStyleCard {
   height: 106px;
   background-repeat: no-repeat;
@@ -34,6 +38,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0 6px 3px 6px;
+}
+
+.private-badge {
+  --sds-c-badge-color-background: #3744BD;
+  --slds-c-badge-icon-color-foreground: #ffffff;
 }
 
 .imgCard:hover {

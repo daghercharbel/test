@@ -26,7 +26,6 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            //console.log("Error message: " +errors[0].message);
                             h.showToast_Helper(c,'errors',errors[0].message);
                         }
                     } 
@@ -35,7 +34,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
         
     },
@@ -53,12 +51,10 @@
                 if (state === "SUCCESS") {
                     if(response.getReturnValue() != null){
                         var result = response.getReturnValue();
-                        //console.log(result);
                         var name = {};  
                         name.text = result.Name;
                         name.Id = result.Id;
                         name.objName = 'Campaign';
-                        //console.log(name);
                         var myEvent = $A.get("e.c:CampaignDetailEvent");
                         myEvent.setParams({"newCampRecord": result,
                                            "campaignName":name});
@@ -70,7 +66,6 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            //console.log("Error message: " +errors[0].message);
                             h.showToast_Helper(c,'errors',errors[0].message);
                         }
                     } 
@@ -79,7 +74,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     showToast_Helper: function (c, variant, message) {

@@ -4,10 +4,10 @@ global with sharing class TTCampaignUserConversationTest {
     static void ttUserConversationCampaignTest() {
         List<Campaign> campaignList = new List<Campaign>();
         Campaign campaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                   // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n',  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n',
             TelosTouchSF__Answers__c = '[{"touchpoint_template_id":"60ba3c1af14b7123cc22d3d0","created_at":"2021-06-07T17:20:56.442Z","created_by":"System","modified_at":"2021-06-07T17:21:00.939Z","modified_by":"System","client_id":"60be5367b18347ab320d0d90","user_id":"","questionsandanswers":[{"key":"60ba3c1af14b7123cc22d3d6","type":"button","answers":["Investment/Recreational Property"],"question":"Was it a principal residence or investment property?"},{"key":"60ba3c1af14b7123cc22d3da","type":"multibutton","answers":["We need to discuss the tax implications of the sale"],"question":"Understood. Which of the following would you be interested in discussing?"}],"conversation_id":"60be5545ebf8d8ab3260f1a7","id":"60be55781d9b0cab3296cd7e"}]'
         );
         insert campaignObj;
@@ -32,17 +32,16 @@ global with sharing class TTCampaignUserConversationTest {
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TTCampaignUserConversationMock());  
         TelosTouchSF.TTUserConversationUpdate obj = new TelosTouchSF.TTUserConversationUpdate(campaignList);
         Database.executeBatch(obj);
-        //Database.executeBatch(new BatchCreateAnswers(campaignList));
         Test.stopTest();
     }
     @isTest
     static  void ttUserConversationCampaignTest2() {
         List<Campaign> campaignList = new List<Campaign>();
         Campaign campaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                   // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert campaignObj;
         campaignList.add(campaignObj);

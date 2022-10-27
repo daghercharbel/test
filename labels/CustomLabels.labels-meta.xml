@@ -337,6 +337,13 @@
         <value>Your case has been raised</value>
     </labels>
     <labels>
+        <fullName>Change_User_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remove Permissions</shortDescription>
+        <value>Revoke TelosTouch License</value>
+    </labels>
+    <labels>
         <fullName>Check_Cam_Mem_Sync_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -619,6 +626,20 @@
         <value>Instance URL</value>
     </labels>
     <labels>
+        <fullName>Authentication_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Authentication URL Error</shortDescription>
+        <value>Authentication URL should start with https</value>
+    </labels>
+    <labels>
+        <fullName>Instance_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Instance URL Error</shortDescription>
+        <value>Instance URL should start with https</value>
+    </labels>
+    <labels>
         <fullName>Config_Save_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -701,6 +722,13 @@
         <protected>true</protected>
         <shortDescription>Create Task Text</shortDescription>
         <value>Create Action</value>
+    </labels>
+    <labels>
+        <fullName>CreatedDateText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CreatedDateText</shortDescription>
+        <value>Last created date</value>
     </labels>
     <labels>
         <fullName>Created_Label</fullName>
@@ -1036,7 +1064,28 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>GIve TT Access</shortDescription>
-        <value>Give TelosTouch Access</value>
+        <value>Grant License</value>
+    </labels>
+    <labels>
+        <fullName>Grant_Access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Grant Access</shortDescription>
+        <value>Grant user access</value>
+    </labels>
+    <labels>
+        <fullName>Grant_Access_To_User_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Grant Access To User Text</shortDescription>
+        <value>Grant TelosTouch License</value>
+    </labels>
+    <labels>
+        <fullName>Grant_User_permission_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Grant User permission text</shortDescription>
+        <value>Are you sure, you want to grant TelosTouch license to selected user?</value>
     </labels>
     <labels>
         <fullName>Hard_Sync_Text</fullName>
@@ -1184,6 +1233,13 @@
         <protected>true</protected>
         <shortDescription>Language Text</shortDescription>
         <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>LastModifiedDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LastModifiedDate</shortDescription>
+        <value>Last modified date</value>
     </labels>
     <labels>
         <fullName>Last_Login_Text</fullName>
@@ -1439,6 +1495,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>No unsubscribed client text</shortDescription>
         <value>No unsubscribed client found</value>
+    </labels>
+    <labels>
+        <fullName>None_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>None Text</shortDescription>
+        <value>None</value>
     </labels>
     <labels>
         <fullName>Not_Completed_Text</fullName>
@@ -1735,6 +1798,20 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>Remove_permissions_single_toast</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove permissions single toast</shortDescription>
+        <value>TelosTouch license has been revoked for selected user.</value>
+    </labels>
+    <labels>
+        <fullName>Remove_permissions_toast</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove permissions toast</shortDescription>
+        <value>An asynchronous job has been enqueued to revoke TelosTouch license for selected users.</value>
+    </labels>
+    <labels>
         <fullName>Repeat_On</fullName>
         <language>fr</language>
         <protected>true</protected>
@@ -1796,6 +1873,20 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Review Errors Text</shortDescription>
         <value>Review the errors on this page.</value>
+    </labels>
+    <labels>
+        <fullName>Revoke_access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Revoke access</shortDescription>
+        <value>Revoke access</value>
+    </labels>
+    <labels>
+        <fullName>Revoke_access_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Revoke access text</shortDescription>
+        <value>Revoke user access</value>
     </labels>
     <labels>
         <fullName>SF_Field_Create_Toast</fullName>
@@ -2092,6 +2183,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>: Something went wrong.</value>
     </labels>
     <labels>
+        <fullName>Sort_By_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sort By Text</shortDescription>
+        <value>Sort by</value>
+    </labels>
+    <labels>
         <fullName>Standard_Fields_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2337,6 +2435,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Title</value>
     </labels>
     <labels>
+        <fullName>TitleText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TitleText</shortDescription>
+        <value>Title (A to Z)</value>
+    </labels>
+    <labels>
         <fullName>Total_Sync_Record_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2554,6 +2659,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>This user is not validate with TT. So we can not authenticate your App.</value>
     </labels>
     <labels>
+        <fullName>User_access_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User access text</shortDescription>
+        <value>User access</value>
+    </labels>
+    <labels>
         <fullName>User_deactivate_Fail_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2566,6 +2678,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Username Exist Text</shortDescription>
         <value>Username Already Exists:</value>
+    </labels>
+    <labels>
+        <fullName>User_permission_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User permission text</shortDescription>
+        <value>Are you sure, you want to revoke TelosTouch license for selected user?</value>
     </labels>
     <labels>
         <fullName>Username_Text</fullName>

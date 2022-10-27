@@ -124,6 +124,31 @@
                                 {!$Label.c.Created_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.campCreatedDate}"/>
                                 </p>
                             </aura:if>
+                            <!-- CD-->
+                            <aura:if isTrue="{!v.timelineRecord.type == 'touchpoint'}">
+                                <aura:if isTrue="{!!empty(v.timelineRecord.campOpenDate)}">
+                                    <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                        {!$Label.c.Opened_At_Text}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.campOpenDate}"/>
+                                        </p>
+                                <aura:set attribute="else">
+                                    <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                        {!$Label.c.Opened_At_Text}&nbsp;&nbsp; {!$Label.c.Pending_Text}
+                                        </p>
+                                        </aura:set>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!v.timelineRecord.type == 'touchpoint'}">
+                                <aura:if isTrue="{!!empty(v.timelineRecord.campCompletedDate)}">
+                                    <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                        {!$Label.c.Completed_At_Text}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.campCompletedDate}"/>
+                                        </p>
+                                <aura:set attribute="else">
+                                    <p class="slds-m-horizontal_xx-small slds-p-right_medium">
+                                        {!$Label.c.Completed_At_Text}&nbsp;&nbsp; {!$Label.c.Pending_Text}
+                                        </p></aura:set>
+                                </aura:if>
+                            </aura:if>
+                            <!-- CD-->  
                             <aura:if isTrue="{!v.timelineRecord.type == 'Answer'}">
                                 <p class="slds-m-horizontal_xx-small slds-p-right_medium">
                                 {!$Label.c.Created_Label}&nbsp;&nbsp; <lightning:formattedDateTime value="{!v.timelineRecord.answerCreatedDate}"/>

@@ -15,8 +15,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled 
     public static List<FieldWrapper> getTelosTouchFields(){
         try{
+            String strContact = 'Contact';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Contact' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strContact AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -50,8 +52,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled
     public static List<FieldWrapper> getTelosTouchLeadFields(){
         try{
+            String strLead = 'Lead';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Lead' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strLead AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -85,8 +89,10 @@ public with sharing class TelosTouchMapping {
     @AuraEnabled 
     public static List<FieldWrapper> getTelosTouchTaskFields(){
         try{
+            String strTask = 'Task';
+            String strCustomFields = 'Custom Fields';
             List<TelosTouchSF__TT_Salesforce_Mapping__c> ttMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = 'Task' AND TelosTouchSF__TT_Field__c != 'Custom Fields' WITH SECURITY_ENFORCED LIMIT 5000];
+            ttMappingList = [SELECT Id, TelosTouchSF__TT_Field__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Is_Deleted__c = false AND TelosTouchSF__Object_Name__c = :strTask AND TelosTouchSF__TT_Field__c != :strCustomFields WITH SECURITY_ENFORCED LIMIT 5000];
             List<FieldWrapper>  fieldlist = new List<FieldWrapper>();
             Map<String, Integer> myMap = new Map<String, Integer>();
             if(ttMappingList != null && ttMappingList.size()>0){
@@ -123,18 +129,6 @@ public with sharing class TelosTouchMapping {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(sObjectApiName).getDescribe().fields.getMap();
         Map<String, String> returnMap = new Map<String, String>();
-        /* for(Schema.SObjectField sfield : fieldMap.Values()) {
-schema.describefieldresult dfield = sfield.getDescribe();
-if(dfield.getName() != 'HasOptedOutOfEmail' &&  dfield.getName() != 'HasOptedOutOfFax' && dfield.getName() != 'LastReferencedDate' &&
-dfield.getName() != 'LastViewedDate' && dfield.getName() != 'LastCUUpdateDate' && dfield.getName() != 'LastCURequestDate' &&
-dfield.getName() != 'LastActivityDate' && dfield.getName() != 'CreatedDate'  && dfield.getName() != 'LastModifiedDate' &&  dfield.getName() != 'EmailBouncedDate' &&
-dfield.getName() != 'Error_Message__c' &&  dfield.getName() != 'TT_Last_Login__c' && dfield.getName() != 'Before_Last_Modified_Date__c' && dfield.getName() != 'TT_UserId__c' &&
-dfield.getName() != 'Category2__c'  && dfield.getName() != 'TT_Category__c' && dfield.getName() != 'isDeletedFromTT__c' && 
-dfield.getName() != 'IsTelosTouchSyncAllowed__c' && dfield.getName() != 'Share_with_client_s__c'  && dfield.getName() != 'Source__c' && dfield.getName() != 'Synced__c' &&
-dfield.getName() != 'TT_Client_Id__c' && dfield.getName() != 'TT_Client_Name__c'  && dfield.getName() != 'TT_TaskId__c'){
-returnMap.put(dfield.getLabel(),dfield.getName());
-}
-}*/
         if(adminCredentials.TelosTouchSF__RestrictedTTFieldMapping__c != null){
             String restrictedFields = adminCredentials.TelosTouchSF__RestrictedTTFieldMapping__c;
             List<String> restrictedFieldsList = restrictedFields.split(',');
@@ -245,12 +239,10 @@ returnMap.put(dfield.getLabel(),dfield.getName());
     @AuraEnabled
     public static Boolean sendCustomFieldsSFToTT(List<String> Selectedfieldslist, String objectName) {
         try{
-            
+
             if(Selectedfieldslist.size() >0){
-                
                 List<String> labellist = new List<String>();
                 List<TelosTouchSF__TT_Salesforce_Mapping__c> customMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-
                 for(String selectedField : Selectedfieldslist){
                     labellist.add(selectedField);
                     TelosTouchSF__TT_Salesforce_Mapping__c mappingCustomFields = new TelosTouchSF__TT_Salesforce_Mapping__c();
@@ -264,17 +256,15 @@ returnMap.put(dfield.getLabel(),dfield.getName());
                         mappingCustomFields.TelosTouchSF__Salesforce_Field__c = selectedField;
                     }
                     customMappingList.add(mappingCustomFields);
-                }
-
+                } 
                 if((labellist.size() > 0) && (labellist != null)){
-
                     String jsonMap = JSON.serialize(labellist);         
                     Http http = new Http();
                     HttpRequest request = new HttpRequest();
-
                     if(adminCredentials != null){
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
                             request.setEndpoint(adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/settings/touchpoint.custom.fields');
+
                         }
                         if(String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c)){
                             request.setHeader('Authorization', 'Bearer '+ authenticationCredential.TelosTouchSF__Access_Token__c);
@@ -283,8 +273,8 @@ returnMap.put(dfield.getLabel(),dfield.getName());
                         request.setHeader('Content-Type', 'application/json'); 
                         request.setHeader('Accept', 'application/json');
                     }
-
                     request.setBody(jsonMap);
+
                     request.setTimeout(45000);
                     HttpResponse response = http.send(request);
                     String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
@@ -299,6 +289,7 @@ returnMap.put(dfield.getLabel(),dfield.getName());
                     else {  
                         return false;
                     }
+
                 }
             }
         }
@@ -317,6 +308,7 @@ returnMap.put(dfield.getLabel(),dfield.getName());
     @AuraEnabled
     public static Boolean deleteCustomFields(List<String> selectedfieldslist, String objectName) {
         try{
+            String strCustomFields = 'Custom Fields';
             Boolean flag = false;
             if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isQueryable()){
                 if(selectedfieldslist.size() > 0){
@@ -327,7 +319,7 @@ returnMap.put(dfield.getLabel(),dfield.getName());
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() &&
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() &&
                        Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible()){
-                           fetchedFields = [SELECT Id, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c,TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: objectName AND TelosTouchSF__Is_Deleted__c = false AND ((TelosTouchSF__Salesforce_Field__c =:selectedfieldslist AND TelosTouchSF__TT_Field__c = 'Custom Fields' ) OR TelosTouchSF__TT_Field__c =:selectedfieldslist) LIMIT 5000 ];
+                           fetchedFields = [SELECT Id, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c,TelosTouchSF__Object_Name__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =: objectName AND TelosTouchSF__Is_Deleted__c = false AND ((TelosTouchSF__Salesforce_Field__c =:selectedfieldslist AND TelosTouchSF__TT_Field__c = :strCustomFields ) OR TelosTouchSF__TT_Field__c =:selectedfieldslist) LIMIT 5000 ];
                        } 
                     if((fetchedFields.size()>0)&& (fetchedFields != null)){
                         for(TelosTouchSF__TT_Salesforce_Mapping__c each : fetchedFields) {
@@ -364,21 +356,6 @@ returnMap.put(dfield.getLabel(),dfield.getName());
         return false;
     }
     
-    /* @AuraEnabled
-public static void updateSyncField(Boolean checked, String fieldName, String objectName){
-try{
-TT_Salesforce_Mapping__c mappingObj = new TT_Salesforce_Mapping__c();
-mappingObj = [SELECT Id, TelosTouchSF__Is_Sync_Empty_Field__c FROM TT_Salesforce_Mapping__c WHERE TelosTouchSF__TT_Field__c =: fieldName AND TelosTouchSF__Object_Name__c =: objectName LIMIT 1];
-if(mappingObj!=null && mappingObj.Id!=null) {
-if (fieldName == 'phoneNumber' || fieldName == 'language' || fieldName == 'subscribed' || fieldName == 'description' || fieldName == 'type') {
-mappingObj.TelosTouchSF__Is_Sync_Empty_Field__c = checked;
-}
-update mappingObj;
-}
-}catch(exception ex){
-System.debug('Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber()); 
-}
-}*/
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -509,30 +486,6 @@ System.debug('Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getL
          TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
          return adminCredentials.TelosTouchSF__Use_CreatedById__c;
      }
-     /*@AuraEnabled
-     public static Boolean addDuplicateMappingApex(String TTFieldName, String SelectedObject){
-         try{
-             List<TelosTouchSF__TT_Salesforce_Mapping__c> mappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-             if(Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isQueryable() &&
-                     Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isAccessible() &&
-                     Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isAccessible() &&
-                     Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible() &&
-                     Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Is_Deleted__c.isAccessible() ){
-                 mappingList = [SELECT Id, TelosTouchSF__TT_Field__c,TelosTouchSF__Salesforce_Field__c,TelosTouchSF__Object_Name__c,
-                                TelosTouchSF__Is_Deleted__c,TelosTouchSF__isDuplicateCreated__c, TelosTouchSF__Is_Sync_Empty_Field__c FROM TT_Salesforce_Mapping__c
-                                WHERE TelosTouchSF__TT_Field__c =: TTFieldName AND TelosTouchSF__Object_Name__c =: SelectedObject LIMIT 1];
-                 mappingList[0].TelosTouchSF__isDuplicateCreated__c = true;
-             }
-             TelosTouchSF__TT_Salesforce_Mapping__c newMapping = mappingList[0].clone(false, true, false, false);
-             mappingList.add(newMapping);
-             if(Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.SObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isCreateable() ){
-                 upsert mappingList;
-             }
-             return true;
-         }catch (Exception e){
-             return false;
-         }
-     }*/
     /**
 * @author Cloud Analogy
 * @date 02/08/2021

@@ -67,13 +67,14 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 */
 	public static void beforeInsertHandler(List<Account> newAccountList){
 		try {
+            String strlanguage = 'language';
 			boolean getIsPerson = Schema.sObjectType.Account.fields.getMap().containsKey('isPersonAccount');
 			if (getIsPerson) {
 				TelosTouchSF__Person_Account_Custom_Fields__c languageMapping =
 						new TelosTouchSF__Person_Account_Custom_Fields__c();
 				if ([SELECT count() FROM TelosTouchSF__Person_Account_Custom_Fields__c] > 0) {
 					languageMapping = [SELECT Id, TelosTouchSF__Salesforce_Field__c FROM TelosTouchSF__Person_Account_Custom_Fields__c
-					WHERE TelosTouchSF__TT_Field__c = 'language' WITH SECURITY_ENFORCED LIMIT 1];
+					WHERE TelosTouchSF__TT_Field__c = :strlanguage WITH SECURITY_ENFORCED LIMIT 1];
 				}
 				if (languageMapping.TelosTouchSF__Salesforce_Field__c != null) {
 					for (Account accObj : newAccountList) {
@@ -98,13 +99,14 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 	 */
 	public static void beforeUpdateHandler(List<Account> newAccountList, Map<Id, Account> oldAccountMap){
 		try {
+            String strlanguage = 'language';
 			boolean getIsPerson = Schema.sObjectType.Account.fields.getMap().containsKey('isPersonAccount');
 			if (getIsPerson) {
 				TelosTouchSF__Person_Account_Custom_Fields__c languageMapping =
 						new TelosTouchSF__Person_Account_Custom_Fields__c();
 				if ([SELECT count() FROM TelosTouchSF__Person_Account_Custom_Fields__c] > 0) {
 					languageMapping = [SELECT Id, TelosTouchSF__Salesforce_Field__c FROM TelosTouchSF__Person_Account_Custom_Fields__c
-					WHERE TelosTouchSF__TT_Field__c = 'language' WITH SECURITY_ENFORCED LIMIT 1];
+					WHERE TelosTouchSF__TT_Field__c = :strlanguage WITH SECURITY_ENFORCED LIMIT 1];
 				}
 				if (languageMapping.TelosTouchSF__Salesforce_Field__c != null) {
 					for (Account accObj : newAccountList) {
@@ -170,7 +172,6 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 			System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
 		}
 	}
-    
     //Method responsible to update the last modified date field if any of the fields relevant to sync is modified
     public static void checkSyncLastModifiedData(list<Account> lstAcc){
         
@@ -199,5 +200,4 @@ public with sharing class AccountTriggerForPersonAccountHandler {
         }
         
     }
-    
 }

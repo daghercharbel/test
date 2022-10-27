@@ -6,7 +6,6 @@
         "/event/TelosTouchSF__Insight_Creation_Event__e",
         "-1",
         $A.getCallback((eventReceived) => {
-          // Process event (this is called each time we receive an event)
           if (
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
@@ -16,10 +15,6 @@
         })
       )
       .then((subscription) => {
-        // Subscription response received.
-        // We haven't received an event yet.
-        // console.log('Ticker Subscription request sent to: ', subscription.channel);
-        // Save subscription to unsubscribe later
       });
     h.doInitHelper(c, e, h);
   },

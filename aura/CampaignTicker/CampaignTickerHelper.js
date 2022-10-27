@@ -118,6 +118,7 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
+            console.error(error);
         }
     },
     sendTouchpointHelper: function (c, e, h) {
@@ -233,8 +234,8 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    if (!$A.util.isEmpty(storedResponse)) {
-
+                    if (!$A.util.isEmpty(storedResponse)){
+                       
                         c.set("v.iFrameURL", storedResponse);
                         this.setInitialTemplateAmount(c);
                         $A.createComponent(

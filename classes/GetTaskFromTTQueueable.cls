@@ -4,9 +4,7 @@
 * @description GetTaskFromTTQueueable is a Queueable class and used to get actions within last 2 hours from TT and insert those tasks in SF.
 */
 global with sharing class GetTaskFromTTQueueable implements Queueable, Database.AllowsCallouts{
-	/*private static final TelosTouch_API_Settings__c GETCREDENTIALS= TelosTouch_API_Settings__c.getOrgDefaults();
-	private static final String INSTANCEURL = GETCREDENTIALS.Instance_url__c;
-	private static final String TOKEN = GETCREDENTIALS.TOKEN__c;*/
+
 	private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
 	private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
 	global String message;
@@ -53,30 +51,22 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 			Set<String> setTTClientId = new Set<String>();
 			List<Task> taskUpsertList = new List<Task>();
 			String methodType = 'GET', endPointURL = '',responseBody;
-			//HttpRequest request = new HttpRequest();
-			//HttpResponse response = new HttpResponse();
-			//Http http = new Http();
 			DateTime lastHour = System.NOW().addMinutes(-62);
 			String formatted = lastHour.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
 			headersMap.put('Content-Type', 'application/json');
-			//userAuthTOKEN = TelosTouchUtility.getCurrentUserTOKEN();
-			//System.debug('userAuthTOKEN>'+userAuthTOKEN);
 			Map<String, Id> userMap = new Map<String, Id>();
 			for(User userObj : [SELECT Id, TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c != null AND IsActive = true WITH SECURITY_ENFORCED LIMIT 2000]){
 				userMap.put(userObj.TelosTouchSF__TT_UserId__c, userObj.Id);
 			}
 			if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
 				headersMap.put('Accept', 'application/json');
-				//Boolean returnValue = TelosTouchUtility.checkAsyncApexJob('GetTaskFromTTQueueable');
 				for(Integer i=startPoint;i<endPoint;i=i+200){
 					try {
 						if (forFirstTime) {
-							//endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/actions?skip='+i+'&limit=200&deleted=false';
 							endPointURL =
 									adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/admin/actions?skip=' + i +
 									'&limit=200&deleted=false';
 						} else {
-							//endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/actions?where={"modified_at":{">=":"'+formatted+'"}}&skip='+i+'&limit=200&deleted=false';
 							endPointURL =
 									adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/admin/actions?skip=' + i +
 									'&limit=200&deleted=false&modified_at={">=":"' + formatted + '"}';
@@ -122,7 +112,8 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 					}
 				}
 				List<TelosTouchSF__TT_Salesforce_Mapping__c> tasktelosTouchMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
-				tasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c,TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c='Task' AND TelosTouchSF__Is_Deleted__c = false WITH SECURITY_ENFORCED LIMIT 1000 ];
+				String strTask = 'Task';
+				tasktelosTouchMappingList = [SELECT Id, TelosTouchSF__Salesforce_Field__c, TelosTouchSF__Is_Deleted__c, TelosTouchSF__TT_Field__c, TelosTouchSF__Object_Name__c,TelosTouchSF__Is_Sync_Empty_Field__c FROM TelosTouchSF__TT_Salesforce_Mapping__c WHERE TelosTouchSF__Object_Name__c =:strTask AND TelosTouchSF__Is_Deleted__c = false WITH SECURITY_ENFORCED LIMIT 1000 ];
 				Map<String, TelosTouchSF__TT_Salesforce_Mapping__c> ttTaskFieldsMap = new Map<String, TelosTouchSF__TT_Salesforce_Mapping__c>();
 				for(contact conObj : [SELECT id,TelosTouchSF__TT_Client_Id__c,Name FROM Contact WHERE IsDeleted = false AND TelosTouchSF__TT_Client_Id__c IN:setTTClientId WITH SECURITY_ENFORCED LIMIT 1600 ALL ROWS]){
 					contactMap.put(conObj.TelosTouchSF__TT_Client_Id__c, conObj);
@@ -237,11 +228,9 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 									}
 									if(ttTaskFieldsMap.containskey('name')){
 										System.debug(LoggingLevel.DEBUG,' task name');
-										//taskObject.put(ttTaskFieldsMap.get('name').TelosTouchSF__Salesforce_Field__c , obj1.name);
 									}
 									if(ttTaskFieldsMap.containskey('status')){
 										System.debug(LoggingLevel.DEBUG,' task status');
-										//taskObject.put(ttTaskFieldsMap.get('status').TelosTouchSF__Salesforce_Field__c , obj1.status);
 									}
 									if(ttTaskFieldsMap.containskey('type')){
 										if(obj1.type != ''){
@@ -260,20 +249,16 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 									}
 									if(ttTaskFieldsMap.containskey('date_due')){
 										System.debug(LoggingLevel.DEBUG,' task date_due');
-										//taskObject.put(ttTaskFieldsMap.get('date_due').TelosTouchSF__Salesforce_Field__c , date.valueOf(obj1.date_due));
 									}
 									if(ttTaskFieldsMap.containskey('description')){
 										if(obj1.description != ''){
 											System.debug(LoggingLevel.DEBUG,' task description');
-											//taskObject.put(ttTaskFieldsMap.get('description').TelosTouchSF__Salesforce_Field__c, obj1.description);
 										}else if(obj1.description == '' && ttTaskFieldsMap.get('description').TelosTouchSF__Is_Sync_Empty_Field__c == true){
 											System.debug(LoggingLevel.DEBUG,' task description');
-											//taskObject.put(ttTaskFieldsMap.get('description').TelosTouchSF__Salesforce_Field__c, '');
 										}
 									}
 
 									if(userMap.containsKey(obj1.assigned_user_id) && Schema.SObjectType.Task.fields.OwnerId.isAccessible() && Schema.SObjectType.Task.fields.OwnerId.isCreateable()){
-										//taskObject.OwnerId = userMap.get(obj1.assigned_user_id);
 										taskUpsertList.add(taskObject);
 									}else{
 										ownerNotFoundCount++;
@@ -310,11 +295,9 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 									}
 									if (ttTaskFieldsMap.containskey('name')) {
 										System.debug(LoggingLevel.DEBUG,' task name');
-										//taskObject.put(ttTaskFieldsMap.get('name').TelosTouchSF__Salesforce_Field__c, obj1.name);
 									}
 									if (ttTaskFieldsMap.containskey('status')) {
 										System.debug(LoggingLevel.DEBUG,' task status');
-										//taskObject.put(ttTaskFieldsMap.get('status').TelosTouchSF__Salesforce_Field__c, obj1.status);
 									}
 									if (ttTaskFieldsMap.containskey('type')) {
 										if (obj1.type != '') {
@@ -326,11 +309,9 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 									}
 									if (contactMap.containskey(obj1.client_id)) {
 										System.debug(LoggingLevel.DEBUG,' contact client_Id');
-										//taskObject.WhoId = contactMap.get(obj1.client_id).Id;
 									}
 									if (leadMap.containskey(obj1.client_id)) {
 										System.debug(LoggingLevel.DEBUG,' lead client_Id');
-										//taskObject.WhoId = leadMap.get(obj1.client_id).Id;
 									}
 									if(ttTaskFieldsMap.containskey('shared')){
 										if(obj1.shared == true){
@@ -341,24 +322,18 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 									}
 									if (ttTaskFieldsMap.containskey('date_due')) {
 										System.debug(LoggingLevel.DEBUG,' task date_due');
-										//taskObject.put(ttTaskFieldsMap.get('date_due').TelosTouchSF__Salesforce_Field__c,
-										//date.valueOf(obj1.date_due));
 									}
 									if (ttTaskFieldsMap.containskey('description')) {
 										if (obj1.description != '') {
 											System.debug(LoggingLevel.DEBUG,' task description');
-											//taskObject.put(ttTaskFieldsMap.get('description').TelosTouchSF__Salesforce_Field__c,
-											//obj1.description);
 										} else if (obj1.description == '' &&
 														ttTaskFieldsMap.get('description').TelosTouchSF__Is_Sync_Empty_Field__c ==
 														true) {
 											System.debug(LoggingLevel.DEBUG,' task description in else condition');
-											//taskObject.put(ttTaskFieldsMap.get('description').TelosTouchSF__Salesforce_Field__c, '');
 										}
 									}
 								}
 								if (userMap.containsKey(obj1.assigned_user_id)) {
-									//taskObject.OwnerId = userMap.get(obj1.assigned_user_id);
 									taskObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
 									taskUpsertList.add(taskObject);
 								} else {
@@ -416,7 +391,6 @@ global with sharing class GetTaskFromTTQueueable implements Queueable, Database.
 				}
 				if(taskUpsertList.size()> 0){
 					if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isCreateable()  && Schema.sObjectType.Task.isUpdateable()){
-						//  Database.upsert (taskUpsertList ,false);
 						Boolean showLogs = TelosTouchSF.TT_FeatureSettingsController.getFinestLogValue();
 						Database.UpsertResult[] srList = Database.upsert(taskUpsertList,false);
 						for (Database.UpsertResult sr : srList) {

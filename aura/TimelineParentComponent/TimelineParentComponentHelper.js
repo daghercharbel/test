@@ -14,7 +14,6 @@
                 var state = response.getState();
                 if (state === "SUCCESS") {
                     var storedResponse = response.getReturnValue();
-                    //console.log('storedResponse::'+JSON.stringify(storedResponse));
                     if(storedResponse != null){
                         cmp.set("v.timeLineWrapper",storedResponse)
                     }
@@ -22,7 +21,6 @@
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            //console.log("Error message: " +errors[0].message);
                         }
                     }
                 }
@@ -30,7 +28,6 @@
             $A.enqueueAction(action);
         }
         catch (error) {
-           // console.error(error);
         }
     },
     

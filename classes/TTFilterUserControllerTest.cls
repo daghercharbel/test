@@ -5,18 +5,18 @@ private with sharing class TTFilterUserControllerTest {
 
     @testSetup static void setupMethod() {
         Campaign CampaignObj = new Campaign(
-                Name = 'Adult is Going Back to School', // Campaign Name
-                IsActive = false,  // Active
-                Type = 'Conference', // Type
+                Name = 'Adult is Going Back to School',
+                IsActive = false,
+                Type = 'Conference',
                 Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n',
                 Answers__c = '[{"id":"6076eeaa1b30ccf832f45761","conversation_id":"6076c2941b30ccf832f45723","questionsandanswers":[{"question":"What would you like us to help you with?","answers":["Topping up my TFSA"],"type":"multibutton","key":"60358a843e912332339155d8"},{"question":"Have you made any contributions with other institutions?","answers":["No"],"type":"button","key":"60358a843e912332339155da"}],"user_id":"6076c294c42dcdb0d","client_id":null,"modified_by":"System","modified_at":"2021-04-14T13:31:35.054Z","created_by":"System","created_at":"2021-04-14T13:31:22.938Z","touchpoint_template_id":"60358a843e912332339155cf"}]'
         );
         insert CampaignObj;
 
         Campaign CampaignObj2 = new Campaign(
-                Name = 'Reminder Campaign', // Campaign Name
-                IsActive = false, // Active
-                Type = 'Conference', // Type
+                Name = 'Reminder Campaign',
+                IsActive = false,
+                Type = 'Conference',
                 TT_Campaign_Id__c = '8329yejwdhgwe',
                 Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n',
                 Answers__c = '[{"id":"6076eeaa1b30ccf832f45761","conversation_id":"6076c2941b30ccf832f45723","questionsandanswers":[{"question":"What would you like us to help you with?","answers":["Topping up my TFSA"],"type":"multibutton","key":"60358a843e912332339155d8"},{"question":"Have you made any contributions with other institutions?","answers":["No"],"type":"button","key":"60358a843e912332339155da"}],"user_id":"6076c294c42dcdb0d","client_id":null,"modified_by":"System","modified_at":"2021-04-14T13:31:35.054Z","created_by":"System","created_at":"2021-04-14T13:31:22.938Z","touchpoint_template_id":"60358a843e912332339155cf"}]'
@@ -25,9 +25,9 @@ private with sharing class TTFilterUserControllerTest {
 
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = false;
         con.TT_Client_Id__c = 'abc';
         con.TelosTouchSF__TT_Conflict__c = false;
         insert con;
@@ -37,9 +37,9 @@ private with sharing class TTFilterUserControllerTest {
         lead.Status = 'Open';
         lead.Company = 'Test Lead';
         lead.TT_Client_Id__c = 'abc122';
-        lead.Email = 'james24@abc.com';      // Email
-        lead.Phone = '1212212213';                // Phone
-        lead.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        lead.Email = 'james24@abc.com';
+        lead.Phone = '1212212213';
+        lead.IsTelosTouchSyncAllowed__c = false;
         lead.TelosTouchSF__TT_Conflict__c = false;
         insert lead;
 
@@ -69,7 +69,6 @@ private with sharing class TTFilterUserControllerTest {
         System.assertEquals(wrapperDoinit != null, true, 'wrapperDoinit must not be NULL');
         String filterWrapper = '{"questionAnswerList":[{"picklistValueList":[{"label":"Principal Residence","value":"Principal Residence"},{"label":"Investment/Recreational Property","value":"Investment/Recreational Property"}],"question":" Is it a principal residence or investment property?","answer":["Principal Residence"]},{"picklistValueList":[{"label":"Discuss increasing my life insurance","value":"Discuss increasing my life insurance"},{"label":"I would like to have a chat about my mortgage options","value":"I would like to have a chat about my mortgage options"}],"question":"Thanks for letting us know. Would you like to discuss any of the following"},{"picklistValueList":[{"label":"Discuss increasing my life insurance","value":"Discuss increasing my life insurance"},{"label":"I would like to have a chat about my mortgage options","value":"I would like to have a chat about my mortgage options"},{"label":"We need to discuss the future tax implications of the purchase","value":"We need to discuss the future tax implications of the purchase"}],"question":"Thanks for letting us know. Would you like to discuss any of the following"}]}';
         TTFilterUserController.getUserDetails(campaignList[0].Id, filterWrapper,null);
-        //System.assertEquals(userObjectList != null, true);
         Test.stopTest();
     }
 
@@ -98,7 +97,6 @@ private with sharing class TTFilterUserControllerTest {
         String filterWrapper = '{"questionAnswerList":[{"picklistValueList":[{"label":"Principal Residence","value":"Principal Residence"},{"label":"Investment/Recreational Property","value":"Investment/Recreational Property"}],"question":" Is it a principal residence or investment property?","answer":["Principal Residence"]},{"picklistValueList":[{"label":"Discuss increasing my life insurance","value":"Discuss increasing my life insurance"},{"label":"I would like to have a chat about my mortgage options","value":"I would like to have a chat about my mortgage options"}],"question":"Thanks for letting us know. Would you like to discuss any of the following"},{"picklistValueList":[{"label":"Discuss increasing my life insurance","value":"Discuss increasing my life insurance"},{"label":"I would like to have a chat about my mortgage options","value":"I would like to have a chat about my mortgage options"},{"label":"We need to discuss the future tax implications of the purchase","value":"We need to discuss the future tax implications of the purchase"}],"question":"Thanks for letting us know. Would you like to discuss any of the following"}]}';
         TTFilterUserController.getUserDetails(campaignList[0].Id, filterWrapper,null);
         TTFilterUserController.campaignInsertandSendTouchPoint(campaignList[0].Name, JsonUser);
-        //System.assertEquals(userObjectList != null, true);
         Test.stopTest();
     }
 

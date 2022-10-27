@@ -23,6 +23,7 @@ public with sharing class TriggerUtils {
         }
     }
 
+    //COMMENTED TO BE IMPLEMENTED IN THE FUTURE
     /*public static Boolean wasChangedFrom(SObject record, String field, Object expectedValue){
         assertTrigger();
         if(Trigger.isInsert) return false;

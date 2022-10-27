@@ -80,7 +80,6 @@
                  try {
                      listener.callback.call(listener.thisArg, payload);
                  } catch (error) {
-                     // fail silently
                  }
              }
          });

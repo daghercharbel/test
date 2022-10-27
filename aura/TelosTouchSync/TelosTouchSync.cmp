@@ -79,35 +79,6 @@
     <div class="tableOuterHeight" id="logtable" >
         <div class="slds-scrollable scrollbarStyled tableinnerHeight">
             <table class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
-                <!--thead>
-                    <tr class="slds-line-height_reset">
-                        <th scope="col" class="tableColWidth">
-                            <div class="slds-cell-fixed" title="{!$Label.c.Log_Number_Text}" >
-                                {!$Label.c.Log_Number_Text}
-                            </div>
-                        </th>
-                        <th scope="col" class="tableColWidth">
-                            <div class="slds-cell-fixed resultCol" title="{!$Label.c.Result_Text}" >
-                                {!$Label.c.Result_Text}
-                            </div>
-                        </th>
-                        <th scope="col" class="tableColWidth">
-                            <div class="slds-cell-fixed syncTime" title="{!$Label.c.Sync_Time_Text}" >
-                                {!$Label.c.Sync_Time_Text}
-                            </div>
-                        </th>
-                        <th scope="col" class="tableColWidth" >
-                            <div class="slds-cell-fixed comments" title="{!$Label.c.Comments_Text}" >
-                                {!$Label.c.Comments_Text}
-                            </div>
-                        </th>
-                        <th scope="col" class="tableColWidth">
-                            <div class=" slds-cell-fixed" title="{!$Label.c.Total_Sync_Record_Text}">
-                                {!$Label.c.Total_Sync_Record_Text}
-                            </div>
-                        </th>
-                    </tr>
-                </thead-->
                 <tbody>
                 <aura:if isTrue="{!!empty(v.LogsList)}">
                     <th scope="col" class="slds-cell-fixed table-header-css">{!$Label.c.Log_Number_Text}</th>
@@ -156,15 +127,6 @@
             </table>
         </div >
     </div>
-    <!--div class="slds-clearfix">
-            <div class="slds-page-header" role="banner" >
-                <div class="slds-float_right">
-                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == 1)}" variant="brand" aura:id="prevPage" label="{!$Label.c.Prev_Button_Label}" onclick="{!c.handlePrev}" />            
-                    <lightning:button disabled="{!or(empty(v.LogsList), v.PageNumber == v.TotalPages)}" aura:id="nextPage" variant="brand" label="{!$Label.c.Next_Button_Label}" onclick="{!c.handleNext}"/>
-                </div>
-                <p class="slds-page-header__title fontCss" >{!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}</p>
-            </div>
-        </div-->
     <lightning:layout multipleRows="false" class="slds-m-top_small">
         <lightning:layoutItem size="7" smallDeviceSize="7" mediumDeviceSize="10" largeDeviceSize="10">
             <p class="slds-m-top_small slds-page-header__title fontCss" >{!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} | Page {!v.PageNumber} of {!v.TotalPages}</p>

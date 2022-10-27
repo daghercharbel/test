@@ -44,11 +44,9 @@ global with sharing class BatchPostInstallScript implements Database.Batchable<s
                 if(objectName=='Contact'){
                     Contact con = new Contact();
                     con =  (Contact)sobj;
-                    //sobj.put('TelosTouchSF__Before_Last_Modified_Date__c',con.LastModifiedDate); 
                 }else{
                      Lead lead = new Lead();
                     lead =  (Lead)sobj;
-                    //sobj.put('TelosTouchSF__Before_Last_Modified_Date__c',lead.LastModifiedDate);  
                 }
                 sobj.put('TelosTouchSF__IsTelosTouchSyncAllowed__c', true);
                 sobj.put('TelosTouchSF__Subscribed__c', 'Yes');
@@ -68,7 +66,6 @@ global with sharing class BatchPostInstallScript implements Database.Batchable<s
             for (sobject sobj : sobjList) {
                 Task task = new Task();
                 task =  (Task)sobj;
-                //sobj.put('TelosTouchSF__Before_Last_Modified_Date__c',task.LastModifiedDate); 
                 sobj.put('TelosTouchSF__IsTelosTouchSyncAllowed__c', true);
                 sobj.put('TelosTouchSF__TT_Category__c','task');
             } 

@@ -8,7 +8,6 @@
         });
         action.setCallback(this,function(response){ 
             try{
-                //c.set('v.isShowSpinner', false);
                 var result = response.getReturnValue();
                 if(response.getState() === 'SUCCESS') {
                     if(!$A.util.isEmpty(result)) {
@@ -22,7 +21,6 @@
                 }
                 c.set('v.isShowSpinner', false);
             }catch(e){
-                //console.log(e);
             }
         });
         $A.enqueueAction(action);  
@@ -70,7 +68,6 @@
     },
     
     searchCampaign: function(c,e,h){
-        //c.set('v.isShowSpinner', true);
         if(!$A.util.isEmpty(c.get("v.searchString"))){
             var action = c.get('c.fetchRecords');
             action.setParams({
@@ -96,7 +93,6 @@
                         }
                     }
                 }catch(e){
-                    //console.log(e);
                 }
             });
             $A.enqueueAction(action);

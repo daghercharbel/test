@@ -96,7 +96,6 @@
     },
     SendSFUserToTT: function (c, e, h) {
         var selectedRows = c.get("v.selectedUserList");
-        //console.log('selectedUserList>>'+JSON.stringify(selectedRows));
         var listofUserId = [];
         for (var i = 0; i < selectedRows.length; i++) {
             delete selectedRows[i].TTUser;
@@ -120,7 +119,6 @@
             getSelectedNumber++;
         } else {
             getSelectedNumber--;
-            //component.find("selectAllId").set("v.value", false);
         }
         component.set("v.selectedCount", getSelectedNumber);
         var allRecords = component.get("v.filteredRecords");
@@ -131,8 +129,6 @@
             }
         }
         component.set("v.selectedUserList", selectedRecords);
-        //console.log(JSON.stringify(selectedRecords));
-        //console.log(selectedRecords.length);
     },
     displaySearch: function (c, e, h) {
         c.set("v.showSearchBar", true);
