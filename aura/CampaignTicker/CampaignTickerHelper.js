@@ -118,6 +118,7 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
+            console.error(error);
         }
     },
     sendTouchpointHelper: function (c, e, h) {
