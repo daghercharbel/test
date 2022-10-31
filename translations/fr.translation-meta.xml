@@ -203,8 +203,8 @@
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
-        <label>Révoquer la licence Telostouch</label>
-        <name>Change_User_text</name>
+        <label>Changer</label>
+        <name>Change</name>
     </customLabels>
     <customLabels>
         <label>Veuillez vérifier si les membres de la Campagne ont été syncronisés</label>
@@ -367,14 +367,6 @@
     <customLabels>
         <label>URL du portail</label>
         <name>Config_Instance_URL</name>
-    </customLabels>
-    <customLabels>
-        <label>URL d'identification doit commencer par https</label>
-        <name>Authentication_URL_Error</name>
-    </customLabels>
-    <customLabels>
-        <label>URL du portail doit commencer par https</label>
-        <name>Instance_URL_Error</name>
     </customLabels>
     <customLabels>
         <label>Détails sauvegardés avec succès.</label>
@@ -621,18 +613,6 @@
         <name>GIve_TT_Access</name>
     </customLabels>
     <customLabels>
-        <label>Donner accès à un utilisateur</label>
-        <name>Grant_Access</name>
-    </customLabels>
-    <customLabels>
-        <label>Attribuer une licence TelosTouch</label>
-        <name>Grant_Access_To_User_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Êtes-vous certain(e) de vouloir attribuer une licence TelosTouch à l&apos;utilisateur sélectionné?</label>
-        <name>Grant_User_permission_text</name>
-    </customLabels>
-    <customLabels>
         <label>Synchronisation complète</label>
         <name>Hard_Sync_Text</name>
     </customLabels>
@@ -761,6 +741,10 @@
     <customLabels>
         <label>Établi avec succès la correspondance des Champs de Salesforce avec ceux de TelosTouch</label>
         <name>Mapped_SF_field_Toast</name>
+    </customLabels>
+    <customLabels>
+        <label>Membres</label>
+        <name>Members</name>
     </customLabels>
     <customLabels>
         <label>Mensuelle</label>
@@ -1034,14 +1018,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Remove_Text</name>
     </customLabels>
     <customLabels>
-        <label>La licence TelosTouch de l&apos;utilisateur sélectionné a été révoquée</label>
-        <name>Remove_permissions_single_toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Une demande a été placée pour révoquer l&apos;accès à la licence TelosTouch pour les utilisateurs sélectionnés</label>
-        <name>Remove_permissions_toast</name>
-    </customLabels>
-    <customLabels>
         <label>Répéter le</label>
         <name>Repeat_On</name>
     </customLabels>
@@ -1078,14 +1054,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Revoir les erreurs sur cette page</label>
         <name>Review_Errors_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Révoquer un accès</label>
-        <name>Revoke_access</name>
-    </customLabels>
-    <customLabels>
-        <label>Révoquer l&apos;accès à un utilisateur</label>
-        <name>Revoke_access_text</name>
     </customLabels>
     <customLabels>
         <label>Champs Salesforce créé dans TelosTouch avec succès</label>
@@ -1158,6 +1126,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Sélectionner un type d&apos;enregistrement</label>
         <name>Select_a_record_type_Type</name>
+    </customLabels>
+    <customLabels>
+        <label>Point de Contact Sélectionné</label>
+        <name>Selected_TouchPoint</name>
     </customLabels>
     <customLabels>
         <label>Contacts ajoutés à la Campagne. Sélectionnez/Changez de Point de contact, ou envoyez la Campagne</label>
@@ -1528,14 +1500,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Code d&apos;utilisateur existe déjà:</label>
         <name>Username_Exist_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Accès utilisateur</label>
-        <name>User_access_text</name>
-    </customLabels>
-    <customLabels>
-        <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
-        <name>User_permission_text</name>
     </customLabels>
     <customLabels>
         <label>Code d&apos;utilisateur</label>
