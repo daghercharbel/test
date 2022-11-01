@@ -201,6 +201,10 @@
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
+        <label>Changer</label>
+        <name>Change</name>
+    </customLabels>
+    <customLabels>
         <label>Révoquer la licence Telostouch</label>
         <name>Change_User_text</name>
     </customLabels>
@@ -766,6 +770,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Mapped_SF_field_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Membres</label>
+        <name>Members</name>
+    </customLabels>
+    <customLabels>
         <label>Mensuelle</label>
         <name>Monthly_Text</name>
     </customLabels>
@@ -1165,6 +1173,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Sélectionner un type d&apos;enregistrement</label>
         <name>Select_a_record_type_Type</name>
+    </customLabels>
+    <customLabels>
+        <label>Point de Contact Sélectionné</label>
+        <name>Selected_TouchPoint</name>
     </customLabels>
     <customLabels>
         <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>

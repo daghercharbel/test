@@ -33,7 +33,7 @@
                         c.set("v.campMemberAmount", responseObj.campMemberAmount);
                     }
                     if (responseObj.hasOwnProperty('CreatedDate')) {
-                        var output = $A.localizationService.formatDate(responseObj.CreatedDate,"DD MM YYYY");
+                        var output = $A.localizationService.formatDate(responseObj.CreatedDate,"DD/MMM/YYYY");
                         c.set("v.CreatedDate", output);
                     }
                     if (!$A.util.isEmpty(c.get('v.templateValue'))) {
@@ -234,8 +234,8 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    if (!$A.util.isEmpty(storedResponse)){
-                       
+                    if (!$A.util.isEmpty(storedResponse)) {
+
                         c.set("v.iFrameURL", storedResponse);
                         this.setInitialTemplateAmount(c);
                         $A.createComponent(

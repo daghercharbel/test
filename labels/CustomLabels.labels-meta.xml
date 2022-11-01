@@ -337,6 +337,13 @@
         <value>Your case has been raised</value>
     </labels>
     <labels>
+        <fullName>Change</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change</shortDescription>
+        <value>Change</value>
+    </labels>
+    <labels>
         <fullName>Change_User_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1320,6 +1327,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Successfully Mapped Salesforce field with TelosTouch field.</value>
     </labels>
     <labels>
+        <fullName>Members</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Members</shortDescription>
+        <value>Members</value>
+    </labels>
+    <labels>
         <fullName>Monthly_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2014,6 +2028,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Select a record type Text</shortDescription>
         <value>Select a record type</value>
+    </labels>
+    <labels>
+        <fullName>Selected_TouchPoint</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selected TouchPoint</shortDescription>
+        <value>Selected TouchPoint</value>
     </labels>
     <labels>
         <fullName>SendTP_CustomizeText</fullName>

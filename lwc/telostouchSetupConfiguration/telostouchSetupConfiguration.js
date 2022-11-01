@@ -398,17 +398,16 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     }
 
     // 'Refresh Token' button is clicked 
-    refreshTokenHelper() {
+    refreshToken() {
         if (this.setting.Approval == true) {
             this.settingApproval = true;
             this.isShowSpinner = true;
             refreshTokenController()
                 .then((result) => {
                     this.isShowSpinner = false;
-                    if (result.getState() === 'SUCCESS') {
+                    if (result == 'success') {
                         this.displayToast('success', Refresh_Token_Save_Toast);
                     }
-
                 })
                 .catch((error) => {
                     this.error = error.message;
