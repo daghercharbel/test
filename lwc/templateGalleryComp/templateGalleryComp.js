@@ -21,6 +21,7 @@ import Compliance_Title from "@salesforce/label/c.Compliance_Title";
 import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Private_Text from "@salesforce/label/c.Private_Text";
 import Public_Text from "@salesforce/label/c.Public_Text";
+import TitleDesc from "@salesforce/label/c.TitleDesc";
 import Search_Text from "@salesforce/label/c.Search_Text";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
@@ -39,6 +40,7 @@ export default class TemplateGalleryComp extends LightningElement {
     TitleText,
     CreatedDateText,
     None_Text,
+    TitleDesc,
     Email_Text,
     Language_Text,
     TouchPoint_Experience_Text,
@@ -71,6 +73,7 @@ export default class TemplateGalleryComp extends LightningElement {
   publicTemplatesList = [];
   @api templateId;
   isTemplatePage = false;
+  searchValue = '';
   lang = LANG;
   isSpinner = false;
   previewBody = false;
@@ -81,7 +84,7 @@ export default class TemplateGalleryComp extends LightningElement {
   @track urls = {};
   templatesList = [];
   templateType = 'All';
-  sortingType = 'none';
+  sortingType = 'modifiedAt';
   mainTemplateList = [];
   paginationList = [];
   currentPage = 1;
@@ -108,10 +111,10 @@ export default class TemplateGalleryComp extends LightningElement {
   }
   get sortingOptions() {
     return [
-      { label: this.label.None_Text, value: "none" },
-      { label: this.label.TitleText, value: "title" },
+      { label: this.label.LastModifiedDate, value: "modifiedAt" },
       { label: this.label.CreatedDateText, value: "created_at" },
-      { label: this.label.LastModifiedDate, value: "modifiedAt" }
+      { label: this.label.TitleText, value: "title" },
+      { label: this.label.TitleDesc, value: "titleDesc" }
     ];
   }
 
@@ -193,44 +196,15 @@ export default class TemplateGalleryComp extends LightningElement {
     }
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
-      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
-      else {
-        this.isSpinner = true;
-        this.mainTemplateList = [];
-        this.publicTemplatesList = [];
-        this.privateTemplatesList = [];
-        this.templatesList = [];
-        this.getTemplates();
-      }
     } else if (this.templateType == 'Public') {
       this.templatesList = this.publicTemplatesList;
-      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
-      else {
-        this.isSpinner = true;
-        this.mainTemplateList = [];
-        this.publicTemplatesList = [];
-        this.privateTemplatesList = [];
-        this.templatesList = [];
-        this.getTemplates();
-      }
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
-      if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
-      else {
-        this.isSpinner = true;
-        this.mainTemplateList = [];
-        this.publicTemplatesList = [];
-        this.privateTemplatesList = [];
-        this.templatesList = [];
-        this.getTemplates();
-      }
     }
+    if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
+    else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
+    else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
+    else if (this.sortingType == 'titleDesc') { this.sortTemplatesList('titleDesc'); }
     this.currentPage = 1;
     this.prevPage = 1;
     this.nextPage = 2;
@@ -240,7 +214,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
   sortTemplatesList(sortBy) {
     let list = this.templatesList;
-    if (sortBy !== 'title') {
+    if (sortBy !== 'title' && sortBy !== 'titleDesc') {
       let temp = 0;
       for (let x = 0; x < list.length - 1; x++) {
         for (let y = 0; y < list.length - x - 1; y++) {
@@ -251,20 +225,53 @@ export default class TemplateGalleryComp extends LightningElement {
           }
         }
       }
-    } else if (sortBy === 'title') {
-      sortBy = (this.fr) ? 'name_fr' : 'name';
-      let temp = 0;
-      for (let x = 0; x < list.length - 1; x++) {
-        for (let y = 0; y < list.length - x - 1; y++) {
-          if (list[y][sortBy].toLowerCase() > list[y + 1][sortBy].toLowerCase()) {
-            temp = list[y];
-            list[y] = list[y + 1];
-            list[y + 1] = temp;
+    } else if (sortBy === 'title' || sortBy === 'titleDesc') {
+      let sort = (this.fr) ? 'name_fr' : 'name';
+      if(sortBy === 'title'){
+        let temp = 0;
+        for (let x = 0; x < list.length - 1; x++) {
+          for (let y = 0; y < list.length - x - 1; y++) {
+            if (list[y][sort].toLowerCase() > list[y + 1][sort].toLowerCase()) {
+              temp = list[y];
+              list[y] = list[y + 1];
+              list[y + 1] = temp;
+            }
+          }
+        }
+      }else{
+        let temp = 0;
+        for (let x = 0; x < list.length - 1; x++) {
+          for (let y = 0; y < list.length - x - 1; y++) {
+            if (list[y][sort].toLowerCase() < list[y + 1][sort].toLowerCase()) {
+              temp = list[y];
+              list[y] = list[y + 1];
+              list[y + 1] = temp;
+            }
           }
         }
       }
     }
     this.templatesList = list;
+    try {
+      if(this.searchValue){
+        let tempList = [];
+        if (!this.fr) {
+          list.forEach((ele) => {
+            if (ele.name.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+              tempList.push(ele);
+            }
+          });
+        } else {
+          list.forEach((ele) => {
+            if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+              tempList.push(ele);
+            }
+          });
+        }
+        this.templatesList = tempList;
+      }
+    } catch (error) {
+    }  
   }
 
   handleSearchInput(event) {
@@ -273,6 +280,7 @@ export default class TemplateGalleryComp extends LightningElement {
         this.hideLastButton = false;
       }
       let searchKey = event.target.value.toLowerCase();
+      this.searchValue = searchKey;
       let filteredTemplates = [];
       let currentTemplates = [];
       if (this.templateType == 'All') {
@@ -417,9 +425,7 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
-    if (this.sortingType != 'none') {
-      this.sortTemplatesList(this.sortingType);
-    }
+    this.sortTemplatesList(this.sortingType);
   }
 
   handleBackbuttonAction() {

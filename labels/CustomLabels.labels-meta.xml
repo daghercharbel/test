@@ -8,6 +8,13 @@
         <value>User Access to TelosTouch</value>
     </labels>
     <labels>
+        <fullName>TitleDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TitleDesc</shortDescription>
+        <value>Title (Z to A)</value>
+    </labels>
+    <labels>
         <fullName>Actions_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
