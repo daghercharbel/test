@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customApplications>
-        <label>
-            
-        </label>
-        <name>TelosTouch</name>
-    </customApplications>
     <customLabels>
         <label>Accès usager àTelosTouch</label>
         <name>Access_To_TT</name>
@@ -79,6 +73,10 @@
     <customLabels>
         <label>Usager assigné dans TT? (OwnerId/CreatedById)</label>
         <name>Assigned_User_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>URL d&apos;identification doit commencer par https</label>
+        <name>Authentication_URL_Error</name>
     </customLabels>
     <customLabels>
         <label>Retour</label>
@@ -369,14 +367,6 @@
         <name>Config_Instance_URL</name>
     </customLabels>
     <customLabels>
-        <label>URL d'identification doit commencer par https</label>
-        <name>Authentication_URL_Error</name>
-    </customLabels>
-    <customLabels>
-        <label>URL du portail doit commencer par https</label>
-        <name>Instance_URL_Error</name>
-    </customLabels>
-    <customLabels>
         <label>Détails sauvegardés avec succès.</label>
         <name>Config_Save_Toast</name>
     </customLabels>
@@ -429,6 +419,10 @@
         <name>Create_Task_Text</name>
     </customLabels>
     <customLabels>
+        <label><!-- CreatedDateText --></label>
+        <name>CreatedDateText</name>
+    </customLabels>
+    <customLabels>
         <label>Créé</label>
         <name>Created_Label</name>
     </customLabels>
@@ -457,15 +451,16 @@
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou ajouter des clients à la campagne.</label>
+        <label>Point de contact sélectionné. Veuillez ajouter des membres à votre campagne</label>
         <name>Customize_AddClientText</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. &lt;br /&gt; Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;.&lt;br/&gt;
+Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;. Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel_Text</name>
     </customLabels>
     <customLabels>
@@ -669,6 +664,10 @@
         <name>Installation_Guide_Text</name>
     </customLabels>
     <customLabels>
+        <label>URL du portail doit commencer par https</label>
+        <name>Instance_URL_Error</name>
+    </customLabels>
+    <customLabels>
         <label>Erreur de serveur interne</label>
         <name>Internal_Server_Error_Text</name>
     </customLabels>
@@ -717,6 +716,10 @@
     <customLabels>
         <label>Langue</label>
         <name>Language_Text</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LastModifiedDate --></label>
+        <name>LastModifiedDate</name>
     </customLabels>
     <customLabels>
         <label>Dernière connexion</label>
@@ -786,7 +789,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>New_Campaign_Header_Text</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux clients ajoutés, veuillez cliquer sur &quot;Envoyer&quot; pour envoyer le point de contact aux clients ajoutés.</label>
+        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;</label>
         <name>New_Client_Added_Text</name>
     </customLabels>
     <customLabels>
@@ -864,6 +867,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Aucun client désabonné trouvé</label>
         <name>No_unsubscribed_client_text</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- None Text --></label>
+        <name>None_Text</name>
     </customLabels>
     <customLabels>
         <label>Non complété</label>
@@ -1160,7 +1167,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_a_record_type_Type</name>
     </customLabels>
     <customLabels>
-        <label>Contacts ajoutés à la Campagne. Sélectionnez/Changez de Point de contact, ou envoyez la Campagne</label>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
         <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
@@ -1258,11 +1265,15 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Something_went_wrong_Text</name>
     </customLabels>
     <customLabels>
+        <label><!-- Sort By Text --></label>
+        <name>Sort_By_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Champs Standard</label>
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionnez un Point de contact et ajoutez des clients pour envoyer une Campagne</label>
+        <label>Pour débuter, cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
@@ -1330,7 +1341,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Synced_Text</name>
     </customLabels>
     <customLabels>
-        <label>Point de contact envoyé. Aucune autre action n&apos;est nécessaire. Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.&lt;br/ &gt; Remarque : La personnalisation de ce Point de contact est désormais désactivée.</label>
+        <label>Point de contact envoyé.&lt;br/&gt;
+Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.</label>
         <name>TPSentText</name>
     </customLabels>
     <customLabels>
@@ -1398,6 +1410,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Title</name>
     </customLabels>
     <customLabels>
+        <label><!-- TitleText --></label>
+        <name>TitleText</name>
+    </customLabels>
+    <customLabels>
         <label>Total des éléments Syncronisés</label>
         <name>Total_Sync_Record_Text</name>
     </customLabels>
@@ -1406,7 +1422,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TouchPointTemplateNotSaved_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPointTemplateSaved_Text --></label>
+        <label>Point de contact sélectionné avec succès.</label>
         <name>TouchPointTemplateSaved_Text</name>
     </customLabels>
     <customLabels>
@@ -1522,20 +1538,20 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>User_Not_Valid_Cannot_Auth_App</name>
     </customLabels>
     <customLabels>
-        <label>Échec de la désactivation de l&apos;usager de Salesforce à TelosTouch</label>
-        <name>User_deactivate_Fail_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Code d&apos;utilisateur existe déjà:</label>
-        <name>Username_Exist_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Accès utilisateur</label>
         <name>User_access_text</name>
     </customLabels>
     <customLabels>
+        <label>Échec de la désactivation de l&apos;usager de Salesforce à TelosTouch</label>
+        <name>User_deactivate_Fail_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
         <name>User_permission_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Code d&apos;utilisateur existe déjà:</label>
+        <name>Username_Exist_Text</name>
     </customLabels>
     <customLabels>
         <label>Code d&apos;utilisateur</label>
@@ -1582,29 +1598,4 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>de</label>
         <name>of_text</name>
     </customLabels>
-    <customTabs>
-        <label>Accueil</label>
-        <name>TT_Home</name>
-    </customTabs>
-    <customTabs>
-        <label>Configuration TT</label>
-        <name>TT_Setup</name>
-    </customTabs>
-    <customTabs>
-        <label>
-            
-        </label>
-        <name>TouchPoints</name>
-    </customTabs>
-    <flowDefinitions>
-        <flows/>
-        <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
-    </flowDefinitions>
-    <quickActions>
-        <aspect>Master</aspect>
-        <label>
-            
-        </label>
-        <name>NewTask</name>
-    </quickActions>
 </Translations>

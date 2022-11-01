@@ -784,21 +784,22 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize/AddClientText</shortDescription>
-        <value>You can now Customize/Preview the TouchPoint or add clients to the campaign.</value>
+        <value>TouchPoint has been selected. Please add members to your campaign</value>
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize PreviewLabel</shortDescription>
-        <value>You can Customize, Preview the TouchPoint or proceed to sending &lt;br /&gt; Note: Customize, Touchpoint Selection will be disabled after sending</value>
+        <value>You can now send TouchPoint by clicking on &quot;Send&quot;. &lt;br/&gt;
+Note: Customise and Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize_PreviewLabel_Text</shortDescription>
-        <value>You can Customize, Preview the TouchPoint or proceed to sending. Note: Customize, Touchpoint Selection will be disabled after sending</value>
+        <value>You can now send TouchPoint by clicking on &quot;Send&quot;. Note: Customise and Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
         <fullName>Customize_Template_Text</fullName>
@@ -1064,7 +1065,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>GIve TT Access</shortDescription>
-        <value>Grant License</value>
+        <value>Give TelosTouch Access</value>
     </labels>
     <labels>
         <fullName>Grant_Access</fullName>
@@ -1361,7 +1362,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New Client Added Text</shortDescription>
-        <value>New Clients added, Please click &quot;Send&quot; to send the TouchPoint to the clients added.</value>
+        <value>New campaign members added. You can now send TouchPoint by clicking on &quot;Send”</value>
     </labels>
     <labels>
         <fullName>New_Member_Toast</fullName>
@@ -2019,7 +2020,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SendTP/CustomizeText</shortDescription>
-        <value>Campaign members added. Select/Change TouchPoint or proceed to sending Campaign</value>
+        <value>New campaign members added. Click on “Select a Touchpoint” to select your TouchPoint</value>
     </labels>
     <labels>
         <fullName>Send_Reminder_Config_Text</fullName>
@@ -2201,7 +2202,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>StartByChoosingTP</shortDescription>
-        <value>Select TouchPoint and Add Clients to send Campaign</value>
+        <value>Start by clicking on “Select a Touchpoint” to select your TouchPoint or add members to your campaign</value>
     </labels>
     <labels>
         <fullName>Start_Date</fullName>
@@ -2320,7 +2321,8 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TPSentText</shortDescription>
-        <value>You can send the TouchPoint to more recipients by adding additional members to the campaign. &lt;br /&gt; Note: Customizing TouchPoint is now disabled.</value>
+        <value>TouchPoint has been sent successfully. &lt;br/&gt;
+You can send the TouchPoint to more recipients by adding additional members to the campaign.</value>
     </labels>
     <labels>
         <fullName>TT_API_Setup_Title</fullName>
@@ -2460,7 +2462,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TouchPointTemplateSaved_Text</shortDescription>
-        <value>TouchPoint template is successfully saved.</value>
+        <value>TouchPoint successfully selected.</value>
     </labels>
     <labels>
         <fullName>TouchPoint_Created</fullName>

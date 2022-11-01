@@ -110,8 +110,8 @@ export default class TemplateGalleryComp extends LightningElement {
     return [
       { label: this.label.None_Text, value: "none" },
       { label: this.label.TitleText, value: "title" },
-      { label: this.label.CreatedDateText, value: "createdDate" },
-      { label: this.label.LastModifiedDate, value: "modifiedDate" }
+      { label: this.label.CreatedDateText, value: "created_at" },
+      { label: this.label.LastModifiedDate, value: "modifiedAt" }
     ];
   }
 
@@ -183,6 +183,9 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   handleFilterChange(event) {
+    if(this.showPagination){
+      this.hideLastButton = false;
+    }
     if (event.target.dataset.id == 'templateShow') {
       this.templateType = event.detail.value;
     } else if (event.target.dataset.id == 'templateFilter') {
@@ -191,8 +194,8 @@ export default class TemplateGalleryComp extends LightningElement {
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
       if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
       else {
         this.isSpinner = true;
         this.mainTemplateList = [];
@@ -204,8 +207,8 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Public') {
       this.templatesList = this.publicTemplatesList;
       if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
       else {
         this.isSpinner = true;
         this.mainTemplateList = [];
@@ -217,8 +220,8 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
       if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
-      else if (this.sortingType == 'createdDate') { this.sortTemplatesList('created_at'); }
-      else if (this.sortingType == 'modifiedDate') { this.sortTemplatesList('modifiedAt'); }
+      else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
+      else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
       else {
         this.isSpinner = true;
         this.mainTemplateList = [];
@@ -266,6 +269,9 @@ export default class TemplateGalleryComp extends LightningElement {
 
   handleSearchInput(event) {
     try {
+      if(this.showPagination){
+        this.hideLastButton = false;
+      }
       let searchKey = event.target.value.toLowerCase();
       let filteredTemplates = [];
       let currentTemplates = [];

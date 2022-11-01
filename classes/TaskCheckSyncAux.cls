@@ -34,7 +34,7 @@ global class TaskCheckSyncAux {
             setTaskId.add(aTask.Id);
         }
 
-        String query = 'SELECT Id';
+        String query = 'SELECT Id, TelosTouchSF__TT_Needs_Sync__c';
         for(String aField : setField){
             query += ','+String.escapeSingleQuotes(aField).replace('\\','');
         }

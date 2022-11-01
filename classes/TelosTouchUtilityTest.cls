@@ -875,5 +875,23 @@ private with sharing class TelosTouchUtilityTest {
         System.assert(true,'it should be true');
         Test.stopTest();
     }
+    @isTest 
+    static void revokeUserAccessTest(){
+        
+        List<User> sfUserList = new List<User>();
+        Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        User u = new User(Alias = 'standt', Email='test1868687687@gmail.com', 
+                          EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+                          LocaleSidKey='en_US', ProfileId = p.Id,
+                          TimeZoneSidKey='America/Los_Angeles', UserName='test1868687687@gmail.com');
+        sfUserList.add(u);
+        insert sfUserList;
+        list<Id> lstUserId = new list<Id>{sfUserList[0].Id};
+        
+        Test.startTest();
+        TelosTouchSF.TelosTouchUtility.revokeUserAccess(lstUserId[0], null);
+        TelosTouchSF.TelosTouchUtility.revokeUserAccess(null, lstUserId);
+        Test.stopTest();
+    }
     
 }

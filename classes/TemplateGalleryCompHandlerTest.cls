@@ -4,6 +4,7 @@ public class TemplateGalleryCompHandlerTest {
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());        
         Test.startTest();
         String res = TemplateGalleryCompHandler.getTouchPointTemplates();
+        String res1 = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin();
         Map<String, String> resp = TemplateGalleryCompHandler.getIFrameDetails();
         System.assert(res != null);
         System.assert(resp != null);

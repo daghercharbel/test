@@ -1411,7 +1411,9 @@ global with sharing class SFDataSyncWithTelosTouch {
 @return Boolean ....
      */
     public static Boolean checkIfEnterpriseClient(){
+                    System.debug('2');
         try{
+            System.debug('2');
             Http http = new Http();
             HttpRequest req = new HttpRequest();
             HttpResponse res = new HttpResponse();

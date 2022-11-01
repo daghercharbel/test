@@ -17,7 +17,7 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Phone', TT_Field__c='phoneNumber', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='AssistantPhone', TT_Field__c='Custom Fields', Object_Name__c='Contact'));
-		mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='ActivityDate', TT_Field__c='date_due', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='ActivityDate', TT_Field__c='date_due', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Subject', TT_Field__c='name', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Status', TT_Field__c='status', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Client_Id__c', TT_Field__c='client_id', Object_Name__c='Task'));
@@ -231,8 +231,8 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         SFDataSyncWithTelosTouch.deleteTask(tasklistSyncAllTask);
         SFDataSyncWithTelosTouch.deleteCampaign(campaignlist);
         SFDataSyncWithTelosTouch.addLogRecord('Failure','No sync','No Sync',1);
-         Database.ExecuteBatch(new TaskDelete_Batch(tasklistSyncAllTask));
-         Database.ExecuteBatch(new CampaignDelete_Batch(campaignlist));
+        Database.ExecuteBatch(new TaskDelete_Batch(tasklistSyncAllTask));
+        Database.ExecuteBatch(new CampaignDelete_Batch(campaignlist));
         test.stopTest();
         delete campaignlist;
         delete tasklistSyncAllTask;
@@ -292,5 +292,13 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         update leadobj;
         System.assertEquals('ramMohan12111@gmail.com', leadobj.Email, 'leadobj.Email should be updated to ramMohan12111@gmail.com');
         test.stopTest();
+    }
+    @isTest static void checkEnterpriseClientTest(){
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new SFDataSyncWithTelosTouchMock1()); 
+        Boolean resp = SFDataSyncWithTelosTouch.checkIfEnterpriseClient();
+        System.debug('resp: '+ resp);
+        System.assert(!resp);
+        Test.stopTest();
     }
 }
