@@ -175,7 +175,7 @@
       </aura:if>
     </aura:set>
     <br></br>
-    <table class="c-width33 width-27-percent">
+    <table class="width-27-percent">
       <thead>
         <tr>
           <th scope="col">
@@ -192,7 +192,6 @@
       <tbody>
         <tr>
           <td>
-            <!-- <aura:if isTrue="{!!v.divDisabled}"> -->
             <div class="slds-var-p-horizontal_medium">
               <aura:if isTrue="{!and(!empty(v.templateName), !v.CampaignSynced)}">
                 {!v.templateName} <a href="javascript:void(0)" onclick="{!c.openChooseTouchPointModal}"
@@ -202,7 +201,6 @@
                 {!v.templateName}
               </aura:if>
             </div>
-            <!-- </aura:if> -->
           </td>
           <td>
             <div class="slds-var-p-horizontal_medium">
