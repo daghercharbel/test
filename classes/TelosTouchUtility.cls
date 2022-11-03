@@ -1826,17 +1826,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         try {            
             if(userId != Null)
             {
-                List<PermissionSetAssignment> permsList = [SELECT Id,PermissionSet.Name FROM PermissionSetAssignment WHERE (PermissionSet.Name = 'TTPSetForInsightObjMDRelations' OR PermissionSet.Name = 'TelosTouch_Custom_Permission') AND AssigneeId =:userId WITH SECURITY_ENFORCED LIMIT 2] ; 
-                if(Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isDeletable()){
-                    delete permsList;
-                }
-                List<User> ttUserAccess = [SELECT TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c FROM User where Id =:userId WITH SECURITY_ENFORCED LIMIT 1];
-                ttUserAccess[0].TelosTouchSF__Auth_Token__c ='';
-                ttUserAccess[0].TelosTouchSF__TT_UserId__c ='';
-                ttUserAccess[0].TelosTouchSF__TT_UserName__c ='';
-                if(Schema.sObjectType.User.isAccessible() && Schema.sObjectType.User.isUpdateable()){
-                    update ttUserAccess;
-                }
+                Database.executeBatch(new SFBatchToRevokeLicence(new list<Id>{userId}),1);
             }
             if(listOfTTUser.size()>0){
                 Database.executeBatch(new SFBatchToRevokeLicence(listOfTTUser),20);
