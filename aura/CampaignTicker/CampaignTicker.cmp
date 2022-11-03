@@ -175,38 +175,42 @@
       </aura:if>
     </aura:set>
     <br></br>
-    <table class="c-width33">
+    <table class="c-width33 width-27-percent">
       <thead>
         <tr>
           <th scope="col">
-            <div class="slds-p-left_medium" title="Name">{!$Label.c.Selected_TouchPoint}</div>
+            <div class="slds-var-p-horizontal_medium" title="Name">{!$Label.c.Selected_TouchPoint}</div>
           </th>
           <th scope="col">
-            <div class="slds-p-left_medium" title="Members">{!$Label.c.Members}</div>
+            <div class="slds-var-p-horizontal_medium" title="Members">{!$Label.c.Members}</div>
           </th>
           <th scope="col">
-            <div class="slds-p-left_medium" title="Date Created">{!$Label.c.Created_Label}</div>
+            <div class="slds-var-p-horizontal_medium" title="Date Created">{!$Label.c.Created_Label}</div>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-
-            <aura:if isTrue="{!!v.divDisabled}">
-              <div class="slds-p-left_medium">
+            <!-- <aura:if isTrue="{!!v.divDisabled}"> -->
+            <div class="slds-var-p-horizontal_medium">
+              <aura:if isTrue="{!and(!empty(v.templateName), !v.CampaignSynced)}">
                 {!v.templateName} <a href="javascript:void(0)" onclick="{!c.openChooseTouchPointModal}"
                   class="slds-p-left_xx-small">{!$Label.c.Change}</a>
-              </div>
-            </aura:if>
+              </aura:if>
+              <aura:if isTrue="{!v.CampaignSynced}">
+                {!v.templateName}
+              </aura:if>
+            </div>
+            <!-- </aura:if> -->
           </td>
           <td>
-            <div class="slds-p-left_medium">
+            <div class="slds-var-p-horizontal_medium">
               {!v.campMemberAmount}
             </div>
           </td>
           <td>
-            <div class="slds-p-left_medium">
+            <div class="slds-var-p-horizontal_medium">
               {!v.CreatedDate}
             </div>
           </td>

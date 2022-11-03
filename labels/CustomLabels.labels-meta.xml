@@ -411,7 +411,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Choose a TouchPoint Text</shortDescription>
-        <value>Select/Change a TouchPoint</value>
+        <value>Select a TouchPoint</value>
     </labels>
     <labels>
         <fullName>Client_Added_To_Cam_Text</fullName>

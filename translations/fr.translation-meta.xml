@@ -37,9 +37,7 @@
         <name>Add_Text</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Add_To_Campaign_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -195,9 +193,7 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -237,7 +233,7 @@
         <name>Choose_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionner/Changer de Point de contact</label>
+        <label>Sélectionner le Point de contact</label>
         <name>Choose_a_TouchPoint_Text</name>
     </customLabels>
     <customLabels>
@@ -313,9 +309,7 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -395,9 +389,7 @@
         <name>Contact_Label</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Create_Mass_Action_Config_Label</name>
     </customLabels>
     <customLabels>
@@ -413,9 +405,7 @@
         <name>Create_Remote_Site_Text</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Create_Sungle_Action_Text</name>
     </customLabels>
     <customLabels>
@@ -423,7 +413,9 @@
         <name>Create_Task_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- CreatedDateText --></label>
+        <label>
+            <!-- CreatedDateText -->
+        </label>
         <name>CreatedDateText</name>
     </customLabels>
     <customLabels>
@@ -447,11 +439,15 @@
         <name>Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Admin Record Label --></label>
+        <label>
+            <!-- Custom Metadata Admin Record Label -->
+        </label>
         <name>Custom_Metadata_Admin_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Test Record Label --></label>
+        <label>
+            <!-- Custom Metadata Test Record Label -->
+        </label>
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
@@ -536,7 +532,9 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>End_Date</name>
     </customLabels>
     <customLabels>
-        <label><!-- English Text --></label>
+        <label>
+            <!-- English Text -->
+        </label>
         <name>English_Text</name>
     </customLabels>
     <customLabels>
@@ -608,7 +606,9 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Fill_Required_Value_Toast</name>
     </customLabels>
     <customLabels>
-        <label><!-- French Text --></label>
+        <label>
+            <!-- French Text -->
+        </label>
         <name>French_Text</name>
     </customLabels>
     <customLabels>
@@ -696,9 +696,7 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -722,7 +720,9 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Language_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- LastModifiedDate --></label>
+        <label>
+            <!-- LastModifiedDate -->
+        </label>
         <name>LastModifiedDate</name>
     </customLabels>
     <customLabels>
@@ -817,11 +817,15 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Custom_Field_Toast</name>
     </customLabels>
     <customLabels>
-        <label><!-- No Data Text --></label>
+        <label>
+            <!-- No Data Text -->
+        </label>
         <name>No_Data_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- No Description Text --></label>
+        <label>
+            <!-- No Description Text -->
+        </label>
         <name>No_Description_Text</name>
     </customLabels>
     <customLabels>
@@ -877,7 +881,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_unsubscribed_client_text</name>
     </customLabels>
     <customLabels>
-        <label><!-- None Text --></label>
+        <label>
+            <!-- None Text -->
+        </label>
         <name>None_Text</name>
     </customLabels>
     <customLabels>
@@ -1013,11 +1019,15 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Records_were_resubscribed_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Refresh Token Button Label --></label>
+        <label>
+            <!-- Refresh Token Button Label -->
+        </label>
         <name>Refresh_Token_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Refresh Token Save Toast --></label>
+        <label>
+            <!-- Refresh Token Save Toast -->
+        </label>
         <name>Refresh_Token_Save_Toast</name>
     </customLabels>
     <customLabels>
@@ -1069,9 +1079,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -1183,9 +1191,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
+        <label></label>
         <name>Send_Reminder_Config_Text</name>
     </customLabels>
     <customLabels>
@@ -1277,7 +1283,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Something_went_wrong_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Sort By Text --></label>
+        <label>
+            <!-- Sort By Text -->
+        </label>
         <name>Sort_By_Text</name>
     </customLabels>
     <customLabels>
@@ -1410,7 +1418,9 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TelosTouch_Fields</name>
     </customLabels>
     <customLabels>
-        <label><!-- TelosTouch Permission Set Name --></label>
+        <label>
+            <!-- TelosTouch Permission Set Name -->
+        </label>
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
@@ -1422,7 +1432,9 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Title</name>
     </customLabels>
     <customLabels>
-        <label><!-- TitleText --></label>
+        <label>
+            <!-- TitleText -->
+        </label>
         <name>TitleText</name>
     </customLabels>
     <customLabels>
@@ -1430,7 +1442,9 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Total_Sync_Record_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPointTemplateNotSaved_Text --></label>
+        <label>
+            <!-- TouchPointTemplateNotSaved_Text -->
+        </label>
         <name>TouchPointTemplateNotSaved_Text</name>
     </customLabels>
     <customLabels>
@@ -1458,23 +1472,33 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TouchPoint_Process_Running_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview All Templates --></label>
+        <label>
+            <!-- TouchpointPreview All Templates -->
+        </label>
         <name>TouchpointPreview_All_Templates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToListView --></label>
+        <label>
+            <!-- TouchpointPreview BackToListView -->
+        </label>
         <name>TouchpointPreview_BackToListView</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToTemplates --></label>
+        <label>
+            <!-- TouchpointPreview BackToTemplates -->
+        </label>
         <name>TouchpointPreview_BackToTemplates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview NoData Text --></label>
+        <label>
+            <!-- TouchpointPreview NoData Text -->
+        </label>
         <name>TouchpointPreview_NoData_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview Private Template --></label>
+        <label>
+            <!-- TouchpointPreview Private Template -->
+        </label>
         <name>TouchpointPreview_Private_Template</name>
     </customLabels>
     <customLabels>
