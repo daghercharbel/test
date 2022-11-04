@@ -2793,4 +2793,11 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <shortDescription>of text</shortDescription>
         <value>of</value>
     </labels>
+    <labels>
+        <fullName>showText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>showText</shortDescription>
+        <value>Show</value>
+    </labels>
 </CustomLabels>

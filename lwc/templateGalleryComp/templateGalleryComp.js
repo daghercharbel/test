@@ -8,6 +8,7 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import Email_Text from "@salesforce/label/c.Email_Text";
 import Language_Text from "@salesforce/label/c.Language_Text";
+import showText from "@salesforce/label/c.showText";
 import All_Label from '@salesforce/label/c.All_Label';
 import TouchPoint_Experience_Text from "@salesforce/label/c.TouchPoint_Experience_Text";
 import English_Text from "@salesforce/label/c.English_Text";
@@ -52,6 +53,7 @@ export default class TemplateGalleryComp extends LightningElement {
     TouchPointTemplateNotSaved_Text,
     Back_Button_Label,
     Cancel_Button_Label,
+    showText,
     Save_Button_Label,
     Private_Text,
     Public_Text,

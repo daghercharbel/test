@@ -6,8 +6,8 @@
     <div class="container">
       <lightning-layout>
         <lightning-layout-item padding="around-small">
-          <lightning-combobox label="Show" value={templateType} data-id="templateShow" options={templateOptions}
-            onchange={handleFilterChange}>
+          <lightning-combobox label={label.showText} value={templateType} data-id="templateShow"
+            options={templateOptions} onchange={handleFilterChange}>
           </lightning-combobox>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small">
