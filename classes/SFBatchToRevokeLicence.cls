@@ -1,10 +1,10 @@
-global with sharing class SFBatchToRevokeLicence implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
+public with sharing class SFBatchToRevokeLicence implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
 
-    global List<Id> userList;
+    public List<Id> userList;
     private TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential;
     private TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials;
     
-    global SFBatchToRevokeLicence(List<Id> userIdList){
+    public SFBatchToRevokeLicence(List<Id> userIdList){
         this.userList=userIdList;
         adminCredentials = new TelosTouchSF__TT_Admin_Credentials__mdt();
         authenticationCredential = new TelosTouchSF__TT_Authentication_Credential__mdt();
@@ -13,11 +13,11 @@ global with sharing class SFBatchToRevokeLicence implements Database.Batchable<s
             authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
         }
     }
-    global Database.QueryLocator start(Database.BatchableContext BC) {
+    public Database.QueryLocator start(Database.BatchableContext BC) {
         String q = 'SELECT TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c FROM User where Id IN :userList WITH SECURITY_ENFORCED';
        return Database.getQueryLocator(q);
     }
-    global void execute(Database.BatchableContext BC,List<user> returnedUserList){
+    public void execute(Database.BatchableContext BC,List<user> returnedUserList){
 
         try {
 
@@ -60,7 +60,7 @@ global with sharing class SFBatchToRevokeLicence implements Database.Batchable<s
             TelosTouchSF.TelosTouchUtility.generateErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
         }
     }
-    global void finish(Database.BatchableContext BC){
+    public void finish(Database.BatchableContext BC){
 
     } 
 }
