@@ -1,147 +1,180 @@
 import { LightningElement, wire, track, api } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import TT_API_Setup_Title from "@salesforce/label/c.TT_API_Setup_Title";
-import Fill_Details_Text from "@salesforce/label/c.Fill_Details_Text";
-import Successful_Text from "@salesforce/label/c.Successful_Text";
-import Rejected_Text from "@salesforce/label/c.Rejected_Text";
-import Config_Client_ID from "@salesforce/label/c.Config_Client_ID";
-import Config_Client_Secret from "@salesforce/label/c.Config_Client_Secret";
-import Config_Instance_URL from "@salesforce/label/c.Config_Instance_URL";
-import Config_Authentication_URL from "@salesforce/label/c.Config_Authentication_URL";
-import Hide_Advanced_Options_Text from "@salesforce/label/c.Hide_Advanced_Options_Text";
-import Show_Advanced_Options_Text from "@salesforce/label/c.Show_Advanced_Options_Text";
-import User_Name_Text from "@salesforce/label/c.User_Name_Text";
-import Profile_Text from "@salesforce/label/c.Profile_Text";
-import Email_Text from "@salesforce/label/c.Email_Text";
-import TT_user_Text from "@salesforce/label/c.TT_user_Text";
-import Showing_Text from "@salesforce/label/c.Showing_Text";
-import IfTwoUserHaveSameEmail from "@salesforce/label/c.IfTwoUserHaveSameEmail";
-import Pages_Text from "@salesforce/label/c.Pages_Text";
 import FORM_FACTOR from '@salesforce/client/formFactor';
-import Config_Footer from "@salesforce/label/c.Config_Footer";
-import Access_To_TT from "@salesforce/label/c.Access_To_TT";
-import Enter_Valid_Cred_Toast from "@salesforce/label/c.Enter_Valid_Cred_Toast";
-import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
-import Edit_Button_Label from "@salesforce/label/c.Edit_Button_Label";
-import Update_Add_Users_Button_Label from "@salesforce/label/c.Update_Add_Users_Button_Label";
-import Refresh_Token_Button_Label from "@salesforce/label/c.Refresh_Token_Button_Label";
-import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
-import Refresh_Token_Save_Toast from "@salesforce/label/c.Refresh_Token_Save_Toast";
-import User_Not_Valid_Cannot_Auth_App from "@salesforce/label/c.User_Not_Valid_Cannot_Auth_App";
-import Cred_Not_Valid_As_Admin_Contact_Admin from "@salesforce/label/c.Cred_Not_Valid_As_Admin_Contact_Admin";
-import Config_Save_Toast from "@salesforce/label/c.Config_Save_Toast";
-import Check_Cred_Toast from "@salesforce/label/c.Check_Cred_Toast";
-import Yes_Text from "@salesforce/label/c.Yes_Text";
-import Unable_Create_Some_User_Toast from "@salesforce/label/c.Unable_Create_Some_User_Toast";
-import Unable_Create_User_Toast from "@salesforce/label/c.Unable_Create_User_Toast";
-import Sent_SuccessToast from "@salesforce/label/c.Sent_SuccessToast";
-import Something_Wrong_Check_Admin_Toast from "@salesforce/label/c.Something_Wrong_Check_Admin_Toast";
-import Previous_Button_Label from "@salesforce/label/c.Previous_Button_Label";
-import Next_Button_Label from "@salesforce/label/c.Next_Button_Label";
-import GIve_TT_Access from "@salesforce/label/c.GIve_TT_Access";
-import getAdminAccessToken from "@salesforce/apex/TelosTouchUtility.getAdminAccessToken";
+
+//Apex Methods
+revokeUserAccess
 import abortScheduleJob from "@salesforce/apex/TelosTouchUtility.abortScheduleJob";
+import checkIfEnterpriseClient from "@salesforce/apex/TelosTouchUtility.checkIfEnterpriseClient";
+import getAdminAccessToken from "@salesforce/apex/TelosTouchUtility.getAdminAccessToken";
+import getSettingAPI from "@salesforce/apex/TelosTouchUtility.getSettingAPI";
 import getUserList from "@salesforce/apex/TelosTouchUtility.getUserList";
 import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTokenController";
-import checkIfEnterpriseClient from "@salesforce/apex/TelosTouchUtility.checkIfEnterpriseClient";
-import getSettingAPI from "@salesforce/apex/TelosTouchUtility.getSettingAPI";
-import sendSFUserToTT from "@salesforce/apex/TelosTouchUtility.sendSFUserToTT";
+import revokeUserAccess from "@salesforce/apex/TelosTouchUtility.revokeUserAccess";
 import sendRegistrationRequest from '@salesforce/apex/TelosTouchUtility.sendRegistrationRequest';
-import ContactMobile from "@salesforce/schema/Case.ContactMobile";
+import sendSFUserToTT from "@salesforce/apex/TelosTouchUtility.sendSFUserToTT";
+
+//Custom Labels
+import Access_To_TT from "@salesforce/label/c.Access_To_TT";
 import Authentication_URL_Error from "@salesforce/label/c.Authentication_URL_Error";
+import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
+import Change_User_text from "@salesforce/label/c.Change_User_text";
+import Check_Cred_Toast from "@salesforce/label/c.Check_Cred_Toast";
+import Config_Authentication_URL from "@salesforce/label/c.Config_Authentication_URL";
+import Config_Client_ID from "@salesforce/label/c.Config_Client_ID";
+import Config_Client_Secret from "@salesforce/label/c.Config_Client_Secret";
+import Config_Footer from "@salesforce/label/c.Config_Footer";
+import Config_Instance_URL from "@salesforce/label/c.Config_Instance_URL";
+import Config_Save_Toast from "@salesforce/label/c.Config_Save_Toast";
+import Cred_Not_Valid_As_Admin_Contact_Admin from "@salesforce/label/c.Cred_Not_Valid_As_Admin_Contact_Admin";
+import Edit_Button_Label from "@salesforce/label/c.Edit_Button_Label";
+import Email_Text from "@salesforce/label/c.Email_Text";
+import Enter_Valid_Cred_Toast from "@salesforce/label/c.Enter_Valid_Cred_Toast";
+import Fill_Details_Text from "@salesforce/label/c.Fill_Details_Text";
+import GIve_TT_Access from "@salesforce/label/c.GIve_TT_Access";
+import Grant_Access from "@salesforce/label/c.Grant_Access";
+import Grant_Access_To_User_Text from "@salesforce/label/c.Grant_Access_To_User_Text";
+import Grant_User_permission_text from "@salesforce/label/c.Grant_User_permission_text";
+import Hide_Advanced_Options_Text from "@salesforce/label/c.Hide_Advanced_Options_Text";
+import IfTwoUserHaveSameEmail from "@salesforce/label/c.IfTwoUserHaveSameEmail";
 import Instance_URL_Error from "@salesforce/label/c.Instance_URL_Error";
+import Next_Button_Label from "@salesforce/label/c.Next_Button_Label";
+import No_Text from "@salesforce/label/c.No_Text";
+import Pages_Text from "@salesforce/label/c.Pages_Text";
+import Previous_Button_Label from "@salesforce/label/c.Previous_Button_Label";
+import Profile_Text from "@salesforce/label/c.Profile_Text";
+import Refresh_Token_Button_Label from "@salesforce/label/c.Refresh_Token_Button_Label";
+import Refresh_Token_Save_Toast from "@salesforce/label/c.Refresh_Token_Save_Toast";
+import Rejected_Text from "@salesforce/label/c.Rejected_Text";
+import Remove_permissions_single_toast from "@salesforce/label/c.Remove_permissions_single_toast";
+import Remove_permissions_toast from "@salesforce/label/c.Remove_permissions_toast";
+import Revoke_access from "@salesforce/label/c.Revoke_access";
+import Revoke_access_text from "@salesforce/label/c.Revoke_access_text";
+import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
+import Sent_SuccessToast from "@salesforce/label/c.Sent_SuccessToast";
+import Show_Advanced_Options_Text from "@salesforce/label/c.Show_Advanced_Options_Text";
+import Showing_Text from "@salesforce/label/c.Showing_Text";
+import Something_Wrong_Check_Admin_Toast from "@salesforce/label/c.Something_Wrong_Check_Admin_Toast";
+import Successful_Text from "@salesforce/label/c.Successful_Text";
+import TT_API_Setup_Title from "@salesforce/label/c.TT_API_Setup_Title";
+import TT_user_Text from "@salesforce/label/c.TT_user_Text";
+import Unable_Create_Some_User_Toast from "@salesforce/label/c.Unable_Create_Some_User_Toast";
+import Unable_Create_User_Toast from "@salesforce/label/c.Unable_Create_User_Toast";
+import Update_Add_Users_Button_Label from "@salesforce/label/c.Update_Add_Users_Button_Label";
+import User_access_text from "@salesforce/label/c.User_access_text";
+import User_Name_Text from "@salesforce/label/c.User_Name_Text";
+import User_Not_Valid_Cannot_Auth_App from "@salesforce/label/c.User_Not_Valid_Cannot_Auth_App";
+import User_permission_text from "@salesforce/label/c.User_permission_text";
+import Yes_Text from "@salesforce/label/c.Yes_Text";
+
 export default class telosTouchSetupConfiguration extends LightningElement {
+
     label = {
-        TT_API_Setup_Title,
-        Fill_Details_Text,
-        Successful_Text,
-        Rejected_Text,
+        Access_To_TT,
+        Authentication_URL_Error,
+        Cancel_Button_Label,
+        Change_User_text,
+        Check_Cred_Toast,
+        Config_Authentication_URL,
         Config_Client_ID,
         Config_Client_Secret,
-        Config_Instance_URL,
-        Config_Authentication_URL,
-        Hide_Advanced_Options_Text,
-        Show_Advanced_Options_Text,
         Config_Footer,
-        Access_To_TT,
-        User_Name_Text,
-        Profile_Text,
-        Email_Text,
-        TT_user_Text,
-        Showing_Text,
-        IfTwoUserHaveSameEmail,
-        Pages_Text,
-        Enter_Valid_Cred_Toast,
-        Save_Button_Label,
-        Edit_Button_Label,
-        Update_Add_Users_Button_Label,
-        Refresh_Token_Button_Label,
-        Cancel_Button_Label,
-        Refresh_Token_Save_Toast,
-        User_Not_Valid_Cannot_Auth_App,
-        Cred_Not_Valid_As_Admin_Contact_Admin,
+        Config_Instance_URL,
         Config_Save_Toast,
-        Check_Cred_Toast,
-        Yes_Text,
+        Cred_Not_Valid_As_Admin_Contact_Admin,
+        Edit_Button_Label,
+        Email_Text,
+        Enter_Valid_Cred_Toast,
+        Fill_Details_Text,
+        GIve_TT_Access,
+        Grant_Access,
+        Grant_Access_To_User_Text,
+        Grant_User_permission_text,
+        Hide_Advanced_Options_Text,
+        IfTwoUserHaveSameEmail,
+        Instance_URL_Error,
+        Next_Button_Label,
+        No_Text,
+        Pages_Text,
+        Previous_Button_Label,
+        Profile_Text,
+        Refresh_Token_Button_Label,
+        Refresh_Token_Save_Toast,
+        Rejected_Text,
+        Remove_permissions_single_toast,
+        Remove_permissions_toast,
+        Revoke_access,
+        Revoke_access_text,
+        Save_Button_Label,
+        Sent_SuccessToast,
+        Show_Advanced_Options_Text,
+        Showing_Text,
+        Something_Wrong_Check_Admin_Toast,
+        Successful_Text,
+        TT_API_Setup_Title,
+        TT_user_Text,
         Unable_Create_Some_User_Toast,
         Unable_Create_User_Toast,
-        Sent_SuccessToast,
-        Something_Wrong_Check_Admin_Toast,
-        Previous_Button_Label,
-        Next_Button_Label,
-        GIve_TT_Access,
-        Instance_URL_Error,
-        Authentication_URL_Error
+        Update_Add_Users_Button_Label,
+        User_access_text,
+        User_Name_Text,
+        User_Not_Valid_Cannot_Auth_App,
+        User_permission_text,
+        Yes_Text
     };
-    @track isSmallDevice = false;
-    @track isTablet = false;
-    @track isPhone = false;
-    @track showToast = false;
-    @track setting;
-    @track storedResponse;
-    @track settingApproval;
-    @track waitingTimeId = null;
-    @track isEditAndnotsettingApproval = false;
-    @track ListID = [];
-    @track settingAPIList;
-    @track isShowSpinner = false;
-    @track showRegistrationMessage = false;
-    @track resendBtnDisabled = true;
-    @track showContactMessage = false;
-    @track showAdvancedOptions = false;
-    @track isEdit = false;
-    @track isNotEdit = true;
-    @track isDisSave = true;
-    @track isInsURLNotValid = false;
-    @track isAuthURLNotValid = false;
-    @track afterSaveCredentials = false;
-    @api listdata;
+
+    afterSaveCredentials = false;
+    @track allRecords;
+    @track conditionUpdateAndAddUsers;
+    @track currentPage;
+    @track currentPageEqualTtotalPages;
+    @track currentPageLessEqual1;
     @track filteredRecords;
     @track filteredRecordsSize;
     @track fromEntries;
-    @track showEntries = '100';
-    @track currentPage;
-    @track currentPageLessEqual1;
-    @track currentPageEqualTtotalPages;
-    @track toEntries;
-    @track ltngTimer = '00:00:00';
-    @track notEnterpriseClient = true;
-    @track allRecords;
-    @track totalPages;
-    @track showSearchBar = false;
-    @track selectedUserList;
+    @track isAuthURLNotValid = false;
+    @track isDisSave = true;
+    @track isEdit = false;
+    @track isEditAndnotsettingApproval = false;
     @track isEmptySelectedUserList = true;
-    @track selectedRows;
-    @track listofUserId;
+    @track isInsURLNotValid = false;
+    @track isNotEdit = true;
     @track isNotPhoneAndNotEntrepriseClient;
+    @track isPhone = false;
     @track isPhoneAndNotEntrepriseClient;
-    @track conditionUpdateAndAddUsers;
+    isShowSpinner = false;
+    @track isSmallDevice = false;
+    @track isTablet = false;
+    @track ListID = [];
+    @track listofUserId;
+    @track ltngTimer;
+    @track notEnterpriseClient;
+    @track resendBtnDisabled = true;
     @track searchValue = '';
+    @track selectedRows;
+    @track selectedUserList;
+    @track setting;
+    @track settingAPIList;
+    @track settingApproval;
+    @track setting_Authentication_URL;
     @track setting_Client_ID;
     @track setting_Client_Secret;
     @track setting_Instance_URL;
-    @track setting_Authentication_URL;
-    @track selectedCount = '0';
+    @track showAdvancedOptions;
+    @track showContactMessage = false;
+    @track showEntries = '100';
+    @track showRegistrationMessage;
+    @track showSearchBar;
+    @track showToast = false;
+    @track storedResponse;
+    @track toEntries;
+    @track totalPages;
+    userGrantAccessModal = false;
+    userIdForGrantAccess
+    userIdForRestriction;
+    userRevokeAccessModal = false;
+    @track waitingTimeId = null;
+
+    @api listdata;
 
     // OnLoad
     connectedCallback() {
@@ -215,11 +248,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         var endTime = parseInt(this.storedResponse.adminCredentials.Registration_DateTime) + this.storedResponse.adminCredentials.Registration_Request_Expiry;
                         var remainingTimeInSecs = endTime - parseInt(Date.now() / 1000);
                         if (remainingTimeInSecs > 0) {
-                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
+                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
                             this.startTimer();
                         } else if (remainingTimeInSecs <= 0) {
                             remainingTimeInSecs = 0;
-                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
+                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
                             this.resendBtnDisabled = false;
                         }
                     }
@@ -283,7 +316,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     //start timer
     startTimer() {
         try {
-            var ss = this.ltngTimer.split(":");
+            var currTime = this.ltngTimer;
+            var ss = currTime.split(":");
             var dt = new Date();
             dt.setHours(ss[0]);
             dt.setMinutes(ss[1]);
@@ -293,7 +327,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             var ts = temp[0].split(":");
             this.ltngTimer = ts[0] + ":" + ts[1] + ":" + ts[2];
             //check
-            this.waitingTimeId = setTimeout(() => {
+            setTimeout(() => {
                 this.startTimer();
             }, 1000);
             if (ts[0] == 0 && ts[1] == 0 && ts[2] == 0) {
@@ -304,6 +338,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             throw new CustomException(e.getMessage());
         }
     }
+
     // 'Update Add Users' button is clicked 
     updateAndAddUsers() {
         this.afterSaveCredentials = true;
@@ -363,17 +398,16 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     }
 
     // 'Refresh Token' button is clicked 
-    refreshTokenHelper() {
+    refreshToken() {
         if (this.setting.Approval == true) {
             this.settingApproval = true;
             this.isShowSpinner = true;
             refreshTokenController()
                 .then((result) => {
                     this.isShowSpinner = false;
-                    if (result.getState() === 'SUCCESS') {
+                    if (result == 'success') {
                         this.displayToast('success', Refresh_Token_Save_Toast);
                     }
-
                 })
                 .catch((error) => {
                     this.error = error.message;
@@ -535,6 +569,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.isEdit = false;
         this.isNotEdit = true;
         this.isDisSave = true;
+        this.isEditAndnotsettingApproval = false;
     }
 
     //'Edit button' is clicked
@@ -736,11 +771,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     var endTime = parseInt(storedResponse.adminCredentials.Registration_DateTime) + storedResponse.adminCredentials.Registration_Request_Expiry;
                     var remainingTimeInSecs = endTime - parseInt(Date.now() / 1000);
                     if (remainingTimeInSecs > 0) {
-                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
+                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
                         this.startTimer();
                     } else if (remainingTimeInSecs <= 0) {
                         remainingTimeInSecs = 0;
-                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
+                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
                         this.resendBtnDisabled = false;
                     }
                 }
@@ -897,4 +932,97 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             throw new CustomException(e.getMessage());
         }
     }
+
+    handleRevokeAccess(event) {
+        this.userRevokeAccessModal = true;
+        this.userIdForRestriction = event.currentTarget.dataset.id;
+    }
+
+    handleGrantAccess(event) {
+        this.userGrantAccessModal = true;
+        this.userIdForGrantAccess = event.currentTarget.dataset.id;
+    }
+
+    handleCancelRevoke() {
+        this.userRevokeAccessModal = false;
+    }
+
+    handleCancelGrant() {
+        this.userGrantAccessModal = false;
+    }
+
+    handleConfirmRevoke() {
+        if (!this.userIdForRestriction) return;
+        this.isShowSpinner = true;
+
+        revokeUserAccess({
+            userId: this.userIdForRestriction
+        })
+            .then((result) => {
+                if (result && result.status == 'success') {
+                    this.afterSaveCredentials = false;
+                    this.displayToast('success', this.label.Remove_permissions_single_toast);
+                    this.doInit_Helper();
+                } else if (result && result.status == 'error') {
+                    this.displayToast('error', result.error);
+                }
+            })
+            .catch((error) => {
+                console.error('TelosTouch handleConfirmRevoke Error: ', error);
+                this.displayToast('error', error);
+            })
+            .finally(() => {
+                this.userRevokeAccessModal = false;
+                this.isShowSpinner = false;
+            });
+    }
+
+    handleConfirmGrant() {
+        for(let x of this.filteredRecords){
+            if(x.Id == this.userIdForGrantAccess){
+                this.selectedRows = [x];
+                this.listofUserId = [x.Id];
+            }
+        }
+        this.SendSFUserToTT_Helper();
+        this.userGrantAccessModal = false;
+    }
+
+    handleMassRevoke(){
+        
+        this.isShowSpinner = true;
+
+        this.selectedRows = this.selectedUserList;
+        this.listofUserId = [];
+        for (var i = 0; i < this.selectedRows.length; i++) {
+            delete this.selectedRows[i].TTUser;
+            delete this.selectedRows[i].isDisable;
+            this.selectedRows[i].sobjectType = "User";
+            this.listofUserId.push(this.selectedRows[i].Id);
+        }
+
+        revokeUserAccess({
+            listOfTTUser: this.listofUserId
+        })
+            .then((result) => {
+                if (result && result.status == 'success') {
+                    this.afterSaveCredentials = false;
+                    this.displayToast('success', this.label.Remove_permissions_toast);
+                    //this.doInit_Helper();
+                } else if (result && result.status == 'error') {
+                    this.displayToast('error', result.error);
+                }
+            })
+            .catch((error) => {
+                console.error('TelosTouch handleMassRevoke Error: ', error);
+                this.displayToast('error', error);
+            })
+            .finally(() => {
+                this.userRevokeAccessModal = false;
+                this.isShowSpinner = false;
+            });
+            
+    }
+
+
 }
