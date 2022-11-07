@@ -1095,6 +1095,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Review_Errors_Text</name>
     </customLabels>
     <customLabels>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <name>Revoke_Current_User</name>
+    </customLabels>
+    <customLabels>
         <label>Révoquer un accès</label>
         <name>Revoke_access</name>
     </customLabels>

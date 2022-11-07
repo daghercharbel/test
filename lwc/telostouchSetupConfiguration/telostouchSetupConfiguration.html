@@ -55,7 +55,7 @@
                     <div class="slds-form-element">
                         <lightning-input name="" data-id="formIdClientId" placeholder="3MVG9n_HvETGhr3BjkZS8f..."
                             value={setting_Client_ID} onblur={handleSetting_Client_IDChange}
-                            label={label.Config_Client_ID} required="true" disabled={isNotEdit} variant="label-hidden">
+                            label={label.Config_Client_ID} disabled={isNotEdit} variant="label-hidden" required>
                         </lightning-input>
                     </div>
                 </div>
@@ -261,20 +261,30 @@
                             class="slds-modal slds-fade-in-open slds-modal_small">
                             <div class="slds-modal__container">
                                 <span class="slds-modal__close">
-                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse" alternative-text="close"
-                                        onclick={handleCancelRevoke} size="large"></lightning-button-icon>
+                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse"
+                                        alternative-text="close" onclick={handleCancelRevoke} size="large">
+                                    </lightning-button-icon>
                                 </span>
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">
                                         {label.Change_User_text}</h1>
                                 </div>
                                 <div class="slds-modal__content slds-p-around_medium">
-                                    <p class="slds-align_absolute-center">{label.User_permission_text}</p>
+                                    <template if:true={userIdForRestriction}>
+                                        <p class="slds-align_absolute-center">{label.User_permission_text}</p>
+                                    </template>
+                                    <template if:true={revokeCurrentUser}>
+                                        <p
+                                            class="slds-align_absolute-center slds-p-top_small slds-text-color_destructive">
+                                            {label.Revoke_Current_User}</p>
+                                    </template>
                                 </div>
                                 <div class="slds-modal__footer">
-                                    <lightning-button variant="brand" label={label.Yes_Text} onclick={handleConfirmRevoke} class="slds-m-right_x-small">
+                                    <lightning-button variant="brand" label={label.Yes_Text}
+                                        onclick={handleConfirmRevoke} class="slds-m-right_x-small">
                                     </lightning-button>
-                                    <lightning-button variant="brand" label={label.No_Text} onclick={handleCancelRevoke}>
+                                    <lightning-button variant="brand" label={label.No_Text}
+                                        onclick={handleCancelRevoke}>
                                     </lightning-button>
                                 </div>
                             </div>
@@ -287,8 +297,9 @@
                             class="slds-modal slds-fade-in-open slds-modal_small">
                             <div class="slds-modal__container">
                                 <span class="slds-modal__close">
-                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse" alternative-text="close"
-                                        onclick={handleCancelGrant} size="large"></lightning-button-icon>
+                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse"
+                                        alternative-text="close" onclick={handleCancelGrant} size="large">
+                                    </lightning-button-icon>
                                 </span>
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">
@@ -298,7 +309,8 @@
                                     <p class="slds-align_absolute-center">{label.Grant_User_permission_text}</p>
                                 </div>
                                 <div class="slds-modal__footer slds-text-align_center">
-                                    <lightning-button variant="brand" label={label.Yes_Text} onclick={handleConfirmGrant} class="slds-m-right_x-small">
+                                    <lightning-button variant="brand" label={label.Yes_Text}
+                                        onclick={handleConfirmGrant} class="slds-m-right_x-small">
                                     </lightning-button>
                                     <lightning-button variant="brand" label={label.No_Text} onclick={handleCancelGrant}>
                                     </lightning-button>
@@ -340,10 +352,10 @@
                                     onclick={goToNextPage} class="slds-m-right_x-small"></lightning-button>
                                 <lightning-button label={label.Cancel_Button_Label} onclick={cancelUserModal}
                                     class="slds-m-right_x-small"></lightning-button>
-                                <lightning-button label={label.Revoke_access} disabled={isEmptySelectedUserList} onclick={handleMassRevoke}
-                                    class="slds-m-right_x-small"></lightning-button>
-                                <lightning-button label={label.GIve_TT_Access} disabled={isEmptySelectedUserList} onclick={SendSFUserToTT}
-                                    variant="Brand"></lightning-button>
+                                <lightning-button label={label.Revoke_access} disabled={isEmptySelectedUserList}
+                                    onclick={checkRevokeUsers} class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label={label.GIve_TT_Access} disabled={isEmptySelectedUserList}
+                                    onclick={SendSFUserToTT} variant="Brand"></lightning-button>
                             </lightning-layout-item>
                         </lightning-layout>
                     </footer>

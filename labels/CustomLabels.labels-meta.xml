@@ -1897,6 +1897,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Review the errors on this page.</value>
     </labels>
     <labels>
+        <fullName>Revoke_Current_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Revoke Current User</shortDescription>
+        <value>You are about to revoke your own access. This might cause unexpected behavior in the app. Do you wish to proceed?</value>
+    </labels>
+    <labels>
         <fullName>Revoke_access</fullName>
         <language>en_US</language>
         <protected>true</protected>

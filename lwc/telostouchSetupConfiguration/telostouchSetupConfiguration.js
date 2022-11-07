@@ -1,8 +1,8 @@
 import { LightningElement, wire, track, api } from "lwc";
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import currentUserId from '@salesforce/user/Id';
 
 //Apex Methods
-revokeUserAccess
 import abortScheduleJob from "@salesforce/apex/TelosTouchUtility.abortScheduleJob";
 import checkIfEnterpriseClient from "@salesforce/apex/TelosTouchUtility.checkIfEnterpriseClient";
 import getAdminAccessToken from "@salesforce/apex/TelosTouchUtility.getAdminAccessToken";
@@ -49,6 +49,7 @@ import Remove_permissions_single_toast from "@salesforce/label/c.Remove_permissi
 import Remove_permissions_toast from "@salesforce/label/c.Remove_permissions_toast";
 import Revoke_access from "@salesforce/label/c.Revoke_access";
 import Revoke_access_text from "@salesforce/label/c.Revoke_access_text";
+import Revoke_Current_User from "@salesforce/label/c.Revoke_Current_User";
 import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
 import Sent_SuccessToast from "@salesforce/label/c.Sent_SuccessToast";
 import Show_Advanced_Options_Text from "@salesforce/label/c.Show_Advanced_Options_Text";
@@ -104,6 +105,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         Remove_permissions_toast,
         Revoke_access,
         Revoke_access_text,
+        Revoke_Current_User,
         Save_Button_Label,
         Sent_SuccessToast,
         Show_Advanced_Options_Text,
@@ -128,6 +130,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track currentPage;
     @track currentPageEqualTtotalPages;
     @track currentPageLessEqual1;
+    currentUserId = currentUserId;
     @track filteredRecords;
     @track filteredRecordsSize;
     @track fromEntries;
@@ -145,10 +148,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track isSmallDevice = false;
     @track isTablet = false;
     @track ListID = [];
-    @track listofUserId;
+    @track listofUserId = [];
     @track ltngTimer;
     @track notEnterpriseClient;
     @track resendBtnDisabled = true;
+    revokeCurrentUser = false;
     @track searchValue = '';
     @track selectedRows;
     @track selectedUserList;
@@ -248,11 +252,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         var endTime = parseInt(this.storedResponse.adminCredentials.Registration_DateTime) + this.storedResponse.adminCredentials.Registration_Request_Expiry;
                         var remainingTimeInSecs = endTime - parseInt(Date.now() / 1000);
                         if (remainingTimeInSecs > 0) {
-                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
+                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
                             this.startTimer();
                         } else if (remainingTimeInSecs <= 0) {
                             remainingTimeInSecs = 0;
-                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
+                            this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
                             this.resendBtnDisabled = false;
                         }
                     }
@@ -316,8 +320,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     //start timer
     startTimer() {
         try {
-            var currTime = this.ltngTimer;
-            var ss = currTime.split(":");
+            var ss = this.ltngTimer.split(":");
             var dt = new Date();
             dt.setHours(ss[0]);
             dt.setMinutes(ss[1]);
@@ -327,7 +330,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             var ts = temp[0].split(":");
             this.ltngTimer = ts[0] + ":" + ts[1] + ":" + ts[2];
             //check
-            setTimeout(() => {
+            this.waitingTimeId = setTimeout(() => {
                 this.startTimer();
             }, 1000);
             if (ts[0] == 0 && ts[1] == 0 && ts[2] == 0) {
@@ -370,7 +373,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             if (this.currentPage == this.totalPages) {
                 this.currentPageEqualTtotalPages = true;
             } else {
-                this.currentPageEqualTtotalPages = true;
+                this.currentPageEqualTtotalPages = false;
             }
             var newToEntry = to;
             if (parseInt(this.filteredRecords.length) < parseInt(this.showEntries)) {
@@ -583,6 +586,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     //'Cancel button' is clicked
     cancelUserModal() {
         this.selectedUserList = [];
+        this.listofUserId = [];
+        this.ListID = [];
         this.isEmptySelectedUserList = true;
         this.afterSaveCredentials = false;
         this.showSearchBar = false;
@@ -674,7 +679,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     } else {
                         this.displayToast('error', Something_Wrong_Check_Admin_Toast);
                     }
-                    this.afterSaveCredentials = false;
+                    this.cancelUserModal();
                 }
             })
             .catch((error) => {
@@ -696,7 +701,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             if (this.currentPage == this.totalPages) {
                 this.currentPageEqualTtotalPages = true;
             } else {
-                this.currentPageEqualTtotalPages = true;
+                this.currentPageEqualTtotalPages = false;
             }
             var numberOfRecords = this.showEntries;
             var recordToShowEnd = parseInt(this.pageNumber) * parseInt(numberOfRecords);
@@ -771,11 +776,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     var endTime = parseInt(storedResponse.adminCredentials.Registration_DateTime) + storedResponse.adminCredentials.Registration_Request_Expiry;
                     var remainingTimeInSecs = endTime - parseInt(Date.now() / 1000);
                     if (remainingTimeInSecs > 0) {
-                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
+                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
                         this.startTimer();
                     } else if (remainingTimeInSecs <= 0) {
                         remainingTimeInSecs = 0;
-                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(11, 8);
+                        this.ltngTimer = new Date(remainingTimeInSecs * 1000).toISOString().substring(19, 11);
                         this.resendBtnDisabled = false;
                     }
                 }
@@ -789,6 +794,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     // checkbox is selected
     checkboxSelect(event) {
         try {
+            console.log('VOD ------------------- this.selectedUserList 1 ',this.selectedUserList);
             // on each checkbox selection update the selected record count
             var getSelectedNumber;
             var selectedRec = event.target.checked;
@@ -813,10 +819,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             for (var i = 0; i < allRecords.length; i++) {
                 if (this.ListID.includes(allRecords[i].Id)) {
                     selectedRecords.push(allRecords[i]);
-
                 }
             }
             this.selectedUserList = selectedRecords;
+            console.log('VOD ------------------- this.selectedUserList 2 ',this.selectedUserList);
             if (this.selectedUserList.length == 0) {
                 this.isEmptySelectedUserList = true;
             } else {
@@ -933,9 +939,26 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         }
     }
 
+    checkRevokeUsers(){
+        this.isShowSpinner = true;
+
+        this.listofUserId = [];
+        for (var i = 0; i < this.selectedUserList.length; i++) {
+            this.listofUserId.push(this.selectedUserList[i].Id);
+        }
+        this.revokeCurrentUser = this.listofUserId.includes(this.currentUserId);
+        if(this.revokeCurrentUser){
+            this.userRevokeAccessModal = true;
+            this.isShowSpinner = false;
+        } else {
+            this.handleMassRevoke()
+        }
+    }
+
     handleRevokeAccess(event) {
         this.userRevokeAccessModal = true;
         this.userIdForRestriction = event.currentTarget.dataset.id;
+        this.revokeCurrentUser = this.currentUserId == this.userIdForRestriction;
     }
 
     handleGrantAccess(event) {
@@ -945,13 +968,23 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     handleCancelRevoke() {
         this.userRevokeAccessModal = false;
+        this.userIdForRestriction = undefined;
     }
 
     handleCancelGrant() {
         this.userGrantAccessModal = false;
     }
 
-    handleConfirmRevoke() {
+    handleConfirmRevoke(){
+        if(this.userIdForRestriction){
+            this.handleSingleRevoke();
+        } else if(this.listofUserId.length > 0){
+            this.handleMassRevoke();
+        }
+        this.userRevokeAccessModal = false;
+    }
+
+    handleSingleRevoke() {
         if (!this.userIdForRestriction) return;
         this.isShowSpinner = true;
 
@@ -963,6 +996,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.afterSaveCredentials = false;
                     this.displayToast('success', this.label.Remove_permissions_single_toast);
                     this.doInit_Helper();
+                    this.userIdForRestriction = undefined;
                 } else if (result && result.status == 'error') {
                     this.displayToast('error', result.error);
                 }
@@ -978,8 +1012,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     }
 
     handleConfirmGrant() {
-        for(let x of this.filteredRecords){
-            if(x.Id == this.userIdForGrantAccess){
+        for (let x of this.filteredRecords) {
+            if (x.Id == this.userIdForGrantAccess) {
                 this.selectedRows = [x];
                 this.listofUserId = [x.Id];
             }
@@ -988,8 +1022,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.userGrantAccessModal = false;
     }
 
-    handleMassRevoke(){
-        
+    handleMassRevoke() {
+
         this.isShowSpinner = true;
 
         this.selectedRows = this.selectedUserList;
@@ -999,6 +1033,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             delete this.selectedRows[i].isDisable;
             this.selectedRows[i].sobjectType = "User";
             this.listofUserId.push(this.selectedRows[i].Id);
+            console.log('VOD ------------------- this.selectedRows[i].Id ',this.selectedRows[i].Id);
         }
 
         revokeUserAccess({
@@ -1008,7 +1043,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 if (result && result.status == 'success') {
                     this.afterSaveCredentials = false;
                     this.displayToast('success', this.label.Remove_permissions_toast);
-                    //this.doInit_Helper();
                 } else if (result && result.status == 'error') {
                     this.displayToast('error', result.error);
                 }
@@ -1018,10 +1052,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 this.displayToast('error', error);
             })
             .finally(() => {
-                this.userRevokeAccessModal = false;
+                this.cancelUserModal();
                 this.isShowSpinner = false;
             });
-            
+
     }
 
 
