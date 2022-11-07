@@ -794,7 +794,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     // checkbox is selected
     checkboxSelect(event) {
         try {
-            console.log('VOD ------------------- this.selectedUserList 1 ',this.selectedUserList);
             // on each checkbox selection update the selected record count
             var getSelectedNumber;
             var selectedRec = event.target.checked;
@@ -822,7 +821,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 }
             }
             this.selectedUserList = selectedRecords;
-            console.log('VOD ------------------- this.selectedUserList 2 ',this.selectedUserList);
             if (this.selectedUserList.length == 0) {
                 this.isEmptySelectedUserList = true;
             } else {
@@ -1033,7 +1031,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             delete this.selectedRows[i].isDisable;
             this.selectedRows[i].sobjectType = "User";
             this.listofUserId.push(this.selectedRows[i].Id);
-            console.log('VOD ------------------- this.selectedRows[i].Id ',this.selectedRows[i].Id);
         }
 
         revokeUserAccess({
