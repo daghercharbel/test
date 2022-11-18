@@ -561,6 +561,13 @@
         <value>Comments</value>
     </labels>
     <labels>
+        <fullName>Company_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Company Name</shortDescription>
+        <value>Company Name</value>
+    </labels>
+    <labels>
         <fullName>Complete_this_field_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -640,6 +647,13 @@
         <value>Instance URL</value>
     </labels>
     <labels>
+        <fullName>Create_French_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create French Signature</shortDescription>
+        <value>Create French version of the signature</value>
+    </labels>
+    <labels>
         <fullName>Authentication_URL_Error</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -694,6 +708,13 @@
         <protected>true</protected>
         <shortDescription>Contact Label</shortDescription>
         <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>Create_French_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create French Signature</shortDescription>
+        <value>Create French version of the signature</value>
     </labels>
     <labels>
         <fullName>Create_Mass_Action_Config_Label</fullName>
@@ -921,11 +942,46 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Email Already Exists:</value>
     </labels>
     <labels>
+        <fullName>Email_Signature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Email Signature</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Unsubscribe_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Unsubscribe Text</shortDescription>
+        <value>You&apos;ve receiving this email as per the term of use you have with your advisor. If you&apos;ve changed your mind and no longer wish to receive these TouchPoints, you can Unsubscribe</value>
+    </labels>
+    <labels>
         <fullName>Email_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Text</shortDescription>
         <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Meeting_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enable Meeting Link</shortDescription>
+        <value>Add &quot;book a meeting&quot; link</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Signature_Badge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enable Signature Badge</shortDescription>
+        <value>Add signature badge image</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Social_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enable Social Link</shortDescription>
+        <value>Add social media link</value>
     </labels>
     <labels>
         <fullName>End_Date</fullName>
@@ -939,6 +995,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>English Text</shortDescription>
+        <value>English</value>
+    </labels>
+    <labels>
+        <fullName>English_Translation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>English Translation</shortDescription>
         <value>English</value>
     </labels>
     <labels>
@@ -1061,11 +1124,25 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Please fill required value.</value>
     </labels>
     <labels>
+        <fullName>First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
         <fullName>French_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>French Text</shortDescription>
         <value>Français</value>
+    </labels>
+    <labels>
+        <fullName>French_Translation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>French Translation</shortDescription>
+        <value>French</value>
     </labels>
     <labels>
         <fullName>Frequency_Text</fullName>
@@ -1264,6 +1341,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Last Login</value>
     </labels>
     <labels>
+        <fullName>Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
         <fullName>Last_Sync_Completed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1334,6 +1418,20 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Successfully Mapped Salesforce field with TelosTouch field.</value>
     </labels>
     <labels>
+        <fullName>Meeting_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Meeting Link</shortDescription>
+        <value>Meeting Link</value>
+    </labels>
+    <labels>
+        <fullName>Meeting_Link_Preview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Meeting Link Preview</shortDescription>
+        <value>Check my availability here</value>
+    </labels>
+    <labels>
         <fullName>Members</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1346,6 +1444,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <protected>true</protected>
         <shortDescription>Monthly Text</shortDescription>
         <value>Monthly</value>
+    </labels>
+    <labels>
+        <fullName>Multi_language_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Multi-language Support</shortDescription>
+        <value>Multi-language Support</value>
     </labels>
     <labels>
         <fullName>Name_Text</fullName>
@@ -1554,6 +1659,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Notifications</value>
     </labels>
     <labels>
+        <fullName>Office_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Office Address</shortDescription>
+        <value>Office Address</value>
+    </labels>
+    <labels>
         <fullName>Onboarding_Checklist_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1631,6 +1743,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Person Account Not Enabled</value>
     </labels>
     <labels>
+        <fullName>Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Phone Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
         <fullName>Phone_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1664,6 +1783,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Please Unselect Account Toast</shortDescription>
         <value>Please unselect those acccount which is not synced.</value>
+    </labels>
+    <labels>
+        <fullName>Position</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Position</shortDescription>
+        <value>Position</value>
     </labels>
     <labels>
         <fullName>Prev_Button_Label</fullName>
@@ -1953,6 +2079,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Save</value>
     </labels>
     <labels>
+        <fullName>Schedule_a_Meeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Schedule a Meeting</shortDescription>
+        <value>Need to schedule a meeting?</value>
+    </labels>
+    <labels>
         <fullName>Search_Campaign_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2014,6 +2147,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Select Record Type text</shortDescription>
         <value>Select the record type</value>
+    </labels>
+    <labels>
+        <fullName>Select_Signature_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Signature Type</shortDescription>
+        <value>Select signature type</value>
     </labels>
     <labels>
         <fullName>Select_Some_Field_To_Sync_Toast</fullName>

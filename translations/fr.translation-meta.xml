@@ -528,6 +528,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Email_Exist_Text</name>
     </customLabels>
     <customLabels>
+        <label>Vous recevez ce courriel en vertu de l’entente que vous avez avec votre conseiller. Si vous changez d’avis et ne souhaitez plus recevoir de TouchPoints, vous pouvez Se désabonner</label>
+        <name>Email_Signature_Unsubscribe_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Courriel</label>
         <name>Email_Text</name>
     </customLabels>
@@ -538,6 +542,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
     <customLabels>
         <label><!-- English Text --></label>
         <name>English_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Anglais</label>
+        <name>English_Translation</name>
     </customLabels>
     <customLabels>
         <label>Entrez 3 premières lettres du courriel/nom du contact...</label>
@@ -608,8 +616,16 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Fill_Required_Value_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Prénom</label>
+        <name>First_Name</name>
+    </customLabels>
+    <customLabels>
         <label><!-- French Text --></label>
         <name>French_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Français</label>
+        <name>French_Translation</name>
     </customLabels>
     <customLabels>
         <label>Fréquence</label>

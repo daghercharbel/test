@@ -1,0 +1,89 @@
+<template>
+    <lightning-card>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+
+        <h3 slot="title" class="slds-p-horizontal_small">
+            <lightning-icon icon-name="utility:brush" size="small" class="slds-p-right_small"></lightning-icon>
+            Branding
+        </h3>
+
+        <!-- SAVE BUTTON -->
+        <lightning-button slot="actions" variant="Brand" label="Save Settings" onclick={saveSettings}>
+        </lightning-button>
+
+        <lightning-layout multiple-rows>
+
+            <lightning-layout-item size="12" large-device-size="7" padding="horizonal-small">
+
+                <div class="slds-text-heading_medium slds-p-around_small">{label.email_signature}</div>
+
+                <!-- SIGNATURE TYPE -->
+                <div class="slds-p-horizontal_small">
+                    <lightning-combobox name="signatureType" label={label.Select_Signature_Type} value={signatureType}
+                        options={signatureOptions} onchange={handleSignatureType}></lightning-combobox>
+                </div>
+
+                <lightning-accordion>
+
+                    <!-- ENGLISH FORM -->
+                    <lightning-accordion-section name={userBranding_en.language} label={userBranding_en.full_language}>
+                        <c-tt-branding-form user-branding={userBranding_en} oninfoupdated={handleDataUpdate}>
+                        </c-tt-branding-form>
+                    </lightning-accordion-section>
+
+                    <!-- MULTI-LANGUAGE SUPPORT CHECKBOX -->
+                    <div class="slds-text-heading_medium slds-p-around_small">{label.multi_language_support}</div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-around_small">
+                            <lightning-input type="checkbox" label={label.create_french_signature} name="signature_fr"
+                                checked={lstLanguages.fr} onchange={handleMultiLanguage}>
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <!-- MULTI-LANGUAGE FORM -->
+                    <template for:each={lstUserBranding} for:item="userBranding">
+                        <template if:true={userBranding.status}>
+                            <lightning-accordion-section key={userBranding.language} name={userBranding.language}
+                                label={userBranding.full_language}>
+                                <c-tt-branding-form user-branding={userBranding} oninfoupdated={handleDataUpdate}>
+                                </c-tt-branding-form>
+                            </lightning-accordion-section>
+                        </template>
+                    </template>
+
+
+                </lightning-accordion>
+
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" large-device-size="5" padding="horizontal-small">
+
+                <lightning-tabset>
+                    <!-- ENGLISH PREVIEW -->
+                    <lightning-tab label={label.english}>
+                        <c-tt-branding-preview user-branding={userBranding_en}>
+                        </c-tt-branding-preview>
+                    </lightning-tab>
+
+                    <!-- MULTI-LANGUAGE PREVIEW -->
+                    <template for:each={lstUserBranding} for:item="userBranding">
+                        <template if:true={userBranding.status}>
+                            <lightning-tab key={userBranding.language} name={userBranding.language}
+                                label={userBranding.full_language}>
+                                <c-tt-branding-preview user-branding={userBranding}>
+                                </c-tt-branding-preview>
+                            </lightning-tab>
+                        </template>
+                    </template>
+                </lightning-tabset>
+
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+    </lightning-card>
+</template>

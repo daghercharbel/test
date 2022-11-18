@@ -1,0 +1,156 @@
+<template>
+
+    <!-- SYSTEM GENERATED -->
+    <template if:true={isSystem}>
+
+        <lightning-layout multiple-rows>
+
+            <!-- FIRST NAME -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="text" label={label.first_name} name="first_name" value={userBranding.first_name}
+                    onchange={handleInputChange}></lightning-input>
+            </lightning-layout-item>
+
+            <!-- LAST NAME -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="text" label={label.last_name} name="last_name" value={userBranding.last_name}
+                    onchange={handleInputChange}></lightning-input>
+            </lightning-layout-item>
+
+            <!-- POSITION -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="text" label={label.position} name="position" value={userBranding.position}
+                    onchange={handleInputChange}></lightning-input>
+            </lightning-layout-item>
+
+            <!-- COMPANY NAME   -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="text" label={label.company_name} name="company" value={userBranding.company}
+                    onchange={handleInputChange}></lightning-input>
+            </lightning-layout-item>
+
+            <!-- PHONE NUMBER -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="tel" label={label.phone_number} name="phone" value={userBranding.phone}
+                    onchange={handleInputChange}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <!-- EMAIL -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="email" label={label.email} name="email" value={userBranding.email}
+                    onchange={handleInputChange}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <!-- OFFICE ADDRESS -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="text" label={label.office_address} name="address" value={userBranding.address}
+                    onchange={handleInputChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="6">
+            </lightning-layout-item>
+
+            <!-- MEETING LINK CHECKBOX -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="checkbox" label={label.enable_meeting_link} name="enable_meeting_link"
+                    checked={userBranding.enable_meeting_link} onchange={handleCheckChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="6">
+            </lightning-layout-item>
+
+            <!-- MEETING LINK -->
+            <template if:true={userBranding.enable_meeting_link}>
+                <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                    <lightning-input type="text" label={label.meeting_link} name="meeting_link"
+                        value={userBranding.meeting_link} onchange={handleInputChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" large-device-size="6">
+                </lightning-layout-item>
+            </template>
+
+            <!-- SIGNATURE BADGE CHECKBOX -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="checkbox" label={label.enable_signature_badge} name="enable_signature_badge"
+                    checked={userBranding.enable_signature_badge} onchange={handleCheckChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="6">
+            </lightning-layout-item>
+
+            <!-- SIGNATURE BADGE IMAGE -->
+            <template if:true={userBranding.enable_signature_badge}>
+                <lightning-layout-item size="12" padding="around-small">
+                    <div class="slds-grid slds-wrap slds-box">
+                        <div class="slds-col slds-size_1-of-12 slds-align_absolute-center slds-p-right_small">
+                            <div class="image-container">
+                                <img src={userBranding.signature_badge} class="image-size" />
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_11-of-12">
+                            <lightning-input type="file" label={label.enable_signature_badge} name="signature_badge"
+                                accept="image/jpg" onchange={handleFileChange}></lightning-input>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <!-- SOCIAL MEDIA CHECKBOX -->
+            <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                <lightning-input type="checkbox" label="Add social media link" name="enable_social_link"
+                    checked={userBranding.enable_social_link} onchange={handleCheckChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="6">
+            </lightning-layout-item>
+
+            <!-- SOCIAL MEDIA LINK -->
+            <template if:true={userBranding.enable_social_link}>
+                <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                    <lightning-input type="url" label="Facebook Link" name="facebook" value={userBranding.facebook}
+                        onchange={handleInputChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                    <lightning-input type="url" label="Linkedin Link" name="linkedin" value={userBranding.linkedin}
+                        onchange={handleInputChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" large-device-size="6" padding="around-small">
+                    <lightning-input type="url" label="Twitter Link" name="twitter" value={userBranding.twitter}
+                        onchange={handleInputChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" large-device-size="6">
+                </lightning-layout-item>
+            </template>
+
+        </lightning-layout>
+
+    </template>
+
+    <!-- CUSTOM -->
+    <template if:true={isCustom}>
+        <div class="slds-p-horizontal_small">
+            <lightning-input-rich-text value={userBranding.custom_signature} name="custom_signature"
+                onchange={handleInputChange}>
+            </lightning-input-rich-text>
+        </div>
+    </template>
+
+
+    <template if:true={crop.loaded}>
+        <section tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">Edit image</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium slds-hyphenate">
+                    <div class="cropper-container slds-scrollable_none"></div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" class="slds-p-right_small"
+                        onclick={cancelCropper}></lightning-button>
+                    <lightning-button variant="brand" label="OK" onclick={handleFileCrop}></lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+</template>
