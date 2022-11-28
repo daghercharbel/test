@@ -102,7 +102,6 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
             query += ' Id IN:recordIds AND Email != null';
             query = query.removeEnd('WHERE');
             query = query.removeEnd('AND');
-            System.debug('VOD ----------------------------- query '+query);
             return Database.getQueryLocator(String.escapeSingleQuotes(query).replace('\\',''));
         }else{
             String query;
@@ -122,7 +121,6 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
 */
     global void execute(Database.BatchableContext bc, List<Sobject> sObjList) {
         if(objectName == 'Contact' && action == 'insertContact' || action == 'updateContact'){
-            System.debug('VOD ----------------------------- updateContactDetails 0 ');
             TelosTouchSF.SFDataSyncWithTelosTouch.clientLogWrapper clientLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(sObjList, null, action, oldContactMap, oldLeadMap, oldAccountMap);
             if(clientLogObj != null){
                 contactSuccessCount += clientLogObj.contactSuccessCount;
