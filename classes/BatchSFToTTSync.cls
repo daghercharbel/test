@@ -58,34 +58,51 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
     global Database.QueryLocator start(Database.BatchableContext bc) {
         if(recordIds != null && recordIds.size() >0){
             String query = '';
+            Set<String> setFields = new Set<String>{
+                'TelosTouchSF__Language__c',
+                'TelosTouchSF__Source__c',
+                'TelosTouchSF__Subscribed__c',
+                'TelosTouchSF__TT_Client_Id__c'
+            };
             Schema.SObjectType entityType = recordIds[0].getSobjectType();
             objectName = String.valueOf(entityType);
             if(objectName == 'Contact'){
+                String strContact ='Contact';
+                String strAccountId = 'AccountId';
                 query = 'SELECT Owner.TelosTouchSF__TT_UserName__c, Owner.TelosTouchSF__TT_UserId__c, Owner.TelosTouchSF__Auth_Token__c,';
                 if(Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isQueryable()){
-                    for(String fieldAPI : Schema.getGlobalDescribe().get('Contact').getDescribe().fields.getMap().keySet()){
-                        if(fieldAPI != 'AccountId'){
-                            query += fieldAPI + ',';
-                        }
+                    for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                            FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                            WHERE TelosTouchSF__Object_Name__c =: strContact 
+                                                                            AND TelosTouchSF__Salesforce_Field__c !=: strAccountId])
+                    {
+                        setFields.add(fieldAPI.TelosTouchSF__Salesforce_Field__c);
                     }
                 }
-                query = query.subString(0, query.length() - 1);
+                query += String.join(new List<String>(setFields), ',');
+                query = query.removeEnd(',');
                 query += ' FROM Contact WHERE ';
             }else{
+                String strLead ='Lead';
+                String strAccountId = 'AccountId';
                 query = 'SELECT Owner.username, Owner.id, ';
                 if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isQueryable()){
-                    for(String fieldAPI : Schema.getGlobalDescribe().get('Lead').getDescribe().fields.getMap().keySet()){
-                        if(fieldAPI != 'AccountId' ){
-                            query += fieldAPI + ',';
-                        }
+                    for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                            FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                            WHERE TelosTouchSF__Object_Name__c =: strLead
+                                                                            AND TelosTouchSF__Salesforce_Field__c !=: strAccountId])
+                    {
+                        setFields.add(fieldAPI.TelosTouchSF__Salesforce_Field__c);
                     }
                 }
-                query = query.subString(0, query.length() - 1);
+                query += String.join(new List<String>(setFields), ',');
+                query = query.removeEnd(',');
                 query += ' FROM Lead WHERE IsConverted = false AND';
             }
             query += ' Id IN:recordIds AND Email != null';
             query = query.removeEnd('WHERE');
             query = query.removeEnd('AND');
+            System.debug('VOD ----------------------------- query '+query);
             return Database.getQueryLocator(String.escapeSingleQuotes(query).replace('\\',''));
         }else{
             String query;
@@ -105,6 +122,7 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
 */
     global void execute(Database.BatchableContext bc, List<Sobject> sObjList) {
         if(objectName == 'Contact' && action == 'insertContact' || action == 'updateContact'){
+            System.debug('VOD ----------------------------- updateContactDetails 0 ');
             TelosTouchSF.SFDataSyncWithTelosTouch.clientLogWrapper clientLogObj = TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(sObjList, null, action, oldContactMap, oldLeadMap, oldAccountMap);
             if(clientLogObj != null){
                 contactSuccessCount += clientLogObj.contactSuccessCount;
