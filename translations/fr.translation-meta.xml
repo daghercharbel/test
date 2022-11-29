@@ -1289,7 +1289,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Pour débuter, cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
+        <label>Pour débuter, cliquez sur &quot;Sélectionner le Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
