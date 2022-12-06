@@ -137,14 +137,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track isAuthURLNotValid = false;
     @track isDisSave = true;
     @track isEdit = false;
-    @track isEditAndnotsettingApproval = false;
+    @track isEditAndnotsettingApproval = true;
     @track isEmptySelectedUserList = true;
     @track isInsURLNotValid = false;
     @track isNotEdit = true;
     @track isNotPhoneAndNotEntrepriseClient;
     @track isPhone = false;
     @track isPhoneAndNotEntrepriseClient;
-    isShowSpinner = false;
+    isShowSpinner = true;
     @track isSmallDevice = false;
     @track isTablet = false;
     @track ListID = [];
@@ -199,7 +199,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     doInit_Helper() {
         getSettingAPI({ isCallingFrom: 'DoinitFromSetup' })
             .then((result) => {
-                this.isShowSpinner = false;
                 this.storedResponse = result;
                 if (this.storedResponse != null && this.storedResponse.adminCredentials.Client_ID != null && this.storedResponse.adminCredentials.Client_Secret != null && this.storedResponse.adminCredentials.Instance_URL != null) {
                     if (this.storedResponse.adminCredentials != null) {
@@ -208,6 +207,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             this.isEditAndnotsettingApproval = true;
                             this.settingApproval = false;
                         } else {
+                            this.isEditAndnotsettingApproval = false;
                             this.settingApproval = true;
                         }
                         this.setting_Client_ID = this.setting.Client_ID;
@@ -234,6 +234,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         this.settingApproval = false;
                         this.isEditAndnotsettingApproval = true;
                     } else {
+                        this.isEditAndnotsettingApproval = false;
                         this.settingApproval = true;
                     }
                     this.setting_Client_ID = this.setting.Client_ID;
@@ -265,6 +266,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             .catch((error) => {
                 this.error = error.message;
                 this.displayToast('error', this.error);
+            }).finally(() => {
+                this.isShowSpinner = false;
             });
     }
 
@@ -344,18 +347,27 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     // 'Update Add Users' button is clicked 
     updateAndAddUsers() {
+        console.log('VOD ------------------------- test 1');
         this.afterSaveCredentials = true;
+        console.log('VOD ------------------------- test 1.1');
+        console.log('VOD ------------------------- this.setting ',this.setting);
         if (this.setting.Approval == true) {
+            console.log('VOD ------------------------- test 1.2');
             this.settingApproval = true;
+            console.log('VOD ------------------------- test 1.3');
             this.isShowSpinner = true;
+            console.log('VOD ------------------------- test 1.4');
             this.getUsersListHelper();
+            console.log('VOD ------------------------- test 1.5');
         } else {
+            console.log('VOD ------------------------- test 1.6');
             this.settingApproval = false;
         }
     }
 
     // display records and pagination
     showRecords() {
+        console.log('VOD ------------------------- test 5');
         try {
             var records = this.filteredRecords;
             var from = this.fromEntries;
@@ -394,8 +406,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     finalRecords.push(record);
                 }
             }
+            console.log('VOD ------------------------- test 6');
             this.listdata = finalRecords;
         } catch (e) {
+            console.log('VOD ------------------------- test 5 error');
             throw new CustomException(e.getMessage());
         }
     }
@@ -538,8 +552,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     // call getUserList
     getUsersListHelper() {
+        console.log('VOD ------------------------- test 2');
         getUserList()
             .then((result) => {
+                console.log('VOD ------------------------- test 3');
                 this.isShowSpinner = false;
                 var storedResponse = result;
 
@@ -557,12 +573,13 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.filteredRecords = this.listdata;
                     this.filteredRecordsSize = this.filteredRecords.length;
                     this.allRecords = this.listdata;
+                    console.log('VOD ------------------------- test 4');
                     this.showRecords();
                 }
             })
             .catch((error) => {
                 this.error = error.message;
-
+                console.log('VOD ------------------------- test 3 error');
             });
     }
 
