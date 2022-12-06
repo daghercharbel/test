@@ -327,6 +327,10 @@
         <name>Comments_Text</name>
     </customLabels>
     <customLabels>
+        <label>Nom de la société</label>
+        <name>Company_Name</name>
+    </customLabels>
+    <customLabels>
         <label>Remplissez ce champ</label>
         <name>Complete_this_field_Label</name>
     </customLabels>
@@ -393,6 +397,10 @@
     <customLabels>
         <label>Contact</label>
         <name>Contact_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Créer la version française de la signature</label>
+        <name>Create_French_Signature</name>
     </customLabels>
     <customLabels>
         <label>
@@ -528,12 +536,28 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Email_Exist_Text</name>
     </customLabels>
     <customLabels>
+        <label>Signature d&apos;e-mail</label>
+        <name>Email_Signature</name>
+    </customLabels>
+    <customLabels>
         <label>Vous recevez ce courriel en vertu de l’entente que vous avez avec votre conseiller. Si vous changez d’avis et ne souhaitez plus recevoir de TouchPoints, vous pouvez Se désabonner</label>
         <name>Email_Signature_Unsubscribe_Text</name>
     </customLabels>
     <customLabels>
         <label>Courriel</label>
         <name>Email_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Ajouter un lien &quot;réserver une réunion&quot;</label>
+        <name>Enable_Meeting_Link</name>
+    </customLabels>
+    <customLabels>
+        <label>Ajouter une image de badge de signature</label>
+        <name>Enable_Signature_Badge</name>
+    </customLabels>
+    <customLabels>
+        <label>Ajouter liens de réseaux sociaux</label>
+        <name>Enable_Social_Link</name>
     </customLabels>
     <customLabels>
         <label>Date de fin</label>
@@ -746,6 +770,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Last_Login_Text</name>
     </customLabels>
     <customLabels>
+        <label>Nom de Famille</label>
+        <name>Last_Name</name>
+    </customLabels>
+    <customLabels>
         <label>Dernière syncronsation complétée le</label>
         <name>Last_Sync_Completed</name>
     </customLabels>
@@ -786,12 +814,20 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Mapped_SF_field_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Lien de réservation</label>
+        <name>Meeting_Link</name>
+    </customLabels>
+    <customLabels>
         <label>Membres</label>
         <name>Members</name>
     </customLabels>
     <customLabels>
         <label>Mensuelle</label>
         <name>Monthly_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Signature multilingue</label>
+        <name>Multi_language_Support</name>
     </customLabels>
     <customLabels>
         <label>Nom</label>
@@ -913,6 +949,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Notifications_Tab_Label</name>
     </customLabels>
     <customLabels>
+        <label>Adresse bureau</label>
+        <name>Office_Address</name>
+    </customLabels>
+    <customLabels>
         <label>Liste de vérification d&apos;implantation</label>
         <name>Onboarding_Checklist_Text</name>
     </customLabels>
@@ -957,6 +997,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Person_Acc_Not_Enable_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Numéro de téléphone</label>
+        <name>Phone_Number</name>
+    </customLabels>
+    <customLabels>
         <label>Téléphone</label>
         <name>Phone_text</name>
     </customLabels>
@@ -975,6 +1019,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Veuillez désélectionner les comptes qui ne sont pas synchronisés.</label>
         <name>Please_Unselect_Account_Toast</name>
+    </customLabels>
+    <customLabels>
+        <label>Poste</label>
+        <name>Position</name>
     </customLabels>
     <customLabels>
         <label>Préc.</label>
@@ -1143,6 +1191,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Save_Button_Label</name>
     </customLabels>
     <customLabels>
+        <label>Sauvegarder les paramètres</label>
+        <name>Save_Settings</name>
+    </customLabels>
+    <customLabels>
         <label>Rechercher Campagne...</label>
         <name>Search_Campaign_Text</name>
     </customLabels>
@@ -1157,7 +1209,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Veuillez sélectionner des données valides pour l&apos;invitation</label>
         <name>Selece_Valid_Record_Invite_Toast</name>
-    </customLabels>
+    </customLabels>S
     <customLabels>
         <label>Veuiller sélectionner et ajouter au moins un champs à ajouter</label>
         <name>Select_Add_At_Least_One_Field_Toast</name>
@@ -1177,6 +1229,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Choisir le type d&apos;enregistrement</label>
         <name>Select_Record_Type_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Sélectionnez le type de signature</label>
+        <name>Select_Signature_Type</name>
     </customLabels>
     <customLabels>
         <label>Veuillez sélectionner les champs à syncroniser avec TelosTouch</label>
@@ -1305,7 +1361,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Pour débuter, cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
+        <label>Pour débuter, cliquez sur &quot;Sélectionner le Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
@@ -1371,6 +1427,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Synchronisé</label>
         <name>Synced_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Générée par le système</label>
+        <name>System_Generated</name>
     </customLabels>
     <customLabels>
         <label>Point de contact envoyé.&lt;br/&gt;

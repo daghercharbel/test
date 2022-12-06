@@ -8,13 +8,6 @@
         <value>User Access to TelosTouch</value>
     </labels>
     <labels>
-        <fullName>TitleDesc</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>TitleDesc</shortDescription>
-        <value>Title (Z to A)</value>
-    </labels>
-    <labels>
         <fullName>Actions_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -132,6 +125,13 @@
         <protected>true</protected>
         <shortDescription>Assigned User Label</shortDescription>
         <value>Assigned User in TT? (OwnerId/CreatedById)</value>
+    </labels>
+    <labels>
+        <fullName>Authentication_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Authentication URL Error</shortDescription>
+        <value>Authentication URL should start with https</value>
     </labels>
     <labels>
         <fullName>Back_Button_Label</fullName>
@@ -647,6 +647,7 @@
         <value>Instance URL</value>
     </labels>
     <labels>
+<<<<<<< HEAD
         <fullName>Create_French_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -668,6 +669,8 @@
         <value>Instance URL should start with https</value>
     </labels>
     <labels>
+=======
+>>>>>>> 9d9261086e26d16d1df6c40afc92e716958af7b4
         <fullName>Config_Save_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1241,6 +1244,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <protected>true</protected>
         <shortDescription>Installation Guide Text</shortDescription>
         <value>Installation Guide</value>
+    </labels>
+    <labels>
+        <fullName>Instance_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Instance URL Error</shortDescription>
+        <value>Instance URL should start with https</value>
     </labels>
     <labels>
         <fullName>Internal_Server_Error_Text</fullName>
@@ -2079,6 +2089,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Save</value>
     </labels>
     <labels>
+        <fullName>Save_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save Settings</shortDescription>
+        <value>Save Settings</value>
+    </labels>
+    <labels>
         <fullName>Schedule_a_Meeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2492,6 +2509,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Synced</value>
     </labels>
     <labels>
+        <fullName>System_Generated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>System Generated</shortDescription>
+        <value>System Generated</value>
+    </labels>
+    <labels>
         <fullName>TPSentText</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2610,6 +2634,13 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <protected>true</protected>
         <shortDescription>Title</shortDescription>
         <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>TitleDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TitleDesc</shortDescription>
+        <value>Title (Z to A)</value>
     </labels>
     <labels>
         <fullName>TitleText</fullName>
@@ -2850,18 +2881,18 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>User deactivate failed from Salesforce to TelosTouch.</value>
     </labels>
     <labels>
-        <fullName>Username_Exist_Text</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Username Exist Text</shortDescription>
-        <value>Username Already Exists:</value>
-    </labels>
-    <labels>
         <fullName>User_permission_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>User permission text</shortDescription>
         <value>Are you sure, you want to revoke TelosTouch license for selected user?</value>
+    </labels>
+    <labels>
+        <fullName>Username_Exist_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Username Exist Text</shortDescription>
+        <value>Username Already Exists:</value>
     </labels>
     <labels>
         <fullName>Username_Text</fullName>
