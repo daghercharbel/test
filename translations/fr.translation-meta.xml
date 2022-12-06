@@ -1209,7 +1209,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Veuillez sélectionner des données valides pour l&apos;invitation</label>
         <name>Selece_Valid_Record_Invite_Toast</name>
-    </customLabels>S
+    </customLabels>
     <customLabels>
         <label>Veuiller sélectionner et ajouter au moins un champs à ajouter</label>
         <name>Select_Add_At_Least_One_Field_Toast</name>
