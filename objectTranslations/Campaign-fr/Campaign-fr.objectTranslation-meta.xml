@@ -6,11 +6,11 @@
         <name>Send_TouchPoint</name>
     </quickActions>
     <recordTypes>
-        <label></label>
+        <label><!-- Salesforce --></label>
         <name>Salesforce_Campaign</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- TelosTouch --></label>
         <name>TelosTouch_Campaign</name>
     </recordTypes>
     <webLinks>

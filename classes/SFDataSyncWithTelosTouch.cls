@@ -1144,11 +1144,11 @@ global with sharing class SFDataSyncWithTelosTouch {
         return logObj;
     }
     /**
-* @author Cloud Analogy
-* @date 02/08/2021
+* @author Swapnil Sen
+* @date 29/11/2022
 * @description SyncAllRecords_APEX
-* @param syncType ....
-* @param syncObject ....
+* @param syncType Defines if the sync is hard or soft
+* @param syncObject Defines which object to sync
 */
     @AuraEnabled
     Public static void SyncAllRecords_APEX(String syncType, String syncObject){

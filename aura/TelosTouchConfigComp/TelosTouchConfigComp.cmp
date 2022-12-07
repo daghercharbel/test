@@ -1,27 +1,28 @@
-<aura:component description="TelosTouchConfigComp" controller="SFDataSyncWithTelosTouch" >
-    <aura:attribute name="isShowSpinner" type="Boolean" default="false"/>
-    <aura:attribute name="logsList" type="List"/>
-    <aura:attribute name="setting" type="TelosTouchSF__TT_Admin_Credentials__mdt" default="{'sobjectType':'TelosTouchSF__TT_Admin_Credentials__mdt'}"/>
-    <aura:attribute name="WarningModalisOpen" type="Boolean" default="false"/>
-    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
-    <aura:attribute name="isAdmin" type="Boolean" default="false"/>
-    <aura:attribute name="showManualSync" type="Boolean" default="false"/>
-    <aura:attribute name="asyncJobStatus" type="Boolean" default="false"/>
-    <aura:attribute name="PageNumber" type="integer" default="1"/>
-    <aura:attribute name="TotalPages" type="integer" default="0"/>
-    <aura:attribute name="TotalRecords" type="integer" default="0"/>
-    <aura:attribute name="RecordStart" type="integer" default="0"/>
-    <aura:attribute name="RecordEnd" type="integer" default="0"/>
-    <aura:attribute name="pageSize" type="integer" default="10"/>
-    <aura:attribute name="syncTypeValue" type="String"/>
-    <aura:attribute name="syncObjectValue" type="String"/>
-    <aura:attribute name="packageConfigFailText" type="String"/>
-    <aura:attribute name="manualSyncDisabled" type="Boolean" default="true"/>
-    <aura:attribute name="showConfigSpinner" type="Boolean" default="true"/>
-    <aura:attribute name="showConfigErrorMessage" type="Boolean" default="false"/>
-    <aura:attribute name="syncTypeOptions" type="List" default="[]"/>
-    <aura:attribute name="syncObjectOptions" type="List" default="[]"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+<aura:component description="TelosTouchConfigComp" controller="SFDataSyncWithTelosTouch">
+    <aura:attribute name="isShowSpinner" type="Boolean" default="false" />
+    <aura:attribute name="logsList" type="List" />
+    <aura:attribute name="setting" type="TelosTouchSF__TT_Admin_Credentials__mdt"
+        default="{'sobjectType':'TelosTouchSF__TT_Admin_Credentials__mdt'}" />
+    <aura:attribute name="WarningModalisOpen" type="Boolean" default="false" />
+    <aura:attribute name="isModalOpen" type="Boolean" default="false" />
+    <aura:attribute name="isAdmin" type="Boolean" default="false" />
+    <aura:attribute name="showManualSync" type="Boolean" default="false" />
+    <aura:attribute name="asyncJobStatus" type="Boolean" default="false" />
+    <aura:attribute name="PageNumber" type="integer" default="1" />
+    <aura:attribute name="TotalPages" type="integer" default="0" />
+    <aura:attribute name="TotalRecords" type="integer" default="0" />
+    <aura:attribute name="RecordStart" type="integer" default="0" />
+    <aura:attribute name="RecordEnd" type="integer" default="0" />
+    <aura:attribute name="pageSize" type="integer" default="10" />
+    <aura:attribute name="syncTypeValue" type="String" />
+    <aura:attribute name="syncObjectValue" type="String" />
+    <aura:attribute name="packageConfigFailText" type="String" />
+    <aura:attribute name="manualSyncDisabled" type="Boolean" default="true" />
+    <aura:attribute name="showConfigSpinner" type="Boolean" default="true" />
+    <aura:attribute name="showConfigErrorMessage" type="Boolean" default="false" />
+    <aura:attribute name="syncTypeOptions" type="List" default="[]" />
+    <aura:attribute name="syncObjectOptions" type="List" default="[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}" />
 
     <aura:if isTrue="{!v.isShowSpinner}">
         <lightning:spinner alternativeText="Loading" size="medium" />
@@ -36,65 +37,77 @@
                 <div class="slds-spinner__dot-a"></div>
                 <div class="slds-spinner__dot-b"></div>
                 <div class="custom-loading-text">
-                {!$Label.c.Package_Configured_Spinner_message}
+                    {!$Label.c.Package_Configured_Spinner_message}
                 </div>
             </div>
         </div>
     </aura:if>
     <aura:if isTrue="{!and(!v.showConfigSpinner, !v.showConfigErrorMessage)}">
         <div class="tabs-container">
-            <lightning:tabset >
+            <lightning:tabset>
                 <aura:if isTrue="{!v.isAdmin}">
                     <lightning:tab onactive="{! c.handleActive }" id="config">
                         <aura:set attribute="label">
                             {!$Label.c.Configuration_Tab_Label}
                         </aura:set>
-                        <c:telostouchSetupConfiguration/>
-                        <c:ttcontactSupport tabName="NotTelosTouchSync"/>
+                        <c:telostouchSetupConfiguration />
+                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </lightning:tab>
                     <lightning:tab onactive="{! c.handleActive }" id="fieldMapping">
                         <aura:set attribute="label">
                             {!$Label.c.Field_MappingTab_Label}
                         </aura:set>
                         <c:TelosTouchMapping />
-                        <c:ttcontactSupport tabName="TelosTouchMapping"/>
+                        <c:ttcontactSupport tabName="TelosTouchMapping" />
                     </lightning:tab>
                 </aura:if>
                 <lightning:tab onactive="{! c.handleActive }" id="campaign">
                     <aura:set attribute="label">
                         {!$Label.c.Data_Sync_Tab_Label}
                     </aura:set>
-                    <lightning:layout multipleRows="true">
-                        <lightning:layoutItem  size="12" largeDeviceSize="5" mediumDeviceSize="12" smallDeviceSize="12">
+                    <c:telostouchDataSync showManualSync="{!v.showManualSync}">
+                    </c:telostouchDataSync>
+                    <!-- <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12" largeDeviceSize="5" mediumDeviceSize="12" smallDeviceSize="12">
                             <div class="header-column slds-p-horizontal_small slds-p-top_xx-small">
                                 <aura:if isTrue="{!v.showManualSync}">
                                     <lightning:layout multipleRows="false">
                                         <lightning:layoutItem class="slds-p-right_x-small" size="6">
-                                            <lightning:combobox name="SyncType" label="{!$Label.c.Choose_Sync_Type_Text}" value="{!v.syncTypeValue}" placeholder="{!$Label.c.Select_Sync_Type_Text}" options="{! v.syncTypeOptions }" onchange="{!c.onSyncChange}"/>
+                                            <lightning:combobox name="SyncType"
+                                                label="{!$Label.c.Choose_Sync_Type_Text}" value="{!v.syncTypeValue}"
+                                                placeholder="{!$Label.c.Select_Sync_Type_Text}"
+                                                options="{! v.syncTypeOptions }" onchange="{!c.onSyncChange}" />
                                         </lightning:layoutItem>
                                         <lightning:layoutItem class="slds-p-left_x-small" size="6">
-                                            <lightning:combobox name="SyncType" label="{!$Label.c.Choose_Sync_Object_Text}" value="{!v.syncObjectValue}" placeholder="{!$Label.c.Select_Sync_Object_Text}" options="{! v.syncObjectOptions }" onchange="{!c.onSyncChange}"/>
+                                            <lightning:combobox name="SyncType"
+                                                label="{!$Label.c.Choose_Sync_Object_Text}" value="{!v.syncObjectValue}"
+                                                placeholder="{!$Label.c.Select_Sync_Object_Text}"
+                                                options="{! v.syncObjectOptions }" onchange="{!c.onSyncChange}" />
                                         </lightning:layoutItem>
                                     </lightning:layout>
-                                    <lightning:button variant="brand" class="slds-m-top_x-small" label="{!$Label.c.Manual_Sync_All_Button}" title="{!$Label.c.Manual_Sync_All_Button}" onclick="{!c.SyncAllRecords}" disabled="{!or(v.manualSyncDisabled,or(!v.setting.TelosTouchSF__Approval__c,!v.asyncJobStatus))}"/>
+                                    <lightning:button variant="brand" class="slds-m-top_x-small"
+                                        label="{!$Label.c.Manual_Sync_All_Button}"
+                                        title="{!$Label.c.Manual_Sync_All_Button}" onclick="{!c.SyncAllRecords}"
+                                        disabled="{!or(v.manualSyncDisabled,or(!v.setting.TelosTouchSF__Approval__c,!v.asyncJobStatus))}" />
                                 </aura:if>
                             </div>
-                        </lightning:layoutItem >
-                        <lightning:layoutItem  size="12">
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
                             <p class="slds-p-left_small slds-m-top_x-small slds-p-bottom_medium colorCss">
                                 {!$Label.c.Last_Sync_Completed}&nbsp; {!v.logsList[0].TelosTouchSF__LastUpdated__c}
                             </p>
                         </lightning:layoutItem>
-                    </lightning:layout>
-                    <c:TelosTouchSync/>
+                    </lightning:layout> -->
+                    <!-- <c:TelosTouchSync /> -->
                 </lightning:tab>
                 <lightning:tab onactive="{! c.handleActive }" id="help">
                     <aura:set attribute="label">
                         {!$Label.c.Help_Tab_Label}
                     </aura:set>
                     <div class="slds-p-top_large slds-p-horizontal_large footerCss">
-                        {!$Label.c.Help_Section_Text_1} <br/> {!$Label.c.Help_Section_Text_2}&nbsp;<a onclick="{!c.openMail}">support@telostouch.com</a>
-                        <c:ttcontactSupport tabName="NotTelosTouchSync"/>
+                        {!$Label.c.Help_Section_Text_1} <br /> {!$Label.c.Help_Section_Text_2}&nbsp;<a
+                            onclick="{!c.openMail}">support@telostouch.com</a>
+                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </div>
                 </lightning:tab>
                 <aura:if isTrue="{!v.isAdmin}">
@@ -102,51 +115,48 @@
                         <aura:set attribute="label">
                             {!$Label.c.Feature_Toggle}
                         </aura:set>
-                        <c:ttFeatureSettings/>
-                        <c:ttcontactSupport tabName="NotTelosTouchSync"/>
+                        <c:ttFeatureSettings />
+                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </lightning:tab>
                 </aura:if>
                 <lightning:tab onactive="{! c.handleActive }" id="knowledge">
                     <aura:set attribute="label">
-                            {!$Label.c.Knowledge_Base_Text}
+                        {!$Label.c.Knowledge_Base_Text}
                     </aura:set>
-                    <c:knowledgeBase></c:knowledgeBase> 
-                    <c:ttcontactSupport tabName="NotTelosTouchSync"/>
+                    <c:knowledgeBase></c:knowledgeBase>
+                    <c:ttcontactSupport tabName="NotTelosTouchSync" />
                 </lightning:tab>
             </lightning:tabset>
         </div>
     </aura:if>
     <aura:if isTrue="{!v.isModalOpen}">
         <!-- Modal/Popup Box starts here-->
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
                 <!-- Warning Modal When no COntact Are selected-->
                 <aura:if isTrue="{!v.WarningModalisOpen}">
                     <header class="slds-modal__header slds-theme--warning">
-                        <lightning:buttonIcon iconName="utility:close"
-                                              onclick="{!c.closeModel}"
-                                              alternativeText="close"
-                                              variant="bare-inverse"
-                                              class="slds-modal__close"/>
-                        <h2  id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">Scheduled Sync in Progress</h2>
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModel}" alternativeText="close"
+                            variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">Scheduled
+                            Sync in Progress</h2>
                     </header>
                     <!-- Modal/Popup Box Header Starts here-->
                     <aura:set attribute="else">
                         <header class="slds-modal__header">
-                            <lightning:buttonIcon iconName="utility:close"
-                                                  onclick="{!c.closeModel}"
-                                                  alternativeText="close"
-                                                  variant="bare-inverse"
-                                                  class="slds-modal__close"/>
-                            <h2  id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">{!$Label.c.Successful_Operation_Text}</h2>
+                            <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModel}"
+                                alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">
+                                {!$Label.c.Successful_Operation_Text}</h2>
                         </header>
                     </aura:set>
                 </aura:if>
                 <!-- Warning Modal BoX Content -->
                 <aura:if isTrue="{!v.WarningModalisOpen}">
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <p  class="warningModalCSS">
-                            Records are Already <Strong>Scheduled </Strong>for syncing  .
+                        <p class="warningModalCSS">
+                            Records are Already <Strong>Scheduled </Strong>for syncing .
                         </p>
                     </div>
                     <aura:set attribute="else">
@@ -162,10 +172,7 @@
                 </aura:if>
                 <!--Modal/Popup Box Footer Starts here-->
                 <footer class="slds-modal__footer">
-                    <lightning:button variant="brand"
-                                      label="OK"
-                                      title="OK"
-                                      onclick="{!c.submitDetails}"/>
+                    <lightning:button variant="brand" label="OK" title="OK" onclick="{!c.submitDetails}" />
                 </footer>
             </div>
         </section>
