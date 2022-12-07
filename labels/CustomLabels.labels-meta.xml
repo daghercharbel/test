@@ -127,6 +127,13 @@
         <value>Authentication URL should start with https</value>
     </labels>
     <labels>
+        <fullName>Authentication_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Authentication URL Error</shortDescription>
+        <value>Authentication URL should start with https</value>
+    </labels>
+    <labels>
         <fullName>Back_Button_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2374,11 +2381,25 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>User access</value>
     </labels>
     <labels>
+        <fullName>User_deactivate_Fail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User deactivate Fail Text</shortDescription>
+        <value>User deactivate failed from Salesforce to TelosTouch.</value>
+    </labels>
+    <labels>
         <fullName>User_permission_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>User permission text</shortDescription>
         <value>Are you sure, you want to revoke TelosTouch license for selected user?</value>
+    </labels>
+    <labels>
+        <fullName>Username_Exist_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Username Exist Text</shortDescription>
+        <value>Username Already Exists:</value>
     </labels>
     <labels>
         <fullName>Username_Text</fullName>

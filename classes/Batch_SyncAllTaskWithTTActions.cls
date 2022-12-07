@@ -29,7 +29,14 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
 * @return Database.QueryLocator taskquery ......
 */
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        String taskquery = 'SELECT Who.Name, Owner.id ';
+        String taskquery = 'SELECT Who.Name,Owner.id,';
+        Set<String> setFields = new Set<String>{
+            'TelosTouchSF__TT_TaskId__c'
+        };
+
+        String strTask = 'Task';
+        String strWhatId = 'WhatId';
+        String sharedStatus = 'Yes';
 
         Boolean isSoftSync;
         if(syncObject != null){
@@ -40,15 +47,18 @@ global with sharing class Batch_SyncAllTaskWithTTActions implements Database.bat
         
         for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                                 FROM TelosTouchSF__TT_Salesforce_Mapping__c 
-                                                                WHERE TelosTouchSF__Object_Name__c = 'Task' 
-                                                                AND TelosTouchSF__Salesforce_Field__c != 'WhatId'])
+                                                                WHERE TelosTouchSF__Object_Name__c =: strTask 
+                                                                AND TelosTouchSF__Salesforce_Field__c !=: strWhatId])
         {
-            taskquery += ',' + fieldAPI.TelosTouchSF__Salesforce_Field__c;
+            setFields.add(fieldAPI.TelosTouchSF__Salesforce_Field__c);
         }
-        String sharedStatus = 'Yes';
+        taskquery += String.join(new List<String>(setFields), ',');
+        taskquery = taskquery.removeEnd(',');
+
         taskquery += ' FROM Task WHERE IsDeleted = false AND IsRecurrence = false AND TelosTouchSF__Share_with_client_s__c =: sharedStatus';
         if(isSoftSync){ taskquery += ' AND TelosTouchSF__TT_Needs_Sync__c = true'; }
         taskquery += ' AND WhoId != NULL ALL ROWS';
+        
         return Database.getQueryLocator(String.escapeSingleQuotes(taskquery));
     }
     /**

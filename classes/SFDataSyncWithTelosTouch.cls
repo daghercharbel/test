@@ -589,9 +589,10 @@ global with sharing class SFDataSyncWithTelosTouch {
                             }
                             if(Schema.sObjectType.Contact.fields.TelosTouchSF__TT_LastSyncTime__c.isAccessible() && Schema.sObjectType.Contact.fields.TelosTouchSF__TT_LastSyncTime__c.isUpdateable() ){
                                 clientlist[i].TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
-                            }                            
+                            }     
                             if((clientlist[i].TelosTouchSF__TT_Client_Id__c != null) && (clientlist[i].TelosTouchSF__TT_Client_Id__c != '') &&
-                                    Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable()){
+                                Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable())
+                            {
                                 ContactListtoBeUpdated.add(clientlist[i]);
                                 clientLogObj.contactSuccessCount++;
                             }
@@ -664,56 +665,18 @@ global with sharing class SFDataSyncWithTelosTouch {
             Map <String, Schema.SObjectField> MapofLeadtObj = schemaMapofAllSobject.get('Lead').getDescribe().fields.getMap();
             List<String> LeadFieldApiNameList = new List<String>();
             for(Schema.SObjectField sObjectfield : MapofLeadtObj.Values())
-                {
-                    schema.describefieldresult dfield = sObjectfield.getDescribe();
-                    LeadFieldApiNameList.add(dfield.getname());
-                }
-            if(!LeadFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                if( Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                    if(LeadListtoBeUpdated != null && LeadListtoBeUpdated.size() > 0 && action != 'updateLead' && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                        Database.update(LeadListtoBeUpdated,false);
-                    }
+            {
+                schema.describefieldresult dfield = sObjectfield.getDescribe();
+                LeadFieldApiNameList.add(dfield.getname());
+            }
+            if( Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
+                if(LeadListtoBeUpdated != null && LeadListtoBeUpdated.size() > 0 && action != 'updateLead' && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
+                    Database.update(LeadListtoBeUpdated,false);
                 }
             }
-            else{
-                List<Lead> leadUpdateListMcNull = new List<Lead>();
-                List<Lead> leadUpdateListMcNotNull = new List<Lead>();
-                for(Lead leadObj : LeadListtoBeUpdated){
-                    if(leadObj.get('MC4SF__MC_Subscriber__c') == null && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                        leadUpdateListMcNull.add(leadObj);
-                    }else if(leadObj.get('MC4SF__MC_Subscriber__c') != null && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                        leadUpdateListMcNotNull.add(leadObj);
-                    }
-                }
-                if(leadUpdateListMcNull.size()>0 && action != 'updateLead' && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                    Database.update(leadUpdateListMcNull,false);
-                }
-                if(leadUpdateListMcNotNull.size()>0 && action != 'updateLead' && Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()){
-                    Database.update(leadUpdateListMcNotNull,false);
-                }
-            }
-            if(!ContactFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                if(Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() ){
-                    if(ContactListtoBeUpdated != null && ContactListtoBeUpdated.size() > 0 && action != 'updateContact'){
-                        Database.update(ContactListtoBeUpdated,false);
-                    }
-                }
-            }
-            else{
-                List<Contact> conUpdateListMcNull = new List<Contact>();
-                List<Contact> conUpdateListMcNotNull = new List<Contact>();
-                for(Contact con : ContactListtoBeUpdated){
-                    if(con.get('MC4SF__MC_Subscriber__c') == null){
-                        conUpdateListMcNull.add(con);
-                    }else if(con.get('MC4SF__MC_Subscriber__c') != null){
-                        conUpdateListMcNotNull.add(con);
-                    }
-                }
-                if(conUpdateListMcNull.size()>0 && action != 'updateContact'){
-                    Database.update(conUpdateListMcNull,false);
-                }
-                if(conUpdateListMcNotNull.size()>0 && action != 'updateContact'){
-                    Database.update(conUpdateListMcNotNull,false);
+            if(Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() ){
+                if(ContactListtoBeUpdated != null && ContactListtoBeUpdated.size() > 0 && action != 'updateContact'){
+                    Database.update(ContactListtoBeUpdated,false);
                 }
             }
 

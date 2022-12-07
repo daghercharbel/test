@@ -154,18 +154,12 @@ global with sharing class GetClientsFromTTQueueable implements Queueable, Databa
                     setTTEmailId.add(resdata1[i].email);
                 }
                 String contactQuery = 'SELECT id,FirstName,LastName,Phone,TelosTouchSF__Language__c,TelosTouchSF__Source__c,TelosTouchSF__Subscribed__c,TelosTouchSF__TT_Client_Id__c,Email,LastModifiedDate,TelosTouchSF__TT_Last_Login__c,TelosTouchSF__TT_UserId__c';
-                if(ContactFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                    contactQuery += ',MC4SF__MC_Subscriber__c';
-                }
                 String contactQuery2 = contactQuery;
                 contactQuery += ' FROM Contact WHERE (IsDeleted = false) AND (TelosTouchSF__TT_Client_Id__c IN: setTTid) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 contactQuery2 += ' FROM Contact WHERE (IsDeleted = false) AND (Email =:setTTEmailId) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 contactList = Database.query(contactQuery);
                 contactList.addAll((List<Contact>)Database.query(contactQuery2));
                 String leadQuery = 'SELECT id,FirstName,LastName,Phone,TelosTouchSF__Language__c,TelosTouchSF__Source__c,TelosTouchSF__Subscribed__c,TelosTouchSF__TT_Client_Id__c,Email,LastModifiedDate,TelosTouchSF__TT_Last_Login__c,TelosTouchSF__TT_UserId__c';
-                if(LeadFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                    leadQuery += ',MC4SF__MC_Subscriber__c';
-                }
                 String leadQuery2 = leadQuery;
                 leadQuery += ' FROM Lead WHERE (IsDeleted = false) AND (TelosTouchSF__TT_Client_Id__c IN: setTTid) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 leadQuery2 += ' FROM Lead WHERE (IsDeleted = false) AND (Email =:setTTEmailId) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
@@ -626,119 +620,87 @@ global with sharing class GetClientsFromTTQueueable implements Queueable, Databa
                     }
                 }
                 if(contactupsertList.size()> 0){
-                    if(ContactFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                        List<Contact> conUpsertListMcNull = new List<Contact>();
-                        List<Contact> conUpsertListMcNotNull = new List<Contact>();
-                        for(Contact con : contactupsertList){
-                            if(con.get('MC4SF__MC_Subscriber__c') == null){
-                                conUpsertListMcNull.add(con);
-                            }else if(con.get('MC4SF__MC_Subscriber__c') != null){
-                                conUpsertListMcNotNull.add(con);
-                            }
-                        }
-                        if(conUpsertListMcNull.size()>0){
-                            Database.UpsertResult[] srList = Database.upsert(conUpsertListMcNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += conUpsertListMcNull.size();
-                        }
-                        if(conUpsertListMcNotNull.size()>0){
-                            Database.UpsertResult[] srList = Database.upsert(conUpsertListMcNotNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));  
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += conUpsertListMcNotNull.size();
-                        }
-                    }else{
-                        if(Schema.sObjectType.Contact.isCreateable() && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.LastName.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.LastName.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.LastName.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.Email.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.Email.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.Email.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.Phone.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.Phone.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.Phone.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
-                            Database.UpsertResult[] srList = Database.upsert(contactupsertList,false);
-                                    for (Database.UpsertResult sr : srList) {
-                                        String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                        if (sr.isSuccess()) {
-                                            if(showLogs){
-                                                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                            }
-                                        }
-                                        else {
-                                            for(Database.Error err : sr.getErrors()) {
-                                                errorMessage += err.getMessage();
-                                            }
-                                            if(showLogs){
-                                                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                            }
+                    if(Schema.sObjectType.Contact.isCreateable() && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.LastName.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.LastName.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.LastName.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.Email.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.Email.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.Email.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.Phone.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.Phone.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.Phone.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
+                        Database.UpsertResult[] srList = Database.upsert(contactupsertList,false);
+                                for (Database.UpsertResult sr : srList) {
+                                    String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
+                                    if (sr.isSuccess()) {
+                                        if(showLogs){
+                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
                                         }
                                     }
-                        }
-                        totalSyncedUser = contactupsertList.size();
+                                    else {
+                                        for(Database.Error err : sr.getErrors()) {
+                                            errorMessage += err.getMessage();
+                                        }
+                                        if(showLogs){
+                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
+                                        }
+                                    }
+                                }
                     }
+                    totalSyncedUser = contactupsertList.size();
                 }
                 if(leadupdateList.size()> 0){
-                    if(LeadFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                        List<Lead> leadUpsertListMcNull = new List<Lead>();
-                        List<Lead> leadUpsertListMcNotNull = new List<Lead>();
-                        for(Lead leadObj : leadupdateList){
-                            if(leadObj.get('MC4SF__MC_Subscriber__c') == null){
-                                leadUpsertListMcNull.add(leadObj);
-                            }else if(leadObj.get('MC4SF__MC_Subscriber__c') != null){
-                                leadUpsertListMcNotNull.add(leadObj);
-                            }
-                        }
-                        if(leadUpsertListMcNull.size()>0){
-                            Database.UpsertResult[] srList = Database.upsert(leadUpsertListMcNull,false);
+                    if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isCreateable() && Schema.sObjectType.Lead.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.LastName.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.LastName.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.LastName.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Company.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Company.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Company.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Email.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Email.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Email.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Phone.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Phone.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Phone.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
+                            Database.UpsertResult[] srList = Database.upsert(leadupdateList,false);
                             for (Database.UpsertResult sr : srList) {
                                 String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
                                 if (sr.isSuccess()) {
@@ -755,80 +717,8 @@ global with sharing class GetClientsFromTTQueueable implements Queueable, Databa
                                     }
                                 }
                             }
-                            totalSyncedUser += leadUpsertListMcNull.size();
-                        }
-                        if(leadUpsertListMcNotNull.size()>0){
-                            Database.UpsertResult[] srList = Database.upsert(leadUpsertListMcNotNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += leadUpsertListMcNotNull.size();
-                        }
-                    }else{
-                        if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isCreateable() && Schema.sObjectType.Lead.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.LastName.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.LastName.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.LastName.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Company.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Company.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Company.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Email.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Email.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Email.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Phone.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Phone.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Phone.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
-                              Database.UpsertResult[] srList = Database.upsert(leadupdateList,false);
-                               for (Database.UpsertResult sr : srList) {
-                                   String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
-                                   if (sr.isSuccess()) {
-                                       if(showLogs){
-                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                       }
-                                   }
-                                   else {
-                                       for(Database.Error err : sr.getErrors()) {
-                                           errorMessage += err.getMessage();
-                                       }
-                                       if(showLogs){
-                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                       }
-                                   }
-                               }
-                        }
-                        totalSyncedUser = totalSyncedUser + leadupdateList.size();
                     }
+                    totalSyncedUser = totalSyncedUser + leadupdateList.size();
                 }
                 if(totalSyncedUser >0){
                     TelosTouchSF.UserTriggerHandler.createLogRecord('success','Clients sync successfully from TelosTouch to Salesforce.','Clients syncronisés avec succès de TelosTouch à Salesforce.', totalSyncedUser);
