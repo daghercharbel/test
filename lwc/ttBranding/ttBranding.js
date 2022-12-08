@@ -7,21 +7,25 @@ import putSignature from '@salesforce/apex/TTBrandingController.putSignature';
 
 //Custom Labels
 import create_french_signature from "@salesforce/label/c.Create_French_Signature";
+import custom from "@salesforce/label/c.Custom_Dashboard_Text";
 import email_signature from "@salesforce/label/c.Email_Signature";
 import english from "@salesforce/label/c.English_Translation";
 import french from "@salesforce/label/c.French_Translation";
 import multi_language_support from "@salesforce/label/c.Multi_language_Support";
 import select_signature_type from "@salesforce/label/c.Select_Signature_Type";
+import system_generated from "@salesforce/label/c.System_Generated";
 
 export default class TtUserBranding extends LightningElement {
 
     label = {
         create_french_signature,
+        custom,
         email_signature,
         english,
         french,
         multi_language_support,
-        select_signature_type
+        select_signature_type,
+        system_generated
     }
 
     lstTranslations = {
@@ -37,8 +41,8 @@ export default class TtUserBranding extends LightningElement {
 
     get signatureOptions() {
         return [
-            { label: 'System Generated', value: 'system' },
-            { label: 'Custom', value: 'custom' },
+            { label: this.label.system_generated, value: 'system' },
+            { label: this.label.custom, value: 'custom' },
         ];
     }
 
