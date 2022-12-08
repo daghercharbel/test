@@ -347,27 +347,18 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     // 'Update Add Users' button is clicked 
     updateAndAddUsers() {
-        console.log('VOD ------------------------- test 1');
         this.afterSaveCredentials = true;
-        console.log('VOD ------------------------- test 1.1');
-        console.log('VOD ------------------------- this.setting ',this.setting);
         if (this.setting.Approval == true) {
-            console.log('VOD ------------------------- test 1.2');
             this.settingApproval = true;
-            console.log('VOD ------------------------- test 1.3');
             this.isShowSpinner = true;
-            console.log('VOD ------------------------- test 1.4');
             this.getUsersListHelper();
-            console.log('VOD ------------------------- test 1.5');
         } else {
-            console.log('VOD ------------------------- test 1.6');
             this.settingApproval = false;
         }
     }
 
     // display records and pagination
     showRecords() {
-        console.log('VOD ------------------------- test 5');
         try {
             var records = this.filteredRecords;
             var from = this.fromEntries;
@@ -406,10 +397,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     finalRecords.push(record);
                 }
             }
-            console.log('VOD ------------------------- test 6');
             this.listdata = finalRecords;
         } catch (e) {
-            console.log('VOD ------------------------- test 5 error');
             throw new CustomException(e.getMessage());
         }
     }
@@ -552,10 +541,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     // call getUserList
     getUsersListHelper() {
-        console.log('VOD ------------------------- test 2');
         getUserList()
             .then((result) => {
-                console.log('VOD ------------------------- test 3');
                 this.isShowSpinner = false;
                 var storedResponse = result;
 
@@ -573,13 +560,11 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.filteredRecords = this.listdata;
                     this.filteredRecordsSize = this.filteredRecords.length;
                     this.allRecords = this.listdata;
-                    console.log('VOD ------------------------- test 4');
                     this.showRecords();
                 }
             })
             .catch((error) => {
                 this.error = error.message;
-                console.log('VOD ------------------------- test 3 error');
             });
     }
 
