@@ -95,16 +95,13 @@ export default class TelostouchDataSync extends LightningElement {
       this.recordPerPage = 6;
       // this.totalPages = Math.ceil(this.logsList.length / this.recordPerPage);
       // this.preparePaginationList();
-    }else if(window.screen.availWidth < 900){
+    } else if (window.screen.availWidth < 900) {
       this.recordPerPage = 8;
-    }else if(window.screen.availHeight > 820 && window.screen.availWidth > 1540){
+    } else if (window.screen.availHeight > 820 && window.screen.availWidth > 1540) {
       this.recordPerPage = 10;
     }
-    console.log('approval:: ', this.approval);
-    console.log('asyncJobStatus:: ', this.asyncJobStatus);
-    console.log('lastUpdated:: ', this.lastUpdated);
-    console.log('language:: ', LANG);
     this.showSpinner = true;
+    //GETTING INITIAL SYNC DATA FOR COMPONENT INITIALIZATION
     getSyncData().then(data => {
       var returnObj = JSON.parse(data);
       this.approval = returnObj.approval;
@@ -116,14 +113,15 @@ export default class TelostouchDataSync extends LightningElement {
     this.getLogsFromApex();
   }
 
+  //FUNCTION TO REFRESH LOGS ON BUTTON CLICK
   refreshLogs() {
     this.connectedCallback();
   }
 
+  //FUNCTION TO GET LOGS FROM APEX AND PREPARE ITERATION LIST
   getLogsFromApex() {
     getAllLogs().then(data => {
       this.showSpinner = true;
-      console.log(data);
       if (data) {
         var logs = JSON.parse(data);
         logs.forEach(element => {
@@ -134,7 +132,6 @@ export default class TelostouchDataSync extends LightningElement {
           }
         });
         this.logsList = logs;
-        console.log('logs: ' + JSON.stringify(this.logsList));
         this.totalPages = Math.ceil(this.logsList.length / this.recordPerPage);
         this.preparePaginationList();
         this.showSpinner = false;
@@ -144,6 +141,7 @@ export default class TelostouchDataSync extends LightningElement {
     }).catch(error => { });
   }
 
+  //FUNCTION TO CLOSE MODAL ON BUTTON CLICK
   closeModal() {
     this.isModalOpen = false;
     this.syncTypeValue = '';
@@ -151,6 +149,7 @@ export default class TelostouchDataSync extends LightningElement {
     this.manualSyncDisabled = true;
   }
 
+  //FUNCTION TO INITIATE SYNC THROUGH APEX ON BUTTON CLICK
   syncAllRecords() {
     this.showSpinner = true;
     syncAllRecordsApex({ syncType: this.syncTypeValue, syncObject: this.syncObjectValue })
@@ -165,31 +164,38 @@ export default class TelostouchDataSync extends LightningElement {
       });
   }
 
+  //ON CHANGE EVENT HANDLER FOR SYNC TYPE COMBOBOX
   onSyncTypeChange(event) {
     this.syncTypeValue = event.detail.value;
-    console.log('syncTypeValue:: ', this.syncTypeValue);
     if (this.syncTypeValue && this.syncObjectValue) {
       this.manualSyncDisabled = false;
     }
   }
+
+  //ON CHANGE EVENT HANDLER FOR SYNC OBJECT COMBOBOX
   onSyncObjectChange(event) {
     this.syncObjectValue = event.detail.value;
-    console.log('syncObjectValue:: ', this.syncObjectValue);
     if (this.syncTypeValue && this.syncObjectValue) {
       this.manualSyncDisabled = false;
     }
   }
+
+  //GETTER FOR MANUAL SYNC BUTTON DISABLE FLAG
   get manualSyncButtonDisabled() {
     return (this.manualSyncDisabled || !this.approval || !this.asyncJobStatus);
   }
 
+  //GETTTER FOR WHEN LOGS LIST IS EMPTY
   get isLogsListEmpty() {
     return this.logsList.length === 0 ? true : false;
   }
 
+  //GETTER FOR IF LANGUAGE IS ENGLISH
   get userLanguageEn() {
     return LANG.includes('en') ? true : false;
   }
+
+  //FUNCTION TO HANDLE NEXT OR PREVIOUS BUTTON CLICK FOR PAGINATION CONTROLS
   handleClick(event) {
     let label = event.target.label;
     if (label === "Previous" || label === "Précédent") {
@@ -198,11 +204,15 @@ export default class TelostouchDataSync extends LightningElement {
       this.handleNext();
     }
   }
+
+  //FUNCTION TO HANDLE NEXT FOR PAGINATION
   handleNext() {
     this.pageNo += 1;
     this.currentPage = this.pageNo;
     this.preparePaginationList();
   }
+
+  //FUNCTION TO HANDLE PREVIOUS FOR PAGINATION
   handlePrevious() {
     if (this.pageNo > 1) {
       this.pageNo -= 1;
@@ -210,6 +220,8 @@ export default class TelostouchDataSync extends LightningElement {
     this.currentPage = this.pageNo;
     this.preparePaginationList();
   }
+
+  //FUNCTION TO PREPARE THE PAGINATION LIST BASED ON SET RECORD COUNT
   preparePaginationList() {
     try {
       if (this.pageNo <= this.totalPages && this.pageNo != 1) {

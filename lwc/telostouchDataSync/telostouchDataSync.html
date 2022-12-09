@@ -1,9 +1,12 @@
 <!-- sldsValidatorIgnore -->
 <template>
+  <!--SPINNER START-->
   <template if:true={showSpinner}>
     <lightning-spinner id="Spinner" alternative-text="Loading" variant="brand" class="spinner">
     </lightning-spinner>
   </template>
+  <!--SPINNER END-->
+  <!--SYNC CONTROLS START-->
   <lightning-layout multiple-rows="true">
     <lightning-layout-item size="12" large-device-size="5" medium-device-size="12" small-device-size="12">
       <div class="header-column slds-var-p-horizontal_small slds-var-p-top_xx-small">
@@ -34,6 +37,8 @@
       </p>
     </lightning-layout-item>
   </lightning-layout>
+  <!--SYNC CONTROLS END-->
+  <!--REFRESH BUTTON START-->
   <lightning-layout multiple-rows="true">
     <lightning-layout-item size="12">
       <lightning-button variant="brand" label="Refresh" title="Refresh" icon-name="utility:refresh"
@@ -41,6 +46,8 @@
       </lightning-button>
     </lightning-layout-item>
   </lightning-layout>
+  <!--REFRESH BUTTON END-->
+  <!--LOG TABLE START-->
   <div class="tableOuterHeight" id="logtable">
     <div class="slds-scrollable scrollbarStyled tableinnerHeight">
       <table class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
@@ -88,6 +95,8 @@
         </tbody>
       </table>
     </div>
+    <!--LOG TABLE END-->
+    <!--PAGINATION CONTROLS START-->
     <div slot="actions" class="slds-p-top_x-small slds-p-horizontal_small">
       <div class="slds-float_right">
         <lightning-button variant="brand" title={label.Previous_Button_Label} label={label.Previous_Button_Label}
@@ -103,6 +112,8 @@
       </span>
     </div>
   </div>
+  <!--PAGINATION CONTROLS END-->
+  <!--MODAL START-->
   <template if:true={isModalOpen}>
     <!-- Modal/Popup Box starts here-->
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
@@ -153,4 +164,5 @@
     </section>
     <div class="slds-backdrop slds-backdrop_open"></div>
   </template>
+  <!--MODAL END-->
 </template>

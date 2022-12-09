@@ -1,5 +1,11 @@
 public with sharing class TelosTouchDataSyncController {
   private static final TelosTouchSF__TT_Admin_Credentials__mdt ADMINCREDENTIALS = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+
+  /**
+   * @author Swapnil Sen
+   * @date 29/11/2022
+   * @description getSyncData: Used to get initial sync data when component is initialized
+   */
   @AuraEnabled
   public static string getSyncData() {
     try {
@@ -63,7 +69,7 @@ public with sharing class TelosTouchDataSyncController {
   /**
    * @author Swapnil Sen
    * @date 29/11/2022
-   * @description syncAllRecordsApex
+   * @description syncAllRecordsApex: Used to initiate sync with TelosTouch
    * @param syncType Defines if the sync is hard or soft
    * @param syncObject Defines which object to sync
    */
@@ -129,6 +135,11 @@ public with sharing class TelosTouchDataSyncController {
       );
     }
   }
+  /**
+   * @author Swapnil Sen
+   * @date 29/11/2022
+   * @description getAllLogs: Used to get TelosTouch logs from Back End
+   */
   @AuraEnabled
   public static string getAllLogs() {
     try {
