@@ -85,6 +85,7 @@ export default class TtUserBranding extends LightningElement {
             for (let i = 0; i < this.lstUserBranding.length; i++) {
                 if (this.lstUserBranding[i].language == language) {
                     this.lstUserBranding[i] = event.detail;
+                    this.lstUserBranding = [...this.lstUserBranding];
                 }
             }
         }
