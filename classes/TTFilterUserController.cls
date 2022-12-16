@@ -227,7 +227,7 @@ public with sharing class TTFilterUserController {
                    Schema.sObjectType.Campaign.fields.Name.isAccessible() &&  Schema.sObjectType.Campaign.fields.TelosTouchSF__Questions__c.isAccessible() &&
                    Schema.sObjectType.Campaign.fields.TelosTouchSF__Answers__c.isAccessible()){
                        campaignList = [SELECT Id,Name, TelosTouchSF__Questions__c, TelosTouchSF__Answers__c FROM Campaign WHERE Id =:campainId];
-                   }
+                }
                 if(campaignList.size() > 0 && campaignList[0].TelosTouchSF__Answers__c != null){
                     List<Object> campUserList = (List<Object>)JSON.deserializeUntyped(campaignList[0].TelosTouchSF__Answers__c.unescapeHtml4());
                     for(Object campUserObj : campUserList) {
@@ -235,40 +235,40 @@ public with sharing class TTFilterUserController {
                         List<Object> campAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campUserMap.get('questionsandanswers')));
                         Boolean questionMatch = false, questionNotMatch = false;
                         Integer userSelectedQuestion = 0;
-                        for(Object campAnswerObj : campAnswerList) {
-                            Map<String, Object> campAnswerMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerObj));
-                            List<Object> allAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerMap.get('answers')));
-                            if(formStringMap.containsKey(String.valueOf(campAnswerMap.get('key'))) && formStringMap.get(String.valueOf(campAnswerMap.get('key'))).size() > 0){
-                                for(Object allAnswerObj : allAnswerList) {
-                                    if(formStringMap.get(String.valueOf(campAnswerMap.get('key'))).contains(String.valueOf(allAnswerObj))){
-                                        questionMatch = true;
-                                    }else if(allAnswerList.size() == 1){
-                                        questionNotMatch = true;
-                                    }
+                        //STARTING FILTERING
+                        Boolean conversationNotInTheFilter = false;
+                        
+                        for(String questionId : formStringMap.keySet()){
+                            //DOES NOT HAS QUESTION
+                            if(!String.valueOf(campAnswerList).contains(questionId)){
+                                set<String> setValues = formStringMap.get(questionId);
+                                if(!setValues.contains('N/A')){
+                                	conversationNotInTheFilter = true;
                                 }
-                            }else{
-                                userSelectedQuestion ++;
+                                break;
+                            } 
+                            
+                            //HAS QUESTION
+                            for(Object campAnswerObj : campAnswerList) {
+                                Map<String, Object> campAnswerMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerObj));
+                                List<Object> allAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerMap.get('answers')));
+                                //IT'S THE QUESTION
+                                if(formStringMap.containsKey(String.valueOf(campAnswerMap.get('key'))) && formStringMap.get(String.valueOf(campAnswerMap.get('key'))).size() > 0){
+                                    Boolean hasAnswer = false;
+                                    for(Object allAnswerObj : allAnswerList) {
+                                        //IT'S THE ANSWER
+                                        if(formStringMap.get(String.valueOf(campAnswerMap.get('key'))).contains(String.valueOf(allAnswerObj))){
+                                            hasAnswer = true;
+                                        }
+                                    }
+                                    if(!hasAnswer) conversationNotInTheFilter = true;
+                                }
                             }
                         }
-                        if(questionMatch == true &&  questionNotMatch != true){
-                            conversationIdSet.add(String.valueOf(campUserMap.get('conversation_id')));
-                        }else if(userSelectedQuestion != 0 && userSelectedQuestion == campAnswerList.size()){
+                        
+                        if(!conversationNotInTheFilter){
                             conversationIdSet.add(String.valueOf(campUserMap.get('conversation_id')));
                         }
-                    }
-                }
-                Boolean containsNA = false;
-                for(Set<String> stringEachSet : formStringMap.values()){
-                    for(String strEach : stringEachSet){
-                        if(strEach == 'N/A'){
-                            containsNA = true;
-                            break;
-                        }
-                    }
-                }
-                if(containsNA){
-                    for(TelosTouchSF__Insights__c each : [SELECT Id, TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Completed_At__c = null AND TelosTouchSF__Campaign2__c =:campainId WITH SECURITY_ENFORCED LIMIT 20000]){
-                        conversationIdSet.add(each.TelosTouchSF__Conversation_Id__c);
                     }
                 }
                 String conversationUserQuery = 'SELECT Id, Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c, TelosTouchSF__Completed_At__c, TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c ';
