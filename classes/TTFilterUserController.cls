@@ -182,6 +182,8 @@ public with sharing class TTFilterUserController {
                 Map<String, String> PickListValueEnAnswerMap = new Map<String, String>();
                 Map<String, String> PickListValueFrKeyMap = new Map<String, String>();
                 Map<String, String> PickListValueFrAnswerMap = new Map<String, String>();
+
+                //GETTING LIST OF QUESTIONS
                 if(questionMap1.containsKey('questionAnswerList')){
                     List<Object> responseAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(questionMap1.get('questionAnswerList')));
                     if(responseAnswerList != null){
@@ -223,76 +225,71 @@ public with sharing class TTFilterUserController {
                         }
                     }
                 }
-                if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isQueryable() &&
-                   Schema.sObjectType.Campaign.fields.Name.isAccessible() &&  Schema.sObjectType.Campaign.fields.TelosTouchSF__Questions__c.isAccessible() &&
-                   Schema.sObjectType.Campaign.fields.TelosTouchSF__Answers__c.isAccessible()){
-                       campaignList = [SELECT Id,Name, TelosTouchSF__Questions__c, TelosTouchSF__Answers__c FROM Campaign WHERE Id =:campainId];
-                }
-                if(campaignList.size() > 0 && campaignList[0].TelosTouchSF__Answers__c != null){
-                    List<Object> campUserList = (List<Object>)JSON.deserializeUntyped(campaignList[0].TelosTouchSF__Answers__c.unescapeHtml4());
-                    for(Object campUserObj : campUserList) {
-                        Map<String, Object> campUserMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(campUserObj));
-                        List<Object> campAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campUserMap.get('questionsandanswers')));
-                        Boolean questionMatch = false, questionNotMatch = false;
-                        Integer userSelectedQuestion = 0;
-                        //STARTING FILTERING
-                        Boolean conversationNotInTheFilter = false;
-                        
-                        for(String questionId : formStringMap.keySet()){
-                            //DOES NOT HAS QUESTION
-                            if(!String.valueOf(campAnswerList).contains(questionId)){
-                                set<String> setValues = formStringMap.get(questionId);
-                                if(!setValues.contains('N/A')){
-                                	conversationNotInTheFilter = true;
-                                }
-                                break;
-                            } 
-                            
-                            //HAS QUESTION
-                            for(Object campAnswerObj : campAnswerList) {
-                                Map<String, Object> campAnswerMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerObj));
-                                List<Object> allAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerMap.get('answers')));
-                                //IT'S THE QUESTION
-                                if(formStringMap.containsKey(String.valueOf(campAnswerMap.get('key'))) && formStringMap.get(String.valueOf(campAnswerMap.get('key'))).size() > 0){
-                                    Boolean hasAnswer = false;
-                                    for(Object allAnswerObj : allAnswerList) {
-                                        //IT'S THE ANSWER
-                                        if(formStringMap.get(String.valueOf(campAnswerMap.get('key'))).contains(String.valueOf(allAnswerObj))){
-                                            hasAnswer = true;
-                                        }
-                                    }
-                                    if(!hasAnswer) conversationNotInTheFilter = true;
-                                }
-                            }
-                        }
-                        
-                        if(!conversationNotInTheFilter){
-                            conversationIdSet.add(String.valueOf(campUserMap.get('conversation_id')));
-                        }
-                    }
-                }
-                String conversationUserQuery = 'SELECT Id, Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Contact__c, TelosTouchSF__Lead__c, TelosTouchSF__Completed_At__c, TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c ';
-                if(!formStringMap.isEmpty() && (formStringMap.keySet()).size() > 0){
-                    conversationUserQuery +=  ' WHERE TelosTouchSF__Conversation_Id__c IN:conversationIdSet ';
-                }else{
-                    conversationUserQuery +=  ' WHERE TelosTouchSF__Campaign2__c =:campainId ';
-                }
+
+                //GETTING INSIGHTS
+                String insightQuery = 'SELECT Id,Name,TelosTouchSF__Conversation_Id__c,TelosTouchSF__Conversation_Metadata__c,';
+                insightQuery += 'TelosTouchSF__Campaign2__c,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c,TelosTouchSF__Completed_At__c,';
+                insightQuery += 'TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,';
+                insightQuery += 'TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,';
+                insightQuery += 'TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,';
+                insightQuery += 'TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c';
+                insightQuery += ' WHERE TelosTouchSF__Campaign2__c =: campainId';
                 if(questionMap1.containsKey('pendingOpened_At') && questionMap1.get('pendingOpened_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingOpened_At'))) && String.valueOf(questionMap1.get('pendingOpened_At')) == 'Pending'){
-                    conversationUserQuery += ' AND TelosTouchSF__Opened_At__c = null ';
+                    insightQuery += ' AND TelosTouchSF__Opened_At__c = null';
                 }
                 if(questionMap1.containsKey('pendingOpened_At') && questionMap1.get('pendingOpened_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingOpened_At'))) && String.valueOf(questionMap1.get('pendingOpened_At')) == 'Opened'){
-                    conversationUserQuery += ' AND TelosTouchSF__Opened_At__c != null ';
+                    insightQuery += ' AND TelosTouchSF__Opened_At__c != null';
                 }
                 if(questionMap1.containsKey('pendingCompleted_At') && questionMap1.get('pendingCompleted_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingCompleted_At'))) && String.valueOf(questionMap1.get('pendingCompleted_At')) == 'Pending'){
-                    conversationUserQuery += ' AND TelosTouchSF__Completed_At__c = null ';
+                    insightQuery += ' AND TelosTouchSF__Completed_At__c = null';
                 }
                 if(questionMap1.containsKey('pendingCompleted_At') && questionMap1.get('pendingCompleted_At') != null && String.isNotBlank(String.valueOf(questionMap1.get('pendingCompleted_At'))) && String.valueOf(questionMap1.get('pendingCompleted_At')) == 'Completed'){
-                    conversationUserQuery += ' AND TelosTouchSF__Completed_At__c != null ';
+                    insightQuery += ' AND TelosTouchSF__Completed_At__c != null';
+                }
+                insightQuery += ' AND (TelosTouchSF__Contact__c != null OR TelosTouchSF__Lead__c != null)';
+                insightQuery += ' LIMIT 10000 ';
+
+                list<TelosTouchSF__Insights__c> lstInsight = Database.query(insightQuery);
+
+                //FILTERING INSIGHTS
+                for(TelosTouchSF__Insights__c insight : lstInsight){
+                    Map<String, Object> campUserMap = (Map<String, Object>)JSON.deserializeUntyped(insight.TelosTouchSF__Conversation_Metadata__c);
+                    List<Object> campAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campUserMap.get('questionsandanswers')));
+                    Boolean insightNotInTheFilter = false;
+                    
+                    for(String questionId : formStringMap.keySet()){
+                        //DOES NOT HAS QUESTION
+                        if(!String.valueOf(campAnswerList).contains(questionId)){
+                            set<String> setValues = formStringMap.get(questionId);
+                            if(!setValues.contains('N/A')){
+                                insightNotInTheFilter = true;
+                            }
+                            break;
+                        } 
+                        
+                        //HAS QUESTION
+                        for(Object campAnswerObj : campAnswerList) {
+                            Map<String, Object> campAnswerMap = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerObj));
+                            List<Object> allAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campAnswerMap.get('answers')));
+                            //IT'S THE QUESTION
+                            if(formStringMap.containsKey(String.valueOf(campAnswerMap.get('key'))) && formStringMap.get(String.valueOf(campAnswerMap.get('key'))).size() > 0){
+                                Boolean hasAnswer = false;
+                                for(Object allAnswerObj : allAnswerList) {
+                                    //IT'S THE ANSWER
+                                    if(formStringMap.get(String.valueOf(campAnswerMap.get('key'))).contains(String.valueOf(allAnswerObj))){
+                                        hasAnswer = true;
+                                    }
+                                }
+                                if(!hasAnswer) insightNotInTheFilter = true;
+                            }
+                        }
+                    }
+                    
+                    if(!insightNotInTheFilter){
+                        conversationUserList.add(insight);
+                    }
                 }
                 
-                conversationUserQuery += ' AND (TelosTouchSF__Contact__c != null OR TelosTouchSF__Lead__c != null) ';
-                conversationUserQuery += ' LIMIT 10000 ';
-                conversationUserList = Database.query(String.escapeSingleQuotes(conversationUserQuery).replace('\\',''));
                 if(questionMap1.containsKey('name') &&  questionMap1.get('name') != null && String.isNotBlank(String.valueOf(questionMap1.get('name')))){
                     for(Integer i=0; i<conversationUserList.size(); i++){
                         if((conversationUserList[i].TelosTouchSF__Contact__r.Name != null && !conversationUserList[i].TelosTouchSF__Contact__r.Name.contains((String)questionMap1.get('name'))) ||
