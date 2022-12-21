@@ -253,8 +253,14 @@ public with sharing class TTFilterUserController {
 
                 //FILTERING INSIGHTS
                 for(TelosTouchSF__Insights__c insight : lstInsight){
-                    Map<String, Object> campUserMap = (Map<String, Object>)JSON.deserializeUntyped(insight.TelosTouchSF__Conversation_Metadata__c);
-                    List<Object> campAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campUserMap.get('questionsandanswers')));
+                    List<Object> campAnswerList = new list<Object>();
+                    //CHECKING IF THE FIELD IS POPULATED
+                    if(!String.isEmpty(insight.TelosTouchSF__Conversation_Metadata__c) && 
+                        insight.TelosTouchSF__Conversation_Metadata__c.contains('questionsandanswers'))
+                    {
+                        Map<String, Object> campUserMap = (Map<String, Object>)JSON.deserializeUntyped(insight.TelosTouchSF__Conversation_Metadata__c);
+                        campAnswerList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(campUserMap.get('questionsandanswers')));
+                    }
                     Boolean insightNotInTheFilter = false;
                     
                     for(String questionId : formStringMap.keySet()){
