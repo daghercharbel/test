@@ -13,6 +13,7 @@
     <aura:attribute name="RecordStart" type="integer" default="0"/>
     <aura:attribute name="RecordEnd" type="integer" default="0"/>
     <aura:attribute name="pageSize" type="integer" default="10"/>
+    <aura:attribute name="activeTab" type="String" default="config"/>
     <aura:attribute name="syncTypeValue" type="String"/>
     <aura:attribute name="syncObjectValue" type="String"/>
     <aura:attribute name="packageConfigFailText" type="String"/>
@@ -43,7 +44,7 @@
     </aura:if>
     <aura:if isTrue="{!and(!v.showConfigSpinner, !v.showConfigErrorMessage)}">
         <div class="tabs-container">
-            <lightning:tabset >
+            <lightning:tabset selectedTabId="{!v.activeTab}">
                 <aura:if isTrue="{!v.isAdmin}">
                     <lightning:tab onactive="{! c.handleActive }" id="config">
                         <aura:set attribute="label">
@@ -102,7 +103,7 @@
                         <aura:set attribute="label">
                             {!$Label.c.Feature_Toggle}
                         </aura:set>
-                        <c:ttFeatureSettings/>
+                        <c:ttFeatureSettings onredirectEvent="{!c.handleRedirect}"/>
                         <c:ttcontactSupport tabName="NotTelosTouchSync"/>
                     </lightning:tab>
                 </aura:if>
@@ -110,7 +111,7 @@
                     <aura:set attribute="label">
                             {!$Label.c.Knowledge_Base_Text}
                     </aura:set>
-                    <c:knowledgeBase></c:knowledgeBase> 
+                    <c:knowledgeBase aura:id="knowledgeBase"></c:knowledgeBase> 
                     <c:ttcontactSupport tabName="NotTelosTouchSync"/>
                 </lightning:tab>
             </lightning:tabset>

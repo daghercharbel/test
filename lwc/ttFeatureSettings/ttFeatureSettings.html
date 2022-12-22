@@ -1,42 +1,92 @@
 <template>
+    <template if:true={isLoading}>
+        <lightning-spinner id="Spinner" alternative-text="Loading" variant="brand" class="spinner">
+        </lightning-spinner>
+    </template>
     <div if:true={showToast}>
-        <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}></c-ttcustom-toast>
-      </div>
+        <c-ttcustom-toast variant={variant} message={msg}
+            ontoastvisibilitychange={handleToastVisibilityChange}></c-ttcustom-toast>
+    </div>
     <div>
+        
+        <!-- TOPICS -->
         <lightning-layout>
             <lightning-layout-item padding="around-medium">
                 <div class="slds-grid slds-wrap portal">
                     <div class="slds-col slds-size_6-of-12">
-                        <span> 
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel"> 
-                                {label.INVITE}
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.add_remove_topic}
                             </div>
                         </span>
                     </div>
                     <div class="slds-col slds-size_6-of-12">
-                        <span> 
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium"> 
-                                <lightning-input type="toggle"  message-toggle-active="" message-toggle-inactive="" disabled={inviteFlag} onchange={handleInviteToggle} checked={enableInvite} ></lightning-input>
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                <lightning-input type="toggle" name="TelosTouchSF__ShowClientTagging__c"
+                                    checked={featureMetadata.TelosTouchSF__ShowClientTagging__c}
+                                    onchange={handleUpdate}></lightning-input>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <template if:true={featureMetadata.TelosTouchSF__ShowClientTagging__c}>
+                <lightning-layout-item padding="around-medium">
+                    <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
+                        <lightning-icon icon-name="utility:warning" alternative-text="Warning!"
+                            title="Warning"></lightning-icon>
+                        <h2>
+                            {label.topic_warning} &nbsp; <a href="#" onclick={callRedirect} name="userGuide">{label.more_information}</a>
+                            <!--This feature requires Topic for Objects configured properly. Please check the section "15.
+                            Activating and using Topics" in our <a onclick={callRedirect} name="userGuide">User Guide</a> for a step-by-step on how to do so. -->
+                        </h2>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+        <!-- DETAILED LOGGING -->
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col slds-size_6-of-12">
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.DETIALED_LOGGING}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12">
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                <lightning-input type="toggle" name="TelosTouchSF__ShowFinestLogs__c"
+                                    checked={featureMetadata.TelosTouchSF__ShowFinestLogs__c}
+                                    onchange={handleUpdate}></lightning-input>
                             </div>
                         </span>
                     </div>
                 </div>
             </lightning-layout-item>
         </lightning-layout>
+
+        <!-- CLIENT PORTAL -->
         <lightning-layout>
             <lightning-layout-item padding="around-medium">
                 <div class="slds-grid slds-wrap portal">
                     <div class="slds-col slds-size_6-of-12">
-                        <span> 
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel"> 
-                                {label.DETIALED_LOGGING}
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.INVITE}
                             </div>
                         </span>
                     </div>
                     <div class="slds-col slds-size_6-of-12">
-                        <span> 
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium"> 
-                                <lightning-input type="toggle"  message-toggle-active="" message-toggle-inactive="" checked={enableLogs} onchange={handleLogsToggle} ></lightning-input>
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                <lightning-input type="toggle" name="TelosTouchSF__SF_Flag__c" disabled={inviteFlag}
+                                    checked={featureMetadata.TelosTouchSF__SF_Flag__c}
+                                    onchange={handleUpdate}></lightning-input>
                             </div>
                         </span>
                     </div>

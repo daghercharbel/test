@@ -869,13 +869,6 @@ private with sharing class TelosTouchUtilityTest {
         Test.stopTest();
     }
     @isTest 
-    static void updateFinestLoggingTest(){
-        Test.startTest();
-        TelosTouchSF.TelosTouchUtility.updateFinestLogging(false, 'Invite');
-        System.assert(true,'it should be true');
-        Test.stopTest();
-    }
-    @isTest 
     static void revokeUserAccessTest(){
         
         List<User> sfUserList = new List<User>();

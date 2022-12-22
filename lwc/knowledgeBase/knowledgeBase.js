@@ -5,7 +5,7 @@
 * Description  : Under TT Setup Tab, this lwc contains all the doccuments of User Guide, Installation, Unistallation and Onboarding.
 * Controller   : KnowledgeBaseCompController.cls
 */
-import { LightningElement, wire, track } from "lwc";
+import { LightningElement, api, track } from "lwc";
 
 import GetImagesLinksKnowledgebase from "@salesforce/apex/KnowledgeBaseCompController.GetImagesLinksKnowledgebase";
 
@@ -23,6 +23,7 @@ import Uninstallation_Guide_Text from "@salesforce/label/c.Uninstallation_Guide_
 import Uninstallation_Guide_Related from "@salesforce/label/c.Uninstallation_Guide_Related";
 import Looking_for_help_text from "@salesforce/label/c.Looking_for_help_text";
 export default class KnowledgeBase extends LightningElement {
+
     label = {
         Welcome_to_Knowledge_base,
         Showing_docs_Knowledge_base,
@@ -37,17 +38,16 @@ export default class KnowledgeBase extends LightningElement {
         Looking_for_help_text,
         Knowledge_Base_Image_Error
     };
-    @track showCarousel = true;
-    @track showBackButton = false;
+
     @track isSmallDevice = false;
-
-    @track showOnboard = false;
-    @track showInstallation = false;
-    @track showUserGuide = false;
-    @track showUninstallation = false;
-
-
     @track mapData2 = {};
+    @track showBackButton = false;
+    @track showCarousel = true;
+    @track showInstallation = false;
+    @track showOnboard = false;
+    @track showUninstallation = false;
+    @track showUserGuide = false;
+
     connectedCallback() {
         if (FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small') {
             isSmallDevice = true;
@@ -66,6 +66,7 @@ export default class KnowledgeBase extends LightningElement {
             });
 
     }
+
     // When the Back Button is Clicked
     handleBack() {
         this.showOnboard = false;
@@ -75,6 +76,7 @@ export default class KnowledgeBase extends LightningElement {
         this.showBackButton = false;
         this.showCarousel = true;
     }
+
     // When the somethins on the Carousel is Clicked
     handleCarouselClick(event) {
         this.showCarousel = false;
@@ -89,6 +91,11 @@ export default class KnowledgeBase extends LightningElement {
         } else if (event.currentTarget.id.includes('uninstall') || event.currentTarget.id.includes('uninstallsmallDevice')) {
             this.showUninstallation = true;
         }
+    }
 
+    @api handleRedirect(value) {
+        this.showCarousel = false;
+        this.showBackButton = true;
+        if (value == 'userGuide') { this.showUserGuide = true; }
     }
 }

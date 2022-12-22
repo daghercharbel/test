@@ -67,30 +67,56 @@
         });
         $A.enqueueAction(action); 
     },
+
     handleActive: function (c, e, h) {
     },
+
+    handleRedirect: function (c, e, h){
+    
+        var value = e.getParam('value');
+        if(value == 'userGuide'){
+            c.set("v.activeTab", 'knowledge');
+            console.log('VOD ----------------------- handleRedirect AURA 1');
+            console.log(c.find('knowledgeBase'));
+            console.log('VOD ----------------------- handleRedirect AURA 2');
+            window.setTimeout(
+                $A.getCallback(function() {
+                    c.find('knowledgeBase').handleRedirect('userGuide');
+                }), 
+                100
+            );
+            console.log('VOD ----------------------- handleRedirect AURA 3');
+        }
+        
+    },
+
     SyncAllRecords: function (c, e, h) {
         c.set("v.isModalOpen", false);
         c.set("v.isShowSpinner", true);                    
         h.AllSynchedRecords(c,e,h);
     },
+
     closeModel: function(component, event, helper) {
         component.set("v.isModalOpen", false);
     },
+
     submitDetails: function(component, event, helper) {
         component.set("v.isModalOpen", false);
         var a = component.get('c.doinit');
         $A.enqueueAction(a);    
     },
+
     openMail: function(component, event, helper) {
         var a = document.createElement("a");
         a.href = "mailto:"+encodeURIComponent("support@telostouch.com");
         a.click();
     },
+
     onSyncChange : function (c,e,h) {
         if( !$A.util.isUndefinedOrNull(c.get('v.syncTypeValue')) && !$A.util.isEmpty(c.get('v.syncTypeValue')) &&
             !$A.util.isUndefinedOrNull(c.get('v.syncObjectValue')) && !$A.util.isEmpty(c.get('v.syncObjectValue')) ){
             c.set('v.manualSyncDisabled', false);
         }
     }
+
 })
