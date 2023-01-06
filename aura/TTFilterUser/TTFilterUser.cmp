@@ -23,6 +23,9 @@
     <aura:attribute name="IsSubscribed" type="String" />
     <aura:attribute name="disableSelectAllList" type="boolean" default="true" />
 
+    <aura:attribute name="campaignData" type="Campaign"/>
+    <aura:attribute name="disableCampaignSync" type="boolean" default="true"/>
+    <aura:attribute name="syncLabel" type="String" default="{!$Label.c.Sync_Campaign_Button}"/>
 
     <aura:attribute name="fielterDetails" type="Object" default="" />
     <aura:attribute name="columns" type="List" default="" />
@@ -102,6 +105,11 @@
                 </aura:if>
                 <aura:set attribute="else">
                     <lightning:layoutItem size="12" alignmentBump="right">
+                        <div class="slds-float--left">
+                            <lightning:button variant="brand" label="{!v.syncLabel}"
+                                title="{!v.syncLabel}" iconName="utility:refresh"
+                                disabled="{!v.disableCampaignSync}" onclick="{!c.handleSyncRequest}" />
+                        </div>
                         <div class="slds-float--right">
                             <aura:if isTrue="{!v.showAddToCampaign}">
                                 <lightning:button variant="brand" label="{!$Label.c.Add_to_Campaign_Text}"
