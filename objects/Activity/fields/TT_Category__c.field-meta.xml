@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TT_Category__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>BackendCategory</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>task</fullName>
+                <default>true</default>
+                <label>Task</label>
+            </value>
+            <value>
+                <fullName>request</fullName>
+                <default>false</default>
+                <label>Client Request</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
