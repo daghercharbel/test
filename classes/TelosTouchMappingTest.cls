@@ -103,20 +103,6 @@ private with sharing class TelosTouchMappingTest {
         System.assertEquals(true, returnValue, 'returnValue must be TRUE');
         Test.stopTest();
     }
-    /*@isTest
-    private static void updateSyncFieldTest(){
-        TT_Salesforce_Mapping__c mappingObj = new TT_Salesforce_Mapping__c();
-        mappingObj.Is_Sync_Empty_Field__c = true;
-        mappingObj.TT_Field__c = 'phoneNumber';
-        mappingObj.Salesforce_Field__c = 'phone';
-        mappingObj.Object_Name__c = 'Contact';
-        
-        insert mappingObj;
-        
-        Test.startTest();
-        TelosTouchMapping.updateSyncField(true, 'phoneNumber', 'Contact');
-        Test.stopTest();
-    }*/
     @isTest
     private static void addingStandardFieldsTest(){
         TT_Salesforce_Mapping__c mappingObj = new TT_Salesforce_Mapping__c();

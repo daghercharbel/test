@@ -16,7 +16,6 @@
     <aura:attribute name ="childlookup" type = "Boolean" default = "false"/>
     <aura:attribute name ="fromChildlookup" type = "Boolean" default = "false"/>
     <aura:attribute name="isShowSpinner" type="boolean" default="false"/>
-    <!--ltng:require styles="{!$Resource.TelosTouch + '/AddToCampaign.css'}"/-->
     
     <!-- Spinner starts here-->
     <aura:if isTrue="{!v.isShowSpinner}">
@@ -69,8 +68,6 @@
                     <aura:if isTrue="{!!(v.childlookup)}">
                         <lightning:layout horizontalAlign="spread">
                             <lightning:layoutItem class ="slds-p-top_small">
-                                <!--lightning:button class="slds-theme_brand" 
-                              variant="neutral" label="Cancel" onclick = "{!c.backEndorsementType}"/-->
                             </lightning:layoutItem>
                             <lightning:layoutItem class ="slds-p-top_small">
                                 <lightning:button class="slds-m-right_x-small slds-theme_neutral" 

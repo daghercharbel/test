@@ -38,18 +38,12 @@ public with sharing class GetCampaignsFromTTQueueableTest {
         
         insert CampaignMemberObj;
         
-        //List<Insights__c> conversionlist = new list<Insights__c>();
         TelosTouchSF__Insights__c conversionObject = new TelosTouchSF__Insights__c();
         conversionObject.TelosTouchSF__Campaign2__c = CampaignObj.id;
         conversionObject.Name='testyogita';
         conversionObject.TelosTouchSF__TouchPoint_Name__c = 'testing';
         conversionObject.TelosTouchSF__Contact__c = con.id;
         insert conversionObject;
-        //conversionlist.add(conversionObject);
-        //String searilizestring = JSON.serialize(conversionlist);
-        
-        //DateTime LAST_HOUR = System.NOW().addMinutes(-120);
-        //String formatted = LAST_HOUR.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
 
         TelosTouchSF__TT_Log__c logObject = new TelosTouchSF__TT_Log__c();
         logObject.TelosTouchSF__Comments__c = 'Operation Successfull';

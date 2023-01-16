@@ -3,7 +3,6 @@
         try{
             h.doInitHelper(c,e,h);
         }catch(exp){
-            //console.log(exp);
         }
     },
     handleActiveTab : function(c,e,h){
@@ -20,7 +19,6 @@
             c.set('v.selectedRecords',selectedData);
             h.fetchData_helper(c,e,h,tab,'');
         }catch(exp){
-            //console.log(exp);
         }
     },
     loadMoreData : function(c,e,h){
@@ -31,13 +29,11 @@
             var tab = c.get('v.SelectedTabId');
             h.fetchData_helper(c,e,h,tab,'');
         }catch(exp){
-            //console.log(exp);
         }
     },
     searchRecord: function (c,e, h) {
         try{
             var searchFilter = document.getElementById("search").value;
-            //var isEnterKey = e.keyCode === 13;
             if ($A.util.isEmpty(document.getElementById("search").value)) {
                 c.set('v.isSpin',true);
                 var data = c.get('v.Data');
@@ -48,7 +44,6 @@
                 c.set('v.errorMessage','');
             }
         }catch(exp){
-            //console.log(exp);
         }
     },
     onSearchButton : function (c,e, h) {
@@ -66,7 +61,6 @@
                 h.searchRecordHelper(c, e, h);
             }
         }catch(err){
-            //console.log(err);
         }
     },
     onrowselection: function (c , e, h) {
@@ -104,7 +98,6 @@
             c.set('v.Data',data);
             c.set('v.selectedRecords',oldSelectedRows);
         }catch(err){
-            //console.log(err);
         }
     },
     removePill : function(c, e, h){
@@ -131,14 +124,11 @@
             c.set('v.Data',data);
             c.set('v.selectedRecords',selectedRecords);
         }catch(err){
-            //console.log(err);
         }
     },
     onEventHandle_Add : function(c, e, h){
         try{
-            //console.log('Event handled');
             var eventMessage = e.getParam("isCampaign");
-            //console.log(eventMessage);
             if(eventMessage == true){
                 var records = c.get('v.selectedRecords');
                 if(records.length > 0){
@@ -149,7 +139,6 @@
             }
             
         }catch(err){
-            //console.log(err);
         }
     }
 })

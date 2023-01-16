@@ -1,0 +1,368 @@
+<template>
+
+    <div class="outer-div">
+        <template if:true={isShowSpinner}>
+            <lightning-spinner id="Spinner" alternative-text="Loading" variant="brand" class="spinner">
+            </lightning-spinner>
+        </template>
+    </div>
+    <div id="MainContainer">
+        <div class="slds-page-header slds-border_left slds-border_top slds-border_right">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:setup" variant="inverse" class="customcoloricon"
+                        alternative-text="Setup" size="medium"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle"
+                        title={label.TT_API_Setup_Title}>{label.TT_API_Setup_Title}</h1>
+                    <p class="slds-text-body_small slds-line-height_reset">{label.Fill_Details_Text}</p>
+                </div>
+                <template if:true={isNotPhoneAndNotEntrepriseClient}>
+                    <div class="slds-var-m-left_x-small">
+                        <c-ttupgrade-to-enterprise></c-ttupgrade-to-enterprise>
+                    </div>
+                </template>
+            </div>
+            <template if:true={isPhoneAndNotEntrepriseClient}>
+                <div class="slds-var-m-left_x-small slds-p-top_small">
+                    <c-ttupgrade-to-enterprise></c-ttupgrade-to-enterprise>
+                </div>
+            </template>
+        </div>
+        <div class="slds-align_absolute-center slds-p-top_small">
+            <template if:true={settingApproval}>
+                <P class="slds-p-left_small successfull">
+                    <lightning-icon icon-name="action:approval" size="small" alternative-text="Approval"
+                        title="Approval"></lightning-icon><strong>&nbsp;&nbsp;{label.Successful_Text}</strong>
+                </P>
+            </template>
+            <template if:false={settingApproval}>
+                <P class="slds-p-left_small reject">
+                    <lightning-icon icon-name="action:reject" size="x-small" alternative-text="Reject" title="Reject">
+                    </lightning-icon><strong>&nbsp;&nbsp;{label.Rejected_Text}</strong>
+                </P>
+            </template>
+
+        </div>
+
+        <div class="" id="ErrorId">
+            <div role="form"
+                class="slds-form--stacked slds-grid slds-wrap slds-p-around--small slds-border_left slds-border--right">
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Client_ID}
+                    </legend>
+                    <div class="slds-form-element">
+                        <lightning-input name="" data-id="formIdClientId" placeholder="3MVG9n_HvETGhr3BjkZS8f..."
+                            value={setting_Client_ID} onblur={handleSetting_Client_IDChange}
+                            label={label.Config_Client_ID} disabled={isNotEdit} variant="label-hidden" required>
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Client_Secret}
+                    </legend>
+                    <div class="slds-form-element">
+                        <lightning-input name="" data-id="formIdClientSec" type="password"
+                            placeholder="79DDB36DE1E6BC4C..." value={setting_Client_Secret}
+                            onblur={handleSetting_Client_Secret} label={label.Config_Client_Secret} required="true"
+                            disabled={isNotEdit} variant="label-hidden"></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <div role="form"
+                class="slds-form--stacked slds-grid slds-wrap slds-p-around--small slds-border_left slds-border--right slds-m-bottom_x-large">
+                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <legend class="slds-form-element__legend slds-form-element__label">*{label.Config_Instance_URL}
+                    </legend>
+                    <div class="slds-form-element">
+                        <lightning-input name="" data-id="formIdInstance" placeholder="https://instanceurl.com"
+                            value={setting_Instance_URL} onblur={handleSetting_Instance_URL}
+                            label={label.Config_Instance_URL} required="true" disabled={isNotEdit}
+                            variant="label-hidden"></lightning-input>
+
+                    </div>
+                </div>
+                <div if:true={showAdvancedOptions}
+                    class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <legend class="slds-form-element__legend slds-form-element__label">
+                        *{label.Config_Authentication_URL}</legend>
+                    <div class="slds-form-element">
+                        <lightning-input name="" data-id="formIdAuthent" value={setting_Authentication_URL}
+                            label={label.Config_Authentication_URL} onblur={handlesetting_Authentication_URL}
+                            required="true" disabled={isNotEdit} variant="label-hidden"></lightning-input>
+                    </div>
+                    <a onclick={toggleAdvancedOptions}>{label.Hide_Advanced_Options_Text}</a>
+                </div>
+
+                <div if:false={showAdvancedOptions}
+                    class="slds-align-bottom slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2">
+                    <a onclick={toggleAdvancedOptions}>{label.Show_Advanced_Options_Text}</a>
+                </div>
+            </div>
+        </div>
+        <template if:true={showRegistrationMessage}>
+            <div class="slds-text-align--center slds-m-bottom_large">
+                <template if:true={resendBtnDisabled}>
+                    Please check your E-Mail Address for instructions to obtain Client Id &amp; Client Secret.<br />
+                    Your current invite expires in {ltngTimer}.
+                </template>
+                <template if:false={resendBtnDisabled}>
+                    Please check your E-Mail Address for instructions to obtain Client Id &amp; Client Secret.<br />
+                    Didn't recieve confirmation E-Mail? <lightning-button variant="base" label="Resend E-Mail"
+                        title="Resend E-Mail" disabled={resendBtnDisabled} onclick={resendRegistrationRequest}>
+                    </lightning-button>
+                </template>
+            </div>
+        </template>
+        <template if:true={showContactMessage}>
+            <div class="slds-text-align--center slds-m-bottom_large">
+                Org is already Registered. Please Contact TelosTouch using the Button at Bottom Right.
+            </div>
+        </template>
+        <div class="slds-text-align--center">
+            <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Save_Button_Label}
+                disabled={isDisSave} onclick={saveSettings}></lightning-button>
+            <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Edit_Button_Label}
+                onclick={editSettings}></lightning-button>
+            <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small"
+                label={label.Update_Add_Users_Button_Label} onclick={updateAndAddUsers}
+                disabled={isEditAndnotsettingApproval}></lightning-button>
+            <template if:true={showAdvancedOptions}>
+                <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small"
+                    label={label.Refresh_Token_Button_Label} onclick={refreshToken} disabled={notsettingApproval}>
+                </lightning-button>
+            </template>
+            <lightning-button variant="brand-outline" class="slds-button slds-m-top_xx-small"
+                label={label.Cancel_Button_Label} disabled={isNotEdit} onclick={cancelSettings}></lightning-button>
+        </div>
+        <footer>
+            <p align="center" class="supportemailCSS">
+                {label.Config_Footer}
+            </p>
+        </footer>
+
+        <div if:true={showToast}>
+            <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}>
+            </c-ttcustom-toast>
+        </div>
+        <template if:true={afterSaveCredentials}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large"
+                aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-grid slds-wrap">
+                        <div
+                            class="slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_1-of-3">
+                            <div></div>
+                        </div>
+                        <div
+                            class="slds-size_1-of-1 slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.Access_To_TT}</h2>
+                        </div>
+                        <div if:false={isSmallDevice}
+                            class="slds-size_1-of-1 searchIcon slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
+                            <template if:true={showSearchBar}>
+                                <div class="searchBar">
+                                    <input type="search" placeholder="Enter Min. 3 Letters of Email or Username..."
+                                        class="slds-input" onkeyup={searchKeyword} id="search" value={searchValue} />
+                                </div>
+                                <div class="closeIcon">
+                                    <lightning-icon icon-name="utility:close" size="small"
+                                        alternative-text="Close Search" title="Close Search" onclick={hideSearch}>
+                                    </lightning-icon>
+                                </div>
+                            </template>
+                            <template if:false={showSearchBar}>
+                                <div>
+                                    <lightning-icon class="slds-float_right" icon-name="utility:search" size="small"
+                                        alternative-text="Search Users" title="Search Users" onclick={displaySearch}>
+                                    </lightning-icon>
+                                </div>
+                            </template>
+                        </div>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"
+                        style="overflow:scroll;">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th></th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Name">{label.User_Name_Text}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Phone">{label.Profile_Text}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Type">{label.Email_Text}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Type">{label.TT_user_Text}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Access">{label.User_access_text}</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={listdata} for:item="obj">
+                                    <tr key={obj.Id}>
+                                        <th scope="row" class="slds-text-align_right" style="width:3rem;">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <label class="slds-checkbox">
+                                                        <lightning-input type="checkbox" value={obj.Id}
+                                                            onchange={checkboxSelect}></lightning-input>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                {obj.Username}
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                {obj.Profile}
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                {obj.Email}
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                {obj.TTUser}
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <template if:true={obj.isDisable}>
+                                                <lightning-button label={label.Revoke_access_text} variant="destructive"
+                                                    data-id={obj.Id} onclick={handleRevokeAccess}></lightning-button>
+                                            </template>
+                                            <template if:false={obj.isDisable}>
+                                                <lightning-button label={label.Grant_Access} variant="success"
+                                                    data-id={obj.Id} onclick={handleGrantAccess}>
+                                                </lightning-button>
+                                            </template>
+                                        </th>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <template if:true={userRevokeAccessModal}>
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open slds-modal_small">
+                            <div class="slds-modal__container">
+                                <span class="slds-modal__close">
+                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse"
+                                        alternative-text="close" onclick={handleCancelRevoke} size="large">
+                                    </lightning-button-icon>
+                                </span>
+                                <div class="slds-modal__header">
+                                    <h1 class="slds-modal__title slds-hyphenate">
+                                        {label.Change_User_text}</h1>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                    <template if:true={userIdForRestriction}>
+                                        <p class="slds-align_absolute-center">{label.User_permission_text}</p>
+                                    </template>
+                                    <template if:true={revokeCurrentUser}>
+                                        <p
+                                            class="slds-align_absolute-center slds-p-top_small slds-text-color_destructive">
+                                            {label.Revoke_Current_User}</p>
+                                    </template>
+                                </div>
+                                <div class="slds-modal__footer">
+                                    <lightning-button variant="brand" label={label.Yes_Text}
+                                        onclick={handleConfirmRevoke} class="slds-m-right_x-small">
+                                    </lightning-button>
+                                    <lightning-button variant="brand" label={label.No_Text}
+                                        onclick={handleCancelRevoke}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+                    </template>
+
+                    <template if:true={userGrantAccessModal}>
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open slds-modal_small">
+                            <div class="slds-modal__container">
+                                <span class="slds-modal__close">
+                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse"
+                                        alternative-text="close" onclick={handleCancelGrant} size="large">
+                                    </lightning-button-icon>
+                                </span>
+                                <div class="slds-modal__header">
+                                    <h1 class="slds-modal__title slds-hyphenate">
+                                        {label.Grant_Access_To_User_Text}</h1>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                    <p class="slds-align_absolute-center">{label.Grant_User_permission_text}</p>
+                                </div>
+                                <div class="slds-modal__footer slds-text-align_center">
+                                    <lightning-button variant="brand" label={label.Yes_Text}
+                                        onclick={handleConfirmGrant} class="slds-m-right_x-small">
+                                    </lightning-button>
+                                    <lightning-button variant="brand" label={label.No_Text} onclick={handleCancelGrant}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+                    </template>
+
+
+                    <footer class="slds-modal__footer">
+                        <lightning-layout vertical-align="stretch" multiple-rows="true">
+                            <lightning-layout-item size="12">
+                                <template if:true={isPhone}>
+                                    <input type="search" placeholder="Enter Min. 3 Letters of Email/Username..."
+                                        class="slds-input placeholder" onkeyup={searchKeyword} value={searchValue} />
+                                </template>
+                                <template if:true={isTablet}>
+                                    <input type="search" placeholder="Enter Min. 3 Letters of Email/Username..."
+                                        class="slds-input" onkeyup={searchKeyword} value={searchValue} />
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto"
+                                class="header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small slds-truncate">
+                                {label.Showing_Text}&nbsp; {fromEntries}-{toEntries} out of {filteredRecordsSize}.
+                                <br /><span>{label.IfTwoUserHaveSameEmail}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto"
+                                class="pages-area header-area-1 slds-p-vertical_small slds-text-align_left slds-p-left_small">
+                                {label.Pages_Text}: {currentPage}/{totalPages}
+                            </lightning-layout-item>
+
+                            <lightning-layout-item>
+                                <lightning-button label={label.Previous_Button_Label} disabled={currentPageLessEqual1}
+                                    icon-name="utility:chevronleft" onclick={goToPreviousPage}
+                                    class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label={label.Next_Button_Label} icon-position="right"
+                                    disabled={currentPageEqualTtotalPages} icon-name="utility:chevronright"
+                                    onclick={goToNextPage} class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label={label.Cancel_Button_Label} onclick={cancelUserModal}
+                                    class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label={label.Revoke_access} disabled={isEmptySelectedUserList}
+                                    onclick={checkRevokeUsers} class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label={label.GIve_TT_Access} disabled={isEmptySelectedUserList}
+                                    onclick={SendSFUserToTT} variant="Brand"></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+
+</template>

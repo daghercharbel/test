@@ -59,15 +59,6 @@ global  with sharing class UpdateUserTokenBatch implements Database.batchable<sO
 * @param BC ....
 */
     global void finish(Database.BatchableContext BC){
-        /*if(adminCredentials != null){
-Integer noOfDays = 0;
-if(adminCredentials.RefreshTokenLastmodifiedDate != null){
-noOfDays = adminCredentials.RefreshTokenLastmodifiedDate.date().daysBetween( Date.today() );   
-if(noOfDays >8){
-
-}
-}
-}*/
         if(adminCredentials != null){
             TelosTouchUtility.updateCustomMetadata(adminCredentials);
         }

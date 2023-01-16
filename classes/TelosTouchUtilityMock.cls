@@ -1,6 +1,5 @@
 @isTest
 global class TelosTouchUtilityMock implements HttpCalloutMock {
-    // Implement this interface method
              /**
 * @author Cloud Analogy
 * @date 02/08/2021

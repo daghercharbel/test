@@ -1,7 +1,6 @@
 ({
     doInit_helper: function (c, e, h) {
         try {
-            // console.log('doinit of ttfilter');
             if(c.get('v.showCreateSingleActions')){
                 c.set("v.columns", [
                     {
@@ -112,7 +111,6 @@
             $A.enqueueAction(action);
             h.initializeWrapper(c, e, h);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     initializeWrapper: function (c, e, h) {
@@ -126,8 +124,6 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
-                //console.log('rtnValue>>'+JSON.stringify(rtnValue));
-                //console.log(rtnValue);
                 if (
                     !$A.util.isEmpty(rtnValue) &&
                     rtnValue != null &&
@@ -141,22 +137,117 @@
                         c.set("v.disableSelectAllList", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
-                    //console.log('returned Data:: '+ JSON.stringify(rtnValue.userWrapperList));
-                //     let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                //     c.set("v.totalPages", totPage);
-                //     if(c.get("v.pageNo") == 1){
-                //         c.set("v.preDisable",true);
-                //     }
-                //    h.preparePaginationList(c,e,h);
                 }else{
                     c.set("v.disableSelectAllList", true);
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
+
+    handleCampaignData: function (c) {
+
+        var action = c.get("c.getCampaignData");
+        action.setParams({
+            recordId: c.get("v.recordId")
+        });
+
+        action.setCallback(this, function(response) {
+			var state = response.getState();
+			if(state === 'SUCCESS') {
+				var result = response.getReturnValue();
+                c.set("v.campaignData", result);
+			} else {
+				var errors = response.getError();
+				if(!$A.util.isEmpty(errors)) {
+					for(var i = 0; i < errors.length; i++) {
+						console.error(errors[i].message);
+					}
+				} else {
+                    console.error(errors);
+                }
+			}
+            this.allowSyncCountdown(c);
+		});
+
+		$A.enqueueAction(action);
+    },
+
+    allowSyncCountdown: function (c) {
+        var campaignData = c.get("v.campaignData");
+        var lastSyncTime = campaignData.TelosTouchSF__TT_Last_Sync_Time__c;
+
+        if($A.util.isEmpty(campaignData.TelosTouchSF__TT_Campaign_Id__c)){
+            c.set("v.disableCampaignSync", true);
+            c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+            return;
+        } else if(lastSyncTime == undefined){
+            c.set("v.disableCampaignSync", false);
+            c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+            return;
+        }
+
+        if(!$A.util.isEmpty(c._TTintervalID)){ return; }
+
+        function tick(){
+            var now = new Date();
+            var diff = now.getTime() - Date.parse(lastSyncTime);
+            diff = diff/1000;
+
+            if(diff >= 120){
+                c.set("v.disableCampaignSync", false);
+                c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+                window.clearInterval(c._TTintervalID);
+                c._TTintervalID = null;
+            } else {
+                c.set("v.disableCampaignSync", true);
+                var totalseconds = 120 - diff;
+                var seconds=Math.floor(totalseconds%60);
+                var minutes=Math.floor( (totalseconds%3600)/60);
+                var  countdown='';
+                countdown+=(minutes>=10?minutes:'0'+minutes);
+                countdown+=':';
+                countdown+=(seconds>=10?seconds:'0'+seconds);
+                c.set("v.syncLabel", countdown);
+            }
+
+        }
+        var tickBack=$A.getCallback(tick);
+        c._TTintervalID= window.setInterval(tickBack, 1000);
+    },
+
+    requestCampaignSync: function (c) {
+
+        c.set("v.isShowSpinner", true);
+        var action = c.get("c.requestSync");
+        action.setParams({
+            recordId: c.get("v.recordId")
+        });
+
+        action.setCallback(this, function(response) {
+			var state = response.getState();
+			if(state === 'SUCCESS') {
+                var campaignData = c.get("v.campaignData");
+                campaignData.TelosTouchSF__TT_Last_Sync_Time__c = new Date();
+                c.set("v.campaignData", campaignData);
+			} else {
+				var errors = response.getError();
+				if(!$A.util.isEmpty(errors)) {
+					for(var i = 0; i < errors.length; i++) {
+						console.error(errors[i].message);
+					}
+				} else {
+                    console.error(errors);
+                }
+			}
+            this.allowSyncCountdown(c);
+            c.set("v.isShowSpinner", false);
+		});
+
+		$A.enqueueAction(action);
+    },
+
     fielterEvent_helper: function (c, e, h, isFormType) {
         try {
             c.set("v.isShowSpinner", true);
@@ -171,7 +262,6 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    // console.log('return value:: '+JSON.stringify(rtnValue));
                     c.set("v.data", rtnValue);
                     if(c.get("v.data").length !=0 ){
                         c.set("v.disableSelectAllList", false);
@@ -179,16 +269,12 @@
                         c.set("v.disableSelectAllList", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
-                    // let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
-                    // c.set("v.totalPages", totPage);
-                    // h.preparePaginationList(c,e,h);
                 }else{
                     c.set("v.disableSelectAllList", true);
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     sendReminder_Helper: function (c, e, h, recordId) {
@@ -216,7 +302,6 @@
                         "success",
                         $A.get("$Label.c.Reminder_Sent_Successfully_Text")
                     );
-                    //h.showToast_Helper(c,'success',rtnValue);
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -230,7 +315,6 @@
                         "error",
                         $A.get("$Label.c.No_Valid_Client_Found_Toast")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.No_Valid_Client_Found_Toast"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -244,7 +328,6 @@
                         "error",
                         $A.get("$Label.c.Send_Reminder_Time_Error_Text")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Send_Reminder_Time_Error_Text"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -258,7 +341,6 @@
                         "error",
                         $A.get("$Label.c.Unauthorized_User_Label")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Unauthorized_User_Label"));
                 } else if (
                     state == "SUCCESS" &&
                     rtnValue != null &&
@@ -272,7 +354,6 @@
                         "error",
                         $A.get("$Label.c.Internal_Server_Error_Text")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Internal_Server_Error_Text"));
                 } else {
                     h.showSuccess(
                         c,
@@ -282,12 +363,10 @@
                         "error",
                         $A.get("$Label.c.Reminder_Not_Sent_Toast")
                     );
-                    //h.showToast_Helper(c,'error',$A.get("$Label.c.Reminder_Not_Sent_Toast"));
                 }
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     selectedUserList_Helper: function (c, e, h) {
@@ -334,8 +413,6 @@
             if(state == 'SUCCESS'){
                 this.viewRecord_helper(c, undefined, this, recordId);
             } else {
-                // console.log('Failed with State: '+state);
-                // console.log('Response: '+response);
                 c.set("v.isShowSpinner", false);
             }
         });
@@ -356,9 +433,7 @@
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
-                    //c.set("v.isShowModel",true);
                     c.set("v.answers", rtnValue[0]);
-                    //console.log('answers:: '+JSON.stringify(c.get("v.answers")));
                     $A.createComponents(
                         [
                             [
@@ -379,7 +454,6 @@
                             if (status === "SUCCESS") {
                                 c.find("overlayLib")
                                 .showCustomModal({
-                                    //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                                     header: components[0],
                                     body: components[1],
                                     showCloseButton: true,
@@ -389,7 +463,6 @@
                             }
                         }
                     );
-                    //console.log('answers::'+JSON.stringify(c.get("v.answers")));
                 } else {
                     h.showSuccess(
                         c,
@@ -403,7 +476,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     
@@ -469,7 +541,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log('Exception::'+ex);
         }
     },
     
@@ -510,7 +581,6 @@
                         "success",
                         $A.get("$Label.c.Task_Create_Success_Text")
                     );
-                    //h.showToast_Helper(c,'success',$A.get("$Label.c.Task_Create_Success_Text"));
                     window.location.reload();
                     c.set("v.createAction", false);
                     var result = response.getReturnValue();
@@ -518,7 +588,6 @@
             });
             $A.enqueueAction(action);
         } catch (error) {
-            //console.log(error);
         }
     },
     
@@ -532,7 +601,6 @@
         c.set("v.newTask.ActivityDate", today);
         c.set("v.TodayDate", today);
         if (h.selectedUserList_Helper(c, e, h) != false) {
-            //c.set("v.createAction",true);
             var action = c.get("c.fetchRecordType");
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -566,7 +634,6 @@
                                 if (status === "SUCCESS") {
                                     c.find("overlayLib")
                                     .showCustomModal({
-                                        //header: rtnValue[0].TouchPointName+'\n'+rtnValue[0].Name,
                                         header: $A.get("$Label.c.Create_Task_Text"),
                                         body: content[0],
                                         footer: content[1],
@@ -593,25 +660,8 @@
             });
             $A.enqueueAction(action);
         }
-        
-        //h.getPicklistValues(c, e, h);
     },
-    
-    /*getPicklistValues: function(component, event) {
-        var action = component.get("c.getSubectDefaultValue");
-        action.setCallback(this, function(response) {
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                var result = response.getReturnValue();
-                var fieldMap = [];
-                for(var key in result){
-                    fieldMap.push({key: key, value: result[key]});
-                }
-                component.set("v.fieldMap", fieldMap);
-            }
-        });
-        $A.enqueueAction(action);
-    }*/
+
     preparePaginationList: function(c,e,h) {
         try{
             if(c.get("v.pageNo") <= c.get("v.totalPages") && c.get("v.pageNo") != 1){
@@ -645,16 +695,12 @@
             c.set("v.endRecord", endRec);
             let finalEnd = end > c.get("v.data").length ? true : false;
             c.set("v.end", finalEnd);
-            //console.log('data:: '+JSON.stringify(c.get("v.listData")));
-            //h.onOffSelectAll(c,e,h);
         }catch(error){
-            //console.log('error , pagination :: '+ error);
         } 
     },
     getSelectedClientsRecords: function (c, e, h, updatedList) {
         if (updatedList.length > 0 && updatedList != undefined) {
             let tempFinalList = c.get("v.userList");
-            //console.log('tempFinalList:: '+ JSON.stringify(tempFinalList));
             for(let i=0; i<updatedList.length; i++){
                 const isFound = tempFinalList.some(element => {
                     if (element.Id === updatedList[i].Id) {
@@ -662,11 +708,8 @@
                     }
                     return false;
                   });
-                //console.log(tempFinalList.includes(updatedList[i]));
                 if(updatedList[i].isChecked == true && !isFound){
-                    //console.log("updatedList loop success:: " + JSON.stringify(updatedList[i]));
-                    tempFinalList.push(updatedList[i]); 
-                    // count++;
+                    tempFinalList.push(updatedList[i]);
                 }
             }
             for(let i=0;i<tempFinalList.length; i++){
@@ -696,7 +739,6 @@
                 c.set("v.isDisableSendTouchPointBtn", true);
 
             }
-        //   c.set("v.isDisableSendTouchPointBtn", false);
         } else {
            c.set("v.isDisableSendTouchPointBtn", true);
 
@@ -714,9 +756,7 @@
                   }
                   return false;
                 });
-               // console.log("isFound:: "+ isFound);
               if(updatedList[i].isChecked == true && !isFound){
-                  //console.log('updatedList[i]:: '+JSON.stringify(updatedList[i]));
                   tempFinalList.push(updatedList[i]); 
                   count++;
               }
@@ -724,7 +764,6 @@
                       for( let x of tempFinalList){
                           if(x.Id == updatedList[i].Id){
                               x.isChecked = updatedList[i].isChecked;
-                              //console.log('x: '+JSON.stringify(x));
                           }
                       }
               }
@@ -750,7 +789,6 @@
               c.set("v.isDisableSendTouchPointBtn", true);
 
           }
-      //   c.set("v.isDisableSendTouchPointBtn", false);
        
       } else {
          c.set("v.isDisableSendTouchPointBtn", true);
@@ -776,7 +814,6 @@
         } catch (error) {
             console.log(error);
         }
-        //console.log('final value:: '+ c.get("v.selectAllList"));
     },
     updateCheckedData: function(c,e,h,mainList){
         if(mainList.length>0){
@@ -804,7 +841,6 @@
                         break;
                     }
                 }
-                //console.log('flag:: '+ flag);
                 if(flag){
                     c.set("v.selectAllList", false);
                 }else{
@@ -825,6 +861,5 @@
             }
             h.preparePaginationList(c,e,h);
         }
-        //console.log('mainList after pagination:: '+ JSON.stringify(mainList));
       }
 });

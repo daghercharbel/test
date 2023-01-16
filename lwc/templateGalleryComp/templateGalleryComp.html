@@ -6,12 +6,19 @@
     <div class="container">
       <lightning-layout>
         <lightning-layout-item padding="around-small">
-          <lightning-combobox label="Show" value={templateType} options={templateOptions} onchange={handleFilterChange}>
+          <lightning-combobox label={label.showText} value={templateType} data-id="templateShow"
+            options={templateOptions} onchange={handleFilterChange}>
+          </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+          <lightning-combobox label={label.Sort_By_Text} value={sortingType} data-id="templateFilter"
+            options={sortingOptions} onchange={handleFilterChange}>
           </lightning-combobox>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" alignment-bump="left">
           <div class=" slds-text-align_center">
-            <lightning-input label="" type="search" placeholder={label.Search_Text} onchange={handleSearchInput}>
+            <lightning-input label="" value={searchValue} type="search" placeholder={label.Search_Text}
+              onchange={handleSearchInput}>
             </lightning-input>
           </div>
         </lightning-layout-item>
@@ -24,11 +31,10 @@
               class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
               <div data-id={each.id} class="slds-text-align_center imgCard" onclick={openSelectedTemplatePreview}>
                 <div class="imgStyleCard" style={each.imageURL}>
-                  <lightning-badge if:true={each.is_private} label="" icon-name="utility:lock"
-                    class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small private-badge">
+                  <lightning-badge if:true={each.is_private} label={label.Private_Text}
+                    class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small">
                   </lightning-badge>
                 </div>
-                <!-- <div class="bankDiv"></div> -->
                 <div class="tooltip">
                   <div if:false={fr} class="tpName">{each.name}</div>
                   <span class="tooltip-drop tooltip-top">{each.name}</span>
@@ -37,10 +43,15 @@
                   <div if:true={fr} class="tpName">{each.name_fr}</div>
                   <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
                 </div>
-                <div class="tooltip">
-                  <div class="tpDate">{each.Description}</div>
-                  <span class="tooltip-drop tooltip-top">{each.Description}</span>
-                </div>
+                <template if:false={each.isDescriptionNull}>
+                  <div class="tooltip">
+                    <div class="tpDate">{each.Description}</div>
+                    <span class="tooltip-drop tooltip-top">{each.Description}</span>
+                  </div>
+                </template>
+                <template if:true={each.isDescriptionNull}>
+                  <div class="tpDate description-null-height">{each.Description}</div>
+                </template>
                 <div class="tpDate">{each.modified_at}</div>
               </div>
             </div>
@@ -51,7 +62,7 @@
         <lightning-layout>
           <lightning-layout-item class="leftIconStyle" alignment-bump="left">
             <div class="slds-text-align_center">
-              <lightning-button-icon icon-name="utility:chevronleft" onclick={previousHandler}
+              <lightning-button-icon icon-name="utility:chevronleft" variant="brand" onclick={previousHandler}
                 disabled={disablePrevious} size="large" alternative-text="View More"></lightning-button-icon>
             </div>
           </lightning-layout-item>
@@ -59,14 +70,16 @@
             <lightning-button label={prevPage} title="Non-primary action" onclick={prevPageAction}>
             </lightning-button>
           </lightning-layout-item>
-          <lightning-layout-item class={nextBtnClass}>
-            <lightning-button label={nextPage} disabled={secondPageDisabled} onclick={nextPageAction}
-              title="Non-primary action"></lightning-button>
-          </lightning-layout-item>
+          <template if:false={hideLastButton}>
+            <lightning-layout-item class={nextBtnClass}>
+              <lightning-button label={nextPage} disabled={secondPageDisabled} onclick={nextPageAction}
+                title="Non-primary action"></lightning-button>
+            </lightning-layout-item>
+          </template>
           <lightning-layout-item>
             <div class="slds-text-align_center btnBorderInActive">
-              <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler} disabled={disableNext}
-                size="large" alternative-text="View More"></lightning-button-icon>
+              <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler} variant="brand"
+                disabled={disableNext} size="large" alternative-text="View More"></lightning-button-icon>
             </div>
           </lightning-layout-item>
         </lightning-layout>

@@ -29,14 +29,11 @@
                   <template if:true={data.checkRingProgress}>
                     <div class="slds-col slds-size_2-of-12 slds-medium-size_1-of-12 text-align-center slds-var-p-bottom_x-small">
                       {data.progress}%
-                      <!-- <lightning-helptext content={data.progressString} class="slds-var-p-left_small"></lightning-helptext> -->
                     </div>
                   </template>
                   <template if:false={data.checkRingProgress}>
                     <div class="slds-col slds-size_2-of-12 slds-medium-size_1-of-12 text-align-center">
                       <lightning-progress-ring value={data.progress} class="complete-progress" variant="base-autocomplete"></lightning-progress-ring>
-                      <!-- <lightning-icon class="complete-progress" icon-name="action:check" size="xx-small"></lightning-icon> -->
-                      <!-- <lightning-helptext content={data.progressString} class="slds-var-p-left_small slds-align-top"></lightning-helptext> -->
                     </div>
                   </template>
                   <div class="slds-col slds-size_4-of-12 slds-medium-size_4-of-12">

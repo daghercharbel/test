@@ -12,40 +12,6 @@
     </header>
     <aura:if isTrue="{!v.showCarousel}"> 
         <div class="c-container slds-m-top_medium container-bg-color">
-            <!--lightning:layout multipleRows="true">
-                <lightning:layoutItem class="slds-align_absolute-center" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="4" padding="around-small">
-                    <lightning:carousel disableAutoRefresh="false" disableAutoScroll="false">
-                        <lightning:carouselImage
-                                                 src = "{!$Resource.Assets + '/onboard.jpg'}"
-                                                 header = "Onboarding Checklist"
-                                                 description = "Click on this Document to get help on getting onboard TelosTouch"
-                                                 id="onboard"
-                                                 onclick="{!c.handleCarouselClick}">
-                        </lightning:carouselImage>
-                        <lightning:carouselImage
-                                                 src = "{!$Resource.Assets + '/install.jpg'}"
-                                                 header = "Installation Guide"
-                                                 description = "Click on this Document to get help on installing TelosTouch Salesforce App"
-                                                 id="install"
-                                                 onclick="{!c.handleCarouselClick}">
-                        </lightning:carouselImage>
-                        <lightning:carouselImage
-                                                 src = "{!$Resource.Assets + '/user.jpg'}"
-                                                 header = "User Guide"
-                                                 description = "Click on this Document to get help on using TelosTouch Salesforce App"
-                                                 id="userGuide"
-                                                 onclick="{!c.handleCarouselClick}">
-                        </lightning:carouselImage>
-                        <lightning:carouselImage
-                                                 src = "{!$Resource.Assets + '/uninstall.jpg'}"
-                                                 header = "Uninstallation Guide"
-                                                 description = "Click on this Document to get help on uninstalling TelosTouch Salesforce App"
-                                                 id="uninstall"
-                                                 onclick="{!c.handleCarouselClick}">
-                        </lightning:carouselImage>
-                    </lightning:carousel>
-                </lightning:layoutItem>
-            </lightning:layout-->
             <div class="slds-align_absolute-center help-label"><b>{!$Label.c.Looking_for_help_text} ?</b></div>
             <div class="slds-align_absolute-center slds-m-top_medium welcome-label">
                     {!$Label.c.Welcome_to_Knowledge_base}
@@ -158,11 +124,9 @@
             </div>
             <p class="article-para">
                 <b>STEP 1</b>:  Enter the user name and password of the Installation Org in which you want to install the TT App.
-                <!--a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2w000009MhIx">Click Here</a--><br/><br/>
+                <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__Installation_image_1}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <br/><br/>
-                <!--b>Example</b>: Use Org Base URL from ‘https://nbcsandbox.com/’ + package URL from ‘packaging/installPackage.apexp?p0=04t2w000009MhIx’
-                https://nbcsandbox.com/packaging/installPackage.apexp?p0=04t2w000009MhIx<br/><br/-->
                 
                 <b>STEP 2</b>: After Login into the Org, Follow the below steps to install the TelosTouch App:<br/><br/>
                 <br/>
@@ -400,7 +364,7 @@
                 <br/>
                 <b>STEP 1</b>: Click the Campaign Object Tab and then click the “New” button to create the Campaign record.
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_13}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
-                <b>STEP 2</b>: Select the Campaign record type and then click the Next button.  <!-- 12 -->
+                <b>STEP 2</b>: Select the Campaign record type and then click the Next button.
                 <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_14}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <b>STEP 3:</b> Fill the Campaign Details and then click the save button then it will create the Campaign Record.
@@ -428,7 +392,7 @@
                 <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_22}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <b>STEP 11:</b> This is the Campaign preview page and by clicking the “Send” button from this page the Touchpoint will be sent to the campaign members.
-                <br/><br/> <!-- 20 -->
+                <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_23}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_24}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <b>STEP 12:</b> Click the Close button to close this window.
@@ -486,13 +450,9 @@
                 <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_46}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <b>STEP 3:</b>  For showing the Task in the client timeline of Clients,click the button name as “Show on client timeline”. Task records will be synced to the TT App after doing Manual Sync.
-                <br/><br/> <!-- 36 -->
+                <br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__UserGuide_image_47}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <br/>
-                <!--b>7.</b> TouchPoint Tab Overview(From here you can create Touchpoint Templates as per your needs).
-                <br/><br/>
-                <iframe class="slds-align_absolute-center" src="https://drive.google.com/file/d/17xU12CcCuCHxU_xgCima0yCEa3kRdomk/preview" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}" allow="autoplay"></iframe><br/>
-                <br/-->
                 <b>9.</b> TT Set up Tab:<br/>
                 &emsp;&emsp;&bull;&nbsp; Configuration tab(System Administrator will Enter the Client ID, Client Secret that User will receive from an email and save it to configure the TT App).<br/>
                 <br/>
@@ -646,9 +606,6 @@
                 <img src="{!v.listimages.TelosTouchSF__Uninstallation_image_9}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__Uninstallation_image_10}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <img src="{!v.listimages.TelosTouchSF__Uninstallation_image_11}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
-                <!--b>STEP 8:</b> From the Lead, Contact, and Task object removes the TelosTouch Page-Layouts from the Page layout assignment section of the object that is assigned to the profile.
-                Remove Page Layout assignment is similar to be done on Contact and Task object, as shown below for the Lead Object.
-                <br/><br/-->
                 <br/> 
                 <img src="{!v.listimages.TelosTouchSF__Uninstallation_image_12}" height="300" alt = "{!$Label.c.Knowledge_Base_Image_Error}"/><br/><br/>
                 <b>STEP 8:</b> To Remove the “TelosTouch Custom Permissions”, Follow these steps:

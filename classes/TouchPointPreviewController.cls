@@ -51,11 +51,13 @@ public with sharing class TouchPointPreviewController {
   public static String getListId() {
     try {
       Map<String, String> returnMap = new Map<String, String>();
+      String strCampaign = 'Campaign';
+      String strTTCampaigns = 'TT Campaigns';
       returnMap.put('url', URL.getSalesforceBaseUrl().toExternalForm());
       ListView lvObj = [
         SELECT Id, Name
         FROM ListView
-        WHERE SobjectType = 'Campaign' AND Name = 'TT Campaigns'
+        WHERE SobjectType = :strCampaign AND Name = :strTTCampaigns
         WITH SECURITY_ENFORCED
         LIMIT 1
       ];

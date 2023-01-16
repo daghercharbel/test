@@ -10,6 +10,10 @@ private with sharing class TimelineWrapperTest {
         futureTimelineRecord.campId = 'Test';
         futureTimelineRecord.campName = 'Test';
         futureTimelineRecord.type = 'Test';
+        futureTimelineRecord.campCreatedDate = Date.newInstance(2010, 01, 01);
+        futureTimelineRecord.campOpenDate = Date.newInstance(2010, 01, 01);
+        futureTimelineRecord.campCompletedDate = Date.newInstance(2010, 01, 01);
+        futureTimelineRecord.taskDueDate = Date.newInstance(2010, 01, 01);
         
         TimelineWrapper.PastTimeline pastTimelineRecord = new TimelineWrapper.PastTimeline();
         pastTimelineRecord.taskId = 'Test';
@@ -19,6 +23,10 @@ private with sharing class TimelineWrapperTest {
         pastTimelineRecord.campId = 'Test';
         pastTimelineRecord.campName = 'Test';
         pastTimelineRecord.type = 'Test';
+        pastTimelineRecord.campCreatedDate = Date.newInstance(2010, 01, 01);
+        pastTimelineRecord.campOpenDate = Date.newInstance(2010, 01, 01);
+        pastTimelineRecord.campCompletedDate = Date.newInstance(2010, 01, 01);
+        pastTimelineRecord.taskDueDate = Date.newInstance(2010, 01, 01);
         
         TimelineWrapper.past pastRecord = new TimelineWrapper.past();
         pastRecord.status = 'Test';

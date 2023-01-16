@@ -20,7 +20,6 @@ public with sharing class ContactTriggerForSyncingHandler {
                    }
             }
             if(contactIds.size() > 0){
-                //String jobId = 
                 Database.executeBatch(new TelosTouchSF.BatchSFToTTSync(contactIds, null, 'insertContact', NULL, NULL, NULL), 150);
             }  
         }catch(Exception ex){
@@ -43,7 +42,6 @@ public with sharing class ContactTriggerForSyncingHandler {
                        contactIds.add(con.Id);
                    }
             }if(contactIds.size() > 0){
-                //String jobId = 
                 Database.executeBatch(new TelosTouchSF.BatchSFToTTSync(contactIds, null, 'updateContact', oldMap, NULL, NULL), 150);
             }  
         }catch(Exception ex){
@@ -77,7 +75,6 @@ public with sharing class ContactTriggerForSyncingHandler {
                            TelosTouchSF.TaskTriggerHandler.getDeletedTaskRecord(deleteTaskList);
                        }
                    }
-                //String jobId = 
                 Database.executeBatch(new TelosTouchSF.LeadAndContactDeleteFromTTBatch(filteredContactList, null, 'deleteContact'), 150);
             }  
         }catch(Exception ex){

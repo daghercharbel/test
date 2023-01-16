@@ -10,15 +10,16 @@ public without sharing class KnowledgeBaseCompController {
     // Get all the custom fields values from the custom metada : <TelosTouchSF__Knowledge_base_image__mdt>
     // and return a map having the the field api names as KEY as and the URL images as VALUES
     @AuraEnabled
-    public static Map<String,String> GetImagesLinksKnowledgebase(){
+    public static String GetImagesLinksKnowledgebase(){
         try{
-            Map<String,String> imgList = new Map<String,String>();
+            Map<String,String> imgMap = new Map<String,String>();
             TelosTouchSF__Knowledge_base_image__mdt[] TTKbis = [SELECT QualifiedApiName, TelosTouchSF__Image_Url__c FROM TelosTouchSF__Knowledge_base_image__mdt order by QualifiedApiName];
 
-            for (TelosTouchSF__Knowledge_base_image__mdt TTKbi : TTKbis) {
-                imgList.put(TTKbi.QualifiedApiName,TTKbi.TelosTouchSF__Image_Url__c);
+            for (TelosTouchSF__Knowledge_base_image__mdt TTKbi : TTKbis) { 
+                imgMap.put(TTKbi.QualifiedApiName,TTKbi.TelosTouchSF__Image_Url__c);
             }
-            return imgList;
+            return JSON.serialize(imgMap);
+            
         }catch(Exception ex){
             System.debug(LoggingLevel.ERROR,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
             throw new AuraHandledException(ex.getMessage());

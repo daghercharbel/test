@@ -69,7 +69,6 @@
               <div
                 class="slds-chat-message__text slds-chat-message__text_outbound"
               >
-                <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
                 <aura:if isTrue="{!item.type == 'image'}">
                   <a href="{!item.resource_url}" target="_blank">
                     <img
@@ -79,7 +78,6 @@
                     />
                   </a>
                   <aura:set attribute="else">
-                    <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
                     <aura:if
                       isTrue="{!or(item.type == 'application', item.type == 'video')}"
                     >
@@ -108,7 +106,6 @@
                 <div
                   class="slds-chat-message__text slds-chat-message__text_inbound"
                 >
-                  <!--       <aura:if isTrue="{!or(or(or(item.type == 'image/png',item.type == 'image/jpg'),item.type=='image/jpeg'),item.type=='image/jif')}"> -->
                   <aura:if isTrue="{!item.type == 'image'}">
                     <a href="{!item.resource_url}" target="_blank">
                       <img
@@ -118,7 +115,6 @@
                       />
                     </a>
                     <aura:set attribute="else">
-                      <!--    <aura:if isTrue="{!or(item.type == 'application/pdf',item.type == 'video/mp4' )}"> -->
                       <aura:if
                         isTrue="{!or(item.type == 'application', item.type == 'video')}"
                       >
@@ -144,7 +140,6 @@
       </aura:if>
       <br />
     </aura:iteration>
-    <!--div class="slds-backdrop slds-backdrop_open"></div-->
   </aura:if>
   <aura:if isTrue="{!v.selectCampaignRecordType}">
     <div class="slds-align_absolute-center slds-p-around_x-small">

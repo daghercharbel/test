@@ -73,6 +73,10 @@
         <name>Assigned_User_Label</name>
     </customLabels>
     <customLabels>
+        <label>URL d&apos;identification doit commencer par https</label>
+        <name>Authentication_URL_Error</name>
+    </customLabels>
+    <customLabels>
         <label>Retour</label>
         <name>Back_Button_Label</name>
     </customLabels>
@@ -161,6 +165,14 @@
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
+        <label>Changer</label>
+        <name>Change</name>
+    </customLabels>
+    <customLabels>
+        <label>Révoquer la licence Telostouch</label>
+        <name>Change_User_text</name>
+    </customLabels>
+    <customLabels>
         <label>Veuillez vérifier si les membres de la Campagne ont été syncronisés</label>
         <name>Check_Cam_Mem_Sync_Toast</name>
     </customLabels>
@@ -189,7 +201,7 @@
         <name>Choose_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionner/Changer de Point de contact</label>
+        <label>Sélectionner le Point de contact</label>
         <name>Choose_a_TouchPoint_Text</name>
     </customLabels>
     <customLabels>
@@ -333,6 +345,10 @@
         <name>Create_Task_Text</name>
     </customLabels>
     <customLabels>
+        <label>Date de création</label>
+        <name>CreatedDateText</name>
+    </customLabels>
+    <customLabels>
         <label>Créé</label>
         <name>Created_Label</name>
     </customLabels>
@@ -361,15 +377,16 @@
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou ajouter des clients à la campagne.</label>
+        <label>Point de contact sélectionné. Veuillez ajouter des membres à votre campagne</label>
         <name>Customize_AddClientText</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. &lt;br /&gt; Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;.&lt;br/&gt;
+Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant personnaliser/prévisualiser le Point de contact ou l&apos;envoyer aux clients ajoutés. Remarque : La personnalisation et la sélection du Point de contact seront désactivées après l&apos;avoir envoyé.</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;. Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel_Text</name>
     </customLabels>
     <customLabels>
@@ -501,6 +518,18 @@
         <name>GIve_TT_Access</name>
     </customLabels>
     <customLabels>
+        <label>Donner accès à un utilisateur</label>
+        <name>Grant_Access</name>
+    </customLabels>
+    <customLabels>
+        <label>Attribuer une licence TelosTouch</label>
+        <name>Grant_Access_To_User_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Êtes-vous certain(e) de vouloir attribuer une licence TelosTouch à l&apos;utilisateur sélectionné?</label>
+        <name>Grant_User_permission_text</name>
+    </customLabels>
+    <customLabels>
         <label>Synchronisation complète</label>
         <name>Hard_Sync_Text</name>
     </customLabels>
@@ -535,6 +564,10 @@
     <customLabels>
         <label>Guide d&apos;installation</label>
         <name>Installation_Guide_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>URL du portail doit commencer par https</label>
+        <name>Instance_URL_Error</name>
     </customLabels>
     <customLabels>
         <label>Erreur de serveur interne</label>
@@ -573,8 +606,20 @@
         <name>Knowledge_Base_Text</name>
     </customLabels>
     <customLabels>
+        <label>Échec de la mise à jour de la langue ou du fuseau horaire de l&apos;usager</label>
+        <name>Lang_Timezone_Update_Fali_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Langue ou fuseau horaire de l&apos;usager mis à jour avec succès.</label>
+        <name>Lang_Timezone_Update_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Langue</label>
         <name>Language_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Date de la dernière modification</label>
+        <name>LastModifiedDate</name>
     </customLabels>
     <customLabels>
         <label>Dernière connexion</label>
@@ -621,6 +666,10 @@
         <name>Mapped_SF_field_Toast</name>
     </customLabels>
     <customLabels>
+        <label>Membres</label>
+        <name>Members</name>
+    </customLabels>
+    <customLabels>
         <label>Mensuelle</label>
         <name>Monthly_Text</name>
     </customLabels>
@@ -644,7 +693,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>New_Campaign_Header_Text</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux clients ajoutés, veuillez cliquer sur &quot;Envoyer&quot; pour envoyer le point de contact aux clients ajoutés.</label>
+        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;</label>
         <name>New_Client_Added_Text</name>
     </customLabels>
     <customLabels>
@@ -706,6 +755,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Aucun client désabonné trouvé</label>
         <name>No_unsubscribed_client_text</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- None Text --></label>
+        <name>None_Text</name>
     </customLabels>
     <customLabels>
         <label>Non complété</label>
@@ -836,11 +889,11 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Records_were_resubscribed_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Refresh Token Button Label --></label>
+        <label>Actualiser le jeton</label>
         <name>Refresh_Token_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Refresh Token Save Toast --></label>
+        <label>Une tâche synchrone pour actualiser le jeton est mise en file d&apos;attente</label>
         <name>Refresh_Token_Save_Toast</name>
     </customLabels>
     <customLabels>
@@ -866,6 +919,14 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Supprimer</label>
         <name>Remove_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>La licence TelosTouch de l&apos;utilisateur sélectionné a été révoquée</label>
+        <name>Remove_permissions_single_toast</name>
+    </customLabels>
+    <customLabels>
+        <label>Une demande a été placée pour révoquer l&apos;accès à la licence TelosTouch pour les utilisateurs sélectionnés</label>
+        <name>Remove_permissions_toast</name>
     </customLabels>
     <customLabels>
         <label>Répéter le</label>
@@ -904,8 +965,24 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Review_Errors_Text</name>
     </customLabels>
     <customLabels>
-        <label>Champs Salesforce créé dans TelosTouch avec succès</label>
-        <name>SF_Field_Create_Toast</name>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <name>Revoke_Current_User</name>
+    </customLabels>
+    <customLabels>
+        <label>Révoquer un accès</label>
+        <name>Revoke_access</name>
+    </customLabels>
+    <customLabels>
+        <label>Révoquer l&apos;accès à un utilisateur</label>
+        <name>Revoke_access_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <name>Revoke_Current_User</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des utilisateurs Salesforce réussie avec TelosTouch.</label>
+        <name>SF_User_Sync_Text</name>
     </customLabels>
     <customLabels>
         <label>SUCCÈS</label>
@@ -964,8 +1041,18 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_a_record_type_Type</name>
     </customLabels>
     <customLabels>
-        <label>Contacts ajoutés à la Campagne. Sélectionnez/Changez de Point de contact, ou envoyez la Campagne</label>
+        <label>Point de Contact Sélectionné</label>
+        <name>Selected_TouchPoint</name>
+    </customLabels>
+    <customLabels>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
         <name>SendTP_CustomizeText</name>
+    </customLabels>
+    <customLabels>
+        <label>
+            
+        </label>
+        <name>Send_Reminder_Config_Text</name>
     </customLabels>
     <customLabels>
         <label>Seuls les clients n&apos;ayant pas reçu de rappel dans les dernières 24 heures recevront une nouvelles notification,</label>
@@ -1056,11 +1143,15 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Something_went_wrong_Text</name>
     </customLabels>
     <customLabels>
+        <label>Trier par</label>
+        <name>Sort_By_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Champs Standard</label>
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Sélectionnez un Point de contact et ajoutez des clients pour envoyer une Campagne</label>
+        <label>Pour débuter, cliquez sur &quot;Sélectionner le Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
@@ -1104,6 +1195,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Sure_To_Remove</name>
     </customLabels>
     <customLabels>
+        <label>Sync la Campagne</label>
+        <name>Sync_Campaign_Button</name>
+    </customLabels>
+    <customLabels>
         <label>SYNCRONIATION DE CHAMPS VIDES (TT À SF)</label>
         <name>Sync_Empty_Field</name>
     </customLabels>
@@ -1116,7 +1211,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Synced_Text</name>
     </customLabels>
     <customLabels>
-        <label>Point de contact envoyé. Aucune autre action n&apos;est nécessaire. Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.&lt;br/ &gt; Remarque : La personnalisation de ce Point de contact est désormais désactivée.</label>
+        <label>Point de contact envoyé.&lt;br/&gt;
+Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.</label>
         <name>TPSentText</name>
     </customLabels>
     <customLabels>
@@ -1168,6 +1264,14 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Title</name>
     </customLabels>
     <customLabels>
+        <label>Titre (Z à A)</label>
+        <name>TitleDesc</name>
+    </customLabels>
+    <customLabels>
+        <label>Titre (A à Z)</label>
+        <name>TitleText</name>
+    </customLabels>
+    <customLabels>
         <label>Total des éléments Syncronisés</label>
         <name>Total_Sync_Record_Text</name>
     </customLabels>
@@ -1176,7 +1280,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>TouchPointTemplateNotSaved_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPointTemplateSaved_Text --></label>
+        <label>Point de contact sélectionné avec succès.</label>
         <name>TouchPointTemplateSaved_Text</name>
     </customLabels>
     <customLabels>
@@ -1276,6 +1380,22 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>User_Not_Valid_Cannot_Auth_App</name>
     </customLabels>
     <customLabels>
+        <label>Accès utilisateur</label>
+        <name>User_access_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Échec de la désactivation de l&apos;usager de Salesforce à TelosTouch</label>
+        <name>User_deactivate_Fail_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
+        <name>User_permission_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Code d&apos;utilisateur existe déjà:</label>
+        <name>Username_Exist_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Code d&apos;utilisateur</label>
         <name>Username_Text</name>
     </customLabels>
@@ -1320,25 +1440,8 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>de</label>
         <name>of_text</name>
     </customLabels>
-    <customTabs>
-        <label>Accueil</label>
-        <name>TT_Home</name>
-    </customTabs>
-    <customTabs>
-        <label>Configuration TT</label>
-        <name>TT_Setup</name>
-    </customTabs>
-    <customTabs>
-        <label/>
-        <name>TouchPoints</name>
-    </customTabs>
-    <flowDefinitions>
-        <flows/>
-        <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
-    </flowDefinitions>
-    <quickActions>
-        <aspect>Master</aspect>
-        <label/>
-        <name>NewTask</name>
-    </quickActions>
+    <customLabels>
+        <label>Afficher</label>
+        <name>showText</name>
+    </customLabels>
 </Translations>

@@ -17,7 +17,7 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Phone', TT_Field__c='phoneNumber', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='AssistantPhone', TT_Field__c='Custom Fields', Object_Name__c='Contact'));
-		mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='ActivityDate', TT_Field__c='date_due', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='ActivityDate', TT_Field__c='date_due', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Subject', TT_Field__c='name', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Status', TT_Field__c='status', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Client_Id__c', TT_Field__c='client_id', Object_Name__c='Task'));
@@ -32,7 +32,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
     @isTest 
     static void testTaskSync() {
         Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
-        //List<user> userList = new List<User>();
         User u = new User(Alias = 'standt', email = 'standarduser@testorg.com', EmailEncodingKey = 'UTF-8', 
                           LastName = 'Testing', LanguageLocaleKey = 'en_US', LocaleSidKey = 'en_US', ProfileId = p.Id, 
                           TT_UserName__c ='standarduser12345@testorg.com', 
@@ -43,7 +42,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
                                       TT_UserName__c ='standarduser12345@testorg.com', 
                                       Auth_Token__c = '973e878d316e6fb88a38c6591a5f7', TimeZoneSidKey = 'America/Los_Angeles', 
                                       username = 'standarduser12345@testorg.com', TT_UserId__c = '123798');
-        //System.debug(u.Id);
         Map<String,User> userMapTest = new Map<String,User>();
         userMapTest.put(u.id, u);
         taskOwnerUser = userMapTest.get('ownerId');  
@@ -184,7 +182,6 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         System.assert(leadobj != null, 'leadobj must not be NULL');
         test.startTest();
         SFDataSyncWithTelosTouch.updateContactDetails(conList, leadList, null, NULL, NULL, NULL);
-        //SFDataSyncWithTelosTouch.SyncAllRecords_APEX();
         SFDataSyncWithTelosTouch.getAllLogs(10,5);
         SFDataSyncWithTelosTouch.GetLatestLogs();
         
@@ -234,8 +231,8 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         SFDataSyncWithTelosTouch.deleteTask(tasklistSyncAllTask);
         SFDataSyncWithTelosTouch.deleteCampaign(campaignlist);
         SFDataSyncWithTelosTouch.addLogRecord('Failure','No sync','No Sync',1);
-         Database.ExecuteBatch(new TaskDelete_Batch(tasklistSyncAllTask));
-         Database.ExecuteBatch(new CampaignDelete_Batch(campaignlist));
+        Database.ExecuteBatch(new TaskDelete_Batch(tasklistSyncAllTask));
+        Database.ExecuteBatch(new CampaignDelete_Batch(campaignlist));
         test.stopTest();
         delete campaignlist;
         delete tasklistSyncAllTask;
@@ -295,5 +292,13 @@ public with sharing class SFDataSyncWithTelosTouchTest {
         update leadobj;
         System.assertEquals('ramMohan12111@gmail.com', leadobj.Email, 'leadobj.Email should be updated to ramMohan12111@gmail.com');
         test.stopTest();
+    }
+    @isTest static void checkEnterpriseClientTest(){
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new SFDataSyncWithTelosTouchMock1()); 
+        Boolean resp = SFDataSyncWithTelosTouch.checkIfEnterpriseClient();
+        System.debug('resp: '+ resp);
+        System.assert(!resp);
+        Test.stopTest();
     }
 }

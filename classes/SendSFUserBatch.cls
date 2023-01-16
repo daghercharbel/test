@@ -66,7 +66,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
     global void execute(Database.BatchableContext bc, List<User> users){
         try{
             String ttTeamName = String.isNotEmpty(adminCredentials.TelosTouchSF__Team_Name__c) ? adminCredentials.TelosTouchSF__Team_Name__c : authenticationCredential.TelosTouchSF__Client_ID__c;
-            //System.debug(adminCredentials);
             UserTriggerHandler.run = false;
             createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             Boolean userUpdateFlag = false;
@@ -74,15 +73,14 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
             Map<String, Object> responseMap1 = new Map<String, Object>();
             Set<String> setOfMoreThanOneEmail = new Set<String>();
             Set<String> userIdSet = new Set<String>();
-            //Map<Id, String> userIdVsProfileName = new Map<Id, String>();
             if(users != null && users.size() > 0){
-                //Profile profile = [SELECT id FROM Profile WHERE name = 'System Administrator' OR name = 'Administrateur système' WITH SECURITY_ENFORCED LIMIT 1];
-                //TelosTouch_User_Role__c getRoleObj = TelosTouch_User_Role__c.getInstance(profile.Id);
                 message = 'error';
                 List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();
                 List<PermissionSet> getPermissionSetList = new  List<PermissionSet>();
                 if( Schema.sObjectType.PermissionSet.isAccessible() && Schema.sObjectType.PermissionSet.isQueryable()){
-                    getPermissionSetList = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission' OR Name = 'TTPSetForInsightObjMDRelations' WITH SECURITY_ENFORCED];
+                    String strTelosTouch_Custom_Permission = 'TelosTouch_Custom_Permission';
+                    String strTTPSetForInsightObjMDRelations = 'TTPSetForInsightObjMDRelations';
+                    getPermissionSetList = [SELECT Id FROM PermissionSet WHERE Name =: strTelosTouch_Custom_Permission OR Name =: strTTPSetForInsightObjMDRelations WITH SECURITY_ENFORCED];
                 }
                 if(String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
                     headersMap.put('Accept', 'application/json');
@@ -111,9 +109,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                 for(User userObj: users){
                     userIdSet.add(userObj.Id);
                 }
-                /*for(User uObj : [SELECT Id, Profile.Name FROM User WHERE Id IN: userIdSet]){
-                    userIdVsProfileName.put(uObj.Id, uObj.Profile.Name);
-                }*/
                 for(User userObj: users){
                     if((!setOfMoreThanOneEmail.contains(userObj.Email))){
                         String methodType = 'GET',body = '',endPointURL = '', teamId;
@@ -127,7 +122,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                             endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/users?search='+userObj.Email;
                         }
-                        //System.debug('endPointURL::'+endPointURL);
                         Map<String, String> responseBodyMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
                         String responseBody = responseBodyMap.get('body');
                         List<Object> responseList = (List<Object>)JSON.deserializeUntyped(responseBody);
@@ -135,7 +129,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         if(!responseList.isEmpty()){
                             getResponseMap = (Map<String, Object>)responseList[0];
                         }
-                        //System.debug('getResponseMap:: '+getResponseMap);
                         if(!getResponseMap.keySet().isEmpty()){
                             Map<String, String> getCurrentTeamBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams', headersMap, null);
                             List<Object> getCurrentTeamList = (List<Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'));
@@ -147,22 +140,18 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                                 Map<String, Object> teamChangeResponseMap = (Map<String, Object>) JSON.deserializeUntyped(teamChangeReponseBody!=null ? teamChangeReponseBody : '{}');
                                 if(teamChangeResponseMap.containsKey('id')){
                                     userUpdateFlag = true;
-                                    //System.debug('Team Updated');
                                 }
                             }else if(ttTeamName == currentTeamName){
                                 userUpdateFlag = true;
-                                //System.debug('Team Not Updated');
                             }
                             if(userUpdateFlag){
                                 if(Schema.sObjectType.User.fields.TelosTouchSF__Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() &&
                                         Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() && String.valueOf(responseMap1.get('title')) != 'Client' &&
                                         Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
                                     userObj.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
-                                    //System.debug(String.valueOf(getResponseMap.get('username')));
                                     userObj.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
                                     ttuserObj = TelosTouchSF.TelosTouchUtility.getTokenForEachUser(String.valueOf(getResponseMap.get('username')), adminCredentialsWrapper);
                                     userObj.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
-                                    //System.debug(userObj);
                                 }
                             }
                         }else{
@@ -170,7 +159,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                             methodType = 'POST';
                             if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                                 endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users';
-                                //body = '{"firstName": "'+userObj.firstName+'","lastName": "'+userObj.lastName+'","emailAddress": "'+userObj.email+'","phoneNumber": "'+userObj.Phone+'","title": "Advisor","otherId": "'+userObj.Id+'","isActive": "'+userObj.IsActive+'", "userName": "'+userObj.userName+'","rolesIds":["'+getRoleObj.RoleId__c+'"],"rolesNames":{"'+getRoleObj.RoleId__c+'":"'+getRoleObj.RolesName__c+'"} }';
                                 body = '{"firstName": "'+userObj.firstName
                                         +'","lastName": "'+userObj.lastName
                                         +'","username": "'+userObj.Username
@@ -187,7 +175,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                             Map<String, Object> responseMap2 =  new Map<String, Object>();
                             if( methodType == 'POST'){
                                 responseMap2 = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
-                                //System.debug('reponseMap2:: '+responseMap2);
                                 if(responseMap2.containsKey('emailExists') && Boolean.valueOf(responseMap2.get('emailExists'))){
                                     createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Email Already Exists: '+userObj.Email,'Courriel existe déjà: '+userObj.Email,1));
                                 }else if(responseMap2.containsKey('usernameExists') && Boolean.valueOf(responseMap2.get('usernameExists'))){
@@ -196,9 +183,6 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                                     createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure',String.valueof(responseMap2.get('message')),String.valueof(responseMap2.get('message')),1));
                                 }else if(responseMap2.containsKey('id')){
                                     responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
-                                    //System.debug('responseMap1:: '+responseMap1);
-                                    //System.debug('String.valueof(responseMap1.get("id")) != null :: '+String.valueof(responseMap1.get('id')) != null);
-                                    //System.debug('User Id:: '+String.valueof(responseMap1.get('id')));
                                     if(String.valueof(responseMap1.get('id')) != null){
                                         if(Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() ){
                                                 ttuserObj = TelosTouchSF.TelosTouchUtility.getTokenForEachUser(String.valueOf(responseMap1.get('username')), adminCredentialsWrapper);

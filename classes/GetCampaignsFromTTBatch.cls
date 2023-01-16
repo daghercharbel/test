@@ -5,9 +5,6 @@
 */
 global with sharing class GetCampaignsFromTTBatch implements Database.batchable<ResponseWrapper>, Database.AllowsCallouts, Database.Stateful{
 
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-private static final String instanceUrl = getCredentials.Instance_url__c;
-private static final String token = getCredentials.Token__c;*/
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
     global List<Campaign> updateCampaignslList = new List<Campaign>();
@@ -96,7 +93,6 @@ private static final String token = getCredentials.Token__c;*/
 
             Id campaignRecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
             String methodType = 'GET',endPointURL = '';
-            //userAuthToken = TelosTouchUtility.getCurrentUserToken();
             if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
                 userList = [SELECT Id, TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c!=null AND IsActive=true];
             }
@@ -267,7 +263,7 @@ private static final String token = getCredentials.Token__c;*/
                                     }
                                 }
                             }
-                        }else if(/*respObj.other_id != null &&*/ mapOfSFCampIdVsTTCampIds.containsKey(respObj.Id)){
+                        }else if(mapOfSFCampIdVsTTCampIds.containsKey(respObj.Id)){
                             campaignInsertList.add(getSFCampaignsMap.get(mapOfSFCampIdVsTTCampIds.get(respObj.Id)));
                         }
                     }

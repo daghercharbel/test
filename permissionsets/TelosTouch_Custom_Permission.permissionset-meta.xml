@@ -696,6 +696,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Campaign.TT_Last_Sync_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Campaign.TempTTCampId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -956,6 +961,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.TT_LastSyncTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.TT_Needs_Sync__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.TT_TaskId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1007,6 +1022,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insights__c.Conversation_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insights__c.Conversation_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1302,6 +1322,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.TT_Client_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TT_LastSyncTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TT_Needs_Sync__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

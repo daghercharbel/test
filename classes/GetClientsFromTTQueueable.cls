@@ -4,9 +4,7 @@
 * @description GetClientsFromTTQueueable class is used to get clients within last 2 hours from TT and insert those reocords in SF.
 */
 global with sharing class GetClientsFromTTQueueable implements Queueable, Database.AllowsCallouts{
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-private static final String instanceUrl = getCredentials.Instance_url__c;
-private static final String token = getCredentials.Token__c;*/
+    
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
     global String message;
@@ -63,8 +61,6 @@ private static final String token = getCredentials.Token__c;*/
             List<ResponseWrapper> resdata1 = new List<ResponseWrapper>();
 			Boolean showLogs = TelosTouchSF.TT_FeatureSettingsController.getFinestLogValue();
 
-            //LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true WITH SECURITY_ENFORCED LIMIT 1];
-            //List<Database.LeadConvert> leadConverts = new List<Database.LeadConvert>();
             List<TelosTouchSF__TT_Salesforce_Mapping__c> telosTouchMappingList = new List<TelosTouchSF__TT_Salesforce_Mapping__c>();
             if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isQueryable() &&
                     Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isAccessible() &&
@@ -106,12 +102,8 @@ private static final String token = getCredentials.Token__c;*/
                 }
             }
             String methodType = 'GET',endPointURL = '',responseBody;
-            //HttpRequest request = new HttpRequest();
-            //HttpResponse response = new HttpResponse();
-            //Http http = new Http();
             DateTime LAST_HOUR = System.NOW().addMinutes(-62);
             String formatted = LAST_HOUR.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
-            //userAuthToken = TelosTouchUtility.getCurrentUserToken();
             headersMap.put('Content-Type', 'application/json');
             if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                 headersMap.put('Accept', 'application/json');
@@ -125,12 +117,10 @@ private static final String token = getCredentials.Token__c;*/
                                     '/api/v1/admin/contacts?deleted=false&modified_at={">=":"' + formatted +
                                     '"}&skip=' + i + '&limit=200';
                         }
-                        //system.debug('endPointURL::'+endPointURL);
                         if (authenticationCredential.TelosTouchSF__Access_Token__c != null) {
                             headersMap.put('Authorization', 'Bearer ' + authenticationCredential.TelosTouchSF__Access_Token__c);
                             Map<String, String> responseBodyMap =
                                     TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
-                            //System.debug('responseBodyMap:: '+responseBodyMap);
                             if (responseBodyMap.get('status_code') == '401') {
                                 createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure',
                                         'User Could Not be Authenticated', 'L\'usager n\'a pu être identifié', 1));
@@ -164,18 +154,12 @@ private static final String token = getCredentials.Token__c;*/
                     setTTEmailId.add(resdata1[i].email);
                 }
                 String contactQuery = 'SELECT id,FirstName,LastName,Phone,TelosTouchSF__Language__c,TelosTouchSF__Source__c,TelosTouchSF__Subscribed__c,TelosTouchSF__TT_Client_Id__c,Email,LastModifiedDate,TelosTouchSF__TT_Last_Login__c,TelosTouchSF__TT_UserId__c';
-                if(ContactFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                    contactQuery += ',MC4SF__MC_Subscriber__c';
-                }
                 String contactQuery2 = contactQuery;
                 contactQuery += ' FROM Contact WHERE (IsDeleted = false) AND (TelosTouchSF__TT_Client_Id__c IN: setTTid) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 contactQuery2 += ' FROM Contact WHERE (IsDeleted = false) AND (Email =:setTTEmailId) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 contactList = Database.query(contactQuery);
                 contactList.addAll((List<Contact>)Database.query(contactQuery2));
                 String leadQuery = 'SELECT id,FirstName,LastName,Phone,TelosTouchSF__Language__c,TelosTouchSF__Source__c,TelosTouchSF__Subscribed__c,TelosTouchSF__TT_Client_Id__c,Email,LastModifiedDate,TelosTouchSF__TT_Last_Login__c,TelosTouchSF__TT_UserId__c';
-                if(LeadFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                    leadQuery += ',MC4SF__MC_Subscriber__c';
-                }
                 String leadQuery2 = leadQuery;
                 leadQuery += ' FROM Lead WHERE (IsDeleted = false) AND (TelosTouchSF__TT_Client_Id__c IN: setTTid) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
                 leadQuery2 += ' FROM Lead WHERE (IsDeleted = false) AND (Email =:setTTEmailId) ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST LIMIT 1600 ALL ROWS';
@@ -185,7 +169,6 @@ private static final String token = getCredentials.Token__c;*/
                         Schema.sObjectType.Lead.fields.LastName.isAccessible() && Schema.sObjectType.Lead.fields.Phone.isAccessible() &&
                         Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isAccessible() && Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
                         Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Last_Login__c.isAccessible() && Schema.sObjectType.Lead.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
-                    //leadList = [SELECT id,first_name,last_name,Phone,Language__c,Subscribed__c,TT_Client_Id__c,Email,LastModifiedDate,TT_Last_Login__c,TT_UserId__c,Before_Last_Modified_Date__c FROM Lead WHERE (IsDeleted = false) AND (TT_Client_Id__c IN: setTTid OR Email =:setTTEmailId) ORDER BY TT_Client_Id__c NULLS LAST LIMIT 20000 ALL ROWS];
                     leadList = Database.query(leadQuery);
                     leadList.addAll((List<Lead>)Database.query(leadQuery2));
                 }
@@ -289,24 +272,19 @@ private static final String token = getCredentials.Token__c;*/
                                                 notificationValue != contact.TelosTouchSF__Subscribed__c || email != obj1.email){
                                     if(TTContactFieldsMap.containskey('email')){
                                         System.debug(LoggingLevel.DEBUG,'email');
-                                        //contact.put(TTContactFieldsMap.get('email').TelosTouchSF__Salesforce_Field__c, obj1.email);
                                     }
                                     contact.TelosTouchSF__TT_Client_Id__c = obj1.id;
                                     if(TTContactFieldsMap.containskey('first_name')){
                                         System.debug(LoggingLevel.DEBUG,'first_name');
-                                        //contact.put(TTContactFieldsMap.get('first_name').TelosTouchSF__Salesforce_Field__c, obj1.first_name);
                                     }
                                     if(TTContactFieldsMap.containskey('last_name')){
                                         System.debug(LoggingLevel.DEBUG,'last_name');
-                                        //contact.put(TTContactFieldsMap.get('last_name').TelosTouchSF__Salesforce_Field__c, obj1.last_name);
                                     }
                                     if(TTContactFieldsMap.containskey('phone')){
                                         if(obj1.phone != ''){
                                             System.debug(LoggingLevel.DEBUG,'phone');
-                                            //contact.put(TTContactFieldsMap.get('phone').TelosTouchSF__Salesforce_Field__c, obj1.phone);
                                         }else if(obj1.phone == '' && TTContactFieldsMap.get('phone').TelosTouchSF__Is_Sync_Empty_Field__c == true){
                                             System.debug(LoggingLevel.DEBUG,'phone in else condition');
-                                            //contact.put(TTContactFieldsMap.get('phone').TelosTouchSF__Salesforce_Field__c, '');
                                         }
                                     }
                                     if(TTContactFieldsMap.containskey('subscribed')){
@@ -320,10 +298,8 @@ private static final String token = getCredentials.Token__c;*/
                                     if(TTContactFieldsMap.containskey('language')){
                                         if(obj1.preferences.language == null || obj1.preferences.language == 'en_US'){
                                             System.debug(LoggingLevel.DEBUG,'english language');
-                                            //contact.put(ttContactFieldsMap.get('language').TelosTouchSF__Salesforce_Field__c , 'English');
                                         }else if(obj1.preferences.language != null && obj1.preferences.language == 'fr_FR'){
                                             System.debug(LoggingLevel.DEBUG,'french language');
-                                            //contact.put(ttContactFieldsMap.get('language').TelosTouchSF__Salesforce_Field__c , 'French');
                                         }
                                     }
                                     contact.TelosTouchSF__TT_Conflict__c = false;
@@ -380,42 +356,6 @@ private static final String token = getCredentials.Token__c;*/
                                         contact.TelosTouchSF__TT_Last_Login__c = System.Label.After_TT_invite;
                                     }
                                 }
-                                /*if(contactMap.get(obj1.email).Before_Last_Modified_Date__c != null && contactMap.get(obj1.email).Before_Last_Modified_Date__c.getTime() < dt.getTime()) {
-                                    if(obj1.preferences.notificationTouchpointSend == false){
-                                        notificationValue = 'No';
-                                    }else{
-                                        notificationValue = 'Yes';
-                                    }
-                                    if(TTContactFieldsMap.containskey('first_name')){
-                                        contact.put(TTContactFieldsMap.get('first_name').Salesforce_Field__c, obj1.first_name);
-                                    }
-                                    if(TTContactFieldsMap.containskey('last_name')){
-                                        contact.put(TTContactFieldsMap.get('last_name').Salesforce_Field__c, obj1.last_name);
-                                    }
-                                    if(TTContactFieldsMap.containskey('phone')){
-                                        if(obj1.phone != ''){
-                                            contact.put(TTContactFieldsMap.get('phone').Salesforce_Field__c, obj1.phone);
-                                        }else if(obj1.phone == '' && TTContactFieldsMap.get('phone').Is_Sync_Empty_Field__c == true){
-                                            contact.put(TTContactFieldsMap.get('phone').Salesforce_Field__c, '');
-                                        }
-                                    }
-                                    if(TTContactFieldsMap.containskey('subscribed')){
-                                        if(notificationValue != null){
-                                            contact.put(TTContactFieldsMap.get('subscribed').Salesforce_Field__c , notificationValue);
-                                        }
-                                        else if(notificationValue == null && TTContactFieldsMap.get('subscribed').Is_Sync_Empty_Field__c == true){
-                                            contact.put(TTContactFieldsMap.get('subscribed').Salesforce_Field__c , null);
-                                        }
-                                    }
-                                    if(TTContactFieldsMap.containskey('language')){
-                                        if(obj1.preferences.language == null || obj1.preferences.language == 'en_US'){
-                                            contact.put(ttContactFieldsMap.get('language').Salesforce_Field__c , 'English');
-                                        }else if(obj1.preferences.language != null && obj1.preferences.language == 'fr_FR'){
-                                            contact.put(ttContactFieldsMap.get('language').Salesforce_Field__c , 'French');
-                                        }
-                                    }
-                                    //contact.put('Before_Last_Modified_Date__c',null);
-                                }*/
                                 contact.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                 contactupsertList.add(contact);
                             }
@@ -425,7 +365,6 @@ private static final String token = getCredentials.Token__c;*/
                         if((leadMap.containskey(obj1.id) && leadMap.get(obj1.id).LastModifiedDate.getTime() < dt.getTime()) || (leadMap.containskey(obj1.email) && leadMap.get(obj1.email).LastModifiedDate.getTime() < dt.getTime())){
                             Lead leadObject = new Lead();
                             if(leadMap.containskey(obj1.id) && (obj1.type == 'client' || obj1.type == 'expert' || obj1.type == 'other')){
-                                //system.debug('client lead');
                                 leadObject = leadMap.get(obj1.id);
                                 convertedLeadIdSet.add(leadObject.id);
                             }
@@ -488,23 +427,18 @@ private static final String token = getCredentials.Token__c;*/
                                     leadObject.TelosTouchSF__TT_Client_Id__c = obj1.id;
                                     if(TTLeadFieldsMap.containskey('first_name')){
                                         System.debug(LoggingLevel.DEBUG,' lead first_name');
-                                        //leadObject.put(TTLeadFieldsMap.get('first_name').TelosTouchSF__Salesforce_Field__c, obj1.first_name);
                                     }
                                     if(TTLeadFieldsMap.containskey('last_name')){
                                         System.debug(LoggingLevel.DEBUG,' lead last_name');
-                                        //leadObject.put(TTLeadFieldsMap.get('last_name').TelosTouchSF__Salesforce_Field__c, obj1.last_name);
                                     }
                                     if(TTLeadFieldsMap.containskey('email')){
                                         System.debug(LoggingLevel.DEBUG,' lead email');
-                                        //leadObject.put(TTLeadFieldsMap.get('email').TelosTouchSF__Salesforce_Field__c, obj1.email);
                                     }
                                     if(TTLeadFieldsMap.containskey('phone')){
                                         if(obj1.phone != ''){
                                             System.debug(LoggingLevel.DEBUG,' lead phone');
-                                            //leadObject.put(TTLeadFieldsMap.get('phone').TelosTouchSF__Salesforce_Field__c, obj1.phone);
                                         }else if(obj1.phone == '' && TTLeadFieldsMap.get('phone').TelosTouchSF__Is_Sync_Empty_Field__c == true){
                                             System.debug(LoggingLevel.DEBUG,' lead phone in else condition');
-                                            //leadObject.put(TTLeadFieldsMap.get('phone').TelosTouchSF__Salesforce_Field__c, '');
                                         }
                                     }
                                     if(TTLeadFieldsMap.containskey('subscribed')){
@@ -518,13 +452,10 @@ private static final String token = getCredentials.Token__c;*/
                                     if(TTLeadFieldsMap.containskey('language')){
                                         if(obj1.preferences.language == null || obj1.preferences.language == 'en_US'){
                                             System.debug(LoggingLevel.DEBUG,' lead English language');
-                                            //leadObject.put(TTLeadFieldsMap.get('language').TelosTouchSF__Salesforce_Field__c , 'English');
                                         }else if(obj1.preferences.language != null && obj1.preferences.language == 'fr_FR'){
                                             System.debug(LoggingLevel.DEBUG,' lead French language');
-                                            //leadObject.put(TTLeadFieldsMap.get('language').TelosTouchSF__Salesforce_Field__c , 'French');
                                         }
                                     }
-                                    //leadObject.put('Before_Last_Modified_Date__c',null);
                                     leadObject.TelosTouchSF__TT_Conflict__c = false;
                                     leadObject.TelosTouchSF__Error_Message__c = '';
                                     leadupdateList.add(leadObject);
@@ -537,7 +468,6 @@ private static final String token = getCredentials.Token__c;*/
                             }else{
                                 if(leadMap.containskey(obj1.email)){
                                     leadObject = leadMap.get(obj1.email);
-                                    //leadObject.Before_Last_Modified_Date__c = null;
                                 }
                                 if(leadObject != null && (!setSFId.contains(leadObject.Id))){
                                     leadObject.TelosTouchSF__Error_Message__c = 'Duplicate Email';
@@ -549,8 +479,6 @@ private static final String token = getCredentials.Token__c;*/
                         }else if(leadMap.containskey(obj1.email) && leadMap.get(obj1.email) != null){
                             Lead leadObject = new Lead();
                             leadObject = leadMap.get(obj1.email);
-                            //system.debug('setSFId::'+setSFId);
-                            //system.debug('leadObject.Id::'+leadObject.Id);
                             if(!setSFId.contains(leadObject.Id)){
                                 leadObject.TelosTouchSF__TT_Client_Id__c = obj1.id;
                                 leadObject.TelosTouchSF__Error_Message__c = '';
@@ -565,42 +493,6 @@ private static final String token = getCredentials.Token__c;*/
                                         leadObject.TelosTouchSF__TT_Last_Login__c = System.Label.After_TT_invite;
                                     }
                                 }
-                                /*if(leadMap.get(obj1.email).Before_Last_Modified_Date__c != null && leadMap.get(obj1.email).Before_Last_Modified_Date__c.getTime() < dt.getTime()) {
-                                    if(obj1.preferences.notificationTouchpointSend == false){
-                                        notificationValue = 'No';
-                                    }else{
-                                        notificationValue = 'Yes';
-                                    }
-                                    if(TTLeadFieldsMap.containskey('first_name')){
-                                        leadObject.put(TTLeadFieldsMap.get('first_name').Salesforce_Field__c, obj1.first_name);
-                                    }
-                                    if(TTLeadFieldsMap.containskey('last_name')){
-                                        leadObject.put(TTLeadFieldsMap.get('last_name').Salesforce_Field__c, obj1.last_name);
-                                    }
-                                    if(TTLeadFieldsMap.containskey('phone')){
-                                        if(obj1.phone != ''){
-                                            leadObject.put(TTLeadFieldsMap.get('phone').Salesforce_Field__c, obj1.phone);
-                                        }else if(obj1.phone == '' && TTLeadFieldsMap.get('phone').Is_Sync_Empty_Field__c == true){
-                                            leadObject.put(TTLeadFieldsMap.get('phone').Salesforce_Field__c, '');
-                                        }
-                                    }
-                                    if(TTLeadFieldsMap.containskey('subscribed')){
-                                        if(notificationValue != null){
-                                            leadObject.put(TTLeadFieldsMap.get('subscribed').Salesforce_Field__c , notificationValue);
-                                        }
-                                        else if(notificationValue == null && TTLeadFieldsMap.get('subscribed').Is_Sync_Empty_Field__c == true){
-                                            leadObject.put(TTLeadFieldsMap.get('subscribed').Salesforce_Field__c , null);
-                                        }
-                                    }
-                                    if(TTLeadFieldsMap.containskey('language')){
-                                        if(obj1.preferences.language == null || obj1.preferences.language == 'en_US'){
-                                            leadObject.put(TTLeadFieldsMap.get('language').Salesforce_Field__c , 'English');
-                                        }else if(obj1.preferences.language != null && obj1.preferences.language == 'fr_FR'){
-                                            leadObject.put(TTLeadFieldsMap.get('language').Salesforce_Field__c , 'French');
-                                        }
-                                    }
-                                }*/
-                                //leadObject.put('Before_Last_Modified_Date__c',null);
                                 leadObject.TelosTouchSF__TT_LastSyncTime__c = Datetime.now();
                                 leadupdateList.add(leadObject);
                             }
@@ -609,14 +501,12 @@ private static final String token = getCredentials.Token__c;*/
                     }else if(contactMapEmailVsObj.containskey(obj1.email)){
                         Contact contact = new Contact();
                         contact = contactMapEmailVsObj.get(obj1.email);
-                        //contact.Before_Last_Modified_Date__c = null;
                         contact.TelosTouchSF__Error_Message__c = 'Duplicate Email';
                         contactupsertList.add(contact);
                         createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Duplicate:'+' '+obj1.email,'Doublon:'+' '+obj1.email,1));
                     }else if(leadMapEmailVsObj.containskey(obj1.email)){
                         Lead leadObject = new Lead();
                         leadObject = leadMapEmailVsObj.get(obj1.email);
-                        //leadObject.Before_Last_Modified_Date__c = null;
                         leadObject.TelosTouchSF__Error_Message__c = 'Duplicate Email';
                         leadupdateList.add(leadObject);
                         createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Duplicate:'+' '+obj1.email,'Doublon:'+' '+obj1.email,1));
@@ -671,7 +561,6 @@ private static final String token = getCredentials.Token__c;*/
                                 }else{
                                     ownerNotFoundCount++;
                                 }
-                                //system.debug('else contactObject>>'+contactObject);
                             }else if(obj1.type == 'lead'){
                                 lead leadObject = new lead();
                                 leadObject.Company = 'TT Company';
@@ -722,7 +611,6 @@ private static final String token = getCredentials.Token__c;*/
                                 }else{
                                     ownerNotFoundCount++;
                                 }
-                                //system.debug('else leadObject record>>'+leadObject);
                             }
 
                         }else{
@@ -731,231 +619,107 @@ private static final String token = getCredentials.Token__c;*/
                         setTTEmailDuplicate.add(obj1.email);
                     }
                 }
-                //system.debug('contactupsertList::'+contactupsertList);
                 if(contactupsertList.size()> 0){
-                    if(ContactFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                        List<Contact> conUpsertListMcNull = new List<Contact>();
-                        List<Contact> conUpsertListMcNotNull = new List<Contact>();
-                        for(Contact con : contactupsertList){
-                            if(con.get('MC4SF__MC_Subscriber__c') == null){
-                                conUpsertListMcNull.add(con);
-                            }else if(con.get('MC4SF__MC_Subscriber__c') != null){
-                                conUpsertListMcNotNull.add(con);
-                            }
-                        }
-                        if(conUpsertListMcNull.size()>0){
-                           // Database.upsert(conUpsertListMcNull,false);
-                            Database.UpsertResult[] srList = Database.upsert(conUpsertListMcNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += conUpsertListMcNull.size();
-                        }
-                        if(conUpsertListMcNotNull.size()>0){
-                            //Database.upsert(conUpsertListMcNotNull,false);
-                            Database.UpsertResult[] srList = Database.upsert(conUpsertListMcNotNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));  
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += conUpsertListMcNotNull.size();
-                        }
-                    }else{
-                        if(Schema.sObjectType.Contact.isCreateable() && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.FirstName.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.LastName.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.LastName.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.LastName.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.Email.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.Email.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.Email.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.Phone.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.Phone.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.Phone.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
-                                Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
-                           // Database.upsert(contactupsertList,false);
-                            Database.UpsertResult[] srList = Database.upsert(contactupsertList,false);
-                                    for (Database.UpsertResult sr : srList) {
-                                        String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
-                                        if (sr.isSuccess()) {
-                                            if(showLogs){
-                                                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                            }
-                                        }
-                                        else {
-                                            for(Database.Error err : sr.getErrors()) {
-                                                errorMessage += err.getMessage();
-                                            }
-                                            if(showLogs){
-                                                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                            }
+                    if(Schema.sObjectType.Contact.isCreateable() && Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.FirstName.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.LastName.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.LastName.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.LastName.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Source__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.Email.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.Email.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.Email.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.Phone.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.Phone.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.Phone.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Language__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
+                            Schema.sObjectType.Contact.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
+                        Database.UpsertResult[] srList = Database.upsert(contactupsertList,false);
+                                for (Database.UpsertResult sr : srList) {
+                                    String errorMessage = 'Failed Contact sync records from TelosTouch to Salesforce :';
+                                    if (sr.isSuccess()) {
+                                        if(showLogs){
+                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Contact sync successfully from TelosTouch to Salesforce.',sr.getId()));
                                         }
                                     }
-                        }
-                        totalSyncedUser = contactupsertList.size();
-                    }
-                }
-                //system.debug('leadupdateList::'+leadupdateList);
-                if(leadupdateList.size()> 0){
-                    if(LeadFieldApiNameList.contains('MC4SF__MC_Subscriber__c')){
-                        List<Lead> leadUpsertListMcNull = new List<Lead>();
-                        List<Lead> leadUpsertListMcNotNull = new List<Lead>();
-                        for(Lead leadObj : leadupdateList){
-                            if(leadObj.get('MC4SF__MC_Subscriber__c') == null){
-                                leadUpsertListMcNull.add(leadObj);
-                            }else if(leadObj.get('MC4SF__MC_Subscriber__c') != null){
-                                leadUpsertListMcNotNull.add(leadObj);
-                            }
-                        }
-                        if(leadUpsertListMcNull.size()>0){
-                            //Database.upsert(leadUpsertListMcNull,false);
-                            Database.UpsertResult[] srList = Database.upsert(leadUpsertListMcNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += leadUpsertListMcNull.size();
-                        }
-                        if(leadUpsertListMcNotNull.size()>0){
-                            //Database.upsert(leadUpsertListMcNotNull,false);
-                            Database.UpsertResult[] srList = Database.upsert(leadUpsertListMcNotNull,false);
-                            for (Database.UpsertResult sr : srList) {
-                                String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
-                                if (sr.isSuccess()) {
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                    }
-                                }
-                                else {
-                                    for(Database.Error err : sr.getErrors()) {
-                                        errorMessage += err.getMessage();
-                                    }
-                                    if(showLogs){
-                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                    }
-                                }
-                            }
-                            totalSyncedUser += leadUpsertListMcNotNull.size();
-                        }
-                    }else{
-                        if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isCreateable() && Schema.sObjectType.Lead.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.FirstName.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.LastName.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.LastName.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.LastName.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Company.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Company.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Company.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Email.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Email.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Email.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.Phone.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.Phone.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.Phone.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
-                                Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
-                            //Database.upsert (leadupdateList ,false);
-                              Database.UpsertResult[] srList = Database.upsert(leadupdateList,false);
-                               for (Database.UpsertResult sr : srList) {
-                                   String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
-                                   if (sr.isSuccess()) {
-                                       if(showLogs){
-                                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
-                                       }
-                                   }
-                                   else {
-                                       for(Database.Error err : sr.getErrors()) {
-                                           errorMessage += err.getMessage();
-                                       }
-                                       if(showLogs){
+                                    else {
+                                        for(Database.Error err : sr.getErrors()) {
+                                            errorMessage += err.getMessage();
+                                        }
+                                        if(showLogs){
                                             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
-                                       }
-                                   }
-                               }
-                        }
-                        totalSyncedUser = totalSyncedUser + leadupdateList.size();
+                                        }
+                                    }
+                                }
                     }
+                    totalSyncedUser = contactupsertList.size();
                 }
-                //system.debug('convertedLeadIdSet::'+convertedLeadIdSet);
-                /*if(convertedLeadIdSet != null){
-                    for(String str : convertedLeadIdSet){
-                        Database.LeadConvert lc = new Database.LeadConvert();
-                        lc.setLeadId(str);
-                        lc.setDoNotCreateOpportunity(TRUE);
-                        lc.setConvertedStatus(convertStatus.MasterLabel);
-                        leadConverts.add(lc);
+                if(leadupdateList.size()> 0){
+                    if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isCreateable() && Schema.sObjectType.Lead.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__TT_Client_Id__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.FirstName.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.LastName.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.LastName.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.LastName.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Company.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Company.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Company.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Source__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Email.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Email.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Email.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.Phone.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.Phone.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.Phone.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Language__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Subscribed__c.isUpdateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isAccessible() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isCreateable() &&
+                            Schema.sObjectType.Lead.fields.TelosTouchSF__Error_Message__c.isUpdateable() ){
+                            Database.UpsertResult[] srList = Database.upsert(leadupdateList,false);
+                            for (Database.UpsertResult sr : srList) {
+                                String errorMessage = 'Failed Lead sync records from TelosTouch to Salesforce :';
+                                if (sr.isSuccess()) {
+                                    if(showLogs){
+                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', 'Lead sync successfully from TelosTouch to Salesforce.',sr.getId()));
+                                    }
+                                }
+                                else {
+                                    for(Database.Error err : sr.getErrors()) {
+                                        errorMessage += err.getMessage();
+                                    }
+                                    if(showLogs){
+                                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, sr.getId()));
+                                    }
+                                }
+                            }
                     }
-                    List<Database.LeadConvertResult> lcr = Database.convertLead(leadConverts);
-                    //system.debug('Converted Lead::'+lcr);
-                }*/
+                    totalSyncedUser = totalSyncedUser + leadupdateList.size();
+                }
                 if(totalSyncedUser >0){
                     TelosTouchSF.UserTriggerHandler.createLogRecord('success','Clients sync successfully from TelosTouch to Salesforce.','Clients syncronisés avec succès de TelosTouch à Salesforce.', totalSyncedUser);
                 }
@@ -1025,7 +789,7 @@ private static final String token = getCredentials.Token__c;*/
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
-* @description ResponseWrapper is used to get id,name,first_name,last_name,email,                                        ,modified_at and Preferences.
+* @description ResponseWrapper is used to get id,name,first_name,last_name,email,modified_at and Preferences.
 */
     public class ResponseWrapper {
         /**

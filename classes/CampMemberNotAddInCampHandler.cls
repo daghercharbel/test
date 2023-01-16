@@ -42,7 +42,7 @@ public with sharing class CampMemberNotAddInCampHandler {
                 ];
             }
             for (Campaign cam : campaignList) {
-                if (cam.RecordTypeId == TTRecordTypeId /*&& cam.TelosTouchSF__TT_Campaign_Id__c != null && String.isNotEmpty(cam.TelosTouchSF__TT_Campaign_Id__c)*/) {
+                if (cam.RecordTypeId == TTRecordTypeId) {
                     if (campIdVsCampMemMap.containsKey(cam.Id)) {
                         for (CampaignMember cMemObj : campIdVsCampMemMap.get(cam.Id)) {
                             if (cMemObj.ContactId != null && (contactMap.get(cMemObj.ContactId).TelosTouchSF__TT_Client_Id__c == null || contactMap.get(cMemObj.ContactId).TelosTouchSF__TT_Conflict__c)) {
@@ -66,7 +66,6 @@ public with sharing class CampMemberNotAddInCampHandler {
 */
     public static void addRecipientsIntoTouchPoint( List<CampaignMember> memberList) {
         try{
-            //System.debug('memberList:: '+memberList);
             Set<Id> leadIds = new Set<Id>();
             Set<Id> contactIds = new Set<Id>();
             Id campaignId;
@@ -90,7 +89,6 @@ public with sharing class CampMemberNotAddInCampHandler {
                 FROM Campaign
                 WHERE Id =: campaignId LIMIT 1];
             }
-            //System.debug('campObj:: '+campObj);
 
             BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper objWrapper = new BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper();
             objWrapper.campId = String.valueof(campObj.ID);
