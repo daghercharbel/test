@@ -1351,6 +1351,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Sure_To_Remove</name>
     </customLabels>
     <customLabels>
+        <label>Sync la Campagne</label>
+        <name>Sync_Campaign_Button</name>
+    </customLabels>
+    <customLabels>
         <label>SYNCRONIATION DE CHAMPS VIDES (TT À SF)</label>
         <name>Sync_Empty_Field</name>
     </customLabels>

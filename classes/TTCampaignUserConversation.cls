@@ -74,7 +74,8 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
                         Map<String, Object> responseMap1 =
                                 (Map<String, Object>)JSON.deserializeUntyped(responseBody);
                         if (Schema.sObjectType.Campaign.fields.TelosTouchSF__Answers__c.isUpdateable()) {
-                            campaignobj.TelosTouchSF__Answers__c = JSON.serialize(responseMap1.get('answers'));
+                            String answers = JSON.serialize(responseMap1.get('answers'));
+                            if(answers.length() < 131000){ campaignobj.TelosTouchSF__Answers__c = answers; }
                             List<Object> lstAnswer = (List<Object>)responseMap1.get('answers');
                             for(Object answer : lstAnswer){
                                 Map<String, Object> mapAnswer = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(answer));
@@ -90,6 +91,7 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
                                             'responseMap1.get(questions):: ' + responseMap1.get('questions'));
                             campaignobj.TelosTouchSF__Questions__c = JSON.serialize(responseMap1.get('questions'));
                         }
+                        campaignobj.TelosTouchSF__TT_Last_Sync_Time__c = System.now();
                     }
                 }catch (Exception ex){
                     System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
@@ -97,7 +99,7 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
             }
             if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){
                 System.debug(LoggingLevel.DEBUG, 'campaigns:: '+campaigns);
-                Database.update(campaigns, false);
+                Database.update(campaigns);
             }
             if(!lstInsight.isEmpty()){
                 Database.upsert(lstInsight, TelosTouchSF__Insights__c.TelosTouchSF__Conversation_Id__c);

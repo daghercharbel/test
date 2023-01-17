@@ -2324,6 +2324,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Are you sure you want to remove this field from syncing?</value>
     </labels>
     <labels>
+        <fullName>Sync_Campaign_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync Campaign Button</shortDescription>
+        <value>Sync Campaign</value>
+    </labels>
+    <labels>
         <fullName>Sync_Empty_Field</fullName>
         <language>en_US</language>
         <protected>true</protected>
