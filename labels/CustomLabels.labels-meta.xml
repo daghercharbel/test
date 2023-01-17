@@ -549,7 +549,6 @@
         <value>Instance URL</value>
     </labels>
     <labels>
-<<<<<<< HEAD
         <fullName>Create_French_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -571,8 +570,6 @@
         <value>Instance URL should start with https</value>
     </labels>
     <labels>
-=======
->>>>>>> 9d9261086e26d16d1df6c40afc92e716958af7b4
         <fullName>Config_Save_Toast</fullName>
         <language>en_US</language>
         <protected>true</protected>
