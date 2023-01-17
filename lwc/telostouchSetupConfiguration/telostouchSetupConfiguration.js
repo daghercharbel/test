@@ -137,14 +137,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track isAuthURLNotValid = false;
     @track isDisSave = true;
     @track isEdit = false;
-    @track isEditAndnotsettingApproval = false;
+    @track isEditAndnotsettingApproval = true;
     @track isEmptySelectedUserList = true;
     @track isInsURLNotValid = false;
     @track isNotEdit = true;
     @track isNotPhoneAndNotEntrepriseClient;
     @track isPhone = false;
     @track isPhoneAndNotEntrepriseClient;
-    isShowSpinner = false;
+    isShowSpinner = true;
     @track isSmallDevice = false;
     @track isTablet = false;
     @track ListID = [];
@@ -199,7 +199,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     doInit_Helper() {
         getSettingAPI({ isCallingFrom: 'DoinitFromSetup' })
             .then((result) => {
-                this.isShowSpinner = false;
                 this.storedResponse = result;
                 if (this.storedResponse != null && this.storedResponse.adminCredentials.Client_ID != null && this.storedResponse.adminCredentials.Client_Secret != null && this.storedResponse.adminCredentials.Instance_URL != null) {
                     if (this.storedResponse.adminCredentials != null) {
@@ -208,6 +207,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             this.isEditAndnotsettingApproval = true;
                             this.settingApproval = false;
                         } else {
+                            this.isEditAndnotsettingApproval = false;
                             this.settingApproval = true;
                         }
                         this.setting_Client_ID = this.setting.Client_ID;
@@ -234,6 +234,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         this.settingApproval = false;
                         this.isEditAndnotsettingApproval = true;
                     } else {
+                        this.isEditAndnotsettingApproval = false;
                         this.settingApproval = true;
                     }
                     this.setting_Client_ID = this.setting.Client_ID;
@@ -265,6 +266,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             .catch((error) => {
                 this.error = error.message;
                 this.displayToast('error', this.error);
+            }).finally(() => {
+                this.isShowSpinner = false;
             });
     }
 
@@ -562,7 +565,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             })
             .catch((error) => {
                 this.error = error.message;
-
             });
     }
 

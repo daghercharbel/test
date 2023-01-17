@@ -1,245 +1,278 @@
 .mainBody {
-  background: white;
-  padding: 0;
+    background: white;
+    padding: 0;
 }
 
 .greydiv {
-  background: #e8ebf0;
-  padding: 10px;
-  overflow: auto;
+    background: #e8ebf0;
+    padding: 10px;
+    overflow: auto;
 }
-.layoutScroll{
-  height: 100%;
-  padding-top: 0;
+
+.layoutScroll {
+    height: 100%;
+    padding-top: 0;
 }
 
 .bg-white {
-  background: white;
+    background: white;
 }
 
 .hrclass {
-  margin: 0;
+    margin: 0;
 }
 
 .imgCard {
-  border: 1px solid #e8ebf0;
+    border: 1px solid #e8ebf0;
 }
 
 .imgCard:hover {
-  box-shadow: 0 0 20px rgba(33,33,33,.5);
-  transition: 0.1s;
+    box-shadow: 0 0 20px rgba(33, 33, 33, .5);
+    transition: 0.1s;
 }
 
 .tpName {
-  font-weight: 650;
-  font-size: 16px;
-  padding: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    font-weight: 650;
+    font-size: 16px;
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tpDate {
-  color: grey;
-  font-size: 14px;
-  padding-bottom: 5px;
+    color: grey;
+    font-size: 14px;
+    padding-bottom: 5px;
 }
 
 .paginationDiv {
-  padding: 10px;
-  position: fixed;
+    padding: 10px;
+    position: fixed;
     bottom: 0;
     right: 0;
     width: 100%;
     background-color: white;
 }
 
-.comb{
-  width: 100px;
+.comb {
+    width: 100px;
+}
+
+.createNewCard {
+    height: 192px
 }
 
 .previewText {
-  font-size: 17px;
-  margin-left: 10px;
+    font-size: 17px;
+    margin-left: 10px;
 }
 
 .btnBorderActive {
-  border: 2px solid #2a739e;
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 5px;
+    border: 2px solid #2a739e;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
 }
 
 .btnBorderInActive {
-  border: 1px solid #b7afaf;
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 5px;
+    border: 1px solid #b7afaf;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
 }
 
-.leftIconStyle{
-  border: 1px solid #b7afaf;
-  border-radius: 5px;
+.leftIconStyle {
+    border: 1px solid #b7afaf;
+    border-radius: 5px;
 }
 
 .noDataStyle {
-  height: 418px;
-  text-align: center;
+    height: 418px;
+    text-align: center;
 }
 
-.imgStyleCard{
-  height: 122px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-.lockIcon{
-  position: relative;
-  top: 0;
-  float: right;
-  --sds-c-icon-color-foreground: #3a6690;
-}
-
-@media screen and (min-width: 1600px) { 
-  .layoutStyle{
-    width: 364px !important;
-  }
-  .layoutScroll {
-    padding-top: 0px;
-  }
-  .imgStyleCard{
-    height: 198px;
+.imgStyleCard {
+    height: 122px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-  }
-  .iframe-style{
-    width: 100%;
-    height: 87vh !important;
-    border: none;
-    margin: 0;
-  }
+}
+
+.lockIcon {
+    position: relative;
+    top: 0;
+    float: right;
+    --sds-c-icon-color-foreground: #3a6690;
+}
+
+@media screen and (min-width: 1600px) {
+
+    .createNewCard {
+        height: 268px
+    }
+
+    .layoutStyle {
+        width: 364px !important;
+    }
+
+    .layoutScroll {
+        padding-top: 0px;
+    }
+
+    .imgStyleCard {
+        height: 198px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .iframe-style {
+        width: 100%;
+        height: 87vh !important;
+        border: none;
+        margin: 0;
+    }
+
 }
 
 /* For tablet(Ipad) between 700px to 900px */
 @media screen and (max-width: 900px) and (min-width: 700px) {
-  .layoutStyle{
-    width: 344px !important;
-  }
-  .iframe-style{
-    height: 89vh !important;
-  }
-  .imgStyleCard {
-    height: 175px;
-  }
+
+    .createNewCard {
+        height: 266px
+    }
+
+    .layoutStyle {
+        width: 344px !important;
+    }
+
+    .iframe-style {
+        height: 89vh !important;
+    }
+
+    .imgStyleCard {
+        height: 175px;
+    }
+
 }
 
 /* For Mobile between 350 to 420px */
 @media screen and (max-width: 430px) and (min-width: 320px) {
-  .layoutStyle {
-    width: 311px !important;
-  }
-  .greydiv {
-    background: #e8ebf0;
-    padding: 0;
-    padding-bottom: 0;
-    overflow: auto;
-  }
-  .layoutScroll {
-      padding-top: 0;
-  }
-  .imgStyleCard{
-    height: 175px;
-  }
-  .toggleClass{
-    margin-left: 20px;
-  }
-  .iframe-style{
-    height: 95vh !important;
-  }
+
+    .createNewCard {
+        height: 266px
+    }
+
+    .layoutStyle {
+        width: 311px !important;
+    }
+
+    .greydiv {
+        background: #e8ebf0;
+        padding: 0;
+        padding-bottom: 0;
+        overflow: auto;
+    }
+
+    .layoutScroll {
+        padding-top: 0;
+    }
+
+    .imgStyleCard {
+        height: 175px;
+    }
+
+    .toggleClass {
+        margin-left: 20px;
+    }
+
+    .iframe-style {
+        height: 95vh !important;
+    }
+
 }
 
-.layoutStyle{
-  width: 287px;
+.layoutStyle {
+    width: 287px;
 }
 
-.bankDiv{
-  height: 32px;
+.bankDiv {
+    height: 32px;
 }
 
-.iframe-style{
-  width: 100%;
-  height: 87vh;
-  border: none;
-  margin: 0;
+.iframe-style {
+    width: 100%;
+    height: 87vh;
+    border: none;
+    margin: 0;
 }
 
 .private-badge {
-  --sds-c-badge-color-background: #3744BD;
-  --slds-c-badge-icon-color-foreground: #ffffff;
+    --sds-c-badge-color-background: #3744BD;
+    --slds-c-badge-icon-color-foreground: #ffffff;
 }
 
-.slds-badge__icon_left{
-  margin-right: 0px !important;
+.slds-badge__icon_left {
+    margin-right: 0px !important;
 }
 
 .tooltip {
-  position: relative;
+    position: relative;
 }
 
 .tooltip:hover .tooltip-drop {
-  opacity: 1;
+    opacity: 1;
 }
 
 .tooltip:hover .tooltip-drop.tooltip-top,
 .tooltip:hover .tooltip-drop.tooltip-bottom {
-  transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
 }
 
 .tooltip .tooltip-drop {
-  position: absolute;
-  max-width: 200px;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  opacity: 0;
-  padding: 0.75rem 0.875rem;
-  background-color: #404040;
-  font-size: 0.875rem;
-  text-align: center;
-  z-index: 1;
-  transition: all 0.15s ease-in-out;
-  border-radius: 0.188rem;
-  color: #fff;
-  pointer-events: none;
+    position: absolute;
+    max-width: 200px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    opacity: 0;
+    padding: 0.75rem 0.875rem;
+    background-color: #404040;
+    font-size: 0.875rem;
+    text-align: center;
+    z-index: 1;
+    transition: all 0.15s ease-in-out;
+    border-radius: 0.188rem;
+    color: #fff;
+    pointer-events: none;
 }
 
 .tooltip .tooltip-drop::before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 0.375rem solid transparent;
-  border-top-color: #404040;
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 0.375rem solid transparent;
+    border-top-color: #404040;
 }
 
 .tooltip .tooltip-drop.tooltip-top,
 .tooltip .tooltip-drop.tooltip-bottom {
-  left: 50%;
-  transform: translate(-50%, 0.625rem);
+    left: 50%;
+    transform: translate(-50%, 0.625rem);
 }
 
 .tooltip .tooltip-drop.tooltip-top:before,
 .tooltip .tooltip-drop.tooltip-bottom:before {
-  left: 50%;
+    left: 50%;
 }
 
 .tooltip .tooltip-drop.tooltip-top {
-  bottom: calc(100% + 0.625rem);
+    bottom: calc(100% + 0.625rem);
 }
 
 .tooltip .tooltip-drop.tooltip-top:before {
-  top: 100%;
-  transform: translate(-50%, 0);
+    top: 100%;
+    transform: translate(-50%, 0);
 }

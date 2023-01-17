@@ -73,6 +73,42 @@ private with sharing class TTFilterUserControllerTest {
     }
 
     @isTest
+    static void getCampaignDataTest() {
+
+        list<Campaign> lstCampTest = [SELECT Id FROM Campaign WHERE CreatedDate = TODAY AND Name = 'Adult is Going Back to School'];
+        Test.startTest();
+        Campaign campSuccess = TTFilterUserController.getCampaignData(lstCampTest[0].Id);
+        System.assert(campSuccess.Id == lstCampTest[0].Id, 'Campaign not matching.');
+        Exception ex;
+        try {
+            TTFilterUserController.getCampaignData('error');
+        } catch (Exception e) {
+            ex = e;
+        }
+        System.assert(ex != null, 'Exception not found.');
+        Test.stopTest();
+
+    }
+
+    @isTest
+    static void requestSyncTest() {
+
+        list<Campaign> lstCampTest = [SELECT Id FROM Campaign WHERE CreatedDate = TODAY AND Name = 'Adult is Going Back to School'];
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TTCampaignUserConversationMock());
+        TTFilterUserController.requestSync(lstCampTest[0].Id);
+        Exception ex;
+        try {
+            TTFilterUserController.requestSync('error');
+        } catch (Exception e) {
+            ex = e;
+        }
+        System.assert(ex != null, 'Exception not found.');
+        Test.stopTest();
+
+    }
+
+    @isTest
     static  void doinit_ApexTest2() {
         List<Campaign> campaignList = new List<Campaign>();
         campaignList = [SELECT Id, Name FROM Campaign];

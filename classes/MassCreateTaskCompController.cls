@@ -457,27 +457,29 @@ public with sharing class MassCreateTaskCompController {
                             section
                     );
                     for (Metadata.LayoutItem item : layoutItems) {
-                        String fieldApiName = item.field.toLowerCase();
-                        FieldInfo fieldInfoObj = new FieldInfo();
-                        fieldInfoObj.field = fieldApiName;
-                        fieldInfoObj.isRequired = false;
-                        if (string.valueof(item.behavior) == 'Required') {
-                            fieldInfoObj.isRequired = true;
-                        }
-                        if (sectionNameVsFieldInfoMap.containsKey(section)) {
-                            sectionNameVsFieldInfoMap.get(section).add(fieldInfoObj);
-                        } else {
-                            sectionNameVsFieldInfoMap.put(
-                                    section,
-                                    new List<FieldInfo>{ fieldInfoObj }
-                            );
+                        if(String.isNotBlank(item.field)){
+                            String fieldApiName = item.field.toLowerCase();
+                            FieldInfo fieldInfoObj = new FieldInfo();
+                            fieldInfoObj.field = fieldApiName;
+                            fieldInfoObj.isRequired = false;
+                            if (string.valueof(item.behavior) == 'Required') {
+                                fieldInfoObj.isRequired = true;
+                            }
+                            if (sectionNameVsFieldInfoMap.containsKey(section)) {
+                                sectionNameVsFieldInfoMap.get(section).add(fieldInfoObj);
+                            } else {
+                                sectionNameVsFieldInfoMap.put(
+                                        section,
+                                        new List<FieldInfo>{ fieldInfoObj }
+                                );
+                            }
                         }
                     }
                 }
             }
             return sectionNameVsFieldInfoMap;
         } catch (Exception ex) {
-            System.debug(LoggingLevel.ERROR,'Exception ' + ex.getMessage());
+            System.debug(LoggingLevel.ERROR,'Exception ' + ex.getMessage() + ' at line no: '+ ex.getLineNumber());
             return null;
         }
     }

@@ -1,0 +1,79 @@
+<template>
+    <div class="slds-box">
+
+        <div class="slds-m-bottom_medium">
+        </div>
+
+        <div>
+            <div class="slds-m-bottom_x-small generic-line_first">
+            </div>
+            <div class="slds-m-bottom_large generic-line_second">
+            </div>
+            <div class="slds-m-bottom_x-small generic-line"></div>
+            <div class="slds-m-bottom_x-small generic-line"></div>
+            <div class="generic-line"></div>
+        </div>
+
+        <div class="slds-m-vertical_medium">
+
+            <template if:true={isSystem}>
+
+                <div class="slds-m-bottom_small">
+                    <b>{userBranding.first_name} {userBranding.last_name}, {userBranding.position}</b>
+                </div>
+
+                <div>{userBranding.company}</div>
+                <div>{userBranding.phone}</div>
+                <div>{userBranding.email}</div>
+                <div>{userBranding.address}</div>
+
+                <template if:true={userBranding.enable_meeting_link}>
+                    <div>{label.schedule_a_meeting} &nbsp;
+                        <lightning-formatted-url value={userBranding.meeting_link} label={label.meeting_link_preview}
+                            target="_blank"></lightning-formatted-url>
+                    </div>
+                </template>
+
+                <template if:true={userBranding.enable_signature_badge}>
+                    <img src={userBranding.signature_badge} class="image-size" />
+                </template>
+
+            </template>
+
+            <template if:true={isCustom}>
+                <lightning-formatted-rich-text value={userBranding.custom_signature}></lightning-formatted-rich-text>
+            </template>
+
+        </div>
+
+        <div class="slds-box">
+
+            <template if:true={isSystem}>
+
+                <template if:true={userBranding.enable_social_link}>
+                    <div class="slds-m-vertical_medium slds-align_absolute-center">
+                        <template if:true={userBranding.facebook}>
+                            <a class="slds-m-horizontal_small" href={userBranding.facebook} target="_blank">
+                                <img src={facebookPng} width="30px">
+                            </a>
+                        </template>
+                        <template if:true={userBranding.linkedin}>
+                            <a class="slds-m-horizontal_small" href={userBranding.linkedin} target="_blank">
+                                <img src={linkedinPng} width="30px">
+                            </a>
+                        </template>
+                        <template if:true={userBranding.twitter}>
+                            <a class="slds-m-horizontal_small" href={userBranding.twitter} target="_blank">
+                                <img src={twitterPng} width="30px">
+                            </a>
+                        </template>
+                    </div>
+                </template>
+
+            </template>
+
+            <div class="slds-text-align_center">{label.unsubscribe_text}</div>
+        </div>
+
+    </div>
+</template>

@@ -1,114 +1,179 @@
-<!-- sldsValidatorIgnore -->
 <template>
-  <div if:true={mainBodyFlag} class="mainBody">
-    <div if:true={showTopBackButton} class={topButtonStyle}>
-      <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
-        onclick={handleBackbuttonAction}></lightning-button>
-    </div>
-    <div class="greydiv container">
-      <div class="bg-white">
-        <lightning-layout>
-          <lightning-layout-item padding="around-small" class="toggleClass" alignment-bump="left">
-            <div class=" slds-text-align_center">
-              <lightning-input type="toggle" message-toggle-active={label.PRIVATE_TEMP_TEXT}
-                onchange={handleToggleChange} message-toggle-inactive={label.ALL_TEMP_TEXT} label="Basic option"
-                variant="label-hidden">
-              </lightning-input>
-            </div>
-          </lightning-layout-item>
-          <lightning-layout-item padding="around-small">
-            <div class=" slds-text-align_center">
-              <lightning-input label="Search" variant="label-hidden" type="search" onchange={handleSearchInput}>
-              </lightning-input>
-            </div>
-          </lightning-layout-item>
-        </lightning-layout>
-        <hr class="hrclass">
-        <div if:false={NoData} class="layoutScroll slds-scrollable">
-          <div class="slds-grid slds-var-p-around_x-small slds-wrap">
-            <template for:each={visibleRecords} for:item="acc">
-              <div key={acc.id}
-                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
-                <div data-id={acc.id} class="slds-text-align_center imgCard" onclick={handleDivClick}>
-                  <div class="imgStyleCard" style={acc.ImgStyle}>
-                    <lightning-badge if:true={acc.is_private} label="" icon-name="utility:lock"
-                      class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small private-badge">
-                    </lightning-badge>
-                  </div>
-                  <div class="tooltip">
-                    <div if:false={fr} class="tpName">{acc.name}</div>
-                    <span class="tooltip-drop tooltip-top">{acc.name}</span>
-                  </div>
-                  <div class="tooltip">
-                    <div if:true={fr} class="tpName">{acc.name_fr}</div>
-                    <span class="tooltip-drop tooltip-top">{acc.name_fr}</span>
-                  </div>
-                  <div class="tpDate">{acc.modified_at}</div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div if:true={showPagination} class="slds-var-p-bottom_xx-small">
-            <lightning-layout>
-              <lightning-layout-item class="leftIconStyle" alignment-bump="left">
-                <div class="slds-text-align_center">
-                  <lightning-button-icon icon-name="utility:chevronleft" onclick={previousHandler}
-                    disabled={disablePrevious} size="large" alternative-text="View More"></lightning-button-icon>
-                </div>
-              </lightning-layout-item>
-              <lightning-layout-item class={prevBtnClass}>
-                <lightning-button label={prevPage} title="Non-primary action" onclick={prevPageAction}>
-                </lightning-button>
-              </lightning-layout-item>
-              <lightning-layout-item class={nextBtnClass}>
-                <lightning-button label={nextPage} disabled={secondPageDisabled} onclick={nextPageAction}
-                  title="Non-primary action"></lightning-button>
-              </lightning-layout-item>
-              <lightning-layout-item>
-                <div class="slds-text-align_center btnBorderInActive">
-                  <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler} disabled={disableNext}
-                    size="large" alternative-text="View More"></lightning-button-icon>
-                </div>
-              </lightning-layout-item>
-            </lightning-layout>
-          </div>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <div if:true={isGallery} class="mainBody">
+
+        <!-- RETURN BUTTON -->
+        <div if:true={showTopBackButton} class={topButtonStyle}>
+            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
+                onclick={handleBackbuttonAction}></lightning-button>
         </div>
-        <div if:true={NoData} class="noDataStyle">
-          <span>{label.NO_DATA_TEXT}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div if:false={mainBodyFlag} class="mainBody">
-    <div if:true={showTopBackButton} class={topButtonStyle}>
-      <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
-        onclick={handleBackbuttonAction}></lightning-button>
-    </div>
-    <div if:false={previewBody}>
-      <iframe src={iframeURL} class="iframe-style"></iframe>
-    </div>
-    <div if:true={previewBody} class="greydiv container">
-      <div class="bg-white">
-        <lightning-layout>
-          <lightning-layout-item padding="around-small">
-            <div class="slds-text-align_center">
-              <lightning-button label="Back to templates" icon-name="action:back" onclick={goBackToMainPage}
-                variant="brand">
-              </lightning-button>
+
+        <!-- GALLERY PAGE -->
+        <div class="greydiv container">
+            <div class="bg-white">
+
+                <!-- SEARCH BAR -->
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small" class="toggleClass" alignment-bump="left">
+                        <div class=" slds-text-align_center">
+                            <lightning-input type="toggle" message-toggle-active={label.PRIVATE_TEMP_TEXT}
+                                onchange={handleToggleChange} message-toggle-inactive={label.ALL_TEMP_TEXT}
+                                label="Basic option" variant="label-hidden">
+                            </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        <div class=" slds-text-align_center">
+                            <lightning-input label="Search" variant="label-hidden" type="search"
+                                onchange={handleSearchInput}>
+                            </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <hr class="hrclass">
+
+
+                <div if:false={NoData} class="layoutScroll slds-scrollable">
+
+                    <!-- TEMPLATE LIST -->
+                    <div class="slds-grid slds-var-p-around_x-small slds-wrap">
+
+                        <!-- CREATE NEW -->
+                        <template if:true={creationEnabled}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
+                                <div class="imgCard" onclick={handleOpenNewBuilder}>
+                                    <div class="createNewCard slds-align_absolute-center">
+                                        <div>
+                                            <lightning-icon class="slds-align_absolute-center" icon-name="utility:add" size="large"></lightning-icon>
+                                            <div class="tpName">{label.create_new_text}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- EXISTING TEMPLATES -->
+                        <template for:each={visibleRecords} for:item="acc">
+                            <div key={acc.id}
+                                class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
+                                <div data-id={acc.id} class="slds-text-align_center imgCard" onclick={handleDivClick}>
+                                    <div class="imgStyleCard" style={acc.ImgStyle}>
+                                        <lightning-badge if:true={acc.is_private} label="" icon-name="utility:lock"
+                                            class="slds-float_right slds-var-m-top_xx-small slds-var-m-right_xx-small private-badge">
+                                        </lightning-badge>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div if:false={fr} class="tpName">{acc.name}</div>
+                                        <span class="tooltip-drop tooltip-top">{acc.name}</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div if:true={fr} class="tpName">{acc.name_fr}</div>
+                                        <span class="tooltip-drop tooltip-top">{acc.name_fr}</span>
+                                    </div>
+                                    <div class="tpDate">{acc.modified_at}</div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- PAGINATION -->
+                    <div if:true={showPagination} class="slds-var-p-bottom_xx-small">
+                        <lightning-layout>
+                            <lightning-layout-item class="leftIconStyle" alignment-bump="left">
+                                <div class="slds-text-align_center">
+                                    <lightning-button-icon icon-name="utility:chevronleft" onclick={previousHandler}
+                                        disabled={disablePrevious} size="large" alternative-text="View More">
+                                    </lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class={prevBtnClass}>
+                                <lightning-button label={prevPage} title="Non-primary action" onclick={prevPageAction}>
+                                </lightning-button>
+                            </lightning-layout-item>
+                            <lightning-layout-item class={nextBtnClass}>
+                                <lightning-button label={nextPage} disabled={secondPageDisabled}
+                                    onclick={nextPageAction} title="Non-primary action"></lightning-button>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <div class="slds-text-align_center btnBorderInActive">
+                                    <lightning-button-icon icon-name="utility:chevronright" onclick={nextHandler}
+                                        disabled={disableNext} size="large" alternative-text="View More">
+                                    </lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+
+                </div>
+
+                <!-- EMPTY LIST -->
+                <div if:true={NoData} class="noDataStyle">
+                    <span>{label.NO_DATA_TEXT}</span>
+                </div>
+
             </div>
-          </lightning-layout-item>
-          <lightning-layout-item padding="around-small" alignment-bump="left">
-            <div class="slds-text-align_center">
-              <lightning-button variant="brand-outline" label="Customize" onclick={handleCustomization}>
-              </lightning-button>
-            </div>
-          </lightning-layout-item>
-        </lightning-layout>
-        <hr class="hrclass">
-        <div class="previewBody">
-          <c-show-touch-point-preview template-id={templateId}></c-show-touch-point-preview>
         </div>
-      </div>
+
     </div>
-  </div>
+
+    <div if:true={isPreview} class="mainBody">
+
+        <!-- RETURN BUTTON -->
+        <div if:true={showTopBackButton} class={topButtonStyle}>
+            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
+                onclick={handleBackbuttonAction}></lightning-button>
+        </div>
+
+        <!-- CUSTOMIZATION IFRAME -->
+        <div if:false={previewBody}>
+            <iframe src={iframeURL} class="iframe-style"></iframe>
+        </div>
+
+        <!-- PREVIEW PAGE -->
+        <div if:true={previewBody} class="greydiv container">
+            <div class="bg-white">
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small">
+                        <div class="slds-text-align_center">
+                            <lightning-button label="Back to templates" icon-name="action:back"
+                                onclick={goBackToMainPage} variant="brand">
+                            </lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" alignment-bump="left">
+                        <div class="slds-text-align_center">
+                            <lightning-button variant="brand-outline" label="Customize" onclick={handleCustomization}>
+                            </lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <hr class="hrclass">
+                <div class="previewBody">
+                    <c-show-touch-point-preview template-id={templateId}></c-show-touch-point-preview>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div if:true={isBuilder} class="mainBody">
+
+        <!-- RETURN BUTTON -->
+        <div if:true={showTopBackButton} class={topButtonStyle}>
+            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
+                onclick={handleBackbuttonAction}></lightning-button>
+        </div>
+
+        <!-- BUILDER IFRAME -->
+        <div if:false={previewBody}>
+            <iframe src={iframeURL} class="iframe-style"></iframe>
+        </div>
+    </div>
+
 </template>

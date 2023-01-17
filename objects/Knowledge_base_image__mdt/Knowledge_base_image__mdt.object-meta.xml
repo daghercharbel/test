@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Knowledge base image</label>
+    <pluralLabel>Knowledge base images</pluralLabel>
+    <visibility>Protected</visibility>
+</CustomObject>

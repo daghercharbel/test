@@ -1,0 +1,32 @@
+.colorCss {
+  color: red;
+}
+
+.modalCSS {
+  font-size: 25px;
+  font-weight: bold;
+  color: blue;
+}
+
+.warningModalCSS {
+  font-size: 18px;
+  color: black;
+}
+
+.imageCss {
+  width: 35px;
+  height: 35px;
+}
+
+.totalCount {
+  margin-left: 13%;
+}
+
+.table-header-css {
+  font-weight: bold !important;
+  color: #514F4D;
+}
+
+.tableHeading1 {
+  padding-left: 1rem;
+}

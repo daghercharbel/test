@@ -158,6 +158,28 @@ public with sharing class TTFilterUserController {
             System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
         return null;
     }
+
+    @AuraEnabled
+    public static Campaign getCampaignData(String recordId){
+        try {
+            Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TT_Last_Sync_Time__c FROM Campaign WHERE Id =: recordId LIMIT 1];
+            return camp;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static string requestSync(String recordId){
+        try {
+            Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: recordId LIMIT 1];
+            TelosTouchSF.TTCampaignUserConversation obj = new TelosTouchSF.TTCampaignUserConversation(new list<Campaign>{camp});
+            Database.executeBatch(obj);
+            return null;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
