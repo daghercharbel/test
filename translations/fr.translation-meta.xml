@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label>
+            
+        </label>
+        <name>TelosTouch</name>
+    </customApplications>
     <customLabels>
         <label>Accès usager àTelosTouch</label>
         <name>Access_To_TT</name>
@@ -1622,4 +1628,34 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
+    <customTabs>
+        <label>Accueil</label>
+        <name>TT_Home</name>
+    </customTabs>
+    <customTabs>
+        <label>Configuration TT</label>
+        <name>TT_Setup</name>
+    </customTabs>
+    <customTabs>
+        <label>
+            
+        </label>
+        <name>TouchPoints</name>
+    </customTabs>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Invoke_Send_Touchpoint_Flow</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_Convert_Mapping</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Task_Check_Sync</fullName>
+    </flowDefinitions>
 </Translations>
