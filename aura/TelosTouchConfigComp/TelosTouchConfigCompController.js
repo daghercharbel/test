@@ -76,16 +76,13 @@
         var value = e.getParam('value');
         if(value == 'userGuide'){
             c.set("v.activeTab", 'knowledge');
-            console.log('VOD ----------------------- handleRedirect AURA 1');
             console.log(c.find('knowledgeBase'));
-            console.log('VOD ----------------------- handleRedirect AURA 2');
             window.setTimeout(
                 $A.getCallback(function() {
                     c.find('knowledgeBase').handleRedirect('userGuide');
                 }), 
                 100
             );
-            console.log('VOD ----------------------- handleRedirect AURA 3');
         }
         
     },

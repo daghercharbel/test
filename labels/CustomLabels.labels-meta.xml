@@ -50,6 +50,13 @@
         <value>Add Fields</value>
     </labels>
     <labels>
+        <fullName>Add_Remove_Topic</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add/Remove Topic</shortDescription>
+        <value>Add/Remove Topic</value>
+    </labels>
+    <labels>
         <fullName>Add_Standard_Fields_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -76,6 +83,13 @@
         <protected>true</protected>
         <shortDescription>Add to Campaign Text</shortDescription>
         <value>Add to Campaign</value>
+    </labels>
+    <labels>
+        <fullName>Add_Topic</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Topic</shortDescription>
+        <value>Add Topic</value>
     </labels>
     <labels>
         <fullName>Additional_Information</fullName>
@@ -132,6 +146,13 @@
         <protected>true</protected>
         <shortDescription>Authentication URL Error</shortDescription>
         <value>Authentication URL should start with https</value>
+    </labels>
+    <labels>
+        <fullName>Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Available</shortDescription>
+        <value>Available</value>
     </labels>
     <labels>
         <fullName>Back_Button_Label</fullName>
@@ -1320,6 +1341,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Monthly</value>
     </labels>
     <labels>
+        <fullName>More_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>More Information</shortDescription>
+        <value>More Information</value>
+    </labels>
+    <labels>
         <fullName>Multi_language_Support</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1785,6 +1813,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>Remove_Topic</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remove Topic</shortDescription>
+        <value>Remove Topic</value>
+    </labels>
+    <labels>
         <fullName>Remove_permissions_single_toast</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2014,6 +2049,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Select a record type Text</shortDescription>
         <value>Select a record type</value>
+    </labels>
+    <labels>
+        <fullName>Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selected</shortDescription>
+        <value>Selected</value>
     </labels>
     <labels>
         <fullName>Selected_TouchPoint</fullName>
@@ -2315,6 +2357,27 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>System Generated</shortDescription>
         <value>System Generated</value>
+    </labels>
+    <labels>
+        <fullName>Topic_Added</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Topic Added</shortDescription>
+        <value>Topic Added</value>
+    </labels>
+    <labels>
+        <fullName>Topic_Removed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Topic Removed</shortDescription>
+        <value>Topic Removed</value>
+    </labels>
+    <labels>
+        <fullName>Topic_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Topic Warning</shortDescription>
+        <value>This feature requires Salesforce &quot;Topic&quot; to be enabled and configured properly. Please refer to section &quot;15. Activating and using Topics&quot; in our User Guide.</value>
     </labels>
     <labels>
         <fullName>TPSentText</fullName>

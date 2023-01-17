@@ -33,6 +33,10 @@
         <name>Add_Fields_Button_Label</name>
     </customLabels>
     <customLabels>
+        <label>Ajouter/Supprimer Rubrique</label>
+        <name>Add_Remove_Topic</name>
+    </customLabels>
+    <customLabels>
         <label>Ajouter des champs standards</label>
         <name>Add_Standard_Fields_Text</name>
     </customLabels>
@@ -47,6 +51,10 @@
     <customLabels>
         <label>Ajouter à Campagne</label>
         <name>Add_to_Campaign_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Ajouter Rubrique</label>
+        <name>Add_Topic</name>
     </customLabels>
     <customLabels>
         <label>Information additionnelle (optionnel)</label>
@@ -75,6 +83,10 @@
     <customLabels>
         <label>URL d&apos;identification doit commencer par https</label>
         <name>Authentication_URL_Error</name>
+    </customLabels>
+    <customLabels>
+        <label>Disponible</label>
+        <name>Available</name>
     </customLabels>
     <customLabels>
         <label>Retour</label>
@@ -724,6 +736,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Monthly_Text</name>
     </customLabels>
     <customLabels>
+        <label>Plus d&apos;information</label>
+        <name>More_Information</name>
+    </customLabels>
+    <customLabels>
         <label>Signature multilingue</label>
         <name>Multi_language_Support</name>
     </customLabels>
@@ -991,6 +1007,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Remove_Text</name>
     </customLabels>
     <customLabels>
+        <label>Supprimer Rubrique</label>
+        <name>Remove_Topic</name>
+    </customLabels>
+    <customLabels>
         <label>La licence TelosTouch de l&apos;utilisateur sélectionné a été révoquée</label>
         <name>Remove_permissions_single_toast</name>
     </customLabels>
@@ -1113,6 +1133,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Sélectionner un type d&apos;enregistrement</label>
         <name>Select_a_record_type_Type</name>
+    </customLabels>
+    <customLabels>
+        <label>Selectionné</label>
+        <name>Selected</name>
     </customLabels>
     <customLabels>
         <label>Point de Contact Sélectionné</label>
@@ -1346,6 +1370,18 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
     <customLabels>
         <label>Titre (A à Z)</label>
         <name>TitleText</name>
+    </customLabels>
+    <customLabels>
+        <label>Rubrique rajoutée</label>
+        <name>Topic_Added</name>
+    </customLabels>
+    <customLabels>
+        <label>Rubrique supprimée</label>
+        <name>Topic_Removed</name>
+    </customLabels>
+    <customLabels>
+        <label>Cette fonctionnalité nécessite que la fonctionalité &quot;Rubriques&quot; de Salesforce soit activée et correctement configuré. Veuillez consulter la section &quot;15. Activer et utiliser les Rubriques&quot; de notre guide d&apos;utilisateur pour plus d&apos;infos.</label>
+        <name>Topic_Warning</name>
     </customLabels>
     <customLabels>
         <label>Total des éléments Syncronisés</label>
