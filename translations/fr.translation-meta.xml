@@ -606,14 +606,6 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Knowledge_Base_Text</name>
     </customLabels>
     <customLabels>
-        <label>Échec de la mise à jour de la langue ou du fuseau horaire de l&apos;usager</label>
-        <name>Lang_Timezone_Update_Fali_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Langue ou fuseau horaire de l&apos;usager mis à jour avec succès.</label>
-        <name>Lang_Timezone_Update_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Langue</label>
         <name>Language_Text</name>
     </customLabels>
@@ -1049,10 +1041,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
-        <name>Send_Reminder_Config_Text</name>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
+        <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
         <label>Seuls les clients n&apos;ayant pas reçu de rappel dans les dernières 24 heures recevront une nouvelles notification,</label>
@@ -1384,8 +1374,8 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>User_access_text</name>
     </customLabels>
     <customLabels>
-        <label>Échec de la désactivation de l&apos;usager de Salesforce à TelosTouch</label>
-        <name>User_deactivate_Fail_Text</name>
+        <label>Accès utilisateur</label>
+        <name>User_access_text</name>
     </customLabels>
     <customLabels>
         <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
@@ -1444,4 +1434,32 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
+    <customTabs>
+        <label>Accueil</label>
+        <name>TT_Home</name>
+    </customTabs>
+    <customTabs>
+        <label>Configuration TT</label>
+        <name>TT_Setup</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- TouchPoints --></label>
+        <name>TouchPoints</name>
+    </customTabs>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Invoke_Send_Touchpoint_Flow</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_Convert_Mapping</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Task_Check_Sync</fullName>
+    </flowDefinitions>
 </Translations>
