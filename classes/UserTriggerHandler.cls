@@ -4,9 +4,6 @@
 * @description UserTriggerHandler class is used to update user from Salesforce to TelosTouch.
 */
 public with sharing class UserTriggerHandler {
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
     public static boolean run = true;
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
@@ -45,7 +42,6 @@ public with sharing class UserTriggerHandler {
 */
     public static void updateUserInTelosTouch(String userList, String userObjJSON, String userMapJSON) {
         try{
-            //System.debug('User Future Method Called!');
             List<user> getUserList = (List<user>) JSON.deserialize(userList, List<user>.class);
             Map<Id,User> userMap = (Map<Id,User>) JSON.deserialize(userMapJSON, Map<Id,User>.class);
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
@@ -55,13 +51,10 @@ public with sharing class UserTriggerHandler {
                 String  userName = userObj.TelosTouchSF__TT_UserName__c;
                 String body = '',UserLanguage ='',endPointURL ='';
                 String methodType = 'PUT';
-                //Blob blobValue = Blob.valueOf(userName+':'+userToken);
-                // String authToken = EncodingUtil.base64Encode(blobValue);
                 Map<String, String> headersMap = new Map<String, String>();
                 headersMap.put('Authorization','Bearer ' +userToken);
                 headersMap.put('Content-Type', 'application/json');
                 headersMap.put('Accept', 'application/json');
-                //System.debug('headers:: '+headersMap);
                 if(userMap != null && ((userObj.LanguageLocaleKey != null && userObj.LanguageLocaleKey != userMap.get(userObj.Id).LanguageLocaleKey)|| (userObj.TimeZoneSidKey != null && userObj.TimeZoneSidKey != userMap.get(userObj.Id).TimeZoneSidKey))){
                     methodType = 'GET';
                     if(userObj.LanguageLocaleKey == 'en_US'){
@@ -86,14 +79,12 @@ public with sharing class UserTriggerHandler {
                         }
                     }
                     String getResponse = getResponseMap.get('body');
-                    //System.debug('getResponse::'+getResponse);
                     if(getResponse != null && getResponse.contains('language')){
                         methodType = 'PATCH';
                         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(getResponse);
                         body = '{"language": "'+UserLanguage+'","timezone": "'+userObj.TimeZoneSidKey+'","clientPortal":"'+responseMap.get('clientPortal')+'","notificationTouchpointSend":"'+responseMap.get('notificationTouchpointSend')+'","notificationTouchpointCompleted":"'+responseMap.get('notificationTouchpointCompleted')+'","notificationActionCreate":"'+responseMap.get('notificationActionCreate')+'"}';
                         getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
                         getResponse = getResponseMap.get('body');
-                        //System.debug('getResponse::'+getResponse);
                         if(getResponse != null && getResponse.contains('language')){
                             Map<String, Object> responseMap2 = (Map<String, Object>)JSON.deserializeUntyped(getResponse);
                             if((responseMap2.containsKey('language') && String.valueof(responseMap2.get('language')) ==  UserLanguage )
@@ -105,30 +96,10 @@ public with sharing class UserTriggerHandler {
                         }
                     }
                 }
-                /*if (userObj.TelosTouchSF__TT_UserId__c != null && userObj.IsActive != true) {
-                    userName = user.TelosTouchSF__TT_UserName__c;
-                    //blobValue = Blob.valueOf(userName + ':' + userToken);
-                    //authToken = EncodingUtil.base64Encode(blobValue);
-                    methodType = 'PUT';
-                    headersMap.put('Authorization','Bearer ' +adminCredentials.TelosTouchSF__Access_Token__c);
-                    body = '{"enabled":false}';
-                    endPointURL = adminCredentials.Instance_URL__c+'/api/v1/users/'+userObj.TelosTouchSF__TT_UserId__c;
-                    String getResponse = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
-                    if(getResponse != null && getResponse.contains('isActive')){
-                        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(getResponse);
-                        if(responseMap.containsKey('isActive') && String.valueof(responseMap.get('isActive')) ==  'false'){
-                            createLogRecord('success','User deactivate successful.',1);
-                        }else{
-                            createLogRecord('failed','User deactivate failed',0) ; 
-                        }
-                    }
-                }else*/
 
                 if(userObj.TelosTouchSF__TT_UserId__c != null && userMap != null && userObj.IsActive != userMap.get(userObj.Id).IsActive){
                     userName = user.TelosTouchSF__TT_UserName__c;
                     methodType = 'PUT';
-                    //blobValue = Blob.valueOf(userName + ':' + userToken);
-                    //authToken = EncodingUtil.base64Encode(blobValue);
                     headersMap.put('Authorization','Bearer ' +authenticationCredential.TelosTouchSF__Access_Token__c);
                     body = '{"enabled":'+userObj.IsActive+'}';
                     endPointURL = adminCredentials.Instance_URL__c+'/api/v1/users/'+userObj.TelosTouchSF__TT_UserId__c;

@@ -40,6 +40,11 @@
   padding: 0 6px 3px 6px;
 }
 
+.private-badge {
+  --sds-c-badge-color-background: #3744BD;
+  --slds-c-badge-icon-color-foreground: #ffffff;
+}
+
 .imgCard:hover {
   box-shadow: 0 0 20px rgba(33, 33, 33, .5);
   transition: 0.1s;

@@ -35,8 +35,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>OpenAtAndCompleteAtGraphCmp</componentName>
-                <identifier>TelosTouchSF_OpenAtAndCompleteAtGraphCmp</identifier>
+                <componentName>openAndCompleteGraph</componentName>
+                <identifier>TelosTouchSF_openAndCompleteGraph</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

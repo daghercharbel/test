@@ -27,7 +27,6 @@
         if((!$A.util.isEmpty(c.get("v.campId")) && c.get("v.campId") != undefined) || (!$A.util.isEmpty(c.get("v.campaignSFid")) && c.get("v.campaignSFid") != undefined)){
             h.getTTCampaignId_helper(c,e,h); 
         }else{
-            //$A.get("e.force:closeQuickAction").fire(); 
             c.find('overlayLib').notifyClose();
         }
     },

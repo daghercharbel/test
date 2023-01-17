@@ -9,7 +9,6 @@
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var storedResponse = response.getReturnValue();
-                    //console.log(storedResponse);
                     if(!$A.util.isEmpty(storedResponse) && storedResponse != undefined && storedResponse != null){
                         c.set("v.TTFieldsList",storedResponse);
                         c.set("v.clientsTelosTouchFields",storedResponse);
@@ -29,7 +28,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //     console.log(ex);
         }
     },
     addCustomFields: function (c, e, h) {
@@ -58,7 +56,6 @@
     },
     getTaskFieds_Helper: function (c, e, h) {
         try{
-            //c.set("v.isSpin",true);
             var action = c.get("c.getTelosTouchTaskFields");
             action.setParams({
             });
@@ -84,7 +81,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //console.log(ex);
         }
     },
     
@@ -102,8 +98,6 @@
                 c.set('v.isSpin', false);
                 if (r.getState() === 'SUCCESS') {
                     var storedResponse = r.getReturnValue();
-                    //console.log('storedResponse');
-                    //console.log(storedResponse);
                     if(storedResponse != null && !$A.util.isEmpty(storedResponse)){
                         var fieldsList = c.get("v.objectFieldsList");
                         c.set("v.objectFieldsList", storedResponse.sort());
@@ -142,7 +136,6 @@
                                 if(response.length > 0 && response[i].sfField != undefined && response[i].sfField != null &&
                 					mappingList[j].TelosTouchSF__Salesforce_Field__c != undefined && mappingList[j].TelosTouchSF__Salesforce_Field__c != null){
                                 	if(response[i].sfField === mappingList[j].TelosTouchSF__Salesforce_Field__c){
-                                        //response.splice(i, 1);
                                         flag=true;
                 						break;
                             		}
@@ -160,7 +153,6 @@
             		}
                     else{
                         c.set("v.isSpin",false);
-                        //h.showToast(c,e,h,'error','No Standard Fields Found',4000);
                         h.showToast_Helper(c, 'error', $A.get("$Label.c.No_Standard_Field_Toast"));
                     }
                 }
@@ -168,7 +160,6 @@
             $A.enqueueAction(action);
         }
         catch(e){
-            //console.log(e);
         }
     },
         addFieldsToMapping_helper : function(c, e, h){
@@ -197,21 +188,16 @@
                 $A.enqueueAction(action);
             }
             catch(e){
-                //console.log(e);
             }
         },
     refreshTTFieldsContact : function(c, e, h){
         try{
-            //console.log('refresh contact');
-            //c.set("v.isSpin",true);
             var action = c.get("c.getTelosTouchFields");
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
-                    //console.log('state::'+JSON.stringify(state));
                     var storedResponse = response.getReturnValue();
                     if(!$A.util.isEmpty(storedResponse) && storedResponse != undefined && storedResponse != null){
-                       // console.log('storedResponse');
                         c.set("v.TTFieldsList",storedResponse);
                         c.set("v.clientsTelosTouchFields",storedResponse);
                     }
@@ -229,12 +215,10 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //     console.log(ex);
         }
     },
     refreshTTFieldsLead : function(c, e, h){
         try{
-            //c.set("v.isSpin",true);
             var action = c.get("c.getTelosTouchLeadFields");
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -258,7 +242,6 @@
             });
             $A.enqueueAction(action);
         } catch (ex) {
-            //     console.log(ex);
         }
     },
     
@@ -371,11 +354,9 @@
                         var obj3 = mappingList[j];
                         if (obj3.TelosTouchSF__Salesforce_Field__c === obj2.field) {
                             isFound = true;
-                            //obj2.isSelected = true;
                         }
                     }
                     if (!isFound) {
-                        //obj2.isSelected = false;
                     }
                 }
                 c.set("v.objectFieldsList", objectFieldsList);
@@ -400,7 +381,6 @@
                                 mappingList[i].TelosTouchSF__Salesforce_Field__c =  ExistingTT_FF_Field[i].TelosTouchSF__Salesforce_Field__c;
                                 h.showToast_Helper(c,'error',$A.get("$Label.c.Cannot_Add_Duplicate_Field_Toast"));
                                 c.set("v.duplicateFields",true);
-                                 //c.set("v.mappingList",mappingList); 
                             }
                         } if(mappingList[i].TelosTouchSF__Salesforce_Field__c != ""){
                             saveTTandSF_Field.push(mappingList[i]);
@@ -416,7 +396,6 @@
             c.set("v.saveTTandSF_Field", saveTTandSF_Field);
            
         }catch(ex){
-            //console.log('ERROR IS'+ex);
         }
     },
     
@@ -454,7 +433,6 @@
                 $A.enqueueAction(action);
             }
         }catch(ex){
-            // console.log('ERROR IS'+ex);
         }
     },    
     
@@ -468,7 +446,6 @@
             });
             action.setCallback(this, function(response) {
                 c.set("v.isModalOpen",false); 
-                //console.log('State:: '+ response.getState());
                 if (response.getState() == "SUCCESS") {
                     var allValues = response.getReturnValue();
                     if(allValues != null && allValues != undefined && allValues != false){
@@ -494,7 +471,6 @@
             $A.enqueueAction(action);
         }
         catch(ex){
-            //console.log('ERROR IS'+ex);
         }
     },
    
@@ -511,7 +487,6 @@
                 if (response.getState() == "SUCCESS") {
                     var allValues = response.getReturnValue();
                     if(allValues != null && allValues != undefined && allValues != false){
-                        //c.set("v.isChangeField",false);
                         var getMappings = c.get("v.saveTTandSF_Field");
                         var saveTTandSF_Field = [];
                         if(getMappings != undefined && getMappings != ''){
@@ -544,7 +519,6 @@
             $A.enqueueAction(action);
         }
         catch(ex){
-            //    console.log('ERROR IS'+ex);
         }
     },
         showToast: function (c, e, h, type, message,time) {
@@ -561,23 +535,6 @@
                 c.set('v.message', message);
                 c.set('v.showToast', true);
             },
-   /* isAvoidHelper: function(c, e, h, checked, fieldName){
-        var action = c.get("c.updateSyncField");
-        action.setParams({
-            "checked": checked,
-            "fieldName": fieldName,
-            "objectName": c.get('v.selectedObject')
-        });
-        action.setCallback(this, function(response) {
-            if (response.getState() == "SUCCESS") {
-                var allValues = response.getReturnValue();
-                if(allValues != null && allValues != undefined){
-                    
-                }
-            }
-        });
-        $A.enqueueAction(action);
-    },*/
     setRecordOwnerFlagHelper: function(c, e, h, useCreatedByIdFlag){
         try{
             var action = c.get("c.setUseCreatedByIdFlag");
@@ -610,7 +567,6 @@
                 "SelectedObject": c.get("v.selectedObject")
             });
             action.setCallback(this, function(response) {
-                //console.log('action called!');
                 if (response.getState() == "SUCCESS") {
                     if(response.getReturnValue() === true){
                         h.showToast_Helper(c,'success','Duplicate Mapping Created');
@@ -624,7 +580,6 @@
             });
             $A.enqueueAction(action);
         }catch(e){
-            //console.log(e);
         }
     },
     getUseCreatedByIdFlag: function(c, e, h){

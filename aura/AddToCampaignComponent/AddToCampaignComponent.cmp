@@ -54,8 +54,6 @@
             
             <lightning:layout horizontalAlign="spread">
                 <lightning:layoutItem class ="slds-p-top_small">
-                    <!--lightning:button class="slds-theme_brand" 
-                              variant="neutral" label="Cancel" onclick = "{!c.backEndorsementType}"/-->
                 </lightning:layoutItem>
                 <lightning:layoutItem class ="slds-p-top_small">
                     <lightning:button class="slds-m-right_x-small slds-theme_neutral" 
@@ -87,17 +85,6 @@
                                  disabled="true"/>
             </lightning:layoutItem>
         </lightning:layout>
-        <!--aura:if isTrue="{!(v.sObjectName == 'Contact')}">
-            <lightning:layout>
-                <lightning:layoutItem size="12" class ="slds-p-around_small">
-                    <lightning:input label="Contact" type="text" 
-                                     variant="standard"
-                                     value ="{!v.objectRecordName}"
-                                     disabled="true"/>
-                </lightning:layoutItem>
-            </lightning:layout>
-            
-        </aura:if-->
         <aura:if isTrue="{!or(or(v.sObjectName =='Lead', v.sObjectName == 'Contact'), v.sObjectName == 'Account')}">
             <lightning:layout>
                 <lightning:layoutItem size="12" class ="slds-p-around_small" >

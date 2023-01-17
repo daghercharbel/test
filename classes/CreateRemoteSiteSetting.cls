@@ -58,7 +58,6 @@ public with sharing class CreateRemoteSiteSetting {
 */
     public static void remoteSiteSetting(String remoteURL, String name) {
         try {
-            //Integer usagelimit, maxlimit;
             String name1 = getremoteSiteSetting(remoteURL, name);
             if (name1 != 'Already Exists!') {
                 String json =
@@ -78,24 +77,10 @@ public with sharing class CreateRemoteSiteSetting {
                 request.setMethod(method);
                 request.setBody(json);
                 Http http = new Http();
-                /*List<System.OrgLimit> limits = OrgLimits.getAll();
-for (System.OrgLimit aLimit: limits){
-if(aLimit.getName() == 'DailyApiRequests'){
-usagelimit = aLimit.getValue();
-maxlimit = aLimit.getLimit();
-}
-}
-if(usagelimit < maxlimit){*/
-                //HttpResponse response = 
                 http.send(request);
-                //system.debug('response::' + response);
-                /* } else{
-UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has been exceeded!', 0);
-}*/
             }
         } catch (Exception ex) {
             system.debug(LoggingLevel.WARN,'Message::' +ex.getMessage() +'Line No::' +ex.getLineNumber());
-            //UserTriggerHandler.createLogRecord('failed','Create Remote Site:'+stList2[0]+'.com', 0);
         }
     }
     /**
@@ -108,7 +93,6 @@ UserTriggerHandler.createLogRecord('Error','Org daily API requests limit has bee
 */
     public static HTTPResponse remoteSiteSetting1(String remoteURL, String name) {
         try {
-            //Integer usagelimit, maxlimit;
             String json =
                 '{"FullName":"' +
                 name +

@@ -6,30 +6,20 @@
         "/event/TelosTouchSF__Insight_Creation_Event__e",
         "-1",
         $A.getCallback((eventReceived) => {
-          // Process event (this is called each time we receive an event)\
-          // console.log('Campaign Ticker Event:: ' + JSON.stringify(eventReceived));
           if (
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
-            // console.log('inside emp');
             h.doInitHelper(c, e, h);
-            //h.openSendTouchpointModal(c, e, h);
           }
         })
       )
       .then((subscription) => {
-        // Subscription response received.
-        // We haven't received an event yet.
-        // console.log('Ticker Subscription request sent to: ', subscription.channel);
-        // Save subscription to unsubscribe later
       });
-      // console.log('outside emp');
     h.doInitHelper(c, e, h);
   },
   
   handleModalCloseEvent: function (c, e, h) {
-    //console.log(e.getParam("SendTouchpoint"));
     if (e.getParam("SendTouchpoint") == true) {
       h.sendTouchpointHelper(c, e, h);
     }
@@ -65,9 +55,7 @@
         }
       );
     } catch (error) {
-      // console.log(error);
     }
-    //console.log("open modal on click is called");
   },
 
   handleModalClose: function (c, e, h){
@@ -102,7 +90,6 @@
         }
       );
     } catch (error) {
-      // console.log(error);
     }
   },
 
@@ -111,7 +98,6 @@
     if (!c.get("v.CampaignSynced")) {
       h.createTouchPointinTT_helper(c, e, h);
     } else {
-      // console.log(c.get("v.campMemList"));
       h.addClientsToTouchpoint(c, e, h, c.get("v.campMemList"));
     }
   },
@@ -119,7 +105,6 @@
     try {
       h.getUserAccessToken(c, e, h);
     } catch (error) {
-      // console.error(error);
     }
   }
 });

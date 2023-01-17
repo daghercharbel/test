@@ -243,23 +243,6 @@
         <div class="demo">
             <div class="slds-scrollable scrollbarStyled tableInnerHeight" >
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-no-row-hover">
-                    <!--thead>
-                        <tr class="slds-text-title_caps">
-                            <th scope="col"  class="col1width">
-                                <div class="slds-truncate slds-cell-fixed" title="Salesforce Fields">{!$Label.c.Salesforce_Fields}</div>
-                            </th>
-                            <th scope="col" class="col2width">
-                            </th>
-                            <th scope="col" class="col1width">
-                                <div class="slds-truncate slds-cell-fixed" title="{!$Label.c.TelosTouch_Fields}">{!$Label.c.TelosTouch_Fields}</div>
-                            </th>
-                            <th scope="col" class="col2width">
-                            </th>
-                            <th scope="col" class="col1width">
-                                <div class="slds-truncate slds-cell-fixed" title="{!$Label.c.Sync_Empty_Field}">{!$Label.c.Sync_Empty_Field}</div>
-                            </th>
-                        </tr>
-                    </thead-->
                     <tbody style="width:100%;">
                     <th scope="col" style="width:20%;font-weight:bold;color: #514F4D;padding-left:1.5rem;" class="slds-cell-fixed">{!$Label.c.Salesforce_Fields}</th>
                     <th scope="col" style="width:7.5%;" class="slds-cell-fixed"></th>
@@ -281,27 +264,9 @@
                                     <td scope="row" data-label="TelosTouch Fields" style="width:35%;">
                                         <aura:if isTrue="{!item.isRequired}">
                                             {!item.fieldNameTT}<abbr class="slds-required" title="required">* </abbr>
-                                                <!--<aura:if isTrue="{!and(v.isEditField)}">
-                                                    <aura:if isTrue="{!or(item.fieldNameTT =='Email',or(item.fieldNameTT =='Language', item.fieldNameTT =='Phone'))}">
-                                                        <lightning:buttonIcon  class="customBtn" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping"
-                                                                               value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.addDuplicateMapping}" disabled="{!item.isDuplicateCreated}" />
-                                                    </aura:if>
-                                                    <aura:if isTrue="{!item.fieldNameTT =='Subscribed'}">
-                                                        <lightning:buttonIcon  class="customBtnHidden" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping" disabled="true"  />
-                                                    </aura:if>
-                                                </aura:if>-->
                                             <aura:set attribute="else">
                                                 {!item.fieldNameTT}
                                                 <aura:if isTrue="{!and(v.isEditField)}">
-                                                    <!--<aura:if isTrue="{!and(v.isEditField)}">
-                                                        <aura:if isTrue="{!or(item.fieldNameTT =='Email',or(item.fieldNameTT =='Language', item.fieldNameTT =='Phone'))}">
-                                                            <lightning:buttonIcon  class="customBtn" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping"
-                                                                                   value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.addDuplicateMapping}" disabled="{!item.isDuplicateCreated}" />
-                                                        </aura:if>
-                                                        <aura:if isTrue="{!item.fieldNameTT =='Subscribed'}">
-                                                            <lightning:buttonIcon  class="customBtnHidden" iconName="utility:add"  alternativeText="Add Second Mapping" title="Add Second Mapping" disabled="true"  />
-                                                        </aura:if>
-                                                    </aura:if>-->
                                                     <aura:if isTrue="{!and(v.isEditField,item.fieldNameTT !='Custom Field')}">    
                                                         <lightning:buttonIcon  class="customBtn" iconName="utility:delete"  alternativeText="Delete" title="Delete" value="{!item.TelosTouchSF__TT_Field__c}" onclick="{!c.AddFieldsToDelete}"  />
                                                         <aura:set attribute="else" >
@@ -325,9 +290,6 @@
                             </aura:if>
                         </aura:iteration>
                         <tr>
-                            <!--<aura:if isTrue="{!v.isEditField}">
-                                <lightning:buttonIcon iconName="utility:add" variant="brand" alternativeText="Add" title="Add" onclick="{!c.addDeletedFields}"/>
-                            </aura:if>-->
                         </tr>
                     </tbody>
                 </table>

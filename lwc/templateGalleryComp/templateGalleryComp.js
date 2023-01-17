@@ -8,6 +8,7 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import Email_Text from "@salesforce/label/c.Email_Text";
 import Language_Text from "@salesforce/label/c.Language_Text";
+import showText from "@salesforce/label/c.showText";
 import All_Label from '@salesforce/label/c.All_Label';
 import TouchPoint_Experience_Text from "@salesforce/label/c.TouchPoint_Experience_Text";
 import English_Text from "@salesforce/label/c.English_Text";
@@ -21,15 +22,26 @@ import Compliance_Title from "@salesforce/label/c.Compliance_Title";
 import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Private_Text from "@salesforce/label/c.Private_Text";
 import Public_Text from "@salesforce/label/c.Public_Text";
+import TitleDesc from "@salesforce/label/c.TitleDesc";
 import Search_Text from "@salesforce/label/c.Search_Text";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
+import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
+import None_Text from "@salesforce/label/c.None_Text";
+import TitleText from "@salesforce/label/c.TitleText";
+import CreatedDateText from "@salesforce/label/c.CreatedDateText";
+import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
 import Template_Gallery_Save_Text from '@salesforce/label/c.Template_Gallery_Save_Text';
 import Compliance_Confirm_Text from '@salesforce/label/c.Compliance_Confirm_Text';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-
 export default class TemplateGalleryComp extends LightningElement {
   label = {
+    LastModifiedDate,
+    Sort_By_Text,
+    TitleText,
+    CreatedDateText,
+    None_Text,
+    TitleDesc,
     Email_Text,
     Language_Text,
     TouchPoint_Experience_Text,
@@ -41,6 +53,7 @@ export default class TemplateGalleryComp extends LightningElement {
     TouchPointTemplateNotSaved_Text,
     Back_Button_Label,
     Cancel_Button_Label,
+    showText,
     Save_Button_Label,
     Private_Text,
     Public_Text,
@@ -53,6 +66,7 @@ export default class TemplateGalleryComp extends LightningElement {
   @api isOpenTouchPoints = false;
   @api campSfId;
   langValue = "en_US";
+  hideLastButton = false;
   // topButtonLabel = 'Back';
   @track isPrivateToggle = false;
   @track previewSaveDisabled = false;
@@ -61,6 +75,7 @@ export default class TemplateGalleryComp extends LightningElement {
   publicTemplatesList = [];
   @api templateId;
   isTemplatePage = false;
+  searchValue = '';
   lang = LANG;
   isSpinner = false;
   previewBody = false;
@@ -71,6 +86,7 @@ export default class TemplateGalleryComp extends LightningElement {
   @track urls = {};
   templatesList = [];
   templateType = 'All';
+  sortingType = 'modifiedAt';
   mainTemplateList = [];
   paginationList = [];
   currentPage = 1;
@@ -95,6 +111,14 @@ export default class TemplateGalleryComp extends LightningElement {
       { label: this.label.Private_Text, value: "Private" }
     ];
   }
+  get sortingOptions() {
+    return [
+      { label: this.label.LastModifiedDate, value: "modifiedAt" },
+      { label: this.label.CreatedDateText, value: "created_at" },
+      { label: this.label.TitleText, value: "title" },
+      { label: this.label.TitleDesc, value: "titleDesc" }
+    ];
+  }
 
   connectedCallback() {
     loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
@@ -107,7 +131,6 @@ export default class TemplateGalleryComp extends LightningElement {
     if (this.lang === "fr") {
       this.fr = true;
     }
-    // console.log("fr: " + this.fr);
     if (this.isOpenTouchPoints) {
       this.isSpinner = true;
       this.getTemplates();
@@ -149,7 +172,6 @@ export default class TemplateGalleryComp extends LightningElement {
           }
           this.isSpinner = false;
         } else {
-          // console.log("no data");
           this.isSpinner = false;
           this.isTemplatePage = true;
           this.isTemplatePresent = false;
@@ -159,7 +181,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.updateRecords();
       })
       .catch((error) => {
-        // console.log(error);
         this.isSpinner = false;
         this.isTemplatePage = true;
         this.isTemplatePresent = false;
@@ -167,7 +188,14 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   handleFilterChange(event) {
-    this.templateType = event.detail.value;
+    if(this.showPagination){
+      this.hideLastButton = false;
+    }
+    if (event.target.dataset.id == 'templateShow') {
+      this.templateType = event.detail.value;
+    } else if (event.target.dataset.id == 'templateFilter') {
+      this.sortingType = event.detail.value;
+    }
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -175,6 +203,10 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
+    if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
+    else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
+    else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
+    else if (this.sortingType == 'titleDesc') { this.sortTemplatesList('titleDesc'); }
     this.currentPage = 1;
     this.prevPage = 1;
     this.nextPage = 2;
@@ -182,12 +214,77 @@ export default class TemplateGalleryComp extends LightningElement {
     this.updateRecords();
   }
 
+  sortTemplatesList(sortBy) {
+    let list = this.templatesList;
+    if (sortBy !== 'title' && sortBy !== 'titleDesc') {
+      let temp = 0;
+      for (let x = 0; x < list.length - 1; x++) {
+        for (let y = 0; y < list.length - x - 1; y++) {
+          if (list[y][sortBy] < list[y + 1][sortBy]) {
+            temp = list[y];
+            list[y] = list[y + 1];
+            list[y + 1] = temp;
+          }
+        }
+      }
+    } else if (sortBy === 'title' || sortBy === 'titleDesc') {
+      let sort = (this.fr) ? 'name_fr' : 'name';
+      if(sortBy === 'title'){
+        let temp = 0;
+        for (let x = 0; x < list.length - 1; x++) {
+          for (let y = 0; y < list.length - x - 1; y++) {
+            if (list[y][sort].toLowerCase() > list[y + 1][sort].toLowerCase()) {
+              temp = list[y];
+              list[y] = list[y + 1];
+              list[y + 1] = temp;
+            }
+          }
+        }
+      }else{
+        let temp = 0;
+        for (let x = 0; x < list.length - 1; x++) {
+          for (let y = 0; y < list.length - x - 1; y++) {
+            if (list[y][sort].toLowerCase() < list[y + 1][sort].toLowerCase()) {
+              temp = list[y];
+              list[y] = list[y + 1];
+              list[y + 1] = temp;
+            }
+          }
+        }
+      }
+    }
+    this.templatesList = list;
+    try {
+      if(this.searchValue){
+        let tempList = [];
+        if (!this.fr) {
+          list.forEach((ele) => {
+            if (ele.name.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+              tempList.push(ele);
+            }
+          });
+        } else {
+          list.forEach((ele) => {
+            if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+              tempList.push(ele);
+            }
+          });
+        }
+        this.templatesList = tempList;
+      }
+    } catch (error) {
+    }  
+  }
+
   handleSearchInput(event) {
     try {
+      if(this.showPagination){
+        this.hideLastButton = false;
+      }
       let searchKey = event.target.value.toLowerCase();
+      this.searchValue = searchKey;
       let filteredTemplates = [];
       let currentTemplates = [];
-
       if (this.templateType == 'All') {
         currentTemplates = this.mainTemplateList;
       } else if (this.templateType == 'Public') {
@@ -195,7 +292,6 @@ export default class TemplateGalleryComp extends LightningElement {
       } else if (this.templateType == 'Private') {
         currentTemplates = this.privateTemplatesList;
       }
-
       if (!this.fr) {
         currentTemplates.forEach((ele) => {
           if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
@@ -220,9 +316,7 @@ export default class TemplateGalleryComp extends LightningElement {
       this.nextPage = 2;
       this.updateRecords();
     } catch (error) {
-      // console.log(error);
     }
-
   }
 
   goBackToMainPage() {
@@ -241,8 +335,11 @@ export default class TemplateGalleryComp extends LightningElement {
   previousHandler() {
     if (this.currentPage > 1) {
       this.currentPage = this.currentPage - 1;
-      this.prevPage = this.currentPage;
-      this.nextPage = this.prevPage + 1;
+      // this.prevPage = this.currentPage;
+      // this.nextPage = this.prevPage + 1;
+      this.prevPage = this.currentPage ;
+      this.nextPage = this.prevPage +1;
+      this.hideLastButton = false;
       this.updateRecords();
     }
   }
@@ -250,19 +347,32 @@ export default class TemplateGalleryComp extends LightningElement {
   nextHandler() {
     if (this.currentPage < this.totalPage) {
       this.currentPage = this.currentPage + 1;
-      this.nextPage = this.currentPage;
-      this.prevPage = this.nextPage - 1;
+      // this.nextPage = this.currentPage;
+      // this.prevPage = this.nextPage - 1;
+      this.prevPage = this.currentPage;
+      this.nextPage = this.prevPage+1;
+      this.hideLastButton = false;
+      this.updateRecords();
+    }
+    if(this.currentPage === this.totalPage){
+      this.prevPage = this.currentPage;
+      this.hideLastButton = true;
       this.updateRecords();
     }
   }
 
   nextPageAction() {
     this.currentPage = this.nextPage;
+    if(this.currentPage === this.totalPage){
+      this.prevPage = this.currentPage;
+      this.hideLastButton = true;
+    }
     this.updateRecords();
   }
 
   prevPageAction() {
     this.currentPage = this.prevPage;
+    this.hideLastButton = this.currentPage === this.totalPage ? true: false;
     this.updateRecords();
   }
 
@@ -299,7 +409,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.isTemplatePresent = false;
       }
     } catch (error) {
-      //console.log(error);
     }
   }
 
@@ -308,14 +417,9 @@ export default class TemplateGalleryComp extends LightningElement {
     this.isTemplatePage = false;
     this.previewBody = true;
     this.generateIFrame();
-
   }
 
-  /**
-   * Responsible for state management of the All/Private toggle
-   */
   showDataBasedOnPrivate() {
-    // console.log('private toogle on? '+ this.isPrivateToggle);
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -323,6 +427,7 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (this.templateType == 'Private') {
       this.templatesList = this.privateTemplatesList;
     }
+    this.sortTemplatesList(this.sortingType);
   }
 
   handleBackbuttonAction() {
@@ -332,7 +437,6 @@ export default class TemplateGalleryComp extends LightningElement {
     this.publicTemplatesList = [];
     this.privateTemplatesList = [];
     this.templatesList = [];
-    // this.topButtonLabel = "Back";
     this.connectedCallback();
   }
 
@@ -377,7 +481,6 @@ export default class TemplateGalleryComp extends LightningElement {
         );
         this.isTemplatePage = true;
         this.previewBody = false;
-        // console.log(error);
       })
       .finally(() => {
         this.toggleCompliance();
@@ -390,7 +493,6 @@ export default class TemplateGalleryComp extends LightningElement {
         this.urls = (JSON.parse(result));
       })
       .catch((error) => {
-        // console.log(error);
       });
   }
 
@@ -400,6 +502,12 @@ export default class TemplateGalleryComp extends LightningElement {
       this.generateIFrame();
     } catch (error) {
     }
+  }
+
+  closeModal() {
+    const closeModalEvent = new CustomEvent('closemodalevent', {
+    });
+    this.dispatchEvent(closeModalEvent);
   }
 
   closeModal() {

@@ -1,6 +1,5 @@
 @isTest
 global with sharing class MockResponse_Test implements HttpCalloutMock {
-  // Implement this interface method
   /**
    * @author Cloud Analogy
    * @date 02/08/2021

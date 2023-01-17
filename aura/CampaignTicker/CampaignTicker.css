@@ -42,7 +42,9 @@
     color: #fff;
     pointer-events: none;
 }
-
+.THIS .width-27-percent{
+    width: 27%;
+}
 @media screen and (min-width: 1600px) {
     .THIS .tooltip:hover .tooltip-drop {
         opacity: 1;

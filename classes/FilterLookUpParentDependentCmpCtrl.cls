@@ -67,7 +67,7 @@ public with sharing class FilterLookUpParentDependentCmpCtrl {
                 query += ' order by LastModifiedDate desc LIMIT ' + lim;
             } else if (parentFiledName != null && parentFiledId != null && searchText != null) {
                 searchText = '\'%' + String.escapeSingleQuotes(searchText.trim()) + '%\'';
-                query = 'SELECT ' + String.escapeSingleQuotes(fld_API_Text) + ' ,' + fld_API_Val +
+                query = 'SELECT ' + String.escapeSingleQuotes(fld_API_Text) + ' ,' + String.escapeSingleQuotes(fld_API_Val) +
                         ' FROM ' + String.escapeSingleQuotes(objectName) +
                         ' WHERE ' + String.escapeSingleQuotes(fld_API_Search) + ' LIKE ' + String.escapeSingleQuotes(searchText) + ' AND ' + String.escapeSingleQuotes(parentFiledName) +
                         ' = \'' + String.escapeSingleQuotes(parentFiledId) + '\'' +

@@ -3,10 +3,10 @@ public with sharing class TTUserConversationTest {
 	@isTest
     static void userConversationCampaignTest() {
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         
@@ -39,11 +39,11 @@ public with sharing class TTUserConversationTest {
     static void TTCampaignUserConversationTest() {
         List<Campaign> campaignObjectList = new List<Campaign>();
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',// Type
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
             TT_Campaign_Id__c = '5f4e65e9d5d22d1cbed9',
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         campaignObjectList.add(CampaignObj);
         Insert campaignObjectList;

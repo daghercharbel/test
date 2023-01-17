@@ -1,22 +1,14 @@
 ({
   doInit: function (c, e, h) {
-    /*document.getElementsByClassName('modal-glass slds-backdrop fadein slds-backdrop--open').addEventListener('click', $A.getCallback(function(){
-            if(c.isValid()) {
-                console.log('Clicked');
-            }
-        }));*/
   },
   closeCreateCampaignModel: function (component, event, helper) {
     component.find("overlayLib").notifyClose();
     var myEvent = $A.get("e.c:RefreshCampaignEvent");
     myEvent.setParams({ skipClicked: true });
     myEvent.fire();
-    //console.log(JSON.stringify(component.get("v.userList")));
   },
   itemValue: function (c, e, h) {
     var select = e.currentTarget.name;
-    //c.set('v.newTask.Subject',select);
-    //var select =(e.currentTarget.dataset.id );
     var select = e.currentTarget.id;
     c.set("v.newTask.Subject", select);
     c.set("v.SubjectListItems", false);
@@ -47,7 +39,6 @@
     $A.enqueueAction(action);
   },
   selectCampaignRecordType: function (c, e, h) {
-    //console.log("Record Type Id:: " + c.get("v.recordTypeId"));
     c.set("v.createCampaign", true);
     c.set("v.selectCampaignRecordType", false);
   },
@@ -75,10 +66,8 @@
   },
   onEventHandle_Save: function (c, e, h) {
     var eventMessage = e.getParam("isCreateTask");
-    //console.log(eventMessage);
     var contactOrLeadId = c.get("v.contactOrLeadId");
     if (eventMessage == true && c.get("v.recordTypeId") != null) {
-      //h.SaveCreateAction(c,e,h);
       var createRecordEvent = $A.get("e.force:createRecord");
       createRecordEvent.setParams({
         entityApiName: "Task",
@@ -139,15 +128,8 @@
   },
   setHeight : function(c, e, h) {
     if($A.get("$Browser.isTablet") == true || $A.get("$Browser.isPhone") == true){
-        // var Height = screen.availHeight - 305;
-        // document.getElementById("frame").style.height = Height+"px";
-        // document.getElementById("frame").style.width = "100%";
         c.set("v.isShowSpinner",false);
     }else{
-        // var Height = screen.availHeight - 225;
-        // console.log('height: '+ Height);
-        // document.getElementById("frame").style.height = Height+"px";
-        // document.getElementById("frame").style.width = "100%";
         c.set("v.isShowSpinner",false);
     }
   },

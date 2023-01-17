@@ -113,6 +113,15 @@ public with sharing class TimelineWrapper{
 */
         @AuraEnabled
         public  date campCreatedDate { get; set; }
+//CD
+/**
+* @author Charbel Dagher
+* @date 04/010/2022
+*/  
+@AuraEnabled
+public  date campOpenDate { get; set; }
+@AuraEnabled
+public  date campCompletedDate { get; set; }
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -273,6 +282,15 @@ public with sharing class TimelineWrapper{
 */
         @AuraEnabled
         public  date campCreatedDate { get; set; }
+//CD
+/**
+* @author Charbel Dagher
+* @date 04/010/2022
+*/  
+@AuraEnabled
+public  date campOpenDate { get; set; }
+@AuraEnabled
+public  date campCompletedDate { get; set; }
         /**
 * @author Cloud Analogy
 * @date 02/08/2021

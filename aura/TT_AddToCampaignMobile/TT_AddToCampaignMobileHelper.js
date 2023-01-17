@@ -17,7 +17,6 @@
              });
              $A.enqueueAction(action);
         }catch(err){
-            //console.log(err);
         }
     },
 	fetchData_helper : function(c,e,h,tab,searchKey) {
@@ -74,7 +73,6 @@
             });
             $A.enqueueAction(action);
         }catch(exp){
-		    //console.log(exp);
 		}
 	},
 	createCampMember : function(c, e, h){
@@ -125,7 +123,6 @@
                 h.showToastHelper(c,e,h,$A.get("$Label.c.ERROR_Text"),': The selected records are already members of current campaign ..','error');
              }
 	    }catch(err){
-	        //console.log(err);
 	    }
 	},
 	searchRecordHelper : function(c, e, h){

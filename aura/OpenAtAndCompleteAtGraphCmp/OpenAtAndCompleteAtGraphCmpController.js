@@ -12,7 +12,6 @@
             c.get("v.recordId") ==
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
-            // console.log('calling');
             h.doinit_Helper(c, e, h);
           }
         })

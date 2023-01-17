@@ -23,10 +23,6 @@ export default class ComboboxAutocomplete extends LightningElement {
   }
 
   handleSelectOption(event) {
-    // var inputCmp = this.template.querySelector('.inputCmp');
-    // console.log('classlist',inputCmp.classList);
-    //this.template.querySelector('.inputCmp').classList=[];
-    // console.log('inputCmp',inputCmp);
     this.value = event.currentTarget.dataset.label;
     this.template.querySelector(".inputCmp").value = this.value;
     this.template.querySelector(".inputCmp").focus();

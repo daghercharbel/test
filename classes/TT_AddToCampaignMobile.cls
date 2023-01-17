@@ -28,9 +28,6 @@ public with sharing class TT_AddToCampaignMobile {
                     query = 'SELECT ID,Name,Phone,Email,Synced__c FROM ' + objectName+
                         ' WHERE Id NOT IN: dataIDs AND Email != NULL ORDER BY ID ASC LIMIT 100';
                 } else if (dataIDs.size() == 0 && String.isNotEmpty(searchKey)) {
-                    /*query = 'SELECT ID,Name,Phone,Email,Synced__c FROM ' + objectName + ' WHERE (Email LIKE ' + '\'' +
-                        searchKey.trim() + '%\'' + 'OR Name LIKE ' + '\'' + searchKey.trim() + '%\'' +
-                        ' ) ORDER BY Id ASC LIMIT 100';*/
                     query = 'FIND \''+searchKey+'*\' IN ALL FIELDS RETURNING '+objectName+'(ID,Name,Phone,Email,Synced__c WHERE Email != null) LIMIT 100';
                 } else if (dataIDs.size() != 0 && String.isNotEmpty(searchKey)) {
                     query = 'SELECT ID,Name,Phone,Email,Synced__c FROM ' + objectName + ' WHERE (Email LIKE ' + '\'' +
@@ -43,7 +40,6 @@ public with sharing class TT_AddToCampaignMobile {
                 }else{
                     queryResult = Database.query(String.escapeSingleQuotes(query).replace('\\',''));
                 }
-                //System.debug('searchQueryResults:: '+searchQueryResults);
                 List<dataWrapper> dataList = new List<dataWrapper>();
                 if (queryResult != null && queryResult.size() > 0) {
                     for (sObject qObj : queryResult) {
@@ -151,7 +147,6 @@ public with sharing class TT_AddToCampaignMobile {
                     }
                     campMembList.add(campMembObj);
                 }
-                //System.debug('campMembList:: '+campMembList);
                 if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isCreateable() && CampaignMember.getSObjectType().getDescribe().isAccessible() && CampaignMember.getSObjectType().getDescribe().isCreateable()) {
                     insert campMembList;
                 }

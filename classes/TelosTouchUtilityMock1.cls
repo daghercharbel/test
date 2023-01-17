@@ -1,6 +1,5 @@
 @isTest
 global class TelosTouchUtilityMock1 implements HttpCalloutMock {
-    // Implement this interface method
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -11,7 +10,6 @@ global class TelosTouchUtilityMock1 implements HttpCalloutMock {
     global HTTPResponse respond(HTTPRequest req) {
         
         // Create a fake response
-        //string endpoint = req.getEndpoint();
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('X-Total-Count', '2');

@@ -6,23 +6,23 @@ public with sharing class GetClientsFromTTQueueableTest {
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='FirstName', TT_Field__c='first_name', Object_Name__c='Lead'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='LastName', TT_Field__c='last_name', Object_Name__c='Lead'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Email', TT_Field__c='email', Object_Name__c='Lead'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Language__c', TT_Field__c='language', Object_Name__c='Lead'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Language__c', TT_Field__c='language', Object_Name__c='Lead'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Phone', TT_Field__c='phone', Object_Name__c='Lead'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Lead'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Lead'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='FirstName', TT_Field__c='first_name', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='LastName', TT_Field__c='last_name', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Email', TT_Field__c='email', Object_Name__c='Contact'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Language__c', TT_Field__c='language', Object_Name__c='Contact'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Language__c', TT_Field__c='language', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Phone', TT_Field__c='phone', Object_Name__c='Contact'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Contact'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Subscribed__c', TT_Field__c='subscribed', Object_Name__c='Contact'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='ActivityDate', TT_Field__c='date_due', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Subject', TT_Field__c='name', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Status', TT_Field__c='status', Object_Name__c='Task'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TT_Client_Id__c', TT_Field__c='client_id', Object_Name__c='Task'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TT_Client_Name__c', TT_Field__c='client_name', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Client_Id__c', TT_Field__c='client_id', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Client_Name__c', TT_Field__c='client_name', Object_Name__c='Task'));
         mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Description', TT_Field__c='description', Object_Name__c='Task'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='Share_with_client_s__c', TT_Field__c='shared', Object_Name__c='Task'));
-        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TT_Category__c', TT_Field__c='type', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__Share_with_client_s__c', TT_Field__c='shared', Object_Name__c='Task'));
+        mappingList.add(new TT_Salesforce_Mapping__c(Salesforce_Field__c='TelosTouchSF__TT_Category__c', TT_Field__c='type', Object_Name__c='Task'));
         
         insert mappingList;
         

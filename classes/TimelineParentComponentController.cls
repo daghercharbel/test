@@ -4,9 +4,6 @@
 * @description TimelineParentComponentController class is used to show only those task/campaign on client timeline whose have "show on client timeline" as "yes".
 */
 public with sharing class TimelineParentComponentController {
-    /*private static final TelosTouch_API_Settings__c getCredentials= TelosTouch_API_Settings__c.getOrgDefaults();
-    private static final String instanceUrl = getCredentials.Instance_url__c;
-    private static final String token = getCredentials.Token__c;*/
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         /**
 * @author Cloud Analogy
@@ -20,7 +17,6 @@ public with sharing class TimelineParentComponentController {
     public static TelosTouchSF.TimelineWrapper getTaskData(String recordId, String objectName) {
         try {
             TelosTouchSF.TimelineWrapper timeLineWrapperObj = new TelosTouchSF.TimelineWrapper();
-            // string contactrecordId;
             if(objectName == 'Account'){
                 boolean isPersonAccountEnabled = Schema.sObjectType.Account.fields.getMap().containsKey('isPersonAccount');
                 if(isPersonAccountEnabled == true){
@@ -38,7 +34,9 @@ public with sharing class TimelineParentComponentController {
                 }
             }
             
-            //Set<String> ttTaskIdsset = new Set<String>();
+            Map<Id,Datetime> memberOpenAt = new Map<Id,Datetime>();
+            Map<Id,Datetime> memberCompletedAt = new Map<Id,Datetime>();
+
             Map<String,Task> taskMap = new Map<String,Task>();
             Map<String,Task> taskMultipleMap = new Map<String,Task>();
             Map<String,CampaignMember> campMemberMap = new Map<String,CampaignMember>();
@@ -73,7 +71,8 @@ public with sharing class TimelineParentComponentController {
                     }
                     taskList = Database.query(String.escapeSingleQuotes('SELECT Id, subject, WhoCount, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE Id IN: taskIdSet AND Share_with_client_s__c=\'Yes\' AND IsRecurrence = false LIMIT 1000').replace('\\',''));
                 }else{
-                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c=:'Yes' AND IsRecurrence = false LIMIT 1000];
+                    String strYes = 'Yes';
+                    taskList = [SELECT Id, subject, TelosTouchSF__Share_with_client_s__c, TelosTouchSF__TT_TaskId__c,Description,ActivityDate FROM Task WHERE WhoId =:recId AND Share_with_client_s__c =: strYes AND IsRecurrence = false LIMIT 1000];
                 }
                }
             if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isQueryable() &&
@@ -84,8 +83,22 @@ public with sharing class TimelineParentComponentController {
                    campMemberList = [SELECT Id,CampaignId,Campaign.Name,Campaign.TelosTouchSF__TT_Campaign_Id__c,Campaign.CreatedDate FROM CampaignMember WHERE (ContactId=:recId OR LeadId=:recId) AND Campaign.TT_Campaign_Id__c != null LIMIT 1000];
                }
             List<TelosTouchSF__Insights__c> insightsList = new List<TelosTouchSF__Insights__c>();
-            insightsList = [SELECT Id, TelosTouchSF__Answers__c, CreatedDate, TelosTouchSF__Campaign2__c, TelosTouchSF__Campaign2__r.Name FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Contact__c =: recordId OR TelosTouchSF__Lead__c =: recordId WITH SECURITY_ENFORCED LIMIT 1000];
+            //CD
+            insightsList = [SELECT Id,	TelosTouchSF__Completed_At__c,TelosTouchSF__Opened_At__c,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c, TelosTouchSF__Answers__c, CreatedDate, TelosTouchSF__Campaign2__c, TelosTouchSF__Campaign2__r.Name FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Contact__c =: recordId OR TelosTouchSF__Lead__c =: recordId WITH SECURITY_ENFORCED LIMIT 1000];
             for(TelosTouchSF__Insights__c insight : insightsList){
+                if(insight.TelosTouchSF__Campaign2__c != null){
+                    if(insight.TelosTouchSF__Opened_At__c != null ){
+                        memberOpenAt.put(insight.TelosTouchSF__Campaign2__c,insight.TelosTouchSF__Opened_At__c);
+                    }else{
+                        memberOpenAt.put(insight.TelosTouchSF__Campaign2__c,null);
+                    }
+                    if(insight.TelosTouchSF__Completed_At__c != null){
+                        memberCompletedAt.put(insight.TelosTouchSF__Campaign2__c,insight.TelosTouchSF__Completed_At__c);
+                    }else{
+                        memberCompletedAt.put(insight.TelosTouchSF__Campaign2__c,null);
+                    }   
+                }
+                
                 if(String.isNotEmpty(insight.TelosTouchSF__Answers__c)){
                     List<conversationWrapper> conversationWrapperList = (List<conversationWrapper>) JSON.deserialize(insight.TelosTouchSF__Answers__c.unescapeHtml4(), List<conversationWrapper>.class);
                     for(conversationWrapper conversation : conversationWrapperList){
@@ -146,7 +159,6 @@ public with sharing class TimelineParentComponentController {
             if(String.isNotEmpty(clientId) && clientId != null){
                 String methodType = 'GET';
                 Map<String, String> headersMap = new Map<String, String>();
-                //headersMap.put('instance-name', +adminCredentials.Instance_URL__c);
                 userAuthTOKEN = TelosTouchUtility.getCurrentUserTOKEN();
                 if(userAuthTOKEN != null){
                     headersMap.put('Authorization','Bearer '+userAuthTOKEN);
@@ -156,8 +168,7 @@ public with sharing class TimelineParentComponentController {
                 Map<String, Object> tempResponseMap = new Map<String, Object>();
                 String responseBody = '', pastBody = '"past": [', futureBody  = '"future": [';
                 for(Integer i=0;i<=1980;i=i+90){
-                    //endPointURL = adminCredentials.Instance_URL__c+'/api/v1/getClientTimeline?limit=90&skip='+i+'&period=all&orderBy=DESC&clientId='+clientId;
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/contacts/'+clientId+'/timeline?includeChats=true&limit=90&skip='+i+'&period=all&orderBy=DESC';
+                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/contacts/'+clientId+'/timeline?includeChats=true&limit=90&skip='+i+'&period=all&orderBy=DESC';
                     if(getResponse == null && userAuthTOKEN != null){
                         Map<String, String> getResponseMap = TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
                         getResponse = getResponseMap.get('body');
@@ -201,8 +212,6 @@ public with sharing class TimelineParentComponentController {
                 }
                 responseBody = '{'+pastBody+','+futureBody+'}';
                 if(responseBody != null){
-                    //Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
-                    
                     timeLineWrapperObj = (TelosTouchSF.TimelineWrapper) System.JSON.deserialize(responseBody, TelosTouchSF.TimelineWrapper.class);
                     pastList = timeLineWrapperObj.past;
                     futureList = timeLineWrapperObj.future;
@@ -235,11 +244,14 @@ public with sharing class TimelineParentComponentController {
                             pastTimelineObj.type = past.type;
                             pastTimelineObj.sharedWithClient = 'Yes';
                             pastTimelineObj.campCreatedDate = Date.valueOf(campMemberObj.Campaign.CreatedDate);
+                            pastTimelineObj.campOpenDate = Date.valueOf(memberOpenAt.get(campMemberObj.CampaignId));
+                            pastTimelineObj.campCompletedDate = Date.valueOf(memberCompletedAt.get(campMemberObj.CampaignId));
                         }else{
                             pastTimelineObj.campName = past.name;
                             pastTimelineObj.type = past.type;
                             pastTimelineObj.sharedWithClient = 'Yes';
                             pastTimelineObj.campCreatedDate =  Date.valueOf(past.createdAt);
+                            
                         }
                         pastTimelineList.add(pastTimelineObj);
                     }
@@ -273,6 +285,8 @@ public with sharing class TimelineParentComponentController {
                             futureTimelineObj.type = future.type;
                             futureTimelineObj.sharedWithClient = 'Yes';
                             futureTimelineObj.campCreatedDate =   Date.valueOf(future.createdAt);
+                            futureTimelineObj.campOpenDate = Date.valueOf(memberOpenAt.get(campMemberObj.CampaignId));
+                            futureTimelineObj.campCompletedDate = Date.valueOf(memberCompletedAt.get(campMemberObj.CampaignId));
                         }else{
                             futureTimelineObj.campName = future.name;
                             futureTimelineObj.type = future.type;

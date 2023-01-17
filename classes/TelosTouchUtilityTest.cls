@@ -4,16 +4,12 @@
 private with sharing class TelosTouchUtilityTest {
     @isTest    
     static  void getTTCampaignId_test() {
-        /*TelosTouch_API_Settings__c credential = new TelosTouch_API_Settings__c();
-credential.Token__c = 'dGVsb3N0b3VjaF9hZHZpc2dmVmdW4xMjNA';
-credential.Instance_url__c = 'https://test.com'; 
-insert credential;*/
         System.schedule('GetDeleteRecordsFromTTScheduler Job', '0 0 0/1 1/1 * ? *', new GetDeleteRecordsFromTTScheduler());
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         /***************************************************************/
@@ -65,33 +61,32 @@ insert credential;*/
         credential.Instance_url__c = 'https://test.com\\.'; 
         insert credential;
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',// Campaign Name
-            IsActive = false,// Active
-            Type = 'Conference',// Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
         TelosTouchUtility.userCredentialsWrapper wp = TelosTouchUtility.getSettingAPI('From Setup',CampaignObj.id);
-        //System.debug(wp);
         Test.stopTest();
         System.assert(wp != null, 'wp must not be NULL');
     }
     @isTest 
     static void sendCampaignTouchPoint_test() {
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',// Campaign Name
-            IsActive = false,// Active
-            Type = 'Conference',// Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = true;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = true;
         con.Language__c = 'English';  
         con.TT_Client_Id__c = 'abc';
         insert con;
@@ -131,11 +126,11 @@ insert credential;*/
     @isTest 
     static void sendCampaignTouchPoint_test1() {
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
             Type = 'Conference',
             TT_Campaign_Id__c = 'xyz',
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         
@@ -144,32 +139,12 @@ insert credential;*/
         System.assertEquals(true, wrapperObj != null,'wrapperObj must not be NULL');
         Test.stopTest();
         
-    } 
-    /*@isTest
-static void thirdPartySignIn_test() {
-List<TelosTouch_API_Settings__c> credentialList = new  List<TelosTouch_API_Settings__c>();
-TelosTouch_API_Settings__c credential = new TelosTouch_API_Settings__c();
-credential.Token__c = 'dGVsb3N0b3VjaF9hZHZpc2dmVmdW4xMjNA';
-credential.Instance_url__c = 'https://test.com';
-credential.Client_id_username__c = 'admin';
-credential.Client_secret_password__c = 'havefun1';
-insert credential;
-credentialList.add(credential);
-
-Test.startTest();
-Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
-// TelosTouchUtility.userCredentialsWrapper wp = TelosTouchUtility.thirdPartySignIn(credentialList, 'From Setup');
-//System.assertEquals(true, wp != null);
-System.assert( , , '');
-Test.stopTest();
-} */
+    }
     
     @isTest 
     static void getAdminAccessTokenTest() {
         TelosTouchUtility.AdminCredentialsWrapper adminCredentials = new TelosTouchUtility.AdminCredentialsWrapper(TelosTouchSF.TelosTouchUtility.getCustomMetadata(), TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata());
-        //System.debug('adminCredentials : '+adminCredentials);
         List<TelosTouchUtility.AdminCredentialsWrapper> adminCredentialsList = new List<TelosTouchUtility.AdminCredentialsWrapper>{adminCredentials};
-            //System.debug('adminCredentialsList : '+adminCredentialsList);
             Profile p = [SELECT id, Name FROM Profile where name = 'System Administrator' and UserLicense.Name = 'Salesforce'].get(0);
         
         User userObj = New User();
@@ -180,12 +155,8 @@ Test.stopTest();
         userObj.UserPermissionsMarketingUser = true;
         update userObj;
         
-        /*List<user> userlist = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TT_UserId__c, TT_UserName__c, IsActive,Token__c FROM User 
-WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name = 'Salesforce' AND 
-Id=:UserInfo.getUserId() AND profileId =:[SELECT id FROM Profile WHERE name = 'System Administrator' OR name = 'Administrateur système'] ];*/
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new AuthenticationMock());
-        // TelosTouchUtility.userCredentialsWrapper wp = TelosTouchUtility.thirdPartySignIn(credentialList, 'From Setup');
         TelosTouchUtility.userCredentialsWrapper wp1 = TelosTouchUtility.getAdminAccessToken(JSON.serialize(adminCredentialsList), 'From Setup');
         System.assertEquals(false, wp1 == null, 'wp1 must not be NULL');
         Test.stopTest();  
@@ -198,21 +169,6 @@ Id=:UserInfo.getUserId() AND profileId =:[SELECT id FROM Profile WHERE name = 'S
         System.assertEquals(false, wp1 == null,'wp1 must not be NULL');
         Test.stopTest();
     }
-    /*@isTest
-static void thirdPartySignIn_test3() {
-List<TelosTouch_API_Settings__c> credentialList = new  List<TelosTouch_API_Settings__c>();
-TelosTouch_API_Settings__c credential = new TelosTouch_API_Settings__c();
-credential.Token__c = 'dGVsb3N0b3VjaF9hZHZpc2dmVmdW4xMjNA';
-credential.Instance_url__c = 'https://test.com';
-credential.Client_id_username__c = 'admin';
-credential.Client_secret_password__c = 'havefun1';
-insert credential;
-credentialList.add(credential);
-Test.startTest();
-//TelosTouchUtility.userCredentialsWrapper wp1 = TelosTouchUtility.saveSettings_Apex(credentialList, 'From Setup3');
-// System.assertEquals(true, wp1 == null);
-Test.stopTest();
-} */
     
     @isTest 
     static void deleteContactFromTT_test1() {
@@ -227,17 +183,17 @@ Test.stopTest();
         insert credential;
         credentialList.add(credential);
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = false;
         con.Language__c = 'English';  
         con.TT_Client_Id__c = 'abc';
         insert con;
@@ -273,17 +229,17 @@ Test.stopTest();
         insert credential;
         credentialList.add(credential);
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = false;
         con.Language__c = 'English';  
         con.TT_Client_Id__c = 'abc';
         insert con;
@@ -297,7 +253,6 @@ Test.stopTest();
         List<String> clientIds =  new List<String>();
         clientIds.add(CampaignObj.Id);
         
-        //conlist = [select id,TT_Client_Id__c,OwnerId from Contact LIMIT 50000];
         leadlist = [select id,TT_Client_Id__c,OwnerId from Lead LIMIT 50000];
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
@@ -319,17 +274,17 @@ Test.stopTest();
         insert credential;
         credentialList.add(credential);
         Campaign CampaignObj = new Campaign(
-            Name = 'Adult is Going Back to School',                                                                                                                                                                                                                                                                                                                  // Campaign Name
-            IsActive = false,                                                                                                                                                                                                                                                                                                                                          // Active
-            Type = 'Conference',                                                                                                                                                                                                                                                                                                                                       // Type
-            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'  // Questions
+            Name = 'Adult is Going Back to School',
+            IsActive = false,
+            Type = 'Conference',
+            Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = false;
         con.Language__c = 'English';  
         con.TT_Client_Id__c = 'abc';
         insert con;
@@ -371,9 +326,9 @@ Test.stopTest();
     static  void SendSFUserBatch() {
         Contact con = new Contact();
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
-        con.Phone = '1212212213';                // Phone
-        con.IsTelosTouchSyncAllowed__c = false;  // IsTelosTouchSyncAllowed
+        con.Email = 'james@abc.com';
+        con.Phone = '1212212213';
+        con.IsTelosTouchSyncAllowed__c = false;
         con.Language__c = 'English';  
         con.TT_Client_Id__c = 'abc';
         insert con;
@@ -393,14 +348,14 @@ Test.stopTest();
         Contact con = new Contact();
         con.TT_Client_Id__c = 'abc';
         con.LastName = 'test';
-        con.Email = 'james@abc.com';      // Email
+        con.Email = 'james@abc.com';
         con.TT_Last_Login__c = '1212212213';     
         insert con;
         
         Lead ld = new Lead();
         ld.TT_Client_Id__c = 'abc123';
         ld.LastName = 'test2';
-        ld.Email = 'james2@abc.com';      // Email
+        ld.Email = 'james2@abc.com';
         ld.TT_Last_Login__c = '1212212213';     
         ld.Company = 'Test Company';
         insert ld;
@@ -473,7 +428,6 @@ Test.stopTest();
         insert customSettingObj;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
-        //String returnString = TelosTouchUtility.sendSFUserToTT(sfUserList,listofUserId);
         Test.setMock(HttpCalloutMock.class, new AuthenticationMock());
         String returnString2 = TelosTouchUtility.sendSFUserToTT(sfUserList,listofUserId);
         Test.stopTest();
@@ -616,7 +570,6 @@ Test.stopTest();
     }
     @isTest 
     static void massInvitationToClients_test1() {
-        //TelosTouchUtility.ClientInviteWrapper wrapperobj = new TelosTouchUtility.ClientInviteWrapper();
         List<TelosTouch_API_Settings__c> credentialList = new  List<TelosTouch_API_Settings__c>();
         List<String> idlist = new List<String>();
         TelosTouch_API_Settings__c credential = new TelosTouch_API_Settings__c();
@@ -651,7 +604,6 @@ Test.stopTest();
         idlist.add(con2.Id);
         idlist.add(con3.Id);
         string objectName = 'Contact'; 
-        //string endPointURL = 'https://test.com/api/v1/contacts/invite';
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         TelosTouchUtility.massInvitationToClients(JSON.serialize(idlist) , objectName);
@@ -688,7 +640,6 @@ Test.stopTest();
         idlist.add(ld2.Id);
         idlist.add(ld3.Id);
         string objectName = 'Lead'; 
-        //string endPointURL = 'https://test.com/api/v1/contacts/invite';
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         TelosTouchUtility.massInvitationToClients(JSON.serialize(idlist), objectName);
@@ -698,7 +649,6 @@ Test.stopTest();
     
     @isTest 
     static void massInvitationToClients_test3() {
-        //TelosTouchUtility.ClientInviteWrapper wrapperobj = new TelosTouchUtility.ClientInviteWrapper();
         List<TelosTouch_API_Settings__c> credentialList = new  List<TelosTouch_API_Settings__c>();
         List<String> idlist = new List<String>();
         TelosTouch_API_Settings__c credential = new TelosTouch_API_Settings__c();
@@ -725,7 +675,6 @@ Test.stopTest();
         idlist.add(con1.Id);
         idlist.add(con2.Id);
         string objectName = 'Contact'; 
-        //string endPointURL = 'https://test.com/api/v1/contacts/invite';
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         TelosTouchUtility.massInvitationToClients(JSON.serialize(idlist) , objectName);
@@ -924,6 +873,24 @@ Test.stopTest();
         Test.startTest();
         TelosTouchSF.TelosTouchUtility.updateFinestLogging(false, 'Invite');
         System.assert(true,'it should be true');
+        Test.stopTest();
+    }
+    @isTest 
+    static void revokeUserAccessTest(){
+        
+        List<User> sfUserList = new List<User>();
+        Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        User u = new User(Alias = 'standt', Email='test1868687687@gmail.com', 
+                          EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+                          LocaleSidKey='en_US', ProfileId = p.Id,
+                          TimeZoneSidKey='America/Los_Angeles', UserName='test1868687687@gmail.com');
+        sfUserList.add(u);
+        insert sfUserList;
+        list<Id> lstUserId = new list<Id>{sfUserList[0].Id};
+        
+        Test.startTest();
+        TelosTouchSF.TelosTouchUtility.revokeUserAccess(lstUserId[0], null);
+        TelosTouchSF.TelosTouchUtility.revokeUserAccess(null, lstUserId);
         Test.stopTest();
     }
     

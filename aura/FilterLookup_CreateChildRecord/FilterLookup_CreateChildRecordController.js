@@ -32,7 +32,6 @@
                 h.showInfoToast(c, e, h, 'Error', $A.get("$Label.c.Fill_Required_Value_Toast"), 'info_alt', 'error', 'dismissible');
             } 
         }catch(ex){
-            //console.log('error is-->'+ex);
         }
     },
 })

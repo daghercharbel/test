@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <layouts>
+        <layout>Task Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
         <layout>TelosTouch Task Layout</layout>
         <sections>
             <label></label>
@@ -8,9 +15,57 @@
         </sections>
     </layouts>
     <quickActions>
+        <label></label>
+        <name>Defer</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Defer_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Defer_1</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription_1</name>
+    </quickActions>
+    <quickActions>
         <aspect>Master</aspect>
         <label>Présenter sur Timeline du client</label>
         <name>Share_With_Clients</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdatePriority</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdatePriority_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdatePriority_1</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdateStatus</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdateStatus_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>UpdateStatus_1</name>
     </quickActions>
     <webLinks>
         <label>Présenter sur Timeline du client</label>

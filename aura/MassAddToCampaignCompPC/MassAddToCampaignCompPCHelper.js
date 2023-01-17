@@ -1,7 +1,6 @@
 ({
     doInit_helper : function(c,e,h) {
         try {
-             //c.set('v.isShowSpinner', true);
             var action = c.get("c.checkPersonAccountOrNot");
             action.setParams({
                 recordIdsList : c.get("v.selectedRecordIds"),
@@ -10,9 +9,7 @@
             action.setCallback(this, function (response) {
                  c.set('v.isShowSpinner', false);
                 var state = response.getState();
-                //console.log('State:: '+state);
                 if (state === "SUCCESS") {
-                     //console.log('response:'+response.getReturnValue());
                    if(response.getReturnValue() != null && response.getReturnValue() != undefined){
                         if(response.getReturnValue() == 'Some Account is not PersonAccount'){
                             c.set('v.isNewOrExistCampaign', false);
@@ -40,7 +37,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     SaveContactIntoCampaign_Helper : function(c, e, h,result) {
@@ -55,11 +51,9 @@
                 c.set('v.isShowSpinner', false);
                 var state = response.getState();
                 if (state === "SUCCESS") {
-                    //console.log(response.getReturnValue());
                     if(response.getReturnValue() != null && response.getReturnValue().length >0){
                         if(response.getReturnValue().includes('Already a campaign member') ){
-                            h.showToast_Helper(c,'error','Selected Clients are Already Campaign Members'); 
-                            //location.reload();
+                            h.showToast_Helper(c,'error','Selected Clients are Already Campaign Members');
                         }else if(response.getReturnValue().includes('Campaign already sync')){
                             h.showToast_Helper(c,'error','Selected Campaign is Already Synced');
                         }else{
@@ -85,7 +79,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     saveCampaign_helper : function(c,e,h) {
@@ -102,7 +95,6 @@
                  c.set('v.isShowSpinner', false);
                 var state = response.getState();
                 if (state === "SUCCESS") {
-                    //console.log('response.getReturnValue():'+response.getReturnValue());
                     if(response.getReturnValue() != null && response.getReturnValue().includes('isNotPersonAccount')){
                         c.set("v.customErrorMessage",'You have not permission to open it.');
                     }else if(response.getReturnValue() != null && response.getReturnValue().includes('Campaign already sync so you can not add campaign members.')){
@@ -128,7 +120,6 @@
             });
             $A.enqueueAction(action);
         } catch (exp) {
-            //console.log('Message ' + exp.message);
         }
     },
     showToast_Helper: function (c, variant, message) {
