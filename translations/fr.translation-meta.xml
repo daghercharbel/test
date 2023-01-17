@@ -973,8 +973,12 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Revoke_access_text</name>
     </customLabels>
     <customLabels>
-        <label>Champs Salesforce créé dans TelosTouch avec succès</label>
-        <name>SF_Field_Create_Toast</name>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <name>Revoke_Current_User</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des utilisateurs Salesforce réussie avec TelosTouch.</label>
+        <name>SF_User_Sync_Text</name>
     </customLabels>
     <customLabels>
         <label>SUCCÈS</label>
@@ -1035,6 +1039,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Point de Contact Sélectionné</label>
         <name>Selected_TouchPoint</name>
+    </customLabels>
+    <customLabels>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
+        <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
         <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
@@ -1179,6 +1187,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Êtes-vous certain(e) de vouloir supprimer ce champs de la syncronisaiton?</label>
         <name>Sure_To_Remove</name>
+    </customLabels>
+    <customLabels>
+        <label>Sync la Campagne</label>
+        <name>Sync_Campaign_Button</name>
     </customLabels>
     <customLabels>
         <label>SYNCRONIATION DE CHAMPS VIDES (TT À SF)</label>
@@ -1366,8 +1378,16 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>User_access_text</name>
     </customLabels>
     <customLabels>
+        <label>Accès utilisateur</label>
+        <name>User_access_text</name>
+    </customLabels>
+    <customLabels>
         <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
         <name>User_permission_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Code d&apos;utilisateur existe déjà:</label>
+        <name>Username_Exist_Text</name>
     </customLabels>
     <customLabels>
         <label>Code d&apos;utilisateur</label>
@@ -1434,186 +1454,16 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <flows/>
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
-    <prompts>
-        <name>SalesHVSDialer</name>
-        <promptVersions>
-            <name>Sales HVS Dialer</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EnablementExploreAnalyticsEnblAdmin</name>
-        <promptVersions>
-            <name>Explore Analytics</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EngagementAttributeTips</name>
-        <promptVersions>
-            <name>Engagement Attribute Tips</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EnablementExploreProgramsEnblAdmin</name>
-        <promptVersions>
-            <name>Explore Programs</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EnablementSwitchToProgramsEnblAdmin</name>
-        <promptVersions>
-            <name>Switch Between Measures and Programs Easily</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EinsteinPredictionBuilderSetupPagePrompt</name>
-        <promptVersions>
-            <name>Einstein Prediction Builder Setup Page Prompt</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>NPSPLicenseDay1</name>
-        <promptVersions>
-            <name>NPSP License Day 1</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>X4StepWalkthroughonContact</name>
-        <promptVersions>
-            <name>4 Step Walkthrough on Contact Step 1</name>
-            <stepNumber>1</stepNumber>
-        </promptVersions>
-        <promptVersions>
-            <name>4 Step Walkthrough on Contact Step 2</name>
-            <stepNumber>2</stepNumber>
-        </promptVersions>
-        <promptVersions>
-            <name>4 Step Walkthrough on Contact Step 3</name>
-            <stepNumber>3</stepNumber>
-        </promptVersions>
-        <promptVersions>
-            <name>4 Step Walkthrough on Contact Step 4</name>
-            <stepNumber>4</stepNumber>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>NPSPLicenseDay25</name>
-        <promptVersions>
-            <name>NPSP License Day 25</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>tabletFullWidthGA</name>
-        <promptVersions>
-            <name>TabletFullWidthGA</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>CDPOnboardingInAppGuidance</name>
-        <promptVersions>
-            <name>CDP Onboarding InApp Guidance</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>MFARequirementAwareness</name>
-        <promptVersions>
-            <name>MFA Requirement Awareness</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>X2StepWalkthroughonReports</name>
-        <promptVersions>
-            <name>2 Step Walkthrough on Reports Step 2</name>
-            <stepNumber>2</stepNumber>
-        </promptVersions>
-        <promptVersions>
-            <name>2 Step Walkthrough on Reports Step 1</name>
-            <stepNumber>1</stepNumber>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>NPSPLicenseDay20</name>
-        <promptVersions>
-            <name>NPSP License Day 20</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>EnablementExploreMeasuresEnblAdmin</name>
-        <promptVersions>
-            <name>Explore Measures</name>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>IAGFeatureAdoption</name>
-        <promptVersions>
-            <name>IAG Feature Adoption Step 1</name>
-            <stepNumber>1</stepNumber>
-        </promptVersions>
-        <promptVersions>
-            <name>IAG Feature Adoption Step 2</name>
-            <stepNumber>2</stepNumber>
-        </promptVersions>
-    </prompts>
-    <prompts>
-        <name>SalesCoreQuoteAdminCpq</name>
-        <promptVersions>
-            <name>Sales Core Quote Admin to CPQ</name>
-        </promptVersions>
-    </prompts>
-    <quickActions>
-        <label><!-- LogACall --></label>
-        <name>LogACall</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewAccount --></label>
-        <name>NewAccount</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewCase --></label>
-        <name>NewCase</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewContact --></label>
-        <name>NewContact</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewEvent --></label>
-        <name>NewEvent</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewGroup --></label>
-        <name>NewGroup</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewLead --></label>
-        <name>NewLead</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewNote --></label>
-        <name>NewNote</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewOpportunity --></label>
-        <name>NewOpportunity</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- New Task --></label>
-        <name>NewTask</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- SendEmail --></label>
-        <name>SendEmail</name>
-    </quickActions>
-    <reportTypes>
-        <description><!-- Screen Flows --></description>
-        <label><!-- Screen Flows --></label>
-        <name>screen_flows_prebuilt_crt</name>
-        <sections>
-            <label><!-- Flow Interview Log Entries --></label>
-            <name>Flow Interview Log Entries</name>
-        </sections>
-        <sections>
-            <label><!-- Flow Interview Logs --></label>
-            <name>Flow Interview Logs</name>
-        </sections>
-    </reportTypes>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Invoke_Send_Touchpoint_Flow</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_Convert_Mapping</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Task_Check_Sync</fullName>
+    </flowDefinitions>
 </Translations>

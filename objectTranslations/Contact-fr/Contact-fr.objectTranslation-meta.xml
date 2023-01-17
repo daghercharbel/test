@@ -5,10 +5,6 @@
         <label>Ajouter à Campagne</label>
         <name>Add_To_Campaign</name>
     </quickActions>
-    <quickActions>
-        <label></label>
-        <name>Create_Task</name>
-    </quickActions>
     <webLinks>
         <label>Invitation</label>
         <name>Invite</name>

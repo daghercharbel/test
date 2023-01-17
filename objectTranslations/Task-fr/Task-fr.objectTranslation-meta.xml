@@ -43,30 +43,14 @@
         <label>Présenter sur Timeline du client</label>
         <name>Share_With_Clients</name>
     </quickActions>
-    <quickActions>
+    <recordTypes>
         <label></label>
-        <name>UpdatePriority</name>
-    </quickActions>
-    <quickActions>
+        <name>Record_Type_1</name>
+    </recordTypes>
+    <recordTypes>
         <label></label>
-        <name>UpdatePriority_0</name>
-    </quickActions>
-    <quickActions>
-        <label></label>
-        <name>UpdatePriority_1</name>
-    </quickActions>
-    <quickActions>
-        <label></label>
-        <name>UpdateStatus</name>
-    </quickActions>
-    <quickActions>
-        <label></label>
-        <name>UpdateStatus_0</name>
-    </quickActions>
-    <quickActions>
-        <label></label>
-        <name>UpdateStatus_1</name>
-    </quickActions>
+        <name>Record_Type_2</name>
+    </recordTypes>
     <webLinks>
         <label>Présenter sur Timeline du client</label>
         <name>Share_with_Clients</name>
