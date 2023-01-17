@@ -132,10 +132,12 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                     conversation_UserList.add(conversation_UserObj);
                                 }
                             }catch (Exception ex){
-                                String recordId = (String.isNotBlank(conversation_UserObj.TelosTouchSF__Conversation_Id__c) ? conversation_UserObj.TelosTouchSF__Conversation_Id__c : 'null');
                                 String aError = ex.getTypeName()+': '+ex.getMessage()+' '+'TTUserConversationUpdate'+'.'+'execute'+': line '+ex.getLineNumber();
-                                logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError,recordId));
-                                System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+                                if(TT_FeatureSettingsController.getFinestLogValue()){
+                                    String recordId = (String.isNotBlank(conversation_UserObj.TelosTouchSF__Conversation_Id__c) ? conversation_UserObj.TelosTouchSF__Conversation_Id__c : 'null');
+                                    logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError,recordId));
+                                }
+                                System.debug(LoggingLevel.WARN,aError);
                             }
                         }
                     }
