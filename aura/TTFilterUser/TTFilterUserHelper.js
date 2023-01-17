@@ -145,6 +145,109 @@
         } catch (ex) {
         }
     },
+
+    handleCampaignData: function (c) {
+
+        var action = c.get("c.getCampaignData");
+        action.setParams({
+            recordId: c.get("v.recordId")
+        });
+
+        action.setCallback(this, function(response) {
+			var state = response.getState();
+			if(state === 'SUCCESS') {
+				var result = response.getReturnValue();
+                c.set("v.campaignData", result);
+			} else {
+				var errors = response.getError();
+				if(!$A.util.isEmpty(errors)) {
+					for(var i = 0; i < errors.length; i++) {
+						console.error(errors[i].message);
+					}
+				} else {
+                    console.error(errors);
+                }
+			}
+            this.allowSyncCountdown(c);
+		});
+
+		$A.enqueueAction(action);
+    },
+
+    allowSyncCountdown: function (c) {
+        var campaignData = c.get("v.campaignData");
+        var lastSyncTime = campaignData.TelosTouchSF__TT_Last_Sync_Time__c;
+
+        if($A.util.isEmpty(campaignData.TelosTouchSF__TT_Campaign_Id__c)){
+            c.set("v.disableCampaignSync", true);
+            c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+            return;
+        } else if(lastSyncTime == undefined){
+            c.set("v.disableCampaignSync", false);
+            c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+            return;
+        }
+
+        if(!$A.util.isEmpty(c._TTintervalID)){ return; }
+
+        function tick(){
+            var now = new Date();
+            var diff = now.getTime() - Date.parse(lastSyncTime);
+            diff = diff/1000;
+
+            if(diff >= 120){
+                c.set("v.disableCampaignSync", false);
+                c.set("v.syncLabel", $A.get("$Label.c.Sync_Campaign_Button"));
+                window.clearInterval(c._TTintervalID);
+                c._TTintervalID = null;
+            } else {
+                c.set("v.disableCampaignSync", true);
+                var totalseconds = 120 - diff;
+                var seconds=Math.floor(totalseconds%60);
+                var minutes=Math.floor( (totalseconds%3600)/60);
+                var  countdown='';
+                countdown+=(minutes>=10?minutes:'0'+minutes);
+                countdown+=':';
+                countdown+=(seconds>=10?seconds:'0'+seconds);
+                c.set("v.syncLabel", countdown);
+            }
+
+        }
+        var tickBack=$A.getCallback(tick);
+        c._TTintervalID= window.setInterval(tickBack, 1000);
+    },
+
+    requestCampaignSync: function (c) {
+
+        c.set("v.isShowSpinner", true);
+        var action = c.get("c.requestSync");
+        action.setParams({
+            recordId: c.get("v.recordId")
+        });
+
+        action.setCallback(this, function(response) {
+			var state = response.getState();
+			if(state === 'SUCCESS') {
+                var campaignData = c.get("v.campaignData");
+                campaignData.TelosTouchSF__TT_Last_Sync_Time__c = new Date();
+                c.set("v.campaignData", campaignData);
+			} else {
+				var errors = response.getError();
+				if(!$A.util.isEmpty(errors)) {
+					for(var i = 0; i < errors.length; i++) {
+						console.error(errors[i].message);
+					}
+				} else {
+                    console.error(errors);
+                }
+			}
+            this.allowSyncCountdown(c);
+            c.set("v.isShowSpinner", false);
+		});
+
+		$A.enqueueAction(action);
+    },
+
     fielterEvent_helper: function (c, e, h, isFormType) {
         try {
             c.set("v.isShowSpinner", true);

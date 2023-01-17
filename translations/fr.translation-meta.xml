@@ -969,8 +969,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Revoke_access_text</name>
     </customLabels>
     <customLabels>
-        <label>Champs Salesforce créé dans TelosTouch avec succès</label>
-        <name>SF_Field_Create_Toast</name>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <name>Revoke_Current_User</name>
     </customLabels>
     <customLabels>
         <label>SUCCÈS</label>
@@ -1031,6 +1031,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Point de Contact Sélectionné</label>
         <name>Selected_TouchPoint</name>
+    </customLabels>
+    <customLabels>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
+        <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
         <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
@@ -1175,6 +1179,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Êtes-vous certain(e) de vouloir supprimer ce champs de la syncronisaiton?</label>
         <name>Sure_To_Remove</name>
+    </customLabels>
+    <customLabels>
+        <label>Sync la Campagne</label>
+        <name>Sync_Campaign_Button</name>
     </customLabels>
     <customLabels>
         <label>SYNCRONIATION DE CHAMPS VIDES (TT À SF)</label>
@@ -1362,6 +1370,10 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>User_access_text</name>
     </customLabels>
     <customLabels>
+        <label>Accès utilisateur</label>
+        <name>User_access_text</name>
+    </customLabels>
+    <customLabels>
         <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
         <name>User_permission_text</name>
     </customLabels>
@@ -1423,16 +1435,23 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label/>
+        <label><!-- TouchPoints --></label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
         <flows/>
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
-    <quickActions>
-        <aspect>Master</aspect>
-        <label/>
-        <name>NewTask</name>
-    </quickActions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Invoke_Send_Touchpoint_Flow</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_Convert_Mapping</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Task_Check_Sync</fullName>
+    </flowDefinitions>
 </Translations>

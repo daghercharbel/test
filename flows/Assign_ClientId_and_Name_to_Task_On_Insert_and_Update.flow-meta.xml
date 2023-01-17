@@ -50,14 +50,14 @@
             <assignToReference>$Record.TelosTouchSF__TT_Client_Id__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue/>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>$Record.TelosTouchSF__TT_Client_Name__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue/>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
     </assignments>

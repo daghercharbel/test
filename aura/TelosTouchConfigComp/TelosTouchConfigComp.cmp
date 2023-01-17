@@ -57,7 +57,8 @@
                         <aura:set attribute="label">
                             {!$Label.c.Field_MappingTab_Label}
                         </aura:set>
-                        <c:TelosTouchMapping />
+                        <!-- <c:TelosTouchMapping /> -->
+                        <c:fieldMappingComp />
                         <c:ttcontactSupport tabName="TelosTouchMapping" />
                     </lightning:tab>
                 </aura:if>
@@ -77,14 +78,26 @@
                                                 label="{!$Label.c.Choose_Sync_Type_Text}" value="{!v.syncTypeValue}"
                                                 placeholder="{!$Label.c.Select_Sync_Type_Text}"
                                                 options="{! v.syncTypeOptions }" onchange="{!c.onSyncChange}" />
+                                            <lightning:combobox name="SyncType"
+                                                label="{!$Label.c.Choose_Sync_Type_Text}" value="{!v.syncTypeValue}"
+                                                placeholder="{!$Label.c.Select_Sync_Type_Text}"
+                                                options="{! v.syncTypeOptions }" onchange="{!c.onSyncChange}" />
                                         </lightning:layoutItem>
                                         <lightning:layoutItem class="slds-p-left_x-small" size="6">
                                             <lightning:combobox name="SyncType"
                                                 label="{!$Label.c.Choose_Sync_Object_Text}" value="{!v.syncObjectValue}"
                                                 placeholder="{!$Label.c.Select_Sync_Object_Text}"
                                                 options="{! v.syncObjectOptions }" onchange="{!c.onSyncChange}" />
+                                            <lightning:combobox name="SyncType"
+                                                label="{!$Label.c.Choose_Sync_Object_Text}" value="{!v.syncObjectValue}"
+                                                placeholder="{!$Label.c.Select_Sync_Object_Text}"
+                                                options="{! v.syncObjectOptions }" onchange="{!c.onSyncChange}" />
                                         </lightning:layoutItem>
                                     </lightning:layout>
+                                    <lightning:button variant="brand" class="slds-m-top_x-small"
+                                        label="{!$Label.c.Manual_Sync_All_Button}"
+                                        title="{!$Label.c.Manual_Sync_All_Button}" onclick="{!c.SyncAllRecords}"
+                                        disabled="{!or(v.manualSyncDisabled,or(!v.setting.TelosTouchSF__Approval__c,!v.asyncJobStatus))}" />
                                     <lightning:button variant="brand" class="slds-m-top_x-small"
                                         label="{!$Label.c.Manual_Sync_All_Button}"
                                         title="{!$Label.c.Manual_Sync_All_Button}" onclick="{!c.SyncAllRecords}"
@@ -108,6 +121,9 @@
                         {!$Label.c.Help_Section_Text_1} <br /> {!$Label.c.Help_Section_Text_2}&nbsp;<a
                             onclick="{!c.openMail}">support@telostouch.com</a>
                         <c:ttcontactSupport tabName="NotTelosTouchSync" />
+                        {!$Label.c.Help_Section_Text_1} <br /> {!$Label.c.Help_Section_Text_2}&nbsp;<a
+                            onclick="{!c.openMail}">support@telostouch.com</a>
+                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </div>
                 </lightning:tab>
                 <aura:if isTrue="{!v.isAdmin}">
@@ -117,10 +133,13 @@
                         </aura:set>
                         <c:ttFeatureSettings />
                         <c:ttcontactSupport tabName="NotTelosTouchSync" />
+                        <c:ttFeatureSettings />
+                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </lightning:tab>
                 </aura:if>
                 <lightning:tab onactive="{! c.handleActive }" id="knowledge">
                     <aura:set attribute="label">
+                        {!$Label.c.Knowledge_Base_Text}
                         {!$Label.c.Knowledge_Base_Text}
                     </aura:set>
                     <c:knowledgeBase></c:knowledgeBase>

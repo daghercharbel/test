@@ -1,17 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <layouts>
-        <layout>TelosTouch Task Layout</layout>
+        <layout>Task Layout</layout>
         <sections>
-            <label><!-- Custom Links --></label>
+            <label></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <layouts>
+        <layout>TelosTouch Task Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>Defer</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Defer_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Defer_1</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription_0</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>EditDescription_1</name>
+    </quickActions>
     <quickActions>
         <aspect>Master</aspect>
         <label>Présenter sur Timeline du client</label>
         <name>Share_With_Clients</name>
     </quickActions>
+    <recordTypes>
+        <label></label>
+        <name>Record_Type_1</name>
+    </recordTypes>
+    <recordTypes>
+        <label></label>
+        <name>Record_Type_2</name>
+    </recordTypes>
     <webLinks>
         <label>Présenter sur Timeline du client</label>
         <name>Share_with_Clients</name>

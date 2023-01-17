@@ -24,15 +24,20 @@
     c.set("v.count", countV);
     c.set("v.countSelectAll", countV);
     h.doInit_helper(c, e, h);
+    h.handleCampaignData(c);
   },
   fielterEvent: function (c, e, h) {
     if (c.get("v.fielterDetailsChanges") == "EventFire") {
       c.set("v.fielterDetailsChanges", "");
       h.fielterEvent_helper(c, e, h, false);
+      h.handleCampaignData(c);
     }
   },
   fielterDetailsChanges: function (c, e, h) {
     c.set("v.fielterDetailsChanges", "EventFire");
+  },
+  handleSyncRequest: function (c, e, h) {
+    h.requestCampaignSync(c);
   },
   viewRecord: function (c, e, h) {
     let sfId = e.getSource().get("v.value");
@@ -306,6 +311,7 @@
   doRefresh: function (c, e, h) {
     if (e.getParam("doRefresh") === true) {
       h.doInit_helper(c, e, h);
+      h.handleCampaignData(c);
     }
   },
   handleClick: function (c, e, h) {

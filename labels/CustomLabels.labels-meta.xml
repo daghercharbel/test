@@ -612,6 +612,20 @@
         <value>Last created date</value>
     </labels>
     <labels>
+        <fullName>Create_Task_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Task Text</shortDescription>
+        <value>Create Action</value>
+    </labels>
+    <labels>
+        <fullName>CreatedDateText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CreatedDateText</shortDescription>
+        <value>Last created date</value>
+    </labels>
+    <labels>
         <fullName>Created_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1059,6 +1073,20 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <protected>true</protected>
         <shortDescription>Knowledge Base Text</shortDescription>
         <value>Knowledge Base</value>
+    </labels>
+    <labels>
+        <fullName>Language_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Language Text</shortDescription>
+        <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>LastModifiedDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LastModifiedDate</shortDescription>
+        <value>Last modified date</value>
     </labels>
     <labels>
         <fullName>Language_Text</fullName>
@@ -1694,11 +1722,18 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Revoke user access</value>
     </labels>
     <labels>
-        <fullName>SF_Field_Create_Toast</fullName>
+        <fullName>Revoke_Current_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>SF Field Create Toast</shortDescription>
-        <value>Successfully Created Salesforce field in TelosTouch</value>
+        <shortDescription>Revoke Current User</shortDescription>
+        <value>You are about to revoke your own access. This might cause unexpected behavior in the app. Do you wish to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>Revoke_access</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SF User Sync Text</shortDescription>
+        <value>Salesforce User Sync Successful with TelosTouch.</value>
     </labels>
     <labels>
         <fullName>SUCCESS_Text</fullName>
@@ -1804,6 +1839,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Selected TouchPoint</shortDescription>
         <value>Selected TouchPoint</value>
+    </labels>
+    <labels>
+        <fullName>SendTP_CustomizeText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SendTP/CustomizeText</shortDescription>
+        <value>New campaign members added. Click on “Select a Touchpoint” to select your TouchPoint</value>
     </labels>
     <labels>
         <fullName>SendTP_CustomizeText</fullName>
@@ -2056,6 +2098,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Sure To Remove</shortDescription>
         <value>Are you sure you want to remove this field from syncing?</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Campaign_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync Campaign Button</shortDescription>
+        <value>Sync Campaign</value>
     </labels>
     <labels>
         <fullName>Sync_Empty_Field</fullName>
@@ -2367,11 +2416,11 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>User Name</value>
     </labels>
     <labels>
-        <fullName>User_Not_Valid_Cannot_Auth_App</fullName>
+        <fullName>User_Not_Auth_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>User Not Valid Cannot Auth App</shortDescription>
-        <value>This user is not validate with TT. So we can not authenticate your App.</value>
+        <shortDescription>User Not Auth Text</shortDescription>
+        <value>User Could Not be Authenticated</value>
     </labels>
     <labels>
         <fullName>User_access_text</fullName>
@@ -2381,11 +2430,18 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>User access</value>
     </labels>
     <labels>
-        <fullName>User_deactivate_Fail_Text</fullName>
+        <fullName>User_access_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>User deactivate Fail Text</shortDescription>
-        <value>User deactivate failed from Salesforce to TelosTouch.</value>
+        <shortDescription>User access text</shortDescription>
+        <value>User access</value>
+    </labels>
+    <labels>
+        <fullName>User_access_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User access text</shortDescription>
+        <value>User access</value>
     </labels>
     <labels>
         <fullName>User_permission_text</fullName>
@@ -2395,7 +2451,7 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>Are you sure, you want to revoke TelosTouch license for selected user?</value>
     </labels>
     <labels>
-        <fullName>Username_Exist_Text</fullName>
+        <fullName>User_permission_text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Username Exist Text</shortDescription>
