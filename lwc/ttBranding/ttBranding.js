@@ -76,8 +76,7 @@ export default class TtUserBranding extends LightningElement {
 
             })
             .catch(error => {
-                console.error(error);
-                console.log(JSON.stringify(error));
+                console.error(JSON.stringify(error));
                 this.showToast('Error', error, 'error');
             })
             .finally(final => {
