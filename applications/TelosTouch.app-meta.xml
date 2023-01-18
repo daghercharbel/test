@@ -117,8 +117,9 @@
     <tabs>standard-Campaign</tabs>
     <tabs>standard-Task</tabs>
     <tabs>TT_Client_Answers__c</tabs>
-    <tabs>TT_Setup</tabs>
+    <tabs>TT_Log__c</tabs>
     <tabs>Branding</tabs>
+    <tabs>TT_Setup</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Telos_Touch_UtilityBar</utilityBar>
 </CustomApplication>

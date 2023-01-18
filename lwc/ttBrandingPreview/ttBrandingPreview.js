@@ -6,8 +6,8 @@ import telosTouch from '@salesforce/resourceUrl/TelosTouch';
 //Custom Label
 import company_name from "@salesforce/label/c.Company_Name";
 import email from "@salesforce/label/c.Email_Text";
-import first_name from "@salesforce/label/c.first_name";
-import last_name from "@salesforce/label/c.last_name";
+import first_name from "@salesforce/label/c.First_Name";
+import last_name from "@salesforce/label/c.Last_Name";
 import meeting_link_preview from "@salesforce/label/c.Meeting_Link_Preview";
 import office_address from "@salesforce/label/c.Office_Address";
 import phone_number from "@salesforce/label/c.Phone_Number";

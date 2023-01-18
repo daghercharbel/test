@@ -1494,6 +1494,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>Branding</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>TT_Client_Answers__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
