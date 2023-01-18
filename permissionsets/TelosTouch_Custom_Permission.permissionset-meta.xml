@@ -77,6 +77,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClientTaggingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactTriggerForSyncingHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -314,6 +318,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SingleRequestMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TTBrandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

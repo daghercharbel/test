@@ -51,16 +51,23 @@ export default class TtUserBranding extends LightningElement {
             .then(result => {
                 if (result.status == 'success') {
                     let response = JSON.parse(result.value);
-                    for (let i = 0; i < response.length; i++) {
-                        if (response[i].language == 'en') {
-                            this.userBranding_en = response[i];
-                            this.userBranding_en.full_language = this.lstTranslations.en
-                            this.signatureType = response[i].type;
-                        } else {
-                            response[i].full_language = this.lstTranslations[response[i].language];
-                            this.lstUserBranding.push(response[i]);
-                            this.lstLanguages[response[i].language] = response[i].status;
+
+                    if(response.length > 0){
+                        for (let i = 0; i < response.length; i++) {
+                            if (response[i].language == 'en') {
+                                this.userBranding_en = response[i];
+                                this.userBranding_en.full_language = this.lstTranslations.en
+                                this.signatureType = response[i].type;
+                            } else {
+                                response[i].full_language = this.lstTranslations[response[i].language];
+                                this.lstUserBranding.push(response[i]);
+                                this.lstLanguages[response[i].language] = response[i].status;
+                            }
                         }
+                    } else {
+                        let event = {detail : {value : 'system'}}
+                        this.userBranding_en = {language: 'en'};
+                        this.handleSignatureType(event);
                     }
                 } else {
                     console.error(result.error);
@@ -70,6 +77,7 @@ export default class TtUserBranding extends LightningElement {
             })
             .catch(error => {
                 console.error(error);
+                console.log(JSON.stringify(error));
                 this.showToast('Error', error, 'error');
             })
             .finally(final => {
@@ -94,17 +102,30 @@ export default class TtUserBranding extends LightningElement {
     handleMultiLanguage(event) {
 
         let language = event.target.name.replace("signature_", "");
+        let index;
         for (let i = 0; i < this.lstUserBranding.length; i++) {
             if (this.lstUserBranding[i].language == language) {
+                index = i;
                 this.lstUserBranding[i].status = event.detail.checked;
-                this.lstUserBranding = [...this.lstUserBranding];
-                this.lstLanguages[language] = event.detail.checked;
             }
         }
+
+        if(!index){
+            let userBrandingLang = {};
+            userBrandingLang.status = event.detail.checked;
+            userBrandingLang.language = language
+            userBrandingLang.full_language = this.lstTranslations[language];
+            userBrandingLang.type = this.signatureType;
+            this.lstUserBranding.push(userBrandingLang);
+        } 
+
+        this.lstUserBranding = [...this.lstUserBranding];
+        this.lstLanguages[language] = event.detail.checked;
 
     }
 
     handleSignatureType(event) {
+        this.signatureType = event.detail.value;
         this.userBranding_en.type = event.detail.value;
         this.userBranding_en = { ...this.userBranding_en };
         for (let i = 0; i < this.lstUserBranding.length; i++) {
