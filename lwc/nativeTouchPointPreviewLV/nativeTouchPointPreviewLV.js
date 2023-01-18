@@ -170,12 +170,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                     this.topButtonLabel = this.label.TOUCHPOINTPREVIEW_BACKTOTEMPLATES;
                 } else if (result && result.status == 'error') {
                     console.error('Error: ', result.error);
-                    this.displayToast('error', result.error);
                 }
             })
             .catch((error) => {
                 console.error('TelosTouch handleConfirmRevoke Error: ', error);
-                this.displayToast('error', error);
             })
             .finally(() => {
                 this.isShowSpinner = false;

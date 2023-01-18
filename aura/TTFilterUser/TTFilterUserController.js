@@ -25,6 +25,7 @@
     c.set("v.countSelectAll", countV);
     h.doInit_helper(c, e, h);
     h.handleCampaignData(c);
+    h.checkClientTagging(c);
   },
   fielterEvent: function (c, e, h) {
     if (c.get("v.fielterDetailsChanges") == "EventFire") {
@@ -135,6 +136,21 @@
     component.set("v.isSendReminder", false);
     component.set("v.createAction", false);
     component.set("v.newTask", { sobjectType: "Task" });
+  },
+
+  handleClientTagEvt: function (c, e, h) {
+    
+    var action = e.getParam('action');
+    if(action == 'close'){
+      c.set("v.taggingType", null);
+      c.set("v.showClientTagging", false);
+    }
+
+  },
+
+  handleTagging: function (c, e, h) {
+    c.set("v.taggingType", e.getParam("value"));
+    c.set("v.showClientTagging", true);
   },
 
   SaveCreateAction: function (c, e, h) {
