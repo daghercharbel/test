@@ -26,6 +26,7 @@ import Successful_Operation_Text from "@salesforce/label/c.Successful_Operation_
 import Record_Sync_Success_Text from "@salesforce/label/c.Record_Sync_Success_Text";
 import getSyncData from "@salesforce/apex/TelosTouchDataSyncController.getSyncData";
 import getAllLogs from "@salesforce/apex/TelosTouchDataSyncController.getAllLogs";
+import syncAllRecordsApex from "@salesforce/apex/TelosTouchDataSyncController.syncAllRecordsApex";
 import TelosTouch from '@salesforce/resourceUrl/TelosTouch';
 import LANG from '@salesforce/i18n/lang';
 

@@ -143,7 +143,7 @@ public with sharing class TelosTouchDataSyncController {
   @AuraEnabled
   public static string getAllLogs() {
     try {
-      Map<String, Object> returnMap = new Map<String, Object>();
+      Map<String, Object> returnMap;
       List<Object> returnList = new List<Object>();
       String strMainLog = 'Main Log';
       if (UserInfo.getLanguage().contains('en')) {
@@ -162,6 +162,7 @@ public with sharing class TelosTouchDataSyncController {
           ORDER BY CreatedDate DESC
           LIMIT 50000
         ]) {
+          returnMap = new Map<String, Object>();
           returnMap.put('Id', (Object) log.Id);
           returnMap.put('Name', (Object) log.Name);
           returnMap.put(
@@ -204,6 +205,7 @@ public with sharing class TelosTouchDataSyncController {
           ORDER BY CreatedDate DESC
           LIMIT 50000
         ]) {
+          returnMap = new Map<String, Object>();
           returnMap.put('Id', (Object) log.Id);
           returnMap.put('Name', (Object) log.Name);
           returnMap.put(

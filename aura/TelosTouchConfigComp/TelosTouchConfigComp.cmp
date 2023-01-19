@@ -122,9 +122,6 @@
                         {!$Label.c.Help_Section_Text_1} <br /> {!$Label.c.Help_Section_Text_2}&nbsp;<a
                             onclick="{!c.openMail}">support@telostouch.com</a>
                         <c:ttcontactSupport tabName="NotTelosTouchSync" />
-                        {!$Label.c.Help_Section_Text_1} <br /> {!$Label.c.Help_Section_Text_2}&nbsp;<a
-                            onclick="{!c.openMail}">support@telostouch.com</a>
-                        <c:ttcontactSupport tabName="NotTelosTouchSync" />
                     </div>
                 </lightning:tab>
                 <aura:if isTrue="{!v.isAdmin}">
