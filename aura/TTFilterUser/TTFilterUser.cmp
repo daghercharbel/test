@@ -126,10 +126,10 @@
                         </div>
                         <div class="slds-float--right">
                             <aura:if isTrue="{!v.showClientTaggingBtn}">
-                                <lightning:buttonMenu class="slds-m-right_xx-small" label="{!$Label.c.Client_Tagging}"
+                                <lightning:buttonMenu class="slds-m-right_xx-small" label="{!$Label.c.Add_Remove_Topic}"
                                     onselect="{!c.handleTagging}" disabled="{!v.isDisableSendTouchPointBtn}">
-                                    <lightning:menuItem value="add" label="{!$Label.c.Add_Tags}"/>
-                                    <lightning:menuItem value="remove" label="{!$Label.c.Remove_Tags}" />
+                                    <lightning:menuItem value="add" label="{!$Label.c.Add_Topic}"/>
+                                    <lightning:menuItem value="remove" label="{!$Label.c.Remove_Topic}" />
                                 </lightning:buttonMenu>
                             </aura:if>
                             <aura:if isTrue="{!v.showAddToCampaign}">
