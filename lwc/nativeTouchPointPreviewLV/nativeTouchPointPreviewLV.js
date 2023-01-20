@@ -31,7 +31,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     @track alltemplateList = [];
     builderTemplateId;
-    creationEnabled = true;
+    creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
     filterName = '';
