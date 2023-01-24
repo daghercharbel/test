@@ -157,9 +157,9 @@ export default class TemplateGalleryComp extends LightningElement {
             } else {
               this.publicTemplatesList.push(x);
             }
-            if(x.Description){
+            if (x.Description) {
               x.isDescriptionNull = false;
-            }else{
+            } else {
               x.isDescriptionNull = true;
             }
           }
@@ -188,7 +188,7 @@ export default class TemplateGalleryComp extends LightningElement {
   }
 
   handleFilterChange(event) {
-    if(this.showPagination){
+    if (this.showPagination) {
       this.hideLastButton = false;
     }
     if (event.target.dataset.id == 'templateShow') {
@@ -196,7 +196,6 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (event.target.dataset.id == 'templateFilter') {
       this.sortingType = event.detail.value;
     }
-    console.log('search: '+ this.searchValue);
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -230,7 +229,7 @@ export default class TemplateGalleryComp extends LightningElement {
       }
     } else if (sortBy === 'title' || sortBy === 'titleDesc') {
       let sort = (this.fr) ? 'name_fr' : 'name';
-      if(sortBy === 'title'){
+      if (sortBy === 'title') {
         let temp = 0;
         for (let x = 0; x < list.length - 1; x++) {
           for (let y = 0; y < list.length - x - 1; y++) {
@@ -241,7 +240,7 @@ export default class TemplateGalleryComp extends LightningElement {
             }
           }
         }
-      }else{
+      } else {
         let temp = 0;
         for (let x = 0; x < list.length - 1; x++) {
           for (let y = 0; y < list.length - x - 1; y++) {
@@ -256,7 +255,7 @@ export default class TemplateGalleryComp extends LightningElement {
     }
     this.templatesList = list;
     try {
-      if(this.searchValue){
+      if (this.searchValue) {
         let tempList = [];
         if (!this.fr) {
           list.forEach((ele) => {
@@ -274,12 +273,12 @@ export default class TemplateGalleryComp extends LightningElement {
         this.templatesList = tempList;
       }
     } catch (error) {
-    }  
+    }
   }
 
   handleSearchInput(event) {
     try {
-      if(this.showPagination){
+      if (this.showPagination) {
         this.hideLastButton = false;
       }
       let searchKey = event.target.value.toLowerCase();
@@ -338,8 +337,8 @@ export default class TemplateGalleryComp extends LightningElement {
       this.currentPage = this.currentPage - 1;
       // this.prevPage = this.currentPage;
       // this.nextPage = this.prevPage + 1;
-      this.prevPage = this.currentPage ;
-      this.nextPage = this.prevPage +1;
+      this.prevPage = this.currentPage;
+      this.nextPage = this.prevPage + 1;
       this.hideLastButton = false;
       this.updateRecords();
     }
@@ -351,11 +350,11 @@ export default class TemplateGalleryComp extends LightningElement {
       // this.nextPage = this.currentPage;
       // this.prevPage = this.nextPage - 1;
       this.prevPage = this.currentPage;
-      this.nextPage = this.prevPage+1;
+      this.nextPage = this.prevPage + 1;
       this.hideLastButton = false;
       this.updateRecords();
     }
-    if(this.currentPage === this.totalPage){
+    if (this.currentPage === this.totalPage) {
       this.prevPage = this.currentPage;
       this.hideLastButton = true;
       this.updateRecords();
@@ -364,7 +363,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
   nextPageAction() {
     this.currentPage = this.nextPage;
-    if(this.currentPage === this.totalPage){
+    if (this.currentPage === this.totalPage) {
       this.prevPage = this.currentPage;
       this.hideLastButton = true;
     }
@@ -373,7 +372,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
   prevPageAction() {
     this.currentPage = this.prevPage;
-    this.hideLastButton = this.currentPage === this.totalPage ? true: false;
+    this.hideLastButton = this.currentPage === this.totalPage ? true : false;
     this.updateRecords();
   }
 
