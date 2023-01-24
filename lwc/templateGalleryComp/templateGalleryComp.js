@@ -196,6 +196,7 @@ export default class TemplateGalleryComp extends LightningElement {
     } else if (event.target.dataset.id == 'templateFilter') {
       this.sortingType = event.detail.value;
     }
+    console.log('search: '+ this.searchValue);
     if (this.templateType == 'All') {
       this.templatesList = this.mainTemplateList;
     } else if (this.templateType == 'Public') {
@@ -259,13 +260,13 @@ export default class TemplateGalleryComp extends LightningElement {
         let tempList = [];
         if (!this.fr) {
           list.forEach((ele) => {
-            if (ele.name.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+            if (ele.name.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
               tempList.push(ele);
             }
           });
         } else {
           list.forEach((ele) => {
-            if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+            if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
               tempList.push(ele);
             }
           });
@@ -294,13 +295,13 @@ export default class TemplateGalleryComp extends LightningElement {
       }
       if (!this.fr) {
         currentTemplates.forEach((ele) => {
-          if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+          if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
             filteredTemplates.push(ele);
           }
         });
       } else {
         currentTemplates.forEach((ele) => {
-          if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+          if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
             filteredTemplates.push(ele);
           }
         });

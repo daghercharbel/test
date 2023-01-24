@@ -490,6 +490,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             this.isNotEdit = true;
                             this.isDisSave = true;
                             this.afterSaveCredentials = true;
+                            this.isEditAndnotsettingApproval = false;
                             this.displayToast('success', Config_Save_Toast);
                         } else {
                             this.setting.TelosTouchSF__Approval__c = false;
@@ -594,6 +595,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.afterSaveCredentials = false;
         this.showSearchBar = false;
         this.fromEntries = 1;
+        this.searchValue = '';
     }
 
     // show search bar
@@ -604,6 +606,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     // hide search bar
     hideSearch() {
         this.showSearchBar = false;
+        this.searchValue = '';
         if (this.setting.Approval == true) {
             this.settingApproval = true;
             this.getUsersListHelper();
@@ -939,7 +942,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         }
     }
 
-    checkRevokeUsers(){
+    checkRevokeUsers() {
         this.isShowSpinner = true;
 
         this.listofUserId = [];
@@ -947,7 +950,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             this.listofUserId.push(this.selectedUserList[i].Id);
         }
         this.revokeCurrentUser = this.listofUserId.includes(this.currentUserId);
-        if(this.revokeCurrentUser){
+        if (this.revokeCurrentUser) {
             this.userRevokeAccessModal = true;
             this.isShowSpinner = false;
         } else {
@@ -975,10 +978,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.userGrantAccessModal = false;
     }
 
-    handleConfirmRevoke(){
-        if(this.userIdForRestriction){
+    handleConfirmRevoke() {
+        if (this.userIdForRestriction) {
             this.handleSingleRevoke();
-        } else if(this.listofUserId.length > 0){
+        } else if (this.listofUserId.length > 0) {
             this.handleMassRevoke();
         }
         this.userRevokeAccessModal = false;
