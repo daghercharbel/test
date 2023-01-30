@@ -890,6 +890,22 @@ public with sharing class TTFilterUserController {
             return '';
         }
     }
+
+    @AuraEnabled
+    public static Boolean isClientTaggingEnabled(){
+        try {
+            String strInvite = 'Invite';
+            list<TelosTouchSF__TT_Feature_Flag__mdt> lstMetadata = [SELECT TelosTouchSF__ShowClientTagging__c
+                                                                    FROM TelosTouchSF__TT_Feature_Flag__mdt 
+                                                                    WHERE MasterLabel =: strInvite WITH SECURITY_ENFORCED LIMIT 1];
+            
+            if(!lstMetadata.isEmpty()){ return lstMetadata[0].TelosTouchSF__ShowClientTagging__c;}
+            else {throw new AuraHandledException('Metadata not found!');}
+             
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     
     /**
 * @author Cloud Analogy

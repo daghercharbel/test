@@ -1712,36 +1712,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description ......
-* @param enableFinestLogs ....
-* @param MasterLabel ....
-*/
-    @AuraEnabled
-    public static void updateFinestLogging(Boolean enableFinestLogs, String MasterLabel){
-        Metadata.CustomMetadata customMetadata =  new Metadata.CustomMetadata();
-        customMetadata.fullName = 'TelosTouchSF__TT_Feature_Flag' + '.' + 'TelosTouchSF__' +MasterLabel;
-        customMetadata.label = MasterLabel;
-        
-        Map<String, Object> fieldWithValuesMap = new Map<String, Object>();
-        fieldWithValuesMap.put('TelosTouchSF__ShowFinestLogs__c',enableFinestLogs);
-        
-        for(String key : fieldWithValuesMap.keySet()){
-            Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
-            customField.field = key;
-            customField.value = fieldWithValuesMap.get(key);
-            customMetadata.values.add(customField);
-        }
-        
-        Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
-        mdContainer.addMetadata(customMetadata);
-        TelosTouchSF.TelosTouchUtility callback = new TelosTouchSF.TelosTouchUtility();
-        if(!(Test.isRunningTest())){
-            Id jobId = Metadata.Operations.enqueueDeployment(mdContainer, callback);
-        }
-    }
-    /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ......
 * @return boolean  ....
 */
     @AuraEnabled
