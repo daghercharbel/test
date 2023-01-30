@@ -8,7 +8,7 @@ trigger CampaignTrigger on Campaign (before delete, before update, after update)
         CampaignTriggerHandler.getDeletedCampaignRecord(Trigger.old); 
     }
     if(trigger.isbefore && trigger.isUpdate){
-        CampaignTriggerHandler.notChangeTouchPointRecordType(Trigger.new); 
+        CampaignTriggerHandler.clearTemplateId(Trigger.new);
     }
     if(trigger.isAfter && trigger.isUpdate){
         CampaignTriggerHandler.createQuestionsAndAnswers(Trigger.new);
