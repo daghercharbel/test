@@ -113,6 +113,26 @@
         } catch (ex) {
         }
     },
+
+    checkClientTagging: function (c) {
+
+        var action = c.get("c.isClientTaggingEnabled");
+
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                if (!$A.util.isEmpty(response.getReturnValue())) {
+                    c.set("v.showClientTaggingBtn", response.getReturnValue());
+                } else {
+                    console.error(response.getError());
+                    this.showSuccess(c, null, null, $A.get("$Label.c.ERROR_Text"), "error", response.getError());
+                }
+            }
+        });
+
+        $A.enqueueAction(action);
+    },
+
     initializeWrapper: function (c, e, h) {
         try {
             c.set("v.isShowSpinner", true);
