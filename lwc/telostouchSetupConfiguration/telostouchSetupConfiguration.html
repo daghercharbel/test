@@ -125,7 +125,7 @@
             <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Save_Button_Label}
                 disabled={isDisSave} onclick={saveSettings}></lightning-button>
             <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small" label={label.Edit_Button_Label}
-                onclick={editSettings}></lightning-button>
+                disabled={isEditDisabled} onclick={editSettings}></lightning-button>
             <lightning-button variant="Brand" class="slds-button slds-m-top_xx-small"
                 label={label.Update_Add_Users_Button_Label} onclick={updateAndAddUsers}
                 disabled={isEditAndnotsettingApproval}></lightning-button>

@@ -177,7 +177,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     userIdForRestriction;
     userRevokeAccessModal = false;
     @track waitingTimeId = null;
-
+    isEditDisabled = false;
     @api listdata;
 
     // OnLoad
@@ -491,6 +491,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             this.isDisSave = true;
                             this.afterSaveCredentials = true;
                             this.isEditAndnotsettingApproval = false;
+                            this.isEditDisabled = false;
                             this.displayToast('success', Config_Save_Toast);
                         } else {
                             this.setting.TelosTouchSF__Approval__c = false;
@@ -519,7 +520,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     }
                 })
                 .catch((error) => {
-                    this.error = error.message;
+                    this.isShowSpinner = false;
+                    this.error = error.body.message;
                     this.setting.TelosTouchSF__Approval__c = false;
                     this.displayToast('error', this.error);
                 });
@@ -576,6 +578,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.isNotEdit = true;
         this.isDisSave = true;
         this.isEditAndnotsettingApproval = false;
+        this.isEditDisabled = false;
     }
 
     //'Edit button' is clicked
@@ -584,6 +587,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.isNotEdit = false;
         this.isDisSave = false;
         this.isEditAndnotsettingApproval = true;
+        this.isEditDisabled = true;
     }
 
     //'Cancel button' is clicked
