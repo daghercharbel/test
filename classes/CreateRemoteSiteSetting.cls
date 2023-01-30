@@ -13,6 +13,7 @@ public with sharing class CreateRemoteSiteSetting {
 * @return String name ....
 */
     public static String getremoteSiteSetting(String remoteURL, String name) {
+        if(name.contains('-')) name = name.replace('-', '_');
         HttpRequest req = new HttpRequest();
         req.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
         req.setHeader('Content-Type', 'application/json');
@@ -57,6 +58,7 @@ public with sharing class CreateRemoteSiteSetting {
 * @param name stores the name
 */
     public static void remoteSiteSetting(String remoteURL, String name) {
+        if(name.contains('-')) name = name.replace('-', '_');
         try {
             String name1 = getremoteSiteSetting(remoteURL, name);
             if (name1 != 'Already Exists!') {
@@ -92,6 +94,7 @@ public with sharing class CreateRemoteSiteSetting {
 * @return HTTPResponse response ....
 */
     public static HTTPResponse remoteSiteSetting1(String remoteURL, String name) {
+        if(name.contains('-')) name = name.replace('-', '_');
         try {
             String json =
                 '{"FullName":"' +

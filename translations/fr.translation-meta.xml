@@ -31,6 +31,10 @@
         <name>Add_Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
+        <label>Commencez par choisir un modèle ou ajouter des membres à la campagne pour pouvoir « Envoyer un Email »</label>
+        <name>Add_Email_Cam_Mem_to_TT_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Ajouter des Champs sur mesure</label>
         <name>Add_Fields_Button_Label</name>
     </customLabels>
@@ -255,6 +259,10 @@
         <name>Choose_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
+        <label>Sélectionner un modèle</label>
+        <name>Choose_a_Template</name>
+    </customLabels>
+    <customLabels>
         <label>Sélectionner le Point de contact</label>
         <name>Choose_a_TouchPoint_Text</name>
     </customLabels>
@@ -369,6 +377,10 @@
         <name>Compliance_Message</name>
     </customLabels>
     <customLabels>
+        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme concernant les communications externes, inclus l&apos;approbation de ces communications, si et quand c&apos;est requis. Je comprends aussi qu&apos;une copie de ce TouchPoint sera transmise à ma boîte de courriels et sera assujettie aux règles de rétention et au processus de supervision de la firme.</label>
+        <name>Compliance_Message_Email</name>
+    </customLabels>
+    <customLabels>
         <label>Conformité confirmation</label>
         <name>Compliance_Title</name>
     </customLabels>
@@ -481,6 +493,10 @@
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
+        <label>Modèle sélectionné. Veuillez ajouter des membres à votre campagne</label>
+        <name>Customize_AddClient</name>
+    </customLabels>
+    <customLabels>
         <label>Point de contact sélectionné. Veuillez ajouter des membres à votre campagne</label>
         <name>Customize_AddClientText</name>
     </customLabels>
@@ -492,6 +508,14 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
     <customLabels>
         <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;. Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Vous pouvez maintenant envoyer le Email en cliquant sur &quot;Envoyer&quot;.&lt;br/&gt; Note: La personnalisation et la sélection d&apos;un modèle seront désactivées après l&apos;envoi</label>
+        <name>Customize_Preview_Email_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Personnalisation du Modèle</label>
+        <name>Customize_Template</name>
     </customLabels>
     <customLabels>
         <label>Personnalisation du Point de contact</label>
@@ -552,6 +576,18 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
     <customLabels>
         <label>Courriel existe déjà:</label>
         <name>Email_Exist_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Des destinataires sont en train d&apos;être rajoutés au Email. Veuillez patienter…</label>
+        <name>Email_Process_Running</name>
+    </customLabels>
+    <customLabels>
+        <label>Des destinataires sont en train d&apos;être rajoutés au Email dans l&apos;arrière-plan. Veuillez patienter…</label>
+        <name>Email_Recipients_are_being_added_in_background</name>
+    </customLabels>
+    <customLabels>
+        <label>Email envoyé.&lt;br/&gt; Vous pouvez envoyer cet Email à plus de personnes en les rajoutants à la campagne.</label>
+        <name>Email_Sent</name>
     </customLabels>
     <customLabels>
         <label>Signature d&apos;e-mail</label>
@@ -879,6 +915,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;</label>
         <name>New_Client_Added_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Email en cliquant sur &quot;Envoyer&quot;</label>
+        <name>New_Email_Client_Added_Text</name>
     </customLabels>
     <customLabels>
         <label>De nouveaux membres ne peuvent être ajoutés à cette Campagne parce qu&apos;un TouchPoint a déjà été transmis.</label>
@@ -1283,6 +1323,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
+        <label><!-- Select a Template --></label>
+        <name>Select_a_Template</name>
+    </customLabels>
+    <customLabels>
         <label>Sélectionner un type d&apos;enregistrement</label>
         <name>Select_a_record_type_Type</name>
     </customLabels>
@@ -1291,8 +1335,16 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Selected</name>
     </customLabels>
     <customLabels>
+        <label>Modèle Sélectionné</label>
+        <name>Selected_Template</name>
+    </customLabels>
+    <customLabels>
         <label>Point de Contact Sélectionné</label>
         <name>Selected_TouchPoint</name>
+    </customLabels>
+    <customLabels>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Modèle&quot; pour sélectionner votre Modèle</label>
+        <name>SendEmail_CustomizeText</name>
     </customLabels>
     <customLabels>
         <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
@@ -1405,6 +1457,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
+        <label>Pour commencer, cliquez sur &quot;Sélectionner le modèle&quot; pour sélectionner votre modèle et ajouter des membres à la campagne</label>
+        <name>Start_By_Choosing_Email</name>
+    </customLabels>
+    <customLabels>
         <label>Date de début</label>
         <name>Start_Date</name>
     </customLabels>
@@ -1486,6 +1542,10 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TT_API_Setup_Title</name>
     </customLabels>
     <customLabels>
+        <label>Statut du TelosTouch Email</label>
+        <name>TT_Email_Status</name>
+    </customLabels>
+    <customLabels>
         <label>Statut du Point de contact TelosTouch</label>
         <name>TT_Touchpoint_Status_Text</name>
     </customLabels>
@@ -1538,8 +1598,20 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
+        <label>Sélectionner ce modèle</label>
+        <name>Template_Gallery_Save</name>
+    </customLabels>
+    <customLabels>
         <label>Sélectionner ce Point de contact</label>
         <name>Template_Gallery_Save_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Le modèle n&apos;a pas été enregistré</label>
+        <name>Template_Not_Saved</name>
+    </customLabels>
+    <customLabels>
+        <label>Le modèle est sélectionné avec succès.</label>
+        <name>Template_Saved</name>
     </customLabels>
     <customLabels>
         <label>Titre</label>

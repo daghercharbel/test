@@ -52,37 +52,30 @@ global with sharing class TTUserConversation implements Database.Batchable<sObje
 * @param scope ......
 */
     global void execute(Database.BatchableContext bc, List<Campaign> scope){
-        Set<Campaign> campaignGlobalSet = new Set<Campaign>();
-        List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
-        Map<String,TelosTouchSF__Insights__c> conversation_UserMap = new Map<String,TelosTouchSF__Insights__c>();
-        Map<String,List<Object>>  answerSobjectMap = new Map<String,List<Object>> ();
-        Map<String, String> headersMap = new Map<String, String>();
-        Map<String,Campaign> campaignMap = new Map<String,Campaign>();
-        Set<Id> campaignIdSet = new Set<Id>();
-        List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
+        try{
+            Set<Campaign> campaignGlobalSet = new Set<Campaign>();
+            List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
+            Map<String,TelosTouchSF__Insights__c> conversation_UserMap = new Map<String,TelosTouchSF__Insights__c>();
+            Map<String,List<Object>>  answerSobjectMap = new Map<String,List<Object>> ();
+            Map<String, String> headersMap = new Map<String, String>();
+            Map<String,Campaign> campaignMap = new Map<String,Campaign>();
+            Set<Id> campaignIdSet = new Set<Id>();
+            List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
 
-        
-        String methodType = 'GET';
-        String responseBody,endPointURL ='';
-        if(authenticationCredential.TelosTouchSF__Access_Token__c != null && String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
-            headersMap.put('Authorization','Bearer ' +authenticationCredential.TelosTouchSF__Access_Token__c);
-        }
-        DateTime LAST_HOUR = System.NOW().addMinutes(-62);
-        String formatted = LAST_HOUR.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
-
-        Integer skip = 0;
-        Integer responseSize = 0;
-
-        do {
-            responseSize = 0;
+            
+            String methodType = 'GET';
+            String responseBody,endPointURL ='';
+            if(authenticationCredential.TelosTouchSF__Access_Token__c != null && String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
+                headersMap.put('Authorization','Bearer ' +authenticationCredential.TelosTouchSF__Access_Token__c);
+            }
+            DateTime LAST_HOUR = System.NOW().addMinutes(-62);
+            String formatted = LAST_HOUR.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
             if(adminCredentials.TelosTouchSF__Instance_URL__c != null && String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                
                 if(!Test.isRunningTest() && (forFirstTime == true)){
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/admin/touchpoints/recipients/messages?sort=[{%20"id":%20"ASC"%20}]';
                 }else{
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/admin/touchpoints/recipients/messages?modified_at={">=":"'+formatted+'"}&sort=[{%20"id":%20"ASC"%20}]';
                 }
-                endPointURL += '&skip='+skip+'&limit=1000';
                 Map<String, String> responseBodyMap = TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, null);
                 if(responseBodyMap.get('status_code') == '401'){
                     logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
@@ -102,8 +95,6 @@ global with sharing class TTUserConversation implements Database.Batchable<sObje
             headersMap.put('Accept', 'application/json');
             if(responseBody != null){
                 List<Object> conversationList = (List<Object>)JSON.deserializeUntyped(responseBody);
-                responseSize = conversationList.size();
-                skip += conversationList.size();
                 for(Object conversationObj : conversationList){
                     try {
                         Map<String, Object> conversationMap1 =
@@ -133,13 +124,13 @@ global with sharing class TTUserConversation implements Database.Batchable<sObje
                 }
                 if(!answerSobjectMap.isEmpty()){
                     if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isQueryable() &&
-                        Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Conversation_Id__c.isAccessible() &&
-                        Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Campaign2__c.isAccessible() &&
-                        Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isAccessible() &&
+                       Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Conversation_Id__c.isAccessible() &&
+                       Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Campaign2__c.isAccessible() &&
+                       Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isAccessible() &&
                         Schema.sObjectType.TelosTouchSF__Insights__c.fields.IsDeleted.isAccessible() &&
-                        Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Answers__c.isAccessible()){
-                            conversation_UserList = [SELECT Id,Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Answers__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Conversation_Id__c IN: answerSobjectMap.keySet() AND IsDeleted = false LIMIT 20000 ALL ROWS];
-                        }
+                       Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Answers__c.isAccessible()){
+                           conversation_UserList = [SELECT Id,Name, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Campaign2__c, TelosTouchSF__Answers__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Conversation_Id__c IN: answerSobjectMap.keySet() AND IsDeleted = false LIMIT 20000 ALL ROWS];
+                       }
                     for(TelosTouchSF__Insights__c conversationUserObj : conversation_UserList){
                         conversation_UserMap.put(conversationUserObj.TelosTouchSF__Conversation_Id__c,conversationUserObj);
                         if(conversationUserObj.TelosTouchSF__Campaign2__c !=  null){
@@ -156,33 +147,19 @@ global with sharing class TTUserConversation implements Database.Batchable<sObje
                             campaignGlobalSet.add(campaignMap.get(TTConversation_Id));
                         }
                     }
+                    if(!conversation_UserMap.isEmpty()){
+                        if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()){
+                            UPDATE conversation_UserMap.values(); 
+                        }
+                    }
                     campaignGlobalList.addAll(campaignGlobalSet);
                 }
             }
-        } while (responseSize == 1000);
-
-        if(!conversation_UserMap.isEmpty()){
-            do {
-                if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()){
-                    list<TelosTouchSF__Insights__c> lstInsight = new list<TelosTouchSF__Insights__c>();
-                    if(conversation_UserMap.values().size() > 10000){
-                        Integer i = 0;
-                        for(String key : conversation_UserMap.keySet()){
-                            lstInsight.add(conversation_UserMap.get(key));
-                            conversation_UserMap.remove(key);
-                            if(lstInsight.size() == 10000) break;
-                        }
-                    } else {
-                        lstInsight = conversation_UserMap.values();
-                        conversation_UserMap = new Map<String,TelosTouchSF__Insights__c>();
-                    }
-                    UPDATE lstInsight;
-                }
-            } while (conversation_UserMap.values().size() > 0);
-        }
-
-        if(!logList.isEmpty()){
-            insert logList;
+            if(!logList.isEmpty()){
+                insert logList;
+            }
+        }catch(Exception ex){
+            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
         }
     }
     /**

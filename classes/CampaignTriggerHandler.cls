@@ -34,28 +34,16 @@ public with sharing class CampaignTriggerHandler {
             System.debug(LoggingLevel.WARN, ex.getMessage()+' Occurred At Line Number: '+ex.getLineNumber());
         }
     }
-    /**
-* @author Cloud Analogy
-* @date 02/08/2021
-*@description notChangeTouchPointRecordType.....
-* @param campaignList ......
-*/
-    public static void notChangeTouchPointRecordType(List<Campaign> campaignList){
-        try{
-            Id campaignRecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
-            for(Campaign campaignObject : campaignList){
-                if(Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() && Schema.sObjectType.Campaign.fields.RecordTypeId.isAccessible()){
-                    if(campaignObject.TelosTouchSF__TT_Campaign_Id__c != null ){
-                        if(campaignRecordTypeId != campaignObject.RecordTypeId ){
-                            campaignObject.addError('You can not change record type after send TouchPoint.');
-                        }
-                    }
-                }
+
+    public static void clearTemplateId(List<Campaign> lstCamp) {
+        for(Campaign camp : lstCamp){
+            if(String.isNotBlank(camp.TelosTouchSF__TT_Campaign_Id__c) || !TriggerUtils.wasChanged(camp, 'TelosTouchSF__Type__c')){
+                continue;
             }
-        }catch(Exception ex){
-            System.debug(LoggingLevel.WARN, ex.getMessage()+' Occurred At Line Number: '+ex.getLineNumber());
+            camp.TelosTouchSF__TouchPoint_Template_Id__c = null;
         }
     }
+
     /**
 * @author Cloud Analogy
 * @date 02/08/2021

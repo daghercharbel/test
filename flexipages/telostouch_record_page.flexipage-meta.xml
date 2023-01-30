@@ -37,6 +37,13 @@
             <componentInstance>
                 <componentName>openAndCompleteGraph</componentName>
                 <identifier>TelosTouchSF_openAndCompleteGraph</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Touchpoint</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

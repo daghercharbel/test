@@ -63,7 +63,7 @@ export default class ShowTouchPointPreview extends LightningElement {
   }
 
   getUrlfromTemplate() {
-    getIFrameUrlsFromTemplateId({ templateId: this.templateId, language: this.langValue })
+    getIFrameUrlsFromTemplateId({ templateId: this.templateId, campId: this.recordId, language: this.langValue })
       .then((result) => {
         this.urls = JSON.parse(result);
       })

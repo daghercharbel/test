@@ -16,6 +16,7 @@
     </labels>
     <labels>
         <fullName>Add_Cam_Mem_to_TT_Text</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Add Cam Mem to TT Text</shortDescription>
@@ -41,6 +42,14 @@
         <protected>true</protected>
         <shortDescription>Add Custom Fields Text</shortDescription>
         <value>Add Custom Fields</value>
+    </labels>
+    <labels>
+        <fullName>Add_Email_Cam_Mem_to_TT_Text</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Email Cam Mem to TT Text</shortDescription>
+        <value>Start by choosing a template or adding members to the campaign before you can &quot;Send an Email&quot;</value>
     </labels>
     <labels>
         <fullName>Add_Fields_Button_Label</fullName>
@@ -428,6 +437,14 @@
         <value>Choose Sync Type</value>
     </labels>
     <labels>
+        <fullName>Choose_a_Template</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Choose a Template</shortDescription>
+        <value>Select a Template</value>
+    </labels>
+    <labels>
         <fullName>Choose_a_TouchPoint_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -618,11 +635,19 @@
     </labels>
     <labels>
         <fullName>Compliance_Message</fullName>
-        <categories>Touchpoint Template</categories>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Compliance Message</shortDescription>
         <value>I confirm that I have followed all of the required steps of my firm&apos;s compliance processes for external communications, including the approval of such communication as and when required. I further acknowledge that a copy of this touchpoint will be sent to my inbox as part of my firm’s internal records retention and compliance supervision framework.</value>
+    </labels>
+    <labels>
+        <fullName>Compliance_Message_Email</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Compliance Message Email</shortDescription>
+        <value>I confirm that I have followed all of the required steps of my firm&apos;s compliance processes for external communications, including the approval of such communication as and when required. I further acknowledge that a copy of this email will be sent to my inbox as part of my firm’s internal records retention and compliance supervision framework.</value>
     </labels>
     <labels>
         <fullName>Compliance_Title</fullName>
@@ -815,6 +840,14 @@
         <value>TestDetails</value>
     </labels>
     <labels>
+        <fullName>Customize_AddClient</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize/AddClient</shortDescription>
+        <value>Template has been selected. Please add members to your campaign</value>
+    </labels>
+    <labels>
         <fullName>Customize_AddClientText</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -823,6 +856,7 @@
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize PreviewLabel</shortDescription>
@@ -835,6 +869,22 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <protected>true</protected>
         <shortDescription>Customize_PreviewLabel_Text</shortDescription>
         <value>You can now send TouchPoint by clicking on &quot;Send&quot;. Note: Customise and Touchpoint Selection will be disabled after sending</value>
+    </labels>
+    <labels>
+        <fullName>Customize_Preview_Email_Label</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize Preview Email Label</shortDescription>
+        <value>You can now send the email by clicking on &quot;Send&quot;. &lt;br/&gt; Note: Customize and Template selection will be disabled after sending</value>
+    </labels>
+    <labels>
+        <fullName>Customize_Template</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Customize Template</shortDescription>
+        <value>Customize Template</value>
     </labels>
     <labels>
         <fullName>Customize_Template_Text</fullName>
@@ -940,6 +990,30 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <protected>true</protected>
         <shortDescription>Email Exist Text</shortDescription>
         <value>Email Already Exists:</value>
+    </labels>
+    <labels>
+        <fullName>Email_Process_Running</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Process Running</shortDescription>
+        <value>Recipients are being added to the Email. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Email_Recipients_are_being_added_in_background</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Recipients are being added in background</shortDescription>
+        <value>Recipients are being added to Email in the Background. Please Wait...</value>
+    </labels>
+    <labels>
+        <fullName>Email_Sent</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Sent</shortDescription>
+        <value>Email has been sent successfully. &lt;br/&gt; You can send the Email to more recipients by adding additional members to the campaign.</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -1505,6 +1579,14 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>New Client Added Text</shortDescription>
         <value>New campaign members added. You can now send TouchPoint by clicking on &quot;Send”</value>
+    </labels>
+    <labels>
+        <fullName>New_Email_Client_Added_Text</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Email Client Added Text</shortDescription>
+        <value>New campaign members added. You can now send Email by clicking on &quot;Send”</value>
     </labels>
     <labels>
         <fullName>New_Member_Toast</fullName>
@@ -2207,6 +2289,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Select Sync Type</value>
     </labels>
     <labels>
+        <fullName>Select_a_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select a Template</shortDescription>
+        <value>Select a Template</value>
+    </labels>
+    <labels>
         <fullName>Select_a_record_type_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2221,6 +2310,14 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Selected</value>
     </labels>
     <labels>
+        <fullName>Selected_Template</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selected Template</shortDescription>
+        <value>Selected Template</value>
+    </labels>
+    <labels>
         <fullName>Selected_TouchPoint</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2228,7 +2325,16 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Selected TouchPoint</value>
     </labels>
     <labels>
+        <fullName>SendEmail_CustomizeText</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SendEmail/CustomizeText</shortDescription>
+        <value>New campaign members added. Click on “Select a Template” to select your Email template</value>
+    </labels>
+    <labels>
         <fullName>SendTP_CustomizeText</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SendTP/CustomizeText</shortDescription>
@@ -2411,10 +2517,19 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
     </labels>
     <labels>
         <fullName>StartByChoosingTP</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>StartByChoosingTP</shortDescription>
         <value>Start by clicking on “Select a Touchpoint” to select your TouchPoint or add members to your campaign</value>
+    </labels>
+    <labels>
+        <fullName>Start_By_Choosing_Email</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start By Choosing Email</shortDescription>
+        <value>Start by clicking on “Select a Template” to select your Email template or add members to your campaign</value>
     </labels>
     <labels>
         <fullName>Start_Date</fullName>
@@ -2544,6 +2659,7 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
     </labels>
     <labels>
         <fullName>TPSentText</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TPSentText</shortDescription>
@@ -2558,7 +2674,16 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>TelosTouch API Setup</value>
     </labels>
     <labels>
+        <fullName>TT_Email_Status</fullName>
+        <categories>Campaign - Email</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TT Email Status</shortDescription>
+        <value>TelosTouch Email Status</value>
+    </labels>
+    <labels>
         <fullName>TT_Touchpoint_Status_Text</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TT Touchpoint Status Text</shortDescription>
@@ -2649,11 +2774,35 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>TelosTouch_Custom_Permission</value>
     </labels>
     <labels>
+        <fullName>Template_Gallery_Save</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Template Gallery Save</shortDescription>
+        <value>Select a Template</value>
+    </labels>
+    <labels>
         <fullName>Template_Gallery_Save_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Template Gallery Save Text</shortDescription>
         <value>Select TouchPoint</value>
+    </labels>
+    <labels>
+        <fullName>Template_Not_Saved</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Template Not Saved</shortDescription>
+        <value>Template is not saved.</value>
+    </labels>
+    <labels>
+        <fullName>Template_Saved</fullName>
+        <categories>Campaign - Generic</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Template Saved</shortDescription>
+        <value>Template successfully selected.</value>
     </labels>
     <labels>
         <fullName>Title</fullName>
@@ -2748,6 +2897,7 @@ You can send the TouchPoint to more recipients by adding additional members to t
     </labels>
     <labels>
         <fullName>TouchPoint_Process_Running_Text</fullName>
+        <categories>Campaign - Touchpoint</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TouchPoint Process Running Text</shortDescription>

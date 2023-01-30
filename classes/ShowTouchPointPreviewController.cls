@@ -12,8 +12,13 @@ public with sharing class ShowTouchPointPreviewController {
     @AuraEnabled
     public static string getIFrameUrls(Id recordId, String language){
         try {
+
+            Campaign campObjUpd;
+            Campaign campObj = [SELECT Id,TelosTouchSF__TouchPoint_Template_Id__c,TelosTouchSF__Type__c 
+                                FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
+            if(campObj.TelosTouchSF__Type__c == null){ campObj.TelosTouchSF__Type__c = 'touchpoint'; }
+
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-            Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             if(String.isEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
                 String methodType = 'GET';
                 String endPointURL ='', userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
@@ -46,37 +51,39 @@ public with sharing class ShowTouchPointPreviewController {
                             campObj.TelosTouchSF__TouchPoint_Template_Id__c =  String.valueof(responseMap1.get('touchpoint_template_id'));
                         }
                     }
-                    if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){
-                        UPDATE campObj;
-                    }
+                    campObjUpd = campObj;
                 }
             }
             Map<String,String> urlMap = new Map<String, String>();
             urlMap.put('email', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/public/email?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken());
-            Map<String, String> headersMap = new Map<String, String>();
-            String endPointURL = '';
-            String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
-            headersMap.put('Authorization','Bearer '+userAuthTOKEN);
-            headersMap.put('Content-Type', 'application/json');
-            headersMap.put('Accept', 'application/json');
-            if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/portalurl?language='+language;
-            }
-            Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
-            if(getResponseMap.get('status_code') == '401'){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
-            }else if(getResponseMap.get('status_code') == '500'){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
-            }else{
-                if(getResponseMap.get('status_code').length() > 0){
-                    list<String> statusCodeList = getResponseMap.get('status_code').split('0');
-                    if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
-                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+            if(String.isBlank(recordId) || !campObj.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
+                Map<String, String> headersMap = new Map<String, String>();
+                String endPointURL = '';
+                String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
+                headersMap.put('Authorization','Bearer '+userAuthTOKEN);
+                headersMap.put('Content-Type', 'application/json');
+                headersMap.put('Accept', 'application/json');
+                if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/portalurl?language='+language;
+                }
+                Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
+                if(getResponseMap.get('status_code') == '401'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+                }else if(getResponseMap.get('status_code') == '500'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
+                }else{
+                    if(getResponseMap.get('status_code').length() > 0){
+                        list<String> statusCodeList = getResponseMap.get('status_code').split('0');
+                        if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+                        }
                     }
                 }
+                urlMap.put('touchpoint', getResponseMap.get('body'));
             }
-            urlMap.put('touchpoint', getResponseMap.get('body'));
-            System.debug(LoggingLevel.DEBUG, urlMap);
+            if(campObjUpd != null){
+                update campObjUpd;
+            }
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() ){
                 insert createListOfLog;
             }
@@ -97,34 +104,43 @@ public with sharing class ShowTouchPointPreviewController {
 */
 
     @AuraEnabled
-    public static string getIFrameUrlsFromTemplateId(String templateId, String language){
+    public static string getIFrameUrlsFromTemplateId(String templateId, String campId, String language){
         try {
+
+            Campaign camp = new Campaign();
+            if(String.isNotBlank(campId)){ 
+                camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId LIMIT 1];
+                if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+            }
+
             Map<String,String> urlMap = new Map<String, String>();
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             urlMap.put('email', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/public/email?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken());
-            Map<String, String> headersMap = new Map<String, String>();
-            String endPointURL = '';
-            String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
-            headersMap.put('Authorization','Bearer '+userAuthTOKEN);
-            headersMap.put('Content-Type', 'application/json');
-            headersMap.put('Accept', 'application/json');
-            if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/portalurl?language='+language;
-            }
-            Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
-            if(getResponseMap.get('status_code') == '401'){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
-            }else if(getResponseMap.get('status_code') == '500'){
-                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
-            }else{
-                if(getResponseMap.get('status_code').length() > 0){
-                    list<String> statusCodeList = getResponseMap.get('status_code').split('0');
-                    if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
-                        createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+            if(String.isBlank(campId) || !camp.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
+                Map<String, String> headersMap = new Map<String, String>();
+                String endPointURL = '';
+                String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
+                headersMap.put('Authorization','Bearer '+userAuthTOKEN);
+                headersMap.put('Content-Type', 'application/json');
+                headersMap.put('Accept', 'application/json');
+                if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/portalurl?language='+language;
+                }
+                Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
+                if(getResponseMap.get('status_code') == '401'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+                }else if(getResponseMap.get('status_code') == '500'){
+                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
+                }else{
+                    if(getResponseMap.get('status_code').length() > 0){
+                        list<String> statusCodeList = getResponseMap.get('status_code').split('0');
+                        if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                            createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+                        }
                     }
                 }
+                urlMap.put('touchpoint', getResponseMap.get('body'));
             }
-            urlMap.put('touchpoint', getResponseMap.get('body'));
             System.debug(LoggingLevel.DEBUG, urlMap);
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() ){
                 insert createListOfLog;

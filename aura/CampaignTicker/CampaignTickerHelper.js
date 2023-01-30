@@ -91,6 +91,45 @@
         } catch (error) {
         }
     },
+    labelSelection: function (c) {
+        try {
+            var action = c.get('c.getCampaignData');
+            action.setParams({
+                recordId: c.get('v.recordId'),
+            });
+            action.setCallback(this, function (response) {
+                if (response.getState() === 'SUCCESS') {
+                    var camp = response.getReturnValue();
+                    c.set('v.campaignType', camp.TelosTouchSF__Type__c);
+                    if(camp.TelosTouchSF__Type__c == 'touchpoint'){
+                        c.set('v.chooseLabel', $A.get("$Label.c.Choose_a_TouchPoint_Text"));
+                        c.set('v.customizeAddClientLabel', $A.get("$Label.c.Customize_AddClientText"));
+                        c.set('v.customizePreviewLabel', $A.get("$Label.c.Customize_PreviewLabel"));
+                        c.set('v.newClientAddedLabel', $A.get("$Label.c.New_Client_Added_Text"));
+                        c.set('v.selectedTouchPointLabel', $A.get("$Label.c.Selected_TouchPoint"));
+                        c.set('v.sendTemplateCustomizeLabel', $A.get("$Label.c.SendTP_CustomizeText"));
+                        c.set('v.startByChoosingLabel', $A.get("$Label.c.StartByChoosingTP"));
+                        c.set('v.processRunningLabel', $A.get("$Label.c.TouchPoint_Process_Running_Text"));
+                        c.set('v.sendLabel', $A.get("$Label.c.TPSentText"));
+                        c.set('v.TTCampaignStatusLabel', $A.get("$Label.c.TT_Touchpoint_Status_Text"));
+                    } else if(camp.TelosTouchSF__Type__c == 'email') {
+                        c.set('v.chooseLabel', $A.get("$Label.c.Choose_a_Template"));
+                        c.set('v.customizeAddClientLabel', $A.get("$Label.c.Customize_AddClient"));
+                        c.set('v.customizePreviewLabel', $A.get("$Label.c.Customize_Preview_Email_Label"));
+                        c.set('v.newClientAddedLabel', $A.get("$Label.c.New_Email_Client_Added_Text"));
+                        c.set('v.selectedTouchPointLabel', $A.get("$Label.c.Selected_Template"));
+                        c.set('v.sendTemplateCustomizeLabel', $A.get("$Label.c.SendTP_CustomizeText"));
+                        c.set('v.startByChoosingLabel', $A.get("$Label.c.Start_By_Choosing_Email"));
+                        c.set('v.processRunningLabel', $A.get("$Label.c.Email_Process_Running"));
+                        c.set('v.sendLabel', $A.get("$Label.c.Email_Sent"));
+                        c.set('v.TTCampaignStatusLabel', $A.get("$Label.c.TT_Email_Status"));
+                    }
+                }
+            });
+            $A.enqueueAction(action);
+        } catch (error) {
+        }
+    },
     openSendTouchpointModal: function (c, e, h) {
         try {
             var action = c.get('c.getCampaignDetails');
@@ -152,7 +191,13 @@
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     if (response.getReturnValue()) {
-                        h.showInfoToast(c, e, h, "Success", 'success', $A.get("$Label.c.Recipients_are_being_added_in_background"));
+                        var message;
+                        if(c.get('v.campaignType') == 'touchpoint'){
+                            message = $A.get("$Label.c.Recipients_are_being_added_in_background");
+                        } else if(c.get('v.campaignType') == 'email') {
+                            message = $A.get("$Label.c.Email_Recipients_are_being_added_in_background");
+                        }
+                        h.showInfoToast(c, e, h, "Success", 'success', message);
                         h.doInitHelper(c, e, h);
                     } else {
                         h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
@@ -178,6 +223,9 @@
     fetchTouchPointTemplates: function (c, e, h) {
         try {
             var action = c.get('c.getTouchPointTemplates');
+            action.setParams({
+                campId: c.get('v.recordId'),
+            });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     c.set('v.templateOptions', JSON.parse(response.getReturnValue()));
@@ -229,6 +277,7 @@
             var action = c.get("c.generateCustomizeIFrame");
             action.setParams({
                 templateId: c.get("v.templateValue"),
+                campaignId: c.get("v.recordId")
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -247,8 +296,14 @@
                             },
                             function (content, status) {
                                 if (status === "SUCCESS") {
+                                    var title;
+                                    if(c.get('v.campaignType') == 'touchpoint'){
+                                        title = $A.get("$Label.c.Customize_Template_Text");
+                                    } else if(c.get('v.campaignType') == 'email') {
+                                        title = $A.get("$Label.c.Customize_Template");
+                                    }
                                     c.find("overlayLib").showCustomModal({
-                                        header: $A.get("$Label.c.Customize_Template_Text"),
+                                        header: title,
                                         body: content,
                                         showCloseButton: true,
                                         cssClass: "customize-modal",
@@ -290,6 +345,9 @@
 
         var p = new Promise($A.getCallback(function (resolve, reject) {
             var action = c.get('c.getTouchPointTemplates');
+            action.setParams({
+                recordId: c.get('v.recordId'),
+            });
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 var result = response.getReturnValue();

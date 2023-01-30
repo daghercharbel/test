@@ -17,6 +17,7 @@
       .then((subscription) => {
       });
     h.doInitHelper(c, e, h);
+    h.labelSelection(c);
   },
   
   handleModalCloseEvent: function (c, e, h) {
@@ -38,7 +39,8 @@
         { 
           onclosemodalevent: c.getReference("c.handleModalClose"),
           isOpenTouchPoints: true, 
-          campSfId: c.get("v.recordId")
+          campSfId: c.get("v.recordId"),
+          campaignType: c.get("v.campaignType")
         },
         function (content, status) {
           if (status === "SUCCESS") {

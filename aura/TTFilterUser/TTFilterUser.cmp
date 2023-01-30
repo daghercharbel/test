@@ -22,6 +22,7 @@
     <aura:attribute name="countSelectAll" type="integer" />
     <aura:attribute name="IsSubscribed" type="String" />
     <aura:attribute name="disableSelectAllList" type="boolean" default="true" />
+    <aura:attribute name="isTouchpoint" type="boolean" default="true" />
 
     <aura:attribute name="campaignData" type="Campaign"/>
     <aura:attribute name="disableCampaignSync" type="boolean" default="true"/>
@@ -51,11 +52,6 @@
     <aura:attribute name="wrapperList" type="object" />
     <aura:attribute name="currentUser" type="object" access="public" />
 
-    <!-- Client Tagging -->
-    <aura:attribute name="showClientTaggingBtn" type="Boolean" default="false" />
-    <aura:attribute name="showClientTagging" type="Boolean" default="false" />
-    <aura:attribute name="taggingType" type="String" />
-
     <aura:attribute name="isDisableSendTouchPointBtn" type="Boolean" default="true" />
     <aura:attribute name="SubjectListItems" type="Boolean" default="false" />
     <aura:attribute name="contactVsClientId" type="Map" default="{}" />
@@ -84,15 +80,6 @@
     <div class="slds-box sldsbox slds-box_xx-small">
         <lightning:layout multipleRows="true">
             <aura:if isTrue="{!or($Browser.isPhone, $Browser.isTablet)}">
-                <aura:if isTrue="{!v.showClientTaggingBtn}">
-                    <lightning:layoutItem padding="horizontal-small" size="12">
-                        <lightning:buttonMenu class="slds-m-right_xx-small" label="{!$Label.c.Add_Remove_Topic}"
-                            onselect="{!c.handleTagging}" disabled="{!v.isDisableSendTouchPointBtn}">
-                            <lightning:menuItem value="add" label="{!$Label.c.Add_Topic}"/>
-                            <lightning:menuItem value="remove" label="{!$Label.c.Remove_Topic}" />
-                        </lightning:buttonMenu>
-                    </lightning:layoutItem>
-                </aura:if>
                 <aura:if isTrue="{!v.showAddToCampaign}">
                     <lightning:layoutItem padding="horizontal-small" size="12">
                         <lightning:button variant="brand" label="{!$Label.c.Add_to_Campaign_Text}"
@@ -109,29 +96,26 @@
                             class="slds-m-around_xxx-small slds-size_1-of-1" />
                     </lightning:layoutItem>
                 </aura:if>
-                <aura:if isTrue="{!v.showSendReminder}">
-                    <lightning:layoutItem padding="horizontal-small" size="12">
-                        <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
-                            title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
-                            iconName="utility:email" onclick="{!c.openSendReminderModal}"
-                            class="slds-m-around_xxx-small slds-size_1-of-1" />
-                    </lightning:layoutItem>
+                <aura:if isTrue="{!v.isTouchpoint}">
+                    <aura:if isTrue="{!v.showSendReminder}">
+                        <lightning:layoutItem padding="horizontal-small" size="12">
+                            <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
+                                title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
+                                iconName="utility:email" onclick="{!c.openSendReminderModal}"
+                                class="slds-m-around_xxx-small slds-size_1-of-1" />
+                        </lightning:layoutItem>
+                    </aura:if>
                 </aura:if>
                 <aura:set attribute="else">
                     <lightning:layoutItem size="12" alignmentBump="right">
-                        <div class="slds-float--left">
-                            <lightning:button variant="brand" label="{!v.syncLabel}"
-                                title="{!v.syncLabel}" iconName="utility:refresh"
-                                disabled="{!v.disableCampaignSync}" onclick="{!c.handleSyncRequest}" />
-                        </div>
+                        <aura:if isTrue="{!v.isTouchpoint}">
+                            <div class="slds-float--left">
+                                <lightning:button variant="brand" label="{!v.syncLabel}"
+                                    title="{!v.syncLabel}" iconName="utility:refresh"
+                                    disabled="{!v.disableCampaignSync}" onclick="{!c.handleSyncRequest}" />
+                            </div>
+                        </aura:if>
                         <div class="slds-float--right">
-                            <aura:if isTrue="{!v.showClientTaggingBtn}">
-                                <lightning:buttonMenu class="slds-m-right_xx-small" label="{!$Label.c.Add_Remove_Topic}"
-                                    onselect="{!c.handleTagging}" disabled="{!v.isDisableSendTouchPointBtn}">
-                                    <lightning:menuItem value="add" label="{!$Label.c.Add_Topic}"/>
-                                    <lightning:menuItem value="remove" label="{!$Label.c.Remove_Topic}" />
-                                </lightning:buttonMenu>
-                            </aura:if>
                             <aura:if isTrue="{!v.showAddToCampaign}">
                                 <lightning:button variant="brand" label="{!$Label.c.Add_to_Campaign_Text}"
                                     title="{!$Label.c.Add_to_Campaign_Text}" iconName="utility:add"
@@ -142,10 +126,12 @@
                                     title="{!$Label.c.Create_Task_Text}" iconName="utility:event"
                                     disabled="{! v.isDisableSendTouchPointBtn}" onclick="{!c.createAction}" />
                             </aura:if>
-                            <aura:if isTrue="{!v.showSendReminder}">
-                                <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
-                                    title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
-                                    iconName="utility:email" onclick="{!c.openSendReminderModal}" />
+                            <aura:if isTrue="{!v.isTouchpoint}">
+                                <aura:if isTrue="{!v.showSendReminder}">
+                                    <lightning:button variant="brand" label="{!$Label.c.Send_Reminder_Text}"
+                                        title="{!$Label.c.Send_Reminder_Text}" disabled="{!(empty(v.data))}"
+                                        iconName="utility:email" onclick="{!c.openSendReminderModal}" />
+                                </aura:if>
                             </aura:if>
                         </div>
                     </lightning:layoutItem>
@@ -161,23 +147,25 @@
                     label="{!$Label.c.Name_Text}" value="{!v.fielterDetails.name}"
                     onchange="{!c.fielterDetailsChanges}" />
             </div>
-            <div class="slds-col slds-size_4-of-12">
-                <lightning:select name="OpenedAt" class="slds-p-horizontal_x-small" label="{!$Label.c.Opened_At_Text}"
-                    value="{!v.fielterDetails.pendingOpened_At}" onchange="{!c.fielterDetailsChanges}">
-                    <option value="Anytime">{!$Label.c.All_Label}</option>
-                    <option value="Opened">{!$Label.c.Opened_Text}</option>
-                    <option value="Pending">{!$Label.c.Not_Opened_Text}</option>
-                </lightning:select>
-            </div>
-            <div class="slds-col slds-size_4-of-12">
-                <lightning:select name="CompletedAt" class="slds-p-horizontal_x-small"
-                    label="{!$Label.c.Completed_At_Text}" value="{!v.fielterDetails.pendingCompleted_At}"
-                    onchange="{!c.fielterDetailsChanges}">
-                    <option value="Anytime">{!$Label.c.All_Label}</option>
-                    <option value="Completed">{!$Label.c.Completed_Text}</option>
-                    <option value="Pending">{!$Label.c.Not_Completed_Text}</option>
-                </lightning:select>
-            </div>
+            <aura:if isTrue="{!v.isTouchpoint}">
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning:select name="OpenedAt" class="slds-p-horizontal_x-small" label="{!$Label.c.Opened_At_Text}"
+                        value="{!v.fielterDetails.pendingOpened_At}" onchange="{!c.fielterDetailsChanges}">
+                        <option value="Anytime">{!$Label.c.All_Label}</option>
+                        <option value="Opened">{!$Label.c.Opened_Text}</option>
+                        <option value="Pending">{!$Label.c.Not_Opened_Text}</option>
+                    </lightning:select>
+                </div>
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning:select name="CompletedAt" class="slds-p-horizontal_x-small"
+                        label="{!$Label.c.Completed_At_Text}" value="{!v.fielterDetails.pendingCompleted_At}"
+                        onchange="{!c.fielterDetailsChanges}">
+                        <option value="Anytime">{!$Label.c.All_Label}</option>
+                        <option value="Completed">{!$Label.c.Completed_Text}</option>
+                        <option value="Pending">{!$Label.c.Not_Completed_Text}</option>
+                    </lightning:select>
+                </div>
+            </aura:if>
         </div>
         <div class="slds-grid questions slds-grid slds-wrap">
             <aura:if isTrue="{!v.frenchUserFlag}">
@@ -234,21 +222,28 @@
                                 <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">{!$Label.c.Opened_At_Text}
-                                </div>
+                                <div class="slds-truncate" title="Sent At">Sent At</div>
                             </th>
-                            <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">
-                                    {!$Label.c.Completed_At_Text}</div>
-                            </th>
+                            <aura:if isTrue="{!v.isTouchpoint}">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">{!$Label.c.Opened_At_Text}
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">
+                                        {!$Label.c.Completed_At_Text}</div>
+                                </th>
+                            </aura:if>
                             <th scope="col">
                                 <div class="slds-truncate slds-align_absolute-center"
                                     title="{!$Label.c.Subscribed_Text}">{!$Label.c.Subscribed_Text}</div>
                             </th>
-                            <th scope="col">
-                                <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}
-                                </div>
-                            </th>
+                            <aura:if isTrue="{!v.isTouchpoint}">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}
+                                    </div>
+                                </th>
+                            </aura:if>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                                 <th scope="col">
                                     <div class="slds-truncate" title="{!$Label.c.Actions_Text}">{!$Label.c.Actions_Text}
@@ -275,15 +270,22 @@
                             </td>
                             <td scope="row">
                                 <div class="slds-truncate">
-                                    {!item.TTOpened_At}
+                                    {!item.TTCreated_At}
                                 </div>
                             </td>
-
-                            <td scope="row">
-                                <div class="slds-truncate">
-                                    {!item.TTCompleted_At}
-                                </div>
-                            </td>
+                            <aura:if isTrue="{!v.isTouchpoint}">
+                                <td scope="row">
+                                    <div class="slds-truncate">
+                                        {!item.TTOpened_At}
+                                    </div>
+                                </td>
+    
+                                <td scope="row">
+                                    <div class="slds-truncate">
+                                        {!item.TTCompleted_At}
+                                    </div>
+                                </td>
+                            </aura:if>
                             <td scope="row">
                                 <div class="slds-align_absolute-center">
                                     <aura:if isTrue="{!item.ContactOrLeadSubscribed == 'No'}">
@@ -296,13 +298,15 @@
                                     </aura:if>
                                 </div>
                             </td>
-                            <td scope="row">
-                                <div class="slds-truncate">
-                                    <lightning:button variant="neutral" title="{!$Label.c.Answers_Text}"
-                                        label="{!$Label.c.Answers_Text}" value="{! item}" onclick="{! c.viewRecord}">
-                                    </lightning:button>
-                                </div>
-                            </td>
+                            <aura:if isTrue="{!v.isTouchpoint}">
+                                <td scope="row">
+                                    <div class="slds-truncate">
+                                        <lightning:button variant="neutral" title="{!$Label.c.Answers_Text}"
+                                            label="{!$Label.c.Answers_Text}" value="{! item}" onclick="{! c.viewRecord}">
+                                        </lightning:button>
+                                    </div>
+                                </td>
+                            </aura:if>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                                 <td scope="row">
                                     <div class="slds-truncate table-width">
@@ -571,15 +575,5 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </aura:if>
-
-        <aura:if isTrue="{!v.showClientTagging}">
-            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
-                class="slds-modal slds-fade-in-open">
-                <c:clientTagging lstUser="{!v.userList}" taggingType="{!v.taggingType}"
-                    onclientTagUpd="{!c.handleClientTagEvt}" />
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </aura:if>
-
     </div>
 </aura:component>

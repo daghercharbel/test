@@ -13,7 +13,16 @@ public with sharing class TemplateGalleryCompHandler {
 * @description used to fetching all the touchpoints
 */
     @AuraEnabled
-    public static String getTouchPointTemplatesAdmin() {
+    public static String getTouchPointTemplatesAdmin(String campId) {
+
+        String conditions = '';
+
+        if(String.isNotBlank(campId)){
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId];
+            if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+            conditions = '?type='+camp.TelosTouchSF__Type__c;
+        }
+
         String methodType = 'GET';
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         String endPointURL;
@@ -26,7 +35,7 @@ public with sharing class TemplateGalleryCompHandler {
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
             endPointURL =
-                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates';
+                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates'+conditions;
         }
         Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(
             methodType,
@@ -60,19 +69,6 @@ public with sharing class TemplateGalleryCompHandler {
                     'modified_at',
                     (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                 );
-                // if(templateMap.containsKey('description') && UserInfo.getLanguage().contains('en')){
-                //     if(templateMap.get('description') != null){
-                //         templateMap.put('Description', (Object) templateMap.get('description'));
-                //     }else{
-                //         templateMap.put('Description', (Object) System.Label.No_Description_Text);
-                //     }
-                // }else if(templateMap.containsKey('description_fr') && UserInfo.getLanguage().contains('fr')){
-                //     if(templateMap.get('description_fr') != null){
-                //         templateMap.put('Description', (Object) templateMap.get('description_fr'));
-                //     }else{
-                //         templateMap.put('Description', (Object) System.Label.No_Description_Text);
-                //     }
-                // }
                 templateObjects.add((Object) templateMap);
             }
         } else if (getResponseMap.get('status_code') == '401') {
@@ -102,7 +98,17 @@ public with sharing class TemplateGalleryCompHandler {
 * @description used to fetching all the touchpoints
 */
     @AuraEnabled
-    public static String getTouchPointTemplates() {
+    public static String getTouchPointTemplates(String campId) {
+
+        String conditions = '';
+
+        if(String.isNotBlank(campId)){
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId];
+            if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+            conditions = 'type='+camp.TelosTouchSF__Type__c+'&';
+        }
+        conditions += 'sort=[{"modified_at":"DESC"},{"id":"DESC"}]';
+
         String methodType = 'GET';
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         String endPointURL;
@@ -116,7 +122,7 @@ public with sharing class TemplateGalleryCompHandler {
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
             endPointURL =
-                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates?sort=[{"modified_at":"DESC"},{"id":"DESC"}]';
+                adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/templates?'+conditions;
         }
         Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(
             methodType,

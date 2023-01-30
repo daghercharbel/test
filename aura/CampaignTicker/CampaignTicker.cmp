@@ -18,6 +18,18 @@
 
   <aura:attribute name="CreatedDate" type="date" />
 
+  <aura:attribute name="campaignType" type="String" default="touchpoint"/>
+  <aura:attribute name="chooseLabel" type="String"/>
+  <aura:attribute name="customizeAddClientLabel" type="String"/>
+  <aura:attribute name="customizePreviewLabel" type="String"/>
+  <aura:attribute name="newClientAddedLabel" type="String"/>
+  <aura:attribute name="processRunningLabel" type="String"/>
+  <aura:attribute name="selectedTouchPointLabel" type="String"/>
+  <aura:attribute name="sendTemplateCustomizeLabel" type="String"/>
+  <aura:attribute name="startByChoosingLabel" type="String"/>
+  <aura:attribute name="sendLabel" type="String"/>
+  <aura:attribute name="TTCampaignStatusLabel" type="String"/>
+
   <aura:attribute name="iFrameURL" type="String" />
   <ltng:require styles="{!$Resource.TelosTouch + '/Customize.css'}" />
 
@@ -37,7 +49,7 @@
   <force:recordData aura:id="recordHandler" recordId="{!v.recordId}" fields="TelosTouchSF__TouchPoint_Template_Id__c"
     targetFields="{!v.recordFields}" mode="EDIT" />
 
-  <lightning:card title="{!$Label.c.TT_Touchpoint_Status_Text}">
+  <lightning:card title="{!$v.TTCampaignStatusLabel}">
     <aura:if isTrue="{!or($Browser.isPhone, $Browser.isTablet)}">
       <div class="slds-var-p-left_small slds-var-p-bottom_small">
         <lightning:layout multipleRows="true" class="slds-var-p-horizontal_medium">
@@ -51,8 +63,8 @@
           <!-- SELECT TEMPLATE -->
           <aura:if isTrue="{!!v.templateValue}">
             <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-              <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}" class="slds-size_1-of-1"
-                title="{!$Label.c.Choose_a_TouchPoint_Text}" onclick="{!c.openChooseTouchPointModal}" />
+              <lightning:button label="{!v.chooseLabel}" class="slds-size_1-of-1"
+                title="{!v.chooseLabel}" onclick="{!c.openChooseTouchPointModal}" />
             </lightning:layoutItem>
           </aura:if>
           <!-- PREVIEW -->
@@ -84,17 +96,17 @@
           <aura:if isTrue="{!v.ActionRequired}">
             <aura:if isTrue="{!v.OpenTouchPointModal}">
               <p class="slds-p-horizontal_medium c-red">
-                {!$Label.c.New_Client_Added_Text}
+                {!v.newClientAddedLabel}
               </p>
               <aura:set attribute="else">
                 <p class="slds-p-horizontal_medium c-red">
-                  {!$Label.c.TouchPoint_Process_Running_Text}
+                  {!$v.processRunningLabel}
                 </p>
               </aura:set>
             </aura:if>
             <aura:set attribute="else">
               <p class="slds-p-horizontal_medium c-green">
-                <lightning:formattedRichText value="{!$Label.c.TPSentText}" />
+                <lightning:formattedRichText value="{!$v.sendLabel}" />
               </p>
             </aura:set>
           </aura:if>
@@ -105,14 +117,13 @@
           <aura:if isTrue="{!v.templateValue}">
             <aura:if isTrue="{!!v.ActionRequired}">
               <p class="slds-p-horizontal_medium c-red">
-
-                <lightning:formattedRichText value="{!$Label.c.Customize_PreviewLabel}" />
+                <lightning:formattedRichText value="{!v.customizePreviewLabel}" />
               </p>
             </aura:if>
             <aura:set attribute="else">
               <aura:if isTrue="{!!v.ActionRequired}">
                 <p class="slds-p-horizontal_medium c-red">
-                  {!$Label.c.SendTP_CustomizeText}
+                  {!$v.sendTemplateCustomizeLabel}
                 </p>
               </aura:if>
             </aura:set>
@@ -121,13 +132,13 @@
             <aura:if isTrue="{!v.templateValue}">
               <aura:if isTrue="{!!v.ActionRequired}">
                 <p class="slds-p-horizontal_medium c-red">
-                  {!$Label.c.Customize_AddClientText}
+                  {!v.customizeAddClientLabel}
                 </p>
               </aura:if>
               <aura:set attribute="else">
                 <aura:if isTrue="{!!v.ActionRequired}">
                   <p class="slds-p-horizontal_medium c-red">
-                    {!$Label.c.StartByChoosingTP}
+                    {!v.startByChoosingLabel}
                   </p>
                 </aura:if>
               </aura:set>
@@ -151,8 +162,8 @@
           <!-- SELECT TEMPLATE -->
           <aura:if isTrue="{!!v.templateValue}">
             <lightning:layoutItem flexibility="auto" padding="horizontal-small">
-              <lightning:button label="{!$Label.c.Choose_a_TouchPoint_Text}"
-                title="{!$Label.c.Choose_a_TouchPoint_Text}" onclick="{!c.openChooseTouchPointModal}" />
+              <lightning:button label="{!v.chooseLabel}"
+                title="{!v.chooseLabel}" onclick="{!c.openChooseTouchPointModal}" />
             </lightning:layoutItem>
           </aura:if>
           <!-- PREVIEW -->
@@ -179,7 +190,7 @@
       <thead>
         <tr>
           <th scope="col">
-            <div class="slds-var-p-horizontal_medium" title="Name">{!$Label.c.Selected_TouchPoint}</div>
+            <div class="slds-var-p-horizontal_medium" title="Name">{!v.selectedTouchPointLabel}</div>
           </th>
           <th scope="col">
             <div class="slds-var-p-horizontal_medium" title="Members">{!$Label.c.Members}</div>

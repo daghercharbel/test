@@ -4,8 +4,10 @@
       <lightning-layout class="language-select">
         <lightning-layout-item class="slds-var-p-horizontal_medium " size="12" small-device-size="6"
           medium-device-size="3">
-          <lightning-combobox name="language" label={label.Language_Text} value={langValue}
-            placeholder="Select Language" options={langOptions} onchange={handleLangChange}></lightning-combobox>
+          <template if:true={urls.touchpoint}>
+            <lightning-combobox name="language" label={label.Language_Text} value={langValue}
+              placeholder="Select Language" options={langOptions} onchange={handleLangChange}></lightning-combobox>
+          </template>
         </lightning-layout-item>
       </lightning-layout>
       <div class="slds-float_none">
@@ -13,9 +15,11 @@
           <lightning-tab label={label.Email_Text}>
             <iframe src={urls.email} class="iframe-style"></iframe>
           </lightning-tab>
-          <lightning-tab label={label.TouchPoint_Experience_Text}>
-            <iframe src={urls.touchpoint} class="iframe-style"></iframe>
-          </lightning-tab>
+          <template if:true={urls.touchpoint}>
+            <lightning-tab label={label.TouchPoint_Experience_Text}>
+              <iframe src={urls.touchpoint} class="iframe-style"></iframe>
+            </lightning-tab>
+          </template>
         </lightning-tabset>
       </div>
     </div>
@@ -25,8 +29,10 @@
       <lightning-layout class="language-select">
         <lightning-layout-item class="slds-var-p-horizontal_medium " size="12" small-device-size="6"
           medium-device-size="3">
-          <lightning-combobox name="language" label={label.Language_Text} value={langValue}
-            placeholder="Select Language" options={langOptions} onchange={handleLangChange}></lightning-combobox>
+          <template if:true={urls.touchpoint}>
+            <lightning-combobox name="language" label={label.Language_Text} value={langValue}
+              placeholder="Select Language" options={langOptions} onchange={handleLangChange}></lightning-combobox>
+          </template>
         </lightning-layout-item>
       </lightning-layout>
       <div class="slds-float_none">
@@ -34,9 +40,11 @@
           <lightning-tab label={label.Email_Text}>
             <iframe src={urls.email} class="iframe-style2"></iframe>
           </lightning-tab>
-          <lightning-tab label={label.TouchPoint_Experience_Text}>
-            <iframe src={urls.touchpoint} class="iframe-style2"></iframe>
-          </lightning-tab>
+          <template if:true={urls.touchpoint}>
+            <lightning-tab label={label.TouchPoint_Experience_Text}>
+              <iframe src={urls.touchpoint} class="iframe-style2"></iframe>
+            </lightning-tab>
+          </template>
         </lightning-tabset>
       </div>
     </div>

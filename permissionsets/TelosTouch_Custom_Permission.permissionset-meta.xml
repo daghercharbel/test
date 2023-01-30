@@ -77,10 +77,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ClientTaggingController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ContactTriggerForSyncingHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -318,10 +314,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SingleRequestMock</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TTBrandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -704,11 +696,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Campaign.TT_Last_Sync_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Campaign.TempTTCampId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -720,6 +707,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Campaign.Type</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Campaign.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1501,10 +1493,6 @@
         <recordType>Campaign.TelosTouch_Campaign</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <tabSettings>
-        <tab>Branding</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
     <tabSettings>
         <tab>TT_Client_Answers__c</tab>
         <visibility>Visible</visibility>

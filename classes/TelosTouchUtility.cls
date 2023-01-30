@@ -1712,6 +1712,36 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description ......
+* @param enableFinestLogs ....
+* @param MasterLabel ....
+*/
+    @AuraEnabled
+    public static void updateFinestLogging(Boolean enableFinestLogs, String MasterLabel){
+        Metadata.CustomMetadata customMetadata =  new Metadata.CustomMetadata();
+        customMetadata.fullName = 'TelosTouchSF__TT_Feature_Flag' + '.' + 'TelosTouchSF__' +MasterLabel;
+        customMetadata.label = MasterLabel;
+        
+        Map<String, Object> fieldWithValuesMap = new Map<String, Object>();
+        fieldWithValuesMap.put('TelosTouchSF__ShowFinestLogs__c',enableFinestLogs);
+        
+        for(String key : fieldWithValuesMap.keySet()){
+            Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
+            customField.field = key;
+            customField.value = fieldWithValuesMap.get(key);
+            customMetadata.values.add(customField);
+        }
+        
+        Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
+        mdContainer.addMetadata(customMetadata);
+        TelosTouchSF.TelosTouchUtility callback = new TelosTouchSF.TelosTouchUtility();
+        if(!(Test.isRunningTest())){
+            Id jobId = Metadata.Operations.enqueueDeployment(mdContainer, callback);
+        }
+    }
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
 * @return boolean  ....
 */
     @AuraEnabled
@@ -1835,8 +1865,31 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @description used to fetch the touchpoint templates.
 */
     @AuraEnabled
-    public static string getTouchPointTemplates(){
+    public static Campaign getCampaignData(String recordId){
         try {
+            
+            Campaign camp = [SELECT Id,TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__TT_Last_Sync_Time__c,TelosTouchSF__Type__c 
+                            FROM Campaign WHERE Id =: recordId LIMIT 1];
+            if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+            return camp;
+        } catch (Exception ex) {
+            System.debug('Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            throw new AuraHandledException('Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+        }
+    }
+
+    @AuraEnabled
+    public static string getTouchPointTemplates(String recordId){
+        try {
+
+            String conditions = '';
+
+            if(String.isNotBlank(recordId)){
+                Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: recordId];
+                if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+                conditions = '?type='+camp.TelosTouchSF__Type__c;
+            }
+
             List<Map<String, String>> returnList = new List<Map<String, String>>();
             List<Object> responseList = new List<Object>();
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
@@ -1850,7 +1903,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 headersMap.put('Content-Type', 'application/json');
             }
             if(adminCredentials.TelosTouchSF__Instance_URL__c!= null && String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates';
+                endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates'+conditions;
             } 
             Map<String, String> responseBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
             if(responseBody.get('status_code') == '401'){
@@ -1894,8 +1947,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 insert createListOfLog;
             }
             return JSON.serialize(returnList);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage()+ 'at line no: '+e.getLineNumber());
+        } catch (Exception ex) {
+            System.debug('Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            throw new AuraHandledException('Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
         }
     }
     /**
@@ -1937,7 +1991,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     public static String sendTouchPointFromSF(String campaignSFId, String touchPointTemplateId, Boolean isSynced){
         try{
             if( !isSynced ){
-                Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__Questions__c FROM Campaign WHERE Id=:campaignSFId WITH SECURITY_ENFORCED LIMIT 1];
+                Campaign camp = [SELECT Id,TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__Questions__c,TelosTouchSF__Type__c
+                                 FROM Campaign WHERE Id=:campaignSFId WITH SECURITY_ENFORCED LIMIT 1];
+                if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
                 String methodType = 'POST';
                 List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
                 String endPointURL;
@@ -1955,7 +2011,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 headersMap.put('Accept', 'application/json');
                 TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
                 if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints';
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c;
+                    if(camp.TelosTouchSF__Type__c == 'email'){ endPointURL +='/api/v1/campaign/email/create'; }
+                    else { endPointURL +='/api/v1/touchpoints'; }
                 }
                 Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, JSON.serialize(bodyMap));
                 if(getResponseMap.get('status_code') == '200' && String.isNotEmpty(getResponseMap.get('body'))){
@@ -1966,6 +2024,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isUpdateable() && camp!= null){
                             camp.TelosTouchSF__TT_Campaign_Id__c = (String) responseMap2.get('id');
                             camp.TelosTouchSF__Questions__c =  JSON.serialize(responseMap2.get('questions'));
+                            camp.TelosTouchSF__TouchPoint_Template_Id__c = (String) responseMap2.get('touchpoint_template_id');
                             update camp;
                     }
                 }else if(getResponseMap.get('status_code') == '401'){
@@ -2000,15 +2059,29 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @param templateId stores the touchpoint template Id
 */
     @AuraEnabled
-    public static String generateCustomizeIFrame(String templateId){
+    public static String generateCustomizeIFrame(String templateId, String campaignId){
         try {
+
+            Campaign camp = new Campaign();
+            if(String.isNotBlank(campaignId)){ 
+                camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campaignId LIMIT 1];
+                if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
+            }
+
             TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
             String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
             String iFrameURL;
+
+            if(String.isNotBlank(campaignId) && camp.TelosTouchSF__Type__c == 'email'){
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/email/edit/' + templateId + '?fullscreen=true&access_token=' + userToken;
+            } else {
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken;
+            }
+
             if(UserInfo.getLanguage().contains('en')){
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken + '&lang=en_US';
+                iFrameURL += '&lang=en_US';
             }else if(UserInfo.getLanguage().contains('fr')){
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/touchpoint/' + templateId + '/customize?fullscreen=true&access_token=' + userToken  + '&lang=fr_FR';
+                iFrameURL += '&lang=fr_FR';
             }
             System.debug('iframe url:: '+ iFrameURL);
             return iFrameURL;
@@ -2029,7 +2102,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String templateName = '';
             Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             if(campObj.TelosTouchSF__TouchPoint_Template_Id__c !=null){
-                String response = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin();
+                String response = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin(recordId);
                 List<Object> returnedObjList = (List<Object>) JSON.deserializeUntyped(response);
                 if(returnedObjList.size()>0){
                     for(Object obj : returnedObjList){
