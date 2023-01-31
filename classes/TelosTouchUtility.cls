@@ -21,7 +21,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
         if (result.status == Metadata.DeployStatus.Succeeded) {
             //Success
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
             System.debug(LoggingLevel.DEBUG, 'Success Result-' + result);
             System.debug(LoggingLevel.DEBUG, 'Success Context-' + context);
             String strDeleteLogRecords      = 'Delete Log Records%';
@@ -157,10 +157,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         Integer recordCount1 = [SELECT count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WITH SECURITY_ENFORCED];
         Integer recordCount2 = [SELECT count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WITH SECURITY_ENFORCED];
         if(recordCount1 > 0 && recordCount2 > 0){
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = new TelosTouchSF__TT_Admin_Credentials__mdt();
-            adminCredentials = getCustomMetadata();
-            TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials = new TelosTouchSF__TT_Authentication_Credential__mdt();
-            authenticationCredentials = getAuthenticationCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+            if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
             apiSetting = new AdminCredentialsWrapper(adminCredentials, authenticationCredentials);
         }else{
             apiSetting = new AdminCredentialsWrapper();
@@ -337,8 +335,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @return AdminCredentialsWrapper OpenAtAndCompletedWrapperObj ....
 */
     public static AdminCredentialsWrapper refreshAdminAccessToken(){
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
-        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials = getAuthenticationCustomMetadata();
+        if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+        if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
         Integer noOfDays = 0, expirationDays = 0;
         if(adminCredentials.TelosTouchSF__Refresh_Token_Last_Used_Date__c != null){
             noOfDays = adminCredentials.TelosTouchSF__Refresh_Token_Last_Used_Date__c.date().daysBetween( Date.today() );
@@ -2061,7 +2059,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             }
 
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
             String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
             String iFrameURL;
 
@@ -2410,7 +2408,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @description  constructor for initializing the values.
 */
         public AdminCredentialsWrapper(){
-            TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
             if(adminCredentials.TelosTouchSF__Approval__c != null &&
                adminCredentials.TelosTouchSF__ForSecondTimeBatch__c != null &&
                adminCredentials.TelosTouchSF__Use_CreatedById__c != null &&
