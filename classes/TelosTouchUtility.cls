@@ -90,13 +90,11 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             PermissionSet ps = [SELECT Id, (SELECT Id FROM Assignments WHERE AssigneeId =: Userinfo.getuserid()) 
                                 FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name LIMIT 1];
             
-            if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage){
-                if(ps.Assignments.size() > 0){
-                    lstPsa = ps.Assignments;
-                } else {
-                    lstPsa.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id));
-                    insert lstPsa;
-                }
+            if(ps.Assignments.size() > 0){
+                lstPsa = ps.Assignments;
+            } else if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage){
+                lstPsa.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id));
+                insert lstPsa;
             }
             
             if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
