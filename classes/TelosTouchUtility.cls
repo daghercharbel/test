@@ -15,6 +15,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
 
     public class CustomException extends Exception {}
+    public static TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials;
+    public static TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials;
 
     public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
         if (result.status == Metadata.DeployStatus.Succeeded) {
@@ -69,33 +71,43 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     public static TelosTouchSF__TT_Admin_Credentials__mdt getCustomMetadata(){
         try{
+
             String profileName = [SELECT Profile.Name FROM User WHERE Id =: UserInfo.getUserId()].Profile.Name;
-            if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage &&
-               [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] == 0){
-                   PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: System.Label.TelosTouchSF.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED];
-                   if(Schema.SObjectType.PermissionSetAssignment.isAccessible() && Schema.SObjectType.PermissionSetAssignment.isCreateable() &&
-                      Schema.SObjectType.PermissionSetAssignment.fields.AssigneeId.isAccessible() && Schema.SObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
-                      Schema.SObjectType.PermissionSetAssignment.fields.PermissionSetId.isAccessible() && Schema.SObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable() ){
-                          insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
-                      }
-               }
-            if(Test.isRunningTest() && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
-               [SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 ){
-                   return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
-                           TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
-                           TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
-                           TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
-                           FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-               }else if([SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
-                        [SELECT Count() FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 ){
-                            return [SELECT TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c,
-                                    TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c, TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
-                                    TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, TelosTouchSF__Use_CreatedById__c,
-                                    TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c
-                                    FROM TelosTouchSF__TT_Admin_Credentials__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-                        }else{
-                            return new TelosTouchSF__TT_Admin_Credentials__mdt();
-                        }
+            map<String, TelosTouchSF__TT_Admin_Credentials__mdt> mapMDT = new map<String, TelosTouchSF__TT_Admin_Credentials__mdt>();
+            list<PermissionSetAssignment> lstPsa = new list<PermissionSetAssignment>();
+
+            for(TelosTouchSF__TT_Admin_Credentials__mdt mdt : [SELECT MasterLabel, TelosTouchSF__Client_ID__c,TelosTouchSF__Auto_Schedule_Jobs__c,
+                TelosTouchSF__Refresh_Token_Last_Used_Date__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Approval__c, 
+                TelosTouchSF__ConfigPageVisible__c, TelosTouchSF__Authentication_URL__c, TelosTouchSF__ForSecondTimeBatch__c, TelosTouchSF__Instance_URL__c,
+                TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
+                TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, 
+                TelosTouchSF__Use_CreatedById__c, TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, 
+                TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c FROM TelosTouchSF__TT_Admin_Credentials__mdt])
+            {
+                mapMDT.put(mdt.MasterLabel, mdt);
+            }
+
+            PermissionSet ps = [SELECT Id, (SELECT Id FROM Assignments WHERE AssigneeId =: Userinfo.getuserid()) 
+                                FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name LIMIT 1];
+            
+            if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage){
+                if(ps.Assignments.size() > 0){
+                    lstPsa = ps.Assignments;
+                } else {
+                    lstPsa.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id));
+                    insert lstPsa;
+                }
+            }
+            
+            if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label);
+            } else if(lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label);
+            }else{
+                return new TelosTouchSF__TT_Admin_Credentials__mdt();
+            }
         }catch(Exception e){
             System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage() +'at line no::'+e.getLineNumber());
             return new TelosTouchSF__TT_Admin_Credentials__mdt();
@@ -104,17 +116,27 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     }
     public static TelosTouchSF__TT_Authentication_Credential__mdt getAuthenticationCustomMetadata(){
         try{
-            if(Test.isRunningTest() && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] >0 &&
-               [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 ){
-                   return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-                           FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-               }else if([SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
-                        [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 ){
-                            return [SELECT TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-                                    FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-                        }else{
-                            return new TelosTouchSF__TT_Authentication_Credential__mdt();
-                        }   
+
+            map<String, TelosTouchSF__TT_Authentication_Credential__mdt> mapMDT = new map<String, TelosTouchSF__TT_Authentication_Credential__mdt>();
+            list<PermissionSetAssignment> lstPsa = [SELECT Id FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() 
+                                                    AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name];
+
+            for(TelosTouchSF__TT_Authentication_Credential__mdt mdt : [SELECT MasterLabel, TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, 
+                                                                        TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
+                                                                        FROM TelosTouchSF__TT_Authentication_Credential__mdt])
+            {
+                mapMDT.put(mdt.MasterLabel, mdt);
+            }
+
+            if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label);
+            }else if(lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label);
+            }else{
+                return new TelosTouchSF__TT_Authentication_Credential__mdt();
+            }   
         }catch(Exception e){
             System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage()+' at line no:'+e.getLineNumber());
             return new TelosTouchSF__TT_Authentication_Credential__mdt();
@@ -1556,12 +1578,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static String getCampaignDetails(Id campSfId){
         try{
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-            TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+            if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
             Set<Id> insightsIdSet = new Set<Id>();
             Map<String, Object> returnMap = new Map<String, Object>();
             returnMap.put('campMemList', (Object) new List<Object>());
-            if(String.isNotEmpty(authenticationCredential.TelosTouchSF__Access_Token__c)){
+            if(String.isNotEmpty(authenticationCredentials.TelosTouchSF__Access_Token__c)){
                 returnMap.put('accessTokenPresent', (Object)true);
             }else{
                 returnMap.put('accessTokenPresent', (Object)false);
@@ -1649,9 +1671,10 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String strBatchCreateInsightsForNewRecipients = 'BatchCreateInsightsForNewRecipients';
             String strBatchAddRecipientsIntoTouchPoint  = 'BatchAddRecipientsIntoTouchPoint';
             if(returnMap.containsKey('openTouchPointModal') && [SELECT count() FROM AsyncApexJob WHERE (ApexClass.Name =: strBatchCreateInsightsForNewRecipients OR ApexClass.Name =: strBatchAddRecipientsIntoTouchPoint)
-                AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0){
-                    returnMap.put('openTouchPointModal', (Object)false);
-                }
+                AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0)
+            {
+                returnMap.put('openTouchPointModal', (Object)false);
+            }
             return JSON.serialize(returnMap);
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'exception::'+ex.getMessage() +'At line ::'+ex.getLineNumber());
