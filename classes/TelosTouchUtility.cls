@@ -338,7 +338,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     public static AdminCredentialsWrapper refreshAdminAccessToken(){
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
-        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = getAuthenticationCustomMetadata();
+        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials = getAuthenticationCustomMetadata();
         Integer noOfDays = 0, expirationDays = 0;
         if(adminCredentials.TelosTouchSF__Refresh_Token_Last_Used_Date__c != null){
             noOfDays = adminCredentials.TelosTouchSF__Refresh_Token_Last_Used_Date__c.date().daysBetween( Date.today() );
@@ -350,9 +350,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         String[] StringList1 = StringList[1].split('\\.');
         String scope = 'profile';
         String body = 'scope='+EncodingUtil.urlEncode(scope,'UTF-8')
-            +'&client_id='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_ID__c.trim(),'UTF-8')
-            +'&client_secret='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Client_Secret__c.trim(),'UTF-8')
-            +'&refresh_token='+EncodingUtil.urlEncode(authenticationCredential.TelosTouchSF__Refresh_Token__c.trim(),'UTF-8')
+            +'&client_id='+EncodingUtil.urlEncode(authenticationCredentials.TelosTouchSF__Client_ID__c.trim(),'UTF-8')
+            +'&client_secret='+EncodingUtil.urlEncode(authenticationCredentials.TelosTouchSF__Client_Secret__c.trim(),'UTF-8')
+            +'&refresh_token='+EncodingUtil.urlEncode(authenticationCredentials.TelosTouchSF__Refresh_Token__c.trim(),'UTF-8')
             +'&grant_type=refresh_token';
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -363,12 +363,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         HttpResponse response = http.send(request);
         if (response.getStatusCode() == 200) {
             Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
-            authenticationCredential.TelosTouchSF__Access_Token__c = String.valueOf(responseMap.get('access_token'));
+            authenticationCredentials.TelosTouchSF__Access_Token__c = String.valueOf(responseMap.get('access_token'));
             if(noOfDays >= expirationDays) {
-                authenticationCredential.TelosTouchSF__Refresh_Token__c = String.valueOf(responseMap.get('refresh_token'));
+                authenticationCredentials.TelosTouchSF__Refresh_Token__c = String.valueOf(responseMap.get('refresh_token'));
             }
             adminCredentials.TelosTouchSF__Refresh_Token_Last_Used_Date__c = System.now();
-            return new AdminCredentialsWrapper(adminCredentials, authenticationCredential);
+            return new AdminCredentialsWrapper(adminCredentials, authenticationCredentials);
         }else{
             return null;
         }
@@ -857,7 +857,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     @AuraEnabled
     public static string scheduleAllJobsFromHere(){
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+        if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
         try {
             List<AsyncApexJob> asyncApexJobList = new List<AsyncApexJob>();
             if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
@@ -941,8 +941,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     public static void deleteContactFromTT(List<Contact> createdcontactlist, List<Lead> createdleadlist){
         try {
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-            TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+            if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             Map<String,User> userMap = new Map<String,User>();
             List<String> ttClientIdList = new List<String>();
@@ -968,7 +968,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 }
                 if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                     endPointURL =   adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/admin/contacts';
-                    headersMap.put('Authorization', 'Bearer '+ authenticationCredential.TelosTouchSF__Access_Token__c);
+                    headersMap.put('Authorization', 'Bearer '+ authenticationCredentials.TelosTouchSF__Access_Token__c);
                     headersMap.put('Content-Type', 'application/json');
                     headersMap.put('Accept', 'application/json');
 
@@ -1006,7 +1006,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                     if(Schema.sObjectType.Contact.fields.TelosTouchSF__TT_Client_Id__c.isAccessible()){
                         endPointURL =   adminCredentials.TelosTouchSF__Instance_URL__c + '/api/v1/admin/contacts';
                     }
-                    headersMap.put('Authorization', 'Bearer '+ authenticationCredential.TelosTouchSF__Access_Token__c);
+                    headersMap.put('Authorization', 'Bearer '+ authenticationCredentials.TelosTouchSF__Access_Token__c);
                     headersMap.put('Content-Type', 'application/json');
                     headersMap.put('Accept', 'application/json');
                     if(!ttClientIdList.isEmpty()){
@@ -1281,15 +1281,15 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     @AuraEnabled
     public static ClientInviteWrapper sendUserInvitation(String recordObject, String action){
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+        if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+        if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
         ClientInviteWrapper obj = (ClientInviteWrapper)JSON.deserialize(recordObject, ClientInviteWrapper.class);
         String endPointURL,body,userAuthTOKEN;
         Map<String, String> getResponse = new Map<String, String>();
         Map<String, String> getResponse2 = new Map<String, String>();
         Map<String, String> headersMap = new Map<String, String>();
         List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
-        if(String.isNotBlank(authenticationCredential.TelosTouchSF__Access_Token__c) ){
+        if(String.isNotBlank(authenticationCredentials.TelosTouchSF__Access_Token__c) ){
             userAuthTOKEN = getCurrentuserTOKEN();
             if(userAuthTOKEN != null){
                 headersMap.put('Authorization','Bearer '+userAuthTOKEN);
@@ -1379,7 +1379,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static String massInvitationToClients(String recordIdsList, String objectName){
         try{
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
             List<Contact> contactList = new List<Contact>();
             List<Lead> leadList = new List<Lead>();
             String endPointURL,body,str='',str2='',returnString,userAuthTOKEN, responseBodyStr;
@@ -1508,13 +1508,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
     public static String getCurrentuserTOKEN(){
         String userAuthTOKEN;
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+        if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+        if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
         if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
            Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
                List<User> user = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c FROM User WHERE Id=:UserInfo.getUserId() AND TelosTouchSF__TT_UserId__c != Null ];
-               if( user != null && user.size() > 0  && authenticationCredential.TelosTouchSF__Access_Token__c != null){
+               if( user != null && user.size() > 0  && authenticationCredentials.TelosTouchSF__Access_Token__c != null){
                    if(user.size()>0 && user[0].TelosTouchSF__Auth_Token__c != null ){
                        userAuthTOKEN = user[0].TelosTouchSF__Auth_Token__c;
                    }
@@ -1533,18 +1533,18 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     }
     @AuraEnabled
     public static Boolean checkInviteFunctionality(){
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+        if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+        if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
         List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
         Map<String, String> headersMap = new Map<String, String>();
-        if(adminCredentials != null && String.isNotEmpty(authenticationCredential.TelosTouchSF__Access_Token__c)){
-            headersMap.put('Authorization','Bearer '+authenticationCredential.TelosTouchSF__Access_Token__c);
+        if(adminCredentials != null && String.isNotEmpty(authenticationCredentials.TelosTouchSF__Access_Token__c)){
+            headersMap.put('Authorization','Bearer '+authenticationCredentials.TelosTouchSF__Access_Token__c);
             headersMap.put('Content-Type', 'application/json');
             headersMap.put('Accept', 'application/json');
             Map<String, String> getResponseMap = getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/preferences', headersMap, null);
             if(getResponseMap.containsKey('adminToken')){
-                authenticationCredential.TelosTouchSF__Access_Token__c = getResponseMap.get('adminToken');
-                System.enqueueJob(new TelosTouchSF.UpdateCustomMetadataQueueable(adminCredentials, authenticationCredential));
+                authenticationCredentials.TelosTouchSF__Access_Token__c = getResponseMap.get('adminToken');
+                System.enqueueJob(new TelosTouchSF.UpdateCustomMetadataQueueable(adminCredentials, authenticationCredentials));
             }
             if(getResponseMap.containsKey('userToken')){
                 if(SObjectType.User.getSObjectType().getDescribe().isAccessible() && SObjectType.User.getSObjectType().getDescribe().isUpdateable() &&
@@ -1764,7 +1764,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     public static Boolean checkIfEnterpriseClient(){
         try{
             
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
             if(String.isEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){
                 return true;
             }
@@ -1885,8 +1885,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
             List<Map<String, String>> returnList = new List<Map<String, String>>();
             List<Object> responseList = new List<Object>();
-            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-            TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+            if(authenticationCredentials == null){ authenticationCredentials = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata(); }
             String endPointURL ='', userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             Map<String, String> headersMap = new Map<String, String>();
@@ -2002,7 +2002,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 headersMap.put('Authorization','Bearer '+userAuthTOKEN);
                 headersMap.put('Content-Type', 'application/json');
                 headersMap.put('Accept', 'application/json');
-                TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+                if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
                 if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                     endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c;
                     if(camp.TelosTouchSF__Type__c == 'email'){ endPointURL +='/api/v1/campaign/email/create'; }
