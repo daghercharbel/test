@@ -101,15 +101,15 @@ export default class TtUserBranding extends LightningElement {
     handleMultiLanguage(event) {
 
         let language = event.target.name.replace("signature_", "");
-        let index;
+        let languageFound = false;
         for (let i = 0; i < this.lstUserBranding.length; i++) {
             if (this.lstUserBranding[i].language == language) {
-                index = i;
+                languageFound = true;
                 this.lstUserBranding[i].status = event.detail.checked;
             }
         }
 
-        if(!index){
+        if(!languageFound){
             let userBrandingLang = {};
             userBrandingLang.status = event.detail.checked;
             userBrandingLang.language = language
