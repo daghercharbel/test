@@ -126,7 +126,7 @@ export default class TelostouchDataSync extends LightningElement {
       if (data) {
         var logs = JSON.parse(data);
         logs.forEach(element => {
-          if (element.TelosTouchSF__Result__c) {
+          if (element.TelosTouchSF__Result__c == 'Success') {
             element.result = TelosTouch + '/images/RightCheckbox.webp';
           } else {
             element.result = TelosTouch + '/images/CrossCheckbox1.png';

@@ -63,7 +63,7 @@ public with sharing class TTNativeHomeController {
     @AuraEnabled
     public static string getChartData(){
         try {
-            Date dt1 = Date.newInstance(Date.today().year(), Date.today().addMonths(-3).month(), 1);
+            Date dt1 = Date.newInstance(Date.today().addMonths(-3).year(), Date.today().addMonths(-3).month(), 1);
             Map<String, Map<String, Object>> chartDataMap = new Map<String, Map<String, Object>>();
             for(Integer i=0; i>=-3; i--){
                 Map<String, Object> insightMap = new Map<String, Object>();
