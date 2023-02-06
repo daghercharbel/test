@@ -13,6 +13,14 @@
         <label></label>
         <name>TelosTouch_Campaign</name>
     </recordTypes>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Update_record_type_after_Send</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Update_type_after_Send</name>
+    </validationRules>
     <webLinks>
         <label>Inventaire de Points de contact</label>
         <name>TouchPoint_Preview</name>

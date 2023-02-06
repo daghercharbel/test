@@ -19,10 +19,11 @@ public with sharing class ShowTouchPointPreviewControllerTest {
 
         Test.startTest();
 
-        ShowTouchPointPreviewController.getIFrameUrls(lstCamp[0].Id, 'en');
+        String url = ShowTouchPointPreviewController.getIFrameUrls(lstCamp[0].Id, 'en');
 
         Test.stopTest();
-
+		
+        System.assert(String.isNotBlank(url), 'URL should not be blank');
     }
     
     @isTest
@@ -33,10 +34,11 @@ public with sharing class ShowTouchPointPreviewControllerTest {
 
         Test.startTest();
 
-        ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId('test', lstCamp[0].Id, 'en');
+        String url = ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId('test', lstCamp[0].Id, 'en');
 
         Test.stopTest();
-
+		
+        System.assert(String.isNotBlank(url), 'URL should not be blank');
     }
 
 }

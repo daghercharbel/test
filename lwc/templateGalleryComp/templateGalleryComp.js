@@ -148,17 +148,17 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     labelSelection() {
-        if(this.campaignType == 'touchpoint'){
+        if (this.campaignType == 'touchpoint') {
             this.label.Compliance_Label = Compliance_Message;
             this.label.Template_Gallery_Save_Label = Template_Gallery_Save_Text;
             this.label.TemplateNotSaved_Label = TouchPointTemplateNotSaved_Text;
             this.label.TemplateSaved_Label = TouchPointTemplateSaved_Text;
-        } else if(this.campaignType == 'email'){
+        } else if (this.campaignType == 'email') {
             this.label.Compliance_Label = Compliance_Message_Email;
             this.label.Template_Gallery_Save_Label = Template_Gallery_Save;
             this.label.TemplateNotSaved_Label = Template_Not_Saved;
             this.label.TemplateSaved_Label = Template_Saved;
-        } 
+        }
     }
 
     updateRecordSize = () => {
@@ -170,7 +170,7 @@ export default class TemplateGalleryComp extends LightningElement {
     };
 
     getTemplates() {
-        getTouchPointTemplates({ campId: this.campSfId})
+        getTouchPointTemplates({ campId: this.campSfId })
             .then((data) => {
                 if (data) {
                     this.templatesList = JSON.parse(data);
@@ -283,13 +283,13 @@ export default class TemplateGalleryComp extends LightningElement {
                 let tempList = [];
                 if (!this.fr) {
                     list.forEach((ele) => {
-                        if (ele.name.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+                        if (ele.name.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
                             tempList.push(ele);
                         }
                     });
                 } else {
                     list.forEach((ele) => {
-                        if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || ele.Description.toLowerCase().includes(this.searchValue.trim())) {
+                        if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
                             tempList.push(ele);
                         }
                     });
@@ -318,13 +318,13 @@ export default class TemplateGalleryComp extends LightningElement {
             }
             if (!this.fr) {
                 currentTemplates.forEach((ele) => {
-                    if (ele.name.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+                    if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
                         filteredTemplates.push(ele);
                     }
                 });
             } else {
                 currentTemplates.forEach((ele) => {
-                    if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || ele.Description.toLowerCase().includes(searchKey.trim())) {
+                    if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
                         filteredTemplates.push(ele);
                     }
                 });
