@@ -25,7 +25,6 @@ public with sharing class CreateRemoteSiteSetting {
         HttpResponse res = http.send(req);
         string resbody = res.getBody();
         String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+resbody;
-        TelosTouchUtility.generateLog(respMessage, 'CreateRemoteSiteSetting', 'getremoteSiteSetting', null);
         remotesitesettingswrapper rss = new remotesitesettingswrapper();
         rss = (remotesitesettingswrapper) System.JSON.deserialize(
             resbody,
