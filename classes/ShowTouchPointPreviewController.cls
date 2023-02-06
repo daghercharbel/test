@@ -60,7 +60,6 @@ public with sharing class ShowTouchPointPreviewController {
             if(String.isBlank(recordId) || !campObj.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
                 Map<String, String> headersMap = new Map<String, String>();
                 String endPointURL = '';
-                String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
                 headersMap.put('Authorization','Bearer '+userToken);
                 headersMap.put('Content-Type', 'application/json');
                 headersMap.put('Accept', 'application/json');

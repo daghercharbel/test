@@ -41,7 +41,7 @@
                     <criteria>
                         <leftValue>{!Record.Type__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Touchpoint</rightValue>
+                        <rightValue>touchpoint</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

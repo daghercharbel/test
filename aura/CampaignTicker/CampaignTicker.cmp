@@ -49,7 +49,7 @@
   <force:recordData aura:id="recordHandler" recordId="{!v.recordId}" fields="TelosTouchSF__TouchPoint_Template_Id__c"
     targetFields="{!v.recordFields}" mode="EDIT" />
 
-  <lightning:card title="{!$v.TTCampaignStatusLabel}">
+  <lightning:card title="{!v.TTCampaignStatusLabel}">
     <aura:if isTrue="{!or($Browser.isPhone, $Browser.isTablet)}">
       <div class="slds-var-p-left_small slds-var-p-bottom_small">
         <lightning:layout multipleRows="true" class="slds-var-p-horizontal_medium">
@@ -100,13 +100,13 @@
               </p>
               <aura:set attribute="else">
                 <p class="slds-p-horizontal_medium c-red">
-                  {!$v.processRunningLabel}
+                  {!v.processRunningLabel}
                 </p>
               </aura:set>
             </aura:if>
             <aura:set attribute="else">
               <p class="slds-p-horizontal_medium c-green">
-                <lightning:formattedRichText value="{!$v.sendLabel}" />
+                <lightning:formattedRichText value="{!v.sendLabel}" />
               </p>
             </aura:set>
           </aura:if>
@@ -123,7 +123,7 @@
             <aura:set attribute="else">
               <aura:if isTrue="{!!v.ActionRequired}">
                 <p class="slds-p-horizontal_medium c-red">
-                  {!$v.sendTemplateCustomizeLabel}
+                  {!v.sendTemplateCustomizeLabel}
                 </p>
               </aura:if>
             </aura:set>

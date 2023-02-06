@@ -1794,7 +1794,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         String aError = ex.getTypeName()+': '+ex.getMessage()+' '+className+'.'+classMethod+': line '+ex.getLineNumber();
         System.debug(logginglevel.ERROR, aError);
         if(TT_FeatureSettingsController.getFinestLogValue()){
-	    aError = aError.abbreviate(255);
+	        aError = aError.abbreviate(254);
             Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError, recordId));
         }
     }
@@ -1803,7 +1803,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         String aMessage = className+'.'+classMethod+': '+message;
         System.debug(aMessage);
         if(TT_FeatureSettingsController.getFinestLogValue()){
-            aMessage = aMessage.abbreviate(255);
+            aMessage = aMessage.abbreviate(254);
             Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));
         }
     }

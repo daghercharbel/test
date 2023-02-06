@@ -51,6 +51,7 @@ public with sharing class ClientTaggingController {
 
         try {
             
+            topicName = topicName.normalizeSpace();
             list<Topic> lstTopic = [SELECT Id FROM Topic WHERE Name =: topicName];
 
             if(lstTopic.isEmpty()){
