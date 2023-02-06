@@ -305,7 +305,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             request.setBody(body);
             HttpResponse response = http.send(request);
 		        String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();		
-            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getAdminAccessToken', null);
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 if(responseMap.containsKey('access_token') && responseMap.get('access_token')!=null){
@@ -540,7 +539,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         }else{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
 		                        String respMessage = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');		
-                            TelosTouchUtility.generateLog(respMessage, 'TelosTouchUtility', 'getUserAccessToken', null);
                             teamId = teamIdResponse.get('body');
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;

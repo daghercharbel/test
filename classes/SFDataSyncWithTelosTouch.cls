@@ -333,7 +333,7 @@ global with sharing class SFDataSyncWithTelosTouch {
                 logObj.TelosTouchSF__Total_Records_Count__c = 0;
             }
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isCreateable()){
-                logObj.TelosTouchSF__Comments__c = ex.getMessage();
+                logObj.TelosTouchSF__Comments__c = ex.getMessage().abbreviate(254);
                 String errorMessage = ex.getMessage() + ex.getStackTraceString() + ' Line number: ' + ex.getLineNumber()  + ' Class: SFDataSyncWithTelosTouch';
                 if(showLogs){
                     createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, ''));
@@ -696,7 +696,7 @@ global with sharing class SFDataSyncWithTelosTouch {
                 logObj.TelosTouchSF__Total_Records_Count__c = 0;
             }
             if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isCreateable()){
-                logObj.TelosTouchSF__Comments__c = ex.getMessage();
+                logObj.TelosTouchSF__Comments__c = ex.getMessage().abbreviate(254);
                 String errorMessage = ex.getMessage() + ex.getStackTraceString() + ' Line number: ' + ex.getLineNumber() + ' Class: SFDataSyncWithTelosTouch';
                 if(showLogs){
                     createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', errorMessage, ''));
@@ -1059,10 +1059,10 @@ global with sharing class SFDataSyncWithTelosTouch {
             logObj.TelosTouchSF__Total_Records_Count__c = totalRecords;
         }
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isCreateable()){
-            logObj.TelosTouchSF__Comments__c = message;
+            logObj.TelosTouchSF__Comments__c = message.abbreviate(254);
         }
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments_FR__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments_FR__c.isCreateable()){
-            logObj.TelosTouchSF__Comments_FR__c = message_fr;
+            logObj.TelosTouchSF__Comments_FR__c = message_fr.abbreviate(254);
         }
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments_FR__c.isCreateable()){
             logObj.TelosTouchSF__Log_Type__c='Main Log';
@@ -1090,7 +1090,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             logObj.TelosTouchSF__Result__c = ressult;
         }
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Comments__c.isCreateable()){
-            logObj.TelosTouchSF__Comments__c = message;
+            logObj.TelosTouchSF__Comments__c = message.abbreviate(254);
         }
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Record_Id__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Record_Id__c.isCreateable()){
             logObj.TelosTouchSF__Record_Id__c = recordId;
