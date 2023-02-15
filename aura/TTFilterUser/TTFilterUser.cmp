@@ -231,6 +231,9 @@
         <br />
         <div class="slds-grid">
             <div class="slds-col slds-size_12-of-12 slds-scrollable_x">
+                <div class="slds-m-left_small">
+                    {!v.data.length}&nbsp;{!$Label.c.Items}
+                </div>
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
                         <tr>

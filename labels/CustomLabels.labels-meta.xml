@@ -1410,6 +1410,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Description</value>
     </labels>
     <labels>
+        <fullName>Items</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Items</shortDescription>
+        <value>Items</value>
+    </labels>
+    <labels>
         <fullName>Knowledge_Base_Image_Error</fullName>
         <language>en_US</language>
         <protected>true</protected>

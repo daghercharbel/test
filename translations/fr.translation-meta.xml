@@ -818,6 +818,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
+        <label>éléments</label>
+        <name>Items</name>
+    </customLabels>
+    <customLabels>
         <label>Erreur lors du chargement de l&apos;image!</label>
         <name>Knowledge_Base_Image_Error</name>
     </customLabels>
