@@ -10,9 +10,9 @@ public with sharing class TelosTouchDataSyncController {
   public static string getSyncData() {
     try {
       Map<String, Object> returnMap = new Map<String, Object>();
-      TelosTouchSF__TT_Log__c ttLogObj = new TelosTouchSF__TT_Log__c();
+      List<TelosTouchSF__TT_Log__c> ttLogObjList = new List<TelosTouchSF__TT_Log__c>();
       String strMainLog = 'Main Log';
-      ttLogObj = [
+      ttLogObjList = [
         SELECT Id, TelosTouchSF__LastUpdated__c
         FROM TelosTouchSF__TT_Log__c
         WHERE TelosTouchSF__Log_Type__c = :strMainLog
@@ -20,14 +20,18 @@ public with sharing class TelosTouchDataSyncController {
         ORDER BY TelosTouchSF__LastUpdated__c DESC
         LIMIT 1
       ];
-      returnMap.put(
-        'lastUpdated',
-        (Object) ttLogObj.TelosTouchSF__LastUpdated__c != null
-          ? ttLogObj.TelosTouchSF__LastUpdated__c.format(
-              'dd-MM-yyyy hh:mm:ss a'
-            )
-          : ''
-      );
+      if(!ttLogObjList.isEmpty()){
+        returnMap.put(
+          'lastUpdated',
+          (Object) ttLogObjList[0].TelosTouchSF__LastUpdated__c != null
+            ? ttLogObjList[0].TelosTouchSF__LastUpdated__c.format(
+                'dd-MM-yyyy hh:mm:ss a'
+              )
+            : ''
+        );
+      }else{
+        returnMap.put('lastUpdated', '');
+      }
       returnMap.put('approval', ADMINCREDENTIALS.TelosTouchSF__Approval__c);
       List<AsyncApexJob> asyncApexJobList = new List<AsyncApexJob>();
       if (
