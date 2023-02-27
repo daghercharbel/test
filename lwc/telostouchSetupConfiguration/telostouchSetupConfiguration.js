@@ -179,7 +179,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track waitingTimeId = null;
     isEditDisabled = false;
     @api listdata;
-
+    finalDataList =  [];
     // OnLoad
     connectedCallback() {
         if (FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small') {
@@ -510,6 +510,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             }
                             this.listdata = userArray;
                             this.filteredRecords = this.listdata;
+                            this.finalDataList  = this.filteredRecords;
                             this.filteredRecordsSize = this.filteredRecords.length;
                             this.allRecords = this.listdata;
                         }
@@ -561,6 +562,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     }
                     this.listdata = userArray;
                     this.filteredRecords = this.listdata;
+                    this.finalDataList = this.filteredRecords;
+                    // console.log('backend userList Data:'+ JSON.stringify(this.finalDataList));
                     this.filteredRecordsSize = this.filteredRecords.length;
                     this.allRecords = this.listdata;
                     this.showRecords();
@@ -724,7 +727,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 }
             }
             this.listdata = newRecordsToShow;
-            this.fromEntries = parseInt(recordToShowStart) + 1;
+            this.fromEntries = this.listdata.length === 0 ? 0 : parseInt(recordToShowStart) + 1;
             if (parseInt(recordToShowEnd) > parseInt(filteredRecords.length)) {
                 this.toEntries = filteredRecords.length;
             } else {
@@ -858,14 +861,19 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.settingApproval = false;
                 }
             } else {
-                var allRecords = this.filteredRecords;
+                var allRecords = this.finalDataList;
                 var tempArray = [];
                 for (var i = 0; i < allRecords.length; i++) {
                     if (allRecords[i].Email.toUpperCase().includes(this.searchValue.toUpperCase()) || allRecords[i].Username.toUpperCase().includes(this.searchValue.toUpperCase())) {
                         tempArray.push(allRecords[i]);
                     }
                 }
-                this.listdata = tempArray;
+                this.filteredRecords = tempArray;
+                this.filteredRecordsSize = this.filteredRecords.length;
+                this.pageNumber = 1;
+                this.fromEntries = 1;
+                this.totalPages =  this.filteredRecords.length == 0 ? 1: Math.ceil(parseFloat(this.filteredRecords.length) / (parseFloat(this.showEntries))).toString();
+                this.changePage();
             }
         } catch (e) {
             throw new CustomException(e.getMessage());
