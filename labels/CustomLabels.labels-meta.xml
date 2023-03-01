@@ -2474,6 +2474,27 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Send TouchPoints to New Recipients</value>
     </labels>
     <labels>
+        <fullName>Send_Test_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Test Button</shortDescription>
+        <value>Send Test</value>
+    </labels>
+    <labels>
+        <fullName>Send_Test_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Test Message</shortDescription>
+        <value>Test Template will be delivered to the emails entered bellow. You can add multiple emails separated by comma. The maximum number allowed is 5 emails.</value>
+    </labels>
+    <labels>
+        <fullName>Send_Test_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Test Title</shortDescription>
+        <value>Test template</value>
+    </labels>
+    <labels>
         <fullName>Send_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>

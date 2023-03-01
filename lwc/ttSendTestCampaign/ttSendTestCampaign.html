@@ -1,0 +1,30 @@
+<template>
+
+    <div class="slds-modal__header">
+        <h1 class="slds-modal__title slds-hyphenate">{label.Send_Test_Title}</h1>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium">
+        <p>{label.Send_Test_Message}</p>
+        <div class="slds-is-relative">
+            <lightning-input type="text" onchange={handleChange} onkeypress={handleKeyPress}
+                value={email}></lightning-input>
+            <div style="position:absolute;bottom:0px;right:0px;">
+                <lightning-button-icon icon-name="utility:enter" onclick={handleEmailChange}></lightning-button-icon>
+            </div>
+        </div>
+        <template for:each={lstEmail} for:item="email" for:index="index">
+            <div key={email} class="slds-var-m-around_small">
+                <lightning-button-icon icon-name="utility:delete" variant="bare" onclick={removeEmail}
+                    data-index={index}></lightning-button-icon>
+                <lightning-formatted-email value={email} hide-icon></lightning-formatted-email>
+            </div>
+        </template>
+    </div>
+    <div class="slds-float_right">
+        <lightning-button label={label.Cancel_Button_Label} onclick={closeModal} class="slds-m-left_x-small">
+        </lightning-button>
+        <lightning-button variant="brand" label={label.Send_Text} onclick={fireTestSending} disabled={hasNoEmails}
+            class="slds-m-left_x-small"></lightning-button>
+    </div>
+
+</template>

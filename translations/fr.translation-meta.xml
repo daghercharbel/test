@@ -1429,6 +1429,18 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Send_TP_To_New_Receipient</name>
     </customLabels>
     <customLabels>
+        <label>Envoyer Test</label>
+        <name>Send_Test_Button</name>
+    </customLabels>
+    <customLabels>
+        <label>Un Point de contact Test sera livré aux e-mails saisis ci-dessous. Vous pouvez ajouter plusieurs e-mails séparés par une virgule. Le nombre maximum autorisé est de 5 e-mails.</label>
+        <name>Send_Test_Message</name>
+    </customLabels>
+    <customLabels>
+        <label>Point de contact Test</label>
+        <name>Send_Test_Title</name>
+    </customLabels>
+    <customLabels>
         <label>Envoyer</label>
         <name>Send_Text</name>
     </customLabels>

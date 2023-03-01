@@ -60,7 +60,31 @@
     }
   },
 
+  openSendTest: function (c, e, h){
+    try {
+      $A.createComponent(
+        "c:ttSendTestCampaign",
+        { 
+          onclosemodalevent: c.getReference("c.handleModalClose"),
+          campaignId: c.get("v.recordId"),
+        },
+        function (content, status) {
+          if (status === "SUCCESS") {
+            var modalPromise = c.find("overlayLib").showCustomModal({
+              body: content,
+              showCloseButton: true,
+              cssClass: "slds-modal_small touchpoint-modal"
+            });
+            c.set("v.modalPromise", modalPromise);
+          }
+        }
+      );
+    } catch (error) {
+    }
+  },
+
   handleModalClose: function (c, e, h){
+    console.log('VOD ------------------------ handleModalClose');
     var modalPromise = c.get('v.modalPromise');
     modalPromise.then(
       function (modal) {
