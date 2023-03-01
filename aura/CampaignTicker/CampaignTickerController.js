@@ -84,7 +84,6 @@
   },
 
   handleModalClose: function (c, e, h){
-    console.log('VOD ------------------------ handleModalClose');
     var modalPromise = c.get('v.modalPromise');
     modalPromise.then(
       function (modal) {
