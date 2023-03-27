@@ -554,6 +554,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Detialed_Logging</name>
     </customLabels>
     <customLabels>
+        <label>Projet</label>
+        <name>Drafted_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Échéance</label>
         <name>Due_Date_Label</name>
     </customLabels>
@@ -894,6 +898,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Multi_language_Support</name>
     </customLabels>
     <customLabels>
+        <label>Mes points de contact</label>
+        <name>My_Touchpoints</name>
+    </customLabels>
+    <customLabels>
         <label>Nom</label>
         <name>Name_Text</name>
     </customLabels>
@@ -1105,6 +1113,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Previous_Button_Label</name>
     </customLabels>
     <customLabels>
+        <label>Privé - visible uniquement par vous</label>
+        <name>Private_Permission</name>
+    </customLabels>
+    <customLabels>
         <label>Privé</label>
         <name>Private_Text</name>
     </customLabels>
@@ -1113,8 +1125,16 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Profile_Text</name>
     </customLabels>
     <customLabels>
+        <label>Publique - Visible pour tous les utilisateurs</label>
+        <name>Public_Permission</name>
+    </customLabels>
+    <customLabels>
         <label>Public</label>
         <name>Public_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Publié</label>
+        <name>Published_Label</name>
     </customLabels>
     <customLabels>
         <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en arrière-plan. Veuillez attendre...</label>
@@ -1213,6 +1233,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Veuillez remplir tous les champs obligatoires</label>
         <name>Required_Field_Missing</name>
+    </customLabels>
+    <customLabels>
+        <label>Restreint - Visible pour des utilsateurs spécifiés une fois publié</label>
+        <name>Restricted_Permission</name>
     </customLabels>
     <customLabels>
         <label>Ré-insrcire le Client</label>
@@ -1389,12 +1413,20 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Send_password_Buttton_Label</name>
     </customLabels>
     <customLabels>
+        <label>Envoyé</label>
+        <name>Sent_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Envoi Usager réussi</label>
         <name>Sent_SuccessToast</name>
     </customLabels>
     <customLabels>
         <label>Des questions ?</label>
         <name>ShareConcern</name>
+    </customLabels>
+    <customLabels>
+        <label>Partagé avec moi</label>
+        <name>Shared_With_Me</name>
     </customLabels>
     <customLabels>
         <label>Administrateur système</label>
@@ -1527,6 +1559,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Synchronisé</label>
         <name>Synced_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Administrateur système</label>
+        <name>System_Administrator</name>
     </customLabels>
     <customLabels>
         <label>Générée par le système</label>

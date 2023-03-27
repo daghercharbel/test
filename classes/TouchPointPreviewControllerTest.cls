@@ -1,8 +1,70 @@
 @isTest
 public class TouchPointPreviewControllerTest {
-    
+
+    @isTest
+    public static void copyTemplateTest() {
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        Test.startTest();
+        map<String, String> mapResponse = TouchPointPreviewController.copyTemplate('testId');
+        Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
+        map<String, String> mapResponse2 = TouchPointPreviewController.copyTemplate('testId');
+        Test.stopTest();
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
+        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
+    }
+
+    @isTest
+    public static void createTemplateTest() {
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        Test.startTest();
+        map<String,String> mapResponse = TouchPointPreviewController.createTemplate();
+        Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
+        map<String,String> mapResponse2 = TouchPointPreviewController.createTemplate();
+        Test.stopTest();
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
+        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
+    }
+
+    @isTest
+    public static void deleteTemplateTest() {
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        Test.startTest();
+        map<String, String> mapResponse = TouchPointPreviewController.deleteTemplate('testId');
+        Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
+        map<String, String> mapResponse2 = TouchPointPreviewController.deleteTemplate('testId');
+        Test.stopTest();
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
+        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
+    }
+
+    @isTest
+    public static void editTemplateTest() {
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        Test.startTest();
+        map<String, String> mapResponse = TouchPointPreviewController.editTemplate('testId');
+        map<String, String> mapResponse2 = TouchPointPreviewController.editTemplate(null);
+        Test.stopTest();
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
+        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
+    }
+
     @isTest
     public static void getIFrameDetailsTest() {
+        Test.startTest();
+        TouchPointPreviewController.getIFrameDetails();
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void getSharableUsersTest() {
+        Test.startTest();
+        map<String, String> mapResponse = TouchPointPreviewController.getSharableUsers();
+        Test.stopTest();
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
+    }
+    
+    @isTest
+    public static void getSystemInfoTest() {
         Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
         User u = new User(
             Alias = 'standt',
@@ -16,16 +78,17 @@ public class TouchPointPreviewControllerTest {
             UserName = 'test382798492878294@gmail.com',
             TelosTouchSF__Auth_Token__c = '23828962jdkldj'
         );
+        Test.startTest();
         System.runAs(u) {
-            TouchPointPreviewController.getIFrameDetails();
-            String returnedValue = TouchPointPreviewController.getListId();
+            String returnedValue = TouchPointPreviewController.getSystemInfo();
             System.assert(returnedValue != null);
         }
+        Test.stopTest();
     }
 
     @isTest
     public static void getTemplateDetailsTest() {
-        Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
         String wp = TouchPointPreviewController.getTemplateDetails();
         Test.stopTest();
@@ -33,14 +96,14 @@ public class TouchPointPreviewControllerTest {
     }
 
     @isTest
-    public static void getNewTemplateBuilderTest() {
+    public static void updateTemplatePermissionTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String,String> mapResponse = TouchPointPreviewController.getNewTemplateBuilder();
+        map<String, String> mapResponse = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String,String> mapResponse2 = TouchPointPreviewController.getNewTemplateBuilder();
+        map<String, String> mapResponse2 = TouchPointPreviewController.updateTemplatePermission(null, null);
         Test.stopTest();
-        System.assert(mapResponse.get('status') == 'success', 'response must be successful');
+        System.assert(mapResponse.get('status') == 'success', 'response must be success');
         System.assert(mapResponse2.get('status') == 'error', 'response must be error');
     }
 

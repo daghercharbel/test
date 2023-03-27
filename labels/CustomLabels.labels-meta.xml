@@ -950,6 +950,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Detailed Logging</value>
     </labels>
     <labels>
+        <fullName>Drafted_Label</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Drafted Label</shortDescription>
+        <value>Drafted</value>
+    </labels>
+    <labels>
         <fullName>Due_Date_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1543,6 +1550,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Multi-language Support</value>
     </labels>
     <labels>
+        <fullName>My_Touchpoints</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>My Touchpoints</shortDescription>
+        <value>My Touchpoints</value>
+    </labels>
+    <labels>
         <fullName>Name_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1911,6 +1925,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Previous</value>
     </labels>
     <labels>
+        <fullName>Private_Permission</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Private Permission</shortDescription>
+        <value>Private - Only you can view it</value>
+    </labels>
+    <labels>
         <fullName>Private_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1925,11 +1946,25 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Profile</value>
     </labels>
     <labels>
+        <fullName>Public_Permission</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Public Permission</shortDescription>
+        <value>Public - Anyone can view it</value>
+    </labels>
+    <labels>
         <fullName>Public_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Public Text</shortDescription>
         <value>Public</value>
+    </labels>
+    <labels>
+        <fullName>Published_Label</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Published Label</shortDescription>
+        <value>Published</value>
     </labels>
     <labels>
         <fullName>Recipients_are_being_added_in_background</fullName>
@@ -2098,6 +2133,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Required Field Missing</shortDescription>
         <value>Please fill all the required fields</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Permission</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Permission</shortDescription>
+        <value>Restricted - Specific people can view when published</value>
     </labels>
     <labels>
         <fullName>Resubscribe_Client_Text</fullName>
@@ -2404,6 +2446,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Send a new password</value>
     </labels>
     <labels>
+        <fullName>Sent_Label</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Sent_Label</shortDescription>
+        <value>Sent</value>
+    </labels>
+    <labels>
         <fullName>Sent_SuccessToast</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2416,6 +2465,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>ShareConcern</shortDescription>
         <value>Have a question?</value>
+    </labels>
+    <labels>
+        <fullName>Shared_With_Me</fullName>
+        <language>fr</language>
+        <protected>true</protected>
+        <shortDescription>Shared With Me</shortDescription>
+        <value>Shared With Me</value>
     </labels>
     <labels>
         <fullName>ShowTTConfigPage</fullName>
@@ -2649,6 +2705,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Synced Text</shortDescription>
         <value>Synced</value>
+    </labels>
+    <labels>
+        <fullName>System_Administrator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>System Administrator</shortDescription>
+        <value>System Administrator</value>
     </labels>
     <labels>
         <fullName>System_Generated</fullName>

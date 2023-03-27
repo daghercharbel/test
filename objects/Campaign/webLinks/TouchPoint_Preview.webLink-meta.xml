@@ -3,11 +3,11 @@
     <fullName>TouchPoint_Preview</fullName>
     <availability>online</availability>
     <displayType>massActionButton</displayType>
-    <height>600</height>
-    <linkType>page</linkType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
     <masterLabel>TouchPoint Library</masterLabel>
-    <openType>sidebar</openType>
-    <page>TouchPointPreview</page>
+    <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>true</requireRowSelection>
+    <url>/lightning/n/TelosTouchSF__TelosTouch_Template_Library</url>
 </WebLink>
