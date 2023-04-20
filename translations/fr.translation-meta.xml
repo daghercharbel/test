@@ -554,12 +554,24 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Detialed_Logging</name>
     </customLabels>
     <customLabels>
+        <label>En construction - ne peut pas être sélectionné dans les campagnes</label>
+        <name>Draft_Status_Description</name>
+    </customLabels>
+    <customLabels>
         <label>Projet</label>
         <name>Drafted_Label</name>
     </customLabels>
     <customLabels>
+        <label>Le point de contact sélectionné est en mode Brouillon et doit être marqué comme Prêt</label>
+        <name>Drafted_Template_Warning</name>
+    </customLabels>
+    <customLabels>
         <label>Échéance</label>
         <name>Due_Date_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Dupliquer le modèle dans votre propre bibliothèque</label>
+        <name>Duplicate_Button_Description</name>
     </customLabels>
     <customLabels>
         <label>est un doublon</label>
@@ -1045,6 +1057,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Opened_Text</name>
     </customLabels>
     <customLabels>
+        <label>Ordre par</label>
+        <name>Order_by_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Aperçu</label>
         <name>Overview_Text</name>
     </customLabels>
@@ -1117,6 +1133,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Private_Permission</name>
     </customLabels>
     <customLabels>
+        <label>Privé - Cliquez pour partager</label>
+        <name>Private_Permission_Description</name>
+    </customLabels>
+    <customLabels>
         <label>Privé</label>
         <name>Private_Text</name>
     </customLabels>
@@ -1129,12 +1149,20 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Public_Permission</name>
     </customLabels>
     <customLabels>
+        <label>Partagé avec tous les utilisateurs de l&apos;organisation - Cliquez pour modifier les autorisations</label>
+        <name>Public_Permission_Description</name>
+    </customLabels>
+    <customLabels>
         <label>Public</label>
         <name>Public_Text</name>
     </customLabels>
     <customLabels>
-        <label>Publié</label>
-        <name>Published_Label</name>
+        <label>Prêt</label>
+        <name>Ready_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Prêt à être envoyé - peut être sélectionné dans les campagnes</label>
+        <name>Ready_Status_Description</name>
     </customLabels>
     <customLabels>
         <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en arrière-plan. Veuillez attendre...</label>
@@ -1237,6 +1265,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Restreint - Visible pour des utilsateurs spécifiés une fois publié</label>
         <name>Restricted_Permission</name>
+    </customLabels>
+    <customLabels>
+        <label>Partagé avec d&apos;autres utilisateurs - Cliquez pour modifier les autorisations</label>
+        <name>Restricted_Permission_Description</name>
     </customLabels>
     <customLabels>
         <label>Ré-insrcire le Client</label>
@@ -1415,6 +1447,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Envoyé</label>
         <name>Sent_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Modification impossible : campagnes déjà envoyées</label>
+        <name>Sent_Status_Description</name>
     </customLabels>
     <customLabels>
         <label>Envoi Usager réussi</label>

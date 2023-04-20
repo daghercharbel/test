@@ -950,6 +950,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Detailed Logging</value>
     </labels>
     <labels>
+        <fullName>Draft_Status_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Draft Status - Description</shortDescription>
+        <value>Under construction - cannot be selected in campaigns</value>
+    </labels>
+    <labels>
         <fullName>Drafted_Label</fullName>
         <language>fr</language>
         <protected>true</protected>
@@ -957,11 +964,25 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Drafted</value>
     </labels>
     <labels>
+        <fullName>Drafted_Template_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Drafted Template Warning</shortDescription>
+        <value>Selected Touchpoint is in Draft mode and should be marked as Ready</value>
+    </labels>
+    <labels>
         <fullName>Due_Date_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Due Date Label</shortDescription>
         <value>Due Date</value>
+    </labels>
+    <labels>
+        <fullName>Duplicate_Button_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Duplicate Button - Description</shortDescription>
+        <value>Duplicate template to your own Library</value>
     </labels>
     <labels>
         <fullName>Duplicate_Text</fullName>
@@ -1806,6 +1827,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Opened</value>
     </labels>
     <labels>
+        <fullName>Order_by_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Order by Label</shortDescription>
+        <value>Order by</value>
+    </labels>
+    <labels>
         <fullName>Overview_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1932,6 +1960,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Private - Only you can view it</value>
     </labels>
     <labels>
+        <fullName>Private_Permission_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Private Permission - Description</shortDescription>
+        <value>Private - Click to share</value>
+    </labels>
+    <labels>
         <fullName>Private_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1953,6 +1988,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Public - Anyone can view it</value>
     </labels>
     <labels>
+        <fullName>Public_Permission_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Public Permission - Description</shortDescription>
+        <value>Shared with all users in organization - Click to change permissions</value>
+    </labels>
+    <labels>
         <fullName>Public_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1960,11 +2002,18 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Public</value>
     </labels>
     <labels>
-        <fullName>Published_Label</fullName>
-        <language>fr</language>
+        <fullName>Ready_Label</fullName>
+        <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Published Label</shortDescription>
-        <value>Published</value>
+        <shortDescription>Ready_Label</shortDescription>
+        <value>Ready</value>
+    </labels>
+    <labels>
+        <fullName>Ready_Status_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Ready Status - Description</shortDescription>
+        <value>Ready to be sent - can be selected in campaigns</value>
     </labels>
     <labels>
         <fullName>Recipients_are_being_added_in_background</fullName>
@@ -2140,6 +2189,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Restricted Permission</shortDescription>
         <value>Restricted - Specific people can view when published</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Permission_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Permission - Description</shortDescription>
+        <value>Shared with other users - Click to change permissions</value>
     </labels>
     <labels>
         <fullName>Resubscribe_Client_Text</fullName>
@@ -2451,6 +2507,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Sent_Label</shortDescription>
         <value>Sent</value>
+    </labels>
+    <labels>
+        <fullName>Sent_Status_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sent Status - Description</shortDescription>
+        <value>Edit not possible - already sent in campaigns</value>
     </labels>
     <labels>
         <fullName>Sent_SuccessToast</fullName>

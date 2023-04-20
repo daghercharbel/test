@@ -24,12 +24,17 @@ import English_Text from "@salesforce/label/c.English_Text";
 import French_Text from "@salesforce/label/c.French_Text";
 import Language_Text from "@salesforce/label/c.Language_Text";
 import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
+import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import None_Text from "@salesforce/label/c.None_Text";
-import Private_Text from "@salesforce/label/c.Private_Text";
 import Public_Text from "@salesforce/label/c.Public_Text";
+import Ready_Label from "@salesforce/label/c.Ready_Label";
+import Ready_Status_Description from "@salesforce/label/c.Ready_Status_Description";
 import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
 import Search_Text from "@salesforce/label/c.Search_Text";
+import Sent_Label from '@salesforce/label/c.Sent_Label';
+import Sent_Status_Description from "@salesforce/label/c.Sent_Status_Description";
+import Shared_With_Me from '@salesforce/label/c.Shared_With_Me';
 import showText from "@salesforce/label/c.showText";
 import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
 import Template_Gallery_Save from '@salesforce/label/c.Template_Gallery_Save';
@@ -56,12 +61,17 @@ export default class TemplateGalleryComp extends LightningElement {
         French_Text,
         Language_Text,
         LastModifiedDate,
+        My_Touchpoints,
         No_Data_Text,
         None_Text,
-        Private_Text,
         Public_Text,
+        Ready_Label,
+        Ready_Status_Description,
         Save_Button_Label,
         Search_Text,
+        Sent_Label,
+        Sent_Status_Description,
+        Shared_With_Me,
         showText,
         Sort_By_Text,
         TitleDesc,
@@ -69,41 +79,42 @@ export default class TemplateGalleryComp extends LightningElement {
         TouchPoint_Experience_Text,
         TouchPointTemplateSaved_Text
     };
-
-    @api isOpenTouchPoints = false;
+    
+    @api campaignType = 'touchpoint';
     @api campSfId;
-    langValue = "en_US";
+    currentPage = 1;
+    fr = false;
     hideLastButton = false;
+    iframeURL;
+    @api isOpenTouchPoints = false;
     @track isPrivateToggle = false;
+    isSpinner = false;
+    isTemplatePage = false;
+    isTemplatePresent = false;
+    lang = LANG;
+    langValue = "en_US";
+    listViewValue = 'public';
+    mainTemplateList = [];
+    mapTemplates = {};
+    nextBtnClass = "btnBorderInActive";
+    nextPage = 2;
+    paginationList = [];
+    prevBtnClass = "btnBorderActive";
     @track previewSaveDisabled = false;
-    showPagination = false;
+    previewBody = false;
+    prevPage = 1;
     privateTemplatesList = [];
     publicTemplatesList = [];
-    @api templateId;
-    isTemplatePage = false;
-    searchValue = '';
-    lang = LANG;
-    isSpinner = false;
-    previewBody = false;
-    isTemplatePresent = false;
-    fr = false;
-    showCompliance = false;
-    iframeURL;
-    @track urls = {};
-    templatesList = [];
-    templateType = 'All';
-    @api campaignType = 'touchpoint';
-    sortingType = 'modifiedAt';
-    mainTemplateList = [];
-    paginationList = [];
-    currentPage = 1;
-    totalRecords;
     recordSize = 10;
-    prevBtnClass = "btnBorderActive";
-    nextBtnClass = "btnBorderInActive";
+    searchValue = '';
+    showCompliance = false;
+    showPagination = false;
+    sortingType = 'modifiedAt';
+    @api templateId;
+    templatesList = [];
     totalPage = 0;
-    nextPage = 2;
-    prevPage = 1;
+    totalRecords;
+    @track urls = {};
 
     get langOptions() {
         return [
@@ -112,12 +123,15 @@ export default class TemplateGalleryComp extends LightningElement {
         ];
     }
 
-    get templateOptions() {
-        return [
-            { label: this.label.All_Label, value: "All" },
-            { label: this.label.Public_Text, value: "Public" },
-            { label: this.label.Private_Text, value: "Private" }
+    get listViewOptions() {
+        let options = [
+            { label: this.label.Public_Text, value: 'public' },
+            { label: this.label.My_Touchpoints, value: 'private' }
         ];
+        if (this.campaignType == 'touchpoint') {
+            options.push({ label: this.label.Shared_With_Me, value: 'shared' });
+        }
+        return options;
     }
 
     get sortingOptions() {
@@ -173,20 +187,23 @@ export default class TemplateGalleryComp extends LightningElement {
         getTouchPointTemplates({ campId: this.campSfId })
             .then((data) => {
                 if (data) {
-                    this.templatesList = JSON.parse(data);
-                    this.mainTemplateList = this.templatesList;
-                    for (let x of this.templatesList) {
-                        if (x.is_private) {
-                            this.privateTemplatesList.push(x);
-                        } else {
-                            this.publicTemplatesList.push(x);
+
+                    let mapTemplates = JSON.parse(data);
+
+                    Object.keys(mapTemplates).forEach(key => {
+                        for (let x of mapTemplates[key]) {
+                            if (x.Description) {
+                                x.isDescriptionNull = false;
+                            } else {
+                                x.isDescriptionNull = true;
+                            }
+                            x = this.setTemplateBagdeColor(x);
                         }
-                        if (x.Description) {
-                            x.isDescriptionNull = false;
-                        } else {
-                            x.isDescriptionNull = true;
-                        }
-                    }
+                    });
+
+                    this.templatesList = mapTemplates[this.listViewValue];
+                    this.mapTemplates = mapTemplates;
+
                     if (this.templatesList.length > 0) {
                         this.isTemplatePage = true;
                         this.isTemplatePresent = true;
@@ -212,30 +229,45 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     handleFilterChange(event) {
+
         if (this.showPagination) {
             this.hideLastButton = false;
         }
+
         if (event.target.dataset.id == 'templateShow') {
-            this.templateType = event.detail.value;
+            this.listViewValue = event.detail.value;
         } else if (event.target.dataset.id == 'templateFilter') {
             this.sortingType = event.detail.value;
         }
-        if (this.templateType == 'All') {
-            this.templatesList = this.mainTemplateList;
-        } else if (this.templateType == 'Public') {
-            this.templatesList = this.publicTemplatesList;
-        } else if (this.templateType == 'Private') {
-            this.templatesList = this.privateTemplatesList;
-        }
+        
+        this.templatesList = this.mapTemplates[this.listViewValue];
+
         if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
         else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
         else if (this.sortingType == 'modifiedAt') { this.sortTemplatesList('modifiedAt'); }
         else if (this.sortingType == 'titleDesc') { this.sortTemplatesList('titleDesc'); }
+        
         this.currentPage = 1;
         this.prevPage = 1;
         this.nextPage = 2;
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
+
         this.updateRecords();
+    }
+
+    setTemplateBagdeColor(template){
+        let defaultCSS = 'slds-float_left slds-var-m-top_xx-small slds-var-m-left_xx-small';
+        if (template.status.toLowerCase() == 'published') {
+            template.statusLabel = this.label.Ready_Label;
+            template.statusDescription = this.label.Ready_Status_Description;
+            template.statusCSS = '';
+        } else if (template.status.toLowerCase() == 'sent') {
+            template.statusLabel = this.label.Sent_Label;
+            template.statusDescription = this.label.Sent_Status_Description;
+            template.statusCSS = 'slds-theme_success ';
+        }
+        template.statusCSS += defaultCSS;
+        return template;
     }
 
     sortTemplatesList(sortBy) {
@@ -308,14 +340,8 @@ export default class TemplateGalleryComp extends LightningElement {
             let searchKey = event.target.value.toLowerCase();
             this.searchValue = searchKey;
             let filteredTemplates = [];
-            let currentTemplates = [];
-            if (this.templateType == 'All') {
-                currentTemplates = this.mainTemplateList;
-            } else if (this.templateType == 'Public') {
-                currentTemplates = this.publicTemplatesList;
-            } else if (this.templateType == 'Private') {
-                currentTemplates = this.privateTemplatesList;
-            }
+            let currentTemplates = mapTemplates[this.listViewValue];
+
             if (!this.fr) {
                 currentTemplates.forEach((ele) => {
                     if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
@@ -440,14 +466,10 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     showDataBasedOnPrivate() {
-        if (this.templateType == 'All') {
-            this.templatesList = this.mainTemplateList;
-        } else if (this.templateType == 'Public') {
-            this.templatesList = this.publicTemplatesList;
-        } else if (this.templateType == 'Private') {
-            this.templatesList = this.privateTemplatesList;
-        }
+
+        this.templatesList = this.mapTemplates[this.listViewValue];
         this.sortTemplatesList(this.sortingType);
+
     }
 
     handleBackbuttonAction() {
@@ -508,7 +530,7 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     generateIFrame() {
-        generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue })
+        generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue, campId: this.campSfId})
             .then((result) => {
                 this.urls = (JSON.parse(result));
             })

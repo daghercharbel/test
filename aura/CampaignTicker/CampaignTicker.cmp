@@ -1,6 +1,7 @@
 <aura:component description="CampaignTicker" controller="TelosTouchUtility"
   implements="lightning:availableForFlowActions,Lightning:availableForFlowScreens,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
   access="global">
+  <aura:attribute name="CampaignDetails" type="object" default="{}" />
   <aura:attribute name="CampaignSynced" type="Boolean" default="false" />
   <aura:attribute name="ActionRequired" type="Boolean" default="false" />
   <aura:attribute name="OpenTouchPointModal" type="Boolean" default="false" />
@@ -35,6 +36,7 @@
 
   <aura:attribute name="templateOptions" type="List" default="[]" />
   <aura:attribute name="templateValue" type="String" default="" />
+  <aura:attribute name="templateInfo" type="Object" default="{}" />
 
   <aura:attribute name="initialTemplateAmount" type="Integer" />
 
@@ -116,9 +118,16 @@
         <aura:if isTrue="{!v.CampMemberPresent}">
           <aura:if isTrue="{!v.templateValue}">
             <aura:if isTrue="{!!v.ActionRequired}">
-              <p class="slds-p-horizontal_medium c-red">
-                <lightning:formattedRichText value="{!v.customizePreviewLabel}" />
-              </p>
+              <aura:if isTrue="{!v.templateInfo.status == 'DRAFTED'}">
+                <p class="slds-p-horizontal_medium c-red">
+                  <lightning:formattedRichText value="{!$Label.c.Drafted_Template_Warning}" />
+                </p>
+                <aura:set attribute="else">
+                  <p class="slds-p-horizontal_medium c-red">
+                    <lightning:formattedRichText value="{!v.customizePreviewLabel}" />
+                  </p>
+                </aura:set>
+              </aura:if>
             </aura:if>
             <aura:set attribute="else">
               <aura:if isTrue="{!!v.ActionRequired}">

@@ -7,8 +7,10 @@
     <lightning-card variant="Narrow">
 
         <!-- RETURN LISTVIEW BUTTON -->
-        <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
-            onclick={handleBackbuttonAction} slot="actions"></lightning-button>
+        <template if:true={isGallery}>
+            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
+                onclick={handleBackbuttonAction} slot="actions"></lightning-button>
+        </template>
 
         <!-- GALLERY PAGE -->
         <template if:true={isGallery}>
@@ -17,24 +19,24 @@
                 <!-- PRIVACY TABS -->
                 <lightning-layout-item padding="around-small" alignment-bump="right">
                     <lightning-radio-group name="listView" options={listViewOptions} value={listViewValue} type="button"
-                        variant="label-hidden" onchange={handleRadioChange}></lightning-radio-group>
+                        onchange={handleRadioChange} class="slds-m-top_medium"></lightning-radio-group>
                 </lightning-layout-item>
                 <!-- STATUS FILTER -->
                 <lightning-layout-item padding="around-small">
-                    <lightning-combobox value={selectedStatus} data-id="templateFilter" options={statusOptions}
-                        variant="label-hidden" onchange={handleFilterChange}>
+                    <lightning-combobox label={label.Status_Text} value={selectedStatus} data-id="templateFilter"
+                        options={statusOptions} onchange={handleFilterChange}>
                     </lightning-combobox>
                 </lightning-layout-item>
                 <!-- SORT BY FILTER -->
                 <lightning-layout-item padding="around-small">
-                    <lightning-combobox value={selectedSort} data-id="templateFilter" options={sortingOptions}
-                        variant="label-hidden" onchange={handleSortChange}>
+                    <lightning-combobox label={label.Order_by_Label} value={selectedSort} data-id="templateFilter"
+                        options={sortingOptions} onchange={handleSortChange}>
                     </lightning-combobox>
                 </lightning-layout-item>
                 <!-- SEARCH BAR -->
                 <lightning-layout-item padding="around-small">
                     <lightning-input value={searchInput} type="search" placeholder={label.Search_Text}
-                        variant="label-hidden" onchange={handleSearchInput}>
+                        onchange={handleSearchInput}>
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
@@ -68,7 +70,8 @@
                                 <!-- IMAGE AND DESCRIPTION -->
                                 <div class="card-clickable" data-id={template.id} onclick={handleEditTemplate}>
                                     <div class="imgStyleCard" style={template.ImgStyle}>
-                                        <lightning-badge label={template.statusLabel} class={template.statusCSS}>
+                                        <lightning-badge label={template.statusLabel} class={template.statusCSS}
+                                            title={template.statusDescription}>
                                         </lightning-badge>
                                     </div>
                                     <div class="tooltip">
@@ -87,7 +90,8 @@
                                         <!-- PERMISSION -->
                                         <template if:true={template.showPermissionBtn}>
                                             <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
-                                                data-id={template.id} onclick={openTemplatePermission}>
+                                                data-id={template.id} onclick={openTemplatePermission}
+                                                title={template.permissionBtnDescr}>
                                                 <div class="slds-border_right">
                                                     <lightning-icon icon-name={template.permissionBtnIcon}
                                                         size="x-small"></lightning-icon>
@@ -97,7 +101,8 @@
                                         <!-- DELETE -->
                                         <template if:true={template.showDeleteBtn}>
                                             <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
-                                                data-id={template.id} onclick={handleDeleteTemplate}>
+                                                data-id={template.id} onclick={handleDeleteTemplate}
+                                                title={label.Remove_Text}>
                                                 <div class="slds-border_right">
                                                     <lightning-icon icon-name="utility:delete" variant="error"
                                                         size="x-small"></lightning-icon>
@@ -106,7 +111,8 @@
                                         </template>
                                         <!-- COPY -->
                                         <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
-                                            data-id={template.id} onclick={handleCopyTemplate}>
+                                            data-id={template.id} onclick={handleCopyTemplate}
+                                            title={label.Duplicate_Button_Description}>
                                             <lightning-icon icon-name="utility:copy" size="x-small"></lightning-icon>
                                         </div>
                                     </div>

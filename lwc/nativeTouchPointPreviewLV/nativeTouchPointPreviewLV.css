@@ -59,7 +59,7 @@
 }
 
 .createNewCard {
-    height: 192px
+    height: 238px
 }
 
 .previewText {
@@ -108,7 +108,7 @@
 @media screen and (min-width: 1600px) {
 
     .createNewCard {
-        height: 268px
+        height: 313px
     }
 
     .layoutStyle {
@@ -139,7 +139,7 @@
 @media screen and (max-width: 900px) and (min-width: 700px) {
 
     .createNewCard {
-        height: 266px
+        height: 310px
     }
 
     .layoutStyle {
@@ -160,7 +160,7 @@
 @media screen and (max-width: 430px) and (min-width: 320px) {
 
     .createNewCard {
-        height: 266px
+        height: 310px
     }
 
     .layoutStyle {

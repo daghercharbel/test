@@ -11,6 +11,7 @@
                         return;
                     }
                     var responseObj = JSON.parse(response.getReturnValue());
+                    c.set('v.CampaignDetails',responseObj);
                     if (responseObj.hasOwnProperty('synced')) {
                         c.set('v.CampaignSynced', responseObj.synced);
                     }
@@ -43,36 +44,7 @@
                         c.set('v.previewDisabled', true);
                         c.set("v.customizeDisabled", true);
                     }
-                    if (!$A.util.isEmpty(c.get('v.templateValue'))
-                        && c.get("v.CampaignSynced")
-                        && responseObj.hasOwnProperty('actionRequired')
-                        && !responseObj.actionRequired) {
-                        c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
-                        && c.get("v.CampaignSynced")
-                        && responseObj.hasOwnProperty('actionRequired')
-                        && responseObj.actionRequired
-                        && responseObj.hasOwnProperty('openTouchPointModal')
-                        && !responseObj.openTouchPointModal) {
-                        c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
-                        && c.get("v.CampaignSynced")
-                        && responseObj.hasOwnProperty('actionRequired')
-                        && responseObj.actionRequired
-                        && responseObj.hasOwnProperty('openTouchPointModal')
-                        && responseObj.openTouchPointModal) {
-                        c.set("v.sendDisabled", false);
-                    } else if ($A.util.isEmpty(c.get('v.templateValue'))
-                        && !c.get("v.CampaignSynced")) {
-                        c.set("v.sendDisabled", true);
-                    } else if (!$A.util.isEmpty(c.get('v.templateValue'))
-                        && !c.get("v.CampaignSynced")
-                        && responseObj.hasOwnProperty('actionRequired')
-                        && !responseObj.actionRequired
-                        && responseObj.hasOwnProperty('campMemberPresent')
-                        && responseObj.campMemberPresent) {
-                        c.set("v.sendDisabled", false);
-                    }
+                    h.checkSendButton(c);
                     if (!$A.util.isEmpty(c.get('v.templateValue'))
                         && c.get("v.CampaignSynced")) {
                         c.set("v.customizeDisabled", true);
@@ -254,6 +226,51 @@
         } catch (error) {
         }
     },
+    checkSendButton: function (c) {
+
+        console.log('VOD ---------------- checkSendButton');
+        let CampaignDetails = c.get('v.CampaignDetails');
+        let templateInfo = c.get("v.templateInfo")
+
+        if (!$A.util.isEmpty(c.get('v.templateValue'))
+            && c.get("v.CampaignSynced")
+            && CampaignDetails.hasOwnProperty('actionRequired')
+            && !CampaignDetails.actionRequired) {
+            console.log('VOD ---------------- true 1');
+            c.set("v.sendDisabled", true);
+        } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+            && c.get("v.CampaignSynced")
+            && CampaignDetails.hasOwnProperty('actionRequired')
+            && CampaignDetails.actionRequired
+            && CampaignDetails.hasOwnProperty('openTouchPointModal')
+            && !CampaignDetails.openTouchPointModal) {
+            console.log('VOD ---------------- true 2');
+            c.set("v.sendDisabled", true);
+        } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+            && c.get("v.CampaignSynced")
+            && CampaignDetails.hasOwnProperty('actionRequired')
+            && CampaignDetails.actionRequired
+            && CampaignDetails.hasOwnProperty('openTouchPointModal')
+            && CampaignDetails.openTouchPointModal) {
+            console.log('VOD ---------------- false 1');
+            c.set("v.sendDisabled", false);
+        } else if ($A.util.isEmpty(c.get('v.templateValue'))
+            && !c.get("v.CampaignSynced")) {
+            console.log('VOD ---------------- true 3');
+            c.set("v.sendDisabled", true);
+        } else if(templateInfo && templateInfo.status == 'DRAFTED'){
+            console.log('VOD ---------------- true 4');
+            c.set("v.sendDisabled", true);
+        } else if (!$A.util.isEmpty(c.get('v.templateValue'))
+            && !c.get("v.CampaignSynced")
+            && CampaignDetails.hasOwnProperty('actionRequired')
+            && !CampaignDetails.actionRequired
+            && CampaignDetails.hasOwnProperty('campMemberPresent')
+            && CampaignDetails.campMemberPresent) {
+            console.log('VOD ---------------- false 2');
+            c.set("v.sendDisabled", false);
+        }
+    },
     createTouchPointinTT_helper: function (c, e, h) {
         try {
             var action = c.get('c.sendTouchPointFromSF');
@@ -274,10 +291,12 @@
     },
     getUserAccessToken: function (c, e, h) {
         try {
+
             var action = c.get("c.generateCustomizeIFrame");
             action.setParams({
                 templateId: c.get("v.templateValue"),
-                campaignId: c.get("v.recordId")
+                campaignId: c.get("v.recordId"),
+                templateInfo: JSON.stringify(c.get("v.templateInfo"))
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
@@ -318,6 +337,7 @@
                                                 if (!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount) {
                                                     h.replaceTemplateId(c, result);
                                                 }
+                                                h.showTemplateName(c, e, h);
 
                                             });
 
@@ -406,12 +426,31 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
-                    c.set("v.templateName", response.getReturnValue());
-                    if (!$A.util.isEmpty(response.getReturnValue())) {
-                        c.set("v.templateNamePresent", true);
-                    } else {
+                    if($A.util.isEmpty(response.getReturnValue())){ 
                         c.set("v.templateNamePresent", false);
+                        return null; 
                     }
+                    let result = JSON.parse(response.getReturnValue());
+                    let templateInfo = {
+                        created_by : result.created_by,
+                        status : result.status
+                    };
+                    if($A.get("$Locale.language") == 'en'){
+                        if(result.type){
+                            c.set("v.templateName", result.name);
+                        } else {
+                            c.set("v.templateName", result.content.name);
+                        }
+                    } else if($A.get("$Locale.language") == 'fr'){
+                        if(result.type){
+                            c.set("v.templateName", result.name_fr);
+                        } else {
+                            c.set("v.templateName", result.content.name_fr);
+                        }
+                    }
+                    c.set("v.templateInfo", templateInfo);
+                    c.set("v.templateNamePresent", true);
+                    h.checkSendButton(c);
                 }
             });
             $A.enqueueAction(action);

@@ -56,7 +56,10 @@ public with sharing class ShowTouchPointPreviewController {
                 }
             }
             Map<String,String> urlMap = new Map<String, String>();
-            urlMap.put('email', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/public/email?lang='+language+'&custom_messages=%5B%5D&access_token='+userToken);
+            String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c;
+            emailUrl += (campObj.TelosTouchSF__Type__c != 'touchpoint') ? '/preview/public/email' : '/preview/tp/public/email';
+            emailUrl += '?lang='+language+'&custom_messages=%5B%5D&access_token='+userToken;
+            urlMap.put('email', emailUrl);
             if(String.isBlank(recordId) || !campObj.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
                 Map<String, String> headersMap = new Map<String, String>();
                 String endPointURL = '';
@@ -115,7 +118,10 @@ public with sharing class ShowTouchPointPreviewController {
 
             Map<String,String> urlMap = new Map<String, String>();
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-            urlMap.put('email', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/public/email?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken());
+            String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId;
+            emailUrl += (camp.TelosTouchSF__Type__c != 'touchpoint') ? '/preview/public/email' : '/preview/tp/public/email';
+            emailUrl += '?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken();
+            urlMap.put('email', emailUrl);
             if(String.isBlank(campId) || !camp.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
                 Map<String, String> headersMap = new Map<String, String>();
                 String endPointURL = '';

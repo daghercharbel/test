@@ -63,7 +63,7 @@ public with sharing class TouchPointPreviewController {
                 mapResult.put('status', 'success');
                 String responseBody = mapResponse.get('body');
                 String templateId = responseBody.substringBetween('"id": "', '",');
-                String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/touchpoint/'+templateId+'/customize?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
+                String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
                 mapResult.put('value', iframeUrl);
                 return mapResult;
             } else {
@@ -123,7 +123,7 @@ public with sharing class TouchPointPreviewController {
 
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
 
-            String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
+            String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
 
             mapResult.put('status', 'success');
             mapResult.put('value', iframeUrl);
