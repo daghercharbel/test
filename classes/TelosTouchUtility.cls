@@ -2059,20 +2059,16 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                           FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
 
             Boolean isCopy = false;
-            system.debug('VOD --------------- templateInfo '+templateInfo);
             if(String.isNotBlank(templateInfo)){
-                system.debug('VOD --------------- isCopy 2 '+isCopy);
                 map<String,Object> mapTempInfo = (map<String,Object>) JSON.deserializeUntyped(templateInfo);
                 if(mapTempInfo.containsKey('status')){
                     String status = (String) mapTempInfo.get('status');
                     isCopy |= (status.toLowerCase() == 'sent');
                 } 
-                system.debug('VOD --------------- isCopy 3 '+isCopy);
                 if(!isCopy && mapTempInfo.containsKey('created_by')){
                     String createdBy = (String) mapTempInfo.get('created_by');
                     isCopy |= (createdBy != aUser.TelosTouchSF__TT_UserId__c);
                 }
-                system.debug('VOD --------------- isCopy 4 '+isCopy);
             }
 
             if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
@@ -2125,7 +2121,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static String fetchSelectedTouchPointTemplate(String recordId){
         try {
-            System.debug('VOD -------------------- fetchSelectedTouchPointTemplate');
             Campaign camp = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c, TelosTouchSF__Type__c
                                 FROM Campaign WHERE Id =: recordId LIMIT 1];
             
@@ -2152,24 +2147,11 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
                 return mapResponse.get('body');
             } else {
-                System.debug('VOD ----------------------- mapResponse '+mapResponse);
+                throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
-
-            /*if(camp.TelosTouchSF__TouchPoint_Template_Id__c != null){
-                String response = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin(recordId);
-                List<Object> returnedObjList = (List<Object>) JSON.deserializeUntyped(response);
-                if(returnedObjList.size()>0){
-                    for(Object obj : returnedObjList){
-                        Map<String, Object> objectMap  = (Map<String, Object>) obj; 
-                        if(objectMap.containsKey('id') && objectMap.get('id') == camp.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage().contains('en'))){
-                            templateName = (String) objectMap.get('name');
-                        }else if(objectMap.containsKey('id') && objectMap.get('id') == camp.TelosTouchSF__TouchPoint_Template_Id__c && (UserInfo.getLanguage().contains('fr'))){
-                            templateName = (String) objectMap.get('name_fr');
-                        }
-                    }
-                }
-            }*/
+            
             return templateName;
+            
         } catch (Exception e) {
             System.debug('Error is:'+ e.getMessage()+' at line no: '+ e.getLineNumber());
             return null;

@@ -228,7 +228,6 @@
     },
     checkSendButton: function (c) {
 
-        console.log('VOD ---------------- checkSendButton');
         let CampaignDetails = c.get('v.CampaignDetails');
         let templateInfo = c.get("v.templateInfo")
 
@@ -236,7 +235,6 @@
             && c.get("v.CampaignSynced")
             && CampaignDetails.hasOwnProperty('actionRequired')
             && !CampaignDetails.actionRequired) {
-            console.log('VOD ---------------- true 1');
             c.set("v.sendDisabled", true);
         } else if (!$A.util.isEmpty(c.get('v.templateValue'))
             && c.get("v.CampaignSynced")
@@ -244,7 +242,6 @@
             && CampaignDetails.actionRequired
             && CampaignDetails.hasOwnProperty('openTouchPointModal')
             && !CampaignDetails.openTouchPointModal) {
-            console.log('VOD ---------------- true 2');
             c.set("v.sendDisabled", true);
         } else if (!$A.util.isEmpty(c.get('v.templateValue'))
             && c.get("v.CampaignSynced")
@@ -252,14 +249,11 @@
             && CampaignDetails.actionRequired
             && CampaignDetails.hasOwnProperty('openTouchPointModal')
             && CampaignDetails.openTouchPointModal) {
-            console.log('VOD ---------------- false 1');
             c.set("v.sendDisabled", false);
         } else if ($A.util.isEmpty(c.get('v.templateValue'))
             && !c.get("v.CampaignSynced")) {
-            console.log('VOD ---------------- true 3');
             c.set("v.sendDisabled", true);
         } else if(templateInfo && templateInfo.status == 'DRAFTED'){
-            console.log('VOD ---------------- true 4');
             c.set("v.sendDisabled", true);
         } else if (!$A.util.isEmpty(c.get('v.templateValue'))
             && !c.get("v.CampaignSynced")
@@ -267,7 +261,6 @@
             && !CampaignDetails.actionRequired
             && CampaignDetails.hasOwnProperty('campMemberPresent')
             && CampaignDetails.campMemberPresent) {
-            console.log('VOD ---------------- false 2');
             c.set("v.sendDisabled", false);
         }
     },
