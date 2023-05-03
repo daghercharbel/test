@@ -2150,8 +2150,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
             
-            return templateName;
-            
         } catch (Exception e) {
             System.debug('Error is:'+ e.getMessage()+' at line no: '+ e.getLineNumber());
             return null;

@@ -551,10 +551,4 @@ export default class TemplateGalleryComp extends LightningElement {
         });
         this.dispatchEvent(closeModalEvent);
     }
-
-    closeModal() {
-        const closeModalEvent = new CustomEvent('closemodalevent', {
-        });
-        this.dispatchEvent(closeModalEvent);
-    }
 }
