@@ -2952,6 +2952,13 @@ You can send the TouchPoint to more recipients by adding additional members to t
         <value>Template successfully selected.</value>
     </labels>
     <labels>
+        <fullName>Test_Template_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Test Template Success</shortDescription>
+        <value>Email has been sent successfully.</value>
+    </labels>
+    <labels>
         <fullName>Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
