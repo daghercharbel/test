@@ -2011,7 +2011,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isUpdateable() && camp!= null){
                             camp.TelosTouchSF__TT_Campaign_Id__c = (String) responseMap2.get('id');
                             camp.TelosTouchSF__Questions__c =  JSON.serialize(responseMap2.get('questions'));
-                            camp.TelosTouchSF__TouchPoint_Template_Id__c = (String) responseMap2.get('touchpoint_template_id');
                             update camp;
                     }
                 }else if(getResponseMap.get('status_code') == '401'){
