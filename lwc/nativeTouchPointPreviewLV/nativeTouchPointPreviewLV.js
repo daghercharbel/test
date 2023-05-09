@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import LANG from '@salesforce/i18n/lang';
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
@@ -94,6 +94,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     listViewId = '';
     listViewValue = 'public';
     mapTemplates = {};
+    @api navigateToList;
     @track nextBtnClass = 'btnBorderInActive';
     @track nextPage = 2;
     @track NoData = false;
@@ -288,7 +289,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     handleBackbuttonAction(event) {
         try {
-            this.navigateToList(this.listViewId);
+            this.navigateToListView(this.listViewId);
         } catch (error) {
             console.error(error);
         }
@@ -453,7 +454,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         this.previewBody = !this.previewBody;
     }
 
-    navigateToList(listViewId) {
+    navigateToListView(listViewId) {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
             attributes: {
