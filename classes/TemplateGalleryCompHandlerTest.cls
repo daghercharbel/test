@@ -1,6 +1,8 @@
 @isTest
 public class TemplateGalleryCompHandlerTest {
-    @isTest static void getTemplatesTest(){
+
+    @TestSetup
+    static void setup(){
 
         Campaign CampaignObj = new Campaign(
             Name = 'TemplateGalleryCompHandlerTest',
@@ -9,10 +11,14 @@ public class TemplateGalleryCompHandlerTest {
             Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
-        Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());        
+
+    }
+    @isTest static void getTemplatesTest(){
+        Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
+        Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TemplateGalleryCompHandlerTest'];   
         Test.startTest();
-        String res = TemplateGalleryCompHandler.getTouchPointTemplates(CampaignObj.Id);
-        String res1 = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin(CampaignObj.Id);
+        String res = TemplateGalleryCompHandler.getTouchPointTemplates(campTest.Id);
+        String res1 = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin(campTest.Id);
         Map<String, String> resp = TemplateGalleryCompHandler.getIFrameDetails();
         System.assert(res != null);
         System.assert(resp != null);
@@ -31,9 +37,10 @@ public class TemplateGalleryCompHandlerTest {
     @isTest static void previewURL(){
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
         String templateId = '6843931';
-        String language = 'en_US';        
+        String language = 'en_US';
+        Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TemplateGalleryCompHandlerTest'];
         Test.startTest();
-        String resp = TemplateGalleryCompHandler.generatePreviewIFrameUrl(templateId, language);
+        String resp = TemplateGalleryCompHandler.generatePreviewIFrameUrl(templateId, language, campTest.Id);
         System.assert(resp != null);
         Test.stopTest();
     }
