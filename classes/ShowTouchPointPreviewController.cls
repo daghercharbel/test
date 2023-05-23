@@ -67,7 +67,7 @@ public with sharing class ShowTouchPointPreviewController {
                 headersMap.put('Content-Type', 'application/json');
                 headersMap.put('Accept', 'application/json');
                 if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/portalurl?language='+language;
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c+'/preview/tp/portalurl?language='+language;
                 }
                 Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
                 if(getResponseMap.get('status_code') == '401'){
@@ -130,7 +130,7 @@ public with sharing class ShowTouchPointPreviewController {
                 headersMap.put('Content-Type', 'application/json');
                 headersMap.put('Accept', 'application/json');
                 if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/portalurl?language='+language;
+                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId+'/preview/tp/portalurl?language='+language;
                 }
                 Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET', endPointURL, headersMap, null);
                 if(getResponseMap.get('status_code') == '401'){

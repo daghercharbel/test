@@ -154,7 +154,27 @@
 
             <!-- EMPTY LIST -->
             <div if:true={NoData} class="noDataStyle">
-                <span>{label.NO_DATA_TEXT}</span>
+
+                <!-- CREATE NEW -->
+                <template if:true={creationEnabled}>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
+                        <div class="imgCard" onclick={handleCreateTemplate}>
+                            <div class="createNewCard slds-align_absolute-center">
+                                <div>
+                                    <lightning-icon class="slds-align_absolute-center" icon-name="utility:add"
+                                        size="large"></lightning-icon>
+                                    <div class="tpName">{label.create_new_text}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:false={creationEnabled}>
+                    <span>{label.NO_DATA_TEXT}</span>
+                </template>
+                
             </div>
 
             <!-- PERMISSION POPUP -->

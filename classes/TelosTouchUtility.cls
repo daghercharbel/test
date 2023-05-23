@@ -2097,7 +2097,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                     }
 
                 }
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+userToken+'&lang=en_US';
+                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/app/v1/#/touchpoint/'+templateId+'/customize-sf?fullscreen=true&access_token='+userToken;
             }
 
             if(UserInfo.getLanguage().contains('en')){
@@ -2106,7 +2106,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 iFrameURL += '&lang=fr_FR';
             }
             return iFrameURL;
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtility', 'generateCustomizeIFrame', null);
             return null;
         }
     }

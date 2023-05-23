@@ -11,6 +11,7 @@
             eventReceived.data.payload.TelosTouchSF__Campaign__c
           ) {
             h.doInitHelper(c, e, h);
+            h.labelSelection(c);
           }
         })
       )

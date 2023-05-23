@@ -18,7 +18,7 @@ public with sharing class SendTestCampaignController {
             body += '"template_id": "'+camp.TelosTouchSF__TouchPoint_Template_Id__c+'",';
             body += '"language": "'+aUser.LanguageLocaleKey+'"}';
 
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoints/send-test';
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoints/tp/send-test';
 
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
