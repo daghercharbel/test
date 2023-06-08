@@ -1070,7 +1070,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             system.debug(LoggingLevel.DEBUG, 'request Headers TU:: '+headersMap);
 
             response = http.send(request);
-            //system.debug(LoggingLevel.DEBUG, 'response body TU::'+response.getBody());
+            system.debug(LoggingLevel.DEBUG, 'response body TU::'+response.getBody());
             system.debug(LoggingLevel.DEBUG, 'response Status Code TU::'+response.getStatusCode());
         	responseMap.put('status_code', String.valueOf(response.getStatusCode()));
            if(response.getstatusCode() == 200 && response.getbody() != null){
@@ -2087,14 +2087,22 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         
                     Map<String, String> mapResponse = getResponse('PUT', endPointURL, mapHeader, null);
 
-                    if(mapResponse.get('status_code') == '200'){
-                        String responseBody = mapResponse.get('body');
-                        templateId = responseBody.substringBetween('"id": "', '",');
-                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
-                        update camp;
-                    } else {
+                    if(mapResponse.get('status_code') != '200'){
                         throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
-                    }
+                    } else {
+                        String responseBody = mapResponse.get('body');
+                        responseBody = responseBody.deleteWhitespace();
+                        templateId = responseBody.substringBetween('"id":"', '",');
+                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
+                        endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/publish/'+templateId;
+                        Map<String, String> mapResponse2 = getResponse('PUT', endPointURL, mapHeader, null);
+
+                        if(mapResponse.get('status_code') != '200'){
+                            throw new AuraHandledException('Response Code 2: '+mapResponse.get('status_code'));
+                        } else {
+                            update camp;
+                        }
+                    } 
 
                 }
                 iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/app/v1/#/touchpoint/'+templateId+'/customize-sf?fullscreen=true&access_token='+userToken;
@@ -2145,7 +2153,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             map<String, String> mapResponse = TelosTouchUtility.getResponse('GET',endpoint,mapHeader,null);
 
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
-                return mapResponse.get('body');
+                map<String,Object> mapBody = (map<String,Object>) JSON.deserializeUntyped(mapResponse.get('body'));
+                if(mapBody.containsKey('deleted') && (Boolean)mapBody.get('deleted')){
+                    camp.TelosTouchSF__TouchPoint_Template_Id__c = null;
+                    update camp;
+                    return null;
+                } else {
+                    return mapResponse.get('body');
+                }
             } else {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }

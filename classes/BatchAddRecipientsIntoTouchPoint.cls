@@ -46,7 +46,7 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
         headersMap.put('Content-Type', 'application/json');
         headersMap.put('Accept', 'application/json');
         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-            endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints/'+getwrapper.TTcampId+'/clients';
+            endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints/sf/'+getwrapper.TTcampId+'/clients';
         }
         bodyMap.put('clients', clientIds);
         body = JSON.serialize(bodyMap);

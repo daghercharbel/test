@@ -62,7 +62,7 @@ public with sharing class TouchPointPreviewController {
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 String responseBody = mapResponse.get('body');
-                String templateId = responseBody.substringBetween('"id": "', '",');
+                String templateId = responseBody.substringBetween('"id":"', '",');
                 String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
                 mapResult.put('value', iframeUrl);
                 return mapResult;
