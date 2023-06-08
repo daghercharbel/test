@@ -2091,9 +2091,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
                     } else {
                         String responseBody = mapResponse.get('body');
-                        responseBody = responseBody.deleteWhitespace();
-                        templateId = responseBody.substringBetween('"id":"', '",');
-                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
+                        map<String,Object> mapResponseBody = (map<String,Object>)JSON.deserializeUntyped(responseBody);
+                        camp.TelosTouchSF__TouchPoint_Template_Id__c = (String)mapResponseBody.get('id');
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/publish/'+templateId;
                         Map<String, String> mapResponse2 = getResponse('PUT', endPointURL, mapHeader, null);
 
