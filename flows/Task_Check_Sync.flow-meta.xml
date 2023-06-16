@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Filter_Task</name>
         <label>Filter Task</label>
-        <locationX>176</locationX>
+        <locationX>182</locationX>
         <locationY>335</locationY>
         <actionName>TaskCheckSyncAux</actionName>
         <actionType>apex</actionType>
@@ -17,38 +17,35 @@
                 <elementReference>$Record__Prior</elementReference>
             </value>
         </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <outputParameters>
+            <assignToReference>aTask</assignToReference>
+            <name>taskResult</name>
+        </outputParameters>
     </actionCalls>
     <apiVersion>55.0</apiVersion>
     <decisions>
         <name>Update_Needs_Sync</name>
         <label>Update Needs Sync?</label>
-        <locationX>176</locationX>
+        <locationX>182</locationX>
         <locationY>455</locationY>
-        <defaultConnector>
-            <targetReference>Update_Sync</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Yes</defaultConnectorLabel>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
-            <name>No</name>
+            <name>Yes</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>Filter_Task</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>aTask.TT_Needs_Sync__c</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>Filter_Task.TT_Needs_Sync__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>No</label>
+            <connector>
+                <targetReference>Update_Sync</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>Task Check Sync {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Task Check Sync</label>
     <processMetadataValues>
@@ -73,12 +70,12 @@
     <recordUpdates>
         <name>Update_Sync</name>
         <label>Update Sync</label>
-        <locationX>308</locationX>
+        <locationX>50</locationX>
         <locationY>575</locationY>
-        <inputReference>Filter_Task</inputReference>
+        <inputReference>aTask</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Filter_Task</targetReference>
@@ -110,4 +107,28 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>aTask</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Task_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+    <variables>
+        <name>lstTask</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
 </Flow>

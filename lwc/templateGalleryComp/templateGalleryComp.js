@@ -24,6 +24,7 @@ import English_Text from "@salesforce/label/c.English_Text";
 import French_Text from "@salesforce/label/c.French_Text";
 import Language_Text from "@salesforce/label/c.Language_Text";
 import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
+import My_Templates from "@salesforce/label/c.My_Templates";
 import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
 import No_Data_Text from "@salesforce/label/c.No_Data_Text";
 import None_Text from "@salesforce/label/c.None_Text";
@@ -61,6 +62,7 @@ export default class TemplateGalleryComp extends LightningElement {
         French_Text,
         Language_Text,
         LastModifiedDate,
+        My_Templates,
         My_Touchpoints,
         No_Data_Text,
         None_Text,
@@ -126,11 +128,13 @@ export default class TemplateGalleryComp extends LightningElement {
     get listViewOptions() {
         let options = [
             { label: this.label.Public_Text, value: 'public' },
-            { label: this.label.My_Touchpoints, value: 'private' }
         ];
         if (this.campaignType == 'touchpoint') {
-            options.push({ label: this.label.Shared_With_Me, value: 'shared' });
+            options.push({ label: this.label.My_Touchpoints, value: 'private' });
+        } else {
+            options.push({ label: this.label.My_Templates, value: 'private' });
         }
+        options.push({ label: this.label.Shared_With_Me, value: 'shared' });
         return options;
     }
 

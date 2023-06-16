@@ -275,6 +275,9 @@
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
                     if (response.getReturnValue() !== null && response.getReturnValue() !== undefined && response.getReturnValue() === 'success') {
+                    }else{
+                        h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
+                        c.set("v.sendDisabled", false);
                     }
                 }
             });
@@ -421,6 +424,7 @@
                 if (response.getState() === 'SUCCESS') {
                     if($A.util.isEmpty(response.getReturnValue())){ 
                         c.set("v.templateNamePresent", false);
+                        c.set("v.templateName", undefined);
                         return null; 
                     }
                     let result = JSON.parse(response.getReturnValue());

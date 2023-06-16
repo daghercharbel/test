@@ -144,10 +144,12 @@ public with sharing class TemplateGalleryCompHandler {
             if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
                 String url = adminCredentials.TelosTouchSF__Instance_URL__c
                 +'/api/v1/templates?type=email&sort=[{"modified_at":"DESC"},{"id":"DESC"}]';
-                endpointPublic = url+'&is_private=false';
-                endpointPrivate = url+'&is_private=true';
+                endpointPrivate = url+'&is_private=true&is_shared=false';
+                endpointShared = url+'&is_private=true&is_shared=true';
+                endpointPublic = url+'&is_private=false&is_shared=false';
             }
             mapResponses.put('private', TelosTouchUtility.getResponse(methodType, endpointPrivate, headersMap, null));
+            mapResponses.put('shared', TelosTouchUtility.getResponse(methodType, endpointShared, headersMap, null));
             mapResponses.put('public', TelosTouchUtility.getResponse(methodType, endpointPublic, headersMap, null));
         }
 

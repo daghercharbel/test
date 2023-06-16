@@ -1571,8 +1571,15 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Multi-language Support</value>
     </labels>
     <labels>
+        <fullName>My_Templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>My Templates</shortDescription>
+        <value>My Templates</value>
+    </labels>
+    <labels>
         <fullName>My_Touchpoints</fullName>
-        <language>fr</language>
+        <language>en_US</language>
         <protected>true</protected>
         <shortDescription>My Touchpoints</shortDescription>
         <value>My Touchpoints</value>

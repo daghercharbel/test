@@ -910,6 +910,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Multi_language_Support</name>
     </customLabels>
     <customLabels>
+        <label>Mes modèles</label>
+        <name>My_Templates</name>
+    </customLabels>
+    <customLabels>
         <label>Mes points de contact</label>
         <name>My_Touchpoints</name>
     </customLabels>
