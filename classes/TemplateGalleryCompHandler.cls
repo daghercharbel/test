@@ -175,7 +175,6 @@ public with sharing class TemplateGalleryCompHandler {
                                   templateMap.get('image_id') +
                                   ')')
                     );
-                    templateMap.put('modifiedAt', (Object) templateMap.get('modified_at'));
                     String dtField;
                     if(templateMap.containsKey('updated_at')){
                         dtField = String.valueOf(templateMap.get('updated_at'));
@@ -190,6 +189,7 @@ public with sharing class TemplateGalleryCompHandler {
                         'modified_at',
                         (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                     );
+                    templateMap.put('modifiedAt', (Object) templateMap.get('modified_at'));
                     if(templateMap.containsKey('description') && UserInfo.getLanguage().contains('en')){
                         templateMap.put('Description', (Object) templateMap.get('description'));
                     }else if(templateMap.containsKey('description_fr') && UserInfo.getLanguage().contains('fr')){
