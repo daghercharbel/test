@@ -684,6 +684,10 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Failed_Text</name>
     </customLabels>
     <customLabels>
+        <label>Echec de l&apos;envoi du Point de Contact</label>
+        <name>Failed_to_Send_Touchpoint</name>
+    </customLabels>
+    <customLabels>
         <label>Gestion des fonctionalités</label>
         <name>Feature_Toggle</name>
     </customLabels>
@@ -961,7 +965,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Custom_Field_Toast</name>
     </customLabels>
     <customLabels>
-        <label><!-- No Data Text --></label>
+        <label>Pas de données</label>
         <name>No_Data_Text</name>
     </customLabels>
     <customLabels>
@@ -1197,6 +1201,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Records_were_resubscribed_Text</name>
     </customLabels>
     <customLabels>
+        <label>Actualiser</label>
+        <name>Refresh_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Actualiser le jeton</label>
         <name>Refresh_Token_Button_Label</name>
     </customLabels>
@@ -1333,6 +1341,10 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Rechercher Campagne...</label>
         <name>Search_Campaign_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Entrez min. 3 lettres d&apos;e-mail ou nom d&apos;utilisateur</label>
+        <name>Search_Placeholder</name>
     </customLabels>
     <customLabels>
         <label>Rechercher</label>
@@ -1700,6 +1712,10 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
     <customLabels>
         <label>Le modèle est sélectionné avec succès.</label>
         <name>Template_Saved</name>
+    </customLabels>
+    <customLabels>
+        <label>Le courriel a été envoyé avec succès</label>
+        <name>Test_Template_Success</name>
     </customLabels>
     <customLabels>
         <label>Titre</label>

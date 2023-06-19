@@ -1179,6 +1179,13 @@ Note: Customise and Touchpoint Selection will be disabled after sending</value>
         <value>Failed</value>
     </labels>
     <labels>
+        <fullName>Failed_to_Send_Touchpoint</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Failed to Send Touchpoint</shortDescription>
+        <value>Failed to Send Touchpoint</value>
+    </labels>
+    <labels>
         <fullName>Feature_Toggle</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2072,6 +2079,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <value>Records were resubscribed</value>
     </labels>
     <labels>
+        <fullName>Refresh_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Label</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
         <fullName>Refresh_Token_Button_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2308,6 +2322,13 @@ The last step in the guide shows how to configure Connected App, Auth. Provider 
         <protected>true</protected>
         <shortDescription>Search Campaign Text</shortDescription>
         <value>Search Campaign...</value>
+    </labels>
+    <labels>
+        <fullName>Search_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Placeholder</shortDescription>
+        <value>Enter Min. 3 Letters of Email or Username...</value>
     </labels>
     <labels>
         <fullName>Search_Text</fullName>

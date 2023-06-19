@@ -2026,6 +2026,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(!createListOfLog.isEmpty()){
                     insert createListOfLog;
                 }
+                if(getResponseMap.get('status_code').split('0')[0] != '2'){
+                    return 'touchpoint failed';
+                }
                 if(camp != null){
                     List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
                                                                         Lead.Phone FROM CampaignMember WHERE (CampaignId=:camp.Id) WITH SECURITY_ENFORCED LIMIT 44999];
@@ -2092,12 +2095,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                     } else {
                         String responseBody = mapResponse.get('body');
                         map<String,Object> mapResponseBody = (map<String,Object>)JSON.deserializeUntyped(responseBody);
-                        camp.TelosTouchSF__TouchPoint_Template_Id__c = (String)mapResponseBody.get('id');
+                        templateId = (String)mapResponseBody.get('id');
+                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
                         endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/publish/'+templateId;
                         Map<String, String> mapResponse2 = getResponse('PUT', endPointURL, mapHeader, null);
 
                         if(mapResponse.get('status_code') != '200'){
-                            throw new AuraHandledException('Response Code 2: '+mapResponse.get('status_code'));
+                            throw new AuraHandledException('Response Code 2: '+mapResponse2.get('status_code'));
                         } else {
                             update camp;
                         }

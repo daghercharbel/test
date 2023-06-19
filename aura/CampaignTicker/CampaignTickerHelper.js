@@ -145,7 +145,8 @@
                         if (responseObj.accessTokenPresent) {
                             h.addClientsToTouchpoint(c, e, h, responseObj.campMemList);
                         } else {
-                            h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
+                            
+                            h.showInfoToast(c, e, h, "Failure", 'error', $A.get("$Label.c.Failed_to_Send_Touchpoint"));
                         }
                     }
                 }
@@ -172,10 +173,10 @@
                         h.showInfoToast(c, e, h, "Success", 'success', message);
                         h.doInitHelper(c, e, h);
                     } else {
-                        h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
+                        h.showInfoToast(c, e, h, "Failure", 'error', $A.get("$Label.c.Failed_to_Send_Touchpoint"));
                     }
                 } else {
-                    h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
+                    h.showInfoToast(c, e, h, "Failure", 'error', $A.get("$Label.c.Failed_to_Send_Touchpoint"));
                 }
             });
             $A.enqueueAction(action);
@@ -276,7 +277,7 @@
                 if (response.getState() === 'SUCCESS') {
                     if (response.getReturnValue() !== null && response.getReturnValue() !== undefined && response.getReturnValue() === 'success') {
                     }else{
-                        h.showInfoToast(c, e, h, "Failure", 'error', 'Failed to Send Touchpoint');
+                        h.showInfoToast(c, e, h, "Failure", 'error', $A.get("$Label.c.Failed_to_Send_Touchpoint"));
                         c.set("v.sendDisabled", false);
                     }
                 }
@@ -324,18 +325,7 @@
                                         cssClass: "customize-modal",
                                         closeCallback: function () {
 
-                                            let initialAmount = c.get('v.initialTemplateAmount');
-
-                                            h.getTemplateAmount(c).then(function (result) {
-
-                                                let currentAmount = result.length;
-
-                                                if (!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount) {
-                                                    h.replaceTemplateId(c, result);
-                                                }
-                                                h.showTemplateName(c, e, h);
-
-                                            });
+                                            h.showTemplateName(c, e, h);
 
                                         }
                                     });

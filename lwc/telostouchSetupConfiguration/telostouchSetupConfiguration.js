@@ -51,6 +51,7 @@ import Revoke_access from "@salesforce/label/c.Revoke_access";
 import Revoke_access_text from "@salesforce/label/c.Revoke_access_text";
 import Revoke_Current_User from "@salesforce/label/c.Revoke_Current_User";
 import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
+import Search_Placeholder from "@salesforce/label/c.Search_Placeholder";
 import Sent_SuccessToast from "@salesforce/label/c.Sent_SuccessToast";
 import Show_Advanced_Options_Text from "@salesforce/label/c.Show_Advanced_Options_Text";
 import Showing_Text from "@salesforce/label/c.Showing_Text";
@@ -107,6 +108,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         Revoke_access_text,
         Revoke_Current_User,
         Save_Button_Label,
+        Search_Placeholder,
         Sent_SuccessToast,
         Show_Advanced_Options_Text,
         Showing_Text,

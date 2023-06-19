@@ -166,6 +166,7 @@ public with sharing class TemplateGalleryCompHandler {
 
                     Map<String, Object> templateMap = (Map<String, Object>) tempObj;
                     if(String.valueOf(templateMap.get('status')) == 'DRAFTED') { continue; }
+                    else if(String.valueOf(templateMap.get('status')) == 'SENT' && key == 'public') { continue; }
 
                     templateMap.put(
                         'imageURL',

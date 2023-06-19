@@ -344,8 +344,8 @@ export default class TemplateGalleryComp extends LightningElement {
             let searchKey = event.target.value.toLowerCase();
             this.searchValue = searchKey;
             let filteredTemplates = [];
-            let currentTemplates = mapTemplates[this.listViewValue];
-
+            let currentTemplates = this.mapTemplates[this.listViewValue];
+            
             if (!this.fr) {
                 currentTemplates.forEach((ele) => {
                     if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
