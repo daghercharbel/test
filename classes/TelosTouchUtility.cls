@@ -2026,9 +2026,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(!createListOfLog.isEmpty()){
                     insert createListOfLog;
                 }
-                if(getResponseMap.get('status_code').split('0')[0] != '2'){
-                    return 'touchpoint failed';
-                }
                 if(camp != null){
                     List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
                                                                         Lead.Phone FROM CampaignMember WHERE (CampaignId=:camp.Id) WITH SECURITY_ENFORCED LIMIT 44999];
