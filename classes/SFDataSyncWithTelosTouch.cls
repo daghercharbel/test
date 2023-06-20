@@ -813,10 +813,18 @@ global with sharing class SFDataSyncWithTelosTouch {
                         }else{
                             request.setMethod('POST');
                             ContactVSTTMap.put('other_id', String.valueOf(con.get('Id')));
-                            if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                            if(adminCredentials.TelosTouchSF__Use_CreatedById__c){
+                                if(String.isNotBlank(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                } else {
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                }
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                if(String.isNotBlank(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c)){
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                } else {
+                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                }
                             }
                             postBody = postBody + JSON.serialize(ContactVSTTMap);
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
