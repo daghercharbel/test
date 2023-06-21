@@ -443,5 +443,22 @@
             $A.enqueueAction(action);
         } catch (error) {
         }
-    }
+    },
+
+    checkAllCM: function(c,e,h){
+        try {
+            var action = c.get('c.syncClientsBeforeTouchpoint');
+            action.setParams({
+                'campaignId': c.get('v.recordId')
+            });
+            action.setCallback(this, function (response) {
+                if (response.getState() === 'SUCCESS') {
+                    // console.log('ran');
+                }
+            });
+            $A.enqueueAction(action);
+        } catch (error) {
+            // console.log('error is:'+ error.message);
+        }
+    } 
 })

@@ -2165,6 +2165,75 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
     }
 
+    @AuraEnabled
+    public static void syncClientsBeforeTouchpoint(String campaignId){
+        try {
+            Set<Id> contactIds = new Set<Id>();
+            Set<Id> leadIds = new Set<Id>();
+            for(CampaignMember cmObj: [SELECT ContactId, LeadId FROM CampaignMember WHERE CampaignId =: campaignId WITH SECURITY_ENFORCED LIMIT 50000]){
+                if(cmObj.ContactId != null){
+                    contactIds.add(cmObj.ContactId);
+                }else{
+                    leadIds.add(cmObj.LeadId);
+                }
+            }
+            System.debug('contactId: '+ contactIds);
+            System.debug('leadId: '+ leadIds);
+            Set<String> setFields = new Set<String>{
+                'TelosTouchSF__Language__c',
+                'TelosTouchSF__Source__c',
+                'TelosTouchSF__Subscribed__c',
+                'TelosTouchSF__TT_Client_Id__c'
+            };
+            if(contactIds.size() > 0){
+                String query = 'SELECT Owner.TelosTouchSF__TT_UserName__c, Owner.TelosTouchSF__TT_UserId__c, Owner.TelosTouchSF__Auth_Token__c,';
+                String strContact ='Contact';
+                String strAccountId = 'AccountId';
+                if(Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isQueryable()){
+                    for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                            FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                            WHERE TelosTouchSF__Object_Name__c =: strContact 
+                                                                            AND TelosTouchSF__Salesforce_Field__c !=: strAccountId WITH SECURITY_ENFORCED])
+                    {
+                        setFields.add(fieldAPI.TelosTouchSF__Salesforce_Field__c);
+                    }
+                }
+                query += String.join(new List<String>(setFields), ',');
+                query = query.removeEnd(',');
+                query += ' FROM Contact WHERE Id IN: contactIds AND TelosTouchSF__TT_Needs_Sync__c = true';
+                query = query.removeEnd('WHERE');
+                query = query.removeEnd('AND');
+                List<Contact> conList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
+                TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(conList, null, null, null, null, null);
+            }
+            if(leadIds.size() > 0){
+                String query = 'SELECT Owner.username, Owner.id, Status, ';
+                String strContact ='Lead';
+                String strAccountId = 'AccountId';
+                if(Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isQueryable()){
+                    for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
+                                                                            FROM TelosTouchSF__TT_Salesforce_Mapping__c 
+                                                                            WHERE TelosTouchSF__Object_Name__c =: strContact 
+                                                                            AND TelosTouchSF__Salesforce_Field__c !=: strAccountId WITH SECURITY_ENFORCED])
+                    {
+                        setFields.add(fieldAPI.TelosTouchSF__Salesforce_Field__c);
+                    }
+                }
+                query += String.join(new List<String>(setFields), ',');
+                query = query.removeEnd(',');
+                query += ' FROM Lead WHERE Id IN: leadIds AND IsConverted = false AND TelosTouchSF__TT_Needs_Sync__c = true';
+                query = query.removeEnd('WHERE');
+                query = query.removeEnd('AND');
+                List<Lead> leadList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
+                TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(null, leadList, null, null, null, null);
+            }
+            System.debug('all fine');
+        } catch (Exception e) {
+            System.debug('Error is: '+ e.getMessage() + ' at line no: '+ e.getLineNumber());
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
 
     
     /**

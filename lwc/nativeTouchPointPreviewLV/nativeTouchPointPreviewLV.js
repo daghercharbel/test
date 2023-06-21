@@ -14,6 +14,7 @@ import getSharableUsers from '@salesforce/apex/TouchPointPreviewController.getSh
 import getSystemInfo from '@salesforce/apex/TouchPointPreviewController.getSystemInfo';
 import getTemplateDetails from '@salesforce/apex/TouchPointPreviewController.getTemplateDetails';
 import updateTemplatePermission from '@salesforce/apex/TouchPointPreviewController.updateTemplatePermission';
+import checkIfUserHaveCreationAcess from '@salesforce/apex/TouchPointPreviewController.checkIfUserHaveCreationAcess';
 
 //Custom Labels
 import All_Label from '@salesforce/label/c.All_Label';
@@ -203,9 +204,9 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             this.fr = true;
         }
 
-        if (this.creationEnabled) {
-            this.recordSize = (this.recordSize - 1);
-        }
+        // if (this.creationEnabled) {
+        //     this.recordSize = (this.recordSize - 1);
+        // }
 
         getSystemInfo()
             .then(result => {
@@ -219,7 +220,19 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             .finally(() => {
                 this.getTemplates();
             });
-
+        
+        checkIfUserHaveCreationAcess()
+        .then((data)=>{
+            this.creationEnabled = data;
+        })
+        .catch((error)=>{
+            this.creationEnabled = false;
+        })
+        .finally(()=>{
+            if (this.creationEnabled) {
+                this.recordSize = (this.recordSize - 1);
+            }
+        });
     }
 
     getTemplates() {

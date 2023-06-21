@@ -5,6 +5,7 @@
 */
 public with sharing class TouchPointPreviewController {
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+    private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
 
     @AuraEnabled
     public static map<String, String> copyTemplate(String templateId){
@@ -320,6 +321,26 @@ public with sharing class TouchPointPreviewController {
             mapResult.put('error', ex.getMessage());
             return mapResult;
 
+        }
+    }
+
+    @AuraEnabled
+    public static Boolean checkIfUserHaveCreationAcess(){
+        try {
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/users?search='+[SELECT Email FROM USER WHERE Id =: UserInfo.getUserId() LIMIT 1].Email;
+            Map<String, String> mapHeader = new Map<String, String>();
+            mapHeader.put('Authorization','Bearer ' + authenticationCredential.TelosTouchSF__Access_Token__c);
+            mapHeader.put('Content-Type', 'application/json');
+            mapHeader.put('Accept', 'application/json');
+            Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse('GET',endPointURL,mapHeader,null);
+            List<Object> ttUserList = (List<Object>) JSON.deserializeUntyped(getResponseMap.get('body'));
+            Map<String, Object> ttUserObj = (Map<String, Object>) ttUserList[0];
+            if(ttUserObj.containsKey('role') && ((ttUserObj.get('role') == 'administrator') || (ttUserObj.get('role') == 'builder'))){
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
     }
     

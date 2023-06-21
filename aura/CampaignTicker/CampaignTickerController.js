@@ -121,6 +121,8 @@
 
   createTouchPointinTT: function (c, e, h) {
     c.set("v.sendDisabled", true);
+    // call backend for syncing the CM
+    h.checkAllCM(c,e,h);
     if (!c.get("v.CampaignSynced")) {
       h.createTouchPointinTT_helper(c, e, h);
     } else {
