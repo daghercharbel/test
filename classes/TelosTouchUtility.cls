@@ -2170,21 +2170,21 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         try {
             Set<Id> contactIds = new Set<Id>();
             Set<Id> leadIds = new Set<Id>();
-            for(CampaignMember cmObj: [SELECT ContactId, LeadId FROM CampaignMember WHERE CampaignId =: campaignId WITH SECURITY_ENFORCED LIMIT 50000]){
+            for(CampaignMember cmObj: [SELECT ContactId, LeadId FROM CampaignMember WHERE CampaignId =: campaignId WITH SECURITY_ENFORCED LIMIT 10000]){
                 if(cmObj.ContactId != null){
                     contactIds.add(cmObj.ContactId);
                 }else{
                     leadIds.add(cmObj.LeadId);
                 }
             }
-            System.debug('contactId: '+ contactIds);
-            System.debug('leadId: '+ leadIds);
             Set<String> setFields = new Set<String>{
                 'TelosTouchSF__Language__c',
                 'TelosTouchSF__Source__c',
                 'TelosTouchSF__Subscribed__c',
                 'TelosTouchSF__TT_Client_Id__c'
             };
+            List<Contact> conList = new List<Contact>();
+            List<Lead> leadList = new List<Lead>();
             if(contactIds.size() > 0){
                 String query = 'SELECT Owner.TelosTouchSF__TT_UserName__c, Owner.TelosTouchSF__TT_UserId__c, Owner.TelosTouchSF__Auth_Token__c,';
                 String strContact ='Contact';
@@ -2203,8 +2203,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 query += ' FROM Contact WHERE Id IN: contactIds AND TelosTouchSF__TT_Needs_Sync__c = true';
                 query = query.removeEnd('WHERE');
                 query = query.removeEnd('AND');
-                List<Contact> conList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
-                TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(conList, null, null, null, null, null);
+                conList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
             }
             if(leadIds.size() > 0){
                 String query = 'SELECT Owner.username, Owner.id, Status, ';
@@ -2224,12 +2223,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 query += ' FROM Lead WHERE Id IN: leadIds AND IsConverted = false AND TelosTouchSF__TT_Needs_Sync__c = true';
                 query = query.removeEnd('WHERE');
                 query = query.removeEnd('AND');
-                List<Lead> leadList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
-                TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(null, leadList, null, null, null, null);
+                leadList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
             }
-            System.debug('all fine');
+            if(!conList.isEmpty() || !leadList.isEmpty()){
+                TelosTouchSF.SFDataSyncWithTelosTouch.updateContactDetails(!conList.isEmpty() ? conList : null, !leadList.isEmpty() ? leadList : null, null, null, null, null);
+            }
+
         } catch (Exception e) {
-            System.debug('Error is: '+ e.getMessage() + ' at line no: '+ e.getLineNumber());
+            System.debug(LoggingLevel.ERROR, 'Error is: '+ e.getMessage() + ' at line no: '+ e.getLineNumber());
             throw new AuraHandledException(e.getMessage());
         }
     }

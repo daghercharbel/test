@@ -84,7 +84,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     };
 
     builderTemplateId;
-    creationEnabled = true;
+    creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
     filterName = '';
@@ -203,10 +203,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         if (this.lang === 'fr') {
             this.fr = true;
         }
-
-        // if (this.creationEnabled) {
-        //     this.recordSize = (this.recordSize - 1);
-        // }
 
         getSystemInfo()
             .then(result => {

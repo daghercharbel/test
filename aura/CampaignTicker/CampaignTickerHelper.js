@@ -453,7 +453,11 @@
             });
             action.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {
-                    // console.log('ran');
+                    if (!c.get("v.CampaignSynced")) {
+                        h.createTouchPointinTT_helper(c, e, h);
+                    } else {
+                        h.addClientsToTouchpoint(c, e, h, c.get("v.campMemList"));
+                    }
                 }
             });
             $A.enqueueAction(action);
