@@ -2170,7 +2170,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         try {
             Set<Id> contactIds = new Set<Id>();
             Set<Id> leadIds = new Set<Id>();
-            for(CampaignMember cmObj: [SELECT ContactId, LeadId FROM CampaignMember WHERE CampaignId =: campaignId WITH SECURITY_ENFORCED LIMIT 10000]){
+            for(CampaignMember cmObj: [SELECT ContactId, LeadId FROM CampaignMember WHERE CampaignId =: campaignId AND (Contact.TelosTouchSF__TT_Needs_Sync__c = true OR Lead.TelosTouchSF__TT_Needs_Sync__c = true) WITH SECURITY_ENFORCED]){
                 if(cmObj.ContactId != null){
                     contactIds.add(cmObj.ContactId);
                 }else{
@@ -2200,7 +2200,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 }
                 query += String.join(new List<String>(setFields), ',');
                 query = query.removeEnd(',');
-                query += ' FROM Contact WHERE Id IN: contactIds AND TelosTouchSF__TT_Needs_Sync__c = true';
+                query += ' FROM Contact WHERE Id IN: contactIds';
                 query = query.removeEnd('WHERE');
                 query = query.removeEnd('AND');
                 conList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
@@ -2220,7 +2220,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 }
                 query += String.join(new List<String>(setFields), ',');
                 query = query.removeEnd(',');
-                query += ' FROM Lead WHERE Id IN: leadIds AND IsConverted = false AND TelosTouchSF__TT_Needs_Sync__c = true';
+                query += ' FROM Lead WHERE Id IN: leadIds AND IsConverted = false';
                 query = query.removeEnd('WHERE');
                 query = query.removeEnd('AND');
                 leadList = Database.query(String.escapeSingleQuotes(query).replace('\\', ''));
