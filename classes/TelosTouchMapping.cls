@@ -278,7 +278,7 @@ public with sharing class TelosTouchMapping {
                     request.setTimeout(45000);
                     HttpResponse response = http.send(request);
                     String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
-                    TelosTouchUtility.generateLog(respMessage, 'TelosTouchMapping', 'sendCustomFieldsSFToTT', null);
+                    TelosTouchUtility.generateAndSaveLog(respMessage, 'TelosTouchMapping', 'sendCustomFieldsSFToTT', null);
                     
                     if (response.getStatusCode() == 200) {
                         if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.isAccessible()){

@@ -41,6 +41,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CallSentry</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_DeleteLogRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -78,6 +82,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ClientTaggingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClientTaggingControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -265,6 +273,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SFBatchToRevokeLicence</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SFBatchToRevokeLicenceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SFDataSyncWithTelosTouch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -281,6 +297,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SchCallSentry</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SchCallSentryTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ScheduleSyncingContactsAndLeads</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -294,6 +318,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendSFUserBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SendTestCampaignController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SendTestCampaignControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -317,11 +349,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ShowTouchPointPreviewControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SingleRequestMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TTBrandingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TTBrandingControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -429,6 +469,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TaskCheckSyncAux</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TaskCheckSyncAuxTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskDelete_Batch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -438,6 +486,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TaskTriggerHandler_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TelosTouchDataSyncController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1254,6 +1306,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>TT_Log__c.Synchronized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>TT_Log__c.Total_Contact_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1516,6 +1573,10 @@
     </tabSettings>
     <tabSettings>
         <tab>TT_Home</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>TT_Log__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

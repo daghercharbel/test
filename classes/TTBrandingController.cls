@@ -38,7 +38,7 @@ public with sharing class TTBrandingController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TTBrandingController', 'createAttachment', userId);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTBrandingController', 'createAttachment', userId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -75,7 +75,7 @@ public with sharing class TTBrandingController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TTBrandingController', 'getSignature', userId);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTBrandingController', 'getSignature', userId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -119,7 +119,7 @@ public with sharing class TTBrandingController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TTBrandingController', 'putSignature', userId);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTBrandingController', 'putSignature', userId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

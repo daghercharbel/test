@@ -33,7 +33,7 @@ public with sharing class TouchPointPreviewController {
             }
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -74,7 +74,7 @@ public with sharing class TouchPointPreviewController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'createNewTemplate', userId);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'createNewTemplate', userId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -107,7 +107,7 @@ public with sharing class TouchPointPreviewController {
             }
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -134,7 +134,7 @@ public with sharing class TouchPointPreviewController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'editTemplate', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'editTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -174,7 +174,7 @@ public with sharing class TouchPointPreviewController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'getSharableUsers', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'getSharableUsers', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -316,7 +316,7 @@ public with sharing class TouchPointPreviewController {
             }
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

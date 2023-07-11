@@ -355,7 +355,7 @@ public with sharing class MassCreateTaskCompController {
             hr.setMethod('GET');
             HttpResponse r = h.send(hr);
             String respMessage = 'Response Status Code: '+r.getstatusCode()+' | Response Body: '+r.getBody();
-            TelosTouchUtility.generateLog(respMessage, 'MassCreateTaskCompController', 'restGet', null);
+            TelosTouchUtility.generateAndSaveLog(respMessage, 'MassCreateTaskCompController', 'restGet', null);
             return r.getBody();
         } catch (Exception ex) {
             system.debug(LoggingLevel.ERROR,'Exception in tooling API Call:' + ex.getMessage());

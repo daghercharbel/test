@@ -29,7 +29,7 @@ public with sharing class TT_FeatureSettingsController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TT_FeatureSettingsController', 'getFeatureMetadata', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TT_FeatureSettingsController', 'getFeatureMetadata', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -102,7 +102,7 @@ public with sharing class TT_FeatureSettingsController {
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TT_FeatureSettingsController', 'getFeatureMetadata', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TT_FeatureSettingsController', 'getFeatureMetadata', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
