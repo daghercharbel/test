@@ -89,14 +89,16 @@
                                     <div class="slds-grid">
                                         <!-- PERMISSION -->
                                         <template if:true={template.showPermissionBtn}>
-                                            <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
-                                                data-id={template.id} onclick={openTemplatePermission}
-                                                title={template.permissionBtnDescr}>
-                                                <div class="slds-border_right">
-                                                    <lightning-icon icon-name={template.permissionBtnIcon}
-                                                        size="x-small"></lightning-icon>
+                                            <template if:true={creationEnabled}>
+                                                <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
+                                                    data-id={template.id} onclick={openTemplatePermission}
+                                                    title={template.permissionBtnDescr}>
+                                                    <div class="slds-border_right">
+                                                        <lightning-icon icon-name={template.permissionBtnIcon}
+                                                            size="x-small"></lightning-icon>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </template>
                                         </template>
                                         <!-- DELETE -->
                                         <template if:true={template.showDeleteBtn}>
@@ -174,7 +176,7 @@
                 <template if:false={creationEnabled}>
                     <span>{label.NO_DATA_TEXT}</span>
                 </template>
-                
+
             </div>
 
             <!-- PERMISSION POPUP -->

@@ -93,7 +93,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     isAdmin = false;
     lang = LANG;
     listViewId = '';
-    listViewValue = 'public';
+    listViewValue = 'private';
     mapTemplates = {};
     @api navigateToList;
     @track nextBtnClass = 'btnBorderInActive';
@@ -153,17 +153,17 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     get listViewOptions() {
         return [
-            { label: this.label.Public_Text, value: 'public' },
             { label: this.label.My_Touchpoints, value: 'private' },
             { label: this.label.Shared_With_Me, value: 'shared' },
+            { label: this.label.Public_Text, value: 'public' }
         ];
     }
 
     get permissionOptions() {
         return [
             { label: this.label.Public_Permission, value: 'public', title: 'TEST TITLE' },
-            { label: this.label.Private_Permission, value: 'private' },
-            { label: this.label.Restricted_Permission, value: 'restricted' },
+            { label: this.label.Private_Permission, value: 'private' }
+            //{ label: this.label.Restricted_Permission, value: 'restricted' },
         ];
     }
 
@@ -216,19 +216,19 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             .finally(() => {
                 this.getTemplates();
             });
-        
+
         checkIfUserHaveCreationAcess()
-        .then((data)=>{
-            this.creationEnabled = data;
-        })
-        .catch((error)=>{
-            this.creationEnabled = false;
-        })
-        .finally(()=>{
-            if (this.creationEnabled) {
-                this.recordSize = (this.recordSize - 1);
-            }
-        });
+            .then((data) => {
+                this.creationEnabled = data;
+            })
+            .catch((error) => {
+                this.creationEnabled = false;
+            })
+            .finally(() => {
+                if (this.creationEnabled) {
+                    this.recordSize = (this.recordSize - 1);
+                }
+            });
     }
 
     getTemplates() {
@@ -450,7 +450,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         } else if (permissionType == 'private') {
             selectedTemplate.permissionBtnIcon = 'utility:lock';
             selectedTemplate.permissionBtnDescr = this.label.Private_Permission_Description;
-            
+
         } else if (permissionType == 'restricted') {
             selectedTemplate.permissionBtnIcon = 'utility:people';
             selectedTemplate.permissionBtnDescr = this.label.Restricted_Permission_Description;
@@ -585,7 +585,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return templateList;
     }
 
-    setTemplateBagdeColor(template){
+    setTemplateBagdeColor(template) {
         let defaultCSS = 'slds-float_left slds-var-m-top_xx-small slds-var-m-left_xx-small';
         if (template.status.toLowerCase() == 'drafted') {
             template.statusLabel = this.label.Drafted_Label;
