@@ -325,7 +325,22 @@
                                         cssClass: "customize-modal",
                                         closeCallback: function () {
 
-                                            h.showTemplateName(c, e, h);
+                                            if(c.get('v.campaignType') == 'email'){
+
+                                                let initialAmount = c.get('v.initialTemplateAmount');
+    
+                                                h.getTemplateAmount(c).then(function (result) {
+    
+                                                    let currentAmount = result.length;
+    
+                                                    if (!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount) {
+                                                        h.replaceTemplateId(c, result);
+                                                    }
+                                                    h.showTemplateName(c, e, h);
+    
+                                                });
+
+                                            }
 
                                         }
                                     });
