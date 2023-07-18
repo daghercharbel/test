@@ -336,11 +336,11 @@
                                                     if (!isNaN(initialAmount) && !isNaN(currentAmount) && initialAmount < currentAmount) {
                                                         h.replaceTemplateId(c, result);
                                                     }
-                                                    h.showTemplateName(c, e, h);
     
                                                 });
 
                                             }
+                                            h.showTemplateName(c, e, h);
 
                                         }
                                     });
