@@ -73,6 +73,11 @@
                 if (response.getState() === 'SUCCESS') {
                     var camp = response.getReturnValue();
                     c.set('v.campaignType', camp.TelosTouchSF__Type__c);
+                    if(camp.TelosTouchSF__Type__c == 'email'){
+                        c.set('v.isEmailCampaign', true);
+                    } else {
+                        c.set('v.isEmailCampaign', false);
+                    }
                     if(camp.TelosTouchSF__Type__c == 'touchpoint'){
                         c.set('v.chooseLabel', $A.get("$Label.c.Choose_a_TouchPoint_Text"));
                         c.set('v.customizeAddClientLabel', $A.get("$Label.c.Customize_AddClientText"));

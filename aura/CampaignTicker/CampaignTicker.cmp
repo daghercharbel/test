@@ -20,6 +20,7 @@
   <aura:attribute name="CreatedDate" type="date" />
 
   <aura:attribute name="campaignType" type="String" default="touchpoint"/>
+  <aura:attribute name="isEmailCampaign" type="Boolean" default="false"/>
   <aura:attribute name="chooseLabel" type="String"/>
   <aura:attribute name="customizeAddClientLabel" type="String"/>
   <aura:attribute name="customizePreviewLabel" type="String"/>
@@ -78,10 +79,11 @@
           </aura:if>
           <!-- SEND TEST -->
           <aura:if isTrue="{!v.templateValue}">
-            <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
-              <lightning:button label="{!$Label.c.Send_Test_Button}" class="slds-size_1-of-1"
-                onclick="{!c.openSendTest}" />
-            </lightning:layoutItem>
+            <aura:if isTrue="{!!v.isEmailCampaign}">
+              <lightning:layoutItem size="12" class="slds-var-p-vertical_xx-small">
+                <lightning:button label="{!$Label.c.Send_Test_Button}" class="slds-size_1-of-1" onclick="{!c.openSendTest}" />
+              </lightning:layoutItem>
+            </aura:if>
           </aura:if>
           <!-- SEND -->
           <aura:if isTrue="{!v.templateValue}">
@@ -190,9 +192,11 @@
           </aura:if>
           <!-- SEND TEST -->
           <aura:if isTrue="{!v.templateValue}">
-            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
-              <lightning:button label="{!$Label.c.Send_Test_Button}" onclick="{!c.openSendTest}" />
-            </lightning:layoutItem>
+            <aura:if isTrue="{!!v.isEmailCampaign}">
+              <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                <lightning:button label="{!$Label.c.Send_Test_Button}" onclick="{!c.openSendTest}" />
+              </lightning:layoutItem>
+            </aura:if>
           </aura:if>
           <!-- SEND -->
           <aura:if isTrue="{!v.templateValue}">
