@@ -1,4 +1,4 @@
-/*
+/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description SchedulerForBulkDataInsertOrUpdate ....
@@ -9,7 +9,7 @@ public with sharing class SchedulerForBulkDataInsertOrUpdate implements Schedula
 	public Integer endPoint;
 	public String objectName;
 	public Id jobId;
-	/*
+	/**
 	* @author Cloud Analogy
 	* @date 26/08/2021.
 	* @description constructor of the SchedulerForBulkDataInsertOrUpdate class ....
@@ -26,7 +26,7 @@ public with sharing class SchedulerForBulkDataInsertOrUpdate implements Schedula
 		this.objectName = objectName;
 		this.jobId = jobId;
 	}
-	/*
+	/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description execute method ....

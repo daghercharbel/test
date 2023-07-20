@@ -1,4 +1,18 @@
+/**
+ * Created by swapn on 01-07-2021.
+ */
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
 public with sharing class TTNativeHomeController {
+      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @return String ...
+*/
     @AuraEnabled
     public static string getSentVsCompletedData(){
         try {
@@ -60,6 +74,12 @@ public with sharing class TTNativeHomeController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+         /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @return String ...
+*/
     @AuraEnabled
     public static string getChartData(){
         try {

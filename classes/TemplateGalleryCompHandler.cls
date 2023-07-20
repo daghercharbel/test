@@ -11,6 +11,8 @@ public with sharing class TemplateGalleryCompHandler {
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to fetching all the touchpoints
+* @param campId ...
+* @return String ...
 */
     @AuraEnabled
     public static String getTouchPointTemplatesAdmin(String campId) {
@@ -18,7 +20,7 @@ public with sharing class TemplateGalleryCompHandler {
         String conditions = '';
 
         if(String.isNotBlank(campId)){
-            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId];
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
             if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             conditions = '?type='+camp.TelosTouchSF__Type__c;
         }
@@ -96,6 +98,8 @@ public with sharing class TemplateGalleryCompHandler {
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to fetching all the touchpoints
+* @param campId ...
+* @return String ...
 */
     @AuraEnabled
     public static String getTouchPointTemplates(String campId) {
@@ -104,7 +108,7 @@ public with sharing class TemplateGalleryCompHandler {
         String campaignType = 'touchpoint';
 
         if(String.isNotBlank(campId)){
-            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId];
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
             if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             conditions = 'type='+camp.TelosTouchSF__Type__c+'&';
             campaignType = camp.TelosTouchSF__Type__c;
@@ -113,7 +117,7 @@ public with sharing class TemplateGalleryCompHandler {
 
         String methodType = 'GET';
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-        User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId()];
+        User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
         String endpointPrivate;
         String endpointShared;
         String endpointPublic;
@@ -227,6 +231,7 @@ public with sharing class TemplateGalleryCompHandler {
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to generate the Iframe url
+* @return Map<String, String> ...
 */
     
     @AuraEnabled
@@ -255,6 +260,7 @@ public with sharing class TemplateGalleryCompHandler {
 * @description used to savE the touchpoint.
 * @param campaignRecordId stores the campaign Id
 * @param touchPointTemplateId   stores the touchpoint template id
+* @return Boolean ....
 */
     
     @AuraEnabled
@@ -289,6 +295,8 @@ public with sharing class TemplateGalleryCompHandler {
 * @description used to savE the touchpoint.
 * @param templateId stores the touchpoint template Id
 * @param language   stores the  selected language
+* @param campId   stores the  campaign id
+* @return String ....
 */
     
     @AuraEnabled

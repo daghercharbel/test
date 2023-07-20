@@ -1,3 +1,8 @@
+/**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description ShowTouchPointPreviewController ....
+*/
 public with sharing class ShowTouchPointPreviewController {
     private static final TelosTouchSF__TT_Admin_Credentials__mdt ADMINCREDENTIALS = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt AUTHENTICATIONCREDENTIALS = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
@@ -8,6 +13,7 @@ public with sharing class ShowTouchPointPreviewController {
 * @description used to savE the touchpoint.
 * @param recordId stores the campaign Id
 * @param language   stores the selected language
+* @return String ...
 */
     @AuraEnabled
     public static string getIFrameUrls(Id recordId, String language){
@@ -98,12 +104,14 @@ public with sharing class ShowTouchPointPreviewController {
     }
 
 
-        /**
+         /**
 * @author Cloud Analogy
 * @date 02/08/2021
-* @description used to generate the iframe url for the preview touchpoint the touchpoint.
+* @description used to generate the iframe url for the preview touchpoint the touchpoint .
 * @param templateId stores the campaign Id
+* @param campId   stores the selected language
 * @param language   stores the selected language
+* @return String ...
 */
 
     @AuraEnabled

@@ -117,9 +117,15 @@ public with sharing class TimelineWrapper{
 /**
 * @author Charbel Dagher
 * @date 04/010/2022
+* @description ...
 */  
 @AuraEnabled
 public  date campOpenDate { get; set; }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+*/
 @AuraEnabled
 public  date campCompletedDate { get; set; }
         /**
@@ -286,9 +292,15 @@ public  date campCompletedDate { get; set; }
 /**
 * @author Charbel Dagher
 * @date 04/010/2022
+* @description ...
 */  
 @AuraEnabled
 public  date campOpenDate { get; set; }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+*/
 @AuraEnabled
 public  date campCompletedDate { get; set; }
         /**

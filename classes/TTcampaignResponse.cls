@@ -13,6 +13,7 @@ public with sharing class TTcampaignResponse {
 * @description This method gets the response of campaigns.
 * @param campId stores id of campaign.
 * @param remainingClientIdsList stores id of campaign.
+* @return String...
 */
     public static String getCampaignResponse(String campId, List<String> remainingClientIdsList ){
         try{

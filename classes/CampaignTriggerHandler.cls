@@ -34,7 +34,12 @@ public with sharing class CampaignTriggerHandler {
             System.debug(LoggingLevel.WARN, ex.getMessage()+' Occurred At Line Number: '+ex.getLineNumber());
         }
     }
-
+   /**
+* @author Cloud Analogy
+* @date 02/08/2021
+*@description clearTemplateId.....
+* @param lstCamp ......
+*/
     public static void clearTemplateId(List<Campaign> lstCamp) {
         for(Campaign camp : lstCamp){
             if(String.isNotBlank(camp.TelosTouchSF__TT_Campaign_Id__c) || !TriggerUtils.wasChanged(camp, 'TelosTouchSF__Type__c')){

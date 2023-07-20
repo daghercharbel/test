@@ -158,7 +158,13 @@ public with sharing class TTFilterUserController {
             System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
         return null;
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description This method queries the details of campaigns.
+* @param recordId stores a id of campaign.
+* @return Campaign ....
+*/
     @AuraEnabled
     public static Campaign getCampaignData(String recordId){
         try {
@@ -170,7 +176,13 @@ public with sharing class TTFilterUserController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description This method queries the details of campaigns.
+* @param recordId stores a id of campaign.
+* @return string ....
+*/
     @AuraEnabled
     public static string requestSync(String recordId){
         try {
@@ -376,13 +388,15 @@ public with sharing class TTFilterUserController {
     * @author Vinicius Duarte
     * @date 21/07/2022
     * @description This method callout to the app to update the conversation JSON of the Insight
+    * @param recordId stores a value of form type.
+    * @return String...
     */
     @AuraEnabled
     public static string insightCallout(String recordId){
         try {
 
             List<TelosTouchSF__Insights__c> lstInsight = [SELECT Id, TelosTouchSF__Conversation_Id__c, TelosTouchSF__Completed_At__c 
-                                                          FROM TelosTouchSF__Insights__c WHERE Id =: recordId];
+                                                          FROM TelosTouchSF__Insights__c WHERE Id =: recordId WITH SECURITY_ENFORCED];
             if(lstInsight.isEmpty()){ throw new AuraHandledException('Insight not found.'); } 
 
             if(adminCredentials.TelosTouchSF__Instance_URL__c == null || String.isBlank(adminCredentials.TelosTouchSF__Instance_URL__c)){
@@ -424,8 +438,9 @@ public with sharing class TTFilterUserController {
 
             lstInsight[0].TelosTouchSF__Answers__c = JSON.serialize(lstAnswer);
             if(lstInsight[0].TelosTouchSF__Completed_At__c != null){lstInsight[0].TelosTouchSF__Completed_and_Sync__c = true;}
-            Database.update(lstInsight);
-
+            if (Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()) {
+                Database.update(lstInsight);
+            }
             return null;
         } catch (Exception ex) {
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
@@ -471,7 +486,7 @@ public with sharing class TTFilterUserController {
                                                TelosTouchSF__Completed_At__c,
                                                TelosTouchSF__Opened_At__c
                                                FROM TelosTouchSF__Insights__c
-                                               WHERE (Id =: recordId OR TelosTouchSF__Campaign2__c=: recordId) LIMIT 2000];
+                                               WHERE (Id =: recordId OR TelosTouchSF__Campaign2__c=: recordId) WITH SECURITY_ENFORCED LIMIT 2000];
                    }
                 for(TelosTouchSF__Insights__c conversationUserObj : conversationUserList){
                     answerWrapperDetailsObj.TouchPointName = conversationUserObj.TelosTouchSF__TouchPoint_Name__c;
@@ -595,7 +610,7 @@ public with sharing class TTFilterUserController {
             if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isQueryable() &&
                Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() && Schema.sObjectType.Campaign.fields.Name.isAccessible() &&
                Schema.sObjectType.Campaign.fields.CreatedDate.isAccessible()){
-                   campaignObj= [SELECT Id,Name,TelosTouchSF__TT_Campaign_Id__c, CreatedDate FROM Campaign WHERE Id=:campainId AND TelosTouchSF__TT_Campaign_Id__c != null];
+                   campaignObj= [SELECT Id,Name,TelosTouchSF__TT_Campaign_Id__c, CreatedDate FROM Campaign WHERE Id=:campainId AND TelosTouchSF__TT_Campaign_Id__c != null WITH SECURITY_ENFORCED];
                }
             Long now0TimeinMilliseconds = Datetime.now().getTime();
             Long createdTimeinMilliseconds = campaignObj.CreatedDate.getTime();
@@ -778,6 +793,12 @@ public with sharing class TTFilterUserController {
         return null;
     }
     
+      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return String ..
+*/
     @AuraEnabled
     public static String fetchCampaignRecordType() {
         try {
@@ -801,7 +822,14 @@ public with sharing class TTFilterUserController {
         }
         return null;
     }
-    
+         /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param campRecordId ....
+* @param userListStr ....
+* @return String ..
+*/
     @AuraEnabled
     public static string addClientsToCampaign(String campRecordId, String userListStr){
         try {
@@ -851,6 +879,17 @@ public with sharing class TTFilterUserController {
             }
         }
     }
+     /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param objectName ....
+* @param filterField ....
+* @param searchString ....
+* @param campaignRecordId ....
+* @return String ..
+*/
+
     @AuraEnabled 
     public static String fetchRecords( String objectName, String filterField, String searchString, Id campaignRecordId ) {
         try{ 
@@ -874,6 +913,13 @@ public with sharing class TTFilterUserController {
             return '';
         }
     }
+     /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param campaignRecordId ....
+* @return String ..
+*/
     @AuraEnabled 
     public static String fetchLimitedRecords(Id campaignRecordId) { 
         try {
@@ -890,7 +936,12 @@ public with sharing class TTFilterUserController {
             return '';
         }
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return Boolean ..
+*/
     @AuraEnabled
     public static Boolean isClientTaggingEnabled(){
         try {
@@ -929,6 +980,8 @@ public with sharing class TTFilterUserController {
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description RecordsData is used to get CampaignRecords.
+* @param label ...
+* @param value ...
 */
         public RecordsData(String label, String value) {
             this.label = label;
@@ -1192,6 +1245,11 @@ public with sharing class TTFilterUserController {
 * @description ......
 */
         @AuraEnabled public String nameURL { get; set; }
+              /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+*/
         @AuraEnabled public String TTCreated_At { get; set; }
         /**
 * @author Cloud Analogy
@@ -1235,6 +1293,11 @@ public with sharing class TTFilterUserController {
 * @description ......
 */
         @AuraEnabled public String ContactOrLeadSubscribed { get; set; }
+                 /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+*/
         @AuraEnabled public Boolean completedAndSync { get; set; }
         
     }

@@ -1,10 +1,21 @@
+/**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description SFBatchToRevokeLicence....
+*/
 public with sharing class SFBatchToRevokeLicence implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful{
 
     public List<Id> userList;
     private TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential;
     private TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials;
     
-    public SFBatchToRevokeLicence(List<Id> userIdList){
+    /**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description SFBatchToRevokeLicence ....
+* @param userIdList ......
+*/
+public SFBatchToRevokeLicence(List<Id> userIdList){
         this.userList=userIdList;
         adminCredentials = new TelosTouchSF__TT_Admin_Credentials__mdt();
         authenticationCredential = new TelosTouchSF__TT_Authentication_Credential__mdt();
@@ -13,10 +24,24 @@ public with sharing class SFBatchToRevokeLicence implements Database.Batchable<s
             authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
         }
     }
+        /**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description start ....
+* @param BC ......
+* @return Database.QueryLocator ...
+*/
     public Database.QueryLocator start(Database.BatchableContext BC) {
         String q = 'SELECT TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c, TelosTouchSF__TT_UserName__c FROM User where Id IN :userList WITH SECURITY_ENFORCED';
        return Database.getQueryLocator(q);
     }
+         /**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description execute ....
+* @param BC ......
+* @param returnedUserList ......
+*/
     public void execute(Database.BatchableContext BC,List<user> returnedUserList){
 
         try {
@@ -60,6 +85,12 @@ public with sharing class SFBatchToRevokeLicence implements Database.Batchable<s
             TelosTouchSF.TelosTouchUtility.generateErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
         }
     }
+     /**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description finish ....
+* @param BC ......
+*/
     public void finish(Database.BatchableContext BC){
 
     } 

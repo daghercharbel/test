@@ -1,9 +1,21 @@
+/**
+* @author Cloud Analogy
+* @date 02/02/2023
+* @description FetchUnsubscribedClients.......
+*/
 public with sharing class FetchUnsubscribedClients {
+           /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param recId
+* @return List<Object>  ....
+*/
     @AuraEnabled
     public static List<Object> getUnsubscribedClientsFromCampaign(String recId) {
         try {
             String strNo = 'No';
-            List<Object> cmData = [SELECT Name, Email,ContactId, LeadId, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c =: strNo OR Lead.TelosTouchSF__Subscribed__c = :strNo)];
+            List<Object> cmData = [SELECT Name, Email,ContactId, LeadId, Phone FROM CampaignMember WHERE CampaignId =:recId AND (Contact.TelosTouchSF__Subscribed__c =: strNo OR Lead.TelosTouchSF__Subscribed__c = :strNo) WITH SECURITY_ENFORCED];
             System.debug(cmData);
             if(cmData.size()>0 && cmData != Null){
                 System.debug('data:: '+ cmData);
@@ -15,6 +27,13 @@ public with sharing class FetchUnsubscribedClients {
             return null;
         }
     }
+               /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param idsData
+* @return String  ....
+*/
     @AuraEnabled
     public static String removeClient(String idsData){
         try {
@@ -27,7 +46,7 @@ public with sharing class FetchUnsubscribedClients {
             Set<Id> leadIdSet = new Set<Id>();
             Boolean campaignSynced = false;
             if(campaignMemList.size() > 0){
-                campaignSynced = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campaignMemList[0].CampaignId].TelosTouchSF__TT_Campaign_Id__c != null ? true : false;
+                campaignSynced = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campaignMemList[0].CampaignId WITH SECURITY_ENFORCED].TelosTouchSF__TT_Campaign_Id__c != null ? true : false;
                 if(campaignSynced){
                     for(CampaignMember campMemObj : campaignMemList){
                         if(campMemObj.ContactId != null && campMemObj.LeadId == null){
@@ -80,6 +99,14 @@ public with sharing class FetchUnsubscribedClients {
             return e.getMessage();
         }
     }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param conIds ...
+* @param leadIds ...
+* @return String  ....
+*/
     @AuraEnabled
     public static String resubscribeClient(String conIds, String leadIds){
         try {
@@ -103,11 +130,15 @@ public with sharing class FetchUnsubscribedClients {
             }
             Boolean flag = false, flag1 = false;
             if(conList.size()>0){
-                update conList;
+                if (Schema.sObjectType.Contact.isAccessible() && Schema.sObjectType.Contact.isUpdateable()) {
+                    update conList;
+                }
                 flag = true;
             }
             if(leadList.size()>0){
-                update leadList;
+                if (Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isUpdateable()) {
+                    update leadList;
+                }
                 flag1 = true;
             }
             if(flag || flag1){

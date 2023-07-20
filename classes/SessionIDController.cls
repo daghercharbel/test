@@ -1,10 +1,10 @@
-/*
+/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description SessionIDController....
 */
 public class SessionIDController {
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description getSessionId ....

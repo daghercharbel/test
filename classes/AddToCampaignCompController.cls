@@ -1,16 +1,17 @@
-/*
+/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description AddToCampaignCompController ..
  */
 public with sharing class AddToCampaignCompController {
-    /*
+   
+ /**
  * @author Cloud Analogy
  * @date 26/08/2021.
- * @description getObjectDetails..
-* @param objectName...
-* @param recordId...
- @return String ..
+ * @description getObjectDetails ..
+ * @param objectName ...
+ * @param recordId ...
+ * @return String ..
  */
     @AuraEnabled
     public static String getObjectDetails(String objectName, String recordId){
@@ -38,7 +39,7 @@ public with sharing class AddToCampaignCompController {
         sobject obj1 = Database.query(String.escapeSingleQuotes(queryStr));
         return (String) obj1.get('Name');
     }
-    /*
+    /**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description updateCampaignRecord ..
@@ -46,7 +47,8 @@ public with sharing class AddToCampaignCompController {
 * @param recordId ...
 * @param campId ...
 * @param campName ...
- @return String ..*/
+* @return String ..
+*/
     @AuraEnabled
     public static String updateCampaignRecord(String objectName, String recordId, String campId, String campName){
         try{
@@ -94,7 +96,7 @@ public with sharing class AddToCampaignCompController {
             return exceptionString;           
         }
     }
-    /*
+    /**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description getCampaignRecordType ....
@@ -118,7 +120,7 @@ public with sharing class AddToCampaignCompController {
         }
         return null;
     }
-    /*
+    /**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description createNewCampaignApex

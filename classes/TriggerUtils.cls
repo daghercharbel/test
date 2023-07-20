@@ -1,4 +1,4 @@
-/***
+/**
  *                  ©2022 TelosTouch
  * ==================================================
  * 
@@ -6,13 +6,25 @@
  * 
  * Author: vinicius.duarte@telostouch.com
  * Test Class: 
+ *  @description ........
 ***/
 public with sharing class TriggerUtils {
-
+  /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
     public static void assertTrigger(){
         system.assert((trigger.isExecuting), 'Method being called outside trigger context.');
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @param record ...
+* @param field ...
+* @return Boolean ...
+*/
     public static Boolean wasChanged(SObject record, String field){
         assertTrigger();
         if(Trigger.isInsert) return true;

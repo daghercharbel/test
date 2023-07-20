@@ -6,7 +6,14 @@
 public with sharing class TouchPointPreviewController {
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
-
+   
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param templateId stores the touchpoint template Id
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String, String> copyTemplate(String templateId){
         
@@ -14,7 +21,7 @@ public with sharing class TouchPointPreviewController {
 
         try {
             
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId+'/copy';
 
@@ -40,7 +47,12 @@ public with sharing class TouchPointPreviewController {
 
         }
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String, String> createTemplate() {
 
@@ -48,7 +60,7 @@ public with sharing class TouchPointPreviewController {
         Id userId;
         try {
             
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             userId = aUser.Id;
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph';
@@ -80,7 +92,13 @@ public with sharing class TouchPointPreviewController {
             return mapResult;
         }
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param templateId stores the touchpoint template Id
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String, String> deleteTemplate(String templateId){
         
@@ -88,7 +106,7 @@ public with sharing class TouchPointPreviewController {
 
         try {
             
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId;
 
@@ -114,7 +132,13 @@ public with sharing class TouchPointPreviewController {
 
         }
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param templateId stores the touchpoint template Id
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String, String> editTemplate(String templateId){
 
@@ -123,7 +147,7 @@ public with sharing class TouchPointPreviewController {
             
             if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
 
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
 
@@ -140,7 +164,12 @@ public with sharing class TouchPointPreviewController {
             return mapResult;
         }
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String, String> getIFrameDetails() {
         try {
@@ -160,14 +189,19 @@ public with sharing class TouchPointPreviewController {
             return null;
         }
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String,String> getSharableUsers(){
         map<String, String> mapResult = new map<String, String>();
         try {
 
             list<User> lstUser = [SELECT Id, Name, TelosTouchSF__TT_UserId__c
-                                  FROM User WHERE TelosTouchSF__TT_UserId__c != null AND Id !=: UserInfo.getUserId()];
+                                  FROM User WHERE TelosTouchSF__TT_UserId__c != null AND Id !=: UserInfo.getUserId() WITH SECURITY_ENFORCED];
             mapResult.put('status', 'success');
             mapResult.put('value', JSON.serialize(lstUser));
             return mapResult; 
@@ -181,7 +215,12 @@ public with sharing class TouchPointPreviewController {
 
         }
     }
-    
+         /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return String ....
+*/
     @AuraEnabled
     public static String getSystemInfo() {
         try {
@@ -191,7 +230,7 @@ public with sharing class TouchPointPreviewController {
             //System.Label.System_Administrator
             ListView lvObj = [SELECT Id, Name FROM ListView WHERE SobjectType =: strCampaign AND Name =: strTTCampaigns
                               WITH SECURITY_ENFORCED LIMIT 1];
-            User aUser = [SELECT Id, Profile.name FROM User WHERE id =: UserInfo.getUserId()];
+            User aUser = [SELECT Id, Profile.name FROM User WHERE id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
             returnMap.put('isAdmin', aUser.Profile.Name == System.Label.System_Administrator);
             returnMap.put('listViewId', lvObj.Id);
             return JSON.serialize(returnMap);
@@ -200,12 +239,17 @@ public with sharing class TouchPointPreviewController {
             return null;
         }
     }
-    
+       /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return String ....
+*/
     @AuraEnabled
     public static String getTemplateDetails() {
         String methodType = 'GET';
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-        User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId()];
+        User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
         String endpointPrivate;
         String endpointShared;
         String endpointPublic;
@@ -289,7 +333,14 @@ public with sharing class TouchPointPreviewController {
         }
         return null;
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @param templateId stores the touchpoint template Id
+* @param requestBody stores the touchpoint template Id
+* @return map<String, String> ....
+*/
     @AuraEnabled
     public static map<String,String> updateTemplatePermission(String templateId, String requestBody){
 
@@ -297,7 +348,7 @@ public with sharing class TouchPointPreviewController {
 
         try {
             
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId+'/permissions';
 
@@ -323,7 +374,13 @@ public with sharing class TouchPointPreviewController {
 
         }
     }
-
+    
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ...
+* @return Boolean ....
+*/
     @AuraEnabled
     public static Boolean checkIfUserHaveCreationAcess(){
         try {

@@ -1,29 +1,34 @@
-/*
+/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description ShareWithClient_Apex ....
 */
 public with sharing class ShareWithClient_Apex {
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
-* @description....
+* @description ....
 */
     public List<Task> contactList { get; set; }
+    /**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description ....
+*/
     private ApexPages.StandardSetController standardController;
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description ...
 */
     public List<String> insertContactIdSet { get; set; }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description ....
 */
     public String jsonStr { get; set; }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description constructor of the SessionIDController class ....

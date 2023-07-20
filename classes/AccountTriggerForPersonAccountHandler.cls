@@ -1,14 +1,14 @@
-/*
+/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description AccountTriggerForPersonAccountHandler ...
  */
 public with sharing class AccountTriggerForPersonAccountHandler {
-	/*
+	/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description afterInsertHandler ...
-* @param newAccountList stores the list of salesforce Accounts List.
+ * @param newAccountList stores the list of salesforce Accounts List.
  */
 	public static void afterInsertHandler(List<Account> newAccountList){
 		try {
@@ -27,7 +27,7 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 			System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
 		}
 	}
-	/*
+	/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description afterUpdateHandler ...
@@ -90,7 +90,7 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 			System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
 		}
 	}
-	/*
+	/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description beforeUpdateHandler
@@ -132,7 +132,7 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 			System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
 		}
 	}
-	/*
+	/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description ...
@@ -172,6 +172,13 @@ public with sharing class AccountTriggerForPersonAccountHandler {
 			System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
 		}
 	}
+
+		/**
+ * @author Cloud Analogy
+ * @date 26/08/2021.
+ * @description ...
+ * @param lstAcc ...
+*/
     //Method responsible to update the last modified date field if any of the fields relevant to sync is modified
     public static void checkSyncLastModifiedData(list<Account> lstAcc){
         
@@ -179,7 +186,7 @@ public with sharing class AccountTriggerForPersonAccountHandler {
         set<String> setField = new set<String>();
         for(TelosTouchSF__TT_Salesforce_Mapping__c aField : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                              FROM TelosTouchSF__TT_Salesforce_Mapping__c 
-                                                             WHERE TelosTouchSF__Object_Name__c = 'Contact' AND TelosTouchSF__Salesforce_Field__c != null])
+                                                             WHERE TelosTouchSF__Object_Name__c = 'Contact' AND TelosTouchSF__Salesforce_Field__c != null WITH SECURITY_ENFORCED])
         {
             String fieldName = aField.TelosTouchSF__Salesforce_Field__c;
             if(fieldName.endsWith('__c'))fieldName = fieldName.substringBeforeLast('__c')+'__pc';

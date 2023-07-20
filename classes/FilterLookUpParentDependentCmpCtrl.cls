@@ -1,4 +1,4 @@
-/*
+/**
  * @author Cloud Analogy
  * @date 26/08/2021.
  * @description ContactTriggerForSyncing ...

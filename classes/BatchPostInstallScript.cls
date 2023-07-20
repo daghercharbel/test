@@ -1,4 +1,4 @@
-/*
+/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description batch post install class ....
@@ -6,7 +6,7 @@
 global with sharing class BatchPostInstallScript implements Database.Batchable<sObject>, Database.AllowsCallouts, Database.Stateful {
     private static final TelosTouchSF__TelosTouch_API_Settings__c GETCREDENTIALS = TelosTouchSF__TelosTouch_API_Settings__c.getOrgDefaults();
     global String objectName ;
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description constructor...
@@ -15,7 +15,7 @@ global with sharing class BatchPostInstallScript implements Database.Batchable<s
     global BatchPostInstallScript(String objName) {
         this.objectName = objName ;
     }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description start method .....
@@ -31,7 +31,7 @@ global with sharing class BatchPostInstallScript implements Database.Batchable<s
         }
         return Database.getQueryLocator(String.escapeSingleQuotes(queryString));
     }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description execute method ....
@@ -74,7 +74,7 @@ global with sharing class BatchPostInstallScript implements Database.Batchable<s
             }
         }
     }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021
 * @description finish method ...

@@ -1,7 +1,19 @@
+/**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description SendTestCampaignController ....
+*/
 public with sharing class SendTestCampaignController {
 
     private static TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-
+/**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description sendTestTemplate method ....
+* @param emails ......
+* @param campaignId ......
+* @return map<String,String> .....
+*/
     @AuraEnabled
     public static map<String,String> sendTestTemplate(String emails, String campaignId){
         
@@ -10,9 +22,9 @@ public with sharing class SendTestCampaignController {
         try {
 
             User aUser = [SELECT Id, LanguageLocaleKey, TelosTouchSF__Auth_Token__c 
-                          FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+                          FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             Campaign camp = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c 
-                             FROM Campaign WHERE Id =: campaignId];
+                             FROM Campaign WHERE Id =: campaignId WITH SECURITY_ENFORCED];
 
             String body = '{"emails": '+emails+',';
             body += '"template_id": "'+camp.TelosTouchSF__TouchPoint_Template_Id__c+'",';

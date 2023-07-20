@@ -17,7 +17,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     public class CustomException extends Exception {}
     public static TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials;
     public static TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredentials;
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description handleResult ....
+* @param result ....
+* @param context ....
+*/
     public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
         if (result.status == Metadata.DeployStatus.Succeeded) {
             //Success
@@ -50,6 +56,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @description This method gets the TT id of campaigns.
 * @param campId stores id of campaign.
 * @param remainingClientIds stores...
+* @return String ...
 */
     @AuraEnabled
     public static String getTTCampaignId(String campId, String remainingClientIds){
@@ -82,19 +89,21 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
                 TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, 
                 TelosTouchSF__Use_CreatedById__c, TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, 
-                TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c FROM TelosTouchSF__TT_Admin_Credentials__mdt])
+                TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c FROM TelosTouchSF__TT_Admin_Credentials__mdt WITH SECURITY_ENFORCED])
             {
                 mapMDT.put(mdt.MasterLabel, mdt);
             }
 
             PermissionSet ps = [SELECT Id, (SELECT Id FROM Assignments WHERE AssigneeId =: Userinfo.getuserid()) 
-                                FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name LIMIT 1];
+                                FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED LIMIT 1];
             
             if(ps.Assignments.size() > 0){
                 lstPsa = ps.Assignments;
             } else if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage){
                 lstPsa.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id));
-                insert lstPsa;
+                if (Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isCreateable()){
+                    insert lstPsa;
+                }
             }
             
             if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
@@ -112,16 +121,22 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
         
     }
+      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @return TelosTouchSF__TT_Authentication_Credential__mdt TelosTouchSF__TT_Authentication_Credential__mdt ....
+*/
     public static TelosTouchSF__TT_Authentication_Credential__mdt getAuthenticationCustomMetadata(){
         try{
 
             map<String, TelosTouchSF__TT_Authentication_Credential__mdt> mapMDT = new map<String, TelosTouchSF__TT_Authentication_Credential__mdt>();
             list<PermissionSetAssignment> lstPsa = [SELECT Id FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() 
-                                                    AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name];
+                                                    AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED];
 
             for(TelosTouchSF__TT_Authentication_Credential__mdt mdt : [SELECT MasterLabel, TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, 
                                                                         TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-                                                                        FROM TelosTouchSF__TT_Authentication_Credential__mdt])
+                                                                        FROM TelosTouchSF__TT_Authentication_Credential__mdt WITH SECURITY_ENFORCED])
             {
                 mapMDT.put(mdt.MasterLabel, mdt);
             }
@@ -221,7 +236,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isQueryable() &&
                    Schema.sObjectType.Campaign.fields.Name.isAccessible() &&
                    Schema.sObjectType.Campaign.fields.TelosTouchSF__TT_Campaign_Id__c.isAccessible() ){
-                       campaigns =[SELECT Name,TelosTouchSF__TT_Campaign_Id__c,RecordType.Name FROM Campaign WHERE Id=:recordId];
+                       campaigns =[SELECT Name,TelosTouchSF__TT_Campaign_Id__c,RecordType.Name FROM Campaign WHERE Id=:recordId WITH SECURITY_ENFORCED];
                    }
                 List<CampaignMember> campaignMembers = new List<CampaignMember>();
                 if(Schema.sObjectType.CampaignMember.isAccessible() && Schema.sObjectType.CampaignMember.isQueryable() &&
@@ -229,7 +244,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                    Schema.sObjectType.CampaignMember.fields.LeadId.isAccessible()){
                        campaignMembers=  [SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c,
                                           LeadId, Lead.TelosTouchSF__TT_Client_Id__c,
-                                          Lead.Phone FROM CampaignMember WHERE CampaignId=:recordId];
+                                          Lead.Phone FROM CampaignMember WHERE CampaignId=:recordId WITH SECURITY_ENFORCED];
                    }
                 wrapper.CampId = recordId;
                 if(campaigns.size() >0 && campaigns[0].RecordType.Name != null && campaigns[0].RecordType.Name != 'TelosTouch'){
@@ -495,6 +510,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 string cstmLabel = System.Label.TelosTouchSF.ShowTTConfigPage;
                 string cstmLabel1 = System.Label.TelosTouchSF.ShowTTConfigPageFrench;
                 user user = new user();
+                User userUpdateObj = new User();
                 TTUserWrapper  ttuserObj = new TTUserWrapper();
                 if(isCallingFrom != 'DoinitFromSetup'){
                     if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
@@ -580,10 +596,11 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                     Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable() &&
                                     Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
                                     Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable()) {
-                                        user.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
-                                        user.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
+                                        userUpdateObj.Id = user.Id;
+                                        userUpdateObj.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
+                                        userUpdateObj.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
                                         ttuserObj = getTokenForEachUser(String.valueOf(getResponseMap.get('username')),adminCredentials);
-                                        user.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
+                                        userUpdateObj.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
                                     }
                             }
                         }else{
@@ -610,13 +627,16 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                     TelosTouchSF.UserTriggerHandler.createLogRecord(System.Label.TelosTouchSF.Failed_Text,String.valueOf(responseMap2.get('message')),String.valueOf(responseMap2.get('message')), 1) ;
                                     return null;
                                 }else if(responseMap2.containsKey('id')){
-                                    if(Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
+                                    if(SObjectType.User.getSObjectType().getDescribe().isAccessible() && SObjectType.User.getSObjectType().getDescribe().isUpdateable() && 
+                                        Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
                                        Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() &&
-                                       Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
-                                           user.TelosTouchSF__TT_UserId__c = String.valueof(responseMap2.get('id'));
-                                           user.TelosTouchSF__TT_UserName__c = String.valueof(responseMap2.get('username'));
+                                       Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()  
+                                       ){
+                                            userUpdateObj.Id = user.Id;
+                                            userUpdateObj.TelosTouchSF__TT_UserId__c = String.valueof(responseMap2.get('id'));
+                                            userUpdateObj.TelosTouchSF__TT_UserName__c = String.valueof(responseMap2.get('username'));
                                            ttuserObj = getTokenForEachUser(String.valueOf(responseMap2.get('username')), adminCredentials);
-                                           user.TelosTouchSF__Auth_Token__c =   ttuserObj.TTToken;
+                                           userUpdateObj.TelosTouchSF__Auth_Token__c =   ttuserObj.TTToken;
                                        }
                                 }
                             }else{
@@ -627,14 +647,19 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         String strTelosTouch_Custom_Permission = 'TelosTouch_Custom_Permission';
                         if(user.TelosTouchSF__TT_UserId__c != null && user.TelosTouchSF__TT_UserName__c != null && user.TelosTouchSF__Auth_Token__c != null
                            && [SELECT count() FROM PermissionSetAssignment WHERE PermissionSet.Name =: strTelosTouch_Custom_Permission AND AssigneeId =: UserInfo.getUserId()] == 0){
-                               PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: strTelosTouch_Custom_Permission];
+                               PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: strTelosTouch_Custom_Permission WITH SECURITY_ENFORCED];
                                if(ps != null && ps.Id != null){
                                    insert new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id);
                                }
                            }
-                        if(Schema.sObjectType.User.isUpdateable() && Schema.sObjectType.User.isCreateable() && User.getSObjectType().getDescribe().isAccessible() && User.getSObjectType().getDescribe().isUpdateable()){
-                            update user;
-                        }
+                           if(SObjectType.User.getSObjectType().getDescribe().isAccessible() && SObjectType.User.getSObjectType().getDescribe().isUpdateable() && 
+                           Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
+                          Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isUpdateable() &&
+                          Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
+                               //update user;
+                               Database.update(userUpdateObj, AccessLevel.USER_MODE);
+                           
+                           }
                         if(!logList.isEmpty() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() ){
                             insert logList;
                         }
@@ -675,7 +700,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             if( Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isQueryable() &&
                Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() &&
                Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible()){
-                   customSettingList = [SELECT TelosTouchSF__RoleId__c, TelosTouchSF__RolesName__c FROM TelosTouchSF__TelosTouch_User_Role__c WHERE TelosTouchSF__RoleId__c != null AND TelosTouchSF__RolesName__c != null LIMIT 1];
+                   customSettingList = [SELECT TelosTouchSF__RoleId__c, TelosTouchSF__RolesName__c FROM TelosTouchSF__TelosTouch_User_Role__c WHERE TelosTouchSF__RoleId__c != null AND TelosTouchSF__RolesName__c != null WITH SECURITY_ENFORCED LIMIT 1];
                    if(customSettingList.size() == 0 ){
                        TelosTouchSF__TelosTouch_User_Role__c customObjRecord = new TelosTouchSF__TelosTouch_User_Role__c();
                        if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isAccessible()
@@ -710,7 +735,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                        permissionSetList = [SELECT Id, PermissionSetId,AssigneeId
                                             FROM PermissionSetAssignment
                                             WHERE (PermissionSet.Name =: strTelosTouch_Custom_Permission OR  PermissionSet.Name =: strTTPSetForInsightObjMDRelations)
-                                            AND AssigneeId IN: listofUserId LIMIT 2];
+                                            AND AssigneeId IN: listofUserId WITH SECURITY_ENFORCED LIMIT 2];
                        Map<Id,PermissionSetAssignment> userIdVsPermSetAssignObjMap = new Map<Id,PermissionSetAssignment>();
                        if(permissionSetList.size()> 0 && permissionSetList.size() == 1){
                            for(PermissionSetAssignment psaObj : permissionSetList){
@@ -801,7 +826,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String strSalesforce = 'Salesforce';
             String str1 = '1';
 
-               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 LIMIT 5000 ];
+               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 WITH SECURITY_ENFORCED LIMIT 5000 ];
            }
         userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
         for(User user: userList){
@@ -811,7 +836,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         if(Schema.SObjectType.Profile.isAccessible() && Schema.SObjectType.Profile.isQueryable() &&
            Schema.sObjectType.Profile.fields.Id.isAccessible() &&
            Schema.sObjectType.Profile.fields.Name.isAccessible()){
-               profileList = [SELECT Id,Name FROM Profile WHERE Id IN:setProfileIds];
+               profileList = [SELECT Id,Name FROM Profile WHERE Id IN:setProfileIds WITH SECURITY_ENFORCED];
            }
         for(Profile profile: profileList){
             mapIdVsName.put(profile.Id, profile.Name);
@@ -865,7 +890,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                    asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status =: strCompleted AND (ApexClass.Name =: strBatchForBulkDataInsertOrUpdate
                                                                                                    OR ApexClass.Name =: strGetTaskFromTTQueueable
                                                                                                    OR ApexClass.Name =: strGetCampaignsFromTTQueueable)
-                                       LIMIT 3];
+                                                                                                   WITH SECURITY_ENFORCED LIMIT 3];
                }
             if (asyncApexJobList.size() < 3) {
                 Database.executeBatch(new TelosTouchSF.BatchForBulkDataInsertOrUpdate(null, null, null, 'Contact', null, null, null));
@@ -943,7 +968,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             List<User> userList = new List<User>();
             if(Schema.sObjectType.User.isAccessible() && Schema.sObjectType.User.isQueryable() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()
                && Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible()){
-                   userList = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c,TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c  != NULL AND isActive = true];
+                   userList = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c,TelosTouchSF__TT_UserId__c FROM User WHERE TelosTouchSF__TT_UserId__c  != NULL AND isActive = true WITH SECURITY_ENFORCED];
                }
             for(User u : userList){
                 userMap.put(u.id,u);
@@ -1118,7 +1143,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             if(Schema.sObjectType.Task.isAccessible() && Schema.sObjectType.Task.isQueryable() &&
                Schema.sObjectType.Task.fields.Id.isAccessible() &&
                Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isAccessible()){
-                   task = [SELECT Id,TelosTouchSF__Share_with_client_s__c FROM Task WHERE Id =: recordId ];
+                   task = [SELECT Id,TelosTouchSF__Share_with_client_s__c FROM Task WHERE Id =: recordId WITH SECURITY_ENFORCED];
                }
             if(task != null){
                 if(Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isAccessible() && Schema.sObjectType.Task.fields.TelosTouchSF__Share_with_client_s__c.isUpdateable()){
@@ -1147,7 +1172,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String strBatchPostInstallScript = 'BatchPostInstallScript';
             String strCompleted = 'Completed';
 
-               postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =: strBatchPostInstallScript AND Status !=: strCompleted limit 3];
+               postInstallBatchList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =: strBatchPostInstallScript AND Status !=: strCompleted WITH SECURITY_ENFORCED limit 3];
            }
         if (postInstallBatchList.size() > 0) {
             return true;
@@ -1168,7 +1193,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
            Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
            Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
             String strCompleted = 'Completed';
-               asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status =: strCompleted LIMIT 1];
+               asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name =:apexJob AND Status =: strCompleted WITH SECURITY_ENFORCED LIMIT 1];
            }
         if (asyncApexJobList.size() > 0) {
             return true;
@@ -1507,7 +1532,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
            Schema.sObjectType.User.fields.TelosTouchSF__Auth_Token__c.isAccessible() &&
            Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible()){
-               List<User> user = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c FROM User WHERE Id=:UserInfo.getUserId() AND TelosTouchSF__TT_UserId__c != Null ];
+               List<User> user = [SELECT Id,TelosTouchSF__Auth_Token__c,TelosTouchSF__TT_UserName__c FROM User WHERE Id=:UserInfo.getUserId() AND TelosTouchSF__TT_UserId__c != Null WITH SECURITY_ENFORCED];
                if( user != null && user.size() > 0  && authenticationCredentials.TelosTouchSF__Access_Token__c != null){
                    if(user.size()>0 && user[0].TelosTouchSF__Auth_Token__c != null ){
                        userAuthTOKEN = user[0].TelosTouchSF__Auth_Token__c;
@@ -1516,6 +1541,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
            }
         return userAuthTOKEN;
     }
+           /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @param ObjectNameParam ...
+* @return Boolean ....
+*/
     public static boolean isObjectExist(String ObjectNameParam){
         for (Schema.SObjectType sObjectTypeObj : Schema.getGlobalDescribe().values() ) {
             String sobjName = String.valueOf(sObjectTypeObj);
@@ -1525,6 +1557,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
         return false;
     }
+      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @return Boolean ....
+*/
     @AuraEnabled
     public static Boolean checkInviteFunctionality(){
         if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
@@ -1568,6 +1606,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @date 02/08/2021	
 * @description used to fetch the campaign detail.	
 * @param campSfId stores the campaign Id	
+* @return String ....
 */
     @AuraEnabled
     public static String getCampaignDetails(Id campSfId){
@@ -1582,7 +1621,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             }else{
                 returnMap.put('accessTokenPresent', (Object)false);
             }
-            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c,CreatedDate  FROM Campaign WHERE Id =: campSfId LIMIT 1];
+            Campaign campObj = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c, TelosTouchSF__TouchPoint_Template_Id__c,CreatedDate  FROM Campaign WHERE Id =: campSfId WITH SECURITY_ENFORCED LIMIT 1];
             if(campObj != null && campObj.CreatedDate !=null){
                 returnMap.put('CreatedDate', (Object)campObj.CreatedDate);
             }
@@ -1590,14 +1629,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 returnMap.put('synced', (Object)true);
                 List<CampaignMember> campMemList = new List<CampaignMember>();
                 List<CampaignMember> campMemReturnList = new List<CampaignMember>();
-                Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id];
+                Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id WITH SECURITY_ENFORCED ];
                 returnMap.put('campMemberAmount', campMemCount);
                 if(campMemCount == 0){
                     returnMap.put('campMemberPresent', (Object)false);
                 }else{
                     returnMap.put('campMemberPresent', (Object)true);
                 }
-                campMemList = [SELECT Id, campaignId, contactId, leadId FROM CampaignMember WHERE campaignId =: campObj.Id];
+                campMemList = [SELECT Id, campaignId, contactId, leadId FROM CampaignMember WHERE campaignId =: campObj.Id WITH SECURITY_ENFORCED ];
                 List<TelosTouchSF__Insights__c> insightsList = new List<TelosTouchSF__Insights__c>();
                 insightsList = [SELECT Id, TelosTouchSF__contact__c, TelosTouchSF__lead__c FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__campaign2__c =: campObj.Id WITH SECURITY_ENFORCED];
                 for(TelosTouchSF__Insights__c insight : insightsList){
@@ -1638,7 +1677,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                     returnMap.put('actionRequired', (Object)false);
                 }
             }else if(campObj != null){
-                Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id];
+                Integer campMemCount = [SELECT count() FROM CampaignMember WHERE campaignId =: campObj.Id WITH SECURITY_ENFORCED ];
                 returnMap.put('campMemberAmount', campMemCount);
                 if(campMemCount == 0){
                     returnMap.put('campMemberPresent', (Object)false);
@@ -1659,7 +1698,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String strBatchCreateInsightsForNewRecipients = 'BatchCreateInsightsForNewRecipients';
             String strBatchAddRecipientsIntoTouchPoint  = 'BatchAddRecipientsIntoTouchPoint';
             if(returnMap.containsKey('openTouchPointModal') && [SELECT count() FROM AsyncApexJob WHERE (ApexClass.Name =: strBatchCreateInsightsForNewRecipients OR ApexClass.Name =: strBatchAddRecipientsIntoTouchPoint)
-                AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing')] > 0)
+                AND (Status = 'Holding' OR Status = 'Queued' OR Status = 'Preparing' OR Status = 'Processing') WITH SECURITY_ENFORCED ] > 0)
             {
                 returnMap.put('openTouchPointModal', (Object)false);
             }
@@ -1675,6 +1714,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @date 02/08/2021	
 * @description used to add clients in the touchpoint.	
 * @param campMemListStr stores the camapaignMember list	
+* @return Boolean ...
 */	    
     @AuraEnabled
     public static Boolean addClientsToTouchpoint(String campMemListStr){
@@ -1738,6 +1778,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             throw new AuraHandledException(e.getMessage());
         }
     }
+      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @return AdminCredentialsWrapper  ....
+*/
     @AuraEnabled
     public static AdminCredentialsWrapper sendRegistrationRequest(){
         try{
@@ -1748,6 +1794,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return null;
         }
     }
+        /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @return Boolean  ....
+*/
     @AuraEnabled
     public static Boolean checkIfEnterpriseClient(){
         try{
@@ -1782,6 +1834,15 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return true;
         }
     }
+       /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @param ex ...
+* @param className ...
+* @param classMethod ...
+* @param recordId ...
+*/
     public static void generateErrorLog(Exception ex, String className, String classMethod, String recordId){
         String aError = ex.getTypeName()+': '+ex.getMessage()+' '+className+'.'+classMethod+': line '+ex.getLineNumber();
         System.debug(logginglevel.ERROR, aError);
@@ -1790,7 +1851,15 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Failure', aError, recordId));
         }
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @param message ...
+* @param className ...
+* @param classMethod ...
+* @param recordId ...
+*/
     public static void generateLog(String message, String className, String classMethod, String recordId){
         String aMessage = className+'.'+classMethod+': '+message;
         System.debug(aMessage);
@@ -1799,7 +1868,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));
         }
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ......
+* @param userId ...
+* @param listOfTTUser ...
+* @return  map<String, String> ...
+*/
     @AuraEnabled
     public static map<String, String> revokeUserAccess(String userId,List<Id> listOfTTUser)
     {
@@ -1827,7 +1903,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @author Charbel Dagher
 * @date 19/07/2022
 * @description This method calls the job to refresh the token
-* @return response
+* @return string response
 */
     @AuraEnabled
     public static string refreshTokenController(){
@@ -1844,13 +1920,15 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description used to fetch the touchpoint templates.
+* @param recordId ...
+* @return Campaign ...
 */
     @AuraEnabled
     public static Campaign getCampaignData(String recordId){
         try {
             
             Campaign camp = [SELECT Id,TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__TT_Last_Sync_Time__c,TelosTouchSF__Type__c 
-                            FROM Campaign WHERE Id =: recordId LIMIT 1];
+                            FROM Campaign WHERE Id =: recordId  WITH SECURITY_ENFORCED LIMIT 1];
             if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             return camp;
         } catch (Exception ex) {
@@ -1858,7 +1936,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             throw new AuraHandledException('Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
         }
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to fetch the touchpoint templates.
+* @param recordId ...
+* @return String ...
+*/
     @AuraEnabled
     public static string getTouchPointTemplates(String recordId){
         try {
@@ -1866,7 +1950,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String conditions = '';
 
             if(String.isNotBlank(recordId)){
-                Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: recordId];
+                Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED];
                 if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
                 conditions = '?type='+camp.TelosTouchSF__Type__c;
             }
@@ -1939,19 +2023,28 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @description used to savE the touchpoint template Id in the campaign.
 * @param campaignRecordId stores the campaign Id
 * @param touchPointTemplateId   stores the touchpoint template id
+* @return String ....
 */
     @AuraEnabled
     public static string setTouchPointTemplateId(Id campaignRecordId, String touchPointTemplateId){
         try {
             Campaign campObj = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: campaignRecordId WITH SECURITY_ENFORCED LIMIT 1];
             campObj.TelosTouchSF__TouchPoint_Template_Id__c = touchPointTemplateId;
-            update campObj;
+            if (Schema.sObjectType.Campaign.isUpdateable() && Schema.sObjectType.Campaign.isAccessible()){
+                update campObj;
+            }
             return campObj.Id;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description used to savE the touchpoint template Id in the campaign.
+* @param campaignRecordId stores the campaign Id
+* @return String ....
+*/
     @AuraEnabled
     public static string getCurrentTemplateId(Id campaignRecordId){
         try {
@@ -1967,6 +2060,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @param campaignSFId stores the campaign Id
 * @param touchPointTemplateId   stores the touchpoint templateId
 * @param isSynced   stores if the camapign is synced or not
+* @return String ...
 */
     @AuraEnabled
     public static String sendTouchPointFromSF(String campaignSFId, String touchPointTemplateId, Boolean isSynced){
@@ -2037,6 +2131,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @date 02/08/2021
 * @description used to savE the touchpoint.
 * @param templateId stores the touchpoint template Id
+* @param campaignId stores the touchpoint template Id
+* @param templateInfo stores the touchpoint template Id
+* @return String ....
 */
     @AuraEnabled
     public static String generateCustomizeIFrame(String templateId, String campaignId, String templateInfo){
@@ -2044,12 +2141,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
             Campaign camp = new Campaign();
             if(String.isNotBlank(campaignId)){ 
-                camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campaignId LIMIT 1];
+                camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campaignId WITH SECURITY_ENFORCED LIMIT 1];
                 if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             }
             
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c 
-                          FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+                          FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
             Boolean isCopy = false;
             if(String.isNotBlank(templateInfo)){
@@ -2119,6 +2216,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 * @date 02/08/2021
 * @description used to fetch the touchpoint template.
 * @param recordId stores the campaign  Id
+* @return String ....
 */    
     @AuraEnabled
     public static String fetchSelectedTouchPointTemplate(String recordId){
@@ -2164,7 +2262,13 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return null;
         }
     }
-
+    
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description syncClientsBeforeTouchpoint ....
+* @param campaignId stores the campaign  Id
+*/ 
     @AuraEnabled
     public static void syncClientsBeforeTouchpoint(String campaignId){
         try {
@@ -2508,7 +2612,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
         @AuraEnabled
         public Boolean Registration_Successful { get; set; }
-        /**
+    /**
 * @author Cloud Analogy
 * @date 02/08/2021
 * @description ........
@@ -2522,6 +2626,11 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
         @AuraEnabled
         public String Registration_DateTime { get; set; }
+                      /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
         @AuraEnabled
         public String Team_Name {get; set;}
         /**

@@ -1,3 +1,8 @@
+/**
+* @author Cloud Analogy
+* @date 26/08/2021.
+* @description TelosTouchDataSyncController ....
+*/
 public with sharing class TelosTouchDataSyncController {
   private static final TelosTouchSF__TT_Admin_Credentials__mdt ADMINCREDENTIALS = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
 
@@ -5,6 +10,7 @@ public with sharing class TelosTouchDataSyncController {
    * @author Swapnil Sen
    * @date 29/11/2022
    * @description getSyncData: Used to get initial sync data when component is initialized
+   * @return String ...
    */
   @AuraEnabled
   public static string getSyncData() {
@@ -143,6 +149,7 @@ public with sharing class TelosTouchDataSyncController {
    * @author Swapnil Sen
    * @date 29/11/2022
    * @description getAllLogs: Used to get TelosTouch logs from Back End
+   * @return String ...
    */
   @AuraEnabled
   public static string getAllLogs() {

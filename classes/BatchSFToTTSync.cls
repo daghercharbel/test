@@ -85,7 +85,7 @@ global with sharing class BatchSFToTTSync implements Database.Batchable<sObject>
             }else{
                 String strLead ='Lead';
                 String strAccountId = 'AccountId';
-                query = 'SELECT Owner.username, Owner.id, ';
+                query = 'SELECT Owner.username, Owner.id, Status, ';
                 if(Schema.sObjectType.Lead.isAccessible() && Schema.sObjectType.Lead.isQueryable()){
                     for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                                             FROM TelosTouchSF__TT_Salesforce_Mapping__c 

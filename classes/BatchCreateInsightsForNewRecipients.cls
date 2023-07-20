@@ -1,8 +1,34 @@
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
 public class BatchCreateInsightsForNewRecipients implements Database.Batchable<Object>, Database.Stateful{
+		/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
 	public BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper getwrapper;
+		/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
 	public List<TelosTouchSF__TT_Log__c> createListOfLog;
+		/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+*/
 	public Map<String, Object> responseMap1;
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @param getResponseClients ....
+* @param getwrapper ....
+*/
 	public BatchCreateInsightsForNewRecipients(String getResponseClients, BatchAddRecipientsIntoTouchPoint.AddRecipientsWrapper getwrapper){
 		responseMap1 = new Map<String, Object>();
 		responseMap1 = (Map<String, Object>)JSON.deserializeUntyped(getResponseClients);
@@ -10,11 +36,24 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 		this.getwrapper = getwrapper;
 		createListOfLog = new List<TelosTouchSF__TT_Log__c>();
 	}
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @param bc ....
+* @return List<Object> conversationList ....
+*/
 	public Iterable<Object> start(Database.BatchableContext bc){
 		List<Object> conversationList = (List<Object>)responseMap1.get('conversations');
 		return conversationList;
 	}
+		/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @param bc ....
+* @param responseList ....
+*/
 	public void execute(Database.BatchableContext bc, List<Object> responseList){
 		List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
 		if ((getwrapper.TTClientIdVsLeadId != null && !getwrapper.TTClientIdVsLeadId.isEmpty()) || (getwrapper.TTClientIdVsContId != null && !getwrapper.TTClientIdVsContId.isEmpty())) {
@@ -82,6 +121,12 @@ public class BatchCreateInsightsForNewRecipients implements Database.Batchable<O
 			UPSERT  conversation_UserList TelosTouchSF__Conversation_Id__c;
 		}
 	}
+	/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ........
+* @param bc ....
+*/
 	public void finish(Database.BatchableContext bc){
 		if(createListOfLog != null){
 			if(Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() && createListOfLog.size() >0){

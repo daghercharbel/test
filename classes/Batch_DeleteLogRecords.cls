@@ -1,10 +1,10 @@
-/*
+/**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description batch delete log records class ....
 */
 global with sharing class Batch_DeleteLogRecords Implements Database.batchable<sobject>{
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description start method ...
@@ -15,7 +15,7 @@ global with sharing class Batch_DeleteLogRecords Implements Database.batchable<s
         return Database.getQueryLocator(String.escapeSingleQuotes(
             'SELECT Id FROM TelosTouchSF__TT_Log__c WHERE CreatedDate <=: dateValue AND IsDeleted = false ALL ROWS'));   
     }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description execute method...
@@ -27,7 +27,7 @@ global with sharing class Batch_DeleteLogRecords Implements Database.batchable<s
             DataBase.delete(scope,false);
         }
     }
-    /*
+    /**
 * @author Cloud Analogy
 * @date 26/08/2021.
 * @description finish method ...

@@ -4,7 +4,12 @@
 * @description ....
 */
 public with sharing class TT_FeatureSettingsController {
-
+ /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ....
+* @return map<String,String>  ....
+*/
     @AuraEnabled
     public static map<String,String> getFeatureMetadata(){
 
@@ -63,7 +68,13 @@ public with sharing class TT_FeatureSettingsController {
         }
         return false;
     }
-
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description ....
+* @param stringMdt ...
+* @return map<String,String>  ....
+*/
     @AuraEnabled
     public static map<String,String> setFeatureMetadata(String stringMdt){
 

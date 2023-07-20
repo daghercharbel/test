@@ -1,4 +1,16 @@
+/**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description LeadTriggerForSyncingHandler..........
+*/
 public with sharing class MassCreateTaskCompController {
+
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description checkNamedCredentials..........
+* @return Boolean  ......
+*/
     @AuraEnabled
     public static Boolean checkNamedCredentials(){
         try {
@@ -12,6 +24,12 @@ public with sharing class MassCreateTaskCompController {
             return null;
         }
     }
+            /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description hasActiveRecordType..........
+	* @return Boolean  ......
+*/
      @AuraEnabled
     public static Boolean hasActiveRecordType(){
         try {
@@ -26,6 +44,13 @@ public with sharing class MassCreateTaskCompController {
             return null;
         }
     }
+           /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description createTasks..........
+* @param taskObjStr ......
+* @param userListStr ......
+*/
     @AuraEnabled
     public static void createTasks(String taskObjStr, String userListStr) {
         if (String.isNotEmpty(taskObjStr)) {
@@ -59,7 +84,12 @@ public with sharing class MassCreateTaskCompController {
             }
         }
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getTaskFieldsWrapper..........
+	* @return list<TaskFieldsWrapper>  ......
+*/
     @AuraEnabled
     public static list<TaskFieldsWrapper> getTaskFieldsWrapper() {
         Map<String, Schema.SObjectField> mfields = Schema.getGlobalDescribe()
@@ -115,7 +145,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return wrapperList;
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getFieldVsPicklistMap ..........
+	* @return Map<String, list<PickListInfo>>  ......
+*/
     @AuraEnabled
     public static Map<String, list<PickListInfo>> getFieldVsPicklistMap() {
         Map<String, list<PickListInfo>> fieldVsPicklistMap = new Map<String, list<PickListInfo>>();
@@ -166,7 +201,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return fieldVsPicklistMap;
     }
-
+   /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getReferenceObjectstAPIvsLabelMap..........
+	* @return Map<String, String>  ......
+*/
     @AuraEnabled
     public static Map<String, String> getReferenceObjectstAPIvsLabelMap() {
         Map<String, String> referenceObjectstAPIvsLabelMap = new Map<String, String>();
@@ -192,7 +232,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return referenceObjectstAPIvsLabelMap;
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getStandardObjectIconsMap..........
+	* @return Map<String, String>  ......
+*/
     public static Map<String, String> getStandardObjectIconsMap() {
         Map<String, String> standardObjectNameVsIconMap = new Map<String, String>();
         Map<String, String> referenceObjectstAPIvsLabelMap = getReferenceObjectstAPIvsLabelMap();
@@ -259,6 +304,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return standardObjectNameVsIconMap;
     }
+            /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getCustomObjectIconsMap..........
+	* @return Map<String, String>  ......
+*/
     @AuraEnabled
     public static Map<String, String> getCustomObjectIconsMap() {
         Map<String, String> customObjectstAPIvsIconMap = new Map<String, String>();
@@ -290,7 +341,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return customObjectstAPIvsIconMap;
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getReferenceObjectstAPIvsIconMap..........
+	* @return Map<String, String>  ......
+*/
     @AuraEnabled
     public static Map<String, String> getReferenceObjectstAPIvsIconMap() {
         Map<String, String> referenceObjectstAPIvsIconMap = new Map<String, String>();
@@ -315,6 +371,12 @@ public with sharing class MassCreateTaskCompController {
         }
         return referenceObjectstAPIvsIconMap;
     }
+            /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getfieldVsReferenceObjects..........
+	* @return Map<String, list<String>>  ......
+*/
     @AuraEnabled
     public static Map<String, list<String>> getfieldVsReferenceObjects() {
         Map<String, list<String>> fieldVsReferenceObjects = new Map<String, list<String>>();
@@ -345,7 +407,13 @@ public with sharing class MassCreateTaskCompController {
         }
         return fieldVsReferenceObjects;
     }
-
+       /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description restGet..........
+* @param endPoint ......
+* @return String  ......
+*/
     public static String restGet(String endPoint) {
         try {
             Http h = new Http();
@@ -362,7 +430,13 @@ public with sharing class MassCreateTaskCompController {
             return ex.getMessage();
         }
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getLayoutNameForObject..........
+* @param recordTypeId ......
+	* @return Map<String, String>  ......
+*/
     @AuraEnabled
     public static Map<String, String> getLayoutNameForObject(
             String recordTypeId
@@ -392,6 +466,13 @@ public with sharing class MassCreateTaskCompController {
         }
         return null;
     }
+           /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description getSectionNameVsFieldsMap..........
+* @param recordTypeId ......
+	* @return Map<String, list<FieldInfo>>  ......
+*/
     @AuraEnabled
     public static Map<String, list<FieldInfo>> getSectionNameVsFieldsMap(
             String recordTypeId
@@ -483,41 +564,129 @@ public with sharing class MassCreateTaskCompController {
             return null;
         }
     }
-
+    /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description TaskFieldsWrapper..........
+*/
     public class TaskFieldsWrapper {
+                 /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description fieldLabel..........
+*/
         @AuraEnabled
         public String fieldLabel { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description apiName..........
+*/
         @AuraEnabled
         public String apiName { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description fieldType..........
+*/
         @AuraEnabled
         public String fieldType { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description userName..........
+*/
         @AuraEnabled
         public String userName { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description userId..........
+*/
         @AuraEnabled
         public String userId { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description hasRelation..........
+*/
         @AuraEnabled
         public Boolean hasRelation { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description isPicklist..........
+*/
         @AuraEnabled
         public Boolean isPicklist { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description isString..........
+*/
         @AuraEnabled
         public Boolean isString { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description isRequired..........
+*/
         @AuraEnabled
         public Boolean isRequired { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description isRecurrence..........
+*/
         @AuraEnabled
         public Boolean isRecurrence { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description relationshipName..........
+*/
         @AuraEnabled
         public String relationshipName { get; set; }
     }
-
+     /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description FieldInfo..........
+*/
     public class FieldInfo {
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description isRequired..........
+*/
         @AuraEnabled
         public Boolean isRequired { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description field..........
+*/
         @AuraEnabled
         public String field { get; set; }
     }
+         /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description PickListInfo..........
+*/
     public class PickListInfo {
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description label..........
+*/
         @AuraEnabled
         public String label { get; set; }
+             /**
+* @author Cloud Analogy
+* @date 02/08/2021
+* @description value..........
+*/
         @AuraEnabled
         public String value { get; set; }
     }
