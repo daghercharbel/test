@@ -106,7 +106,7 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
                 Database.upsert(lstInsight, TelosTouchSF__Insights__c.TelosTouchSF__Conversation_Id__c);
             }
             if(!logList.isEmpty()){
-                insert logList;
+                insert logList; 
             }
         }
     }
