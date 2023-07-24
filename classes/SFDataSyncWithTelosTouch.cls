@@ -1349,9 +1349,9 @@ global with sharing class SFDataSyncWithTelosTouch {
         req.setBody(JSON.serialize(requestMap));
         res = http.send(req);
 
-	String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
-        TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'registerOrgOnTelosTouch', null);
-        
+	    String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
+        TelosTouchUtility.generateAndSaveLog(respMessage, 'SFDataSyncWithTelosTouch', 'registerOrgOnTelosTouch', null);
+
         if(res.getStatusCode() == 422){
             //Org is Already Registered
             adminCredentials.TelosTouchSF__Registration_Successful__c = true;
@@ -1401,7 +1401,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             res = http.send(req);
             
             String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
-            TelosTouchUtility.generateLog(respMessage, 'SFDataSyncWithTelosTouch', 'checkIfEnterpriseClient', null);
+            TelosTouchUtility.generateAndSaveLog(respMessage, 'SFDataSyncWithTelosTouch', 'checkIfEnterpriseClient', null);
             if(res.getStatusCode()==404){
                 return false;
             }else{

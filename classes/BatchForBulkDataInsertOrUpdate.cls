@@ -114,7 +114,7 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
                 }
                 response = http.send(request);
                 String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
-                TelosTouchUtility.generateLog(respMessage, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
+                TelosTouchUtility.generateAndSaveLog(respMessage, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
                 if(response.getstatusCode() == 200){
                     if(objectName == 'Contact'){
                         numberOfRecords = Integer.valueOf(response.getHeader('X-Total-Count'));
@@ -145,7 +145,7 @@ public with sharing class BatchForBulkDataInsertOrUpdate implements Database.Bat
             }
         }catch(Exception ex){
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage() +'On Line ::'+ex.getLineNumber());
-            TelosTouchUtility.generateErrorLog(ex, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'BatchForBulkDataInsertOrUpdate', 'execute', null);
         }
     }
             /**

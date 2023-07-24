@@ -95,7 +95,7 @@ global with sharing class TTCampaignUserConversation implements Database.Batchab
                     }
                 }catch (Exception ex){
                     System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
-                    TelosTouchUtility.generateErrorLog(ex, 'TTCampaignUserConversation', 'execute', null);
+                    TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignUserConversation', 'execute', null);
                 }
             }
             if(Schema.sObjectType.Campaign.isAccessible() && Schema.sObjectType.Campaign.isUpdateable()){

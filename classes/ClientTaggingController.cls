@@ -27,7 +27,7 @@ public with sharing class ClientTaggingController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'ClientTaggingController', 'deleteAssignments', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'ClientTaggingController', 'deleteAssignments', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -55,7 +55,7 @@ public with sharing class ClientTaggingController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'ClientTaggingController', 'getTopics', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'ClientTaggingController', 'getTopics', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -108,7 +108,7 @@ public with sharing class ClientTaggingController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'ClientTaggingController', 'upsertTopics', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'ClientTaggingController', 'upsertTopics', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

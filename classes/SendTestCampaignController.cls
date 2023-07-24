@@ -52,7 +52,7 @@ public with sharing class SendTestCampaignController {
             }
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'SendTestCampaignController', 'sendTestTemplate', campaignId);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'SendTestCampaignController', 'sendTestTemplate', campaignId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

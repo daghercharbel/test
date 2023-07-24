@@ -82,7 +82,7 @@ public SFBatchToRevokeLicence(List<Id> userIdList){
             if(!lstPSA.isEmpty()){ Database.delete(lstPSA); }
             
         } catch (Exception ex) {
-            TelosTouchSF.TelosTouchUtility.generateErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
         }
     }
      /**
