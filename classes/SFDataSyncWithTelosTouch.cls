@@ -1351,7 +1351,7 @@ global with sharing class SFDataSyncWithTelosTouch {
 
 	    String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();	
         TelosTouchUtility.generateAndSaveLog(respMessage, 'SFDataSyncWithTelosTouch', 'registerOrgOnTelosTouch', null);
-
+        
         if(res.getStatusCode() == 422){
             //Org is Already Registered
             adminCredentials.TelosTouchSF__Registration_Successful__c = true;

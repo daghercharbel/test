@@ -57,7 +57,7 @@ public with sharing class SFBatchToRevokeLicence implements Database.Batchable<s
             if(!lstPSA.isEmpty()){ Database.delete(lstPSA); }
             
         } catch (Exception ex) {
-            TelosTouchUtility.generateAndSaveErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
+            TelosTouchSF.TelosTouchUtility.generateAndSaveErrorLog(ex, 'SFBatchToRevokeLicence', 'execute', null);
         }
     }
     public void finish(Database.BatchableContext BC){
