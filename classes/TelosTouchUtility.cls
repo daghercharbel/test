@@ -320,7 +320,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             request.setHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.setBody(body);
             HttpResponse response = http.send(request);
-            String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+		    String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
             generateLog(respMessage, 'TelosTouchUtility', 'getAdminAccessToken', null);	
             if (response.getStatusCode() == 200) {
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -377,7 +377,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         request.setBody(body);
         HttpResponse response = http.send(request);
         String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
-        generateLog(respMessage, 'TelosTouchUtility', 'refreshAdminAccessToken', null);	
+        generateLog(respMessage, 'TelosTouchUtility', 'refreshAdminAccessToken', null);
         if (response.getStatusCode() == 200) {
             Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
             authenticationCredentials.TelosTouchSF__Access_Token__c = String.valueOf(responseMap.get('access_token'));
@@ -563,9 +563,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
-                            String respMessage2 = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');
+		                    String respMessage2 = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');
                             generateLog(respMessage2, 'TelosTouchUtility', 'getUserAccessToken', null);
-                            teamId = teamIdResponse.get('body');
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;
                         Map<String, String> getResponseBody = getResponse('GET', endpoint, headersMap, null);
@@ -799,10 +798,10 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 request.setBody(body);
             }
             HttpResponse response = http.send(request);
-            String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
-            generateLog(respMessage, 'TelosTouchUtility', 'getTokenForEachUser', null);
             if(response.getBody() != null){
                 Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+                String respMessage = 'Response Status Code: '+response.getstatusCode()+' | Response Body: '+response.getBody();
+                generateLog(respMessage, 'TelosTouchUtility', 'getTokenForEachUser', null);
                 if(String.valueof(responseMap.get('access_token')) != null){
                     ttuserObj.TTToken = String.valueof(responseMap.get('access_token'));
                 }
@@ -897,17 +896,17 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             List<AsyncApexJob> asyncApexJobList = new List<AsyncApexJob>();
             if(Schema.sObjectType.AsyncApexJob.isAccessible() && Schema.sObjectType.AsyncApexJob.isQueryable() &&
                Schema.sObjectType.AsyncApexJob.fields.Id.isAccessible() &&
-               Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() ){
+               Schema.sObjectType.AsyncApexJob.fields.Status.isAccessible() )
+            {
                 String strCompleted = 'Completed';
                 String strBatchForBulkDataInsertOrUpdate = 'BatchForBulkDataInsertOrUpdate';
                 String strGetTaskFromTTQueueable = 'GetTaskFromTTQueueable';
                 String strGetCampaignsFromTTQueueable = 'GetCampaignsFromTTQueueable';
 
-                   asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status =: strCompleted AND (ApexClass.Name =: strBatchForBulkDataInsertOrUpdate
-                                                                                                   OR ApexClass.Name =: strGetTaskFromTTQueueable
-                                                                                                   OR ApexClass.Name =: strGetCampaignsFromTTQueueable)
-                                                                                                   WITH SECURITY_ENFORCED LIMIT 3];
-               }
+                asyncApexJobList = [SELECT Id FROM AsyncApexJob WHERE Status =: strCompleted AND (ApexClass.Name =: strBatchForBulkDataInsertOrUpdate
+                                    OR ApexClass.Name =: strGetTaskFromTTQueueable OR ApexClass.Name =: strGetCampaignsFromTTQueueable)
+                                    LIMIT 3];
+            }
             if (asyncApexJobList.size() < 3) {
                 Database.executeBatch(new TelosTouchSF.BatchForBulkDataInsertOrUpdate(null, null, null, 'Contact', null, null, null));
             }
@@ -951,7 +950,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             }
 
             return 'success';
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
         }
         return null;
@@ -1850,7 +1849,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             req.setHeader('Accept', 'application/json');
             res = http.send(req);
 	        String respMessage = 'Response Status Code: '+res.getstatusCode()+' | Response Body: '+res.getBody();		
-            generateAndSaveLog(respMessage, 'TelosTouchUtility', 'checkIfEnterpriseClient', null); 
+            generateAndSaveLog(respMessage, 'TelosTouchUtility', 'checkIfEnterpriseClient', null);
             if(res.getStatusCode()==404){
                 return false;
             }else{
@@ -1861,7 +1860,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return true;
         }
     }
-    
+
     public static void generateErrorLog(Exception ex, String className, String classMethod, String recordId){
         String aError = ex.getTypeName()+': '+ex.getMessage()+' '+className+'.'+classMethod+': line '+ex.getLineNumber();
         System.debug(logginglevel.ERROR, aError);
@@ -1892,7 +1891,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         System.debug(aMessage);
         if(TT_FeatureSettingsController.getFinestLogValue()){
             aMessage = aMessage.abbreviate(254);
-            Database.insert(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));
             lstTTLog.add(SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, recordId));            
         }
     }

@@ -51,11 +51,14 @@ global with sharing class Batch_CallSentry implements Database.Batchable<sObject
             
             Map<String, String> mapResponse = TelosTouchUtility.getResponse('POST', endpoint, mapHeader, body);
             String respMessage = 'Response Status Code: '+mapResponse.get('status_code')+' | Response Body: '+mapResponse.get('body');
-            TelosTouchUtility.generateAndSaveLog(respMessage, 'Batch_CallSentry', 'execute', null);
+            String aMessage = 'Batch_CallSentry.execute: '+respMessage;
+            TelosTouchSF__TT_Log__c log = SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, null);
+            log.TelosTouchSF__Synchronized__c = true;
+            Database.insert(log);
 
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
-                for(TelosTouchSF__TT_Log__c log : scope){
-                    log.TelosTouchSF__Synchronized__c = true;
+                for(TelosTouchSF__TT_Log__c aLog : scope){
+                    aLog.TelosTouchSF__Synchronized__c = true;
                 }
                 Database.update(scope);
             }
