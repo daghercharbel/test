@@ -625,6 +625,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     hideSearch() {
         this.showSearchBar = false;
         this.searchValue = '';
+        this.fromEntries = 1;
         if (this.setting.Approval == true) {
             this.settingApproval = true;
             this.getUsersListHelper();
