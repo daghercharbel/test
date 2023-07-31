@@ -157,7 +157,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     revokeCurrentUser = false;
     @track searchValue = '';
     @track selectedRows;
-    @track selectedUserList;
+    @track selectedUserList = [];
     @track setting;
     @track settingAPIList;
     @track settingApproval;
@@ -180,7 +180,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     userRevokeAccessModal = false;
     @track waitingTimeId = null;
     isEditDisabled = false;
-    @api listdata;
+    @api listdata = [];
 
     // OnLoad
     connectedCallback() {
@@ -565,6 +565,18 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.filteredRecords = this.listdata;
                     this.filteredRecordsSize = this.filteredRecords.length;
                     this.allRecords = this.listdata;
+                    let tempSelected = this.selectedUserList;
+                    if(tempSelected.length > 0){
+                        var tempListData = this.listdata;
+                        for(let x of tempSelected){
+                            for(let y of tempListData){
+                                if(x.Id === y.Id){
+                                    y.isChecked =  x.isChecked;
+                                }
+                            }
+                        }
+                        this.listdata = tempListData;
+                    }
                     this.showRecords();
                 }
             })
@@ -725,6 +737,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     newRecordsToShow.push(filteredRecord);
                 }
             }
+            let tempSelected = this.selectedUserList;
+            for(let x of tempSelected){
+                for(let y of newRecordsToShow){
+                    if(x.Id === y.Id){
+                        y.isChecked = x.isChecked;
+                    }
+                }
+            }
             this.listdata = newRecordsToShow;
             this.fromEntries = parseInt(recordToShowStart) + 1;
             if (parseInt(recordToShowEnd) > parseInt(filteredRecords.length)) {
@@ -813,7 +833,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             } else {
                 getSelectedNumber = 0;
             }
-            if (selectedRec == true) {
+            if (selectedRec == true && (!this.ListID.includes(event.target.value))) {
                 this.ListID.push(event.target.value);
                 getSelectedNumber++;
             } else {
@@ -825,10 +845,32 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             }
             this.selectedCount = getSelectedNumber;
             var allRecords = this.filteredRecords;
-            var selectedRecords = [];
-            for (var i = 0; i < allRecords.length; i++) {
-                if (this.ListID.includes(allRecords[i].Id)) {
-                    selectedRecords.push(allRecords[i]);
+            var selectedRecords = this.selectedUserList;
+            var tempListData = this.listdata
+            for(let x of tempListData){
+                x.isChecked = selectedRec;
+                const isFound = selectedRecords.some(element => {
+                    if (element.Id === x.Id) {
+                      return true;
+                    }
+                    return false;
+                });  
+                if(!isFound){
+                    selectedRecords.push(x);
+                }else{
+                    for(let y of selectedRecords){
+                        if(y.Id === x.Id){
+                            y.isChecked =  x.isChecked;
+                        }
+                    }
+                }            
+            }
+            this.listdata = tempListData;
+            let tempList = selectedRecords;
+            selectedRecords = [];
+            for(let x of tempList){
+                if(x.isChecked){
+                    selectedRecords.push(x);
                 }
             }
             this.selectedUserList = selectedRecords;
@@ -867,7 +909,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         tempArray.push(allRecords[i]);
                     }
                 }
-                this.listdata = tempArray;
+                this.filteredRecords = tempArray;
+                this.showRecords();
             }
         } catch (e) {
             throw new CustomException(e.getMessage());
