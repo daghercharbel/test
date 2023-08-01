@@ -26,6 +26,7 @@
     h.doInit_helper(c, e, h);
     h.handleCampaignData(c);
     h.checkClientTagging(c);
+    h.checkIsSyncCampaign(c,e,h);
   },
   fielterEvent: function (c, e, h) {
     if (c.get("v.fielterDetailsChanges") == "EventFire") {

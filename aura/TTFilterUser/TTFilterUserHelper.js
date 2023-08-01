@@ -883,5 +883,19 @@
             }
             h.preparePaginationList(c,e,h);
         }
+      },
+      checkIsSyncCampaign: function(c,e,h){
+        var action = c.get("c.isCampaignSyncEnabled");
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            var rtnValue = response.getReturnValue();
+            if (!$A.util.isEmpty(rtnValue) &&
+                rtnValue != null &&
+                state == "SUCCESS") {
+                let resp = JSON.parse(rtnValue.value);
+                c.set("v.showSyncCampaign", resp.TelosTouchSF__SF_Flag__c);
+            }
+        });
+        $A.enqueueAction(action);
       }
 });

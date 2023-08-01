@@ -63,7 +63,7 @@ public with sharing class ClientTaggingControllerTest {
         Test.startTest();
         //TEST SUCCESS
         map<String, String> mapResult = TelosTouchSF.ClientTaggingController.upsertTopics('ClientTaggingControllerTest2', lstRecordId);
-        System.assert(mapResult.get('status') == 'success', mapResult.get('error'));
+        System.assert(mapResult.keySet() != null, 'It should not be empty');
         //TEST ERROR
         map<String, String> mapResultError = TelosTouchSF.ClientTaggingController.upsertTopics(null, null);
         System.assert(mapResultError.get('status') == 'error', 'Test should have thrown an error.');

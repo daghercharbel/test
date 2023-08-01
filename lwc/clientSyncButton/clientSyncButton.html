@@ -1,0 +1,9 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    <template if:true={showButton}>
+        <lightning-button icon-name="utility:refresh" variant="brand" data-id="timer" label={labelName}
+            title={labelName} onclick={handleClick} disabled={isDisable}></lightning-button>
+    </template>
+</template>
