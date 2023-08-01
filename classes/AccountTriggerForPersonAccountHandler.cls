@@ -189,7 +189,11 @@ public with sharing class AccountTriggerForPersonAccountHandler {
                                                              WHERE TelosTouchSF__Object_Name__c = 'Contact' AND TelosTouchSF__Salesforce_Field__c != null WITH SECURITY_ENFORCED])
         {
             String fieldName = aField.TelosTouchSF__Salesforce_Field__c;
-            if(fieldName.endsWith('__c'))fieldName = fieldName.substringBeforeLast('__c')+'__pc';
+			if(fieldName.endsWith('__c')){
+				fieldName = fieldName.substringBeforeLast('__c')+'__pc';
+			}else {
+				fieldName += 'Person'+fieldName.trim();
+			}
             setField.add(fieldName);
         }
         //OwnerId is not mapped but is sent in the sync, we are looking a better way to add it dynamically
