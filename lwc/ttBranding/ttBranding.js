@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 //Apex Methods
@@ -37,6 +37,7 @@ export default class TtUserBranding extends LightningElement {
     lstLanguages = {};
     lstUserBranding = [];
     userBranding_en = {};
+    @api recordId;
     signatureType = 'system';
 
     get signatureOptions() {
@@ -47,7 +48,9 @@ export default class TtUserBranding extends LightningElement {
     }
 
     connectedCallback() {
-        getSignature()
+        getSignature({
+            recordId: this.recordId
+        })
             .then(result => {
                 if (result.status == 'success') {
                     let response = JSON.parse(result.value);
@@ -145,7 +148,8 @@ export default class TtUserBranding extends LightningElement {
         };
 
         putSignature({
-            body: JSON.stringify(updateJson)
+            body: JSON.stringify(updateJson),
+            recordId: this.recordId
         })
             .then(result => {
                 if (result.status == 'success') {

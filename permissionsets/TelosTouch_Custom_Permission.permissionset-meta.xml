@@ -1106,6 +1106,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insights__c.Sent_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insights__c.TouchPoint_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -50,7 +50,8 @@ public with sharing class TTFilterUserController {
                                                TelosTouchSF__Answers__c,
                                                TelosTouchSF__Completed_and_Sync__c,
                                                TelosTouchSF__Completed_At__c,
-                                               TelosTouchSF__Opened_At__c
+                                               TelosTouchSF__Opened_At__c,
+                                               TelosTouchSF__Sent_Status__c
                                                FROM TelosTouchSF__Insights__c
                                                WHERE TelosTouchSF__Campaign2__c =: campainId  LIMIT 10000];
                    }
@@ -147,7 +148,14 @@ public with sharing class TTFilterUserController {
                             userWrapperObj.TTCompleted_At = System.label.Pending_Text;
                             userWrapperObj.isActive = true;
                         }
-                        userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                        
+                        if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'initial'){
+                            userWrapperObj.TTCreated_At = System.label.Pending_Text;
+                        } else if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'error'){
+                            userWrapperObj.TTCreated_At = System.label.ERROR_Text;
+                        } else {
+                            userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                        }
                         ttDoinitWrapperObj.userWrapperList.add(userWrapperObj);
                     }
                     System.debug('doinitApex'+JSON.serialize(ttDoinitWrapperObj));
@@ -373,7 +381,14 @@ public with sharing class TTFilterUserController {
                         userWrapperObj.TTCompleted_At = System.label.Pending_Text;
                         userWrapperObj.isActive = true;
                     }
-                    userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                        
+                    if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'initial'){
+                        userWrapperObj.TTCreated_At = System.label.Pending_Text;
+                    } else if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'error'){
+                        userWrapperObj.TTCreated_At = System.label.ERROR_Text;
+                    } else {
+                        userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                    }
                     userWrapperSet.add(userWrapperObj);
                 }
                 userWrapperList.addAll(userWrapperSet);
