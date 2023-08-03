@@ -22,6 +22,13 @@
     <aura:attribute name="countSelectAll" type="integer" />
     <aura:attribute name="IsSubscribed" type="String" />
     <aura:attribute name="disableSelectAllList" type="boolean" default="true" />
+    <aura:attribute name="disableSelectAllDropDown" type="boolean" default="true" />
+    <aura:attribute name="updateSelectAll" type="boolean" default="false" />
+    <aura:attribute name="showUnselectAndCount" type="boolean" default="false" />
+    <aura:attribute name="selectAllDropDown" type="String" />
+    <aura:attribute name="totalRecords" type="Integer" default="0" />
+    <aura:attribute name="countSelectedRecords" type="String" default="0" />
+
     <aura:attribute name="isTouchpoint" type="boolean" default="true" />
 
     <aura:attribute name="campaignData" type="Campaign" />
@@ -233,15 +240,36 @@
             </aura:if>
         </div>
         <br />
+        <span class="slds-p-left_medium ">
+            {!v.countSelectedRecords}/{!v.totalRecords} {!$Label.c.Selected}
+        </span>
+        <span class="slds-p-left_medium">
+            <lightning:button class="hideUnselectAllBox" variant="base" disabled="{! v.isDisableSendTouchPointBtn}"
+                label="{!$Label.c.Clear_Selection}" title="{!$Label.c.Clear_Selection}"
+                onclick="{! c.handleUnselect }" />
+        </span>
+        <br />
         <div class="slds-grid">
             <div class="slds-col slds-size_12-of-12 slds-scrollable_x">
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
                         <tr>
                             <th>
-                                <lightning:input type="checkbox" class="buttonSelectAll"
-                                    disabled="{! v.disableSelectAllList}" variant="label-hidden"
-                                    checked="{! v.selectAllList}" onchange="{! c.selectAll}"></lightning:input>
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        <lightning:input type="checkbox" class="buttonSelectAll"
+                                            disabled="{! v.disableSelectAllList}" variant="label-hidden"
+                                            checked="{! v.selectAllList}" aura:id="selectP" onchange="{! c.selectAll}">
+                                        </lightning:input>
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning:buttonMenu onselect="{!c.handleDropDownSelection}" iconSize="x-small"
+                                            disabled="{!v.disableSelectAllDropDown}">
+                                            <lightning:menuItem aura:id="menuItems" value="selectAll"
+                                                label="{!v.selectAllDropDown}" checked="false" />
+                                        </lightning:buttonMenu>
+                                    </div>
+                                </div>
                             </th>
                             <th scope="col">
                                 <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
@@ -266,13 +294,15 @@
                             </th>
                             <aura:if isTrue="{!v.isTouchpoint}">
                                 <th scope="col">
-                                    <div class="slds-truncate" title="{!$Label.c.Answers_Text}">{!$Label.c.Answers_Text}
+                                    <div class="slds-truncate" title="{!$Label.c.Answers_Text}">
+                                        {!$Label.c.Answers_Text}
                                     </div>
                                 </th>
                             </aura:if>
                             <aura:if isTrue="{!v.showCreateSingleActions}">
                                 <th scope="col">
-                                    <div class="slds-truncate" title="{!$Label.c.Actions_Text}">{!$Label.c.Actions_Text}
+                                    <div class="slds-truncate" title="{!$Label.c.Actions_Text}">
+                                        {!$Label.c.Actions_Text}
                                     </div>
                                 </th>
                             </aura:if>
@@ -284,8 +314,9 @@
                                 <div class="slds-form-element__control">
                                     <label class="slds-checkbox">
                                         <lightning:input type="checkbox" checked="{!item.isChecked}"
-                                            class="specialForCheckbox" label="{!item.Id}" variant="label-hidden"
-                                            value="{!item.Id}" onchange="{! c.handleCheckboxChange}"></lightning:input>
+                                            class="specialForCheckbox" label="{!item.Id}" aura:id="singleSelect"
+                                            variant="label-hidden" value="{!item.Id}"
+                                            onchange="{! c.handleCheckboxChange}"></lightning:input>
                                     </label>
                                 </div>
                             </div>
@@ -339,7 +370,8 @@
                                     <div class="slds-truncate table-width">
                                         <lightning:button variant="neutral" aura:id="Create Task" value="{! item}"
                                             title="{!$Label.c.Create_Task_Text}" label="{!$Label.c.Create_Task_Text}"
-                                            onclick="{! c.viewRecord}"></lightning:button>
+                                            onclick="{! c.viewRecord}">
+                                        </lightning:button>
                                     </div>
                                 </td>
                             </aura:if>

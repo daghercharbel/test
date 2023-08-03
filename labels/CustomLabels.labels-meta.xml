@@ -2492,6 +2492,22 @@
         <shortDescription>Success Toast</shortDescription>
         <value>Success</value>
     </labels>
+
+    <labels>
+        <fullName>Clear_Selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clear Selection</shortDescription>
+        <value>Clear Selection</value>
+    </labels>
+    <labels>
+        <fullName>Select_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select All</shortDescription>
+        <value>Select All</value>
+    </labels>
+
     <labels>
         <fullName>Successful_Operation_Text</fullName>
         <language>en_US</language>

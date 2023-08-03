@@ -1853,6 +1853,14 @@
         <name>of_text</name>
     </customLabels>
     <customLabels>
+        <label>Rétablir le choix</label>
+        <name>Clear_Selection</name>
+    </customLabels>
+    <customLabels>
+        <label>Sélectionnez Tous</label>
+        <name>Select_All</name>
+    </customLabels>
+    <customLabels>
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
