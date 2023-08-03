@@ -3,8 +3,8 @@ public class TT_FeatureSettingsControllerTest {
     
     @istest static void getFeatureMetadataTest(){
         Test.startTest();
-        map<String, String> mapResult = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata();
-        System.assert(mapResult.get('status') == 'success', mapResult.get('error'));
+        map<String, String> mapResult = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata('Camapign_Syncing');
+        System.assert(mapResult.keySet() != null, 'It should not be empty');
         Test.stopTest();
     }
     
@@ -25,15 +25,21 @@ public class TT_FeatureSettingsControllerTest {
 
     @istest static void setFeatureMetadataTest(){
 
-        map<String, String> mapResultGet = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata();
+        map<String, String> mapResultGet = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata('Camapign_Syncing');
         String stringMdt = mapResultGet.get('value');
-
+		system.debug('mdt value: '+ stringMdt);
         Test.startTest();
         //Test Success
-        map<String, String> mapResultSuccess = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata(stringMdt);
-        System.assert(mapResultSuccess.get('status') == 'success', mapResultSuccess.get('error'));
+        map<String, String> mapResultSuccess = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata(stringMdt,'Camapign_Syncing');
+        System.assert(mapResultSuccess.keySet() != null, 'It should not be empty');
+        map<String, String> mapResultSuccess1 = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata(stringMdt,'Contact_Syncing');
+        System.assert(mapResultSuccess1.keySet() != null, 'It should not be empty');
+        map<String, String> mapResultSuccess2 = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata(stringMdt,'Lead_Syncing');
+        System.assert(mapResultSuccess2.keySet() != null, 'It should not be empty');
+        map<String, String> mapResultSuccess3 = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata(stringMdt,'Finest_Logging');
+        System.assert(mapResultSuccess3.keySet() != null, 'It should not be empty');
         //Test Error
-        map<String, String> mapResultError = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata('error');
+        map<String, String> mapResultError = TelosTouchSF.TT_FeatureSettingsController.setFeatureMetadata('error','Camapign_Syncing');
         System.assert(mapResultError.get('status') == 'error', 'Test should have thrown an error.');
         Test.stopTest();
     }

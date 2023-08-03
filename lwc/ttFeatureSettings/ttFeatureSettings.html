@@ -7,37 +7,38 @@
         <c-ttcustom-toast variant={variant} message={msg}
             ontoastvisibilitychange={handleToastVisibilityChange}></c-ttcustom-toast>
     </div>
-    <div>
-        
+    <div if:true={showMainDiv}>
+
         <!-- TOPICS -->
         <lightning-layout>
             <lightning-layout-item padding="around-medium">
                 <div class="slds-grid slds-wrap portal">
-                    <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
                                 {label.add_remove_topic}
                             </div>
                         </span>
                     </div>
-                    <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium">
                                 <lightning-input type="toggle" name="TelosTouchSF__ShowClientTagging__c"
-                                    checked={featureMetadata.TelosTouchSF__ShowClientTagging__c}
+                                    checked={featureMetadata.Client_Tagging.TelosTouchSF__SF_Flag__c}
                                     onchange={handleUpdate}></lightning-input>
                             </div>
                         </span>
                     </div>
                 </div>
             </lightning-layout-item>
-            <template if:true={featureMetadata.TelosTouchSF__ShowClientTagging__c}>
+            <template if:true={featureMetadata.Client_Tagging.TelosTouchSF__SF_Flag__c}>
                 <lightning-layout-item padding="around-medium">
                     <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
                         <lightning-icon icon-name="utility:warning" alternative-text="Warning!"
                             title="Warning"></lightning-icon>
                         <h2>
-                            {label.topic_warning} &nbsp; <a href="#" onclick={callRedirect} name="userGuide">{label.more_information}</a>
+                            {label.topic_warning} &nbsp; <a href="#" onclick={callRedirect}
+                                name="userGuide">{label.more_information}</a>
                             <!--This feature requires Topic for Objects configured properly. Please check the section "15.
                             Activating and using Topics" in our <a onclick={callRedirect} name="userGuide">User Guide</a> for a step-by-step on how to do so. -->
                         </h2>
@@ -50,18 +51,18 @@
         <lightning-layout>
             <lightning-layout-item padding="around-medium">
                 <div class="slds-grid slds-wrap portal">
-                    <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
                                 {label.DETIALED_LOGGING}
                             </div>
                         </span>
                     </div>
-                    <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium">
-                                <lightning-input type="toggle" name="TelosTouchSF__ShowFinestLogs__c"
-                                    checked={featureMetadata.TelosTouchSF__ShowFinestLogs__c}
+                                <lightning-input type="toggle" name="Finest_Logging"
+                                    checked={featureMetadata.Finest_Logging.TelosTouchSF__SF_Flag__c}
                                     onchange={handleUpdate}></lightning-input>
                             </div>
                         </span>
@@ -71,7 +72,7 @@
         </lightning-layout>
 
         <!-- CLIENT PORTAL -->
-        <lightning-layout>
+        <!-- <lightning-layout>
             <lightning-layout-item padding="around-medium">
                 <div class="slds-grid slds-wrap portal">
                     <div class="slds-col slds-size_6-of-12">
@@ -89,6 +90,183 @@
                                     onchange={handleUpdate}></lightning-input>
                             </div>
                         </span>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout> -->
+        <!-- Contact Syncing  -->
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col ">
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.Contact_Syncing_Label}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col ">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                        <lightning-input type="toggle" name="Contact_Syncing"
+                                            checked={featureMetadata.Contact_Syncing.TelosTouchSF__SF_Flag__c}
+                                            onchange={handleUpdate}></lightning-input>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium coolDownCss">
+                                        <lightning-input class="coolDownMin cssMobile" type="number"
+                                            variant="label-hidden"
+                                            value={featureMetadata.Contact_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="contactSyncing" onchange={handleAdditionalParam}
+                                            if:true={isTablet}></lightning-input>
+                                        <lightning-input class="coolDownMin" type="number" variant="label-hidden"
+                                            value={featureMetadata.Contact_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="contactSyncing" onchange={handleAdditionalParam}
+                                            if:false={isTablet}></lightning-input>
+                                        &nbsp; &nbsp; {label.In_Min_Label}
+                                    </div>
+                                    <div if:true={showContactMessage}>
+                                        <p style="color: red;">{label.Less_than_Cool_Down}</p>
+                                    </div>
+                                    <div if:true={showContactMaxTime}>
+                                        <p style="color: red;">{label.Greater_than_Cool_Down}</p>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium" if:true={showContactSave}>
+                                        <lightning-button variant="brand" data-id="contactSyncing"
+                                            label={label.Save_Button_Label} title={label.Save_Button_Label}
+                                            onclick={handleSaveCooldown}></lightning-button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Lead Syncing -->
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col ">
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.Lead_Syncing_Label}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col ">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                        <lightning-input type="toggle" name="Lead_Syncing"
+                                            checked={featureMetadata.Lead_Syncing.TelosTouchSF__SF_Flag__c}
+                                            onchange={handleUpdate}></lightning-input>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium coolDownCss">
+                                        <lightning-input class="coolDownMin cssMobile" type="number"
+                                            variant="label-hidden"
+                                            value={featureMetadata.Lead_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="leadSyncing" onchange={handleAdditionalParam}
+                                            if:true={isTablet}></lightning-input>
+                                        <lightning-input class="coolDownMin " type="number" variant="label-hidden"
+                                            value={featureMetadata.Lead_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="leadSyncing" onchange={handleAdditionalParam}
+                                            if:false={isTablet}></lightning-input>
+                                        &nbsp; &nbsp; {label.In_Min_Label}
+                                    </div>
+                                    <div if:true={showLeadMessage}>
+                                        <p style="color: red;">{label.Less_than_Cool_Down}</p>
+                                    </div>
+                                    <div if:true={showLeadMaxTime}>
+                                        <p style="color: red;">{label.Greater_than_Cool_Down}</p>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium" if:true={showLeadSave}>
+                                        <lightning-button variant="brand" data-id="leadSyncing"
+                                            label={label.Save_Button_Label} title={label.Save_Button_Label}
+                                            onclick={handleSaveCooldown}></lightning-button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Campaign Syncing -->
+        <lightning-layout>
+            <lightning-layout-item padding="around-medium">
+                <div class="slds-grid slds-wrap portal">
+                    <div class="slds-col ">
+                        <span>
+                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
+                                {label.Campaign_Syncing_Label}
+                            </div>
+                        </span>
+                    </div>
+                    <div class="slds-col ">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-horizontal_x-large slds-m-top_medium">
+                                        <lightning-input type="toggle" name="Camapign_Syncing"
+                                            checked={featureMetadata.Camapign_Syncing.TelosTouchSF__SF_Flag__c}
+                                            onchange={handleUpdate}></lightning-input>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium coolDownCss">
+                                        <lightning-input class="coolDownMin cssMobile" type="number"
+                                            variant="label-hidden"
+                                            value={featureMetadata.Camapign_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="campaignSyncing" onchange={handleAdditionalParam}
+                                            if:true={isTablet}>
+                                        </lightning-input>
+                                        <lightning-input class="coolDownMin" type="number" variant="label-hidden"
+                                            value={featureMetadata.Camapign_Syncing.TelosTouchSF__Additional_Parameter__c}
+                                            data-id="campaignSyncing" onchange={handleAdditionalParam}
+                                            if:false={isTablet}>
+                                        </lightning-input> &nbsp; &nbsp; {label.In_Min_Label}
+                                    </div>
+                                    <div if:true={showCampaignMessage}>
+                                        <p style="color: red;">{label.Less_than_Cool_Down}</p>
+                                    </div>
+                                    <div if:true={showCampaignMaxTime}>
+                                        <p style="color: red;">{label.Greater_than_Cool_Down}</p>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="slds-col ">
+                                <span>
+                                    <div class="slds-m-top_medium" if:true={showCampaignSave}>
+                                        <lightning-button variant="brand" data-id="campaignSyncing"
+                                            label={label.Save_Button_Label} title={label.Save_Button_Label}
+                                            onclick={handleSaveCooldown}></lightning-button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </lightning-layout-item>

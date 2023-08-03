@@ -164,8 +164,8 @@
                             class="slds-size_1-of-1 searchIcon slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
                             <template if:true={showSearchBar}>
                                 <div class="searchBar">
-                                    <input type="search" placeholder={label.Search_Placeholder}
-                                        class="slds-input" onkeyup={searchKeyword} id="search" value={searchValue} />
+                                    <input type="search" placeholder={label.Search_Placeholder} class="slds-input"
+                                        onkeyup={searchKeyword} id="search" value={searchValue} />
                                 </div>
                                 <div class="closeIcon">
                                     <lightning-icon icon-name="utility:close" size="small"
@@ -214,7 +214,8 @@
                                                 <div class="slds-form-element__control">
                                                     <label class="slds-checkbox">
                                                         <lightning-input type="checkbox" value={obj.Id}
-                                                            onchange={checkboxSelect}></lightning-input>
+                                                            onchange={checkboxSelect}
+                                                            checked={obj.isChecked}></lightning-input>
                                                     </label>
                                                 </div>
                                             </div>

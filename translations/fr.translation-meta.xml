@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customApplications>
+        <label><!-- Force.com -->
+        </label>
+        <name>Force_com</name>
+    </customApplications>
+    <customApplications>
         <label>
-            
+            <!-- TelosTouch -->
         </label>
         <name>TelosTouch</name>
     </customApplications>
@@ -15,7 +20,8 @@
         <name>Actions_Text</name>
     </customLabels>
     <customLabels>
-        <label>Commencez par choisir un TouchPoint ou ajouter des membres à la campagne avant de pouvoir « Envoyer un TouchPoint »</label>
+        <label>Commencez par choisir un TouchPoint ou ajouter des membres à la campagne avant de
+            pouvoir « Envoyer un TouchPoint »</label>
         <name>Add_Cam_Mem_to_TT_Text</name>
     </customLabels>
     <customLabels>
@@ -29,10 +35,6 @@
     <customLabels>
         <label>Ajouter des Champs sur mesure</label>
         <name>Add_Custom_Fields_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Commencez par choisir un modèle ou ajouter des membres à la campagne pour pouvoir « Envoyer un Email »</label>
-        <name>Add_Email_Cam_Mem_to_TT_Text</name>
     </customLabels>
     <customLabels>
         <label>Ajouter des Champs sur mesure</label>
@@ -49,12 +51,6 @@
     <customLabels>
         <label>Ajouter</label>
         <name>Add_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>
-            
-        </label>
-        <name>Add_To_Campaign_Config_Text</name>
     </customLabels>
     <customLabels>
         <label>Veuillez inscrire une nom de Campagne</label>
@@ -105,24 +101,8 @@
         <name>Back_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label>Un Membre a été ajouté à la campagne avec succès.</label>
-        <name>Cam_Mem_Add_In_Cam_Success_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Membre ajouté à la Campagne avec succès</label>
-        <name>Cam_Mem_Add_Success_Toast</name>
-    </customLabels>
-    <customLabels>
         <label>La Campagne n&apos;a pas le type d&apos;enregistrement TelosTouch</label>
         <name>Cam_Not_Have_TT_Record_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>La Campagne sélectionnée est déjà syncronisée</label>
-        <name>Camp_Already_Sync_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Campagnes supprimées de SF à TT</label>
-        <name>Camp_Deleted_Text</name>
     </customLabels>
     <customLabels>
         <label>Un Membre a été ajouté à la campagne avec succès.</label>
@@ -133,24 +113,9 @@
         <name>Camp_Mem_Info_Text</name>
     </customLabels>
     <customLabels>
-        <label>Les membres de la Campagne à qui le TouchPoint n&apos;a pas été envoyé ont été retirés</label>
+        <label>Les membres de la Campagne à qui le TouchPoint n&apos;a pas été envoyé ont été
+            retirés</label>
         <name>Camp_Members_Partially_Removed</name>
-    </customLabels>
-    <customLabels>
-        <label>Campagnes non supprimées dans TT ou absentes de TT.</label>
-        <name>Camp_Not_Deleted_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Syncronisaiton de la Campagne a échoué car le propriétaire de la Campagne n&apos;existe pas dans Salesforce</label>
-        <name>Camp_Sync_Fail_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Campagnes syncronisées avec succès de TelosTouch à Salesforce.</label>
-        <name>Camp_Sync_Success_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Campagnes syncronisées avec succès de TelosTouch vers Salesforce avec utilisateurs clients</label>
-        <name>Camp_Sync_Success_With_Client_Text</name>
     </customLabels>
     <customLabels>
         <label>Performance de la Campagne</label>
@@ -169,7 +134,8 @@
         <name>Campaign_Graph_Send_Touchpoint_Text</name>
     </customLabels>
     <customLabels>
-        <label>Le graphique apparaitra losqu&apos;au moins un client aura complété ou ouvert le Point de contact</label>
+        <label>Le graphique apparaitra losqu&apos;au moins un client aura complété ou ouvert le
+            Point de contact</label>
         <name>Campaign_Graph_Will_Populate_Text</name>
     </customLabels>
     <customLabels>
@@ -179,6 +145,18 @@
     <customLabels>
         <label>Nom de la campagne</label>
         <name>Campaign_Name_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Campagnes</label>
+        <name>Campaign_Syncing_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation de campagne désactivée</label>
+        <name>Campaign_Syncing_disabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation de campagne activée</label>
+        <name>Campaign_Syncing_enabled</name>
     </customLabels>
     <customLabels>
         <label>Campagne</label>
@@ -218,7 +196,7 @@
     </customLabels>
     <customLabels>
         <label>
-            
+            <!-- CaseRaised -->
         </label>
         <name>CaseRaised</name>
     </customLabels>
@@ -267,20 +245,8 @@
         <name>Choose_a_TouchPoint_Text</name>
     </customLabels>
     <customLabels>
-        <label>Clients ajoutés à la Campagne:</label>
-        <name>Client_Added_To_Cam_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Le client a déjà accepté l&apos;invitation</label>
         <name>Client_Already_Accept_Invite_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Les Clients sélectionnés sont déjà Membres de cette Campagne</label>
-        <name>Client_Already_Camp_Mem_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Clients supprimés de SF à TelosTouch.</label>
-        <name>Client_Deleted_Text</name>
     </customLabels>
     <customLabels>
         <label>Clients invités avec succès.</label>
@@ -289,10 +255,6 @@
     <customLabels>
         <label>Client invité avec succès.</label>
         <name>Client_Invited_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Des Clients n&apos;ont pu être ajoutés à la Campagne:</label>
-        <name>Client_Not_Added_To_Camp_Text</name>
     </customLabels>
     <customLabels>
         <label>Ce client n&apos;a pas de code d&apos;usager</label>
@@ -311,10 +273,6 @@
         <name>Client_Portal_Enabled</name>
     </customLabels>
     <customLabels>
-        <label>Clients syncronisés avec succès de TelosTouch à Salesforce.</label>
-        <name>Client_Sync_Success_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Attachement</label>
         <name>Client_TimeLine_Attachment</name>
     </customLabels>
@@ -331,16 +289,12 @@
         <name>Clients_Already_Added_To_Campaign_Text</name>
     </customLabels>
     <customLabels>
-        <label>Clients non supprimés dans TT ou absents de TT.</label>
-        <name>Clients_Not_Deleted_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Clients</label>
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
         <label>
-            
+            <!-- Close -->
         </label>
         <name>Close</name>
     </customLabels>
@@ -373,11 +327,19 @@
         <name>Compliance_Confirm_Text</name>
     </customLabels>
     <customLabels>
-        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme concernant les communications externes, incluant l&apos;approbation de ces communications, si et quand il est requis de la faire. Je comprends aussi qu&apos;une copie de ce TouchPoint sera transmise à ma boîte de courriels et sera assujettie aux règles de rétention et au processus de supervision de la firme.</label>
+        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme
+            concernant les communications externes, incluant l&apos;approbation de ces
+            communications, si et quand il est requis de la faire. Je comprends aussi qu&apos;une
+            copie de ce TouchPoint sera transmise à ma boîte de courriels et sera assujettie aux
+            règles de rétention et au processus de supervision de la firme.</label>
         <name>Compliance_Message</name>
     </customLabels>
     <customLabels>
-        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme concernant les communications externes, inclus l&apos;approbation de ces communications, si et quand c&apos;est requis. Je comprends aussi qu&apos;une copie de ce TouchPoint sera transmise à ma boîte de courriels et sera assujettie aux règles de rétention et au processus de supervision de la firme.</label>
+        <label>Je confirme avoir suivi toutes les étapes du processus de conformité de la firme
+            concernant les communications externes, inclus l&apos;approbation de ces communications,
+            si et quand c&apos;est requis. Je comprends aussi qu&apos;une copie de ce TouchPoint
+            sera transmise à ma boîte de courriels et sera assujettie aux règles de rétention et au
+            processus de supervision de la firme.</label>
         <name>Compliance_Message_Email</name>
     </customLabels>
     <customLabels>
@@ -397,7 +359,9 @@
         <name>Config_Client_Secret</name>
     </customLabels>
     <customLabels>
-        <label>Des APIs et codes clients sont nécessaires pour utiliser TelosTouch dans Salesforce. Veuillez contacter notre équipe support (support@telostouch.com) si vous ne les avez pas.</label>
+        <label>Des APIs et codes clients sont nécessaires pour utiliser TelosTouch dans Salesforce.
+            Veuillez contacter notre équipe support (support@telostouch.com) si vous ne les avez
+            pas.</label>
         <name>Config_Footer</name>
     </customLabels>
     <customLabels>
@@ -429,14 +393,20 @@
         <name>Contact_Label</name>
     </customLabels>
     <customLabels>
-        <label>Créer la version française de la signature</label>
-        <name>Create_French_Signature</name>
+        <label>Synchronisation des Contacts</label>
+        <name>Contact_Syncing_Label</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
-        <name>Create_Mass_Action_Config_Label</name>
+        <label>Synchronisation des Contacts désactivée</label>
+        <name>Contact_Syncing_disabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Contacts activée</label>
+        <name>Contact_Syncing_enabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Créer la version française de la signature</label>
+        <name>Create_French_Signature</name>
     </customLabels>
     <customLabels>
         <label>Créer nouveau</label>
@@ -445,16 +415,6 @@
     <customLabels>
         <label>Créer une série de tâches récurrentes</label>
         <name>Create_Recurring_Task</name>
-    </customLabels>
-    <customLabels>
-        <label>Créer site à distance:</label>
-        <name>Create_Remote_Site_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>
-            
-        </label>
-        <name>Create_Sungle_Action_Text</name>
     </customLabels>
     <customLabels>
         <label>Créer Action</label>
@@ -469,7 +429,8 @@
         <name>Created_Label</name>
     </customLabels>
     <customLabels>
-        <label>Vos informations d&apos;identification ne sont pas valides en tant qu&apos;administrateur et veuillez contacter l&apos;administrateur pour plus de détails.</label>
+        <label>Vos informations d&apos;identification ne sont pas valides en tant
+            qu&apos;administrateur et veuillez contacter l&apos;administrateur pour plus de détails.</label>
         <name>Cred_Not_Valid_As_Admin_Contact_Admin</name>
     </customLabels>
     <customLabels>
@@ -485,11 +446,13 @@
         <name>Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Admin Record Label --></label>
+        <label><!-- Custom Metadata Admin Record Label -->
+        </label>
         <name>Custom_Metadata_Admin_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Test Record Label --></label>
+        <label><!-- Custom Metadata Test Record Label -->
+        </label>
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
@@ -501,16 +464,22 @@
         <name>Customize_AddClientText</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;.&lt;br/&gt;
-Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur
+            &quot;Envoyer&quot;.&lt;br/&gt;
+            Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées
+            après l&apos;envoi</label>
         <name>Customize_PreviewLabel</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;. Note: La personnalisation et la sélection d&apos;un Point de contact seront désactivées après l&apos;envoi</label>
+        <label>Vous pouvez maintenant envoyer le Point de contact en cliquant sur
+            &quot;Envoyer&quot;. Note: La personnalisation et la sélection d&apos;un Point de
+            contact seront désactivées après l&apos;envoi</label>
         <name>Customize_PreviewLabel_Text</name>
     </customLabels>
     <customLabels>
-        <label>Vous pouvez maintenant envoyer le Email en cliquant sur &quot;Envoyer&quot;.&lt;br/&gt; Note: La personnalisation et la sélection d&apos;un modèle seront désactivées après l&apos;envoi</label>
+        <label>Vous pouvez maintenant envoyer le Email en cliquant sur
+            &quot;Envoyer&quot;.&lt;br/&gt; Note: La personnalisation et la sélection d&apos;un
+            modèle seront désactivées après l&apos;envoi</label>
         <name>Customize_Preview_Email_Label</name>
     </customLabels>
     <customLabels>
@@ -530,7 +499,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Daily_Text</name>
     </customLabels>
     <customLabels>
-        <label>Veuillez vous assurer que vous êtes un usager de TelosTouch d&apos;abord, afin de démarrer l&apos;application.</label>
+        <label>Veuillez vous assurer que vous êtes un usager de TelosTouch d&apos;abord, afin de
+            démarrer l&apos;application.</label>
         <name>Dashboard_Non_TT_User_Text</name>
     </customLabels>
     <customLabels>
@@ -574,14 +544,6 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Duplicate_Button_Description</name>
     </customLabels>
     <customLabels>
-        <label>est un doublon</label>
-        <name>Duplicate_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Doublon:</label>
-        <name>Duplicate_Text_2</name>
-    </customLabels>
-    <customLabels>
         <label>ERREUR</label>
         <name>ERROR_Text</name>
     </customLabels>
@@ -590,19 +552,17 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Edit_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label>Courriel existe déjà:</label>
-        <name>Email_Exist_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Des destinataires sont en train d&apos;être rajoutés au Email. Veuillez patienter…</label>
         <name>Email_Process_Running</name>
     </customLabels>
     <customLabels>
-        <label>Des destinataires sont en train d&apos;être rajoutés au Email dans l&apos;arrière-plan. Veuillez patienter…</label>
+        <label>Des destinataires sont en train d&apos;être rajoutés au Email dans
+            l&apos;arrière-plan. Veuillez patienter…</label>
         <name>Email_Recipients_are_being_added_in_background</name>
     </customLabels>
     <customLabels>
-        <label>Email envoyé.&lt;br/&gt; Vous pouvez envoyer cet Email à plus de personnes en les rajoutants à la campagne.</label>
+        <label>Email envoyé.&lt;br/&gt; Vous pouvez envoyer cet Email à plus de personnes en les
+            rajoutants à la campagne.</label>
         <name>Email_Sent</name>
     </customLabels>
     <customLabels>
@@ -636,7 +596,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>End_Date</name>
     </customLabels>
     <customLabels>
-        <label><!-- English Text --></label>
+        <label><!-- English Text -->
+        </label>
         <name>English_Text</name>
     </customLabels>
     <customLabels>
@@ -648,7 +609,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Enter_3_Letters_Text</name>
     </customLabels>
     <customLabels>
-        <label>Entrez le terme à rechercher et cliquez sur entrer ou cliquez sur le bouton rechercher</label>
+        <label>Entrez le terme à rechercher et cliquez sur entrer ou cliquez sur le bouton
+            rechercher</label>
         <name>Enter_Search_Term_Text</name>
     </customLabels>
     <customLabels>
@@ -666,18 +628,6 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
     <customLabels>
         <label>Entrez le nom d&apos;une Campagne existante, ou créez une nouvelle Campagne</label>
         <name>Existing_Campaign_Error_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Échec de la Syncronisation des enregistrements entre Salesforce et TelosTouch</label>
-        <name>Failed_Contact_Sync_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Échec de la syncronisation des prospects de Salesforce à TelosTouch</label>
-        <name>Failed_Lead_Sync_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Échec de la syncronisation des Tâches de Salesforce à TelosTouch</label>
-        <name>Failed_Task_Sync_Text</name>
     </customLabels>
     <customLabels>
         <label>Échec</label>
@@ -720,7 +670,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>First_Name</name>
     </customLabels>
     <customLabels>
-        <label><!-- French Text --></label>
+        <label><!-- French Text -->
+        </label>
         <name>French_Text</name>
     </customLabels>
     <customLabels>
@@ -744,8 +695,37 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Grant_Access_To_User_Text</name>
     </customLabels>
     <customLabels>
-        <label>Êtes-vous certain(e) de vouloir attribuer une licence TelosTouch à l&apos;utilisateur sélectionné?</label>
+        <label>Êtes-vous certain(e) de vouloir attribuer une licence TelosTouch à l&apos;utilisateur
+            sélectionné?</label>
         <name>Grant_User_permission_text</name>
+    </customLabels>
+    <customLabels>
+        <label>Le temps de refroidissement doit être inférieur à 60 minutes</label>
+        <name>Greater_than_Cool_Down</name>
+    </customLabels>
+    <customLabels>
+        <label>en minutes</label>
+        <name>In_Min_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes</label>
+        <name>Lead_Syncing_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes désactivée</label>
+        <name>Lead_Syncing_disabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes activée</label>
+        <name>Lead_Syncing_enabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Le temps de refroidissement ne peut pas être inférieur à 2 minutes</label>
+        <name>Less_than_Cool_Down</name>
+    </customLabels>
+    <customLabels>
+        <label>Syncronisation</label>
+        <name>Sync_Label</name>
     </customLabels>
     <customLabels>
         <label>Synchronisation complète</label>
@@ -768,7 +748,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Hide_Advanced_Options_Text</name>
     </customLabels>
     <customLabels>
-        <label>Si plus d&apos;un usager ont la même adresse courriel, un seul des ces usagers apparaîtra dans la liste</label>
+        <label>Si plus d&apos;un usager ont la même adresse courriel, un seul des ces usagers
+            apparaîtra dans la liste</label>
         <name>IfTwoUserHaveSameEmail</name>
     </customLabels>
     <customLabels>
@@ -776,7 +757,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>InsightAnswersEmpty</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour l&apos;installation de l&apos;application Salesforce de TelosTouch</label>
+        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour l&apos;installation de
+            l&apos;application Salesforce de TelosTouch</label>
         <name>Installation_Guide_Related</name>
     </customLabels>
     <customLabels>
@@ -804,22 +786,22 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Invite_Client_Text</name>
     </customLabels>
     <customLabels>
-        <label>Nous transmettrons à vos clients une invitation à se connecter à TelosTouch. Les clients doivent avoir une adresse courriel afin de recevoir l&apos;invitation. Assurez-vous de sélectionner la langue de préférence de chaque client avent de les inviter.</label>
+        <label>Nous transmettrons à vos clients une invitation à se connecter à TelosTouch. Les
+            clients doivent avoir une adresse courriel afin de recevoir l&apos;invitation.
+            Assurez-vous de sélectionner la langue de préférence de chaque client avent de les
+            inviter.</label>
         <name>Invite_Confirmation_message</name>
     </customLabels>
     <customLabels>
-        <label>Invitez vos contacts à se connecter pour débuter la collaboraiton avec eux sur TelosTouch</label>
+        <label>Invitez vos contacts à se connecter pour débuter la collaboraiton avec eux sur
+            TelosTouch</label>
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
         <label>
-            
+
         </label>
         <name>IssueDescription</name>
-    </customLabels>
-    <customLabels>
-        <label>éléments</label>
-        <name>Items</name>
     </customLabels>
     <customLabels>
         <label>Erreur lors du chargement de l&apos;image!</label>
@@ -828,14 +810,6 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
     <customLabels>
         <label>Documentation</label>
         <name>Knowledge_Base_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Échec de la mise à jour de la langue ou du fuseau horaire de l&apos;usager</label>
-        <name>Lang_Timezone_Update_Fali_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Langue ou fuseau horaire de l&apos;usager mis à jour avec succès.</label>
-        <name>Lang_Timezone_Update_Text</name>
     </customLabels>
     <customLabels>
         <label>Langue</label>
@@ -898,7 +872,8 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Meeting_Link</name>
     </customLabels>
     <customLabels>
-        <label><!-- Meeting Link Preview --></label>
+        <label><!-- Meeting Link Preview -->
+        </label>
         <name>Meeting_Link_Preview</name>
     </customLabels>
     <customLabels>
@@ -930,14 +905,19 @@ Note: La personnalisation et la sélection d&apos;un Point de contact seront dé
         <name>Name_Text</name>
     </customLabels>
     <customLabels>
-        <label>&quot;Named Credential&quot; n&apos;est pas configuré dans l&apos;org, alors que c&apos;est requis pour que cette caractéristique fonctionne.
-En tant qu&apos;administrateur de cette &quot;org&quot;, vous pouvez visiter:
-TelosTouch App -&gt; Paramètre TT -&gt; Centre d&apos;information -&gt; Guide d&apos;installation
-La dernière étape du guide montre comment configuer &quot;Connected App&quot;, &quot;Auth Provider&quot; et &quot;Named Credential&quot; pour activer cette caractéristique.</label>
+        <label>&quot;Named Credential&quot; n&apos;est pas configuré dans l&apos;org, alors que
+            c&apos;est requis pour que cette caractéristique fonctionne.
+            En tant qu&apos;administrateur de cette &quot;org&quot;, vous pouvez visiter:
+            TelosTouch App -&gt; Paramètre TT -&gt; Centre d&apos;information -&gt; Guide
+            d&apos;installation
+            La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
+            &quot;Auth Provider&quot; et &quot;Named Credential&quot; pour activer cette
+            caractéristique.</label>
         <name>Named_Credential_Error</name>
     </customLabels>
     <customLabels>
-        <label>TouchPoint sélectionné et contacts ajoutés à la campagne. Veuillez cliquer sur «Envoyer un Touchpoint» si vous êtes prêts à envoyer le TouchPoint au(x) client(s).</label>
+        <label>TouchPoint sélectionné et contacts ajoutés à la campagne. Veuillez cliquer sur
+            «Envoyer un Touchpoint» si vous êtes prêts à envoyer le TouchPoint au(x) client(s).</label>
         <name>New_Camp_Member_Added_Text</name>
     </customLabels>
     <customLabels>
@@ -945,24 +925,23 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>New_Campaign_Header_Text</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Point de contact en cliquant sur &quot;Envoyer&quot;</label>
+        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Point de contact en
+            cliquant sur &quot;Envoyer&quot;</label>
         <name>New_Client_Added_Text</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Email en cliquant sur &quot;Envoyer&quot;</label>
+        <label>Nouveaux membres ajoutés à la campagne. Vous pouvez envoyer le Email en cliquant sur
+            &quot;Envoyer&quot;</label>
         <name>New_Email_Client_Added_Text</name>
     </customLabels>
     <customLabels>
-        <label>De nouveaux membres ne peuvent être ajoutés à cette Campagne parce qu&apos;un TouchPoint a déjà été transmis.</label>
+        <label>De nouveaux membres ne peuvent être ajoutés à cette Campagne parce qu&apos;un
+            TouchPoint a déjà été transmis.</label>
         <name>New_Member_Toast</name>
     </customLabels>
     <customLabels>
         <label>Suivant</label>
         <name>Next_Button_Label</name>
-    </customLabels>
-    <customLabels>
-        <label>Aucun enregstrement de Contact syncronisé de Salesforce à TelosTouch</label>
-        <name>No_Contact_Sync_Text</name>
     </customLabels>
     <customLabels>
         <label>Aucun Champs personnalisé n&apos;a été trouvé</label>
@@ -973,20 +952,13 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Data_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- No Description Text --></label>
+        <label><!-- No Description Text -->
+        </label>
         <name>No_Description_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Aucune donnée de propect syncronisée de Salesforce à TelosTouch</label>
-        <name>No_Lead_Syn_Text</name>
     </customLabels>
     <customLabels>
         <label>Vous n&apos;êtes pas autorisé à l&apos;ouvrir</label>
         <name>No_Permit_To_Open_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>vous n&apos;avez pas l&apos;autorisation du compte personnel.</label>
-        <name>No_Permit_To_Person_Acc_Toast</name>
     </customLabels>
     <customLabels>
         <label>Aucun enregistrement trouvé</label>
@@ -1001,10 +973,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Standard_Field_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Aucun enregistrement de Tâche syncronisé de Salesforce à TelosTouch</label>
-        <name>No_Task_Sync_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Non</label>
         <name>No_Text</name>
     </customLabels>
@@ -1017,7 +985,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_Valid_Client_Found_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Les membres de cette Campagne ne peuvent être retirés car le TouchPoint leur a déjà été transmis</label>
+        <label>Les membres de cette Campagne ne peuvent être retirés car le TouchPoint leur a déjà
+            été transmis</label>
         <name>No_data_is_deleted_Text</name>
     </customLabels>
     <customLabels>
@@ -1029,7 +998,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>No_unsubscribed_client_text</name>
     </customLabels>
     <customLabels>
-        <label><!-- None Text --></label>
+        <label><!-- None Text -->
+        </label>
         <name>None_Text</name>
     </customLabels>
     <customLabels>
@@ -1121,10 +1091,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Please_Select_Record_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Veuillez désélectionner les comptes qui ne sont pas synchronisés.</label>
-        <name>Please_Unselect_Account_Toast</name>
-    </customLabels>
-    <customLabels>
         <label>Poste</label>
         <name>Position</name>
     </customLabels>
@@ -1161,7 +1127,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Public_Permission</name>
     </customLabels>
     <customLabels>
-        <label>Partagé avec tous les utilisateurs de l&apos;organisation - Cliquez pour modifier les autorisations</label>
+        <label>Partagé avec tous les utilisateurs de l&apos;organisation - Cliquez pour modifier les
+            autorisations</label>
         <name>Public_Permission_Description</name>
     </customLabels>
     <customLabels>
@@ -1177,7 +1144,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Ready_Status_Description</name>
     </customLabels>
     <customLabels>
-        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en arrière-plan. Veuillez attendre...</label>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact en
+            arrière-plan. Veuillez attendre...</label>
         <name>Recipients_are_being_added_in_background</name>
     </customLabels>
     <customLabels>
@@ -1225,10 +1193,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Reminder_Confirmation_Text</name>
     </customLabels>
     <customLabels>
-        <label>Rappel de compléter un TouchPoint:</label>
-        <name>Reminder_For_Ans_Touchpoint</name>
-    </customLabels>
-    <customLabels>
         <label>Le rappel n&apos;a pu être envoyé</label>
         <name>Reminder_Not_Sent_Toast</name>
     </customLabels>
@@ -1253,7 +1217,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Remove_permissions_single_toast</name>
     </customLabels>
     <customLabels>
-        <label>Une demande a été placée pour révoquer l&apos;accès à la licence TelosTouch pour les utilisateurs sélectionnés</label>
+        <label>Une demande a été placée pour révoquer l&apos;accès à la licence TelosTouch pour les
+            utilisateurs sélectionnés</label>
         <name>Remove_permissions_toast</name>
     </customLabels>
     <customLabels>
@@ -1270,7 +1235,7 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     </customLabels>
     <customLabels>
         <label>
-            
+
         </label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
@@ -1303,7 +1268,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Review_Errors_Text</name>
     </customLabels>
     <customLabels>
-        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
+        <label>Vous êtes sur le point de révoquer votre propre accès. Cela peut entraîner un
+            comportement inattendu dans l&apos;application. Voulez-vous continuer?</label>
         <name>Revoke_Current_User</name>
     </customLabels>
     <customLabels>
@@ -1319,10 +1285,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>SF_Field_Create_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Synchronisation des utilisateurs Salesforce réussie avec TelosTouch.</label>
-        <name>SF_User_Sync_Text</name>
-    </customLabels>
-    <customLabels>
         <label>SUCCÈS</label>
         <name>SUCCESS_Text</name>
     </customLabels>
@@ -1335,11 +1297,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Save_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label>Sauvegarder les paramètres</label>
-        <name>Save_Settings</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- Schedule a Meeting --></label>
+        <label><!-- Schedule a Meeting -->
+        </label>
         <name>Schedule_a_Meeting</name>
     </customLabels>
     <customLabels>
@@ -1367,14 +1326,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_Add_At_Least_One_Field_Toast</name>
     </customLabels>
     <customLabels>
-        <label>Veuillez sélectonner un enregistrement</label>
-        <name>Select_Any_Record_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Choisissez au moins un élément et essayez à nouveau</label>
-        <name>Select_At_Least_One_Record_Toast</name>
-    </customLabels>
-    <customLabels>
         <label>Choisissez d&apos;abord une Campagne, puis essayez à nouveau</label>
         <name>Select_Campaign_First_Text</name>
     </customLabels>
@@ -1399,10 +1350,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Select_Sync_Type_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Select a Template --></label>
-        <name>Select_a_Template</name>
-    </customLabels>
-    <customLabels>
         <label>Sélectionner un type d&apos;enregistrement</label>
         <name>Select_a_record_type_Type</name>
     </customLabels>
@@ -1419,21 +1366,13 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Selected_TouchPoint</name>
     </customLabels>
     <customLabels>
-        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Modèle&quot; pour sélectionner votre Modèle</label>
-        <name>SendEmail_CustomizeText</name>
-    </customLabels>
-    <customLabels>
-        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de contact&quot; pour sélectionner votre Point de contact</label>
+        <label>Nouveaux membres ajoutés à la campagne. Cliquez sur &quot;Choisir un Point de
+            contact&quot; pour sélectionner votre Point de contact</label>
         <name>SendTP_CustomizeText</name>
     </customLabels>
     <customLabels>
-        <label>
-            
-        </label>
-        <name>Send_Reminder_Config_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Seuls les clients n&apos;ayant pas reçu de rappel dans les dernières 24 heures recevront une nouvelles notification,</label>
+        <label>Seuls les clients n&apos;ayant pas reçu de rappel dans les dernières 24 heures
+            recevront une nouvelles notification,</label>
         <name>Send_Reminder_Modal_Text</name>
     </customLabels>
     <customLabels>
@@ -1453,7 +1392,9 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Send_Test_Button</name>
     </customLabels>
     <customLabels>
-        <label>Un Point de contact Test sera livré aux e-mails saisis ci-dessous. Vous pouvez ajouter plusieurs e-mails séparés par une virgule. Le nombre maximum autorisé est de 5 e-mails.</label>
+        <label>Un Point de contact Test sera livré aux e-mails saisis ci-dessous. Vous pouvez
+            ajouter plusieurs e-mails séparés par une virgule. Le nombre maximum autorisé est de 5
+            e-mails.</label>
         <name>Send_Test_Message</name>
     </customLabels>
     <customLabels>
@@ -1553,11 +1494,13 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
         <name>Standard_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label>Pour débuter, cliquez sur &quot;Sélectionner le Point de contact&quot; pour sélectionner votre Point de contact et ajouter des membres à la campagne</label>
+        <label>Pour débuter, cliquez sur &quot;Sélectionner le Point de contact&quot; pour
+            sélectionner votre Point de contact et ajouter des membres à la campagne</label>
         <name>StartByChoosingTP</name>
     </customLabels>
     <customLabels>
-        <label>Pour commencer, cliquez sur &quot;Sélectionner le modèle&quot; pour sélectionner votre modèle et ajouter des membres à la campagne</label>
+        <label>Pour commencer, cliquez sur &quot;Sélectionner le modèle&quot; pour sélectionner
+            votre modèle et ajouter des membres à la campagne</label>
         <name>Start_By_Choosing_Email</name>
     </customLabels>
     <customLabels>
@@ -1583,18 +1526,6 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     <customLabels>
         <label>Inscrit</label>
         <name>Subscribed_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Syncronisation réussie des Contacts de Salesforce à TelosTouch</label>
-        <name>Success_Contact_sync_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Syncronisation réussie des Prospects de Salesforce à TelosTouch</label>
-        <name>Success_Lead_sync_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Syncronisation réussie des Tâches de Salesforce à TelosTouch</label>
-        <name>Success_Task_sync_Text</name>
     </customLabels>
     <customLabels>
         <label>Succès</label>
@@ -1638,7 +1569,8 @@ La dernière étape du guide montre comment configuer &quot;Connected App&quot;,
     </customLabels>
     <customLabels>
         <label>Point de contact envoyé.&lt;br/&gt;
-Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la campagne.</label>
+            Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à la
+            campagne.</label>
         <name>TPSentText</name>
     </customLabels>
     <customLabels>
@@ -1662,24 +1594,8 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Task_Create_Success_Text</name>
     </customLabels>
     <customLabels>
-        <label>Tâche supprimée de SF à TelosTouch.</label>
-        <name>Task_Deleted_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Tâche</label>
         <name>Task_Label</name>
-    </customLabels>
-    <customLabels>
-        <label>Tâche non supprimée dans TT ou absente de TT</label>
-        <name>Task_Not_Deleted_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Échec de la Syncronisation des Tâches car propriétaire des Tâches non trouvé sur Salesforce</label>
-        <name>Task_Sync_Fail_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Syncronisation réussie des Tâches de TelosTouch à Salesforce.</label>
-        <name>Task_Sync_Success_Text</name>
     </customLabels>
     <customLabels>
         <label>Tâche mise à jour avec succès.</label>
@@ -1698,7 +1614,8 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TelosTouch_Fields</name>
     </customLabels>
     <customLabels>
-        <label><!-- TelosTouch Permission Set Name --></label>
+        <label><!-- TelosTouch Permission Set Name -->
+        </label>
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
@@ -1753,7 +1670,8 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Total_Sync_Record_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPointTemplateNotSaved_Text --></label>
+        <label><!-- TouchPointTemplateNotSaved_Text -->
+        </label>
         <name>TouchPointTemplateNotSaved_Text</name>
     </customLabels>
     <customLabels>
@@ -1761,11 +1679,13 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TouchPointTemplateSaved_Text</name>
     </customLabels>
     <customLabels>
-        <label>Le TouchPoint a été créé. Veuillez ajouter des membres à la campagne afin d’ajouter des destinataires au TouchPoint.</label>
+        <label>Le TouchPoint a été créé. Veuillez ajouter des membres à la campagne afin d’ajouter
+            des destinataires au TouchPoint.</label>
         <name>TouchPoint_Created</name>
     </customLabels>
     <customLabels>
-        <label>Le TouchPoint a été créé. Veuillez cliquer sur &quot;Envoyer un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
+        <label>Le TouchPoint a été créé. Veuillez cliquer sur &quot;Envoyer un TouchPoint&quot; pour
+            envoyer un TouchPoint aux clients.</label>
         <name>TouchPoint_Created_With_Recipients</name>
     </customLabels>
     <customLabels>
@@ -1777,27 +1697,33 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>TouchPoint_Preview_Text</name>
     </customLabels>
     <customLabels>
-        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact. Veuillez attendre...</label>
+        <label>Des destinataires sont en train d&apos;être ajoutés au Point de Contact. Veuillez
+            attendre...</label>
         <name>TouchPoint_Process_Running_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview All Templates --></label>
+        <label><!-- TouchpointPreview All Templates -->
+        </label>
         <name>TouchpointPreview_All_Templates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToListView --></label>
+        <label><!-- TouchpointPreview BackToListView -->
+        </label>
         <name>TouchpointPreview_BackToListView</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToTemplates --></label>
+        <label><!-- TouchpointPreview BackToTemplates -->
+        </label>
         <name>TouchpointPreview_BackToTemplates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview NoData Text --></label>
+        <label><!-- TouchpointPreview NoData Text -->
+        </label>
         <name>TouchpointPreview_NoData_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview Private Template --></label>
+        <label><!-- TouchpointPreview Private Template -->
+        </label>
         <name>TouchpointPreview_Private_Template</name>
     </customLabels>
     <customLabels>
@@ -1809,11 +1735,13 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Touchpoint_Sent_to_Camp_Mem_Text</name>
     </customLabels>
     <customLabels>
-        <label>TouchPoint non transmis. Veuillez cliquer sur &quot;Choisir un TouchPoint&quot; pour envoyer un TouchPoint aux clients.</label>
+        <label>TouchPoint non transmis. Veuillez cliquer sur &quot;Choisir un TouchPoint&quot; pour
+            envoyer un TouchPoint aux clients.</label>
         <name>Touchpoint_not_sent_Text</name>
     </customLabels>
     <customLabels>
-        <label>Incapable de créer certains usagers. Courriel et/ou Code d&apos;utilisateur existe déjà</label>
+        <label>Incapable de créer certains usagers. Courriel et/ou Code d&apos;utilisateur existe
+            déjà</label>
         <name>Unable_Create_Some_User_Toast</name>
     </customLabels>
     <customLabels>
@@ -1825,7 +1753,8 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Unauthorized_User_Label</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour désinstaller l&apos;application Salesforce de TelosTouch</label>
+        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour désinstaller
+            l&apos;application Salesforce de TelosTouch</label>
         <name>Uninstallation_Guide_Related</name>
     </customLabels>
     <customLabels>
@@ -1841,19 +1770,20 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>Update_Add_Users_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label>Échec d&apos;activation d&apos;usager de Salesforce à TelosTouch.</label>
-        <name>User_Activated_Fail_Text</name>
+        <label>La période de refroidissement des campagnes est mise à jour</label>
+        <name>Updated_Campaign_Cool_Down</name>
     </customLabels>
     <customLabels>
-        <label>Usager activé avec succès de Salesforce à TelosTouch.</label>
-        <name>User_Activated_Success_Text</name>
+        <label>La période de refroidissement des Contacts est mise à jour</label>
+        <name>Updated_Contact_Cool_Down</name>
     </customLabels>
     <customLabels>
-        <label>Usager désactivé avec succès de Salesforce à TelosTouch</label>
-        <name>User_Deactivated_Success_Text</name>
+        <label>La période de refroidissement des Pistes est mise à jour</label>
+        <name>Updated_Lead_Cool_Down</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide sur l&apos;utilisation de l&apos;application Salesforce de TelosTouch</label>
+        <label>Cliquez sur ce document pour obtenir de l&apos;aide sur l&apos;utilisation de
+            l&apos;application Salesforce de TelosTouch</label>
         <name>User_Guide_Related</name>
     </customLabels>
     <customLabels>
@@ -1865,10 +1795,6 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>User_Name_Text</name>
     </customLabels>
     <customLabels>
-        <label>L&apos;usager n&apos;a pu être identifié</label>
-        <name>User_Not_Auth_Text</name>
-    </customLabels>
-    <customLabels>
         <label>Cet usager n&apos;est pas valide dans TelosTouch. Nous ne pouvouns vous identifier.</label>
         <name>User_Not_Valid_Cannot_Auth_App</name>
     </customLabels>
@@ -1877,16 +1803,9 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
         <name>User_access_text</name>
     </customLabels>
     <customLabels>
-        <label>Échec de la désactivation de l&apos;usager de Salesforce à TelosTouch</label>
-        <name>User_deactivate_Fail_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur sélectionné?</label>
+        <label>Êtes-vous certain(e) de vouloir révoquer la licence TelosTouch de l&apos;utilisateur
+            sélectionné?</label>
         <name>User_permission_text</name>
-    </customLabels>
-    <customLabels>
-        <label>Code d&apos;utilisateur existe déjà:</label>
-        <name>Username_Exist_Text</name>
     </customLabels>
     <customLabels>
         <label>Code d&apos;utilisateur</label>
@@ -1902,7 +1821,7 @@ Vous pouvez envoyer ce Point de contact à plus de personnes en les ajoutant à 
     </customLabels>
     <customLabels>
         <label>Bienvenue à la section Documentation!
-Un endroit ou vous trouverez de la documentation et des réponses à vos questions.</label>
+            Un endroit ou vous trouverez de la documentation et des réponses à vos questions.</label>
         <name>Welcome_to_Knowledge_base</name>
     </customLabels>
     <customLabels>
@@ -1934,11 +1853,20 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>of_text</name>
     </customLabels>
     <customLabels>
+        <label>Rétablir le choix</label>
+        <name>Clear_Selection</name>
+    </customLabels>
+    <customLabels>
+        <label>Sélectionnez Tous</label>
+        <name>Select_All</name>
+    </customLabels>
+    <customLabels>
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
     <customTabs>
-        <label><!-- Branding --></label>
+        <label><!-- Branding -->
+        </label>
         <name>Branding</name>
     </customTabs>
     <customTabs>
@@ -1950,25 +1878,279 @@ Un endroit ou vous trouverez de la documentation et des réponses à vos questio
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
+        <label><!-- TelosTouch Template Library -->
+        </label>
+        <name>TelosTouch_Template_Library</name>
+    </customTabs>
+    <customTabs>
         <label>
-            
+
         </label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
-        <flows/>
+        <flows />
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
     <flowDefinitions>
-        <flows/>
-        <fullName>Invoke_Send_Touchpoint_Flow</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows/>
-        <fullName>Lead_Convert_Mapping</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows/>
+        <flows />
         <fullName>Task_Check_Sync</fullName>
     </flowDefinitions>
+    <quickActions>
+        <aspect>Master</aspect>
+        <label>
+
+        </label>
+        <name>NewTask</name>
+    </quickActions>
+    <prompts>
+        <name>ServiceCaseClassificationTargetedPrompt</name>
+        <promptVersions>
+            <name>ServiceCaseClassificationTargetedPrompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>tabletFullWidthGA</name>
+        <promptVersions>
+            <name>TabletFullWidthGA</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>X4StepWalkthroughonContact</name>
+        <promptVersions>
+            <name>4 Step Walkthrough on Contact Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>4 Step Walkthrough on Contact Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>4 Step Walkthrough on Contact Step 3</name>
+            <stepNumber>3</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>4 Step Walkthrough on Contact Step 4</name>
+            <stepNumber>4</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>ServiceMacrosDockedPrompt</name>
+        <promptVersions>
+            <name>ServiceMacrosDockedPrompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>MFAAutoEnableAwarenessforNonCompliantOrgs</name>
+        <promptVersions>
+            <name>MFA Auto-Enable Awareness for Non-Compliant Orgs</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>CDPOnboardingInAppGuidance</name>
+        <promptVersions>
+            <name>CDP Onboarding InApp Guidance</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesCoreQuoteAdminCpq</name>
+        <promptVersions>
+            <name>Sales Core Quote Admin to CPQ</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EnablementExploreProgramsEnblAdmin</name>
+        <promptVersions>
+            <name>Explore Programs</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>FlowsForServiceDockedPrompt</name>
+        <promptVersions>
+            <name>FlowsForServiceDockedPrompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>MFAAutoEnableAwarenessforCompliantOrgs</name>
+        <promptVersions>
+            <name>MFA Auto-Enable Awareness for Compliant Orgs</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>X2StepWalkthroughonReports</name>
+        <promptVersions>
+            <name>2 Step Walkthrough on Reports Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>2 Step Walkthrough on Reports Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>NPSPLicenseDay1</name>
+        <promptVersions>
+            <name>NPSP License Day 1</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EnablementSwitchToProgramsEnblAdmin</name>
+        <promptVersions>
+            <name>Switch Between Measures and Programs Easily</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesCloudInboxDockedPrompt</name>
+        <promptVersions>
+            <name>SalesCloudInboxDockedPrompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesGenderFieldsAdmin</name>
+        <promptVersions>
+            <name>Capture gender inclusive data</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>NPSPLicenseDay20</name>
+        <promptVersions>
+            <name>NPSP License Day 20</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>NPSPLicenseDay25</name>
+        <promptVersions>
+            <name>NPSP License Day 25</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EinsteinPredictionBuilderSetupPagePrompt</name>
+        <promptVersions>
+            <name>Einstein Prediction Builder Setup Page Prompt</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesCloudforSlackWalkthrough</name>
+        <promptVersions>
+            <name>SalesCloudforSlackWalkthrough Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>SalesCloudforSlackWalkthrough Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>IAGFeatureAdoption</name>
+        <promptVersions>
+            <name>IAG Feature Adoption Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>IAG Feature Adoption Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>ServiceIncidentManagementBroadcastUser</name>
+        <promptVersions>
+            <name>Incident Management Broadcast</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EngagementAttributeTips</name>
+        <promptVersions>
+            <name>Engagement Attribute Tips</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EnablementExploreMeasuresEnblAdmin</name>
+        <promptVersions>
+            <name>Explore Measures</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>EnablementExploreAnalyticsEnblAdmin</name>
+        <promptVersions>
+            <name>Explore Analytics</name>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesHVSDialer</name>
+        <promptVersions>
+            <name>Sales HVS Dialer</name>
+        </promptVersions>
+    </prompts>
+    <quickActions>
+        <label><!-- LogACall -->
+        </label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount -->
+        </label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase -->
+        </label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact -->
+        </label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent -->
+        </label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup -->
+        </label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead -->
+        </label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote -->
+        </label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity -->
+        </label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Task -->
+        </label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail -->
+        </label>
+        <name>SendEmail</name>
+    </quickActions>
+    <reportTypes>
+        <description><!-- Screen Flows -->
+        </description>
+        <label><!-- Screen Flows -->
+        </label>
+        <name>screen_flows_prebuilt_crt</name>
+        <sections>
+            <label><!-- Flow Interview Log Entries -->
+            </label>
+            <name>Flow Interview Log Entries</name>
+        </sections>
+        <sections>
+            <label><!-- Flow Interview Logs -->
+            </label>
+            <name>Flow Interview Logs</name>
+        </sections>
+    </reportTypes>
 </Translations>

@@ -265,5 +265,34 @@ private with sharing class TTFilterUserControllerTest {
         Test.stopTest();
         
     }
+    @isTest
+    static void isClientTaggingEnabledTest(){   
+        TTFilterUserController.PicklistValue userWrapperObj2 = new TTFilterUserController.PicklistValue();
+        userWrapperObj2.question = 'test';
+        userWrapperObj2.isSelected = true;
+        userWrapperObj2.key = 'abc';
+        Test.startTest();
+        Boolean response = TTFilterUserController.isClientTaggingEnabled();
+        System.assert(!response, 'It should be false initially');
+        Test.stopTest();
+    }
+    @isTest
+    static void isCampaignSyncEnabledTest(){  
+        TTFilterUserController.TTFilterWrapper userWrapperObj2 = new TTFilterUserController.TTFilterWrapper();
+        userWrapperObj2.name = 'test';
+        userWrapperObj2.pendingOpened_At = 'true';
+        userWrapperObj2.pendingCompleted_At = 'abc';
+        Test.startTest();
+        Map<String, String> response = TTFilterUserController.isCampaignSyncEnabled();
+        System.assert(response.keySet() != null, 'It should be not be empty');
+        Test.stopTest();
+    }
+    @isTest
+    static void fetchRecordsTest(){  
+        Test.startTest();
+        String response = TTFilterUserController.fetchRecords('Campaign','','',[SELECT Id FROM Campaign LIMIT 1].Id);
+        System.assert(response != null, 'It should not be empty');
+        Test.stopTest();
+    }
 
 }

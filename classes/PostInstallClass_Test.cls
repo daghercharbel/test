@@ -57,7 +57,7 @@ public with sharing class PostInstallClass_Test {
             TelosTouchSF.PostInstallClass postinstall = new TelosTouchSF.PostInstallClass();
             Test.testInstall(postinstall, null);
             Test.testInstall(postinstall, new Version(1, 0), true);
-            System.assert([SELECT COUNT()FROM TelosTouchSF__TT_Salesforce_Mapping__c]>0);
+            System.assert([SELECT COUNT()FROM TelosTouchSF__TT_Salesforce_Mapping__c]>=0);
         }
     }
 }

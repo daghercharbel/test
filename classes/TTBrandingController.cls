@@ -67,7 +67,7 @@ public with sharing class TTBrandingController {
 */
 
     @AuraEnabled
-    public static map<String,String> getSignature(){
+    public static map<String,String> getSignature(String recordId){
 
         map<String, String> mapResult = new map<String, String>();
         Id userId;
@@ -75,8 +75,12 @@ public with sharing class TTBrandingController {
             
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
 
-            userId = aUser.Id;
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/user/signature';
+
+            if(String.isNotBlank(recordId)){
+                User aUser2 = [SELECT Id, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: recordId LIMIT 1];
+                endPointURL += '?id='+ aUser2.TelosTouchSF__TT_UserId__c;
+            }
 
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
@@ -111,7 +115,7 @@ public with sharing class TTBrandingController {
 * @return map<String,String> ...
 */
     @AuraEnabled
-    public static map<String,String> putSignature(String body){
+    public static map<String,String> putSignature(String body, string recordId){
 
         map<String, String> mapResult = new map<String, String>();
         Id userId;
@@ -123,6 +127,11 @@ public with sharing class TTBrandingController {
 
             userId = aUser.Id;
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/user/signature';
+
+            if(String.isNotBlank(recordId)){
+                User aUser2 = [SELECT Id, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: recordId LIMIT 1];
+                endPointURL += '?id='+ aUser2.TelosTouchSF__TT_UserId__c;
+            }
 
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
