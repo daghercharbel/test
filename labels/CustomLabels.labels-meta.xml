@@ -1383,6 +1383,20 @@
         <value>Members</value>
     </labels>
     <labels>
+        <fullName>Mismatch_Email_Language_en_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mismatch Email Language en US</shortDescription>
+        <value>The selected template&apos;s language is set to English</value>
+    </labels>
+    <labels>
+        <fullName>Mismatch_Email_Language_fr_FR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mismatch Email Language fr FR</shortDescription>
+        <value>The selected template&apos;s language is set to French</value>
+    </labels>
+    <labels>
         <fullName>Monthly_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2785,6 +2799,13 @@
         <protected>true</protected>
         <shortDescription>TouchPoint Experience Text</shortDescription>
         <value>TouchPoint Experience</value>
+    </labels>
+    <labels>
+        <fullName>Touchpoint_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Touchpoint Label</shortDescription>
+        <value>Touchpoint</value>
     </labels>
     <labels>
         <fullName>TouchPoint_Preview_Text</fullName>

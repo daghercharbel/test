@@ -114,6 +114,8 @@ export default class TemplateGalleryComp extends LightningElement {
     sortingType = 'modifiedAt';
     @api templateId;
     templatesList = [];
+    @api templateLang;
+    @api templateType;
     totalPage = 0;
     totalRecords;
     @track urls = {};
@@ -128,6 +130,7 @@ export default class TemplateGalleryComp extends LightningElement {
     get listViewOptions() {
         let options = [
             { label: this.label.Public_Text, value: 'public' },
+																  
         ];
         if (this.campaignType == 'touchpoint') {
             options.push({ label: this.label.My_Touchpoints, value: 'private' });
@@ -188,12 +191,12 @@ export default class TemplateGalleryComp extends LightningElement {
     };
 
     getTemplates() {
-        getTouchPointTemplates({ campId: this.campSfId })
+        getTouchPointTemplates({ campId: this.campSfId, campaignType: this.campaignType })
             .then((data) => {
                 if (data) {
 
                     let mapTemplates = JSON.parse(data);
-
+                    
                     Object.keys(mapTemplates).forEach(key => {
                         for (let x of mapTemplates[key]) {
                             if (x.Description) {
@@ -492,9 +495,15 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     storeTemplate() {
-        SaveTouchPointTemplate({ campaignRecordId: this.campSfId, touchPointTemplateId: this.templateId })
+        SaveTouchPointTemplate({ 
+            campId: this.campSfId, 
+            templateGraphId: this.templateId, 
+            templateType: this.campaignType,
+            lang: this.templateLang
+        })
             .then((data) => {
-                if (data) {
+                if (data.status == 'success') {
+
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'Success!',
@@ -505,7 +514,9 @@ export default class TemplateGalleryComp extends LightningElement {
                     this.isTemplatePage = true;
                     this.previewBody = false;
                     this.closeModal();
+
                 } else {
+											  
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'Error!',
@@ -518,6 +529,7 @@ export default class TemplateGalleryComp extends LightningElement {
                 }
             })
             .catch((error) => {
+													 
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Error!',

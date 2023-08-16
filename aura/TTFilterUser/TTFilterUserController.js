@@ -26,7 +26,6 @@
     h.doInit_helper(c, e, h);
     h.handleCampaignData(c);
     h.checkClientTagging(c);
-    h.checkIsSyncCampaign(c,e,h);
   },
   fielterEvent: function (c, e, h) {
     if (c.get("v.fielterDetailsChanges") == "EventFire") {
@@ -402,80 +401,37 @@
       } else {
         c.set("v.selectAllList", true);
       }
-      if(c.get("v.updateSelectAll")){
-        var menuItems = c.find("menuItems");
-        menuItems.set("v.checked", h.handleSelectDropDownValue(c,e,h));
-      }
       h.getSelectedClientsRecords(c, e, h, updatedWithCheckboxList);
     } catch (error) {
     }
   },
   selectAll: function (c, e, h) {
-    try {
-      let updatedWithCheckboxList = [];
-      let paginationList = c.get("v.listData");
-      c.set("v.selectAllList", e.getSource().get("v.checked"));
-      for (var each of paginationList) {
-        if (e.getSource().get("v.checked")) {
-          each.isChecked = true;
-          updatedWithCheckboxList.push(each);
-        } else {
-          each.isChecked = false;
-          updatedWithCheckboxList.push(each);
-        }
-      }
-      c.set("v.listData", updatedWithCheckboxList);
-      let flag = 0;
-      for (let x of updatedWithCheckboxList) {
-        if (!x.isChecked) {
-          flag = 1;
-          break;
-        }
-      }
-      if (flag) {
-        c.set("v.selectAllList", false);
+    let updatedWithCheckboxList = [];
+    let paginationList = c.get("v.listData");
+    c.set("v.selectAllList", e.getSource().get("v.checked"));
+    for (var each of paginationList) {
+      if (e.getSource().get("v.checked")) {
+        each.isChecked = true;
+        updatedWithCheckboxList.push(each);
       } else {
-        c.set("v.selectAllList", true);
+        each.isChecked = false;
+        updatedWithCheckboxList.push(each);
       }
-      if(c.get("v.updateSelectAll")){
-        var menuItems = c.find("menuItems");
-        // console.log('menutems:' +menuItems);
-        menuItems.set("v.checked", h.handleSelectDropDownValue(c,e,h));
-      }
-      h.getSelectedAllClientsRecords(c, e, h, updatedWithCheckboxList);
-    } catch (error) {
-      // console.log(error);
     }
+    c.set("v.listData", updatedWithCheckboxList);
+    let flag = 0;
+    for (let x of updatedWithCheckboxList) {
+      if (!x.isChecked) {
+        flag = 1;
+        break;
+      }
+    }
+    if (flag) {
+      c.set("v.selectAllList", false);
+    } else {
+      c.set("v.selectAllList", true);
+    }
+    h.getSelectedAllClientsRecords(c, e, h, updatedWithCheckboxList);
   },
-  
-  handleDropDownSelection: function(c,e,h){
-    try {
-      // console.log('selection value: '+ e.getParam("value"));
-      var menuItems = c.find("menuItems");
-      menuItems.set("v.checked", !menuItems.get("v.checked"));
-      for (var each of c.get("v.data")) {
-        each.isChecked = (e.getParam("value") === 'selectAll' && menuItems.get("v.checked")) ? true : false;
-      }
-      c.set("v.updateSelectAll", true);
-      h.onOffSelectAll(c,e,h);
-      h.getSelectedAllClientsRecords(c, e, h, c.get("v.data"));
-      h.preparePaginationList(c,e,h);
-    } catch (error) {
-      // console.log(error);
-    }
-  },
-  handleUnselect: function(c,e,h){
-    // console.log('handle unselect');
-    for(let x of c.get("v.data")){
-      x.isChecked = false;
-    }
-    if(c.get("v.updateSelectAll")){
-      var menuItems = c.find("menuItems");
-      menuItems.set("v.checked", h.handleSelectDropDownValue(c,e,h));
-    }
-    h.onOffSelectAll(c,e,h);
-    h.getSelectedAllClientsRecords(c, e, h, c.get("v.data"));
-    h.preparePaginationList(c,e,h);
-  }
 
 });

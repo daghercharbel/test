@@ -151,19 +151,14 @@
                 ) { 
                     c.set("v.fielterDetails", rtnValue.ttFilterWrapperObj);
                     c.set("v.data", rtnValue.userWrapperList);
-                    c.set("v.selectAllDropDown", ($A.get("$Label.c.Select_All")+' '+c.get("v.data").length));
-                    c.set("v.totalRecords", c.get("v.data").length);
                     if(c.get("v.data")){
                         c.set("v.disableSelectAllList", false);
-                        c.set("v.disableSelectAllDropDown", false);
                     }else{
                         c.set("v.disableSelectAllList", true);
-                        c.set("v.disableSelectAllDropDown", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
                 }else{
                     c.set("v.disableSelectAllList", true);
-                    c.set("v.disableSelectAllDropDown", true);
                 }
             });
             $A.enqueueAction(action);
@@ -290,31 +285,14 @@
                 var rtnValue = response.getReturnValue();
                 if (rtnValue != null && state == "SUCCESS") {
                     c.set("v.data", rtnValue);
-                    c.set("v.selectAllDropDown", ("Select All "+c.get("v.data").length));
-                    c.set("v.totalRecords", c.get("v.data").length);
-                    c.set("v.userList", []);
-                    c.set("v.countSelectedRecords", c.get("v.userList").length);
-                    c.set("v.isDisableSendTouchPointBtn", c.get("v.userList").length >0 ? false : true);
-                    c.set("v.selectAllList", false);
-                    for(let x of c.get("v.storeCheckedValues")){
-                        x.isChecked = false;
-                    }
-                    c.set("v.storeCheckedValues",[]);
-                    if(c.get("v.updateSelectAll")){
-                        var menuItems = c.find("menuItems");
-                        menuItems.set("v.checked", h.handleSelectDropDownValue(c,e,h));
-                    }
                     if(c.get("v.data").length !=0 ){
                         c.set("v.disableSelectAllList", false);
-                        c.set("v.disableSelectAllDropDown", false);
                     }else{
                         c.set("v.disableSelectAllList", true);
-                        c.set("v.disableSelectAllDropDown", true);
                     }
                     h.updateCheckedData(c,e,h,c.get("v.data"));
                 }else{
                     c.set("v.disableSelectAllList", true);
-                    c.set("v.disableSelectAllDropDown", true);
                 }
             });
             $A.enqueueAction(action);
@@ -777,12 +755,11 @@
             c.set("v.storeCheckedValues", tempFinalList);
 
             c.set("v.userList", tempFinalList);
-            c.set("v.countSelectedRecords", c.get("v.userList").length);
-            c.set("v.showUnselectAndCount", c.get("v.countSelectedRecords") > 0 ? true : false);
             if(c.get("v.userList").length >0 ){
                 c.set("v.isDisableSendTouchPointBtn", false);
             }else{
                 c.set("v.isDisableSendTouchPointBtn", true);
+
             }
         } else {
            c.set("v.isDisableSendTouchPointBtn", true);
@@ -827,15 +804,17 @@
           } 
           c.set("v.storeCheckedValues", temp);
           c.set("v.userList", temp);
-          c.set("v.countSelectedRecords", c.get("v.userList").length);
-          c.set("v.showUnselectAndCount", c.get("v.countSelectedRecords") > 0 ? true : false);
           if(c.get("v.userList").length >0 ){
               c.set("v.isDisableSendTouchPointBtn", false);
+
           }else{
               c.set("v.isDisableSendTouchPointBtn", true);
+
           }
+       
       } else {
          c.set("v.isDisableSendTouchPointBtn", true);
+
       }
       h.onOffSelectAll(c,e,h);
     },
@@ -868,8 +847,6 @@
                 }
             }
             c.set("v.data", mainList);
-            c.set("v.selectAllDropDown", ("Select All "+c.get("v.data").length));
-            c.set("v.totalRecords", c.get("v.data").length);
             let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
             c.set("v.totalPages", totPage);
             let pgno = 1;
@@ -894,14 +871,11 @@
             }else{
                 c.set("v.selectAllList", false);
                 c.set("v.disableSelectAllList", true);
-                c.set("v.disableSelectAllDropDown", true);
             }
             
         }else{
             c.set("v.selectAllList", false);
             c.set("v.data", mainList);
-            c.set("v.selectAllDropDown", ("Select All "+c.get("v.data").length));
-            c.set("v.totalRecords", c.get("v.data").length);
             let totPage = Math.ceil(c.get("v.data").length / c.get("v.recordPerPage"));
             c.set("v.totalPages", totPage);
             if(c.get("v.pageNo") == 1){
@@ -909,19 +883,5 @@
             }
             h.preparePaginationList(c,e,h);
         }
-      },
-      checkIsSyncCampaign: function(c,e,h){
-        var action = c.get("c.isCampaignSyncEnabled");
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            var rtnValue = response.getReturnValue();
-            if (!$A.util.isEmpty(rtnValue) &&
-                rtnValue != null &&
-                state == "SUCCESS") {
-                let resp = JSON.parse(rtnValue.value);
-                c.set("v.showSyncCampaign", resp.TelosTouchSF__SF_Flag__c);
-            }
-        });
-        $A.enqueueAction(action);
       }
 });

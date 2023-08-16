@@ -39,17 +39,17 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
         createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         List<TelosTouchSF__Insights__c> conversation_UserList = new List<TelosTouchSF__Insights__c>();
         String endPointURL, getResponseClients, userAuthTOKEN, body;
-        Map<String, List<String>> bodyMap = new Map<String, List<String>>();
         Map<String, String> headersMap = new Map<String, String>();
         userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
         headersMap.put('Authorization','Bearer '+userAuthTOKEN);
         headersMap.put('Content-Type', 'application/json');
         headersMap.put('Accept', 'application/json');
         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
-            endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/touchpoints/sf/'+getwrapper.TTcampId+'/clients';
+            endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v2/campaign2/clients';
         }
-        bodyMap.put('clients', clientIds);
-        body = JSON.serialize(bodyMap);
+        body = '{"id":"'+getwrapper.TTcampId+'",';
+        body += '"type":"'+getwrapper.campType+'",';
+        body += '"recipients":'+JSON.serialize(clientIds)+'}';
         Map<String, String> getResponseMap = TelosTouchSF.TelosTouchUtility.getResponse(methodType, endPointURL, headersMap, body);
         if(getResponseMap.get('status_code') == '401'){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
@@ -118,6 +118,7 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
 * @description ......
 */
         public String campName;
+        public String campType;
         /**
 * @author Cloud Analogy
 * @date 02/08/2021

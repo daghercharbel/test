@@ -1,0 +1,182 @@
+<template>
+
+    <div class="slds-is-relative">
+
+        <!-- SPINNER -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <lightning-card title={cardLabel}>
+
+            <!-- BUTTONS -->
+            <template if:true={showSendTestButton}>
+                <lightning-button label={label.Send_Test_Button} class="slds-m-horizontal_x-small"
+                    slot="actions" onclick={openSendTest}></lightning-button>
+            </template>
+            <template if:true={showSendButton}>
+                <lightning-button label={label.Send_Text} variant="brand" class="slds-m-horizontal_x-small"
+                    slot="actions" onclick={handleClickSend}></lightning-button>
+            </template>
+
+            <!-- STATUS MESSAGE -->
+            <div class="slds-m-around_small">
+                <lightning-formatted-rich-text value={status.message} class={status.css}></lightning-formatted-rich-text>
+            </div>
+
+            <!-- CAMPAIGN INFO -->
+            <lightning-layout multiple-rows>
+
+                <!-- TOUCHPOINT TEMPLATE -->
+                <template if:true={isTouchpointType}>
+                    <lightning-layout-item size="2" padding="horizontal-small">
+
+                        <p class="slds-text-title_bold">{label.Touchpoint_Label}</p>
+
+                        <!-- HAS NO TOUCHPOINT TEMPLATE -->
+                        <template if:false={campInfo.touchpoint}>
+                            <a href="javascript:void(0)" data-type="touchpoint" class="slds-p-left_xx-small"
+                                onclick={openTemplateGallery}>
+                                {label.Choose_a_TouchPoint_Text}
+                            </a>
+                        </template>
+
+                        <!-- HAS TOUCHPOINT TEMPLATE -->
+                        <template if:true={campInfo.touchpoint}>
+                            <a href="javascript:void(0)" data-type="touchpoint" data-id={campInfo.touchpoint.id}
+                                class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                {campInfo.touchpoint.name}
+                            </a>
+                            <template if:false={campaignDataTT.campaign.send_at}>
+                                <lightning-button-icon icon-name="utility:edit" variant="bare" data-type="touchpoint"
+                                    onclick={openTemplateGallery} class="slds-m-left_xx-small"></lightning-button-icon>
+                            </template>
+                        </template>
+
+                    </lightning-layout-item>
+                </template>
+
+                <!-- EMAIL TEMPLATE -->
+                <lightning-layout-item size="2" padding="horizontal-small">
+
+                    <p class="slds-text-title_bold">{label.Email_Text}</p>
+
+                    <!-- HAS NO TOUCHPOINT TEMPLATE -->
+                    <template if:false={campInfo.emails}>
+                        {label.Choose_a_Template}
+                    </template>
+
+                    <!-- HAS TOUCHPOINT TEMPLATE -->
+                    <template if:true={campInfo.emails}>
+                        <template for:each={campInfo.emails} for:item="email">
+                            <p key={email}>
+                                {email.langLabel}:&nbsp;
+                                <!-- HAS NO EMAIL TEMPLATE -->
+                                <template if:false={email.name}>
+                                    <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
+                                        data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateGallery}>
+                                        {label.Choose_a_Template}
+                                    </a>
+                                </template>
+                                <!-- HAS EMAIL TEMPLATE -->
+                                <template if:true={email.name}>
+                                    <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
+                                        data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                        {email.name}
+                                    </a>
+                                    <template if:false={campaignDataTT.campaign.send_at}>
+                                        <lightning-button-icon icon-name="utility:edit" variant="bare" data-type="email"
+                                            data-lang={email.lang} onclick={openTemplateGallery}
+                                            class="slds-m-left_xx-small"></lightning-button-icon>
+                                    </template>
+                                    <template if:true={email.warning}>
+                                        <lightning-icon icon-name="utility:warning" variant="warning"
+                                            title={email.warning} size="x-small"></lightning-icon>
+                                    </template>
+                                </template>
+                            </p>
+                        </template>
+                    </template>
+
+                </lightning-layout-item>
+
+                <!-- CAMPAIGN MEMBERS COUNT -->
+                <lightning-layout-item size="1" padding="horizontal-small">
+                    <p class="slds-text-title_bold">{label.Members_Label}</p>
+                    {campInfo.membersCount}
+                </lightning-layout-item>
+
+                <!-- CREATED DATE -->
+                <lightning-layout-item size="1" padding="horizontal-small">
+                    <p class="slds-text-title_bold">{label.Created_Label}</p>
+                    {campInfo.createdDate}
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+        </lightning-card>
+    </div>
+
+    <!-- SEND TEST -->
+    <template if:true={showSendTest}>
+        <section class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse"
+                    class="slds-modal__close" onclick={closeSendTest}></lightning-button-icon>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-tt-send-test-campaign campaign-id={recordId} onclosemodalevent={closeSendTest}></c-tt-send-test-campaign>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <!-- TEMPLATE TEMPLATE EDIT -->
+    <template if:true={showEdit}>
+        <section class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse"
+                    class="slds-modal__close" onclick={closeTemplateEdit}></lightning-button-icon>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-tabset>
+                        <lightning-tab label="Preview">
+                            <c-show-touch-point-preview template-id={selectedTemplate.id} record-id={recordId}
+                                template-type={selectedTemplate.type}
+                                touchpoint-selection-preview="true"></c-show-touch-point-preview>
+                        </lightning-tab>
+                        <template if:true={enableEditing}>
+                            <lightning-tab label="Edit">
+                                <iframe src={customizeUrl} frameborder="0" scrolling="none" id="frame"
+                                    class="iframe-container" onload={testFunction}></iframe>
+                            </lightning-tab>
+                        </template>
+                    </lightning-tabset>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <!-- TEMPLATE TEMPLATE GALLERY -->
+    <template if:true={showGallery}>
+        <section class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse"
+                    class="slds-modal__close" onclick={closeTemplateGallery}></lightning-button-icon>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-template-gallery-comp is-open-touch-points="true" camp-sf-id={recordId}
+                        campaign-type={selectedTemplate.type} template-lang={selectedTemplate.lang}
+                        onclosemodalevent={closeTemplateGallery}></c-template-gallery-comp>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+</template>

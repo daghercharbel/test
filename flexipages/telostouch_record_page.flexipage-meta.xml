@@ -25,8 +25,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>CampaignTicker</componentName>
-                <identifier>TelosTouchSF_CampaignTicker1</identifier>
+                <componentName>ttCampaignTicker</componentName>
+                <identifier>TelosTouchSF_ttCampaignTicker</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -176,6 +176,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>

@@ -645,6 +645,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Campaign.Email_Template_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Campaign.HierarchyAmountAllOpportunities</field>
         <readable>true</readable>
@@ -1102,6 +1107,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insights__c.Opened_At__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insights__c.Sent_At__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

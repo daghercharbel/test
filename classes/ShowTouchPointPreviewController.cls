@@ -16,14 +16,16 @@ public with sharing class ShowTouchPointPreviewController {
 * @return String ...
 */
     @AuraEnabled
-    public static string getIFrameUrls(Id recordId, String language){
+    public static string getIFrameUrls(Id recordId, String language, String templateType){
         try {
 
             Campaign campObjUpd;
             String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
             Campaign campObj = [SELECT Id,TelosTouchSF__TouchPoint_Template_Id__c,TelosTouchSF__Type__c 
                                 FROM Campaign WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
-            if(campObj.TelosTouchSF__Type__c == null){ campObj.TelosTouchSF__Type__c = 'touchpoint'; }
+            if(String.isBlank(templateType)){
+                templateType = (campObj.TelosTouchSF__Type__c == null) ? 'touchpoint' : campObj.TelosTouchSF__Type__c;
+            }
 
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             if(String.isEmpty(campObj.TelosTouchSF__TouchPoint_Template_Id__c)){
@@ -61,12 +63,15 @@ public with sharing class ShowTouchPointPreviewController {
                     campObjUpd = campObj;
                 }
             }
+            
             Map<String,String> urlMap = new Map<String, String>();
-            String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c;
-            emailUrl += (campObj.TelosTouchSF__Type__c != 'touchpoint') ? '/preview/public/email' : '/preview/tp/public/email';
-            emailUrl += '?lang='+language+'&custom_messages=%5B%5D&access_token='+userToken;
-            urlMap.put('email', emailUrl);
-            if(String.isBlank(recordId) || !campObj.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
+
+            if(templateType.equalsIgnoreCase('email')){
+                String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+campObj.TelosTouchSF__TouchPoint_Template_Id__c;
+                emailUrl += '/preview/public/email';
+                emailUrl += '?lang='+language+'&access_token='+userToken;
+                urlMap.put('email', emailUrl);
+            } else {
                 Map<String, String> headersMap = new Map<String, String>();
                 String endPointURL = '';
                 headersMap.put('Authorization','Bearer '+userToken);
@@ -115,7 +120,7 @@ public with sharing class ShowTouchPointPreviewController {
 */
 
     @AuraEnabled
-    public static string getIFrameUrlsFromTemplateId(String templateId, String campId, String language){
+    public static string getIFrameUrlsFromTemplateId(String templateId, String campId, String language, String templateType){
         try {
 
             Campaign camp = new Campaign();
@@ -123,14 +128,18 @@ public with sharing class ShowTouchPointPreviewController {
                 camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId LIMIT 1];
                 if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             }
+            if(String.isBlank(templateType)){
+                templateType = (camp.TelosTouchSF__Type__c == null) ? 'touchpoint' : camp.TelosTouchSF__Type__c;
+            }
 
             Map<String,String> urlMap = new Map<String, String>();
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
+            if(templateType.equalsIgnoreCase('email')){   
             String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId;
-            emailUrl += (camp.TelosTouchSF__Type__c != 'touchpoint') ? '/preview/public/email' : '/preview/tp/public/email';
+            emailUrl += '/preview/public/email';
             emailUrl += '?lang='+language+'&custom_messages=%5B%5D&access_token='+TelosTouchSF.TelosTouchUtility.getCurrentUserToken();
             urlMap.put('email', emailUrl);
-            if(String.isBlank(campId) || !camp.TelosTouchSF__Type__c.equalsIgnoreCase('email')){
+            } else{
                 Map<String, String> headersMap = new Map<String, String>();
                 String endPointURL = '';
                 String userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();

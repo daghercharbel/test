@@ -97,7 +97,13 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                 }
 								if(responseMap2.containsKey('send_status') && responseMap2.get('send_status') != null){
 									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
-										conversation_UserObj.TelosTouchSF__Sent_Status__c =  String.valueOf(responseMap2.get('send_status'));
+										conversation_UserObj.TelosTouchSF__Sent_Status__c = String.valueOf(responseMap2.get('send_status'));
+									}
+								}
+								if(responseMap2.containsKey('send_at') && responseMap2.get('send_at') != null){
+									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
+										String sent_at = String.valueOf(responseMap2.get('send_at'));
+                                        conversation_UserObj.TelosTouchSF__Sent_At__c = Datetime.valueOfGmt(sent_at.replace('T',' '));
 									}
 								}
                                 if (responseMap2.containsKey('completed_at') && responseMap2.get('completed_at') != null &&

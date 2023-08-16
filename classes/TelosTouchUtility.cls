@@ -297,6 +297,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             String[] StringList1 = StringList[1].split('\\.');
             String[] StringList2 = apiSettingList[0].Authentication_URL.split('//');
             String[] StringList3 = StringList2[1].split('\\.');
+            //REMOTE SITE SETTINGS
             if(apiSettingList[0].Instance_URL.trim() != null && StringList1[0] != null){
                 String instance_Name = TelosTouchSF.CreateRemoteSiteSetting.getremoteSiteSetting(apiSettingList[0].Instance_URL, StringList1[0]);
                 String authentication_Name = TelosTouchSF.CreateRemoteSiteSetting.getremoteSiteSetting(apiSettingList[0].Authentication_URL, StringList3[0]);
@@ -306,6 +307,11 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(authentication_Name != 'Already Exists!'){
                     TelosTouchSF.CreateRemoteSiteSetting.remoteSiteSetting1(apiSettingList[0].Authentication_URL,authentication_Name);
                 }
+            }
+            //CSP TRUSTED SITES
+            Boolean CSPExists = CreateCSPTrustedSite.checkRecord(apiSettingList[0].Instance_URL);
+            if(!CSPExists){
+                CreateCSPTrustedSite.createRecord(apiSettingList[0].Instance_URL);
             }
             String instanceUrl = apiSettingList[0].Instance_URL.trim();
             String scope = 'offline_access';
@@ -1545,6 +1551,35 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
         return 'not sent';
     }
+
+    @AuraEnabled
+    public static map<String, String> getCalloutInfo(){
+        
+        map<String, String> mapResult = new map<String, String>();
+
+        try {
+            
+            User aUser = [SELECT Id,TelosTouchSF__Auth_Token__c FROM User WHERE Id=:UserInfo.getUserId()];
+            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = getCustomMetadata();
+
+            map<String, String> mapData = new map<String, String>();
+            mapData.put('domain', adminCredentials.TelosTouchSF__Instance_URL__c);
+            mapData.put('token', aUser.TelosTouchSF__Auth_Token__c);
+            mapResult.put('value', JSON.serialize(mapData));
+            mapResult.put('status', 'success');
+
+            return mapResult;
+
+        } catch (Exception ex) {
+
+            TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtility', 'getCalloutInfo', null);
+            mapResult.put('status', 'error');
+            mapResult.put('error', ex.getMessage());
+            return mapResult;
+
+        }
+    }
+
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -1895,6 +1930,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
     }
 
+    @AuraEnabled
     public static void generateAndSaveLog(String message, String className, String classMethod, String recordId){
         String aMessage = className+'.'+classMethod+': '+message;
         System.debug(aMessage);
@@ -2148,9 +2184,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 if(!createListOfLog.isEmpty()){
                     insert createListOfLog;
                 }
-                if(getResponseMap.get('status_code').split('0')[0] != '2'){
-                    return 'touchpoint failed';
-                }
                 if(camp != null){
                     List<CampaignMember> campaignMembers = [ SELECT ContactId, Contact.TelosTouchSF__TT_Client_Id__c, LeadId, Lead.TelosTouchSF__TT_Client_Id__c, CampaignId,
                                                                         Lead.Phone FROM CampaignMember WHERE (CampaignId=:camp.Id) WITH SECURITY_ENFORCED LIMIT 44999];
@@ -2215,14 +2248,22 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         
                     Map<String, String> mapResponse = getResponse('PUT', endPointURL, mapHeader, null);
 
-                    if(mapResponse.get('status_code') == '200'){
-                        String responseBody = mapResponse.get('body');
-                        templateId = responseBody.substringBetween('"id": "', '",');
-                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
-                        update camp;
-                    } else {
+                    if(mapResponse.get('status_code') != '200'){
                         throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
-                    }
+                    } else {
+                        String responseBody = mapResponse.get('body');
+                        map<String,Object> mapResponseBody = (map<String,Object>)JSON.deserializeUntyped(responseBody);
+                        templateId = (String)mapResponseBody.get('id');
+                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
+                        endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/publish/'+templateId;
+                        Map<String, String> mapResponse2 = getResponse('PUT', endPointURL, mapHeader, null);
+
+                        if(mapResponse.get('status_code') != '200'){
+                            throw new AuraHandledException('Response Code 2: '+mapResponse2.get('status_code'));
+                        } else {
+                            update camp;
+                        }
+                    } 
 
                 }
                 iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/app/v1/#/touchpoint/'+templateId+'/customize-sf?fullscreen=true&access_token='+userToken;
@@ -2274,7 +2315,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             map<String, String> mapResponse = TelosTouchUtility.getResponse('GET',endpoint,mapHeader,null);
 
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
-                return mapResponse.get('body');
+                map<String,Object> mapBody = (map<String,Object>) JSON.deserializeUntyped(mapResponse.get('body'));
+                if(mapBody.containsKey('deleted') && (Boolean)mapBody.get('deleted')){
+                    camp.TelosTouchSF__TouchPoint_Template_Id__c = null;
+                    update camp;
+                    return null;
+                } else {
+                    return mapResponse.get('body');
+                }
             } else {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }

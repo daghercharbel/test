@@ -51,6 +51,7 @@ public with sharing class TTFilterUserController {
                                                TelosTouchSF__Completed_and_Sync__c,
                                                TelosTouchSF__Completed_At__c,
                                                TelosTouchSF__Opened_At__c,
+                                               TelosTouchSF__Sent_At__c,
                                                TelosTouchSF__Sent_Status__c
                                                FROM TelosTouchSF__Insights__c
                                                WHERE TelosTouchSF__Campaign2__c =: campainId  LIMIT 10000];
@@ -148,13 +149,13 @@ public with sharing class TTFilterUserController {
                             userWrapperObj.TTCompleted_At = System.label.Pending_Text;
                             userWrapperObj.isActive = true;
                         }
-                        
-                        if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'initial'){
-                            userWrapperObj.TTCreated_At = System.label.Pending_Text;
+
+                        if(conversationUserObj.TelosTouchSF__Sent_At__c != null){
+                            userWrapperObj.TTSent_At = conversationUserObj.TelosTouchSF__Sent_At__c.format('MMM dd, yyyy hh:mm a');
                         } else if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'error'){
-                            userWrapperObj.TTCreated_At = System.label.ERROR_Text;
+                            userWrapperObj.TTSent_At = System.label.ERROR_Text;
                         } else {
-                            userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                            userWrapperObj.TTSent_At = System.label.Pending_Text;
                         }
                         ttDoinitWrapperObj.userWrapperList.add(userWrapperObj);
                     }
@@ -271,7 +272,7 @@ public with sharing class TTFilterUserController {
                 }
 
                 //GETTING INSIGHTS
-                String insightQuery = 'SELECT Id,CreatedDate,Name,TelosTouchSF__Conversation_Id__c,TelosTouchSF__Conversation_Metadata__c,';
+                String insightQuery = 'SELECT Id,CreatedDate,Name,TelosTouchSF__Conversation_Id__c,TelosTouchSF__Conversation_Metadata__c,TelosTouchSF__Sent_Status__c,';
                 insightQuery += 'TelosTouchSF__Campaign2__c,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c,TelosTouchSF__Completed_At__c,';
                 insightQuery += 'TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,';
                 insightQuery += 'TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,';
@@ -381,13 +382,13 @@ public with sharing class TTFilterUserController {
                         userWrapperObj.TTCompleted_At = System.label.Pending_Text;
                         userWrapperObj.isActive = true;
                     }
-                        
-                    if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'initial'){
-                        userWrapperObj.TTCreated_At = System.label.Pending_Text;
+                    
+                    if(conversationUserObj.TelosTouchSF__Sent_At__c != null){
+                        userWrapperObj.TTSent_At = conversationUserObj.TelosTouchSF__Sent_At__c.format('MMM dd, yyyy hh:mm a');
                     } else if(conversationUserObj.TelosTouchSF__Sent_Status__c == 'error'){
-                        userWrapperObj.TTCreated_At = System.label.ERROR_Text;
+                        userWrapperObj.TTSent_At = System.label.ERROR_Text;
                     } else {
-                        userWrapperObj.TTCreated_At = conversationUserObj.CreatedDate.format('MMM dd, yyyy hh:mm a');
+                        userWrapperObj.TTSent_At = System.label.Pending_Text;
                     }
                     userWrapperSet.add(userWrapperObj);
                 }
@@ -960,27 +961,16 @@ public with sharing class TTFilterUserController {
     @AuraEnabled
     public static Boolean isClientTaggingEnabled(){
         try {
-            String strInvite = 'Client_Tagging';
-            list<TelosTouchSF__TT_Feature_Flag__mdt> lstMetadata = [SELECT TelosTouchSF__SF_Flag__c
+            String strInvite = 'Invite';
+            list<TelosTouchSF__TT_Feature_Flag__mdt> lstMetadata = [SELECT TelosTouchSF__ShowClientTagging__c
                                                                     FROM TelosTouchSF__TT_Feature_Flag__mdt 
                                                                     WHERE MasterLabel =: strInvite WITH SECURITY_ENFORCED LIMIT 1];
             
-            if(!lstMetadata.isEmpty()){ return lstMetadata[0].TelosTouchSF__SF_Flag__c;}
+            if(!lstMetadata.isEmpty()){ return lstMetadata[0].TelosTouchSF__ShowClientTagging__c;}
             else {throw new AuraHandledException('Metadata not found!');}
              
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
-        }
-    }
-
-    @AuraEnabled
-    public static Map<String, String> isCampaignSyncEnabled(){
-        Map<String, String> metadataMap = new Map<String, String>();
-        try {
-            metadataMap = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata('Camapign_Syncing');
-            return metadataMap;
-        } catch (Exception e) {
-            return metadataMap;
         }
     }
     
@@ -1276,7 +1266,7 @@ public with sharing class TTFilterUserController {
 * @date 02/08/2021
 * @description ......
 */
-        @AuraEnabled public String TTCreated_At { get; set; }
+        @AuraEnabled public String TTSent_At { get; set; }
         /**
 * @author Cloud Analogy
 * @date 02/08/2021
