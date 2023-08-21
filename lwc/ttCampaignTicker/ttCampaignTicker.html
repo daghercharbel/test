@@ -51,6 +51,10 @@
                                 <lightning-button-icon icon-name="utility:edit" variant="bare" data-type="touchpoint"
                                     onclick={openTemplateGallery} class="slds-m-left_xx-small"></lightning-button-icon>
                             </template>
+                            <template if:true={campInfo.touchpoint.warning}>
+                                <lightning-icon icon-name="utility:warning" variant={campInfo.touchpoint.warningVariant}
+                                    title={campInfo.touchpoint.warning} size="x-small"></lightning-icon>
+                            </template>
                         </template>
 
                     </lightning-layout-item>
@@ -90,7 +94,7 @@
                                             class="slds-m-left_xx-small"></lightning-button-icon>
                                     </template>
                                     <template if:true={email.warning}>
-                                        <lightning-icon icon-name="utility:warning" variant="warning"
+                                        <lightning-icon icon-name="utility:warning" variant={email.warningVariant}
                                             title={email.warning} size="x-small"></lightning-icon>
                                     </template>
                                 </template>
@@ -149,9 +153,9 @@
                                 touchpoint-selection-preview="true"></c-show-touch-point-preview>
                         </lightning-tab>
                         <template if:true={enableEditing}>
-                            <lightning-tab label="Edit">
+                            <lightning-tab label="Edit" onactive={getCustomizeUrl}>
                                 <iframe src={customizeUrl} frameborder="0" scrolling="none" id="frame"
-                                    class="iframe-container" onload={testFunction}></iframe>
+                                    class="iframe-container"></iframe>
                             </lightning-tab>
                         </template>
                     </lightning-tabset>

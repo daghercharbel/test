@@ -808,6 +808,13 @@
         <value>Day</value>
     </labels>
     <labels>
+        <fullName>Deleted_Template_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Deleted Template Warning</shortDescription>
+        <value>Selected template was deleted</value>
+    </labels>
+    <labels>
         <fullName>Detailed_Logging_Disabled</fullName>
         <language>fr</language>
         <protected>true</protected>
@@ -847,7 +854,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Drafted Template Warning</shortDescription>
-        <value>Selected Touchpoint is in Draft mode and should be marked as Ready</value>
+        <value>Selected template is in Draft mode and should be marked as Ready</value>
     </labels>
     <labels>
         <fullName>Due_Date_Label</fullName>

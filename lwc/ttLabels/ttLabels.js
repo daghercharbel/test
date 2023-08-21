@@ -7,6 +7,8 @@ import Customize_AddClientText from '@salesforce/label/c.Customize_AddClientText
 import Customize_PreviewLabel from '@salesforce/label/c.Customize_PreviewLabel';
 import Customize_Preview_Email_Label from '@salesforce/label/c.Customize_Preview_Email_Label';
 import Customize_Text from '@salesforce/label/c.Customize_Text';
+import Drafted_Template_Warning from '@salesforce/label/c.Drafted_Template_Warning';
+import Deleted_Template_Warning from '@salesforce/label/c.Deleted_Template_Warning';
 import Email_Background from '@salesforce/label/c.Email_Recipients_are_being_added_in_background';
 import Email_Sent from '@salesforce/label/c.Email_Sent';
 import Email_Text from '@salesforce/label/c.Email_Text';
@@ -37,6 +39,8 @@ const labelLibrary = {
     Customize_PreviewLabel,
     Customize_Preview_Email_Label,
     Customize_Text,
+    Drafted_Template_Warning,
+    Deleted_Template_Warning,
     Email_Background,
     Email_Sent,
     Email_Text,

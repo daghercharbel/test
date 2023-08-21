@@ -17,7 +17,9 @@ import updateSentInsight from '@salesforce/apex/TTCampaignTickerController.updat
 //Campaign Fields
 import CAMP_ID_FIELD from '@salesforce/schema/Campaign.Id';
 import CAMP_QUESTION_FIELD from '@salesforce/schema/Campaign.Questions__c';
-import CAMPAIGN_TT_ID from '@salesforce/schema/Campaign.TT_Campaign_Id__c';
+import CAMP_TT_ID from '@salesforce/schema/Campaign.TT_Campaign_Id__c';
+import CAMP_TOUCHPOINT_ID from '@salesforce/schema/Campaign.TouchPoint_Template_Id__c';
+import CAMP_EMAIL_ID from '@salesforce/schema/Campaign.Email_Template_Id__c';
 
 //User Fields
 import USER_ID_FIELD from '@salesforce/user/Id';
@@ -31,7 +33,7 @@ export default class TtCampaignTicker extends LightningElement {
     cardLabel = ' ';
     customizeUrl;
     enableEditing = true;
-    hasDraftTemplate = false;
+    hasTemplateError = false;
     hasMembersNotSent = false;
     isLoading = false;
     label = labelLibrary;
@@ -51,7 +53,7 @@ export default class TtCampaignTicker extends LightningElement {
     }
 
     get showSendButton(){
-        return (this.showSendTestButton && this.hasMembersNotSent && !this.hasDraftTemplate);
+        return (this.showSendTestButton && this.hasMembersNotSent && !this.hasTemplateError);
     }
 
     addClient(){
@@ -95,6 +97,7 @@ export default class TtCampaignTicker extends LightningElement {
     closeTemplateEdit() {
         this.selectedTemplate = {};
         this.showEdit = false;
+        this.getCampaignData();
     }
 
     closeTemplateGallery() {
@@ -175,7 +178,7 @@ export default class TtCampaignTicker extends LightningElement {
 
                     const fields = {};
                     fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
-                    fields[CAMPAIGN_TT_ID.fieldApiName] = response.id;
+                    fields[CAMP_TT_ID.fieldApiName] = response.id;
 
                     const campRecord = { fields };
                     this.updateCampaign(campRecord);
@@ -253,16 +256,20 @@ export default class TtCampaignTicker extends LightningElement {
 
     getCustomizeUrl() {
 
-        let templateInfo;
+        let templateId;
         if (this.selectedTemplate.type == 'touchpoint') {
-            templateInfo = JSON.stringify(this.campaignDataTT.touchpoint_graph);
+            templateId = this.campaignDataTT.touchpoint_graph.id;
         } else {
             this.campaignDataTT.emails.forEach(email => {
-                if (email.link_language == this.selectedTemplate.lang) { templateInfo = JSON.stringify(email); }
+                if (email.link_language == this.selectedTemplate.lang) { templateId = email.id; }
             });
         }
 
-        getCustomizeUrl({ templateType: this.selectedTemplate.type, campId: this.recordId, templateInfo: templateInfo })
+        getCustomizeUrl({ 
+            templateType: this.selectedTemplate.type, 
+            campTTId: this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c, 
+            templateId: templateId 
+        })
             .then(result => {
                 if (result.status == 'success') {
 
@@ -276,7 +283,6 @@ export default class TtCampaignTicker extends LightningElement {
                 console.error(JSON.stringify(error));
             })
             .finally(final => {
-                this.showEdit = true;
                 this.isLoading = false;
             });
     }
@@ -298,6 +304,9 @@ export default class TtCampaignTicker extends LightningElement {
 
                     let response = result.body;
                     let campInfo = this.campInfo;
+                    let hasTemplateError = false;
+                    let campaignNeedsUpdate = false;
+                    const fields = {};
                     this.campaignDataTT = response;
 
                     if (response.touchpoint) {
@@ -308,6 +317,13 @@ export default class TtCampaignTicker extends LightningElement {
                         }
                         campInfo.touchpointName = response.touchpoint.name;
 
+                        if(response.touchpoint_graph.id != this.campaignDataSF.TelosTouchSF__TouchPoint_Template_Id__c){
+                            campaignNeedsUpdate = true;
+                            fields[CAMP_TOUCHPOINT_ID.fieldApiName] = response.touchpoint_graph.id;
+                            fields[CAMP_EMAIL_ID.fieldApiName] = '{}';
+                            this.campaignDataSF.TelosTouchSF__Email_Template_Id__c = '{}';
+                        }
+
                         if (response.touchpoint_graph && response.touchpoint_graph.content
                             && response.touchpoint_graph.content.languages) 
                         {
@@ -317,9 +333,14 @@ export default class TtCampaignTicker extends LightningElement {
                             });
                         }
 
-                        if(response.touchpoint_graph && response.touchpoint_graph.status == 'DRAFTED'){
-                            campInfo.touchpoint.warning = 'Selected Touchpoint is in Draft mode and should be marked as Ready';
-                            this.hasDraftTemplate = true;
+                        if(response.touchpoint_graph && response.touchpoint_graph.deleted){
+                            campInfo.touchpoint.warning = this.label.Deleted_Template_Warning;
+                            campInfo.touchpoint.warningVariant = 'error';
+                            hasTemplateError = true;
+                        } else if(response.touchpoint_graph && response.touchpoint_graph.status == 'DRAFTED'){
+                            campInfo.touchpoint.warning = this.label.Drafted_Template_Warning;
+                            campInfo.touchpoint.warningVariant = 'error';
+                            hasTemplateError = true;
                         }
 
                     } else if(this.campaignDataSF.TelosTouchSF__Type__c == 'email'){
@@ -329,8 +350,12 @@ export default class TtCampaignTicker extends LightningElement {
                     }
 
                     if (response.emails && response.emails.length > 0) {
+
                         this.showSendTestButton = true;
+                        let mapEmails = {};
+
                         response.emails.forEach(email => {
+                            mapEmails[email.language] = email.id;
                             campInfo.emails.forEach(campEmail => {
                                 if (campEmail.lang == email.link_language) {
                                     campEmail.name = email.name;
@@ -338,21 +363,41 @@ export default class TtCampaignTicker extends LightningElement {
                                     if(email.link_language != email.language){ 
                                         if(email.language == 'en_US'){
                                             campEmail.warning = this.label.Mismatch_Email_Language_en_US;
+                                            campEmail.warningVariant = 'warning';
                                         } else if(email.language == 'fr_FR'){
                                             campEmail.warning = this.label.Mismatch_Email_Language_fr_FR;
+                                            campEmail.warningVariant = 'warning';
                                         }
                                     }
 
-                                    if(email.status == 'DRAFTED'){
-                                        campEmail.warning = 'Selected Email is in Draft mode and should be marked as Ready';
-                                        this.hasDraftTemplate = true;
+                                    if(email.deleted){
+                                        campEmail.warning = this.label.Deleted_Template_Warning;
+                                        campEmail.warningVariant = 'error';
+                                        hasTemplateError = true;
+                                    } else if(email.status == 'DRAFTED'){
+                                        campEmail.warning = this.label.Drafted_Template_Warning;
+                                        campEmail.warningVariant = 'error';
+                                        hasTemplateError = true;
                                     }
 
                                 }
                             });
                         });
+
+                        if(this.campaignDataSF.TelosTouchSF__Email_Template_Id__c != JSON.stringify(mapEmails)){
+                            campaignNeedsUpdate = true;
+                            fields[CAMP_EMAIL_ID.fieldApiName] = JSON.stringify(mapEmails);
+                            this.campaignDataSF.TelosTouchSF__Email_Template_Id__c = JSON.stringify(mapEmails);
+                        }
+
                     } else {
                         this.showSendTestButton = false;
+                    }
+
+                    if(campaignNeedsUpdate){
+                        fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
+                        const campRecord = { fields };
+                        this.updateCampaign(campRecord);
                     }
 
                     campInfo.emails.forEach(email => {
@@ -360,6 +405,7 @@ export default class TtCampaignTicker extends LightningElement {
                         if(email.lang == 'fr_FR') email.langLabel = this.label.French_Translation;
                     });
 
+                    this.hasTemplateError = hasTemplateError;
                     this.campInfo = { ...campInfo };
 
                 } else {
@@ -405,11 +451,7 @@ export default class TtCampaignTicker extends LightningElement {
             'type':event.target.dataset.type
         }
         this.selectedTemplate = selectedTemplate;
-        if(this.enableEditing){
-            this.getCustomizeUrl();
-        } else {
-            this.showEdit = true;
-        }
+        this.showEdit = true;
 
     }
 

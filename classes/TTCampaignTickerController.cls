@@ -91,92 +91,22 @@ public with sharing class TTCampaignTickerController {
     }
 
     @AuraEnabled
-    public static map<String,String> getCustomizeUrl(String templateType, String campId, String templateInfo){
+    public static map<String,String> getCustomizeUrl(String templateType, String campTTId, String templateId){
 
         map<String, String> mapResult = new map<String, String>();
 
         try {
-
-            if(templateType == null){ templateType = 'touchpoint'; }
-            Campaign camp = [SELECT Id,TelosTouchSF__Email_Template_Id__c,
-                             TelosTouchSF__TouchPoint_Template_Id__c FROM Campaign WHERE Id =: campId];
             
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c 
                           FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
-                          
-            String templateId;
-
-            //CHECKING IF A COPY MUST BE CREATED
-            Boolean isCopy = false;
-            map<String,Object> mapTempInfo = (map<String,Object>) JSON.deserializeUntyped(templateInfo);
-            templateId = (String) mapTempInfo.get('id');
-            if(mapTempInfo.containsKey('status')){
-                String status = (String) mapTempInfo.get('status');
-                isCopy |= (status.toLowerCase() == 'sent');
-            }
-            
-            if(!isCopy && mapTempInfo.containsKey('created_by')){
-                String createdBy = (String) mapTempInfo.get('created_by');
-                isCopy |= (createdBy != aUser.TelosTouchSF__TT_UserId__c);
-            }
             
             String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
-            String iFrameURL;
-
-            
-            //CREATING COPY OF THE TEMPLATE
-            if(isCopy){
-                String endPointURL;
-                if(templateType == 'email'){
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/templates/'+templateId+'/copy';
-                } else {
-                    endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId+'/copy';
-                }
-
-                Map<String, String> mapHeader = new Map<String, String>();
-                mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
-                mapHeader.put('Content-Type', 'application/json');
-                mapHeader.put('Accept', 'application/json');
-    
-                Map<String, String> mapResponse = TelosTouchUtility.getResponse('PUT', endPointURL, mapHeader, null);
-                String respMessage = 'Response Status Code: '+mapResponse.get('status_code')+' | Response Body: '+mapResponse.get('body');	
-                TelosTouchUtility.generateLog(respMessage, 'TTCampaignTickerController', 'getCustomizeUrl', campId);
-
-                if(mapResponse.get('status_code') == '200'){
-                    String responseBody = mapResponse.get('body');
-                    String oldTemplateId = templateId;
-                    map<String,Object> mapBody = (map<String,Object>)JSON.deserializeUntyped(responseBody);
-                    templateId = (String)mapBody.get('id');
-
-                    if(templateType == 'email'){
-                        camp.TelosTouchSF__Email_Template_Id__c = camp.TelosTouchSF__Email_Template_Id__c.replace(oldTemplateId, templateId);
-                    } else {
-                        camp.TelosTouchSF__TouchPoint_Template_Id__c = templateId;
-                    }
-                    
-                    if(templateType == 'touchpoint'){
-                        endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/publish/'+templateId;
-                        Map<String, String> mapResponse2 = TelosTouchUtility.getResponse('PUT', endPointURL, mapHeader, null);
-    
-                        if(mapResponse.get('status_code') != '200'){
-                            throw new AuraHandledException('Response Code 2: '+mapResponse2.get('status_code'));
-                        } else {
-                            TemplateGalleryCompHandler.sendTouchpointTemplate(campId, templateId);
-                        }
-                    } else {
-                        TemplateGalleryCompHandler.sendEmailTemplate(campId, templateId, (String)mapTempInfo.get('language'));
-                    }
-                    
-                } else {
-                    throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
-                }
-
-            }
+            String iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c;
 
             if(templateType == 'email'){
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c + '/app/v1/#/email/edit/' + templateId + '?fullscreen=true&access_token=' + userToken;
+                iFrameURL += '/app/v1/#/email/'+templateId+'/campaign/'+campTTId+'/customize-sf?fullscreen=true&access_token='+userToken;
             } else {
-                iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c+'/app/v1/#/touchpoint/'+templateId+'/customize-sf?fullscreen=true&access_token='+userToken;
+                iFrameURL += '/app/v1/#/touchpoint/'+templateId+'/campaign/'+campTTId+'/customize-sf?fullscreen=true&access_token='+userToken;
             }
 
             if(UserInfo.getLanguage().contains('en')){

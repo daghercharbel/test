@@ -512,6 +512,10 @@
         <name>Day</name>
     </customLabels>
     <customLabels>
+        <label>Le modèle sélectionné a été supprimé</label>
+        <name>Deleted_Template_Warning</name>
+    </customLabels>
+    <customLabels>
         <label>Connexion détaillée désactivée avec succès</label>
         <name>Detailed_Logging_Disabled</name>
     </customLabels>
@@ -532,7 +536,7 @@
         <name>Drafted_Label</name>
     </customLabels>
     <customLabels>
-        <label>Le point de contact sélectionné est en mode Brouillon et doit être marqué comme Prêt</label>
+        <label>Le modèle sélectionné est en mode Brouillon et doit être marqué comme Prêt</label>
         <name>Drafted_Template_Warning</name>
     </customLabels>
     <customLabels>
