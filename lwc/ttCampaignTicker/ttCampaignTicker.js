@@ -70,26 +70,6 @@ export default class TtCampaignTicker extends LightningElement {
             })
     }
 
-    /*checkCopy(){
-
-        let templateInfo;
-        if (this.selectedTemplate.type == 'touchpoint') {
-            templateInfo = this.campaignDataTT.touchpoint_graph;
-        } else {
-            this.campaignDataTT.emails.forEach(email => {
-                if (email.link_language == this.selectedTemplate.lang) { templateInfo = email; }
-            });
-        }
-
-        if(templateInfo.status == 'SENT' || 
-            templateInfo.created_by != this.userData.data.fields.TelosTouchSF__TT_UserId__c.value)
-        {
-            this.copyTemplate();
-        } else {
-        this.getCustomizeUrl();
-
-    }*/
-
     closeSendTest(){
         this.showSendTest = false;
     }
@@ -111,45 +91,6 @@ export default class TtCampaignTicker extends LightningElement {
         this.getCampaignData();
 
     }
-
-    /*copyTemplate(){
-        
-        let method = 'PUT';
-        let endpoint;
-        let body = null;
-
-        if(this.selectedTemplate.type == 'email'){
-            endpoint = '/api/v1/templates/'+this.selectedTemplate.id+'/copy';
-        } else {
-            endpoint = '/api/v1/touchpoint/templateGraph/'+this.selectedTemplate.id+'/copy';
-        }
-
-        let invoker = {
-            'className':'ttCampaignTicker',
-            'classMethod':'copyTemplate',
-            'recordId':this.recordId
-        };
-
-        handleRequest(method, endpoint, body, invoker)
-            .then(result => {
-                if (result.status) {
-
-                    let response = result.body;
-                    this.selectedTemplate.id = response.id;
-                    this.updateTTCampaign();
-
-                } else {
-                    console.error(result.status_code+': '+result.body);
-                }
-            })
-            .catch(error => {
-                console.error(JSON.stringify(error));
-            })
-            .finally(final => {
-                this.isLoading = false;
-            });
-
-    }*/
 
     createTTCampId() {
 
@@ -603,61 +544,6 @@ export default class TtCampaignTicker extends LightningElement {
                     this.showToast('Failure', error.body.message, 'error');
                 });
     }
-
-    /*updateTTCampaign(){
-
-        
-        let method;
-        let endpoint = '/api/v2/campaign2/create';
-        let body = null;
-
-        if(this.selectedTemplate.type == 'email'){
-
-            let containsLang = false;
-            this.campaignDataTT.emails.forEach(email => {
-                if (email.link_language == this.selectedTemplate.lang) { containsLang = true }
-            });
-
-            method = (containsLang) ? 'PUT' : 'POST';
-            endpoint = (containsLang) ? '/api/v2/campaign2/update/touchpoint-email' : '/api/v2/campaign2/link/touchpoint-email';
-            body = {
-                "email_id": this.selectedTemplate.id,
-                "touchpoint_send_id": this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c,
-                "language": this.selectedTemplate.lang
-            };
-
-        } else {
-            method = 'PUT'
-            endpoint = '/api/v2/campaign2/update';
-            
-            body = {
-                "id": this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c,
-                "touchpoint": { "id": this.selectedTemplate.id}
-            };
-        }
-
-        let invoker = {
-            'className':'ttCampaignTicker',
-            'classMethod':'updateTTCampaign',
-            'recordId':this.recordId
-        };
-
-        handleRequest(method, endpoint, JSON.stringify(body), invoker)
-            .then(result => {
-                if (result.status) {
-
-                } else {
-                    console.error(result.status_code+': '+result.body);
-                }
-            })
-            .catch(error => {
-                console.error(JSON.stringify(error));
-            })
-            .finally(final => {
-                this.isLoading = false;
-            });
-        
-    }*/
 
     updateInsights(){
 
