@@ -681,6 +681,14 @@ private with sharing class TelosTouchUtilityTest {
         System.assert(idlist.size() > 0, 'idlist must not be empty');
         Test.stopTest();
     }
+    
+    @isTest 
+    static void getCalloutInfoTest(){
+        Test.startTest();
+        TelosTouchUtility.getCalloutInfo();
+        Test.stopTest();
+    }
+    
     @isTest
     static void testLeadTrigger(){
         Lead ld = new Lead();

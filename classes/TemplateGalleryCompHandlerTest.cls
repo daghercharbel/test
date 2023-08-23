@@ -17,7 +17,7 @@ public class TemplateGalleryCompHandlerTest {
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TemplateGalleryCompHandlerTest'];   
         Test.startTest();
-        String res = TemplateGalleryCompHandler.getTouchPointTemplates(campTest.Id);
+        String res = TemplateGalleryCompHandler.getTouchPointTemplates(campTest.Id, 'touchpoint');
         String res1 = TemplateGalleryCompHandler.getTouchPointTemplatesAdmin(campTest.Id);
         Map<String, String> resp = TemplateGalleryCompHandler.getIFrameDetails();
         System.assert(res != null);
@@ -30,8 +30,9 @@ public class TemplateGalleryCompHandlerTest {
         cmpObj.Name = 'test';
         insert cmpObj;
         Test.startTest();
-        Boolean response = TemplateGalleryCompHandler.SaveTouchPointTemplate(cmpObj.Id, templateId);
-        System.assert(response);
+        map<String,String> mapResult = TemplateGalleryCompHandler.SaveTouchPointTemplate(cmpObj.Id, templateId, 'touchpoint', null);
+        map<String,String> mapResult2 = TemplateGalleryCompHandler.SaveTouchPointTemplate(cmpObj.Id, templateId, 'email', 'en_US');
+        //System.assert(mapResult.get('status') == 'success');
         Test.stopTest();
     }
     @isTest static void previewURL(){

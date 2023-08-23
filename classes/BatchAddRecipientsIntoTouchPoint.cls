@@ -55,12 +55,10 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
         }else if(getResponseMap.get('status_code') == '500'){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
-        }else{
-            if(getResponseMap.get('status_code').length() > 0){
-                list<String>StatusCodeList = getResponseMap.get('status_code').split('0');
-                if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
-                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
-                }
+        }else if(getResponseMap.containsKey('status_code')){
+            list<String>StatusCodeList = getResponseMap.get('status_code').split('0');
+            if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
             }
         }
     }
@@ -84,12 +82,10 @@ public class BatchAddRecipientsIntoTouchPoint Implements Database.Batchable <Str
         if(getResponseClientsMap.get('status_code') == '500'){
             createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error', 'Erreur de serveur interne',1));
         }
-        else{
-            if(getResponseClientsMap.get('status_code').length() > 0){
-                list<String>StatusCodeList = getResponseClientsMap.get('status_code').split('0');
-                if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
-                    createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseClientsMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseClientsMap.get('status_code'),1));
-                }
+        else if(getResponseClientsMap.containsKey('status_code')){
+            list<String>StatusCodeList = getResponseClientsMap.get('status_code').split('0');
+            if(StatusCodeList[0] == '4' || StatusCodeList[0] == '5'){
+                createListOfLog.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseClientsMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseClientsMap.get('status_code'),1));
             }
         }
         getResponseClients = getResponseClientsMap.get('body');

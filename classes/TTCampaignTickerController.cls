@@ -224,7 +224,8 @@ public with sharing class TTCampaignTickerController {
             String insightStatus = 'initial';
 
             for(TelosTouchSF__Insights__c insight : [SELECT Id,TelosTouchSF__Sent_Status__c FROM TelosTouchSF__Insights__c 
-                                                     WHERE TelosTouchSF__Sent_Status__c =: insightStatus])
+                                                     WHERE TelosTouchSF__Sent_Status__c =: insightStatus AND 
+                                                     TelosTouchSF__Campaign2__c =: campId])
             {
                 insight.TelosTouchSF__Sent_Status__c = 'sending';
                 lstInsight.add(insight);

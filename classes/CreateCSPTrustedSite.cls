@@ -21,7 +21,10 @@ public with sharing class CreateCSPTrustedSite {
         System.debug('CreateCSPTrustedSite.checkRecord: '+respMessage);
 
         map<String,Object> aObject = (map<String,Object>)JSON.deserializeUntyped(resbody);
-        List<Object> lstRecord = (List<Object>)aObject.get('records');
+        List<Object> lstRecord = new list<Object>();
+        if(aObject.containsKey('records')){
+            lstRecord = (List<Object>)aObject.get('records');
+        }
 
         list<String> lstSiteName = new list<String>();
         for(Object record : lstRecord){

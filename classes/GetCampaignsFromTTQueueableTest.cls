@@ -31,6 +31,7 @@ public with sharing class GetCampaignsFromTTQueueableTest {
             TelosTouchSF__Questions__c = '[{"answers":["Yes","Not at this time thanks"],"type":"button","key":"5e947ef1574573795fa7fa6d","question":"Would you like us to reach out to you to discuss?"},{"answers":["Call Me","Video Chat","In Person Meeting"],"type":"button","key":"5e947ef1574573795fa7fa6e","question":"How would you like us to reach out to discuss?"}]\n'
         );
         insert CampaignObj;
+        Test.setMock(HttpCalloutMock.class, new GetCampaignsFromTTMock());
        
         CampaignMember CampaignMemberObj = new CampaignMember();
         CampaignMemberObj.CampaignId = CampaignObj.Id;
@@ -53,7 +54,6 @@ public with sharing class GetCampaignsFromTTQueueableTest {
         insert logObject;
         
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new GetCampaignsFromTTMock());
         System.enqueueJob(new GetCampaignsFromTTQueueable(0,202,202,false,''));
         System.assert(logObject != null, 'logObject must not be NULL');
         Test.stopTest();

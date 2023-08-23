@@ -20,7 +20,7 @@ public class FetchUnsubscribedClientsTest {
         
         Campaign camp = new Campaign();
         camp.Name = 'Test Campaign 1';
-        camp.TelosTouchSF__TT_Campaign_Id__c = '45654345';
+        //camp.TelosTouchSF__TT_Campaign_Id__c = '45654345';
         insert camp;
         
         Campaign camp2 = new Campaign();
@@ -52,6 +52,7 @@ public class FetchUnsubscribedClientsTest {
     }
     @isTest
     static void getUnsubscribedClientsFromCampaignTest(){
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         List<Object> objList1 = TelosTouchSF.FetchUnsubscribedClients.getUnsubscribedClientsFromCampaign([SELECT Id FROM Campaign WHERE Name = 'Test Campaign 1' LIMIT 1].Id);
         List<Object> objList2 = TelosTouchSF.FetchUnsubscribedClients.getUnsubscribedClientsFromCampaign([SELECT Id FROM Campaign WHERE Name = 'Test Campaign 2' LIMIT 1].Id);
         System.assert(objList1 != null);

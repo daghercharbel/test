@@ -19,7 +19,7 @@ public with sharing class ShowTouchPointPreviewControllerTest {
 
         Test.startTest();
 
-        String url = ShowTouchPointPreviewController.getIFrameUrls(lstCamp[0].Id, 'en');
+        String url = ShowTouchPointPreviewController.getIFrameUrls(lstCamp[0].Id, 'en', 'touchpoint');
 
         Test.stopTest();
 		
@@ -34,7 +34,7 @@ public with sharing class ShowTouchPointPreviewControllerTest {
 
         Test.startTest();
 
-        String url = ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId('test', lstCamp[0].Id, 'en');
+        String url = ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId('test', lstCamp[0].Id, 'en', 'touchpoint');
 
         Test.stopTest();
 		

@@ -85,7 +85,7 @@ private with sharing class TimelineParentComponentControllerTest {
         insert taskObj4;
         
         List<Campaign> CampaignObj = new List<Campaign>();
-        CampaignObj = [SELECT Id ,Name FROM Campaign];
+        CampaignObj = [SELECT Id ,Name,TT_Campaign_Id__c FROM Campaign];
         
         CampaignMember CampaignMemberObj = new CampaignMember();
         CampaignMemberObj.CampaignId = CampaignObj[0].Id;
@@ -110,6 +110,8 @@ private with sharing class TimelineParentComponentControllerTest {
         String fourthFakeResponseRespString = '{"past": [{"type": "task","id": "5fc0dc425669d846a1670e29","name": "Send Letter","name_fr": "","description": "","status": "open","shared": 1,"dateStart": "2020-11-27 00:00:00","completedAt": null,"createdAt": "2020-11-27 00:00:00","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "","image_id": ""},{"type": "touchpoint","id": "5fc0dc425669d846a1670e59","name": "Send Letter","name_fr": "","description": "","status": "open","shared": 0,"dateStart": "2020-11-27 00:00:00","completedAt": null,"createdAt": "2020-11-27 00:00:00","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "123","image_id": ""},{"type": "task","id": "5fc0dc425669d846a1670e19","name": "Send Letter","name_fr": "","description": "","status": "open","shared": 1,"dateStart": "2020-11-27 00:00:00","completedAt": null,"createdAt": "2020-11-27 00:00:00","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "","image_id": ""},{"type": "touchpoint","id": "5fbea5e78217721d9a8e1815","name": "Tax Season","name_fr": null,"description": null,"status": "none","shared": 1,"dateStart": "2020-11-25T18:43:51.443Z","completedAt": "","createdAt": "2020-11-25T18:43:51.443Z","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "5fbea5e78217721d9a8e1811","image_id": null}],"future": [{"type": "task","id": "5fbea7ce9505ef1d9affb150","name": "1230","name_fr": "","description": "","status": "open","shared": 1,"dateStart": "2020-12-03T00:00:00.000Z","completedAt": null,"createdAt": "2020-11-25T00:00:00.000Z","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "","image_id": ""},{"type": "touchpoint","id": "5fbea7ce9505ef1d9affb151","name": "1230","name_fr": "","description": "","status": "open","shared": 0,"dateStart": "2020-12-03T00:00:00.000Z","completedAt": null,"createdAt": "2020-11-25T00:00:00.000Z","openedAt": "","assignedUserId": "1","assignedUserName": "Admin Admin","createdById": "1","createdByName": "Admin Admin","touchpoint_send_id": "","image_id": ""}],"pastTotal": 2,"futureTotal": 2}';
         String fifthFakeResponseRespString = '{"past": [],"future": [],"pastTotal": 2,"futureTotal": 2}';
         String sixthFakeRepomseRespString ='[{"deviceToken":null,"id":"60e435f0d0c2a8a2a3da19bd","first_name":"Swapnil","last_name":"PUT Sen Keycloak 4","email":"demo@gmail.com","user_id":null,"phone":"","language":"en_US","created_by":"6240d32f-a652-472c-85bf-42cb27dd2420","invited_at":null,"modified_at":"2021-07-06T10:55:06.000Z","created_at":"2021-07-06T10:52:32.000Z","last_login_date":null,"avatar_id":null,"deleted":false,"custom_fields":null,"preferences":{"notificationTouchpointSend":true,"language":"en_US"},"accepts_calls":true,"type":"client","modified_by":"6240d32f-a652-472c-85bf-42cb27dd2420","other_id":null},{"deviceToken":null,"id":"60e435f0d0c2a8a2a3da19be","first_name":"Swapnil","last_name":"PUT Sen Keycloak 5","email":"random@gmail.com","user_id":null,"phone":"","language":"en_US","created_by":"6240d32f-a652-472c-85bf-42cb27dd2420","invited_at":null,"modified_at":"2021-07-06T10:55:06.000Z","created_at":"2021-07-06T10:52:32.000Z","last_login_date":null,"avatar_id":null,"deleted":false,"custom_fields":null,"preferences":{"notificationTouchpointSend":true,"language":"en_US"},"accepts_calls":true,"type":"client","modified_by":"6240d32f-a652-472c-85bf-42cb27dd2420","other_id":null}]';
+        String batch1String = '';
+        String batch2String = '{ "id": "5f527d53aa941c1bda3b0071", "created_at": "2020-09-04T17:45:55.826Z", "created_by": "Jad Chehlawi", "name": "Considering Purchase of a Property", "name_fr": null, "touchpoint_template_id": "5e947ef0574573795fa7f9a5", "conversations": [ { "conversation_id": "5f527d53aa941c1bda3b0073", "completed_at": "2020-09-04T18:42:23.772Z", "opened_at": "2020-09-04T17:59:38.301Z", "status_touchpoint": "completed", "user_id": "5f526a4d219d3865a", "contact_id": "5f5267ce48c9a601c", "user_name": null, "language": null, "avatarId": null } ] }';
         SingleRequestMock firstFakeResponseResp = new SingleRequestMock(200,'OK',firstFakeResponseRespString,null);
         System.assert(firstFakeResponseResp != null, 'firstFakeResponseResp must not be NULL');
         SingleRequestMock secondFakeResponseResp = new SingleRequestMock(200,'OK',secondFakeResponseRespString,null);
@@ -122,10 +124,14 @@ private with sharing class TimelineParentComponentControllerTest {
         System.assert(fifthFakeResponseResp != null, 'fifthFakeResponseResp must not be NULL');
         SingleRequestMock sixthFakeResponseResp = new SingleRequestMock(200,'OK',sixthFakeRepomseRespString,null);
         System.assert(sixthFakeResponseResp != null, 'sixthFakeResponseResp must not be NULL');
+        SingleRequestMock batch1 = new SingleRequestMock(200,'OK',batch1String,null);
+        System.assert(batch1 != null, 'batch1 must not be NULL');
+        SingleRequestMock batch2 = new SingleRequestMock(200,'OK',batch2String,null);
+        System.assert(batch2 != null, 'batch2 must not be NULL');
         
 
         Map<String, HttpCalloutMock> endpoint2TestResp =
-            new Map<String,HttpCalloutMock>();
+        new Map<String,HttpCalloutMock>();
         endpoint2TestResp.put('https://test.com/api/v1/touchpoint/templates/send/'+CampaignObj[0].Id,firstFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/touchpoints/test/clients',secondFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/touchpoints/123/clients',secondFakeResponseResp);
@@ -134,7 +140,8 @@ private with sharing class TimelineParentComponentControllerTest {
         endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj[0].TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=90&period=all&orderBy=DESC',fifthFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/contacts/'+leadObj.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=0&period=all&orderBy=DESC',fourthFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/contacts/'+leadObj.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=90&period=all&orderBy=DESC',fifthFakeResponseResp);
-        endpoint2TestResp.put('https://test.com/api/v1/admin/contacts',sixthFakeResponseResp);
+        endpoint2TestResp.put('https://test.com/api/v2/campaign2/clients',batch1);
+        endpoint2TestResp.put('https://test.com/api/v1/touchpoints/'+CampaignObj[0].TT_Campaign_Id__c+'/clients',batch2);
         
         HttpCalloutMock multiCalloutMock = new MultiRequestMock(endpoint2TestResp);
         System.assert(multiCalloutMock != null, 'multiCalloutMock must not be NULL');
