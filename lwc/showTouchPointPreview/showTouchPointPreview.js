@@ -51,7 +51,6 @@ export default class ShowTouchPointPreview extends LightningElement {
             templateType: this.templateType
         })
             .then((result) => {
-                console.log('VOD ----------------------- result ', result);
                 this.urls = JSON.parse(result);
             })
             .catch((error) => {
