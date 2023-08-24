@@ -12,9 +12,11 @@
       </lightning-layout>
       <div class="slds-float_none">
         <lightning-tabset>
+          <template if:true={urls.email}>
           <lightning-tab label={label.Email_Text}>
             <iframe src={urls.email} class="iframe-style"></iframe>
           </lightning-tab>
+        </template>
           <template if:true={urls.touchpoint}>
             <lightning-tab label={label.TouchPoint_Experience_Text}>
               <iframe src={urls.touchpoint} class="iframe-style"></iframe>
@@ -37,9 +39,11 @@
       </lightning-layout>
       <div class="slds-float_none">
         <lightning-tabset>
+          <template if:true={urls.email}>
           <lightning-tab label={label.Email_Text}>
             <iframe src={urls.email} class="iframe-style2"></iframe>
           </lightning-tab>
+        </template>
           <template if:true={urls.touchpoint}>
             <lightning-tab label={label.TouchPoint_Experience_Text}>
               <iframe src={urls.touchpoint} class="iframe-style2"></iframe>

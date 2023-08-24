@@ -961,18 +961,30 @@ public with sharing class TTFilterUserController {
     @AuraEnabled
     public static Boolean isClientTaggingEnabled(){
         try {
-            String strInvite = 'Invite';
-            list<TelosTouchSF__TT_Feature_Flag__mdt> lstMetadata = [SELECT TelosTouchSF__ShowClientTagging__c
+            String strInvite = 'Client_Tagging';
+            list<TelosTouchSF__TT_Feature_Flag__mdt> lstMetadata = [SELECT TelosTouchSF__SF_Flag__c
                                                                     FROM TelosTouchSF__TT_Feature_Flag__mdt 
                                                                     WHERE MasterLabel =: strInvite WITH SECURITY_ENFORCED LIMIT 1];
             
-            if(!lstMetadata.isEmpty()){ return lstMetadata[0].TelosTouchSF__ShowClientTagging__c;}
+            if(!lstMetadata.isEmpty()){ return lstMetadata[0].TelosTouchSF__SF_Flag__c;}
             else {throw new AuraHandledException('Metadata not found!');}
              
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    
+    @AuraEnabled
+    public static Map<String, String> isCampaignSyncEnabled(){
+        Map<String, String> metadataMap = new Map<String, String>();
+        try {
+            metadataMap = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata('Camapign_Syncing');
+            return metadataMap;
+        } catch (Exception e) {
+            return metadataMap;
+        }
+    }
+
     
     /**
 * @author Cloud Analogy
