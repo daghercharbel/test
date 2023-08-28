@@ -57,7 +57,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -83,7 +83,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'getCampaignData', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'getCampaignData', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -120,7 +120,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'getTTCampaignId', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'getTTCampaignId', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -159,7 +159,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'getTTClients', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'getTTClients', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -206,7 +206,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -237,7 +237,7 @@ public with sharing class TTCampaignTickerController {
             return mapResult;
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTCampaignTickerController', 'removeExtraClient', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

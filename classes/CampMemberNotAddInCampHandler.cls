@@ -237,7 +237,7 @@ public with sharing class CampMemberNotAddInCampHandler {
             if(!mapMembersByCamp.isEmpty()){ Database.executeBatch(new BatchRemoveCampaignRecipient(mapMembersByCamp),1); }
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'CampMemberNotAddInCampHandler', 'removeTTCampaignMember', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'CampMemberNotAddInCampHandler', 'removeTTCampaignMember', null);
         }
 
     }
@@ -298,7 +298,7 @@ public with sharing class CampMemberNotAddInCampHandler {
 
 
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'CampMemberNotAddInCampHandler', 'updateTTCampaignMember', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'CampMemberNotAddInCampHandler', 'updateTTCampaignMember', null);
         }
 
     }

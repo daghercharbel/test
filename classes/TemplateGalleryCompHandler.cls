@@ -36,7 +36,7 @@ public with sharing class TemplateGalleryCompHandler {
 
             return result;
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TemplateGalleryCompHandler', 'getTemplateIdByGraphId', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TemplateGalleryCompHandler', 'getTemplateIdByGraphId', null);
             return null;
         }
 
@@ -359,7 +359,7 @@ public with sharing class TemplateGalleryCompHandler {
 
             return mapResult;
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TemplateGalleryCompHandler', 'sendEmailTemplate', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TemplateGalleryCompHandler', 'sendEmailTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -415,7 +415,7 @@ public with sharing class TemplateGalleryCompHandler {
 
             return mapResult;
         } catch (Exception ex) {
-            TelosTouchUtility.generateErrorLog(ex, 'TemplateGalleryCompHandler', 'sendTouchpointTemplate', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TemplateGalleryCompHandler', 'sendTouchpointTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
