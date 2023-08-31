@@ -28,7 +28,7 @@ import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
 import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
 import My_Emails from "@salesforce/label/c.My_Emails";
 import Email_Text from "@salesforce/label/c.Email_Text";
-import TouchPoint_Text from "@salesforce/label/c.TouchPoint_Text";
+import Touchpoint_Label from "@salesforce/label/c.Touchpoint_Label";
 import NO_DATA_TEXT from '@salesforce/label/c.TouchpointPreview_NoData_Text';
 import Order_by_Label from '@salesforce/label/c.Order_by_Label';
 import Private_Permission from '@salesforce/label/c.Private_Permission';
@@ -65,7 +65,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         My_Touchpoints,
         My_Emails,
         Email_Text,
-        TouchPoint_Text,
+        Touchpoint_Label,
         NO_DATA_TEXT,
         Order_by_Label,
         Private_Permission,
@@ -205,7 +205,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return [
             { label: this.label.All_Label, value: "all" },
             { label: this.label.Email_Text, value: "email" },
-            { label: this.label.TouchPoint_Text, value: "touchpoint" }
+            { label: this.label.Touchpoint_Label, value: "touchpoint" }
         ];
     }
 

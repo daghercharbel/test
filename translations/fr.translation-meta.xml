@@ -1874,7 +1874,7 @@
     </customLabels>
     <customLabels>
         <label>Point de contact</label>
-        <name>TouchPoint_Text</name>
+        <name>Touchpoint_Label</name>
     </customLabels>
     <customTabs>
         <label><!-- Branding -->
