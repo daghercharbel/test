@@ -12,7 +12,7 @@ public with sharing class TouchPointPreviewController {
 
         map<String, String> mapResult = new map<String, String>();
         try {
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/api/v1/touchpoint/templateGraph/' + templateId;
             String emailEndpoint = '/api/v1/templates/' + emailId;
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint) +'/copy';
@@ -41,7 +41,7 @@ public with sharing class TouchPointPreviewController {
         map<String, String> mapResult = new map<String, String>();
         Id userId;
         try {
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             userId = aUser.Id;
             String templateEndpoint = '/api/v1/touchpoint/templateGraph';
             String emailEndpoint = '/api/v1/admin/template/email';
@@ -88,7 +88,7 @@ public with sharing class TouchPointPreviewController {
 
         map<String, String> mapResult = new map<String, String>();
         try {
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/api/v1/touchpoint/templateGraph/' + templateId;
             String emailEndpoint = '/api/v1/templates/' + emailId;
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint);
@@ -116,7 +116,7 @@ public with sharing class TouchPointPreviewController {
         map<String, String> mapResult = new map<String, String>();
         try {
             // if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/app/v1/#/experience-panel-sf/touchpoint/' + templateId;
             String emailEndpoint = '/app/v1/#/admin/email/edit/' + emailId;
             String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint) + '?fullscreen=true&access_token=' + aUser.TelosTouchSF__Auth_Token__c + '&lang=en_US';
@@ -301,7 +301,7 @@ public with sharing class TouchPointPreviewController {
 
         map<String, String> mapResult = new map<String, String>();
         try {
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/api/v1/touchpoint/templateGraph/'+templateId+'/permissions';
             String emailEndpoint = '/api/v1/templates/'+emailTempId+'/permissions';
             String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + ((libraryType.toLowerCase() == 'touchpoint') ? templateEndpoint : emailEndpoint);
@@ -333,7 +333,7 @@ public with sharing class TouchPointPreviewController {
     @AuraEnabled
     public static Boolean checkIfUserHaveCreationAcess(){
         try {
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/users?search='+[SELECT Email FROM USER WHERE Id =: UserInfo.getUserId() LIMIT 1].Email;
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/users?search='+[SELECT Email FROM USER WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1].Email;
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' + authenticationCredential.TelosTouchSF__Access_Token__c);
             mapHeader.put('Content-Type', 'application/json');
