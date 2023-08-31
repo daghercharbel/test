@@ -8,6 +8,7 @@ import { updateRecord } from 'lightning/uiRecordApi';
 import LOCALE from '@salesforce/i18n/locale';
 
 //Apex Methods
+import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 import AddMissingClient from '@salesforce/apex/TTCampaignTickerController.AddMissingClient';
 import getCampaignData from '@salesforce/apex/TTCampaignTickerController.getCampaignData';
 import getCustomizeUrl from '@salesforce/apex/TTCampaignTickerController.getCustomizeUrl';
@@ -23,7 +24,6 @@ import CAMP_EMAIL_ID from '@salesforce/schema/Campaign.Email_Template_Id__c';
 
 //User Fields
 import USER_ID_FIELD from '@salesforce/user/Id';
-import USER_TT_ID_FIELD from '@salesforce/schema/User.TT_UserId__c';
 
 export default class TtCampaignTicker extends LightningElement {
 
@@ -52,25 +52,31 @@ export default class TtCampaignTicker extends LightningElement {
         return (this.campaignDataSF.TelosTouchSF__Type__c == 'touchpoint');
     }
 
-    get showSendButton(){
+    get showSendButton() {
         return (this.showSendTestButton && this.hasMembersNotSent && !this.hasTemplateError);
     }
 
-    addClient(){
+    addClient() {
         AddMissingClient({ campId: this.recordId })
             .then(result => {
                 if (result.status == 'success') {
                     this.sendCampaign();
                 } else {
-                    console.error(result.error);
+                    console.error('ttCampaignTicker 1: ', result.error);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 2: ', errorStr);
             })
     }
 
-    closeSendTest(){
+    closeSendTest() {
         this.showSendTest = false;
     }
 
@@ -97,43 +103,59 @@ export default class TtCampaignTicker extends LightningElement {
         let method = 'POST';
         let endpoint = '/api/v2/campaign2/create';
         let body = {
-            'name':this.campaignDataSF.Name,
-            'type':this.campaignDataSF.TelosTouchSF__Type__c,
-            'delivery':'email',
-            'recipients':[],
-            'all_recipients':false,
-            'where':{}
+            'name': this.campaignDataSF.Name,
+            'type': this.campaignDataSF.TelosTouchSF__Type__c,
+            'delivery': 'email',
+            'recipients': [],
+            'all_recipients': false,
+            'where': {}
         };
         let invoker = {
-            'className':'ttCampaignTicker',
-            'classMethod':'createTTCampId',
-            'recordId':this.recordId
+            'className': 'ttCampaignTicker',
+            'classMethod': 'createTTCampId',
+            'recordId': this.recordId
         };
 
-        handleRequest(method, endpoint, JSON.stringify(body), invoker)
+        getCalloutInfo()
             .then(result => {
-                if (result.status) {
+                if (result.status == 'success') {
+                    let data = JSON.parse(result.value);
+                    handleRequest(method, endpoint, JSON.stringify(body), invoker)
+                        .then(result => {
+                            if (result.status) {
 
-                    let response = result.body;
-                    this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c = response.id;
+                                let response = result.body;
+                                this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c = response.id;
 
-                    const fields = {};
-                    fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
-                    fields[CAMP_TT_ID.fieldApiName] = response.id;
+                                const fields = {};
+                                fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
+                                fields[CAMP_TT_ID.fieldApiName] = response.id;
 
-                    const campRecord = { fields };
-                    this.updateCampaign(campRecord);
+                                const campRecord = { fields };
+                                this.updateCampaign(campRecord);
 
-                } else {
-                    console.error(result.status_code+': '+result.body);
+                            } else {
+                                console.error('ttCampaignTicker 3: ', result.status_code + ': ' + result.body);
+                            }
+                        })
+                        .catch(error => {
+
+                            let errorStr = '';
+                            if (typeof error == 'object' && error.message) {
+                                if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                                errorStr += error.message
+                            } else {
+                                errorStr = error;
+                            }
+                            console.error('ttCampaignTicker 4: ', errorStr);
+                        })
+                        .finally(final => {
+                            this.isLoading = false;
+                        });
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
             })
-            .finally(final => {
-                this.isLoading = false;
-            });
     }
 
     getCampaignData() {
@@ -166,7 +188,7 @@ export default class TtCampaignTicker extends LightningElement {
                     this.campInfo.createdDate = formattedDate;
 
                     //CHECK IF CAMPAIGN IS SENT
-                    if(response.TelosTouchSF__Questions__c){
+                    if (response.TelosTouchSF__Questions__c) {
                         this.enableEditing = false;
                     }
 
@@ -174,7 +196,7 @@ export default class TtCampaignTicker extends LightningElement {
                     let hasMembersNotSent = false;
                     if (response.TelosTouchSF__Insights__r) {
                         response.TelosTouchSF__Insights__r.records.forEach(insight => {
-                            if(insight.TelosTouchSF__Sent_Status__c == 'initial'){
+                            if (insight.TelosTouchSF__Sent_Status__c == 'initial') {
                                 hasMembersNotSent = true;
                             }
                         });
@@ -184,11 +206,18 @@ export default class TtCampaignTicker extends LightningElement {
                     this.setLabels();
 
                 } else {
-                    console.error(result.error);
+                    console.error('ttCampaignTicker 5: ', result.error);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 6: ', errorStr);
                 this.isLoading = false;
             })
             .finally(final => {
@@ -206,10 +235,10 @@ export default class TtCampaignTicker extends LightningElement {
             });
         }
 
-        getCustomizeUrl({ 
-            templateType: this.selectedTemplate.type, 
-            campTTId: this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c, 
-            templateId: templateId 
+        getCustomizeUrl({
+            templateType: this.selectedTemplate.type,
+            campTTId: this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c,
+            templateId: templateId
         })
             .then(result => {
                 if (result.status == 'success') {
@@ -217,11 +246,18 @@ export default class TtCampaignTicker extends LightningElement {
                     this.customizeUrl = result.value;
 
                 } else {
-                    console.error(result.error);
+                    console.error('ttCampaignTicker 7: ', result.error);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 8: ', errorStr);
             })
             .finally(final => {
                 this.isLoading = false;
@@ -231,12 +267,12 @@ export default class TtCampaignTicker extends LightningElement {
     getTTCampaignData() {
 
         let method = 'GET';
-        let endpoint = '/api/v2/campaign2/details?id='+this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c+'&language=en_US';
+        let endpoint = '/api/v2/campaign2/details?id=' + this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c + '&language=en_US';
         let body = null;
         let invoker = {
-            'className':'ttCampaignTicker',
-            'classMethod':'getTTCampaignData',
-            'recordId':this.recordId
+            'className': 'ttCampaignTicker',
+            'classMethod': 'getTTCampaignData',
+            'recordId': this.recordId
         };
 
         handleRequest(method, endpoint, body, invoker)
@@ -258,7 +294,7 @@ export default class TtCampaignTicker extends LightningElement {
                         }
                         campInfo.touchpointName = response.touchpoint.name;
 
-                        if(response.touchpoint_graph.id != this.campaignDataSF.TelosTouchSF__TouchPoint_Template_Id__c){
+                        if (response.touchpoint_graph.id != this.campaignDataSF.TelosTouchSF__TouchPoint_Template_Id__c) {
                             campaignNeedsUpdate = true;
                             fields[CAMP_TOUCHPOINT_ID.fieldApiName] = response.touchpoint_graph.id;
                             fields[CAMP_EMAIL_ID.fieldApiName] = '{}';
@@ -266,25 +302,24 @@ export default class TtCampaignTicker extends LightningElement {
                         }
 
                         if (response.touchpoint_graph && response.touchpoint_graph.content
-                            && response.touchpoint_graph.content.languages) 
-                        {
+                            && response.touchpoint_graph.content.languages) {
                             campInfo.emails = [];
                             response.touchpoint_graph.content.languages.forEach(language => {
                                 campInfo.emails.push({ 'lang': language.code });
                             });
                         }
 
-                        if(response.touchpoint_graph && response.touchpoint_graph.deleted){
+                        if (response.touchpoint_graph && response.touchpoint_graph.deleted) {
                             campInfo.touchpoint.warning = this.label.Deleted_Template_Warning;
                             campInfo.touchpoint.warningVariant = 'error';
                             hasTemplateError = true;
-                        } else if(response.touchpoint_graph && response.touchpoint_graph.status == 'DRAFTED'){
+                        } else if (response.touchpoint_graph && response.touchpoint_graph.status == 'DRAFTED') {
                             campInfo.touchpoint.warning = this.label.Drafted_Template_Warning;
                             campInfo.touchpoint.warningVariant = 'error';
                             hasTemplateError = true;
                         }
 
-                    } else if(this.campaignDataSF.TelosTouchSF__Type__c == 'email'){
+                    } else if (this.campaignDataSF.TelosTouchSF__Type__c == 'email') {
                         campInfo.emails = [];
                         campInfo.emails.push({ 'lang': 'en_US' });
                         campInfo.emails.push({ 'lang': 'fr_FR' });
@@ -301,21 +336,21 @@ export default class TtCampaignTicker extends LightningElement {
                                 if (campEmail.lang == email.link_language) {
                                     campEmail.name = email.name;
                                     campEmail.id = email.id;
-                                    if(email.link_language != email.language){ 
-                                        if(email.language == 'en_US'){
+                                    if (email.link_language != email.language) {
+                                        if (email.language == 'en_US') {
                                             campEmail.warning = this.label.Mismatch_Email_Language_en_US;
                                             campEmail.warningVariant = 'warning';
-                                        } else if(email.language == 'fr_FR'){
+                                        } else if (email.language == 'fr_FR') {
                                             campEmail.warning = this.label.Mismatch_Email_Language_fr_FR;
                                             campEmail.warningVariant = 'warning';
                                         }
                                     }
 
-                                    if(email.deleted){
+                                    if (email.deleted) {
                                         campEmail.warning = this.label.Deleted_Template_Warning;
                                         campEmail.warningVariant = 'error';
                                         hasTemplateError = true;
-                                    } else if(email.status == 'DRAFTED'){
+                                    } else if (email.status == 'DRAFTED') {
                                         campEmail.warning = this.label.Drafted_Template_Warning;
                                         campEmail.warningVariant = 'error';
                                         hasTemplateError = true;
@@ -325,7 +360,7 @@ export default class TtCampaignTicker extends LightningElement {
                             });
                         });
 
-                        if(this.campaignDataSF.TelosTouchSF__Email_Template_Id__c != JSON.stringify(mapEmails)){
+                        if (this.campaignDataSF.TelosTouchSF__Email_Template_Id__c != JSON.stringify(mapEmails)) {
                             campaignNeedsUpdate = true;
                             fields[CAMP_EMAIL_ID.fieldApiName] = JSON.stringify(mapEmails);
                             this.campaignDataSF.TelosTouchSF__Email_Template_Id__c = JSON.stringify(mapEmails);
@@ -335,40 +370,48 @@ export default class TtCampaignTicker extends LightningElement {
                         this.showSendTestButton = false;
                     }
 
-                    if(campaignNeedsUpdate){
+                    if (campaignNeedsUpdate) {
                         fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
                         const campRecord = { fields };
                         this.updateCampaign(campRecord);
                     }
 
-                    campInfo.emails.forEach(email => {
-                        if(email.lang == 'en_US') email.langLabel = this.label.English_Translation;
-                        if(email.lang == 'fr_FR') email.langLabel = this.label.French_Translation;
-                    });
-
+                    if (campInfo.emails) {
+                        campInfo.emails.forEach(email => {
+                            if (email.lang == 'en_US') email.langLabel = this.label.English_Translation;
+                            if (email.lang == 'fr_FR') email.langLabel = this.label.French_Translation;
+                        });
+                    }
                     this.hasTemplateError = hasTemplateError;
                     this.campInfo = { ...campInfo };
 
                 } else {
-                    console.error(result.status_code+': '+result.body);
+                    console.error('ttCampaignTicker 9: ', result.status_code + ': ' + result.body);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 10: ', errorStr);
             })
             .finally(final => {
                 this.isLoading = false;
             });
     }
 
-    handleClickSend(){
+    handleClickSend() {
 
         let SFClientsCount = this.campaignDataSF.TelosTouchSF__Insights__r.totalSize;
         let TTClientsCount = this.campaignDataTT.chart.recipientsCount;
 
-        if(SFClientsCount < TTClientsCount){
+        if (SFClientsCount < TTClientsCount) {
             this.removeClient();
-        } else if(SFClientsCount > TTClientsCount) {
+        } else if (SFClientsCount > TTClientsCount) {
             this.addClient();
         } else {
             this.sendCampaign();
@@ -376,7 +419,7 @@ export default class TtCampaignTicker extends LightningElement {
 
     }
 
-    openSendTest(){
+    openSendTest() {
         this.showSendTest = true;
     }
 
@@ -387,9 +430,9 @@ export default class TtCampaignTicker extends LightningElement {
             language = event.target.dataset.lang;
         }
         let selectedTemplate = {
-            'id':event.target.dataset.id,
-            'lang':language,
-            'type':event.target.dataset.type
+            'id': event.target.dataset.id,
+            'lang': language,
+            'type': event.target.dataset.type
         }
         this.selectedTemplate = selectedTemplate;
         this.showEdit = true;
@@ -403,46 +446,53 @@ export default class TtCampaignTicker extends LightningElement {
             language = event.target.dataset.lang;
         }
         let selectedTemplate = {
-            'id':event.target.dataset.id,
-            'lang':language,
-            'type':event.target.dataset.type
+            'id': event.target.dataset.id,
+            'lang': language,
+            'type': event.target.dataset.type
         }
         this.selectedTemplate = selectedTemplate;
         this.showGallery = true;
 
     }
 
-    removeClient(){
-        
+    removeClient() {
+
         removeExtraClient({ campId: this.recordId })
             .then(result => {
                 if (result.status == 'success') {
                     this.sendCampaign();
                 } else {
-                    console.error(result.error);
+                    console.error('ttCampaignTicker 11: ', result.error);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 12: ', errorStr);
             })
 
     }
 
-    sendCampaign(){
+    sendCampaign() {
         this.isLoading = true;
-        
+
         let method = 'POST';
         let endpoint;
-        if(this.campaignDataSF.TelosTouchSF__Type__c == 'email'){
-            endpoint = '/api/v2/campaign/'+this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c+'/email/send';
+        if (this.campaignDataSF.TelosTouchSF__Type__c == 'email') {
+            endpoint = '/api/v2/campaign/' + this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c + '/email/send';
         } else {
-            endpoint = '/api/v2/campaign/'+this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c+'/tp/send';
+            endpoint = '/api/v2/campaign/' + this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c + '/tp/send';
         }
         let body = null;
         let invoker = {
-            'className':'ttCampaignTicker',
-            'classMethod':'sendCampaign',
-            'recordId':this.recordId
+            'className': 'ttCampaignTicker',
+            'classMethod': 'sendCampaign',
+            'recordId': this.recordId
         };
 
         handleRequest(method, endpoint, body, invoker)
@@ -450,7 +500,7 @@ export default class TtCampaignTicker extends LightningElement {
                 if (result.status) {
 
                     let questions = '';
-                    if(!this.campaignDataSF.TelosTouchSF__Questions__c){
+                    if (!this.campaignDataSF.TelosTouchSF__Questions__c) {
                         questions = JSON.stringify(this.campaignDataTT.campaign.questions);
 
                         const fields = {};
@@ -467,11 +517,18 @@ export default class TtCampaignTicker extends LightningElement {
                     this.showToast('Success', message, 'success');
 
                 } else {
-                    console.error(result.status_code+': '+result.body);
+                    console.error('ttCampaignTicker 13: ', result.status_code + ': ' + result.body);
                 }
             })
             .catch(error => {
-                console.error(result.status_code+': '+result.body);
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 14: ', errorStr);
                 this.showToast('Failure', 'Failed to Send Touchpoint', 'error');
             })
             .finally(final => {
@@ -498,7 +555,7 @@ export default class TtCampaignTicker extends LightningElement {
         } else if (!camp.TelosTouchSF__Insights__r) {
             this.status.css = 'slds-text-color_error';
             this.status.message = (isEmail) ? this.label.Customize_AddClient : this.label.Customize_AddClientText;
-        } else if(this.hasMembersNotSent) {
+        } else if (this.hasMembersNotSent) {
             this.status.css = 'slds-text-color_error';
             this.status.message = (isEmail) ? this.label.Customize_Preview_Email_Label : this.label.Customize_PreviewLabel;
         } else {
@@ -535,26 +592,41 @@ export default class TtCampaignTicker extends LightningElement {
 
     }
 
-    updateCampaign(recordInput){
+    updateCampaign(recordInput) {
         updateRecord(recordInput)
-                .then(() => {
-                })
-                .catch(error => {;
-                    console.error(JSON.stringify(error));
-                    this.showToast('Failure', error.body.message, 'error');
-                });
+            .then(() => {
+            })
+            .catch(error => {
+                ;
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 15: ', errorStr);
+                this.showToast('Failure', error.body.message, 'error');
+            });
     }
 
-    updateInsights(){
+    updateInsights() {
 
         updateSentInsight({ campId: this.recordId })
             .then(result => {
                 if (result.status != 'success') {
-                    console.error(result.error);
+                    console.error('ttCampaignTicker 16: ', result.error);
                 }
             })
             .catch(error => {
-                console.error(JSON.stringify(error));
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 17: ', errorStr);
                 this.isLoading = false;
             })
             .finally(final => {

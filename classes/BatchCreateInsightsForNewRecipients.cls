@@ -44,10 +44,7 @@ public BatchCreateInsightsForNewRecipients(String getResponseClients, BatchAddRe
 * @return List<Object> conversationList ....
 */
 public Iterable<Object> start(Database.BatchableContext bc){
-	List<Object> conversationList = new list<Object>();
-	if(responseMap1.containsKey('conversations')){
-		conversationList = (List<Object>)responseMap1.get('conversations');
-	}
+	List<Object> conversationList = (List<Object>)responseMap1.get('conversations');
 	return conversationList;
 }
 	/**
@@ -106,6 +103,11 @@ public void execute(Database.BatchableContext bc, List<Object> responseList){
 							if(responseMap2.containsKey('user_name') && responseMap2.get('user_name') !=  null){
 								if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
 									conversation_UserObj.Name =  String.valueOf(responseMap2.get('user_name'));
+								}
+							}
+							if(responseMap2.containsKey('send_status') && responseMap2.get('send_status') != null){
+								if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
+									conversation_UserObj.TelosTouchSF__Sent_Status__c =  String.valueOf(responseMap2.get('send_status'));
 								}
 							}
 							conversation_UserList.add(conversation_UserObj);

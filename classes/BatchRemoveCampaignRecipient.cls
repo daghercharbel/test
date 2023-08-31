@@ -22,15 +22,20 @@ public with sharing class BatchRemoveCampaignRecipient Implements Database.Batch
         mapHeader.put('Content-Type', 'application/json');
         mapHeader.put('Accept', 'application/json');
 
+        set<String> setClientId = new Set<String>();
+        list<String> lstCampClientId = new list<String>();
+
         for(String campId : lstCampId){
 
             list<String> lstClientId = mapMembersByCamp.get(campId);
+            setClientId.addAll(lstClientId);
 
             String body = '{ "touchpoint_send_id" : "'+campId+'",';
             body += '"all" : false,';
             body += '"recipients" : [';
             for(String clientId : lstClientId){
                 body += '"'+clientId+'",';
+                lstCampClientId.add(campId+'-'+clientId);
             }
             body = body.removeEnd(',');
             body += ']}';
@@ -38,9 +43,27 @@ public with sharing class BatchRemoveCampaignRecipient Implements Database.Batch
             Map<String, String> mapResponse = TelosTouchUtility.getResponse('PUT', endpoint, mapHeader, body);
             String respMessage = 'Response Status Code: '+mapResponse.get('status_code')+' | Response Body: '+mapResponse.get('body');
             TelosTouchUtility.generateLog(respMessage, 'BatchRemoveCampaignRecipient', 'execute', null);
-            
 
         }
+        
+        list<Id> lstInsightId = new list<Id>();
+        for(TelosTouchSF__Insights__c insight : [SELECT Id,TelosTouchSF__Campaign2__r.TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__Contact__c,
+                                                    TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c,TelosTouchSF__Lead__c,
+                                                    TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c 
+                                                    WHERE TelosTouchSF__Campaign2__r.TelosTouchSF__TT_Campaign_Id__c IN: (lstCampId) AND 
+                                                    (TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c IN: (setClientId) 
+                                                    OR TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c IN: (setClientId))])
+        {
+            String key = insight.TelosTouchSF__Campaign2__r.TelosTouchSF__TT_Campaign_Id__c+'-';
+            if(String.isNotBlank(insight.TelosTouchSF__Contact__c)){
+                key += insight.TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c;
+            } else if(String.isNotBlank(insight.TelosTouchSF__Lead__c)) {
+                key += insight.TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c;
+            }
+            if(lstCampClientId.contains(key)){ lstInsightId.add(insight.Id); }
+        }
+
+        if(!lstInsightId.isEmpty()){ Database.delete(lstInsightId); }
 
     }
 

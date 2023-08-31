@@ -20,8 +20,8 @@ export async function handleRequest(method, endpoint, body, invoker) {
         const result = await getCalloutInfo();
         if (result.status == 'success') {
             let data = JSON.parse(result.value);
-            requestHeader.Authorization = 'Bearer '+data.token;
-            requestEndpoint = data.domain+requestEndpoint;
+            requestHeader.Authorization = 'Bearer ' + data.token;
+            requestEndpoint = data.domain + requestEndpoint;
             const makeRequestResponse = await makeRequest();
             generateLog(makeRequestResponse, invoker);
             return makeRequestResponse;
@@ -29,9 +29,15 @@ export async function handleRequest(method, endpoint, body, invoker) {
             return 'User has no access token';
         }
     } catch (error) {
-        errorStr = JSON.stringify(error);
-        console.error(errorStr);
-        return errorStr;
+        let errorStr = '';
+        if (typeof error == 'object' && error.message) {
+            if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+            errorStr += error.message
+        } else {
+            errorStr = error;
+        }
+        console.error('ttCallout 1: ', errorStr);
+        return error;
     }
 
 }
@@ -39,7 +45,8 @@ export async function handleRequest(method, endpoint, body, invoker) {
 async function makeRequest() {
 
     let result = {};
-    let request = new Request(
+
+    const response = await fetch(
         requestEndpoint,
         {
             'body': requestBody,
@@ -48,29 +55,48 @@ async function makeRequest() {
         }
     );
 
-    const response = await fetch(request);
+    console.log('VOD ----------------------- requestEndpoint ', requestEndpoint);
+    console.log('VOD ----------------------- requestMethod ', requestMethod);
+    console.log('VOD ----------------------- requestHeader ', requestHeader);
+    console.log('VOD ----------------------- requestBody ', requestBody);
+
+    requestHeader = undefined;
+    requestBody = undefined;
+    requestEndpoint = undefined;
+
     result.status = response.ok;
     result.status_code = response.status;
-    if(response.ok){
-        result.body = await response.json();
-    } else {
-        result.body = await response.text();
+    console.log('VOD ----------------------- response.ok ', response.ok);
+    console.log('VOD ----------------------- response.status ', response.status);
+    let responseBody = await response.text();
+    try {
+        result.body = JSON.parse(responseBody);
+    } catch (error) {
+        result.body = responseBody;
     }
+    console.log('VOD ----------------------- result.body ', result.body);
     return result;
 }
 
 function generateLog(response, invoker) {
 
-    let message = 'Response Status Code: '+response.status_code+' | Response Body: '+response.body;
+    let message = 'Response Status Code: ' + response.status_code + ' | Response Body: ' + response.body;
 
-    generateAndSaveLog({ 
+    generateAndSaveLog({
         message: message,
         className: invoker.className,
         classMethod: invoker.classMethod,
         recordId: invoker.recordId,
     })
-        .then(result => {})
+        .then(result => { })
         .catch(error => {
-            console.error(JSON.stringify(error));
+            let errorStr = '';
+            if (typeof error == 'object' && error.message) {
+                if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                errorStr += error.message
+            } else {
+                errorStr = error;
+            }
+            console.error('ttCallout 2: ', errorStr);
         });
 }

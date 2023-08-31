@@ -6,14 +6,14 @@ public with sharing class TTCampaignTickerControllerTest {
         Contact cttTest = new Contact(
             FirstName = 'Test',
             LastName = 'Test',
-            Email = 'TTCampaignTickerControllerTest@telostouch.com',
-            TelosTouchSF__TT_Client_Id__c = 'test'
+            Email = 'TTCampaignTickerControllerTest1@telostouch.com',
+            TelosTouchSF__TT_Client_Id__c = 'test1'
         );
         Contact cttTest2 = new Contact(
             FirstName = 'Test',
             LastName = 'Test',
             Email = 'TTCampaignTickerControllerTest2@telostouch.com',
-            TelosTouchSF__TT_Client_Id__c = 'test'
+            TelosTouchSF__TT_Client_Id__c = 'getv2campaign2'
         );
         insert new list<Contact>{cttTest,cttTest2};
 
@@ -83,9 +83,9 @@ public with sharing class TTCampaignTickerControllerTest {
     @isTest
     static void removeExtraClientTest(){
         
-        Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
-        list<Contact> lstCtt = [SELECT Id FROM Contact WHERE Email like: 'TTCampaignTickerControllerTest%'];
+        list<Contact> lstCtt = [SELECT Id FROM Contact WHERE Email like: 'TTCampaignTickerControllerTest%' ORDER BY Email ASC];
         
         TelosTouchSF__Insights__c insTest = new TelosTouchSF__Insights__c(
             TelosTouchSF__Campaign2__c = campTest.Id,

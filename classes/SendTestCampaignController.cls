@@ -21,23 +21,21 @@ public with sharing class SendTestCampaignController {
 
         try {
 
-            User aUser = [SELECT Id, LanguageLocaleKey, TelosTouchSF__Auth_Token__c 
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c 
                           FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-            Campaign camp = [SELECT Id, TelosTouchSF__TouchPoint_Template_Id__c 
+            Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c 
                              FROM Campaign WHERE Id =: campaignId WITH SECURITY_ENFORCED];
 
-            String body = '{"emails": '+emails+',';
-            body += '"template_id": "'+camp.TelosTouchSF__TouchPoint_Template_Id__c+'",';
-            body += '"language": "'+aUser.LanguageLocaleKey+'"}';
+            String body = '{"emails": '+emails+'}';
 
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoints/tp/send-test';
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v2/campaign/'+camp.TelosTouchSF__TT_Campaign_Id__c+'/email/send/test';
 
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
             mapHeader.put('Content-Type', 'application/json');
             mapHeader.put('Accept', 'application/json');
             
-            Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('PUT', endPointURL, mapHeader, body);
+            Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('POST', endPointURL, mapHeader, body);
 
             if(mapResponse.containsKey('status_code')){
                 if(mapResponse.get('status_code') == '200'){
