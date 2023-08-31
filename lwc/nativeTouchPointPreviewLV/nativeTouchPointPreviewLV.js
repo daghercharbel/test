@@ -171,7 +171,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return [
             { label: this.libraryType.toLowerCase() === 'email' ? this.label.My_Emails : this.label.My_Touchpoints, value: 'private' },
             { label: this.label.Shared_With_Me, value: 'shared' },
-            { label: this.label.Public_Text, value: 'public' },
+            { label: this.label.Public_Text, value: 'public' }
         ];
     }
 
@@ -218,7 +218,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     connectedCallback() {
         this.showSpinner = true;
-        console.log('library type: ' + this.libraryType);
         loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
         window.addEventListener('resize', this.updateRecordSize);
         if (window.screen.availWidth < 900) {
@@ -245,7 +244,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 this.isAdmin = returnVal.isAdmin;
             })
             .catch(error => {
-                console.log(error);
+                console.error('getSystemInfo error:: ', error);
             })
             .finally(() => {
                 this.getTemplates();
@@ -301,7 +300,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                         }
                     })
                 });
-                console.log('map Data:  ' + JSON.stringify(mapTemplates));
                 let returnVal = mapTemplates[this.listViewValue];
                 this.mapTemplates = mapTemplates;
 
@@ -310,7 +308,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 this.updateRecords();
             })
             .catch(error => {
-                console.error("error: " + error);
+                console.error("getTemplateDetails error: " + error);
             })
             .finally(() => {
                 this.showSpinner = false;
@@ -319,19 +317,16 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     filterBasedOnType(templateList) {
         let newTemplateList = [];
-        console.log('templateList before : ',JSON.parse(JSON.stringify(templateList)));
         if (this.selectedType === 'all') {
             newTemplateList = templateList;
         } else if (this.selectedType === 'email') {
             templateList.forEach(function (template, index, object) {
-                console.log('email template : ',template);
                 if (template.is_tp_ready === false) {
                     newTemplateList.push(template);
                 }
             });
         } else if (this.selectedType === 'touchpoint') {
             templateList.forEach(function (template, index, object) {
-                console.log('touchpoint template : ',template);
                 if (template.is_tp_ready === true) {
                     newTemplateList.push(template);
                 }
@@ -368,7 +363,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         try {
             this.navigateToListView(this.listViewId);
         } catch (error) {
-            console.error(error);
+            console.error('handleBackbuttonAction error:: ', error);
         }
     }
 
@@ -392,7 +387,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 if (result && result.status == 'success') {
                     this.getTemplates();
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('copyTemplateOrEmail Error: ', result.error);
                 }
             })
             .catch((error) => {
@@ -420,7 +415,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                     this.currentDiv = 'builder';
                     this.topButtonLabel = this.label.TOUCHPOINTPREVIEW_BACKTOTEMPLATES;
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('createNewTemplate Error: ', result.error);
                 }
             })
             .catch((error) => {
@@ -493,7 +488,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 if (result && result.status == 'success') {
                     this.getTemplates();
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('deleteTemplateOrEmail Error: ', result.error);
                 }
             })
             .catch((error) => {
@@ -519,11 +514,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.iframeURL = result.value;
-                    console.log('iframe: ' + this.iframeURL);
                     this.previewBody = false;
                     this.currentDiv = 'builder';
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('editTemplateOrEmail Error: ', result.error);
                 }
             })
             .catch((error) => {
@@ -541,7 +535,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     handleTypeChange(event) {
         this.selectedType = event.detail.value;
-        console.log('handle type change selected type:: ', this.selectedType);
         this.prepareTemplateList();
     }
 
@@ -641,7 +634,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                     this.shareableUsersOptions = shareableUsersOptions;
 
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('getSharableUsers Error: ', result.error);
                 }
             })
             .catch((error) => {
@@ -860,8 +853,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             permission: this.selectedTemplate.permissionType,
             users_list: this.selectedShareableUsers
         }
-        console.log('templateID: ' + templateId);
-        console.log('emailId: ' + emailId);
 
         updateTemplatePermission({ templateId: templateId, requestBody: JSON.stringify(requestBody), libraryType: this.libraryType, emailTempId: emailId })
             .then((result) => {
@@ -882,7 +873,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                     this.updateRecords();
 
                 } else if (result && result.status == 'error') {
-                    console.error('Error: ', result.error);
+                    console.error('TelosTouch updateTemplatePermission Error .then:  ', result.error);
                 }
             })
             .catch((error) => {
