@@ -44,7 +44,10 @@ public BatchCreateInsightsForNewRecipients(String getResponseClients, BatchAddRe
 * @return List<Object> conversationList ....
 */
 public Iterable<Object> start(Database.BatchableContext bc){
-	List<Object> conversationList = (List<Object>)responseMap1.get('conversations');
+	List<Object> conversationList = new list<Object>();
+	if(responseMap1.containsKey('conversations')){
+		conversationList = (List<Object>)responseMap1.get('conversations');
+	}
 	return conversationList;
 }
 	/**

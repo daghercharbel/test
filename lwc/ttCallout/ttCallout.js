@@ -55,26 +55,18 @@ async function makeRequest() {
         }
     );
 
-    console.log('VOD ----------------------- requestEndpoint ', requestEndpoint);
-    console.log('VOD ----------------------- requestMethod ', requestMethod);
-    console.log('VOD ----------------------- requestHeader ', requestHeader);
-    console.log('VOD ----------------------- requestBody ', requestBody);
-
     requestHeader = undefined;
     requestBody = undefined;
     requestEndpoint = undefined;
 
     result.status = response.ok;
     result.status_code = response.status;
-    console.log('VOD ----------------------- response.ok ', response.ok);
-    console.log('VOD ----------------------- response.status ', response.status);
     let responseBody = await response.text();
     try {
         result.body = JSON.parse(responseBody);
     } catch (error) {
         result.body = responseBody;
     }
-    console.log('VOD ----------------------- result.body ', result.body);
     return result;
 }
 
