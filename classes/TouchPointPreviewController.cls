@@ -115,7 +115,7 @@ public with sharing class TouchPointPreviewController {
     public static map<String, String> editTemplate(String templateId, String emailId, String libraryType){
         map<String, String> mapResult = new map<String, String>();
         try {
-            // if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
+            if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/app/v1/#/experience-panel-sf/touchpoint/' + templateId;
             String emailEndpoint = '/app/v1/#/admin/email/edit/' + emailId;
