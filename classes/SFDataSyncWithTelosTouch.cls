@@ -683,9 +683,11 @@ global with sharing class SFDataSyncWithTelosTouch {
             if(createListOfLog.size() >0 && Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible() ){
                 insert createListOfLog;
             }
+            System.debug('clientLogObj:: '+clientLogObj);
             return clientLogObj;
         }
         Catch(Exception ex){
+            System.debug(' Error is: '+ ex.getMessage() + ' at line '+ ex.getLineNumber());
             TelosTouchSF__TT_Log__c logObj = new TelosTouchSF__TT_Log__c();
             List<TelosTouchSF__TT_Log__c>  createListOfLog = new List<TelosTouchSF__TT_Log__c>();
             Boolean showLogs = TelosTouchSF.TT_FeatureSettingsController.getFinestLogValue();

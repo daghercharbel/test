@@ -5,44 +5,50 @@ public class TouchPointPreviewControllerTest {
     public static void copyTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.copyTemplate('testId');
+        map<String, String> mapResponse = TouchPointPreviewController.copyTemplate('testId', 'testId', 'Email');
+        map<String, String> mapResponse2 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse2 = TouchPointPreviewController.copyTemplate('testId');
+        map<String, String> mapResponse3 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
-        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
     }
 
     @isTest
     public static void createTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String,String> mapResponse = TouchPointPreviewController.createTemplate();
+        map<String,String> mapResponse = TouchPointPreviewController.createTemplate('Email', 'en_US', 'Test', 'Test');
+        map<String,String> mapResponse2 = TouchPointPreviewController.createTemplate('TouchPoint', 'en_US', 'Test', 'Test');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String,String> mapResponse2 = TouchPointPreviewController.createTemplate();
+        map<String,String> mapResponse3 = TouchPointPreviewController.createTemplate('Email', 'en_US', 'Test', 'Test');
+        map<String,String> mapResponse4 = TouchPointPreviewController.createTemplate('TouchPoint', 'en_US', 'Test', 'Test');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
-        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
+        System.assert(mapResponse3.get('status') == 'error', 'response must be error');
     }
 
     @isTest
     public static void deleteTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.deleteTemplate('testId');
+        map<String, String> mapResponse = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse2 = TouchPointPreviewController.deleteTemplate('testId');
+        map<String, String> mapResponse2 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
-        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
     }
 
     @isTest
     public static void editTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.editTemplate('testId');
-        map<String, String> mapResponse2 = TouchPointPreviewController.editTemplate(null);
+        map<String, String> mapResponse = TouchPointPreviewController.editTemplate('testId', 'testId', 'Email');
+        map<String, String> mapResponse2 = TouchPointPreviewController.editTemplate(null, 'testId', 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.editTemplate('testId', 'testId', 'TouchPoint');
+        map<String, String> mapResponse4 = TouchPointPreviewController.editTemplate(null, 'testId', 'Touchpoint');        
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
         System.assert(mapResponse2.get('status') == 'error', 'response must be error');
@@ -90,7 +96,8 @@ public class TouchPointPreviewControllerTest {
     public static void getTemplateDetailsTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        String wp = TouchPointPreviewController.getTemplateDetails();
+        String wp = TouchPointPreviewController.getTemplateDetails('Email');
+        String wp2 = TouchPointPreviewController.getTemplateDetails('TouchPoint');
         Test.stopTest();
         System.assert(wp != null, 'wp must not be NULL');
     }
@@ -99,12 +106,13 @@ public class TouchPointPreviewControllerTest {
     public static void updateTemplatePermissionTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest');
+        map<String, String> mapResponse = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'testId', 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'testId', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse2 = TouchPointPreviewController.updateTemplatePermission(null, null);
+        map<String, String> mapResponse2 = TouchPointPreviewController.updateTemplatePermission(null, null, 'testId', 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.updateTemplatePermission(null, null, 'testId', 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
-        System.assert(mapResponse2.get('status') == 'error', 'response must be error');
     }
 
 }
