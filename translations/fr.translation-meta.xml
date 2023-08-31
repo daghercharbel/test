@@ -1868,6 +1868,14 @@
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
+    <customLabels>
+        <label>Mes e-mails</label>
+        <name>My_Emails</name>
+    </customLabels>
+    <customLabels>
+        <label>Point de contact</label>
+        <name>TouchPoint_Text</name>
+    </customLabels>
     <customTabs>
         <label><!-- Branding -->
         </label>

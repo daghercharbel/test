@@ -3174,4 +3174,18 @@
         <shortDescription>Sync Label</shortDescription>
         <value>Sync</value>
     </labels>
+    <labels>
+        <fullName>My_Emails</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>My Emails</shortDescription>
+        <value>My Emails</value>
+    </labels>
+    <labels>
+        <fullName>TouchPoint_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TouchPoint Text</shortDescription>
+        <value>TouchPoint</value>
+    </labels>
 </CustomLabels>

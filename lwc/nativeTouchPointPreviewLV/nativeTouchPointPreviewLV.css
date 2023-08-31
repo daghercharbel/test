@@ -212,10 +212,6 @@
     --slds-c-badge-icon-color-foreground: #ffffff;
 }
 
-.slds-badge__icon_left {
-    margin-right: 0px !important;
-}
-
 .tooltip {
     position: relative;
 }
@@ -274,4 +270,11 @@
 .tooltip .tooltip-drop.tooltip-top:before {
     top: 100%;
     transform: translate(-50%, 0);
+}
+
+.tp-icon {
+    --sds-c-badge-color-background: #f6ffed;
+    --slds-c-badge-icon-color-foreground: #52c41a;
+    border: #52c41a 1px solid;
+    float: right;
 }

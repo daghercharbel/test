@@ -6,32 +6,21 @@
 public with sharing class TouchPointPreviewController {
     private static final TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
     private static final TelosTouchSF__TT_Authentication_Credential__mdt authenticationCredential = TelosTouchSF.TelosTouchUtility.getAuthenticationCustomMetadata();
-   
-    /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @param templateId stores the touchpoint template Id
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
-    public static map<String, String> copyTemplate(String templateId){
-        
+    public static map<String, String> copyTemplate(String templateId, String emailId, String libraryType){
+
         map<String, String> mapResult = new map<String, String>();
-
         try {
-            
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId+'/copy';
-
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            String templateEndpoint = '/api/v1/touchpoint/templateGraph/' + templateId;
+            String emailEndpoint = '/api/v1/templates/' + emailId;
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint) +'/copy';
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
             mapHeader.put('Content-Type', 'application/json');
             mapHeader.put('Accept', 'application/json');
-
             Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('PUT', endPointURL, mapHeader, null);
-
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 return mapResult;
@@ -39,45 +28,47 @@ public with sharing class TouchPointPreviewController {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
-
         }
     }
- /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
-    public static map<String, String> createTemplate() {
+    public static map<String, String> createTemplate(String libraryType, String lang, String emailName, String emailSub) {
 
         map<String, String> mapResult = new map<String, String>();
         Id userId;
         try {
-            
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
             userId = aUser.Id;
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph';
-
+            String templateEndpoint = '/api/v1/touchpoint/templateGraph';
+            String emailEndpoint = '/api/v1/admin/template/email';
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint);
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
             mapHeader.put('Content-Type', 'application/json');
             mapHeader.put('Accept', 'application/json');
+            Map<String, String> bodyMap = new Map<String, String>();
+            bodyMap.put('language', lang);
+            bodyMap.put('name', emailName);
+            bodyMap.put('subject', emailSub);
 
-            Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('POST', endPointURL, mapHeader, null);
-
+            Map<String, String> mapResponse = new Map<String, String>();
+            if(libraryType.toLowerCase() == 'touchpoint'){
+                mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('POST', endPointURL, mapHeader, null);
+            }else{
+                mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('POST', endPointURL, mapHeader, JSON.serialize(bodyMap));
+            }
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 String responseBody = mapResponse.get('body');
-                map<String,Object> mapResponseBody = (map<String,Object>)JSON.deserializeUntyped(responseBody);
-                String templateId = (String)mapResponseBody.get('id');
-                String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
+                String templateId = responseBody.substringBetween('"id": "', '",');
+                String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim();
+                String tempIFrame = '/app/v1/#/experience-panel-sf/touchpoint/';
+                String emailIFrame = '/app/v1/#/admin/email/edit/';
+                iframeUrl += (libraryType.toLowerCase() == 'touchpoint' ? tempIFrame : emailIFrame) + templateId +'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
                 mapResult.put('value', iframeUrl);
                 return mapResult;
             } else {
@@ -85,38 +76,27 @@ public with sharing class TouchPointPreviewController {
             }
 
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'createNewTemplate', userId);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
         }
     }
-/**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @param templateId stores the touchpoint template Id
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
-    public static map<String, String> deleteTemplate(String templateId){
-        
+    public static map<String, String> deleteTemplate(String templateId, String emailId, String libraryType){
+
         map<String, String> mapResult = new map<String, String>();
-
         try {
-            
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId;
-
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            String templateEndpoint = '/api/v1/touchpoint/templateGraph/' + templateId;
+            String emailEndpoint = '/api/v1/templates/' + emailId;
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint);
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
             mapHeader.put('Content-Type', 'application/json');
             mapHeader.put('Accept', 'application/json');
-
             Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('DELETE', endPointURL, mapHeader, null);
-
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 return mapResult;
@@ -124,52 +104,33 @@ public with sharing class TouchPointPreviewController {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
-
         }
     }
-    /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @param templateId stores the touchpoint template Id
-* @return map<String, String> ....
-*/
-    @AuraEnabled
-    public static map<String, String> editTemplate(String templateId){
 
+    @AuraEnabled
+    public static map<String, String> editTemplate(String templateId, String emailId, String libraryType){
         map<String, String> mapResult = new map<String, String>();
         try {
-            
-            if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
-
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-
-            String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/app/v1/#/experience-panel-sf/touchpoint/'+templateId+'?fullscreen=true&access_token='+aUser.TelosTouchSF__Auth_Token__c+'&lang=en_US';
-
+            // if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            String templateEndpoint = '/app/v1/#/experience-panel-sf/touchpoint/' + templateId;
+            String emailEndpoint = '/app/v1/#/admin/email/edit/' + emailId;
+            String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint) + '?fullscreen=true&access_token=' + aUser.TelosTouchSF__Auth_Token__c + '&lang=en_US';
             mapResult.put('status', 'success');
             mapResult.put('value', iframeUrl);
-
             return mapResult;
-
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'editTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
         }
     }
- /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
     public static map<String, String> getIFrameDetails() {
         try {
@@ -189,38 +150,24 @@ public with sharing class TouchPointPreviewController {
             return null;
         }
     }
- /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
     public static map<String,String> getSharableUsers(){
         map<String, String> mapResult = new map<String, String>();
         try {
-
             list<User> lstUser = [SELECT Id, Name, TelosTouchSF__TT_UserId__c
                                   FROM User WHERE TelosTouchSF__TT_UserId__c != null AND Id !=: UserInfo.getUserId() WITH SECURITY_ENFORCED];
             mapResult.put('status', 'success');
             mapResult.put('value', JSON.serialize(lstUser));
             return mapResult; 
-
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'getSharableUsers', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
-
         }
     }
-         /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return String ....
-*/
+    
     @AuraEnabled
     public static String getSystemInfo() {
         try {
@@ -239,14 +186,9 @@ public with sharing class TouchPointPreviewController {
             return null;
         }
     }
-       /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return String ....
-*/
+    
     @AuraEnabled
-    public static String getTemplateDetails() {
+    public static String getTemplateDetails(String libraryType) {
         String methodType = 'GET';
         List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
         User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
@@ -264,21 +206,18 @@ public with sharing class TouchPointPreviewController {
         TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
         if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
             string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D';
-            endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=false';
-            endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=true';
-            endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=false&is_shared=false';
+            string aEndpoint1 = '/api/v1/templates?skip=0&search=&&sort=[%7B%22modified_at%22:+%22DESC%22%7D]&type=email';
+            endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1) +'&is_private=true&is_shared=false';
+            endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=true&is_shared=true';
+            endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=false&is_shared=false';
         }
-        
+
         map<String, Map<String, String>> mapResponses = new map<String, Map<String, String>>();
         mapResponses.put('private', TelosTouchUtility.getResponse(methodType, endpointPrivate, headersMap, null));
         mapResponses.put('shared', TelosTouchUtility.getResponse(methodType, endpointShared, headersMap, null));
         mapResponses.put('public', TelosTouchUtility.getResponse(methodType, endpointPublic, headersMap, null));
-
-
         for (String key : mapResponses.keySet()) {
-            
             map<String, String> getResponseMap = mapResponses.get(key);
-
             if (getResponseMap.get('status_code') == '200') {
                 String resbody = getResponseMap.get('body');
                 List<Object> templateList = new List<Object>();
@@ -286,24 +225,47 @@ public with sharing class TouchPointPreviewController {
                 templateList = (List<Object>) JSON.deserializeUntyped(resbody);
                 for (Object tempObj : templateList) {
                     Map<String, Object> templateMap = (Map<String, Object>) tempObj;
-                    templateMap.put(
+                    
+                    if(libraryType.toLowerCase() == 'touchpoint'){
+                        templateMap.put(
                         'imageURL',
                         (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
                                   '/api/v1/attachments/' +
                                   templateMap.get('image_id'))
-                    );
-                    JSONParser parser = JSON.createParser(
-                        '{"t":"' +
-                        String.valueOf(templateMap.get('updated_at')) +
-                        '"}'
-                    );
-                    parser.nextToken();
-                    parser.nextValue();
-                    DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
-                    templateMap.put(
-                        'modified_at',
-                        (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
-                    );
+                        );
+                        JSONParser parser = JSON.createParser(
+                            '{"t":"' +
+                            String.valueOf(templateMap.get('updated_at')) +
+                            '"}'
+                        );
+                        parser.nextToken();
+                        parser.nextValue();
+                        DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
+                        templateMap.put(
+                            'modified_at',
+                            (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
+                        );
+                    }else{
+                        templateMap.put(
+                        'imageURL',
+                        (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
+                                  '/api/v1/attachments/' +
+                                  templateMap.get('id'))
+                        );
+                        
+                        JSONParser parser = JSON.createParser(
+                            '{"t":"' +
+                            String.valueOf(templateMap.get('modified_at')) +
+                            '"}'
+                        );
+                        parser.nextToken();
+                        parser.nextValue();
+                        DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
+                        templateMap.put(
+                            'modified_at',
+                            (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
+                        );
+                    }
                     templateObjects.add((Object) templateMap);
                 }
                 mapTemplates.put(key, templateObjects);
@@ -333,32 +295,21 @@ public with sharing class TouchPointPreviewController {
         }
         return null;
     }
- /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @param templateId stores the touchpoint template Id
-* @param requestBody stores the touchpoint template Id
-* @return map<String, String> ....
-*/
+
     @AuraEnabled
-    public static map<String,String> updateTemplatePermission(String templateId, String requestBody){
+    public static map<String,String> updateTemplatePermission(String templateId, String requestBody, String emailTempId, String libraryType){
 
         map<String, String> mapResult = new map<String, String>();
-
         try {
-            
-            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
-
-            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/touchpoint/templateGraph/'+templateId+'/permissions';
-
+            User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+            String templateEndpoint = '/api/v1/touchpoint/templateGraph/'+templateId+'/permissions';
+            String emailEndpoint = '/api/v1/templates/'+emailTempId+'/permissions';
+            String endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + ((libraryType.toLowerCase() == 'touchpoint') ? templateEndpoint : emailEndpoint);
             Map<String, String> mapHeader = new Map<String, String>();
             mapHeader.put('Authorization','Bearer ' +aUser.TelosTouchSF__Auth_Token__c);
             mapHeader.put('Content-Type', 'application/json');
             mapHeader.put('Accept', 'application/json');
-
             Map<String, String> mapResponse = TelosTouchSF.TelosTouchUtility.getResponse('PUT', endPointURL, mapHeader, requestBody);
-
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 return mapResult;
@@ -366,21 +317,19 @@ public with sharing class TouchPointPreviewController {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
         } catch (Exception ex) {
-
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
-
         }
     }
-    
- /**
-* @author Cloud Analogy
-* @date 02/08/2021
-* @description ...
-* @return Boolean ....
-*/
+
+    /**
+    * @author Cloud Analogy
+    * @date 02/08/2021
+    * @description ...
+    * @return Boolean ....
+    */
     @AuraEnabled
     public static Boolean checkIfUserHaveCreationAcess(){
         try {
@@ -399,6 +348,5 @@ public with sharing class TouchPointPreviewController {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
-    }
-    
+    }    
 }

@@ -27,6 +27,14 @@
                         options={statusOptions} onchange={handleFilterChange}>
                     </lightning-combobox>
                 </lightning-layout-item>
+                <!-- TYPE FILTER -->
+                <template if:true={isEmailLibrary}>
+                    <lightning-layout-item padding="around-small">
+                        <lightning-combobox label="Type" value={selectedType} data-id="templateFilter"
+                            options={typeOptions} onchange={handleTypeChange}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </template>
                 <!-- SORT BY FILTER -->
                 <lightning-layout-item padding="around-small">
                     <lightning-combobox label={label.Order_by_Label} value={selectedSort} data-id="templateFilter"
@@ -70,9 +78,13 @@
                                 <!-- IMAGE AND DESCRIPTION -->
                                 <div class="card-clickable" data-id={template.id} onclick={handleEditTemplate}>
                                     <div class="imgStyleCard" style={template.ImgStyle}>
-                                        <lightning-badge label={template.statusLabel} class={template.statusCSS}
-                                            title={template.statusDescription}>
-                                        </lightning-badge>
+                                        <div>
+                                            <lightning-badge label={template.statusLabel} class={template.statusCSS}
+                                                title={template.statusDescription}> </lightning-badge>
+                                            <lightning-badge if:true={template.showTpReady} label=""
+                                                icon-name="utility:tour"
+                                                class="tp-icon slds-var-m-right_xx-small slds-var-m-top_xx-small"></lightning-badge>
+                                        </div>
                                     </div>
                                     <div class="tooltip">
                                         <div if:false={fr} class="tpName">{template.name}</div>
@@ -156,7 +168,6 @@
 
             <!-- EMPTY LIST -->
             <div if:true={NoData} class="noDataStyle">
-
                 <!-- CREATE NEW -->
                 <template if:true={creationEnabled}>
                     <div
@@ -172,11 +183,9 @@
                         </div>
                     </div>
                 </template>
-
                 <template if:false={creationEnabled}>
                     <span>{label.NO_DATA_TEXT}</span>
                 </template>
-
             </div>
 
             <!-- PERMISSION POPUP -->
@@ -252,6 +261,38 @@
                 <iframe src={iframeURL} class="iframe-style"></iframe>
             </div>
 
+        </template>
+        <template if:true={showEmailBuilder}>
+            <div class="custom-modal">
+                <section role="dialog" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <span class="slds-modal__close">
+                                <lightning-icon icon-name="utility:close" variant="inverse" size="small"
+                                    alternative-text="close" onclick={closeEmailBuilder}></lightning-icon>
+                            </span>
+                            <h2 class="slds-text-heading_medium slds-hyphenate">Email Builder</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning-input type="text" variant="standard" label="Email name"
+                                placeholder="type email template name..." onchange={handleEmailBuilder}
+                                data-id="emailName"></lightning-input>
+                            <lightning-input type="text" variant="standard" label="Subject"
+                                placeholder="type email subject name..." onchange={handleEmailBuilder}
+                                data-id="emailSub"></lightning-input>
+                            <lightning-combobox label="Language" value={emailLanguage} options={emailLanguageOptions}
+                                onchange={handleEmailBuilder} data-id="emailLang"></lightning-combobox>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+                                onclick={closeEmailBuilder}></lightning-button>
+                            <lightning-button variant="brand" label="Save" title="Save"
+                                onclick={saveEmailTemplate}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
         </template>
 
     </lightning-card>
