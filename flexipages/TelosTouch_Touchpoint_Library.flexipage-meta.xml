@@ -3,6 +3,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>libraryType</name>
+                    <value>TouchPoint</value>
+                </componentInstanceProperties>
                 <componentName>nativeTouchPointPreviewLV</componentName>
                 <identifier>TelosTouchSF_nativeTouchPointPreviewLV</identifier>
             </componentInstance>
