@@ -130,14 +130,12 @@
                 </aura:if>
                 <aura:set attribute="else">
                     <lightning:layoutItem size="12" alignmentBump="right">
-                        <aura:if isTrue="{!v.isTouchpoint}">
-                            <aura:if isTrue="{!v.showSyncCampaign}">
-                                <div class="slds-float--left">
-                                    <lightning:button variant="brand" label="{!v.syncLabel}" title="{!v.syncLabel}"
-                                        iconName="utility:refresh" disabled="{!v.disableCampaignSync}"
-                                        onclick="{!c.handleSyncRequest}" />
-                                </div>
-                            </aura:if>
+                        <aura:if isTrue="{!v.showSyncCampaign}">
+                            <div class="slds-float--left">
+                                <lightning:button variant="brand" label="{!v.syncLabel}" title="{!v.syncLabel}"
+                                    iconName="utility:refresh" disabled="{!v.disableCampaignSync}"
+                                    onclick="{!c.handleSyncRequest}" />
+                            </div>
                         </aura:if>
                         <div class="slds-float--right">
                             <aura:if isTrue="{!v.showClientTaggingBtn}">

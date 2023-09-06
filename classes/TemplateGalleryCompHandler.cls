@@ -168,7 +168,7 @@ public with sharing class TemplateGalleryCompHandler {
         if(campaignType == 'touchpoint'){
 
             if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
-                string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D';
+                string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D&is_tp_ready=true';
                 endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=false';
                 endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=true';
                 endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=false&is_shared=false';
@@ -180,7 +180,7 @@ public with sharing class TemplateGalleryCompHandler {
         } else {
             if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
                 String url = adminCredentials.TelosTouchSF__Instance_URL__c
-                +'/api/v1/templates?type=email&sort=[{"modified_at":"DESC"},{"id":"DESC"}]';
+                +'/api/v1/templates?type=email&sort=[{"modified_at":"DESC"},{"id":"DESC"}]&is_tp_ready=false';
                 endpointPrivate = url+'&is_private=true&is_shared=false';
                 endpointShared = url+'&is_private=true&is_shared=true';
                 endpointPublic = url+'&is_private=false&is_shared=false';

@@ -96,6 +96,8 @@ public with sharing class TTCampaignTickerController {
         map<String, String> mapResult = new map<String, String>();
 
         try {
+
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE TelosTouchSF__TT_Campaign_Id__c =: campTTId];
             
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c 
                           FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
@@ -105,6 +107,7 @@ public with sharing class TTCampaignTickerController {
 
             if(templateType == 'email'){
                 iFrameURL += '/app/v1/#/email/'+templateId+'/campaign/'+campTTId+'/customize-sf?fullscreen=true&access_token='+userToken;
+                iFrameURL += '&campaignType='+camp.TelosTouchSF__Type__c;
             } else {
                 iFrameURL += '/app/v1/#/touchpoint/'+templateId+'/campaign/'+campTTId+'/customize-sf?fullscreen=true&access_token='+userToken;
             }
