@@ -10,7 +10,7 @@
     </values>
     <values>
         <field>SF_Flag__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>ShowClientTagging__c</field>

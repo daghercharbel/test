@@ -62,6 +62,10 @@
     height: 238px
 }
 
+.createNewCardEmail {
+    height: 338px
+}
+
 .previewText {
     font-size: 17px;
     margin-left: 10px;
@@ -93,6 +97,13 @@
 
 .imgStyleCard {
     height: 122px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.imgStyleCardEmail{
+    height: 223px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

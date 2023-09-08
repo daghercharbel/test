@@ -6,11 +6,11 @@
     <protected>true</protected>
     <values>
         <field>Additional_Parameter__c</field>
-        <value xsi:type="xsd:string">3</value>
+        <value xsi:type="xsd:string">2</value>
     </values>
     <values>
         <field>SF_Flag__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>ShowClientTagging__c</field>

@@ -3,6 +3,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import LANG from '@salesforce/i18n/lang';
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
+import { handleRequest } from 'c/ttCallout';
 
 //Apex Methods
 import copyTemplate from '@salesforce/apex/TouchPointPreviewController.copyTemplate';
@@ -89,11 +90,14 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         TOUCHPOINTPREVIEW_BACKTOTEMPLATES
     };
 
+    cardClass = '';
+    createNewCardClass = '';
     builderTemplateId;
     creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
     filterName = '';
+    instanceUrl = '';
     fr = false;
     iframeURL = '';
     isAdmin = false;
@@ -217,6 +221,13 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     }
 
     connectedCallback() {
+        if (this.libraryType.toLowerCase() == 'email') {
+            this.cardClass = 'imgStyleCardEmail';
+            this.createNewCardClass = 'createNewCardEmail slds-align_absolute-center';
+        } else {
+            this.cardClass = 'imgStyleCard';
+            this.createNewCardClass = 'createNewCard slds-align_absolute-center';
+        }
         this.showSpinner = true;
         loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
         window.addEventListener('resize', this.updateRecordSize);
@@ -279,9 +290,35 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 let mapTemplates = JSON.parse(result);
                 Object.keys(mapTemplates).forEach(key => {
                     mapTemplates[key].forEach(ele => {
-
                         ele.ImgStyle = "background-image: url(" + ele.imageURL + ")";
-
+                        if (this.libraryType.toLowerCase() == 'email') {
+                            let method = 'GET';
+                            let endpoint = '/api/v1/template/email/thumbnail/' + ele.id;
+                            let invoker = {
+                                'className': 'nativeTouchPointPreviewLV',
+                                'classMethod': 'getTemplates',
+                                'recordId': ''
+                            };
+                            let eleObj = ele;
+                            handleRequest(method, endpoint, null, invoker)
+                                .then(result => {
+                                    if (result.status) {
+                                        eleObj.ImgStyle = `background-image: url(${eleObj.url}/api/v1/attachments/${result.body})`;
+                                    } else {
+                                        console.error('nativeTouchPointPreviewLV 1: ', result.status_code + ': ' + result.body);
+                                    }
+                                })
+                                .catch(error => {
+                                    let errorStr = '';
+                                    if (typeof error == 'object' && error.message) {
+                                        if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                                        errorStr += error.message
+                                    } else {
+                                        errorStr = error;
+                                    }
+                                    console.error('nativeTouchPointPreviewLV 2: ', errorStr);
+                                });
+                        }
                         if (key == 'private' && ele.status.toLowerCase() == 'published' && this.isAdmin) {
                             ele.showPermissionBtn = true;
                             ele = this.setTemplatePermission(ele);
@@ -308,7 +345,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 this.updateRecords();
             })
             .catch(error => {
-                console.error("getTemplateDetails error: " + error);
+                console.error("getTemplateDetails error: " + error.message);
             })
             .finally(() => {
                 this.showSpinner = false;

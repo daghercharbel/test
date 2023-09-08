@@ -218,6 +218,7 @@ public with sharing class TouchPointPreviewController {
         mapResponses.put('public', TelosTouchUtility.getResponse(methodType, endpointPublic, headersMap, null));
         for (String key : mapResponses.keySet()) {
             map<String, String> getResponseMap = mapResponses.get(key);
+            
             if (getResponseMap.get('status_code') == '200') {
                 String resbody = getResponseMap.get('body');
                 List<Object> templateList = new List<Object>();
@@ -265,6 +266,7 @@ public with sharing class TouchPointPreviewController {
                             'modified_at',
                             (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
                         );
+                        templateMap.put('url',  (Object) adminCredentials.TelosTouchSF__Instance_URL__c);
                     }
                     templateObjects.add((Object) templateMap);
                 }

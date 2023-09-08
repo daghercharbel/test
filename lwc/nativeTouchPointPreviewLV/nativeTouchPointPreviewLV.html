@@ -59,7 +59,7 @@
                         <div
                             class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
                             <div class="imgCard" onclick={handleCreateTemplate}>
-                                <div class="createNewCard slds-align_absolute-center">
+                                <div class={createNewCardClass}>
                                     <div>
                                         <lightning-icon class="slds-align_absolute-center" icon-name="utility:add"
                                             size="large"></lightning-icon>
@@ -77,7 +77,7 @@
                             <div class="slds-text-align_center imgCard card-hoverable">
                                 <!-- IMAGE AND DESCRIPTION -->
                                 <div class="card-clickable" data-id={template.id} onclick={handleEditTemplate}>
-                                    <div class="imgStyleCard" style={template.ImgStyle}>
+                                    <div class={cardClass} style={template.ImgStyle}>
                                         <div>
                                             <lightning-badge label={template.statusLabel} class={template.statusCSS}
                                                 title={template.statusDescription}> </lightning-badge>
@@ -173,7 +173,7 @@
                     <div
                         class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
                         <div class="imgCard" onclick={handleCreateTemplate}>
-                            <div class="createNewCard slds-align_absolute-center">
+                            <div class={createNewCardClass}>
                                 <div>
                                     <lightning-icon class="slds-align_absolute-center" icon-name="utility:add"
                                         size="large"></lightning-icon>

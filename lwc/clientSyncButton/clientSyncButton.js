@@ -23,52 +23,52 @@ export default class ClientSyncButton extends LightningElement {
     formattedTime = '00:00';
     showSpinner = false;
 
-    connectedCallback(){
+    connectedCallback() {
         this.labelName = this.labelName + ' ' + (this.objectApiName === 'Contact' ? this.label.Contact_Label : this.label.Lead_Label);
         this.fetchMetadata();
         this.getRecordInformation();
     }
-    fetchMetadata(){
-        getFeatureMetadataBasedOnId({recordId: this.recordId})
-        .then(result => {
-            if (result.status == 'success') {
-                let response = JSON.parse(result.value);
-                this.showButton = response.TelosTouchSF__SF_Flag__c;
-                this.minTime = response.TelosTouchSF__Additional_Parameter__c;
-                this.initializeTimer();
-            }
-        })
-        .catch(error => {
-        });
+    fetchMetadata() {
+        getFeatureMetadataBasedOnId({ recordId: this.recordId })
+            .then(result => {
+                if (result.status == 'success') {
+                    let response = JSON.parse(result.value);
+                    this.showButton = response.TelosTouchSF__SF_Flag__c;
+                    this.minTime = response.TelosTouchSF__Additional_Parameter__c;
+                    this.initializeTimer();
+                }
+            })
+            .catch(error => {
+            });
     }
-    getRecordInformation(){
-        getRecordInfo({recordId: this.recordId})
-        .then(result => {
-            let resp = JSON.parse(result)[0];
-            this.isDisable = !resp.TelosTouchSF__TT_Conflict__c && resp.Email && resp.CreatedBy.TelosTouchSF__TT_UserId__c ? false : true;
-        })
-        .catch(error => {
-        });
+    getRecordInformation() {
+        getRecordInfo({ recordId: this.recordId })
+            .then(result => {
+                let resp = JSON.parse(result)[0];
+                this.isDisable = !resp.TelosTouchSF__TT_Conflict__c && resp.Email && resp.CreatedBy.TelosTouchSF__TT_UserId__c ? false : true;
+            })
+            .catch(error => {
+            });
     }
-    initializeTimer(){
-        this.seconds = parseInt(this.minTime) * 60; 
+    initializeTimer() {
+        this.seconds = parseInt(this.minTime) * 60;
     }
-    handleClick(){
+    handleClick() {
         this.showSpinner = true;
-        syncRecordBasedOnRecId({recordId : this.recordId})
-        .then( result => {
-            this.isDisable = result;
-        })
-        .catch( error => {
-        })
-        .finally(() => {
-            updateRecord({ fields: { Id: this.recordId }});
-            this.isDisable = true;
-            this.startTimer();
-        });
+        syncRecordBasedOnRecId({ recordId: this.recordId })
+            .then(result => {
+                this.isDisable = result;
+            })
+            .catch(error => {
+            })
+            .finally(() => {
+                updateRecord({ fields: { Id: this.recordId } });
+                this.isDisable = true;
+                this.startTimer();
+            });
     }
 
-    startTimer(){
+    startTimer() {
         this.intervalId = setInterval(() => {
             this.seconds--;
             this.updateTime();
@@ -93,7 +93,7 @@ export default class ClientSyncButton extends LightningElement {
     formatNumber(number) {
         return number < 10 ? `0${number}` : `${number}`;
     }
-    
+
     disconnectedCallback() {
         clearInterval(this.intervalId);
     }

@@ -9,19 +9,18 @@ var requestMethod;
 export async function handleRequest(method, endpoint, body, invoker) {
 
     requestBody = body;
-    requestEndpoint = endpoint;
+    // requestEndpoint = endpoint;
     requestHeader = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     };
     requestMethod = method;
-
     try {
         const result = await getCalloutInfo();
         if (result.status == 'success') {
             let data = JSON.parse(result.value);
             requestHeader.Authorization = 'Bearer ' + data.token;
-            requestEndpoint = data.domain + requestEndpoint;
+            requestEndpoint = data.domain + endpoint;
             const makeRequestResponse = await makeRequest();
             generateLog(makeRequestResponse, invoker);
             return makeRequestResponse;
