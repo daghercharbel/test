@@ -33,7 +33,7 @@
                             class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
                             <div data-id={each.id} class="slds-text-align_center imgCard"
                                 onclick={openSelectedTemplatePreview}>
-                                <div class="imgStyleCard" style={each.imageURL}>
+                                <div class={each.cardStyle} style={each.imageURL}>
                                     <lightning-badge label={each.statusLabel} class={each.statusCSS}
                                         title={each.statusDescription}>
                                     </lightning-badge>

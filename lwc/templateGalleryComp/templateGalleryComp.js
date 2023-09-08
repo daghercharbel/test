@@ -1,5 +1,6 @@
 /* eslint-disable eqeqeq */
 import { api, LightningElement, track } from "lwc";
+import { handleRequest } from 'c/ttCallout';
 import LANG from "@salesforce/i18n/lang";
 import { loadStyle } from "lightning/platformResourceLoader";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
@@ -196,15 +197,54 @@ export default class TemplateGalleryComp extends LightningElement {
                 if (data) {
 
                     let mapTemplates = JSON.parse(data);
-                    
+
                     Object.keys(mapTemplates).forEach(key => {
                         for (let x of mapTemplates[key]) {
+
                             if (x.Description) {
                                 x.isDescriptionNull = false;
                             } else {
                                 x.isDescriptionNull = true;
                             }
                             x = this.setTemplateBagdeColor(x);
+
+                            if(this.campaignType == 'email'){
+                                x.cardStyle = 'imgStyleCard_Email';
+                            } else {
+                                x.cardStyle = 'imgStyleCard';
+                            }
+
+                            if(this.campaignType != 'email'){ continue; }
+                            let method = 'GET';
+                            let endpoint = '/api/v1/template/email/thumbnail/' + x.id;
+                            let invoker = {
+                                'className': 'templateGalleryComp',
+                                'classMethod': 'getTemplates',
+                                'recordId': ''
+                            };
+                            let eleObj = x;
+                            handleRequest(method, endpoint, null, invoker)
+                                .then(result => {
+                                    console.log('result: ', JSON.stringify(result));
+                                    console.log('result.status: ', result.status);
+                                    if (result.status) {
+                                        console.log('result.body: ', result.body);
+                                        eleObj.imageURL = eleObj.imageURL.replace('{image_id}', result.body);
+                                    } else {
+                                        console.error('templateGalleryComp 1: ', result.status_code + ': ' + result.body);
+                                    }
+                                })
+                                .catch(error => {
+                                    let errorStr = '';
+                                    if (typeof error == 'object' && error.message) {
+                                        if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                                        errorStr += error.message
+                                    } else {
+                                        errorStr = error;
+                                    }
+                                    console.error('templateGalleryComp 2: ', errorStr);
+                                });
+                            
                         }
                     });
 
@@ -227,6 +267,7 @@ export default class TemplateGalleryComp extends LightningElement {
                 this.showDataBasedOnPrivate();
                 this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
                 this.updateRecords();
+
             })
             .catch((error) => {
                 this.isSpinner = false;

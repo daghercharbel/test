@@ -2,11 +2,11 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Update_type_after_Send</fullName>
     <active>true</active>
-    <description>Validation rule to block the update of the campaign type once it has been sent.</description>
+    <description>Validation rule to block the update of the campaign type once it has been synced.</description>
     <errorConditionFormula>AND(
 				ISCHANGED(Type__c),
 				NOT(ISBLANK(TT_Campaign_Id__c))
 )</errorConditionFormula>
     <errorDisplayField>Type__c</errorDisplayField>
-    <errorMessage>Type can&apos;t be updated after sending the campaign.</errorMessage>
+    <errorMessage>Type can&apos;t be updated after the campaign has been synced.</errorMessage>
 </ValidationRule>

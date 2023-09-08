@@ -17,6 +17,13 @@
   background-position: center;
 }
 
+.imgStyleCard_Email {
+  height: 206px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .noDataStyle {
   height: 418px;
   text-align: center;

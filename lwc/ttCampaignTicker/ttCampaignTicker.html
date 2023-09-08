@@ -35,10 +35,15 @@
 
                         <!-- HAS NO TOUCHPOINT TEMPLATE -->
                         <template if:false={campInfo.touchpoint}>
-                            <a href="javascript:void(0)" data-type="touchpoint" class="slds-p-left_xx-small"
-                                onclick={openTemplateGallery}>
+                            <template if:true={enableEditing}>
+                                <a href="javascript:void(0)" data-type="touchpoint" class="slds-p-left_xx-small"
+                                    onclick={openTemplateGallery}>
+                                    {label.Choose_a_TouchPoint_Text}
+                                </a>
+                            </template>
+                            <template if:false={enableEditing}>
                                 {label.Choose_a_TouchPoint_Text}
-                            </a>
+                            </template>
                         </template>
 
                         <!-- HAS TOUCHPOINT TEMPLATE -->
@@ -77,10 +82,15 @@
                                 {email.langLabel}:&nbsp;
                                 <!-- HAS NO EMAIL TEMPLATE -->
                                 <template if:false={email.name}>
-                                    <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
-                                        data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateGallery}>
+                                    <template if:true={enableEditing}>
+                                        <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
+                                            data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateGallery}>
+                                            {label.Choose_a_Template}
+                                        </a>
+                                    </template>
+                                    <template if:false={enableEditing}>
                                         {label.Choose_a_Template}
-                                    </a>
+                                    </template>
                                 </template>
                                 <!-- HAS EMAIL TEMPLATE -->
                                 <template if:true={email.name}>

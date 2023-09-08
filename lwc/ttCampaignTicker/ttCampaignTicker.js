@@ -115,46 +115,37 @@ export default class TtCampaignTicker extends LightningElement {
             'classMethod': 'createTTCampId',
             'recordId': this.recordId
         };
-
-        getCalloutInfo()
+        
+        handleRequest(method, endpoint, JSON.stringify(body), invoker)
             .then(result => {
-                if (result.status == 'success') {
-                    let data = JSON.parse(result.value);
-                    handleRequest(method, endpoint, JSON.stringify(body), invoker)
-                        .then(result => {
-                            if (result.status) {
+                if (result.status) {
 
-                                let response = result.body;
-                                this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c = response.id;
+                    let response = result.body;
+                    this.campaignDataSF.TelosTouchSF__TT_Campaign_Id__c = response.id;
 
-                                const fields = {};
-                                fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
-                                fields[CAMP_TT_ID.fieldApiName] = response.id;
+                    const fields = {};
+                    fields[CAMP_ID_FIELD.fieldApiName] = this.recordId;
+                    fields[CAMP_TT_ID.fieldApiName] = response.id;
 
-                                const campRecord = { fields };
-                                this.updateCampaign(campRecord);
+                    const campRecord = { fields };
+                    this.updateCampaign(campRecord);
+                    this.getTTCampaignData();
 
-                            } else {
-                                console.error('ttCampaignTicker 3: ', result.status_code + ': ' + result.body);
-                            }
-                        })
-                        .catch(error => {
-
-                            let errorStr = '';
-                            if (typeof error == 'object' && error.message) {
-                                if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
-                                errorStr += error.message
-                            } else {
-                                errorStr = error;
-                            }
-                            console.error('ttCampaignTicker 4: ', errorStr);
-                        })
-                        .finally(final => {
-                            this.isLoading = false;
-                        });
+                } else {
+                    console.error('ttCampaignTicker 3: ', result.status_code + ': ' + result.body);
                 }
             })
             .catch(error => {
+
+                let errorStr = '';
+                if (typeof error == 'object' && error.message) {
+                    if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                    errorStr += error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttCampaignTicker 4: ', errorStr);
+                this.isLoading = false;
             })
     }
 
