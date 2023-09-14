@@ -74,6 +74,10 @@
                     <template for:each={visibleRecords} for:item="template">
                         <div key={template.id}
                             class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-5 slds-var-p-around_x-small">
+                            <!-- This spinner is to refresh the UI -->
+                            <template if:true={showImageSpinner}>
+                                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            </template>
                             <div class="slds-text-align_center imgCard card-hoverable">
                                 <!-- IMAGE AND DESCRIPTION -->
                                 <div class="card-clickable" data-id={template.id} onclick={handleEditTemplate}>

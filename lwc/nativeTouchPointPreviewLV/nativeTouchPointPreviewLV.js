@@ -1,9 +1,11 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import LANG from '@salesforce/i18n/lang';
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
-import { handleRequest } from 'c/ttCallout';
+import { makeRequest } from 'c/ttCallout';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { RefreshEvent } from 'lightning/refresh';
 
 //Apex Methods
 import copyTemplate from '@salesforce/apex/TouchPointPreviewController.copyTemplate';
@@ -16,6 +18,7 @@ import getSystemInfo from '@salesforce/apex/TouchPointPreviewController.getSyste
 import getTemplateDetails from '@salesforce/apex/TouchPointPreviewController.getTemplateDetails';
 import updateTemplatePermission from '@salesforce/apex/TouchPointPreviewController.updateTemplatePermission';
 import checkIfUserHaveCreationAcess from '@salesforce/apex/TouchPointPreviewController.checkIfUserHaveCreationAcess';
+import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 
 //Custom Labels
 import All_Label from '@salesforce/label/c.All_Label';
@@ -126,6 +129,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     @track showPagination = false;
     showPermission = false;
     showSpinner = false;
+    showImageSpinner = false;
     @track showTopBackButton = true;
     @track templateId = '';
     @track templateList = [];
@@ -138,6 +142,37 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     @track emailName = '';
     @track emailSubject = '';
     @track emailLanguage = 'en_US';
+    calloutInfo;
+
+    @wire(getCalloutInfo)
+    getCalloutInfoWire({ error, data }) {
+        if (data) {
+            if (data.status == 'success') {
+                this.getTemplates();
+                this.calloutInfo = JSON.parse(data.value);
+            } else {
+                this.dispatchEvent(new ShowToastEvent(
+                    {
+                        title: 'Authentication Error',
+                        message: 'User not authenticated with TelosTouch 1',
+                        variant: 'error',
+                        mode: 'dismissable'
+                    }
+                ));
+            }
+            this.showSpinner = false;
+        } else if (error) {
+            this.dispatchEvent(new ShowToastEvent(
+                {
+                    title: 'Authentication Error',
+                    message: 'User not authenticated with TelosTouch 2',
+                    variant: 'error',
+                    mode: 'dismissable'
+                }
+            ));
+            this.showSpinner = false;
+        }
+    }
 
     get disablePrevious() {
         return this.currentPage <= 1
@@ -257,9 +292,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             .catch(error => {
                 console.error('getSystemInfo error:: ', error);
             })
-            .finally(() => {
-                this.getTemplates();
-            });
 
         checkIfUserHaveCreationAcess()
             .then((data) => {
@@ -290,20 +322,29 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 let mapTemplates = JSON.parse(result);
                 Object.keys(mapTemplates).forEach(key => {
                     mapTemplates[key].forEach(ele => {
-                        ele.ImgStyle = "background-image: url(" + ele.imageURL + ")";
-                        if (this.libraryType.toLowerCase() == 'email') {
+                        if (this.libraryType.toLowerCase() == 'touchpoint') {
+                            ele.ImgStyle = "background-image: url(" + ele.imageURL + ")";
+                        } else if (this.libraryType.toLowerCase() == 'email') {
+                            ele.ImgStyle = "background-image: url(" + TelosTouch + "/loadingAnimation/Ellipsis-1.1s-200px.svg" + "); background-size: 15%;";
                             let method = 'GET';
-                            let endpoint = '/api/v1/template/email/thumbnail/' + ele.id;
+                            let endpoint = this.calloutInfo.domain + '/api/v1/template/email/thumbnail/' + ele.id;
+                            let headers = {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer ' + this.calloutInfo.token
+                            };
                             let invoker = {
                                 'className': 'nativeTouchPointPreviewLV',
                                 'classMethod': 'getTemplates',
                                 'recordId': ''
                             };
                             let eleObj = ele;
-                            handleRequest(method, endpoint, null, invoker)
+                            makeRequest(endpoint, null, headers, method, invoker)
                                 .then(result => {
                                     if (result.status) {
                                         eleObj.ImgStyle = `background-image: url(${eleObj.url}/api/v1/attachments/${result.body})`;
+                                        this.showImageSpinner = true;
+                                        this.showImageSpinner = false;
                                     } else {
                                         console.error('nativeTouchPointPreviewLV 1: ', result.status_code + ': ' + result.body);
                                     }
@@ -537,17 +578,12 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     handleEditTemplate(event) {
         this.showSpinner = true;
         let templateEmailId = event.currentTarget.dataset.id;
-
-        if (this.libraryType.toLowerCase() == 'touchpoint') {
-            this.editTemplateOrEmail(templateEmailId, '');
-        } else {
-            this.editTemplateOrEmail('', templateEmailId);
-        }
+        this.editTemplateOrEmail(templateEmailId, '');
     }
 
     editTemplateOrEmail(templateId, emailId) {
-
-        editTemplate({ templateId: templateId, emailId: emailId, libraryType: this.libraryType })
+        console.log('templateId: ', templateId);
+        editTemplate({ templateId: templateId, libraryType: this.libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.iframeURL = result.value;
@@ -855,6 +891,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         const start = (this.currentPage - 1) * this.recordSize;
         const end = this.recordSize * this.currentPage;
         this.visibleRecords = this.templateList.slice(start, end);
+        console.log('this.visibleRecords: ', JSON.parse(JSON.stringify(this.visibleRecords)));
         if (this.visibleRecords <= this.recordSize) {
             this.secondPageDisabled = true;
         } else {

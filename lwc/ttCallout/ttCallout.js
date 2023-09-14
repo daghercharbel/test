@@ -1,27 +1,19 @@
 import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 import generateAndSaveLog from '@salesforce/apex/TelosTouchUtility.generateAndSaveLog';
 
-var requestBody;
-var requestEndpoint;
-var requestHeader;
-var requestMethod;
-
 export async function handleRequest(method, endpoint, body, invoker) {
 
-    requestBody = body;
-    // requestEndpoint = endpoint;
-    requestHeader = {
+    let requestHeader = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     };
-    requestMethod = method;
     try {
         const result = await getCalloutInfo();
         if (result.status == 'success') {
             let data = JSON.parse(result.value);
             requestHeader.Authorization = 'Bearer ' + data.token;
-            requestEndpoint = data.domain + endpoint;
-            const makeRequestResponse = await makeRequest();
+            let requestEndpoint = data.domain + endpoint;
+            const makeRequestResponse = await makeRequest(requestEndpoint, body, requestHeader, method, null);
             generateLog(makeRequestResponse, invoker);
             return makeRequestResponse;
         } else {
@@ -41,7 +33,7 @@ export async function handleRequest(method, endpoint, body, invoker) {
 
 }
 
-async function makeRequest() {
+export async function makeRequest(requestEndpoint, requestBody, requestHeader, requestMethod, invoker) {
 
     let result = {};
 
@@ -54,10 +46,6 @@ async function makeRequest() {
         }
     );
 
-    requestHeader = undefined;
-    requestBody = undefined;
-    requestEndpoint = undefined;
-
     result.status = response.ok;
     result.status_code = response.status;
     let responseBody = await response.text();
@@ -65,6 +53,9 @@ async function makeRequest() {
         result.body = JSON.parse(responseBody);
     } catch (error) {
         result.body = responseBody;
+    }
+    if (invoker) {
+        generateLog(result, invoker);
     }
     return result;
 }

@@ -64,7 +64,7 @@ public with sharing class TouchPointPreviewController {
             if(mapResponse.get('status_code') == '200'){
                 mapResult.put('status', 'success');
                 String responseBody = mapResponse.get('body');
-                String templateId = responseBody.substringBetween('"id": "', '",');
+                String templateId = ((Map<String, Object>) JSON.deserializeUntyped(responseBody)).get('id').toString();
                 String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim();
                 String tempIFrame = '/app/v1/#/experience-panel-sf/touchpoint/';
                 String emailIFrame = '/app/v1/#/admin/email/edit/';
@@ -112,13 +112,13 @@ public with sharing class TouchPointPreviewController {
     }
 
     @AuraEnabled
-    public static map<String, String> editTemplate(String templateId, String emailId, String libraryType){
+    public static map<String, String> editTemplate(String templateId, String libraryType){
         map<String, String> mapResult = new map<String, String>();
         try {
             if(String.isBlank(templateId)){ throw new AuraHandledException('TemplateId Empty'); }
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             String templateEndpoint = '/app/v1/#/experience-panel-sf/touchpoint/' + templateId;
-            String emailEndpoint = '/app/v1/#/admin/email/edit/' + emailId;
+            String emailEndpoint = '/app/v1/#/admin/email/edit/' + templateId;
             String iframeUrl = adminCredentials.TelosTouchSF__Instance_URL__c.trim() + (libraryType.toLowerCase() == 'touchpoint' ? templateEndpoint : emailEndpoint) + '?fullscreen=true&access_token=' + aUser.TelosTouchSF__Auth_Token__c + '&lang=en_US';
             mapResult.put('status', 'success');
             mapResult.put('value', iframeUrl);
