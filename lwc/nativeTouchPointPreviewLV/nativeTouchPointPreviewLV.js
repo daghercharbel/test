@@ -5,7 +5,6 @@ import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
 import { makeRequest } from 'c/ttCallout';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { RefreshEvent } from 'lightning/refresh';
 
 //Apex Methods
 import copyTemplate from '@salesforce/apex/TouchPointPreviewController.copyTemplate';
