@@ -33,6 +33,9 @@
                             class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-var-p-around_x-small">
                             <div data-id={each.id} class="slds-text-align_center imgCard"
                                 onclick={openSelectedTemplatePreview}>
+                                <template if:true={isImageSpinner}>
+                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                </template>
                                 <div class={each.cardStyle} style={each.imageURL}>
                                     <lightning-badge label={each.statusLabel} class={each.statusCSS}
                                         title={each.statusDescription}>
@@ -54,6 +57,9 @@
                                 </template>
                                 <template if:true={each.isDescriptionNull}>
                                     <div class="tpDate description-null-height">{each.Description}</div>
+                                </template>
+                                <template if:true={each.langDescription}>
+                                    <div class="tpDate">{each.langDescription}</div>
                                 </template>
                                 <div class="tpDate">{each.modified_at}</div>
                             </div>

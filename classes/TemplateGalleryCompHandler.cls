@@ -141,8 +141,8 @@ public with sharing class TemplateGalleryCompHandler {
 
         String conditions = '';
 
+        Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
         if(String.isNotBlank(campId) && String.isBlank(campaignType)){
-            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
             if(camp.TelosTouchSF__Type__c == null){ camp.TelosTouchSF__Type__c = 'touchpoint'; }
             campaignType = camp.TelosTouchSF__Type__c;
         }
@@ -168,7 +168,7 @@ public with sharing class TemplateGalleryCompHandler {
         if(campaignType == 'touchpoint'){
 
             if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
-                string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D&is_tp_ready=true';
+                string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D';
                 endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=false';
                 endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=true&is_shared=true';
                 endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c+aEndpoint+'&is_private=false&is_shared=false';
@@ -179,8 +179,9 @@ public with sharing class TemplateGalleryCompHandler {
 
         } else {
             if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
+                Boolean tpReady = (camp.TelosTouchSF__Type__c == 'touchpoint');
                 String url = adminCredentials.TelosTouchSF__Instance_URL__c
-                +'/api/v1/templates?type=email&sort=[{"modified_at":"DESC"},{"id":"DESC"}]&is_tp_ready=false';
+                +'/api/v1/templates?type=email&sort=[{"modified_at":"DESC"},{"id":"DESC"}]&is_tp_ready='+tpReady;
                 endpointPrivate = url+'&is_private=true&is_shared=false';
                 endpointShared = url+'&is_private=true&is_shared=true';
                 endpointPublic = url+'&is_private=false&is_shared=false';
@@ -205,12 +206,14 @@ public with sharing class TemplateGalleryCompHandler {
                     if(String.valueOf(templateMap.get('status')) == 'DRAFTED') { continue; }
                     else if(String.valueOf(templateMap.get('status')) == 'SENT' && key == 'public') { continue; }
 
+                    Object imageId = (campaignType == 'email') ? '{image_id}' : templateMap.get('image_id');
+
                     templateMap.put(
                         'imageURL',
                         (Object) ('background-image: url(' +
                                   adminCredentials.TelosTouchSF__Instance_URL__c +
                                   '/api/v1/attachments/' +
-                                  templateMap.get('image_id') +
+                                  imageId +
                                   ')')
                     );
                     String dtField;

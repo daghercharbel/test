@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
-import { api, LightningElement, track } from "lwc";
-import { handleRequest } from 'c/ttCallout';
+import { api, LightningElement, track, wire } from "lwc";
+import { makeRequest } from 'c/ttCallout';
 import LANG from "@salesforce/i18n/lang";
 import { loadStyle } from "lightning/platformResourceLoader";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
@@ -8,6 +8,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 // Apex Methods
 import generatePreviewIFrameUrl from "@salesforce/apex/TemplateGalleryCompHandler.generatePreviewIFrameUrl";
+import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 import getTouchPointTemplates from "@salesforce/apex/TemplateGalleryCompHandler.getTouchPointTemplates";
 import SaveTouchPointTemplate from "@salesforce/apex/TemplateGalleryCompHandler.SaveTouchPointTemplate";
 
@@ -89,6 +90,7 @@ export default class TemplateGalleryComp extends LightningElement {
     fr = false;
     hideLastButton = false;
     iframeURL;
+    isImageSpinner = false;
     @api isOpenTouchPoints = false;
     @track isPrivateToggle = false;
     isSpinner = false;
@@ -120,6 +122,7 @@ export default class TemplateGalleryComp extends LightningElement {
     totalPage = 0;
     totalRecords;
     @track urls = {};
+    
 
     get langOptions() {
         return [
@@ -150,6 +153,9 @@ export default class TemplateGalleryComp extends LightningElement {
             { label: this.label.TitleDesc, value: "titleDesc" }
         ];
     }
+
+    @wire(getCalloutInfo)
+    calloutInfo;
 
     connectedCallback() {
         loadStyle(this, TelosTouch + "/NativeTPPreview_LV.css");
@@ -214,22 +220,53 @@ export default class TemplateGalleryComp extends LightningElement {
                                 x.cardStyle = 'imgStyleCard';
                             }
 
+                            //GETTING LANGUAGES
+                            if(this.campaignType == 'touchpoint'){
+
+                                let templateLangs = [];
+                                let tpContent = JSON.parse(x.content);
+                                for (let i=0; i < tpContent.languages.length; i++){
+                                    if(tpContent.languages[i].code == "en_US"){
+                                        templateLangs.push(this.label.English_Text);
+                                    } else if(tpContent.languages[i].code == "fr_FR"){
+                                        templateLangs.push(this.label.French_Text);
+                                    }
+                                }
+
+                                x.langDescription = this.label.Language_Text+': '+templateLangs.join(', ');
+
+                            }
+
+                            //GETTING EMAIL THUMBNAIL
                             if(this.campaignType != 'email'){ continue; }
+
+                            x.imageURL = "background-image: url(" + TelosTouch + "/loadingAnimation/Ellipsis-1.1s-200px.svg" + "); background-size: 15%;";
+
+                            let calloutInfo = JSON.parse(this.calloutInfo.data.value);
+
                             let method = 'GET';
-                            let endpoint = '/api/v1/template/email/thumbnail/' + x.id;
+                            let endpoint = calloutInfo.domain+'/api/v1/template/email/thumbnail/' + x.id;
+
+                            let header = {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer '+calloutInfo.token
+                            };
+
                             let invoker = {
                                 'className': 'templateGalleryComp',
                                 'classMethod': 'getTemplates',
                                 'recordId': ''
                             };
                             let eleObj = x;
-                            handleRequest(method, endpoint, null, invoker)
+                            makeRequest(endpoint, null, header, method, invoker)
                                 .then(result => {
                                     console.log('result: ', JSON.stringify(result));
                                     console.log('result.status: ', result.status);
                                     if (result.status) {
-                                        console.log('result.body: ', result.body);
-                                        eleObj.imageURL = eleObj.imageURL.replace('{image_id}', result.body);
+                                        eleObj.imageURL = "background-image: url("+calloutInfo.domain+"/api/v1/attachments/"+result.body+");";
+                                        this.isImageSpinner = true;
+                                        this.isImageSpinner = false;
                                     } else {
                                         console.error('templateGalleryComp 1: ', result.status_code + ': ' + result.body);
                                     }
@@ -267,6 +304,7 @@ export default class TemplateGalleryComp extends LightningElement {
                 this.showDataBasedOnPrivate();
                 this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
                 this.updateRecords();
+                //Test
 
             })
             .catch((error) => {
