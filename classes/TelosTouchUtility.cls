@@ -1552,7 +1552,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         return 'not sent';
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static map<String, String> getCalloutInfo(){
         
         map<String, String> mapResult = new map<String, String>();
