@@ -101,6 +101,20 @@
         <value>Additional Information (Optional)</value>
     </labels>
     <labels>
+        <fullName>Administrator_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Administrator Label</shortDescription>
+        <value>Administrator</value>
+    </labels>
+    <labels>
+        <fullName>Advisor_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Advisor Label</shortDescription>
+        <value>Advisor</value>
+    </labels>
+    <labels>
         <fullName>After_TT_invite</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -155,6 +169,13 @@
         <protected>true</protected>
         <shortDescription>Back Button Label</shortDescription>
         <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>Builder_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Builder Label</shortDescription>
+        <value>Builder</value>
     </labels>
     <labels>
         <fullName>Cam_Not_Have_TT_Record_Toast</fullName>
@@ -310,6 +331,20 @@
         <protected>true</protected>
         <shortDescription>Change</shortDescription>
         <value>Change</value>
+    </labels>
+    <labels>
+        <fullName>Change_Role_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change Role Message</shortDescription>
+        <value>Please choose which role you wish for the selected users to have.</value>
+    </labels>
+    <labels>
+        <fullName>Change_User_Role_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change User Role Label</shortDescription>
+        <value>Change User Role</value>
     </labels>
     <labels>
         <fullName>Change_User_text</fullName>
@@ -2616,6 +2651,13 @@
         <protected>true</protected>
         <shortDescription>TT Email Status</shortDescription>
         <value>TelosTouch Email Status</value>
+    </labels>
+    <labels>
+        <fullName>TT_Role_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TT Role Label</shortDescription>
+        <value>TT Role</value>
     </labels>
     <labels>
         <fullName>TT_Touchpoint_Status_Text</fullName>

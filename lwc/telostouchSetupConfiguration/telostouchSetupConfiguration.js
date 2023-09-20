@@ -12,11 +12,17 @@ import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTo
 import revokeUserAccess from "@salesforce/apex/TelosTouchUtility.revokeUserAccess";
 import sendRegistrationRequest from '@salesforce/apex/TelosTouchUtility.sendRegistrationRequest';
 import sendSFUserToTT from "@salesforce/apex/TelosTouchUtility.sendSFUserToTT";
+import updateTTUser from "@salesforce/apex/TelosTouchUtility.updateTTUser";
 
 //Custom Labels
 import Access_To_TT from "@salesforce/label/c.Access_To_TT";
+import Administrator_Label from "@salesforce/label/c.Administrator_Label";
+import Advisor_Label from "@salesforce/label/c.Advisor_Label";
 import Authentication_URL_Error from "@salesforce/label/c.Authentication_URL_Error";
+import Builder_Label from "@salesforce/label/c.Builder_Label";
 import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
+import Change_Role_Message from "@salesforce/label/c.Change_Role_Message";
+import Change_User_Role_Label from "@salesforce/label/c.Change_User_Role_Label";
 import Change_User_text from "@salesforce/label/c.Change_User_text";
 import Check_Cred_Toast from "@salesforce/label/c.Check_Cred_Toast";
 import Config_Authentication_URL from "@salesforce/label/c.Config_Authentication_URL";
@@ -25,6 +31,7 @@ import Config_Client_Secret from "@salesforce/label/c.Config_Client_Secret";
 import Config_Footer from "@salesforce/label/c.Config_Footer";
 import Config_Instance_URL from "@salesforce/label/c.Config_Instance_URL";
 import Config_Save_Toast from "@salesforce/label/c.Config_Save_Toast";
+import Confirm_Text from "@salesforce/label/c.Confirm_Text";
 import Cred_Not_Valid_As_Admin_Contact_Admin from "@salesforce/label/c.Cred_Not_Valid_As_Admin_Contact_Admin";
 import Edit_Button_Label from "@salesforce/label/c.Edit_Button_Label";
 import Email_Text from "@salesforce/label/c.Email_Text";
@@ -58,6 +65,7 @@ import Showing_Text from "@salesforce/label/c.Showing_Text";
 import Something_Wrong_Check_Admin_Toast from "@salesforce/label/c.Something_Wrong_Check_Admin_Toast";
 import Successful_Text from "@salesforce/label/c.Successful_Text";
 import TT_API_Setup_Title from "@salesforce/label/c.TT_API_Setup_Title";
+import TT_Role_Label from "@salesforce/label/c.TT_Role_Label";
 import TT_user_Text from "@salesforce/label/c.TT_user_Text";
 import Unable_Create_Some_User_Toast from "@salesforce/label/c.Unable_Create_Some_User_Toast";
 import Unable_Create_User_Toast from "@salesforce/label/c.Unable_Create_User_Toast";
@@ -72,8 +80,13 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     label = {
         Access_To_TT,
+        Administrator_Label,
+        Advisor_Label,
         Authentication_URL_Error,
+        Builder_Label,
         Cancel_Button_Label,
+        Change_Role_Message,
+        Change_User_Role_Label,
         Change_User_text,
         Check_Cred_Toast,
         Config_Authentication_URL,
@@ -82,6 +95,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         Config_Footer,
         Config_Instance_URL,
         Config_Save_Toast,
+        Confirm_Text,
         Cred_Not_Valid_As_Admin_Contact_Admin,
         Edit_Button_Label,
         Email_Text,
@@ -115,6 +129,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         Something_Wrong_Check_Admin_Toast,
         Successful_Text,
         TT_API_Setup_Title,
+        TT_Role_Label,
         TT_user_Text,
         Unable_Create_Some_User_Toast,
         Unable_Create_User_Toast,
@@ -156,8 +171,9 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track resendBtnDisabled = true;
     revokeCurrentUser = false;
     @track searchValue = '';
+    selectedRole = 'professional';
     @track selectedRows;
-    @track selectedUserList = [];
+    @track selectedUserList;
     @track setting;
     @track settingAPIList;
     @track settingApproval;
@@ -169,6 +185,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track showContactMessage = false;
     @track showEntries = '100';
     @track showRegistrationMessage;
+    showRoleModal = false;
     @track showSearchBar;
     @track showToast = false;
     @track storedResponse;
@@ -181,7 +198,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track waitingTimeId = null;
     isEditDisabled = false;
     @api listdata;
-    finalDataList =  [];
+
+    get roleOptions() {
+        return [
+            { label: this.label.Advisor_Label, value: "professional" },
+            { label: this.label.Builder_Label, value: "builder" },
+            { label: this.label.Administrator_Label, value: "administrator" },
+        ];
+    }
 
     // OnLoad
     connectedCallback() {
@@ -513,7 +537,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                             }
                             this.listdata = userArray;
                             this.filteredRecords = this.listdata;
-                            this.finalDataList  = this.filteredRecords;
                             this.filteredRecordsSize = this.filteredRecords.length;
                             this.allRecords = this.listdata;
                         }
@@ -555,9 +578,18 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
                 if (storedResponse.activeUserWrapper != null) {
                     var userArray = [];
+
+                    let lstRole = this.roleOptions;
+
                     for (var i = 0; i < storedResponse.activeUserWrapper.length; i++) {
                         storedResponse.activeUserWrapper[i].userObject.Profile = storedResponse.activeUserWrapper[i].userProfile;
                         storedResponse.activeUserWrapper[i].userObject.TTUser = storedResponse.activeUserWrapper[i].TTUser;
+                        storedResponse.activeUserWrapper[i].userObject.TTRole = storedResponse.activeUserWrapper[i].TTRole;
+                        lstRole.forEach(role => {
+                            if(role.value == storedResponse.activeUserWrapper[i].TTRole){
+                                storedResponse.activeUserWrapper[i].userObject.TTRoleLabel = role.label;
+                            }
+                        });
                         if (storedResponse.activeUserWrapper[i].TTUser == Yes_Text) {
                             storedResponse.activeUserWrapper[i].userObject.isDisable = true;
                         }
@@ -565,27 +597,65 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     }
                     this.listdata = userArray;
                     this.filteredRecords = this.listdata;
-                    this.finalDataList = this.filteredRecords;
                     this.filteredRecordsSize = this.filteredRecords.length;
                     this.allRecords = this.listdata;
-                    let tempSelected = this.selectedUserList;
-                    if(tempSelected.length > 0){
-                        var tempListData = this.listdata;
-                        for(let x of tempSelected){
-                            for(let y of tempListData){
-                                if(x.Id === y.Id){
-                                    y.isChecked =  x.isChecked;
-                                }
-                            }
-                        }
-                        this.listdata = tempListData;
-                    }
                     this.showRecords();
                 }
             })
             .catch((error) => {
                 this.error = error.message;
             });
+    }
+
+    switchRoleModal(){
+        this.showRoleModal = !this.showRoleModal;
+        if(!this.showRoleModal){
+            this.selectedRole = 'professional';
+        }
+    }
+
+    changeRole(event){
+        let value = event.detail.value;
+        this.selectedRole = value;
+    }
+
+    handleMassSaveRole(){
+
+        this.isShowSpinner = true;
+        let lstUser = []
+        let selectedRows = this.selectedUserList;
+        for (var i = 0; i < selectedRows.length; i++) {
+            if(!selectedRows[i].TelosTouchSF__TT_UserId__c){ continue; }
+            let aUser = {
+                Id : selectedRows[i].Id,
+                TelosTouchSF__TT_Role__c : this.selectedRole,
+                TelosTouchSF__TT_UserId__c : selectedRows[i].TelosTouchSF__TT_UserId__c
+            }
+            lstUser.push(aUser);
+        }
+
+        updateTTUser({
+            lstUser: lstUser
+        })
+            .then((result) => {
+                if (result.status == 'success') {
+                    this.displayToast('success', Sent_SuccessToast);
+                    this.cancelUserModal();
+                } else {
+                    console.error(result.error);
+                    this.displayToast('error', result.error);
+                }
+            })
+            .catch((error) => {
+                this.error = error.message;
+                this.displayToast('error', this.error);
+
+            })
+            .finally(() => {
+                this.switchRoleModal();
+                this.isShowSpinner = false;
+            });
+
     }
 
     //'Cancel button' is clicked
@@ -628,7 +698,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     hideSearch() {
         this.showSearchBar = false;
         this.searchValue = '';
-        this.fromEntries = 1;
         if (this.setting.Approval == true) {
             this.settingApproval = true;
             this.getUsersListHelper();
@@ -673,6 +742,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             this.selectedRows = this.selectedUserList;
             this.listofUserId = [];
             for (var i = 0; i < this.selectedRows.length; i++) {
+                delete this.selectedRows[i].TTRole;
                 delete this.selectedRows[i].TTUser;
                 delete this.selectedRows[i].isDisable;
                 this.selectedRows[i].sobjectType = "User";
@@ -741,16 +811,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     newRecordsToShow.push(filteredRecord);
                 }
             }
-            let tempSelected = this.selectedUserList;
-            for(let x of tempSelected){
-                for(let y of newRecordsToShow){
-                    if(x.Id === y.Id){
-                        y.isChecked = x.isChecked;
-                    }
-                }
-            }
             this.listdata = newRecordsToShow;
-            this.fromEntries = this.listdata.length === 0 ? 0 : parseInt(recordToShowStart) + 1;
+            this.fromEntries = parseInt(recordToShowStart) + 1;
             if (parseInt(recordToShowEnd) > parseInt(filteredRecords.length)) {
                 this.toEntries = filteredRecords.length;
             } else {
@@ -837,7 +899,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             } else {
                 getSelectedNumber = 0;
             }
-            if (selectedRec == true && (!this.ListID.includes(event.target.value))) {
+            if (selectedRec == true) {
                 this.ListID.push(event.target.value);
                 getSelectedNumber++;
             } else {
@@ -849,32 +911,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             }
             this.selectedCount = getSelectedNumber;
             var allRecords = this.filteredRecords;
-            var selectedRecords = this.selectedUserList;
-            var tempListData = this.listdata
-            for(let x of tempListData){
-                x.isChecked = selectedRec;
-                const isFound = selectedRecords.some(element => {
-                    if (element.Id === x.Id) {
-                      return true;
-                    }
-                    return false;
-                });  
-                if(!isFound){
-                    selectedRecords.push(x);
-                }else{
-                    for(let y of selectedRecords){
-                        if(y.Id === x.Id){
-                            y.isChecked =  x.isChecked;
-                        }
-                    }
-                }            
-            }
-            this.listdata = tempListData;
-            let tempList = selectedRecords;
-            selectedRecords = [];
-            for(let x of tempList){
-                if(x.isChecked){
-                    selectedRecords.push(x);
+            var selectedRecords = [];
+            for (var i = 0; i < allRecords.length; i++) {
+                if (this.ListID.includes(allRecords[i].Id)) {
+                    selectedRecords.push(allRecords[i]);
                 }
             }
             this.selectedUserList = selectedRecords;
@@ -906,19 +946,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.settingApproval = false;
                 }
             } else {
-                var allRecords = this.finalDataList;
+                var allRecords = this.filteredRecords;
                 var tempArray = [];
                 for (var i = 0; i < allRecords.length; i++) {
                     if (allRecords[i].Email.toUpperCase().includes(this.searchValue.toUpperCase()) || allRecords[i].Username.toUpperCase().includes(this.searchValue.toUpperCase())) {
                         tempArray.push(allRecords[i]);
                     }
                 }
-                this.filteredRecords = tempArray;
-                this.filteredRecordsSize = this.filteredRecords.length;
-                this.pageNumber = 1;
-                this.fromEntries = 1;
-                this.totalPages =  this.filteredRecords.length == 0 ? 1: Math.ceil(parseFloat(this.filteredRecords.length) / (parseFloat(this.showEntries))).toString();
-                this.changePage();  
+                this.listdata = tempArray;
             }
         } catch (e) {
             throw new CustomException(e.getMessage());
@@ -1089,6 +1124,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.selectedRows = this.selectedUserList;
         this.listofUserId = [];
         for (var i = 0; i < this.selectedRows.length; i++) {
+            delete this.selectedRows[i].TTRole;
             delete this.selectedRows[i].TTUser;
             delete this.selectedRows[i].isDisable;
             this.selectedRows[i].sobjectType = "User";

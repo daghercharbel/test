@@ -164,8 +164,8 @@
                             class="slds-size_1-of-1 searchIcon slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
                             <template if:true={showSearchBar}>
                                 <div class="searchBar">
-                                    <input type="search" placeholder={label.Search_Placeholder} class="slds-input"
-                                        onkeyup={searchKeyword} id="search" value={searchValue} />
+                                    <input type="search" placeholder={label.Search_Placeholder}
+                                        class="slds-input" onkeyup={searchKeyword} id="search" value={searchValue} />
                                 </div>
                                 <div class="closeIcon">
                                     <lightning-icon icon-name="utility:close" size="small"
@@ -199,6 +199,9 @@
                                         <div class="slds-truncate" title="Type">{label.Email_Text}</div>
                                     </th>
                                     <th scope="col">
+                                        <div class="slds-truncate" title="Type">{label.TT_Role_Label}</div>
+                                    </th>
+                                    <th scope="col">
                                         <div class="slds-truncate" title="Type">{label.TT_user_Text}</div>
                                     </th>
                                     <th scope="col">
@@ -214,8 +217,7 @@
                                                 <div class="slds-form-element__control">
                                                     <label class="slds-checkbox">
                                                         <lightning-input type="checkbox" value={obj.Id}
-                                                            onchange={checkboxSelect}
-                                                            checked={obj.isChecked}></lightning-input>
+                                                            onchange={checkboxSelect}></lightning-input>
                                                     </label>
                                                 </div>
                                             </div>
@@ -233,6 +235,23 @@
                                         <th scope="row">
                                             <div class="slds-truncate">
                                                 {obj.Email}
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                {obj.TTRoleLabel}
+                                                <template if:true={obj.editRole}>
+                                                    <div class="slds-grid">
+                                                        <div class="slds-col">
+                                                            <lightning-combobox value={obj.TTRole} options={roleOptions} data-id={obj.Id} onchange={changeRole}
+                                                                label-hidden></lightning-combobox>
+                                                        </div>
+                                                        <div class="slds-col slds-align_absolute-center">
+                                                            <lightning-button-icon icon-name="utility:save" variant="bare" data-id={obj.Id}
+                                                                onclick={handleSaveRole}></lightning-button-icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
                                             </div>
                                         </th>
                                         <th scope="row">
@@ -321,6 +340,41 @@
                         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
                     </template>
 
+                    <template if:true={showRoleModal}>
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open slds-modal_small">
+                            <div class="slds-modal__container">
+                                <span class="slds-modal__close">
+                                    <lightning-button-icon icon-name="utility:close" variant="bare-inverse"
+                                        alternative-text="close" onclick={switchRoleModal} size="large">
+                                    </lightning-button-icon>
+                                </span>
+                                <div class="slds-modal__header">
+                                    <h1 class="slds-modal__title slds-hyphenate">
+                                        {label.Change_User_Role_Label}</h1>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                    <p class="slds-align_absolute-center">{label.Change_Role_Message}</p>
+                                    <lightning-layout horizontal-align="spread">
+                                        <lightning-layout-item padding="around-small"></lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-combobox value={selectedRole} options={roleOptions} onchange={changeRole}
+                                                label-hidden></lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small"></lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                                <div class="slds-modal__footer slds-text-align_center">
+                                    <lightning-button variant="brand" label={label.Confirm_Text}
+                                        onclick={handleMassSaveRole} class="slds-m-right_x-small">
+                                    </lightning-button>
+                                    <lightning-button variant="brand" label={label.Cancel_Button_Label} onclick={switchRoleModal}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+                    </template>
 
                     <footer class="slds-modal__footer">
                         <lightning-layout vertical-align="stretch" multiple-rows="true">
@@ -356,7 +410,9 @@
                                 <lightning-button label={label.Revoke_access} disabled={isEmptySelectedUserList}
                                     onclick={checkRevokeUsers} class="slds-m-right_x-small"></lightning-button>
                                 <lightning-button label={label.GIve_TT_Access} disabled={isEmptySelectedUserList}
-                                    onclick={SendSFUserToTT} variant="Brand"></lightning-button>
+                                    onclick={SendSFUserToTT} variant="Brand" class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button label='Update Role' disabled={isEmptySelectedUserList}
+                                    onclick={switchRoleModal} variant="Brand"></lightning-button>
                             </lightning-layout-item>
                         </lightning-layout>
                     </footer>

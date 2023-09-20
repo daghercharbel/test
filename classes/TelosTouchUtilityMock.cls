@@ -44,7 +44,19 @@ global class TelosTouchUtilityMock implements HttpCalloutMock {
             res.setHeader('Content-Type', 'application/json');
             res.setBody('[{"id":"62ab832e0801561673cd922a","name":"Your Registered Education Savings Plan","name_fr":"Votre régime enregistré dépargne études","description":null,"is_published":false,"deleted":false,"image_id":"62ab832e0801561673cd922b","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.725Z","updated_at":"2022-08-16T11:10:48.450Z","last_send_at":"2022-08-16T11:10:48.446Z","copy_from":null,"is_private":false},{"id":"62ab832d0801561673cd9205","name":"Your Retirement Planning","name_fr":"Planification de votre retraite","description":null,"is_published":false,"deleted":false,"image_id":"62ab832d0801561673cd9206","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.143Z","updated_at":"2022-08-16T11:02:45.626Z","last_send_at":"2022-08-16T11:02:45.613Z","copy_from":null,"is_private":false}]');
             res.setStatusCode(200);
-        } else if(endpoint.contains('/api/v2/campaign2/clients') && req.getMethod() == 'PUT'){
+        } else if(endpoint.contains('/api/v1/touchpoint/templateGraph') && req.getMethod() == 'POST') {
+            res.setHeader('Content-Type', 'application/json');
+            res.setBody('{"id":"62ab832e0801561673cd922a","name":"Your Registered Education Savings Plan","name_fr":"Votre régime enregistré dépargne études","description":null,"is_published":false,"deleted":false,"image_id":"62ab832e0801561673cd922b","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.725Z","updated_at":"2022-08-16T11:10:48.450Z","last_send_at":"2022-08-16T11:10:48.446Z","copy_from":null,"is_private":false}');
+            res.setStatusCode(200);
+        }else if(endpoint.contains('/api/v1/teams') && req.getMethod() == 'GET') {
+            res.setHeader('Content-Type', 'application/json');
+            res.setBody('[{"id":"62ab832e0801561673cd922a","name":"Your Registered Education Savings Plan","name_fr":"Votre régime enregistré dépargne études","description":null,"is_published":false,"deleted":false,"image_id":"62ab832e0801561673cd922b","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.725Z","updated_at":"2022-08-16T11:10:48.450Z","last_send_at":"2022-08-16T11:10:48.446Z","copy_from":null,"is_private":false},{"id":"62ab832d0801561673cd9205","name":"Your Retirement Planning","name_fr":"Planification de votre retraite","description":null,"is_published":false,"deleted":false,"image_id":"62ab832d0801561673cd9206","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.143Z","updated_at":"2022-08-16T11:02:45.626Z","last_send_at":"2022-08-16T11:02:45.613Z","copy_from":null,"is_private":false}]');
+            res.setStatusCode(200);
+        }  else if(endpoint.contains('/api/v1/admin/template/email') && req.getMethod() == 'POST') {
+            res.setHeader('Content-Type', 'application/json');
+            res.setBody('{"id":"62ab832e0801561673cd922a","name":"Your Registered Education Savings Plan","name_fr":"Votre régime enregistré dépargne études","description":null,"is_published":false,"deleted":false,"image_id":"62ab832e0801561673cd922b","system_id":null,"created_by":"40c5749c-5bca-4812-8f11-4c9183364314","modified_by":"","created_at":"2022-06-16T19:23:26.725Z","updated_at":"2022-08-16T11:10:48.450Z","last_send_at":"2022-08-16T11:10:48.446Z","copy_from":null,"is_private":false}');
+            res.setStatusCode(200);
+        }else if(endpoint.contains('/api/v2/campaign2/clients') && req.getMethod() == 'PUT'){
             res.setHeader('Content-Type', 'application/json');
             res.setBody('');
             res.setStatusCode(200);
