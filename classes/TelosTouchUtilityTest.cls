@@ -435,6 +435,26 @@ private with sharing class TelosTouchUtilityTest {
         customSettingList = [select RoleId__c,RolesName__c from TelosTouch_User_Role__c];
         system.assertEquals('Test', customSettingList[0].RolesName__c, 'customSettingList[0].RolesName__c must be equal to Test');
     } 
+
+    @isTest
+    static void updateTTUserTest() {
+
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        
+        Profile profTest = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        User userTest = new User(Alias = 'standt', Email='updateTTUserTest@test.com', 
+            EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+            LocaleSidKey='en_US', ProfileId = profTest.Id,TelosTouchSF__TT_UserId__c = 'updateTTUserTest',
+            TimeZoneSidKey='America/Los_Angeles', UserName='updateTTUserTest@test.com');
+        insert userTest;
+
+        Test.startTest();
+            userTest.TelosTouchSF__TT_Role__c = 'Advisor';
+            TelosTouchUtility.updateTTUser(new list<User>{userTest});
+        Test.stopTest();
+
+    }
+
     @isTest 
     static void sendUserInvitation_test1() {
         Contact con = new Contact();

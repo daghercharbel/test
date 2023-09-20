@@ -69,6 +69,14 @@
         <name>Additional_Information</name>
     </customLabels>
     <customLabels>
+        <label>Administrateur</label>
+        <name>Administrator_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Conseiller</label>
+        <name>Advisor_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Ne s&apos;est pas connecté(e)</label>
         <name>After_TT_invite</name>
     </customLabels>
@@ -99,6 +107,10 @@
     <customLabels>
         <label>Retour</label>
         <name>Back_Button_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Constructeur</label>
+        <name>Builder_Label</name>
     </customLabels>
     <customLabels>
         <label>La Campagne n&apos;a pas le type d&apos;enregistrement TelosTouch</label>
@@ -203,6 +215,14 @@
     <customLabels>
         <label>Changer</label>
         <name>Change</name>
+    </customLabels>
+    <customLabels>
+        <label>S&apos;il vous plait, choisir le rôle que vous souhaitez attribuer aux utilisateurs sélectionnés.</label>
+        <name>Change_Role_Message</name>
+    </customLabels>
+    <customLabels>
+        <label>Modifier le rôle de l&apos;utilisateur</label>
+        <name>Change_User_Role_Label</name>
     </customLabels>
     <customLabels>
         <label>Révoquer la licence Telostouch</label>
@@ -1584,6 +1604,10 @@
     <customLabels>
         <label>Statut du TelosTouch Email</label>
         <name>TT_Email_Status</name>
+    </customLabels>
+    <customLabels>
+        <label>TT Rôle</label>
+        <name>TT_Role_Label</name>
     </customLabels>
     <customLabels>
         <label>Statut du Point de contact TelosTouch</label>

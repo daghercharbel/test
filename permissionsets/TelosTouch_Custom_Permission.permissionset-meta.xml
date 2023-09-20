@@ -1451,6 +1451,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>User.TT_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.TT_UserId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1596,6 +1601,10 @@
     </tabSettings>
     <tabSettings>
         <tab>TT_Setup</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>TelosTouch_Email_Library</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

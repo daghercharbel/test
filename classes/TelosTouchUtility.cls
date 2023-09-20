@@ -775,6 +775,26 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         }
         return null;
     }
+
+    @AuraEnabled
+    public static map<String, String> updateTTUser(list<User> lstUser){
+
+        map<String, String> mapResult = new map<String, String>();
+
+        try {
+
+            Database.executeBatch(new BatchUpdateTTUser(lstUser), 20);
+            mapResult.put('status', 'success');
+            return mapResult;
+
+        } catch (Exception ex) {
+            TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtility', 'updateTTUser', null);
+            mapResult.put('status', 'error');
+            mapResult.put('error', ex.getMessage());
+            return mapResult;
+        }
+    }
+    
     /**
 * @author Cloud Analogy
 * @date 02/08/2021
@@ -830,64 +850,29 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static userCredentialsWrapper getUserList(){
         
-        Set<Id> setProfileIds = new  Set<Id>();
         Set<String> setOfMoreThanOneEmail = new Set<String>();
-        map<Id,String> mapIdVsName = new  map<Id,String>();
         List<userWrapper> userwp = new List<userWrapper>();
-        List<User> userList = new List<User>();
-        if(Schema.SObjectType.User.isAccessible() && Schema.SObjectType.User.isQueryable() &&
-           Schema.sObjectType.User.fields.Id.isAccessible() &&
-           Schema.sObjectType.User.fields.ProfileId.isAccessible() &&
-           Schema.sObjectType.User.fields.firstName.isAccessible() &&
-           Schema.sObjectType.User.fields.lastName.isAccessible() &&
-           Schema.sObjectType.User.fields.Email.isAccessible() &&
-           Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
-           Schema.sObjectType.User.fields.IsActive.isAccessible() &&
-           Schema.sObjectType.User.fields.phone.isAccessible()){
-            String strSalesforce = 'Salesforce';
-            String str1 = '1';
-
-               userList = [SELECT Id, userName, ProfileId, firstName,phone, lastName, Email,TelosTouchSF__TT_UserId__c,IsActive FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 WITH SECURITY_ENFORCED LIMIT 5000 ];
-           }
         userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
-        for(User user: userList){
-            setProfileIds.add(user.ProfileId);
+
+        String strSalesforce = 'Salesforce';
+        String str1 = '1';
+        for(User aUser : [SELECT Id,Email,FirstName,IsActive,LastName,Phone,ProfileId,Profile.Name,TelosTouchSF__TT_Role__c,
+                            TelosTouchSF__TT_UserId__c,Username FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true 
+                            AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 LIMIT 5000])
+        {
+            if(setOfMoreThanOneEmail.contains(aUser.Email)){ continue; }
+
+            userWrapper obj = new userWrapper();
+            obj.userObject = aUser;
+            obj.userProfile = aUser.Profile.Name;
+            obj.TTRole = string.isBlank(aUser.TelosTouchSF__TT_Role__c) ? 'professional' : aUser.TelosTouchSF__TT_Role__c;
+            obj.TTUser = String.isBlank(aUser.TelosTouchSF__TT_UserId__c) ? System.Label.TelosTouchSF.No_Text : System.Label.TelosTouchSF.Yes_Text;
+            userwp.add(obj);
+            setOfMoreThanOneEmail.add(aUser.Email);
         }
-        List<Profile > profileList = new List<Profile >();
-        if(Schema.SObjectType.Profile.isAccessible() && Schema.SObjectType.Profile.isQueryable() &&
-           Schema.sObjectType.Profile.fields.Id.isAccessible() &&
-           Schema.sObjectType.Profile.fields.Name.isAccessible()){
-               profileList = [SELECT Id,Name FROM Profile WHERE Id IN:setProfileIds WITH SECURITY_ENFORCED];
-           }
-        for(Profile profile: profileList){
-            mapIdVsName.put(profile.Id, profile.Name);
-        }
-        for(User user: userList){
-            if(mapIdVsName.containsKey(user.ProfileId) && (!setOfMoreThanOneEmail.contains(user.Email)) && user.TelosTouchSF__TT_UserId__c != null){
-                userWrapper obj = new userWrapper();
-                obj.userObject = user;
-                obj.userProfile = mapIdVsName.get(user.ProfileId);
-                obj.TTUser = System.Label.TelosTouchSF.Yes_Text;
-                userwp.add(obj);
-                setOfMoreThanOneEmail.add(user.Email);
-            }
-        }
-        for(User user: userList){
-            if(mapIdVsName.containsKey(user.ProfileId) && (!setOfMoreThanOneEmail.contains(user.Email)) && user.TelosTouchSF__TT_UserId__c == null){
-                userWrapper obj = new userWrapper();
-                obj.userObject = user;
-                obj.userProfile = mapIdVsName.get(user.ProfileId);
-                obj.TTUser = System.Label.TelosTouchSF.No_Text;
-                userwp.add(obj);
-                setOfMoreThanOneEmail.add(user.Email);
-            }
-        }
+
         getActiveUserWrapper.activeUserWrapper = userwp;
-        if(getActiveUserWrapper != null){
-            return getActiveUserWrapper;
-        }else{
-            return null;
-        }
+        return getActiveUserWrapper;
     }
     /**
 * @author Cloud Analogy
@@ -2481,6 +2466,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 */
         @AuraEnabled
         public String TTUser{get;set;}
+
+        @AuraEnabled
+        public String TTRole{get;set;}
     }
     /**
 * @author Cloud Analogy
