@@ -30,7 +30,7 @@ public with sharing class TTCampaignTickerControllerTest {
         
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
-        Contact cttTest = [SELECT Id FROM Contact WHERE Email = 'TTCampaignTickerControllerTest@telostouch.com'];
+        Contact cttTest = [SELECT Id FROM Contact WHERE Email = 'TTCampaignTickerControllerTest1@telostouch.com'];
 
         CampaignMember memberTest = new CampaignMember(
             CampaignId = campTest.Id,
@@ -66,7 +66,7 @@ public with sharing class TTCampaignTickerControllerTest {
         
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
-        Contact cttTest = [SELECT Id FROM Contact WHERE Email = 'TTCampaignTickerControllerTest@telostouch.com'];
+        Contact cttTest = [SELECT Id FROM Contact WHERE Email = 'TTCampaignTickerControllerTest1@telostouch.com'];
 
         CampaignMember memberTest = new CampaignMember(
             CampaignId = campTest.Id,

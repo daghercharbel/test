@@ -45,10 +45,10 @@ public class TouchPointPreviewControllerTest {
     public static void editTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.editTemplate('testId', 'testId', 'Email');
-        map<String, String> mapResponse2 = TouchPointPreviewController.editTemplate(null, 'testId', 'Email');
-        map<String, String> mapResponse3 = TouchPointPreviewController.editTemplate('testId', 'testId', 'TouchPoint');
-        map<String, String> mapResponse4 = TouchPointPreviewController.editTemplate(null, 'testId', 'Touchpoint');        
+        map<String, String> mapResponse = TouchPointPreviewController.editTemplate('testId',  'Email');
+        map<String, String> mapResponse2 = TouchPointPreviewController.editTemplate(null, 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.editTemplate('testId', 'TouchPoint');
+        map<String, String> mapResponse4 = TouchPointPreviewController.editTemplate('testId', 'Touchpoint');        
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
         System.assert(mapResponse2.get('status') == 'error', 'response must be error');

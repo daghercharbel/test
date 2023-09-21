@@ -895,4 +895,22 @@ private with sharing class TelosTouchUtilityTest {
         Test.stopTest();
     }
     
+    @isTest
+    static void checkIfEnterpriseClientTest(){
+        Test.startTest();
+        TelosTouchUtility.checkIfEnterpriseClient();
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void generateErrorLogTest(){
+        Test.startTest();
+        try{
+            Integer error = 1/0;
+        } catch (Exception ex) {
+        	TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtilityTest', 'generateErrorLogTest', null);
+        }
+        Test.stopTest();
+    }
+    
 }

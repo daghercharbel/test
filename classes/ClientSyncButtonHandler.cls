@@ -72,7 +72,7 @@ public with sharing class ClientSyncButtonHandler {
         }
         return clientLogObj.contactSuccessCount > 0;
     } catch (Exception e) {
-        // System.debug(' Error is: '+ e.getMessage() + ' at line '+ e.getLineNumber());
+        System.debug(' Error is: '+ e.getMessage() + ' at line '+ e.getLineNumber());
         throw new AuraHandledException(e.getMessage() + ' at line '+ e.getLineNumber());
     }
    }

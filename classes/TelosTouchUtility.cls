@@ -1572,7 +1572,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
         } catch (Exception ex) {
 
-            TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtility', 'getCalloutInfo', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TelosTouchUtility', 'getCalloutInfo', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
