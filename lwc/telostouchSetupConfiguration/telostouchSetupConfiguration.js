@@ -183,7 +183,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track setting_Instance_URL;
     @track showAdvancedOptions;
     @track showContactMessage = false;
-    @track showEntries = '100';
+    @track showEntries = '10';
     @track showRegistrationMessage;
     showRoleModal = false;
     @track showSearchBar;
@@ -810,6 +810,17 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 if (parseInt(i) >= parseInt(recordToShowStart) && parseInt(i) < parseInt(recordToShowEnd)) {
                     newRecordsToShow.push(filteredRecord);
                 }
+            }
+            let tempSelected = this.selectedUserList;
+            for(let y of newRecordsToShow){
+                let isChecked = false;
+                for(let x of tempSelected){
+                    if(x.Id === y.Id){
+                        isChecked = true;
+                        break;
+                    }
+                }
+                y.isChecked = isChecked;
             }
             this.listdata = newRecordsToShow;
             this.fromEntries = parseInt(recordToShowStart) + 1;
