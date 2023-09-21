@@ -183,7 +183,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track setting_Instance_URL;
     @track showAdvancedOptions;
     @track showContactMessage = false;
-    @track showEntries = '10';
+    @track showEntries = '100';
     @track showRegistrationMessage;
     showRoleModal = false;
     @track showSearchBar;
