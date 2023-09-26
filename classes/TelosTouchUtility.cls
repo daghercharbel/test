@@ -858,7 +858,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
         String str1 = '1';
         for(User aUser : [SELECT Id,Email,FirstName,IsActive,LastName,Phone,ProfileId,Profile.Name,TelosTouchSF__TT_Role__c,
                             TelosTouchSF__TT_UserId__c,Username FROM User WHERE IsActive = true AND UserPermissionsMarketingUser = true 
-                            AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 LIMIT 5000])
+                            AND Profile.UserLicense.Name =: strSalesforce AND TelosTouchSF__TT_UserId__c !=: str1 
+                            ORDER BY TelosTouchSF__TT_UserId__c ASC NULLS LAST LIMIT 5000])
         {
             if(setOfMoreThanOneEmail.contains(aUser.Email)){ continue; }
 
