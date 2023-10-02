@@ -16,7 +16,7 @@
                     <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
-                                {label.add_remove_topic}
+                                {label.Add_Remove_Topic}
                             </div>
                         </span>
                     </div>
@@ -32,15 +32,13 @@
                 </div>
             </lightning-layout-item>
             <template if:true={featureMetadata.Client_Tagging.TelosTouchSF__SF_Flag__c}>
-                <lightning-layout-item padding="around-medium">
+                <lightning-layout-item padding="around-medium" size="9">
                     <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
                         <lightning-icon icon-name="utility:warning" alternative-text="Warning!"
                             title="Warning"></lightning-icon>
                         <h2>
-                            {label.topic_warning} &nbsp; <a href="#" onclick={callRedirect}
-                                name="userGuide">{label.more_information}</a>
-                            <!--This feature requires Topic for Objects configured properly. Please check the section "15.
-                            Activating and using Topics" in our <a onclick={callRedirect} name="userGuide">User Guide</a> for a step-by-step on how to do so. -->
+                            {label.Topic_Warning} &nbsp; <a href="#" onclick={callRedirect}
+                                name="userGuide">{label.More_Information}</a>
                         </h2>
                     </div>
                 </lightning-layout-item>
@@ -54,7 +52,7 @@
                     <div class="slds-col ">
                         <span>
                             <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
-                                {label.DETIALED_LOGGING}
+                                {label.Detialed_Logging}
                             </div>
                         </span>
                     </div>
@@ -71,29 +69,6 @@
             </lightning-layout-item>
         </lightning-layout>
 
-        <!-- CLIENT PORTAL -->
-        <!-- <lightning-layout>
-            <lightning-layout-item padding="around-medium">
-                <div class="slds-grid slds-wrap portal">
-                    <div class="slds-col slds-size_6-of-12">
-                        <span>
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium togLabel">
-                                {label.INVITE}
-                            </div>
-                        </span>
-                    </div>
-                    <div class="slds-col slds-size_6-of-12">
-                        <span>
-                            <div class="slds-m-horizontal_x-large slds-m-top_medium">
-                                <lightning-input type="toggle" name="TelosTouchSF__SF_Flag__c" disabled={inviteFlag}
-                                    checked={featureMetadata.TelosTouchSF__SF_Flag__c}
-                                    onchange={handleUpdate}></lightning-input>
-                            </div>
-                        </span>
-                    </div>
-                </div>
-            </lightning-layout-item>
-        </lightning-layout> -->
         <!-- Contact Syncing  -->
         <lightning-layout>
             <lightning-layout-item padding="around-medium">

@@ -1,4 +1,5 @@
 import { LightningElement, track } from 'lwc';
+import { labelLibrary } from 'c/ttLabels';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 
 //Apex Methods
@@ -6,64 +7,9 @@ import getFeatureMetadata from '@salesforce/apex/TT_FeatureSettingsController.ge
 import IsUserSystemAdmin from '@salesforce/apex/TT_FeatureSettingsController.IsUserSystemAdmin';
 import setFeatureMetadata from '@salesforce/apex/TT_FeatureSettingsController.setFeatureMetadata';
 
-//Custom Labels
-import add_remove_topic from '@salesforce/label/c.Add_Remove_Topic';
-import CLIENT_PORTAL_DISABLED from '@salesforce/label/c.Client_Portal_Disabled';
-import CLIENT_PORTAL_ENABLED from '@salesforce/label/c.Client_Portal_Enabled';
-import DETIALED_LOGGING from '@salesforce/label/c.Detialed_Logging';
-import DETAILED_LOGGING_DISABLED from '@salesforce/label/c.Detailed_Logging_Disabled';
-import DETAILED_LOGGING_ENABLED from '@salesforce/label/c.Detailed_Logging_Enabled';
-import INVITE from '@salesforce/label/c.Invite';
-import more_information from '@salesforce/label/c.More_Information';
-import topic_warning from '@salesforce/label/c.Topic_Warning';
-import Save_Button_Label from '@salesforce/label/c.Save_Button_Label';
-import Contact_Syncing_Label from '@salesforce/label/c.Contact_Syncing_Label';
-import In_Min_Label from '@salesforce/label/c.In_Min_Label';
-import Greater_than_Cool_Down from '@salesforce/label/c.Greater_than_Cool_Down';
-import Less_than_Cool_Down from '@salesforce/label/c.Less_than_Cool_Down';
-import Lead_Syncing_Label from '@salesforce/label/c.Lead_Syncing_Label';
-import Campaign_Syncing_Label from '@salesforce/label/c.Campaign_Syncing_Label';
-import Contact_Syncing_enabled from '@salesforce/label/c.Contact_Syncing_enabled';
-import Contact_Syncing_disabled from '@salesforce/label/c.Contact_Syncing_disabled';
-import Updated_Contact_Cool_Down from '@salesforce/label/c.Updated_Contact_Cool_Down';
-import Updated_Lead_Cool_Down from '@salesforce/label/c.Updated_Lead_Cool_Down';
-import Lead_Syncing_disabled from '@salesforce/label/c.Lead_Syncing_disabled';
-import Lead_Syncing_enabled from '@salesforce/label/c.Lead_Syncing_enabled';
-import Updated_Campaign_Cool_Down from '@salesforce/label/c.Updated_Campaign_Cool_Down';
-import Campaign_Syncing_disabled from '@salesforce/label/c.Campaign_Syncing_disabled';
-import Campaign_Syncing_enabled from '@salesforce/label/c.Campaign_Syncing_enabled';
-
-
 export default class TtFeatureSettings extends LightningElement {
 
-    label = {
-        Campaign_Syncing_enabled,
-        Campaign_Syncing_disabled,
-        Updated_Campaign_Cool_Down,
-        Lead_Syncing_enabled,
-        Lead_Syncing_disabled,
-        Updated_Lead_Cool_Down,
-        Updated_Contact_Cool_Down,
-        Contact_Syncing_disabled,
-        Contact_Syncing_enabled,
-        Campaign_Syncing_Label,
-        Lead_Syncing_Label,
-        Greater_than_Cool_Down,
-        Less_than_Cool_Down,
-        In_Min_Label,
-        Save_Button_Label,
-        Contact_Syncing_Label,
-        add_remove_topic,
-        CLIENT_PORTAL_DISABLED,
-        CLIENT_PORTAL_ENABLED,
-        DETIALED_LOGGING,
-        DETAILED_LOGGING_DISABLED,
-        DETAILED_LOGGING_ENABLED,
-        INVITE,
-        more_information,
-        topic_warning
-    };
-
+    label = labelLibrary;
     @track isLoading = true;
     @track featureMetadata = {};
     @track showMainDiv = false;
@@ -121,6 +67,7 @@ export default class TtFeatureSettings extends LightningElement {
     getFeatureMetadataMethod(recName, calledFrom){
         getFeatureMetadata({recName: recName})
         .then(result => {
+            console.log('VOD -------------------- getFeatureMetadata then');
             if (result.status == 'success') {
                 let response = JSON.parse(result.value);
                 response['TelosTouchSF__Additional_Parameter__c'] = response.TelosTouchSF__Additional_Parameter__c ? response.TelosTouchSF__Additional_Parameter__c : 0;
@@ -128,6 +75,7 @@ export default class TtFeatureSettings extends LightningElement {
                     this.featureMetadata['Finest_Logging'] = response;
 
                 }else if(recName == 'Client_Tagging'){
+                    console.log('VOD -------------------- response ',response);
                     this.featureMetadata['Client_Tagging'] = response;
 
                 }else if(recName == 'Lead_Syncing'){
@@ -251,9 +199,9 @@ export default class TtFeatureSettings extends LightningElement {
             switch (field) {
                 case 'Finest_Logging':
                     if (value) {
-                        this.displayToast('success', this.label.DETAILED_LOGGING_ENABLED);
+                        this.displayToast('success', this.label.Detailed_Logging_Enabled);
                     } else {
-                        this.displayToast('success', this.label.DETAILED_LOGGING_DISABLED);
+                        this.displayToast('success', this.label.Detailed_Logging_Disabled);
                     }
                     break;
                 case 'Lead_Syncing':
@@ -289,7 +237,6 @@ export default class TtFeatureSettings extends LightningElement {
                         this.displayToast('success', this.label.Updated_Contact_Cool_Down);
                     }
                     break;
-                    // we are not using client tagging functionality now
                 case 'Client_Tagging':
                     if (value) {
                         this.displayToast('success', 'Client Tagging enabled');
@@ -300,12 +247,13 @@ export default class TtFeatureSettings extends LightningElement {
                 default:
                     break;
             }
+            this.featureMetadata[field].TelosTouchSF__SF_Flag__c = value;
         })
         .catch(error => {
             this.displayToast('error', error);
         })
         .finally(() => {
-            this.getFeatureMetadataMethod(field, calledFrom);
+            this.isLoading = false;
         });
         
     }
