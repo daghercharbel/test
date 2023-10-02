@@ -67,7 +67,6 @@ export default class TtFeatureSettings extends LightningElement {
     getFeatureMetadataMethod(recName, calledFrom){
         getFeatureMetadata({recName: recName})
         .then(result => {
-            console.log('VOD -------------------- getFeatureMetadata then');
             if (result.status == 'success') {
                 let response = JSON.parse(result.value);
                 response['TelosTouchSF__Additional_Parameter__c'] = response.TelosTouchSF__Additional_Parameter__c ? response.TelosTouchSF__Additional_Parameter__c : 0;
@@ -75,7 +74,6 @@ export default class TtFeatureSettings extends LightningElement {
                     this.featureMetadata['Finest_Logging'] = response;
 
                 }else if(recName == 'Client_Tagging'){
-                    console.log('VOD -------------------- response ',response);
                     this.featureMetadata['Client_Tagging'] = response;
 
                 }else if(recName == 'Lead_Syncing'){
