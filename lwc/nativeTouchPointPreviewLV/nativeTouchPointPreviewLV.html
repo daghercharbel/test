@@ -8,8 +8,8 @@
 
         <!-- RETURN LISTVIEW BUTTON -->
         <template if:true={isGallery}>
-            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
-                onclick={handleBackbuttonAction} slot="actions"></lightning-button>
+            <lightning-button variant="brand" class="slds-var-m-left_small" label={topButtonLabel}
+                title={topButtonLabel} icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
         </template>
 
         <!-- GALLERY PAGE -->
@@ -19,7 +19,7 @@
                 <!-- PRIVACY TABS -->
                 <lightning-layout-item padding="around-small" alignment-bump="right">
                     <lightning-radio-group name="listView" options={listViewOptions} value={listViewValue} type="button"
-                        onchange={handleRadioChange} class="slds-m-top_medium"></lightning-radio-group>
+                        onchange={handleRadioChange} class="slds-var-m-top_medium"></lightning-radio-group>
                 </lightning-layout-item>
                 <!-- STATUS FILTER -->
                 <lightning-layout-item padding="around-small">
