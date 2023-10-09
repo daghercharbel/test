@@ -128,7 +128,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             list<PermissionSetAssignment> lstPsa = [SELECT Id FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() 
                                                     AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED];
 
-            for(TelosTouchSF__TT_Authentication_Credential__mdt mdt : [SELECT TelosTouchSF__Auto_Registration_URL__c, TelosTouchSF__isQA__c, TelosTouchSF__Is_Trial__c, MasterLabel,                                                TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, 
+            for(TelosTouchSF__TT_Authentication_Credential__mdt mdt : [SELECT TelosTouchSF__Auto_Registration_URL__c, TelosTouchSF__isQA__c, TelosTouchSF__Is_Trial__c, TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, 
                                                                         TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
                                                                         FROM TelosTouchSF__TT_Authentication_Credential__mdt WITH SECURITY_ENFORCED])
             {
