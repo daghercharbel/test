@@ -141,7 +141,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         Yes_Text
     };
 
-    afterSaveCredentials = false;
+    @api afterSaveCredentials = false;
+    @api isApproved = false;
     @track allRecords;
     @track conditionUpdateAndAddUsers;
     @track currentPage;
@@ -230,6 +231,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 if (this.storedResponse != null && this.storedResponse.adminCredentials.Client_ID != null && this.storedResponse.adminCredentials.Client_Secret != null && this.storedResponse.adminCredentials.Instance_URL != null) {
                     if (this.storedResponse.adminCredentials != null) {
                         this.setting = this.storedResponse.adminCredentials;
+                        if (this.setting.Approval) {
+                            const approvalEvt = new CustomEvent('approvalevent', { detail: this.setting.Approval });
+                            this.dispatchEvent(approvalEvt);
+                        }
                         if (this.setting.Approval == false || this.setting.Approval == null) {
                             this.isEditAndnotsettingApproval = true;
                             this.settingApproval = false;
@@ -372,15 +377,21 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         }
     }
 
-    // 'Update Add Users' button is clicked 
+    // 'Update Add Users' button is clicked
+    @api
     updateAndAddUsers() {
-        this.afterSaveCredentials = true;
-        if (this.setting.Approval == true) {
-            this.settingApproval = true;
-            this.isShowSpinner = true;
-            this.getUsersListHelper();
-        } else {
-            this.settingApproval = false;
+        try {
+            this.afterSaveCredentials = true;
+            if (this.isApproved) {
+                this.settingApproval = true;
+                this.isShowSpinner = true;
+                this.getUsersListHelper();
+            } else {
+                this.settingApproval = false;
+            }
+        } catch (error) {
+            this.error = error.message;
+            this.displayToast('error', this.error);
         }
     }
 
@@ -570,12 +581,12 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     }
 
     // call getUserList
+    @api
     getUsersListHelper() {
         getUserList()
             .then((result) => {
                 this.isShowSpinner = false;
                 var storedResponse = result;
-
                 if (storedResponse.activeUserWrapper != null) {
                     var userArray = [];
 
@@ -586,7 +597,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         storedResponse.activeUserWrapper[i].userObject.TTUser = storedResponse.activeUserWrapper[i].TTUser;
                         storedResponse.activeUserWrapper[i].userObject.TTRole = storedResponse.activeUserWrapper[i].TTRole;
                         lstRole.forEach(role => {
-                            if(role.value == storedResponse.activeUserWrapper[i].TTRole){
+                            if (role.value == storedResponse.activeUserWrapper[i].TTRole) {
                                 storedResponse.activeUserWrapper[i].userObject.TTRoleLabel = role.label;
                             }
                         });
@@ -607,29 +618,29 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             });
     }
 
-    switchRoleModal(){
+    switchRoleModal() {
         this.showRoleModal = !this.showRoleModal;
-        if(!this.showRoleModal){
+        if (!this.showRoleModal) {
             this.selectedRole = 'professional';
         }
     }
 
-    changeRole(event){
+    changeRole(event) {
         let value = event.detail.value;
         this.selectedRole = value;
     }
 
-    handleMassSaveRole(){
+    handleMassSaveRole() {
 
         this.isShowSpinner = true;
         let lstUser = []
         let selectedRows = this.selectedUserList;
         for (var i = 0; i < selectedRows.length; i++) {
-            if(!selectedRows[i].TelosTouchSF__TT_UserId__c){ continue; }
+            if (!selectedRows[i].TelosTouchSF__TT_UserId__c) { continue; }
             let aUser = {
-                Id : selectedRows[i].Id,
-                TelosTouchSF__TT_Role__c : this.selectedRole,
-                TelosTouchSF__TT_UserId__c : selectedRows[i].TelosTouchSF__TT_UserId__c
+                Id: selectedRows[i].Id,
+                TelosTouchSF__TT_Role__c: this.selectedRole,
+                TelosTouchSF__TT_UserId__c: selectedRows[i].TelosTouchSF__TT_UserId__c
             }
             lstUser.push(aUser);
         }
@@ -687,6 +698,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.showSearchBar = false;
         this.fromEntries = 1;
         this.searchValue = '';
+        const closeUserPopUp = new CustomEvent('closeusermanagement', { detail: false });
+        this.dispatchEvent(closeUserPopUp);
     }
 
     // show search bar
@@ -812,10 +825,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 }
             }
             let tempSelected = this.selectedUserList;
-            for(let y of newRecordsToShow){
+            for (let y of newRecordsToShow) {
                 let isChecked = false;
-                for(let x of tempSelected){
-                    if(x.Id === y.Id){
+                for (let x of tempSelected) {
+                    if (x.Id === y.Id) {
                         isChecked = true;
                         break;
                     }

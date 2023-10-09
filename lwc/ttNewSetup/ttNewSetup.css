@@ -1,0 +1,154 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: white;
+}
+
+.redColorCss {
+    color: red;
+}
+
+.contentPara {
+    height: 5rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* for larger screens */
+@media only screen and (min-width: 1600px) and (max-width: 1998px) {
+    .contentPara {
+        height: 5rem;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .cardCss {
+        display: block;
+        border: 1px solid white;
+        box-shadow: rgba(32, 33, 36, 0.28) -1px 1px 13px 4px;
+        border-radius: 8px;
+        height: 200px;
+        background-color: white;
+    }
+}
+
+/* for laptop */
+@media only screen and (min-width: 1200px) and (max-width: 1599px) {
+    .contentPara {
+        height: 5rem;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .cardCss {
+        display: block;
+        border: 1px solid white;
+        box-shadow: rgba(32, 33, 36, 0.28) -1px 1px 13px 4px;
+        border-radius: 8px;
+        height: 200px;
+        background-color: white;
+    }
+
+}
+
+/* for ipads */
+@media only screen and (min-width: 700px) and (max-width: 1199px) {
+    .cardCss {
+        display: block;
+        border: 1px solid white;
+        box-shadow: rgba(32, 33, 36, 0.28) -1px 1px 13px 4px;
+        border-radius: 8px;
+        height: 14rem;
+        width: 35vw;
+        background-color: white;
+    }
+}
+
+/* for mobile */
+@media only screen and (max-width: 700px) {
+    .cardCss {
+        display: block;
+        border: 1px solid white;
+        box-shadow: rgba(32, 33, 36, 0.28) -1px 1px 13px 4px;
+        border-radius: 8px;
+        height: 14rem;
+        width: 67vw;
+        background-color: white;
+    }
+}
+
+
+
+.fontSize {
+    font: caption;
+}
+
+
+.layoutCss {
+    width: 80%
+}
+
+.notConnectedCss {
+    background: #f2aaaa;
+}
+
+.connectedCss {
+    background: mediumseagreen;
+}
+
+.dataSyncButtons {
+    display: flex;
+    align-items: center;
+}
+
+.connectedCard{
+    background-color: #25a942;
+    border: 1px solid #25a942;
+}
+
+.disconnectedCard{
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+}
+
+.color-white{ 
+    color: white;
+}
+
+.color-red{
+    color: #ff0000;
+}
+
+.color-green{
+    color: #25a942;
+}
+
+.icon-white{
+    --sds-c-icon-color-foreground-default: white;
+}
+
+.red-btn{
+    --sds-c-button-brand-color-background: #ff0000;
+    --sds-c-button-brand-color-border: #ff0000;
+    --sds-c-button-brand-color-background-hover: #e70202;
+    --sds-c-button-brand-color-border-hover: #e70202;
+}
+
+.green-btn{
+    --sds-c-button-brand-color-background: #00a925;
+    --sds-c-button-brand-color-border: #00a925;
+    --sds-c-button-brand-color-background-hover: #008d1f;
+    --sds-c-button-brand-color-border-hover: #008d1f;
+}

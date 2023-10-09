@@ -42,7 +42,7 @@ export default class KnowledgeBase extends LightningElement {
     @track isSmallDevice = false;
     @track mapData2 = {};
     @track showBackButton = false;
-    @track showCarousel = true;
+    @api showCarousel = false;
     @track showInstallation = false;
     @track showOnboard = false;
     @track showUninstallation = false;
@@ -52,10 +52,10 @@ export default class KnowledgeBase extends LightningElement {
         if (FORM_FACTOR === 'Medium' || FORM_FACTOR === 'Small') {
             isSmallDevice = true;
         }
+        this.showCarousel = true;
         //Get all the custom medta data links
         GetImagesLinksKnowledgebase()
             .then((data) => {
-                console.log(JSON.parse(data));
                 this.mapData2 = JSON.parse(data);
 
             })

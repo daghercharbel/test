@@ -1,0 +1,180 @@
+<template>
+    <template if:true={isShowSpinner}>
+        <lightning-spinner id="Spinner" alternative-text="Loading" variant="brand" class="spinner">
+        </lightning-spinner>
+    </template>
+    <template if:true={showRegistrationModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeRegistrationModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Enter One Time Token</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-var-p-around_medium">
+                    <h1>We have sent a one time code to your email address. Please check your inbox and enter the code
+                        in the text box below and submit.</h1>
+                    <lightning-input name="tokeninput" label="Enter one time token"
+                        onchange={handleTokenTextAreaChange}></lightning-input>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeRegistrationModal}
+                        title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitRegistrationDetails}
+                        title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showToast}>
+        <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}>
+        </c-ttcustom-toast>
+    </template>
+    <div class="container">
+        <div class="slds-align_absolute-center">
+            <lightning-layout multiple-rows class="layoutCss">
+                <template if:true={isAdmin}>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                        padding="around-large">
+                        <div if:true={isApiConnected} class="cardCss slds-box slds-var-p-around_medium">
+                            <lightning-icon icon-name="utility:link" alternative-text="API status"
+                                size="small"></lightning-icon>
+                            <p class="slds-var-m-top_x-small fontSize">API status</p>
+                            <p class="color-green contentPara">Connected To TelosTouch</p>
+                            <lightning-button class="red-btn" variant="brand" label={connectLabel} title={connectLabel}
+                                onclick={handleConnect}></lightning-button>
+                        </div>
+                        <div if:false={isApiConnected} class="cardCss slds-box slds-var-p-around_medium">
+                            <lightning-icon icon-name="utility:link" alternative-text="API status"
+                                size="small"></lightning-icon>
+                            <p class="slds-var-m-top_x-small fontSize">API status</p>
+                            <p class="color-red contentPara">Missing API Token</p>
+                            <lightning-button class="green-btn" variant="brand" label={connectLabel}
+                                title={connectLabel} onclick={handleConnect}></lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                    padding="around-large">
+                    <div class="cardCss slds-box slds-var-p-around_medium ">
+                        <lightning-icon icon-name="utility:database" alternative-text="Data Sync"
+                            size="small"></lightning-icon>
+                        <p class="slds-var-m-top_x-small fontSize">Data Sync</p>
+                        <p class=" contentPara color-red">Last Sync: {manualSyncTime}</p>
+                        <div class="dataSyncButtons">
+                            <lightning-button variant="brand" label="Manual Sync" title="Manual Sync"
+                                onclick={handleManualSync}></lightning-button>
+                            <lightning-button variant="brand" label="Show Logs" title="Show Logs"
+                                onclick={handleLogTable} class="slds-var-p-left_medium"></lightning-button>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                    padding="around-large">
+                    <div class="cardCss slds-box slds-var-p-around_medium ">
+                        <lightning-icon icon-name="utility:user" alternative-text="User Management"
+                            size="small"></lightning-icon>
+                        <p class="slds-var-m-top_x-small fontSize">User Management</p>
+                        <p class="contentPara">Ensure everyone has the right level
+                            of access
+                        </p>
+                        <lightning-button variant="brand" disabled={isUserEdit} label="Edit" title="Edit"
+                            onclick={handleUserManagement}></lightning-button>
+                    </div>
+                </lightning-layout-item>
+                <template if:true={isAdmin}>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                        padding="around-large">
+                        <div class="cardCss slds-box slds-var-p-around_medium ">
+                            <lightning-icon icon-name="utility:data_mapping" alternative-text="Field Mapping"
+                                size="small"></lightning-icon>
+                            <p class="slds-var-m-top_x-small fontSize">Field Mapping</p>
+                            <p class=" contentPara">Map the fields from your Salesforce
+                                to the TelosTouch</p>
+                            <lightning-button variant="brand" label="Edit" title="Edit"
+                                onclick={handleDataMapping}></lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                        padding="around-large">
+                        <div class="cardCss slds-box slds-var-p-around_medium ">
+                            <lightning-icon icon-name="utility:magicwand" alternative-text="Features Management"
+                                size="small"></lightning-icon>
+                            <p class="slds-var-m-top_x-small fontSize">Features Management</p>
+                            <p class=" contentPara">Customize your experience
+                                based on your needs </p>
+                            <lightning-button variant="brand" label="Edit" title="Edit"
+                                onclick={handleFeatureManagement}></lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
+                    padding="around-large">
+                    <div class="cardCss slds-box slds-var-p-around_medium ">
+                        <lightning-icon icon-name="utility:help" alternative-text="Help" size="small"></lightning-icon>
+                        <p class="slds-var-m-top_x-small fontSize">Help</p>
+                        <p class="contentPara">{label.Help_Section_Text_1}&nbsp;{label.Help_Section_Text_2}&nbsp;<a
+                                onclick={openMail}>support@telostouch.com</a></p>
+                        <lightning-button variant="brand" label="Knowledge Base" title="Knowledge Base"
+                            onclick={handleKnowledgeBase}></lightning-button>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+    <template if:true={showDiffData}>
+        <div class="custom-modal">
+            <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <span class="slds-modal__close">
+                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
+                                size="small" onclick={handleModalClose}></lightning-icon>
+                        </span>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">{modalLabel}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-var-p-around_medium">
+                        <template if:true={showManualSync}>
+                            <c-telostouch-data-sync show-manual-sync={showManualSync}
+                                enable-sync="true"></c-telostouch-data-sync>
+                        </template>
+                        <template if:true={showLogTable}>
+                            <c-telostouch-data-sync enable-log-table={showLogTable}></c-telostouch-data-sync>
+                        </template>
+                        <template if:true={enableFieldMapping}>
+                            <c-field-mapping-comp show-field-mapping={enableFieldMapping}></c-field-mapping-comp>
+                        </template>
+                        <template if:true={enableFeatureManagement}>
+                            <c-tt-feature-settings></c-tt-feature-settings>
+                            <!-- show-feature-management={enableFeatureManagement}
+                                </c-tt-feature-settings> -->
+                        </template>
+                        <template if:true={enableKnowledgeBase}>
+                            <c-knowledge-base show-carousel={enableKnowledgeBase}></c-knowledge-base>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Close" title="Close" class="slds-m-right_small"
+                            onclick={handleModalClose}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <template if:true={enableUpdateAddUser}>
+            <c-telostouch-setup-configuration 
+                oncloseusermanagement={closeUserManagementPopUp} onapprovalevent={handleApprovalValue}
+                is-approved={approvalValue}></c-telostouch-setup-configuration>
+        </template>
+    </template>
+</template>

@@ -7,281 +7,293 @@
         <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}>
         </c-ttcustom-toast>
     </template>
-    <lightning-layout multiple-rows="true">
-        <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="4"
-            large-device-size="3">
-            <div class="slds-form-element ObjectSelectWidth">
-                <div class="slds-form-element__control">
-                    <div class="slds-select_container">
-                        <select id="select" class="slds-select" onchange={handleObjectChange}>
-                            <template for:each={objectOptions} for:item="option">
-                                <option key={option.Id} value={option.Id}>{option.Name}</option>
-                            </template>
-                        </select>
+    <template if:true={showFieldMapping}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="4"
+                large-device-size="3">
+                <div class="slds-form-element ObjectSelectWidth">
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select id="select" class="slds-select" onchange={handleObjectChange}>
+                                <template for:each={objectOptions} for:item="option">
+                                    <option key={option.Id} value={option.Id}>{option.Name}</option>
+                                </template>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </lightning-layout-item>
-        <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="4"
-            large-device-size="9" class="togglePosition">
-            <lightning-input type="toggle" label={label.Assigned_User_Label} name="recordOwner"
-                message-toggle-active="Created By Id" message-toggle-inactive="Owner Id" checked={userCreatedByIdFlag}
-                onchange={setRecordOwnerFlag}></lightning-input>
-        </lightning-layout-item>
-    </lightning-layout>
-    <div>
-        <div class="slds-scrollable scrollableDiv">
-            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
-                <thead>
-                    <tr class="slds-line-height_reset">
-                        <th scope="col" class="tableCol1">{label.Salesforce_Fields} </th>
-                        <th scope="col" class="tableCol2">{label.TelosTouch_Fields}</th>
-                        <th scope="col" class="tableCol3"></th>
-                        <th scope="col" class="tableCol4">{label.Sync_Empty_Field}</th>
-                    </tr>
-                </thead>
-                <tbody>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="4"
+                large-device-size="9" class="togglePosition">
+                <lightning-input type="toggle" label={label.Assigned_User_Label} name="recordOwner"
+                    message-toggle-active="Created By Id" message-toggle-inactive="Owner Id"
+                    checked={userCreatedByIdFlag} onchange={setRecordOwnerFlag}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div>
+            <div class="slds-scrollable scrollableDiv">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col" class="tableCol1">{label.Salesforce_Fields} </th>
+                            <th scope="col" class="tableCol2">{label.TelosTouch_Fields}</th>
+                            <th scope="col" class="tableCol3"></th>
+                            <th scope="col" class="tableCol4">{label.Sync_Empty_Field}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <template for:each={customfieldlist} for:item="each" for:index="index">
-                        <tr class="slds-hint-parent" key={each.Id}>
-                            <td>
-                                <div class="slds-form-element boxContent">
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-select_container">
-                                            <template if:true={fieldBoxEnabled}>
-                                                <select class="slds-select" disabled={comboBoxDisabled}
-                                                    onchange={fieldSelected} id={index}>
-                                                    <option value="">choose one..</option>
-                                                    <template for:each={each.initDataList} for:item="eachField">
-                                                        <template if:true={eachField.isSelected}>
-                                                            <option value={eachField.fieldAPIName} key={eachField.Id}
-                                                                selected>{eachField.fieldName}</option>
+                        <template for:each={customfieldlist} for:item="each" for:index="index">
+                            <tr class="slds-hint-parent" key={each.Id}>
+                                <td>
+                                    <div class="slds-form-element boxContent">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <template if:true={fieldBoxEnabled}>
+                                                    <select class="slds-select" disabled={comboBoxDisabled}
+                                                        onchange={fieldSelected} id={index}>
+                                                        <option value="">choose one..</option>
+                                                        <template for:each={each.initDataList} for:item="eachField">
+                                                            <template if:true={eachField.isSelected}>
+                                                                <option value={eachField.fieldAPIName}
+                                                                    key={eachField.Id} selected>{eachField.fieldName}
+                                                                </option>
+                                                            </template>
+                                                            <template if:false={eachField.isSelected}>
+                                                                <option value={eachField.fieldAPIName}
+                                                                    key={eachField.Id}>
+                                                                    {eachField.fieldName}</option>
+                                                            </template>
                                                         </template>
-                                                        <template if:false={eachField.isSelected}>
-                                                            <option value={eachField.fieldAPIName} key={eachField.Id}>
-                                                                {eachField.fieldName}</option>
+                                                    </select>
+                                                </template>
+                                                <template if:false={fieldBoxEnabled}>
+                                                    <select class="slds-select" disabled={each.fieldDisabled}
+                                                        onchange={fieldSelected} id={index}>
+                                                        <option value="">choose one..</option>
+                                                        <template for:each={each.initDataList} for:item="eachField">
+                                                            <template if:true={eachField.isSelected}>
+                                                                <option value={eachField.fieldAPIName}
+                                                                    key={eachField.Id} selected>{eachField.fieldName}
+                                                                </option>
+                                                            </template>
+                                                            <template if:false={eachField.isSelected}>
+                                                                <option value={eachField.fieldAPIName}
+                                                                    key={eachField.Id}>
+                                                                    {eachField.fieldName}</option>
+                                                            </template>
                                                         </template>
-                                                    </template>
-                                                </select>
-                                            </template>
-                                            <template if:false={fieldBoxEnabled}>
-                                                <select class="slds-select" disabled={each.fieldDisabled}
-                                                    onchange={fieldSelected} id={index}>
-                                                    <option value="">choose one..</option>
-                                                    <template for:each={each.initDataList} for:item="eachField">
-                                                        <template if:true={eachField.isSelected}>
-                                                            <option value={eachField.fieldAPIName} key={eachField.Id}
-                                                                selected>{eachField.fieldName}</option>
-                                                        </template>
-                                                        <template if:false={eachField.isSelected}>
-                                                            <option value={eachField.fieldAPIName} key={eachField.Id}>
-                                                                {eachField.fieldName}</option>
-                                                        </template>
-                                                    </template>
-                                                </select>
-                                            </template>
+                                                    </select>
+                                                </template>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <template if:true={each.isRequired}>
-                                    {each.fieldNameTT}<abbr class="slds-required" title="required">* </abbr>
-                                </template>
-                                <template if:false={each.isRequired}>
-                                    {each.fieldNameTT}
-                                </template>
-                            </td>
-                            <td>
-                                <template if:true={deleteOff}>
-                                    <template if:true={each.ifItemCustom}>
-                                        <lightning-button-icon variant="base" size="small" icon-name="utility:delete"
-                                            alternative-text="delete"
-                                            class="deleteIconColor slds-align_absolute-center boxContent"
-                                            value={each.TelosTouchSF__Salesforce_Field__c} onclick={handleDelete}>
-                                        </lightning-button-icon>
+                                </td>
+                                <td>
+                                    <template if:true={each.isRequired}>
+                                        {each.fieldNameTT}<abbr class="slds-required" title="required">* </abbr>
                                     </template>
-                                    <template if:false={each.ifItemCustom}>
-                                        <template if:false={each.isRequired}>
+                                    <template if:false={each.isRequired}>
+                                        {each.fieldNameTT}
+                                    </template>
+                                </td>
+                                <td>
+                                    <template if:true={deleteOff}>
+                                        <template if:true={each.ifItemCustom}>
                                             <lightning-button-icon variant="base" size="small"
                                                 icon-name="utility:delete" alternative-text="delete"
                                                 class="deleteIconColor slds-align_absolute-center boxContent"
-                                                value={each.TelosTouchSF__TT_Field__c} onclick={handleDelete}>
+                                                value={each.TelosTouchSF__Salesforce_Field__c} onclick={handleDelete}>
                                             </lightning-button-icon>
                                         </template>
+                                        <template if:false={each.ifItemCustom}>
+                                            <template if:false={each.isRequired}>
+                                                <lightning-button-icon variant="base" size="small"
+                                                    icon-name="utility:delete" alternative-text="delete"
+                                                    class="deleteIconColor slds-align_absolute-center boxContent"
+                                                    value={each.TelosTouchSF__TT_Field__c} onclick={handleDelete}>
+                                                </lightning-button-icon>
+                                            </template>
+                                        </template>
                                     </template>
-                                </template>
-                            </td>
-                            <td>
-                                <template if:true={comboBoxDisabled}>
-                                    <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                        disabled="true" checked={each.TelosTouchSF__Is_Sync_Empty_Field__c}>
-                                    </lightning-input>
-                                </template>
-                                <template if:false={comboBoxDisabled}>
-                                    <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                        label={each.TelosTouchSF__TT_Field__c} value={each.TelosTouchSF__TT_Field__c}
-                                        variant="label-hidden" disabled={each.isDisabled}
-                                        checked={each.TelosTouchSF__Is_Sync_Empty_Field__c}
-                                        onchange={handleToggleButtons}></lightning-input>
-                                </template>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <template if:true={comboBoxDisabled}>
+                                        <lightning-input type="toggle" message-toggle-active=""
+                                            message-toggle-inactive="" disabled="true"
+                                            checked={each.TelosTouchSF__Is_Sync_Empty_Field__c}>
+                                        </lightning-input>
+                                    </template>
+                                    <template if:false={comboBoxDisabled}>
+                                        <lightning-input type="toggle" message-toggle-active=""
+                                            message-toggle-inactive="" label={each.TelosTouchSF__TT_Field__c}
+                                            value={each.TelosTouchSF__TT_Field__c} variant="label-hidden"
+                                            disabled={each.isDisabled}
+                                            checked={each.TelosTouchSF__Is_Sync_Empty_Field__c}
+                                            onchange={handleToggleButtons}></lightning-input>
+                                    </template>
+                                </td>
+                            </tr>
 
-                    </template>
-                </tbody>
+                        </template>
+                    </tbody>
 
-            </table>
-        </div>
+                </table>
+            </div>
 
-        <footer>
-            <template if:true={isDesktop}>
-                <div class="slds-align_absolute-center footerElementsDesktop">
-                    <lightning-button variant="brand" label={label.Save_Button_Label} icon-name="utility:save"
-                        title="save" onclick={handleSaveClick} disabled={saveButtonDisabled}></lightning-button> &nbsp;
-                    <lightning-button variant="brand" label={label.Edit_Button_Label} icon-name="utility:edit"
-                        title="edit" onclick={handleEditClick} disabled={editButtonDisabled}></lightning-button> &nbsp;
-                    <lightning-button variant="brand" label={label.Back_Button_Label} icon-name="utility:back"
-                        title="back" onclick={handleBackClick} disabled={backButtonDisabled}></lightning-button> &nbsp;
-                    <lightning-button variant="brand" label={label.Add_Fields_Button_Label} icon-name="utility:add"
-                        title="add" onclick={handleAddFieldsClick} disabled={addButtonDisabled}></lightning-button>
-                </div>
-                <!-- <c-ttcontact-support tab-name="NotTelosTouchSync"></c-ttcontact-support> -->
-            </template>
-            <template if:false={isDesktop}>
-                <div class="footerElements">
-                    <div class="innerDivItems">
+            <footer>
+                <template if:true={isDesktop}>
+                    <div class="slds-align_absolute-center footerElementsDesktop">
                         <lightning-button variant="brand" label={label.Save_Button_Label} icon-name="utility:save"
                             title="save" onclick={handleSaveClick} disabled={saveButtonDisabled}></lightning-button>
                         &nbsp;
                         <lightning-button variant="brand" label={label.Edit_Button_Label} icon-name="utility:edit"
                             title="edit" onclick={handleEditClick} disabled={editButtonDisabled}></lightning-button>
-                    </div>
-                    <div class="innerDivItems">
+                        &nbsp;
                         <lightning-button variant="brand" label={label.Back_Button_Label} icon-name="utility:back"
                             title="back" onclick={handleBackClick} disabled={backButtonDisabled}></lightning-button>
                         &nbsp;
                         <lightning-button variant="brand" label={label.Add_Fields_Button_Label} icon-name="utility:add"
                             title="add" onclick={handleAddFieldsClick} disabled={addButtonDisabled}></lightning-button>
                     </div>
-                </div>
-                <!-- <c-ttcontact-support tab-name="NotTelosTouchSync"></c-ttcontact-support> -->
-            </template>
-        </footer>
-    </div>
-    <template if:true={openConfirmationModal}>
-        <div class="custom-modal">
-            <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
-                <div class="slds-modal__container">
-                    <header class="slds-modal__header">
-                        <span class="slds-modal__close">
-                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
-                                onclick={closeModal} class="cursorPointer"></lightning-icon>
-                        </span>
-                        <h2 class="slds-text-heading_medium slds-hyphenate">{label.Confirmation_Text}</h2>
-                    </header>
-                    <div class="slds-modal__content slds-p-around_medium">
-                        <p class="slds-align_absolute-center">{label.Sure_To_Remove}</p>
-                    </div>
-                    <footer class="slds-modal__footer">
-                        <lightning-button variant="brand" label={label.Yes_Text} title="Yes" class="slds-m-right_small"
-                            onclick={deleteCustomField}></lightning-button>
-                        <lightning-button label={label.No_Text} title="No" onclick={closeModal}></lightning-button>
-                    </footer>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </div>
-    </template>
-    <template if:true={modalAddFields}>
-        <div class="custom-modal">
-            <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
-                <div class="slds-modal__container">
-                    <header class="slds-modal__header">
-                        <span class="slds-modal__close">
-                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
-                                onclick={closeFieldsModal} class="cursorPointer"></lightning-icon>
-                        </span>
-                        <h2 class="slds-text-heading_medium slds-hyphenate">{label.Add_Fields_Button_Label}</h2>
-                    </header>
-                    <div class="slds-modal__content slds-p-around_medium ">
-                        <lightning-radio-group name="radioGroup" label="" variant="label-hidden"
-                            options={getRadioOptions} value={buttonValue} type="radio"
-                            class="slds-align_absolute-center" onchange={getRadioValue}>
-                        </lightning-radio-group>
-                    </div>
-                    <footer class="slds-modal__footer">
-                        <lightning-button label={label.Cancel_Button_Label} title="Cancel" class="slds-m-right_small"
-                            onclick={closeFieldsModal}></lightning-button>
-                        <lightning-button variant="brand" label={label.Next_Button_Label} title="Next"
-                            onclick={addCustomFieldButton}></lightning-button>
-                    </footer>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </div>
-    </template>
-    <template if:true={addCustomFieldsModal}>
-        <div class="custom-modal">
-            <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_large">
-                <div class="slds-modal__container">
-                    <header class="slds-modal__header">
-                        <span class="slds-modal__close">
-                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
-                                onclick={closeCustomFieldsModal} class="cursorPointer"></lightning-icon>
-                        </span>
-                        <div class="modalHeaderContent">
-                            <lightning-icon icon-name="utility:chevronleft" alternative-text="back" size="x-small"
-                                onclick={backToRadio} class="cursorPointer backButtonAllign"></lightning-icon>
-                            <h2
-                                class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center headingAllign">
-                                {label.Add_Custom_Fields_Text}</h2>
+                    <!-- <c-ttcontact-support tab-name="NotTelosTouchSync"></c-ttcontact-support> -->
+                </template>
+                <template if:false={isDesktop}>
+                    <div class="footerElements">
+                        <div class="innerDivItems">
+                            <lightning-button variant="brand" label={label.Save_Button_Label} icon-name="utility:save"
+                                title="save" onclick={handleSaveClick} disabled={saveButtonDisabled}></lightning-button>
+                            &nbsp;
+                            <lightning-button variant="brand" label={label.Edit_Button_Label} icon-name="utility:edit"
+                                title="edit" onclick={handleEditClick} disabled={editButtonDisabled}></lightning-button>
                         </div>
-                    </header>
-                    <div class="slds-modal__content slds-var-p-around_xx-small">
-                        <lightning-dual-listbox label="" variant="label-hidden" options={dataListFiltered}
-                            onchange={handleListBoxChange}></lightning-dual-listbox>
-                    </div>
-                    <footer class="slds-modal__footer">
-                        <lightning-button label={label.Cancel_Button_Label} title="Cancel" class="slds-m-right_small"
-                            onclick={closeCustomFieldsModal}></lightning-button>
-                        <lightning-button variant="brand" label={label.Save_Button_Label} title="Save"
-                            onclick={submitDetails}></lightning-button>
-                    </footer>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </div>
-    </template>
-    <template if:true={ifStandardFields}>
-        <div class="custom-modal">
-            <section role="dialog" class="slds-modal slds-fade-in-open">
-                <div class="slds-modal__container">
-                    <header class="slds-modal__header">
-                        <span class="slds-modal__close">
-                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
-                                onclick={closeStandardFieldsModal} class="cursorPointer"></lightning-icon>
-                        </span>
-                        <div class="modalHeaderContent">
-                            <lightning-icon icon-name="utility:chevronleft" alternative-text="back" size="x-small"
-                                onclick={backToRadio} class="cursorPointer backButtonAllign"></lightning-icon>
-                            <h2 class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
-                                {label.Add_Standard_Fields_Text}</h2>
+                        <div class="innerDivItems">
+                            <lightning-button variant="brand" label={label.Back_Button_Label} icon-name="utility:back"
+                                title="back" onclick={handleBackClick} disabled={backButtonDisabled}></lightning-button>
+                            &nbsp;
+                            <lightning-button variant="brand" label={label.Add_Fields_Button_Label}
+                                icon-name="utility:add" title="add" onclick={handleAddFieldsClick}
+                                disabled={addButtonDisabled}></lightning-button>
                         </div>
-                    </header>
-                    <div class="slds-modal__content slds-var-p-around_xx-small">
-                        <lightning-dual-listbox label="" variant="label-hidden" options={dataListFiltered}
-                            onchange={handleListBoxChange}></lightning-dual-listbox>
                     </div>
-                    <footer class="slds-modal__footer">
-                        <lightning-button label={label.Cancel_Button_Label} title="Cancel" class="slds-m-right_small"
-                            onclick={closeStandardFieldsModal}></lightning-button>
-                        <lightning-button variant="brand" label={label.Save_Button_Label} title="Save"
-                            onclick={submitStandardDetails}></lightning-button>
-                    </footer>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
+                    <!-- <c-ttcontact-support tab-name="NotTelosTouchSync"></c-ttcontact-support> -->
+                </template>
+            </footer>
         </div>
+        <template if:true={openConfirmationModal}>
+            <div class="custom-modal">
+                <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <span class="slds-modal__close">
+                                <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
+                                    onclick={closeModal} class="cursorPointer"></lightning-icon>
+                            </span>
+                            <h2 class="slds-text-heading_medium slds-hyphenate">{label.Confirmation_Text}</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <p class="slds-align_absolute-center">{label.Sure_To_Remove}</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="brand" label={label.Yes_Text} title="Yes"
+                                class="slds-m-right_small" onclick={deleteCustomField}></lightning-button>
+                            <lightning-button label={label.No_Text} title="No" onclick={closeModal}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+        <template if:true={modalAddFields}>
+            <div class="custom-modal">
+                <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <span class="slds-modal__close">
+                                <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
+                                    onclick={closeFieldsModal} class="cursorPointer"></lightning-icon>
+                            </span>
+                            <h2 class="slds-text-heading_medium slds-hyphenate">{label.Add_Fields_Button_Label}</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium ">
+                            <lightning-radio-group name="radioGroup" label="" variant="label-hidden"
+                                options={getRadioOptions} value={buttonValue} type="radio"
+                                class="slds-align_absolute-center" onchange={getRadioValue}>
+                            </lightning-radio-group>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label={label.Cancel_Button_Label} title="Cancel"
+                                class="slds-m-right_small" onclick={closeFieldsModal}></lightning-button>
+                            <lightning-button variant="brand" label={label.Next_Button_Label} title="Next"
+                                onclick={addCustomFieldButton}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+        <template if:true={addCustomFieldsModal}>
+            <div class="custom-modal">
+                <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_large">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <span class="slds-modal__close">
+                                <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
+                                    onclick={closeCustomFieldsModal} class="cursorPointer"></lightning-icon>
+                            </span>
+                            <div class="modalHeaderContent">
+                                <lightning-icon icon-name="utility:chevronleft" alternative-text="back" size="x-small"
+                                    onclick={backToRadio} class="cursorPointer backButtonAllign"></lightning-icon>
+                                <h2
+                                    class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center headingAllign">
+                                    {label.Add_Custom_Fields_Text}</h2>
+                            </div>
+                        </header>
+                        <div class="slds-modal__content slds-var-p-around_xx-small">
+                            <lightning-dual-listbox label="" variant="label-hidden" options={dataListFiltered}
+                                onchange={handleListBoxChange}></lightning-dual-listbox>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label={label.Cancel_Button_Label} title="Cancel"
+                                class="slds-m-right_small" onclick={closeCustomFieldsModal}></lightning-button>
+                            <lightning-button variant="brand" label={label.Save_Button_Label} title="Save"
+                                onclick={submitDetails}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+        <template if:true={ifStandardFields}>
+            <div class="custom-modal">
+                <section role="dialog" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <span class="slds-modal__close">
+                                <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"
+                                    onclick={closeStandardFieldsModal} class="cursorPointer"></lightning-icon>
+                            </span>
+                            <div class="modalHeaderContent">
+                                <lightning-icon icon-name="utility:chevronleft" alternative-text="back" size="x-small"
+                                    onclick={backToRadio} class="cursorPointer backButtonAllign"></lightning-icon>
+                                <h2 class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                                    {label.Add_Standard_Fields_Text}</h2>
+                            </div>
+                        </header>
+                        <div class="slds-modal__content slds-var-p-around_xx-small">
+                            <lightning-dual-listbox label="" variant="label-hidden" options={dataListFiltered}
+                                onchange={handleListBoxChange}></lightning-dual-listbox>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label={label.Cancel_Button_Label} title="Cancel"
+                                class="slds-m-right_small" onclick={closeStandardFieldsModal}></lightning-button>
+                            <lightning-button variant="brand" label={label.Save_Button_Label} title="Save"
+                                onclick={submitStandardDetails}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
     </template>
 </template>

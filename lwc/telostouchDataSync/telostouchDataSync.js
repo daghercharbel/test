@@ -20,7 +20,6 @@ import Next_Button_Label from "@salesforce/label/c.Next_Button_Label";
 import Previous_Button_Label from "@salesforce/label/c.Previous_Button_Label";
 import of_text from "@salesforce/label/c.of_text";
 import Page_no_text from "@salesforce/label/c.Page_no_text";
-import Refresh_Label from "@salesforce/label/c.Refresh_Label";
 
 import Total_Sync_Record_Text from "@salesforce/label/c.Total_Sync_Record_Text";
 import Successful_Operation_Text from "@salesforce/label/c.Successful_Operation_Text";
@@ -51,7 +50,6 @@ export default class TelostouchDataSync extends LightningElement {
     Manual_Sync_All_Button,
     Last_Sync_Completed,
     Log_Number_Text,
-    Refresh_Label,
     Result_Text,
     Sync_Time_Text,
     Comments_Text,
@@ -60,9 +58,11 @@ export default class TelostouchDataSync extends LightningElement {
     Record_Sync_Success_Text
   };
   @api showManualSync = false;
+  @api enableLogTable = false;
+  @api enableSync = false;
   approval = false;
   asyncJobStatus = false;
-  lastUpdated = '';
+  @api lastUpdated = '';
   logsList = [];
 
   paginationList = [];

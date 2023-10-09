@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import Assigned_User_Label from '@salesforce/label/c.Assigned_User_Label';
 import Salesforce_Fields from '@salesforce/label/c.Salesforce_Fields';
 import TelosTouch_Fields from '@salesforce/label/c.TelosTouch_Fields';
@@ -47,6 +47,7 @@ import getUseCreatedByIdFlag from '@salesforce/apex/TelosTouchMapping.getUseCrea
 import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class FieldMappingComp extends LightningElement {
+    @api showFieldMapping = false;
     objectValue = 'Contact';
     isSpin = false;
     @track initTableData;

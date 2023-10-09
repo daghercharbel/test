@@ -6,7 +6,7 @@
     <script>
     $Lightning.use("TelosTouchSF:TelosTouchConfigApp", function () {
         $Lightning.createComponent(
-            "TelosTouchSF:TelosTouchConfigComp",
+            "TelosTouchSF:ttNewSetup",
             {"isAdmin" : "{!isAdmin}",
              "showManualSync" : "{!showManualSync}"},
             "mappingDiv",

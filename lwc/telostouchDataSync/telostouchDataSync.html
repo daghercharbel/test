@@ -7,7 +7,7 @@
   </template>
   <!--SPINNER END-->
   <!--SYNC CONTROLS START-->
-  <lightning-layout multiple-rows="true">
+  <lightning-layout multiple-rows="true" if:true={enableSync}>
     <lightning-layout-item size="12" large-device-size="5" medium-device-size="12" small-device-size="12">
       <div class="header-column slds-var-p-horizontal_small slds-var-p-top_xx-small">
         <template if:true={showManualSync}>
@@ -39,130 +39,132 @@
   </lightning-layout>
   <!--SYNC CONTROLS END-->
   <!--REFRESH BUTTON START-->
-  <lightning-layout multiple-rows="true">
-    <lightning-layout-item size="12">
-      <lightning-button variant="brand" label={label.Refresh_Label} title="Refresh" icon-name="utility:refresh"
-        class="slds-var-m-bottom_x-small slds-float--right" onclick={refreshLogs}>
-      </lightning-button>
-    </lightning-layout-item>
-  </lightning-layout>
-  <!--REFRESH BUTTON END-->
-  <!--LOG TABLE START-->
-  <div class="tableOuterHeight" id="logtable">
-    <div class="slds-scrollable scrollbarStyled tableinnerHeight">
-      <table class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
-        <tbody>
-          <template if:false={isLogsListEmpty}>
-            <th scope="col" class="slds-cell-fixed table-header-css">
-              <p class="tableHeading1">{label.Log_Number_Text}</p>
-            </th>
-            <th scope="col" class="slds-cell-fixed table-header-css">{label.Result_Text}</th>
-            <th scope="col" class="slds-cell-fixed table-header-css">{label.Sync_Time_Text}</th>
-            <th scope="col" class="slds-cell-fixed table-header-css">{label.Comments_Text}</th>
-            <th scope="col" class="slds-cell-fixed table-header-css">{label.Total_Sync_Record_Text}</th>
-            <template for:each={paginationList} for:item="eachLog">
-              <tr key={eachLog.id} class="slds-hint-parent">
-                <td scope="row" data-label="SYNC WAY">
-                  <div class="slds-truncate"> {eachLog.Name}</div>
-                </td>
-                <td scope="row" data-label="STATUS">
-                  <div class="slds-truncate">
-                    <img src={eachLog.result} class="imageCss" />
-                  </div>
-                </td>
-                <td scope="row">
-                  <div class="slds-truncate"> {eachLog.CreatedDate}</div>
-                </td>
-                <td scope="row">
-                  <template if:true={userLanguageEn}>
-                    <div class="slds-truncate">{eachLog.TelosTouchSF__Comments__c}</div>
-                  </template>
-                  <template if:false={userLanguageEn}>
-                    <div class="slds-truncate">{eachLog.TelosTouchSF__Comments_FR__c}</div>
-                  </template>
-                </td>
-                <td scope="row">
-                  <div class="slds-truncate totalCount">{eachLog.TelosTouchSF__Total_Records_Count__c}</div>
-                </td>
-              </tr>
+  <template if:true={enableLogTable}>
+    <lightning-layout multiple-rows="true">
+      <lightning-layout-item size="12">
+        <lightning-button variant="brand" label="Refresh" title="Refresh" icon-name="utility:refresh"
+          class="slds-var-m-bottom_x-small slds-float--right" onclick={refreshLogs}>
+        </lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
+    <!--REFRESH BUTTON END-->
+    <!--LOG TABLE START-->
+    <div class="tableOuterHeight" id="logtable">
+      <div class="slds-scrollable scrollbarStyled tableinnerHeight">
+        <table class="slds-table  slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+          <tbody>
+            <template if:false={isLogsListEmpty}>
+              <th scope="col" class="slds-cell-fixed table-header-css">
+                <p class="tableHeading1">{label.Log_Number_Text}</p>
+              </th>
+              <th scope="col" class="slds-cell-fixed table-header-css">{label.Result_Text}</th>
+              <th scope="col" class="slds-cell-fixed table-header-css">{label.Sync_Time_Text}</th>
+              <th scope="col" class="slds-cell-fixed table-header-css">{label.Comments_Text}</th>
+              <th scope="col" class="slds-cell-fixed table-header-css">{label.Total_Sync_Record_Text}</th>
+              <template for:each={paginationList} for:item="eachLog">
+                <tr key={eachLog.id} class="slds-hint-parent">
+                  <td scope="row" data-label="SYNC WAY">
+                    <div class="slds-truncate"> {eachLog.Name}</div>
+                  </td>
+                  <td scope="row" data-label="STATUS">
+                    <div class="slds-truncate">
+                      <img src={eachLog.result} class="imageCss" />
+                    </div>
+                  </td>
+                  <td scope="row">
+                    <div class="slds-truncate"> {eachLog.CreatedDate}</div>
+                  </td>
+                  <td scope="row">
+                    <template if:true={userLanguageEn}>
+                      <div class="slds-truncate">{eachLog.TelosTouchSF__Comments__c}</div>
+                    </template>
+                    <template if:false={userLanguageEn}>
+                      <div class="slds-truncate">{eachLog.TelosTouchSF__Comments_FR__c}</div>
+                    </template>
+                  </td>
+                  <td scope="row">
+                    <div class="slds-truncate totalCount">{eachLog.TelosTouchSF__Total_Records_Count__c}</div>
+                  </td>
+                </tr>
+              </template>
             </template>
+            <template if:true={isLogsListEmpty}>
+              <div align="center" class="slds-var-p-top_large modalCSS">
+                <p>No records found</p>
+              </div>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      <!--LOG TABLE END-->
+      <!--PAGINATION CONTROLS START-->
+      <div slot="actions" class="slds-p-top_x-small slds-p-horizontal_small">
+        <div class="slds-float_right slds-var-p-bottom_x-small">
+          <lightning-button variant="brand" title={label.Previous_Button_Label} label={label.Previous_Button_Label}
+            disabled={preDisable} icon-name="utility:chevronleft" icon-position="left" onclick={handleClick}>
+          </lightning-button>
+          <lightning-button variant="brand" title={label.Next_Button_Label} label={label.Next_Button_Label}
+            disabled={nextDisable} class="slds-p-left_xx-small" icon-name="utility:chevronright" icon-position="left"
+            onclick={handleClick}>
+          </lightning-button>
+        </div>
+        <span class="slds-p-left_x-small slds-float_left ">
+          {label.Page_no_text}: {pageNo} {label.of_text} {totalPages}
+        </span>
+      </div>
+    </div>
+    <!--PAGINATION CONTROLS END-->
+    <!--MODAL START-->
+    <template if:true={isModalOpen}>
+      <!-- Modal/Popup Box starts here-->
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <!-- Warning Modal When no COntact Are selected-->
+          <template if:true={warningModalisOpen}>
+            <header class="slds-modal__header slds-theme_warning">
+              <lightning-button-icon icon-name="utility:close" alternative-text="close" onclick={closeModal}
+                variant="bare-inverse" class="slds-modal__close">
+              </lightning-button-icon>
+              <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">Scheduled
+                Sync in Progress</h2>
+            </header>
           </template>
-          <template if:true={isLogsListEmpty}>
-            <div align="center" class="slds-var-p-top_large modalCSS">
-              <p>No records found</p>
+          <!-- Modal/Popup Box Header Starts here-->
+          <template if:false={warningModalisOpen}>
+            <header class="slds-modal__header">
+              <lightning-button-icon icon-name="utility:close" alternative-text="close" onclick={closeModal}
+                variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
+              <h2 class="slds-text-heading_medium slds-hyphenate modalCSS">
+                {label.Successful_Operation_Text}</h2>
+            </header>
+          </template>
+          <!-- Warning Modal BoX Content -->
+          <template if:true={warningModalisOpen}>
+            <div class="slds-modal__content slds-p-around_medium">
+              <p class="warningModalCSS">
+                Records are Already <Strong>Scheduled </Strong>for syncing .
+              </p>
             </div>
           </template>
-        </tbody>
-      </table>
-    </div>
-    <!--LOG TABLE END-->
-    <!--PAGINATION CONTROLS START-->
-    <div slot="actions" class="slds-p-top_x-small slds-p-horizontal_small">
-      <div class="slds-float_right">
-        <lightning-button variant="brand" title={label.Previous_Button_Label} label={label.Previous_Button_Label}
-          disabled={preDisable} icon-name="utility:chevronleft" icon-position="left" onclick={handleClick}>
-        </lightning-button>
-        <lightning-button variant="brand" title={label.Next_Button_Label} label={label.Next_Button_Label}
-          disabled={nextDisable} class="slds-p-left_xx-small" icon-name="utility:chevronright" icon-position="left"
-          onclick={handleClick}>
-        </lightning-button>
-      </div>
-      <span class="slds-p-left_x-small slds-float_left ">
-        {label.Page_no_text}: {pageNo} {label.of_text} {totalPages}
-      </span>
-    </div>
-  </div>
-  <!--PAGINATION CONTROLS END-->
-  <!--MODAL START-->
-  <template if:true={isModalOpen}>
-    <!-- Modal/Popup Box starts here-->
-    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-      <div class="slds-modal__container">
-        <!-- Warning Modal When no COntact Are selected-->
-        <template if:true={warningModalisOpen}>
-          <header class="slds-modal__header slds-theme_warning">
-            <lightning-button-icon icon-name="utility:close" alternative-text="close" onclick={closeModal}
-              variant="bare-inverse" class="slds-modal__close">
-            </lightning-button-icon>
-            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate modalCSS">Scheduled
-              Sync in Progress</h2>
-          </header>
-        </template>
-        <!-- Modal/Popup Box Header Starts here-->
-        <template if:false={warningModalisOpen}>
-          <header class="slds-modal__header">
-            <lightning-button-icon icon-name="utility:close" alternative-text="close" onclick={closeModal}
-              variant="bare-inverse" class="slds-modal__close"></lightning-button-icon>
-            <h2 class="slds-text-heading_medium slds-hyphenate modalCSS">
-              {label.Successful_Operation_Text}</h2>
-          </header>
-        </template>
-        <!-- Warning Modal BoX Content -->
-        <template if:true={warningModalisOpen}>
-          <div class="slds-modal__content slds-p-around_medium">
-            <p class="warningModalCSS">
-              Records are Already <Strong>Scheduled </Strong>for syncing .
-            </p>
-          </div>
-        </template>
-        <template if:false={warningModalisOpen}>
-          <!--Modal/Popup Box Body Starts here-->
-          <div class="slds-modal__content slds-p-around_medium">
-            <p class="warningModalCSS">
-              <b>
-                {label.Record_Sync_Success_Text}
-              </b>
-            </p>
-          </div>
-        </template>
-        <!--Modal/Popup Box Footer Starts here-->
-        <footer class="slds-modal__footer">
-          <lightning-button variant="brand" label="OK" title="OK" onclick={closeModal}></lightning-button>
-        </footer>
-      </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open"></div>
+          <template if:false={warningModalisOpen}>
+            <!--Modal/Popup Box Body Starts here-->
+            <div class="slds-modal__content slds-p-around_medium">
+              <p class="warningModalCSS">
+                <b>
+                  {label.Record_Sync_Success_Text}
+                </b>
+              </p>
+            </div>
+          </template>
+          <!--Modal/Popup Box Footer Starts here-->
+          <footer class="slds-modal__footer">
+            <lightning-button variant="brand" label="OK" title="OK" onclick={closeModal}></lightning-button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
   </template>
   <!--MODAL END-->
 </template>
