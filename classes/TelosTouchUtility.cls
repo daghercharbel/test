@@ -90,19 +90,21 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                 TelosTouchSF__Refresh_Token__c, TelosTouchSF__Access_Token_Expiration_Time__c, TelosTouchSF__BatchRunsForSFToTTOnTimeBasis__c,
                 TelosTouchSF__NotSyncTaskIfHaving__c, TelosTouchSF__Refresh_Token_Expiration_If_Inactive__c, TelosTouchSF__RestrictedTTFieldMapping__c, 
                 TelosTouchSF__Use_CreatedById__c, TelosTouchSF__Registration_DateTime__c, TelosTouchSF__Registration_Successful__c, 
-                TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c FROM TelosTouchSF__TT_Admin_Credentials__mdt])
+                TelosTouchSF__Registration_Request_Expiry__c, TelosTouchSF__Team_Name__c FROM TelosTouchSF__TT_Admin_Credentials__mdt WITH SECURITY_ENFORCED])
             {
                 mapMDT.put(mdt.MasterLabel, mdt);
             }
 
             PermissionSet ps = [SELECT Id, (SELECT Id FROM Assignments WHERE AssigneeId =: Userinfo.getuserid()) 
-                                FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name LIMIT 1];
+                                FROM PermissionSet WHERE Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED LIMIT 1];
             
             if(ps.Assignments.size() > 0){
                 lstPsa = ps.Assignments;
             } else if(profileName == System.Label.TelosTouchSF.ShowTTConfigPage){
                 lstPsa.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.Id));
-                insert lstPsa;
+                if (Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isCreateable()){
+                    insert lstPsa;
+                }
             }
             
             if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
@@ -122,17 +124,26 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     }
     public static TelosTouchSF__TT_Authentication_Credential__mdt getAuthenticationCustomMetadata(){
         try{
-            if(Test.isRunningTest() && [SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] >0 &&
-            [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label LIMIT 1] > 0 ){
-                return [SELECT TelosTouchSF__Auto_Registration_URL__c, TelosTouchSF__isQA__c, TelosTouchSF__Is_Trial__c, TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-                        FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-            }else if([SELECT Count() FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name] > 0 &&
-                        [SELECT Count() FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label LIMIT 1] > 0 ){
-                            return [SELECT TelosTouchSF__Auto_Registration_URL__c, TelosTouchSF__isQA__c, TelosTouchSF__Is_Trial__c, TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
-                                    FROM TelosTouchSF__TT_Authentication_Credential__mdt WHERE MasterLabel =: System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label WITH SECURITY_ENFORCED LIMIT 1];
-                        }else{
-                            return new TelosTouchSF__TT_Authentication_Credential__mdt();
-                        }   
+            map<String, TelosTouchSF__TT_Authentication_Credential__mdt> mapMDT = new map<String, TelosTouchSF__TT_Authentication_Credential__mdt>();
+            list<PermissionSetAssignment> lstPsa = [SELECT Id FROM PermissionSetAssignment WHERE AssigneeId =: Userinfo.getuserid() 
+                                                    AND PermissionSet.Name =: System.Label.TelosTouch_Permission_Set_Name WITH SECURITY_ENFORCED];
+
+            for(TelosTouchSF__TT_Authentication_Credential__mdt mdt : [SELECT TelosTouchSF__Auto_Registration_URL__c, TelosTouchSF__isQA__c, TelosTouchSF__Is_Trial__c, MasterLabel,                                                TelosTouchSF__Client_ID__c, TelosTouchSF__Client_Secret__c, 
+                                                                        TelosTouchSF__Access_Token__c, TelosTouchSF__Refresh_Token__c
+                                                                        FROM TelosTouchSF__TT_Authentication_Credential__mdt WITH SECURITY_ENFORCED])
+            {
+                mapMDT.put(mdt.MasterLabel, mdt);
+            }
+
+            if(Test.isRunningTest() && lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Test_Record_Label);
+            }else if(lstPsa[0].Id != null && mapMDT.containsKey(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label))
+            {
+                return mapMDT.get(System.Label.TelosTouchSF.Custom_Metadata_Admin_Record_Label);
+            }else{
+                return new TelosTouchSF__TT_Authentication_Credential__mdt();
+            } 
         }catch(Exception e){
             System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage()+' at line no:'+e.getLineNumber());
             return new TelosTouchSF__TT_Authentication_Credential__mdt();
@@ -596,7 +607,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                             }else if(ttTeamName == currentTeamName){
                                 userUpdateFlag = true;
                             }
-                            System.debug('userUpdateFlag:: '+userUpdateFlag);
                             if(userUpdateFlag){
                                 if (Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isAccessible() &&
                                     Schema.sObjectType.User.fields.TelosTouchSF__TT_UserId__c.isUpdateable() &&
