@@ -32,6 +32,7 @@
     description="SF id generated from action method"
   />
   <aura:attribute name="isShowSpinner" type="Boolean" default="false" />
+  <aura:attribute name="touchpoint" type="Object" default="" />
   <aura:attribute name="answers" type="Object" default="" />
   <aura:attribute name="userList" type="List" />
   <aura:attribute name="contactOrLeadId" type="String" />
@@ -60,87 +61,106 @@
   <aura:if isTrue="{!v.isShowSpinner}">
     <lightning:spinner alternativeText="Loading" size="medium" />
   </aura:if>
+
   <aura:if isTrue="{!v.showAnswerModal}">
-    <aura:iteration items="{!v.answers.answerWrapperList}" var="item">
-      <aura:if isTrue="{!item.is_robot}">
-        <li class="slds-chat-listitem slds-chat-listitem_outbound">
-          <div class="slds-chat-message">
-            <div class="slds-chat-message__body">
-              <div
-                class="slds-chat-message__text slds-chat-message__text_outbound"
-              >
-                <aura:if isTrue="{!item.type == 'image'}">
-                  <a href="{!item.resource_url}" target="_blank">
-                    <img
-                      src="{!item.resource_url}"
-                      id="{!item.resource_url}"
-                      name="{!item.content}"
-                    />
-                  </a>
-                  <aura:set attribute="else">
-                    <aura:if
-                      isTrue="{!or(item.type == 'application', item.type == 'video')}"
-                    >
+
+    <lightning:tabset>
+      <lightning:tab label="Q&#38;A">
+        
+        <aura:iteration items="{!v.answers}" var="item">
+          <p class="slds-m-top_medium">
+            <div class="slds-text-title_bold">{!item.TelosTouchSF__Question__c}</div>
+            <div>{!item.TelosTouchSF__Answer__c}</div>
+          </p>
+        </aura:iteration>
+
+      </lightning:tab>
+      <lightning:tab label="Touchpoint">
+
+        <aura:iteration items="{!v.touchpoint.answerWrapperList}" var="item">
+          <aura:if isTrue="{!item.is_robot}">
+            <li class="slds-chat-listitem slds-chat-listitem_outbound">
+              <div class="slds-chat-message">
+                <div class="slds-chat-message__body">
+                  <div
+                    class="slds-chat-message__text slds-chat-message__text_outbound"
+                  >
+                    <aura:if isTrue="{!item.type == 'image'}">
                       <a href="{!item.resource_url}" target="_blank">
-                        <lightning:formattedText
-                          value="{!item.content}"
+                        <img
+                          src="{!item.resource_url}"
                           id="{!item.resource_url}"
-                          title="{!item.content}"
-                          linkify="true"
+                          name="{!item.content}"
                         />
                       </a>
                       <aura:set attribute="else">
-                        <span> {!item.content} </span>
+                        <aura:if
+                          isTrue="{!or(item.type == 'application', item.type == 'video')}"
+                        >
+                          <a href="{!item.resource_url}" target="_blank">
+                            <lightning:formattedText
+                              value="{!item.content}"
+                              id="{!item.resource_url}"
+                              title="{!item.content}"
+                              linkify="true"
+                            />
+                          </a>
+                          <aura:set attribute="else">
+                            <span> {!item.content} </span>
+                          </aura:set>
+                        </aura:if>
                       </aura:set>
                     </aura:if>
-                  </aura:set>
-                </aura:if>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </li>
-        <aura:set attribute="else">
-          <li class="slds-chat-listitem slds-chat-listitem_inbound">
-            <div class="slds-chat-message">
-              <div class="slds-chat-message__body">
-                <div
-                  class="slds-chat-message__text slds-chat-message__text_inbound"
-                >
-                  <aura:if isTrue="{!item.type == 'image'}">
-                    <a href="{!item.resource_url}" target="_blank">
-                      <img
-                        src="{!item.resource_url}"
-                        id="{!item.resource_url}"
-                        name="{!item.content}"
-                      />
-                    </a>
-                    <aura:set attribute="else">
-                      <aura:if
-                        isTrue="{!or(item.type == 'application', item.type == 'video')}"
-                      >
+            </li>
+            <aura:set attribute="else">
+              <li class="slds-chat-listitem slds-chat-listitem_inbound">
+                <div class="slds-chat-message">
+                  <div class="slds-chat-message__body">
+                    <div
+                      class="slds-chat-message__text slds-chat-message__text_inbound"
+                    >
+                      <aura:if isTrue="{!item.type == 'image'}">
                         <a href="{!item.resource_url}" target="_blank">
-                          <lightning:formattedText
-                            value="{!item.content}"
+                          <img
+                            src="{!item.resource_url}"
                             id="{!item.resource_url}"
-                            title="{!item.content}"
-                            linkify="true"
+                            name="{!item.content}"
                           />
                         </a>
                         <aura:set attribute="else">
-                          <span> {!item.content} </span>
+                          <aura:if
+                            isTrue="{!or(item.type == 'application', item.type == 'video')}"
+                          >
+                            <a href="{!item.resource_url}" target="_blank">
+                              <lightning:formattedText
+                                value="{!item.content}"
+                                id="{!item.resource_url}"
+                                title="{!item.content}"
+                                linkify="true"
+                              />
+                            </a>
+                            <aura:set attribute="else">
+                              <span> {!item.content} </span>
+                            </aura:set>
+                          </aura:if>
                         </aura:set>
                       </aura:if>
-                    </aura:set>
-                  </aura:if>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        </aura:set>
-      </aura:if>
-      <br />
-    </aura:iteration>
+              </li>
+            </aura:set>
+          </aura:if>
+          <br />
+        </aura:iteration>
+
+      </lightning:tab>
+    </lightning:tabset>
   </aura:if>
+
   <aura:if isTrue="{!v.selectCampaignRecordType}">
     <div class="slds-align_absolute-center slds-p-around_x-small">
       <lightning:radioGroup

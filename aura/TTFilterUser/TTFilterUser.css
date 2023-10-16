@@ -4,11 +4,6 @@
     background: rgb(243, 242, 242);
 }
 
-.THIS .slds-modal__header {
-    background: #364cbb !important;
-    color: white;
-}
-
 .THIS .questions .slds-form-element__label {
     font-size: 0.85rem !important;
     font-weight: bold;

@@ -7,20 +7,32 @@
             <lightning-layout>
                 <!-- PRIVACY TABS -->
                 <lightning-layout-item padding="around-small">
-                    <lightning-radio-group name="listView" data-id="templateShow" options={listViewOptions}
-                        value={listViewValue} type="button" onchange={handleFilterChange}
+                    <lightning-radio-group name="listView" data-id="tabFilter" options={listViewOptions}
+                        value={listViewValue} type="button" onchange={handleChange}
                         class="slds-m-top_medium"></lightning-radio-group>
                 </lightning-layout-item>
-                <!-- SORT BY FILTER -->
+                <!-- STATUS FILTER -->
                 <lightning-layout-item padding="around-small" alignment-bump="left">
-                    <lightning-combobox label={label.Sort_By_Text} value={sortingType} data-id="templateFilter"
-                        options={sortingOptions} onchange={handleFilterChange}>
+                    <lightning-combobox label={label.Status_Text} value={statusValue} data-id="statusFilter"
+                        options={statusOptions} onchange={handleChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <!-- LANGUAGE FILTER -->
+                <lightning-layout-item padding="around-small">
+                    <lightning-combobox label={label.Language_Text} value={langValue} data-id="langFilter"
+                        options={langOptions} onchange={handleChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <!-- SORT BY -->
+                <lightning-layout-item padding="around-small">
+                    <lightning-combobox label={label.Sort_By_Text} value={sortingType} data-id="sortBy"
+                        options={sortingOptions} onchange={handleChange}>
                     </lightning-combobox>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small">
                     <div class=" slds-text-align_center">
                         <lightning-input label="" value={searchValue} type="search" placeholder={label.Search_Text}
-                            onchange={handleSearchInput}>
+                            data-id="searchInput" onchange={handleChange}>
                         </lightning-input>
                     </div>
                 </lightning-layout-item>

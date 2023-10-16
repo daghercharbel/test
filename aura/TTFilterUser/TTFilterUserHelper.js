@@ -476,21 +476,24 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
+                let insight = JSON.parse(rtnValue.insight);
+                let answers = JSON.parse(rtnValue.answers);
                 if (rtnValue != null && state == "SUCCESS") {
-                    c.set("v.answers", rtnValue[0]);
+                    c.set("v.answers", insight);
                     $A.createComponents(
                         [
                             [
                                 "aura:unescapedHtml",
                                 {
-                                    value: rtnValue[0].TouchPointName + "<br/>" + rtnValue[0].Name
+                                    value: insight.TouchPointName + "<br/>" + insight.Name
                                 }
                             ],
                             [
                                 "c:ModalBodyComponent",
                                 {
                                     showAnswerModal: true,
-                                    answers: c.get("v.answers")
+                                    touchpoint: insight,
+                                    answers: answers
                                 }
                             ]
                         ],

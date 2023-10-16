@@ -173,56 +173,10 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>showLegacyActivityComposer</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-717d759d-c643-4331-9fc8-d7405daaf592</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-717d759d-c643-4331-9fc8-d7405daaf592</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.activity</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>activityTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-833c4641-1c72-47bb-8205-7cf0dc4be387</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>tabs</name>
-                    <value>Facet-833c4641-1c72-47bb-8205-7cf0dc4be387</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>sidebar</name>
-        <type>Region</type>
-    </flexiPageRegions>
     <masterLabel>TelosTouch Campaign Record Page</masterLabel>
     <sobjectType>Campaign</sobjectType>
     <template>
-        <name>flexipage:recordHomeTemplateDesktop</name>
+        <name>flexipage:recordHomeSimpleViewTemplate</name>
     </template>
     <type>RecordPage</type>
 </FlexiPage>

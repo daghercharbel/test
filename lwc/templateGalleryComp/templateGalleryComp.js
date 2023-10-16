@@ -40,6 +40,7 @@ import Sent_Status_Description from "@salesforce/label/c.Sent_Status_Description
 import Shared_With_Me from '@salesforce/label/c.Shared_With_Me';
 import showText from "@salesforce/label/c.showText";
 import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
+import Status_Text from "@salesforce/label/c.Status_Text";
 import Template_Gallery_Save from '@salesforce/label/c.Template_Gallery_Save';
 import Template_Gallery_Save_Text from '@salesforce/label/c.Template_Gallery_Save_Text';
 import Template_Not_Saved from '@salesforce/label/c.Template_Not_Saved';
@@ -78,6 +79,7 @@ export default class TemplateGalleryComp extends LightningElement {
         Shared_With_Me,
         showText,
         Sort_By_Text,
+        Status_Text,
         TitleDesc,
         TitleText,
         TouchPoint_Experience_Text,
@@ -97,7 +99,7 @@ export default class TemplateGalleryComp extends LightningElement {
     isTemplatePage = false;
     isTemplatePresent = false;
     lang = LANG;
-    langValue = "en_US";
+    langValue = "ALL";
     listViewValue = 'public';
     mainTemplateList = [];
     mapTemplates = {};
@@ -115,6 +117,7 @@ export default class TemplateGalleryComp extends LightningElement {
     showCompliance = false;
     showPagination = false;
     sortingType = 'modifiedAt';
+    statusValue = 'ALL';
     @api templateId;
     templatesList = [];
     @api templateLang;
@@ -126,6 +129,7 @@ export default class TemplateGalleryComp extends LightningElement {
 
     get langOptions() {
         return [
+            { label: this.label.All_Label, value: "ALL" },
             { label: this.label.English_Text, value: "en_US" },
             { label: this.label.French_Text, value: "fr_FR" }
         ];
@@ -143,6 +147,14 @@ export default class TemplateGalleryComp extends LightningElement {
         }
         options.push({ label: this.label.Shared_With_Me, value: 'shared' });
         return options;
+    }
+
+    get statusOptions() {
+        return [
+            { label: this.label.All_Label, value: "ALL" },
+            { label: this.label.Ready_Label, value: "PUBLISHED" },
+            { label: this.label.Sent_Label, value: "SENT" }
+        ];
     }
 
     get sortingOptions() {
@@ -221,21 +233,29 @@ export default class TemplateGalleryComp extends LightningElement {
                             }
 
                             //GETTING LANGUAGES
+                            let templateLangs = [];
+                            let templateLangCodes = [];
                             if(this.campaignType == 'touchpoint'){
-
-                                let templateLangs = [];
                                 let tpContent = JSON.parse(x.content);
                                 for (let i=0; i < tpContent.languages.length; i++){
+                                    templateLangCodes.push(tpContent.languages[i].code);
                                     if(tpContent.languages[i].code == "en_US"){
                                         templateLangs.push(this.label.English_Text);
                                     } else if(tpContent.languages[i].code == "fr_FR"){
                                         templateLangs.push(this.label.French_Text);
                                     }
                                 }
-
-                                x.langDescription = this.label.Language_Text+': '+templateLangs.join(', ');
-
+                            } else if(this.campaignType == 'email'){
+                                templateLangCodes.push(x.language);
+                                if(x.language == "en_US"){
+                                    templateLangs.push(this.label.English_Text);
+                                } else if(x.language == "fr_FR"){
+                                    templateLangs.push(this.label.French_Text);
+                                }
                             }
+
+                            x.langDescription = this.label.Language_Text+': '+templateLangs.join(', ');
+                            x.lstLangCode = templateLangCodes;
 
                             //GETTING EMAIL THUMBNAIL
                             if(this.campaignType != 'email'){ continue; }
@@ -304,7 +324,6 @@ export default class TemplateGalleryComp extends LightningElement {
                 this.showDataBasedOnPrivate();
                 this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
                 this.updateRecords();
-                //Test
 
             })
             .catch((error) => {
@@ -314,19 +333,44 @@ export default class TemplateGalleryComp extends LightningElement {
             });
     }
 
-    handleFilterChange(event) {
+    handleChange(event){
+
+        if (event.target.dataset.id == 'langFilter') {
+            this.langValue = event.detail.value;
+        } else if (event.target.dataset.id == 'searchInput') {
+            this.searchValue = event.target.value.toLowerCase();
+        } else if (event.target.dataset.id == 'sortBy') {
+            this.sortingType = event.detail.value;
+        } else if (event.target.dataset.id == 'statusFilter') {
+            this.statusValue = event.detail.value;
+        } else if (event.target.dataset.id == 'tabFilter') {
+            this.listViewValue = event.detail.value;
+        }
+
+        let lstTemplate = this.handleSearchInput();
+        this.handleFilterChange(lstTemplate);
+
+    }
+
+    handleFilterChange(lstTemplate) {
 
         if (this.showPagination) {
             this.hideLastButton = false;
         }
 
-        if (event.target.dataset.id == 'templateShow') {
-            this.listViewValue = event.detail.value;
-        } else if (event.target.dataset.id == 'templateFilter') {
-            this.sortingType = event.detail.value;
+        let lstTemplateFiltered = []
+
+        for(let i=0; i < lstTemplate.length; i++){
+            let ignoreRecord = false;
+            //STATUS FILTER
+            ignoreRecord |= (this.statusValue != 'ALL' && lstTemplate[i].status != this.statusValue);
+            //LANGUAGE FILTER
+            ignoreRecord |= (this.langValue != 'ALL' && !lstTemplate[i].lstLangCode.includes(this.langValue));
+
+            if(!ignoreRecord){ lstTemplateFiltered.push(lstTemplate[i]); }
         }
         
-        this.templatesList = this.mapTemplates[this.listViewValue];
+        this.templatesList = lstTemplateFiltered;
 
         if (this.sortingType == 'title') { this.sortTemplatesList('title'); }
         else if (this.sortingType == 'created_at') { this.sortTemplatesList('created_at'); }
@@ -339,6 +383,40 @@ export default class TemplateGalleryComp extends LightningElement {
         this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
 
         this.updateRecords();
+    }
+
+    handleSearchInput() {
+        try {
+
+            let lstTemplate = []
+            if (this.showPagination) {
+                this.hideLastButton = false;
+            }
+            let searchKey = this.searchValue;
+            let filteredTemplates = [];
+            let currentTemplates = this.mapTemplates[this.listViewValue];
+            
+            if (!this.fr) {
+                currentTemplates.forEach((ele) => {
+                    if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
+                        filteredTemplates.push(ele);
+                    }
+                });
+            } else {
+                currentTemplates.forEach((ele) => {
+                    if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
+                        filteredTemplates.push(ele);
+                    }
+                });
+            }
+            if (searchKey.trim().length > 0) {
+                lstTemplate = filteredTemplates;
+            } else {
+                lstTemplate = currentTemplates;
+            }
+            return lstTemplate;
+        } catch (error) {
+        }
     }
 
     setTemplateBagdeColor(template){
@@ -414,43 +492,6 @@ export default class TemplateGalleryComp extends LightningElement {
                 }
                 this.templatesList = tempList;
             }
-        } catch (error) {
-        }
-    }
-
-    handleSearchInput(event) {
-        try {
-            if (this.showPagination) {
-                this.hideLastButton = false;
-            }
-            let searchKey = event.target.value.toLowerCase();
-            this.searchValue = searchKey;
-            let filteredTemplates = [];
-            let currentTemplates = this.mapTemplates[this.listViewValue];
-            
-            if (!this.fr) {
-                currentTemplates.forEach((ele) => {
-                    if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                        filteredTemplates.push(ele);
-                    }
-                });
-            } else {
-                currentTemplates.forEach((ele) => {
-                    if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                        filteredTemplates.push(ele);
-                    }
-                });
-            }
-            if (searchKey.trim().length > 0) {
-                this.templatesList = filteredTemplates;
-            } else {
-                this.templatesList = currentTemplates;
-            }
-            this.totalPage = Math.ceil(this.templatesList.length / this.recordSize);
-            this.currentPage = 1;
-            this.prevPage = 1;
-            this.nextPage = 2;
-            this.updateRecords();
         } catch (error) {
         }
     }
@@ -625,7 +666,7 @@ export default class TemplateGalleryComp extends LightningElement {
     }
 
     generateIFrame() {
-        generatePreviewIFrameUrl({ templateId: this.templateId, language: this.langValue, campId: this.campSfId})
+        generatePreviewIFrameUrl({ templateId: this.templateId, language: 'en_US', campId: this.campSfId})
             .then((result) => {
                 this.urls = (JSON.parse(result));
             })

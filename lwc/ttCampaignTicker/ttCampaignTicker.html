@@ -11,8 +11,8 @@
 
             <!-- BUTTONS -->
             <template if:true={showSendTestButton}>
-                <lightning-button label={label.Send_Test_Button} class="slds-m-horizontal_x-small"
-                    slot="actions" onclick={openSendTest}></lightning-button>
+                <lightning-button label={label.Send_Test_Button} class="slds-m-horizontal_x-small" slot="actions"
+                    onclick={openSendTest}></lightning-button>
             </template>
             <template if:true={showSendButton}>
                 <lightning-button label={label.Send_Text} variant="brand" class="slds-m-horizontal_x-small"
@@ -21,7 +21,8 @@
 
             <!-- STATUS MESSAGE -->
             <div class="slds-m-around_small">
-                <lightning-formatted-rich-text value={status.message} class={status.css}></lightning-formatted-rich-text>
+                <lightning-formatted-rich-text value={status.message}
+                    class={status.css}></lightning-formatted-rich-text>
             </div>
 
             <!-- CAMPAIGN INFO -->
@@ -49,12 +50,13 @@
                         <!-- HAS TOUCHPOINT TEMPLATE -->
                         <template if:true={campInfo.touchpoint}>
                             <a href="javascript:void(0)" data-type="touchpoint" data-id={campInfo.touchpoint.id}
-                                class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                class="slds-p-left_xx-small" onclick={openTemplateEdit} title={label.Preview_Text}>
                                 {campInfo.touchpoint.name}
                             </a>
                             <template if:false={campaignDataTT.campaign.send_at}>
                                 <lightning-button-icon icon-name="utility:edit" variant="bare" data-type="touchpoint"
-                                    onclick={openTemplateGallery} class="slds-m-left_xx-small"></lightning-button-icon>
+                                    onclick={openTemplateGallery} class="slds-m-left_xx-small"
+                                    title={label.Change}></lightning-button-icon>
                             </template>
                             <template if:true={campInfo.touchpoint.warning}>
                                 <lightning-icon icon-name="utility:warning" variant={campInfo.touchpoint.warningVariant}
@@ -84,7 +86,8 @@
                                 <template if:false={email.name}>
                                     <template if:true={enableEditing}>
                                         <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
-                                            data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateGallery}>
+                                            data-id={email.id} class="slds-p-left_xx-small"
+                                            onclick={openTemplateGallery}>
                                             {label.Choose_a_Template}
                                         </a>
                                     </template>
@@ -95,13 +98,14 @@
                                 <!-- HAS EMAIL TEMPLATE -->
                                 <template if:true={email.name}>
                                     <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
-                                        data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                        data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateEdit}
+                                        title={label.Preview_Text}>
                                         {email.name}
                                     </a>
                                     <template if:false={campaignDataTT.campaign.send_at}>
                                         <lightning-button-icon icon-name="utility:edit" variant="bare" data-type="email"
                                             data-lang={email.lang} onclick={openTemplateGallery}
-                                            class="slds-m-left_xx-small"></lightning-button-icon>
+                                            class="slds-m-left_xx-small" title={label.Change}></lightning-button-icon>
                                     </template>
                                     <template if:true={email.warning}>
                                         <lightning-icon icon-name="utility:warning" variant={email.warningVariant}
@@ -114,18 +118,6 @@
 
                 </lightning-layout-item>
 
-                <!-- CAMPAIGN MEMBERS COUNT -->
-                <lightning-layout-item size="1" padding="horizontal-small">
-                    <p class="slds-text-title_bold">{label.Members_Label}</p>
-                    {campInfo.membersCount}
-                </lightning-layout-item>
-
-                <!-- CREATED DATE -->
-                <lightning-layout-item size="1" padding="horizontal-small">
-                    <p class="slds-text-title_bold">{label.Created_Label}</p>
-                    {campInfo.createdDate}
-                </lightning-layout-item>
-
             </lightning-layout>
 
         </lightning-card>
@@ -133,14 +125,15 @@
 
     <!-- SEND TEST -->
     <template if:true={showSendTest}>
-        <section class="slds-modal slds-fade-in-open slds-modal_large">
+        <section class="slds-modal slds-fade-in-open slds-modal_small">
             <div class="slds-modal__container">
 
                 <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse"
                     class="slds-modal__close" onclick={closeSendTest}></lightning-button-icon>
 
                 <div class="slds-modal__content slds-p-around_medium">
-                    <c-tt-send-test-campaign campaign-id={recordId} onclosemodalevent={closeSendTest}></c-tt-send-test-campaign>
+                    <c-tt-send-test-campaign campaign-id={recordId}
+                        onclosemodalevent={closeSendTest}></c-tt-send-test-campaign>
                 </div>
             </div>
         </section>

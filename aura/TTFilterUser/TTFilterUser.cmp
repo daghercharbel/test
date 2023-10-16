@@ -6,6 +6,8 @@
     <aura:handler event="force:refreshView" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.fielterDetailsChanges}" action="{!c.fielterEvent}" />
 
+    <aura:attribute name="activeSections" type="List" default="['filters']" />
+
     <aura:attribute name="preDisable" type="boolean" default="true" />
     <aura:attribute name="end" type="boolean" default="false" />
     <aura:attribute name="nextDisable" type="boolean" default="true" />
@@ -170,73 +172,82 @@
         <aura:if isTrue="{!v.isShowSpinner}">
             <lightning:spinner alternativeText="Loading" size="medium" />
         </aura:if>
-        <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_4-of-12">
-                <lightning:input name="Name" type="search" class="slds-p-horizontal_x-small"
-                    label="{!$Label.c.Name_Text}" value="{!v.fielterDetails.name}"
-                    onchange="{!c.fielterDetailsChanges}" />
-            </div>
-            <aura:if isTrue="{!v.isTouchpoint}">
-                <div class="slds-col slds-size_4-of-12">
-                    <lightning:select name="OpenedAt" class="slds-p-horizontal_x-small"
-                        label="{!$Label.c.Opened_At_Text}" value="{!v.fielterDetails.pendingOpened_At}"
-                        onchange="{!c.fielterDetailsChanges}">
-                        <option value="Anytime">{!$Label.c.All_Label}</option>
-                        <option value="Opened">{!$Label.c.Opened_Text}</option>
-                        <option value="Pending">{!$Label.c.Not_Opened_Text}</option>
-                    </lightning:select>
-                </div>
-                <div class="slds-col slds-size_4-of-12">
-                    <lightning:select name="CompletedAt" class="slds-p-horizontal_x-small"
-                        label="{!$Label.c.Completed_At_Text}" value="{!v.fielterDetails.pendingCompleted_At}"
-                        onchange="{!c.fielterDetailsChanges}">
-                        <option value="Anytime">{!$Label.c.All_Label}</option>
-                        <option value="Completed">{!$Label.c.Completed_Text}</option>
-                        <option value="Pending">{!$Label.c.Not_Completed_Text}</option>
-                    </lightning:select>
-                </div>
-            </aura:if>
-        </div>
-        <div class="slds-grid questions slds-grid slds-wrap">
-            <aura:if isTrue="{!v.frenchUserFlag}">
-                <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
-                    <aura:if isTrue="{!item.questionType != 'form'}">
-                        <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
-                            <c:multiSelectPicklist label="{!item.question_fr}"
-                                fielterDetailsChanges="{!v.fielterDetailsChanges}"
-                                questionList="{!item.picklistValueList_fr}" answerList="{!item.answerList}" />
+
+        <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{!v.activeSections}">
+            <lightning:accordionSection name="filters" label="Filters">
+
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_4-of-12">
+                        <lightning:input name="Name" type="search" class="slds-p-horizontal_x-small"
+                            label="{!$Label.c.Name_Text}" value="{!v.fielterDetails.name}"
+                            onchange="{!c.fielterDetailsChanges}" />
+                    </div>
+                    <aura:if isTrue="{!v.isTouchpoint}">
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:select name="OpenedAt" class="slds-p-horizontal_x-small"
+                                label="{!$Label.c.Opened_Text}" value="{!v.fielterDetails.pendingOpened_At}"
+                                onchange="{!c.fielterDetailsChanges}">
+                                <option value="Anytime">{!$Label.c.All_Label}</option>
+                                <option value="Opened">{!$Label.c.Yes_Text}</option>
+                                <option value="Pending">{!$Label.c.No_Text}</option>
+                            </lightning:select>
                         </div>
-                        <aura:set attribute="else">
-                            <div
-                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
-                                <lightning:input name="Name" type="search" label="{!item.question_fr}"
-                                    value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
-                            </div>
-                        </aura:set>
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:select name="CompletedAt" class="slds-p-horizontal_x-small"
+                                label="{!$Label.c.Completed_Text}" value="{!v.fielterDetails.pendingCompleted_At}"
+                                onchange="{!c.fielterDetailsChanges}">
+                                <option value="Anytime">{!$Label.c.All_Label}</option>
+                                <option value="Completed">{!$Label.c.Yes_Text}</option>
+                                <option value="Pending">{!$Label.c.No_Text}</option>
+                            </lightning:select>
+                        </div>
                     </aura:if>
-                </aura:iteration>
-                <aura:set attribute="else">
-                    <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
-                        <aura:if isTrue="{!item.questionType != 'form'}">
-                            <div
-                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
-                                <c:multiSelectPicklist label="{!item.question}"
-                                    fielterDetailsChanges="{!v.fielterDetailsChanges}"
-                                    questionList="{!item.picklistValueList}" answerList="{!item.answerList}" />
-                            </div>
-                            <aura:set attribute="else">
+                </div>
+                <div class="slds-grid questions slds-grid slds-wrap">
+                    <aura:if isTrue="{!v.frenchUserFlag}">
+                        <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
+                            <aura:if isTrue="{!item.questionType != 'form'}">
                                 <div
                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
-                                    <lightning:input name="Name" type="search" label="{!item.question}"
-                                        value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
+                                    <c:multiSelectPicklist label="{!item.question_fr}"
+                                        fielterDetailsChanges="{!v.fielterDetailsChanges}"
+                                        questionList="{!item.picklistValueList_fr}" answerList="{!item.answerList}" />
                                 </div>
-                            </aura:set>
-                        </aura:if>
-                    </aura:iteration>
-                </aura:set>
-            </aura:if>
-        </div>
+                                <aura:set attribute="else">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                        <lightning:input name="Name" type="search" label="{!item.question_fr}"
+                                            value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <aura:iteration items="{!v.fielterDetails.questionAnswerList}" var="item">
+                                <aura:if isTrue="{!item.questionType != 'form'}">
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                        <c:multiSelectPicklist label="{!item.question}"
+                                            fielterDetailsChanges="{!v.fielterDetailsChanges}"
+                                            questionList="{!item.picklistValueList}" answerList="{!item.answerList}" />
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3 slds-p-horizontal_x-small">
+                                            <lightning:input name="Name" type="search" label="{!item.question}"
+                                                value="{!item.answer}" onchange="{!c.fielterDetailsChanges}" />
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:iteration>
+                        </aura:set>
+                    </aura:if>
+                </div>
+
+            </lightning:accordionSection>
+        </lightning:accordion>
+
+
         <br />
         <span class="slds-p-left_medium ">
             {!v.countSelectedRecords}/{!v.totalRecords} {!$Label.c.Selected}
@@ -273,17 +284,17 @@
                                 <div class="slds-truncate" title="{!$Label.c.Name_Text}">{!$Label.c.Name_Text}</div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate" title="Sent At">Sent At</div>
+                                <div class="slds-truncate" title="Sent At">{!$Label.c.Sent_Label}</div>
                             </th>
                             <aura:if isTrue="{!v.isTouchpoint}">
                                 <th scope="col">
                                     <div class="slds-truncate" title="{!$Label.c.Opened_At_Text}">
-                                        {!$Label.c.Opened_At_Text}
+                                        {!$Label.c.Opened_Text}
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="slds-truncate" title="{!$Label.c.Completed_At_Text}">
-                                        {!$Label.c.Completed_At_Text}</div>
+                                        {!$Label.c.Completed_Text}</div>
                                 </th>
                             </aura:if>
                             <th scope="col">

@@ -12,7 +12,7 @@
             <value>
                 <fullName>email</fullName>
                 <default>false</default>
-                <label>Email</label>
+                <label>Newsletter</label>
             </value>
             <value>
                 <fullName>touchpoint</fullName>
