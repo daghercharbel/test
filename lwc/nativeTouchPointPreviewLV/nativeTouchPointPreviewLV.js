@@ -98,6 +98,8 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
+    deleteModalHeader = '';
+    deleteModalContent = '';
     filterName = '';
     instanceUrl = '';
     fr = false;
@@ -126,6 +128,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     selectedType = 'all';
     shareableUsersOptions = [];
     @track showPagination = false;
+    showDeleteModal = false;
     showPermission = false;
     showSpinner = false;
     showImageSpinner = false;
@@ -136,6 +139,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     @track topButtonStyle = 'slds-var-p-bottom_small';
     @track totalPage = 0;
     @track totalRecords;
+    touchpointOrEmailTemplateId = '';
     @track visibleRecords = [];
     @track showEmailBuilder = false;
     @track emailName = '';
@@ -305,6 +309,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 }
             });
     }
+
+    closeDeleteModal() {
+        this.showDeleteModal = false;
+    }
+
     setTpReadyBadge(template) {
         if (template.status.toLowerCase() == 'drafted' && (template.is_tp_ready)) {
             template.showTpReady = 'false';
@@ -548,14 +557,27 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             });
     }*/
 
-    handleDeleteTemplate(event) {
-
+    openDeleteModal(event) {
+        try {
+            this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
+            if (this.fr) {
+                this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name_fr + ' template';
+            } else {
+                this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
+            }
+            this.deleteModalContent = 'This action cannot be undone. All data associated with this template will be lost.';
+            this.showDeleteModal = true;
+        } catch (error) {
+            console.error('showDeleteModal error:: ', error);
+        }
+    }
+    handleDeleteTemplate() {
         this.showSpinner = true;
-        let templateOrEmailId = event.currentTarget.dataset.id;
+        this.closeDeleteModal();
         if (this.libraryType.toLowerCase() == 'touchpoint') {
-            this.deleteTemplateOrEmail(templateOrEmailId, '');
+            this.deleteTemplateOrEmail(this.touchpointOrEmailTemplateId, '');
         } else {
-            this.deleteTemplateOrEmail('', templateOrEmailId);
+            this.deleteTemplateOrEmail('', this.touchpointOrEmailTemplateId);
         }
 
     }
@@ -572,6 +594,9 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('TelosTouch handleDeleteTemplate Error: ', error);
                 this.showSpinner = false;
             })
+            .finally(() => {
+                this.touchpointOrEmailTemplateId = '';
+            });
     }
 
     handleEditTemplate(event) {
