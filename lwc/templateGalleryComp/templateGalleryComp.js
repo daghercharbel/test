@@ -396,19 +396,12 @@ export default class TemplateGalleryComp extends LightningElement {
             let filteredTemplates = [];
             let currentTemplates = this.mapTemplates[this.listViewValue];
             
-            if (!this.fr) {
-                currentTemplates.forEach((ele) => {
-                    if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                        filteredTemplates.push(ele);
-                    }
-                });
-            } else {
-                currentTemplates.forEach((ele) => {
-                    if (ele.name_fr.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                        filteredTemplates.push(ele);
-                    }
-                });
-            }
+            currentTemplates.forEach((ele) => {
+                if (ele.name.toLowerCase().includes(searchKey.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
+                    filteredTemplates.push(ele);
+                }
+            });
+
             if (searchKey.trim().length > 0) {
                 lstTemplate = filteredTemplates;
             } else {
@@ -448,7 +441,7 @@ export default class TemplateGalleryComp extends LightningElement {
                 }
             }
         } else if (sortBy === 'title' || sortBy === 'titleDesc') {
-            let sort = (this.fr) ? 'name_fr' : 'name';
+            let sort = 'name';
             if (sortBy === 'title') {
                 let temp = 0;
                 for (let x = 0; x < list.length - 1; x++) {
@@ -477,19 +470,11 @@ export default class TemplateGalleryComp extends LightningElement {
         try {
             if (this.searchValue) {
                 let tempList = [];
-                if (!this.fr) {
-                    list.forEach((ele) => {
-                        if (ele.name.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                            tempList.push(ele);
-                        }
-                    });
-                } else {
-                    list.forEach((ele) => {
-                        if (ele.name_fr.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
-                            tempList.push(ele);
-                        }
-                    });
-                }
+                list.forEach((ele) => {
+                    if (ele.name.toLowerCase().includes(this.searchValue.trim()) || (!ele.isDescriptionNull && ele.Description.toLowerCase().includes(this.searchValue.trim()))) {
+                        tempList.push(ele);
+                    }
+                });
                 this.templatesList = tempList;
             }
         } catch (error) {

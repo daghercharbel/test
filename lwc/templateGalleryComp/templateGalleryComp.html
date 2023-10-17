@@ -54,12 +54,8 @@
                                     </lightning-badge>
                                 </div>
                                 <div class="tooltip">
-                                    <div if:false={fr} class="tpName">{each.name}</div>
+                                    <div class="tpName">{each.name}</div>
                                     <span class="tooltip-drop tooltip-top">{each.name}</span>
-                                </div>
-                                <div class="tooltip">
-                                    <div if:true={fr} class="tpName">{each.name_fr}</div>
-                                    <span class="tooltip-drop tooltip-top">{each.name_fr}</span>
                                 </div>
                                 <template if:false={each.isDescriptionNull}>
                                     <div class="tooltip">
