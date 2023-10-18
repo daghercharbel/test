@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import { api, LightningElement, track, wire } from "lwc";
 import { makeRequest } from 'c/ttCallout';
+import { labelLibrary } from 'c/ttLabels';
 import LANG from "@salesforce/i18n/lang";
 import { loadStyle } from "lightning/platformResourceLoader";
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
@@ -12,79 +13,7 @@ import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 import getTouchPointTemplates from "@salesforce/apex/TemplateGalleryCompHandler.getTouchPointTemplates";
 import SaveTouchPointTemplate from "@salesforce/apex/TemplateGalleryCompHandler.SaveTouchPointTemplate";
 
-// Custom Labels
-import All_Label from '@salesforce/label/c.All_Label';
-import Back_Button_Label from "@salesforce/label/c.Back_Button_Label";
-import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
-import Compliance_Confirm_Text from '@salesforce/label/c.Compliance_Confirm_Text';
-import Compliance_Message from "@salesforce/label/c.Compliance_Message";
-import Compliance_Message_Email from "@salesforce/label/c.Compliance_Message_Email";
-import Compliance_Title from "@salesforce/label/c.Compliance_Title";
-import CreatedDateText from "@salesforce/label/c.CreatedDateText";
-import Email_Text from "@salesforce/label/c.Email_Text";
-import English_Text from "@salesforce/label/c.English_Text";
-import French_Text from "@salesforce/label/c.French_Text";
-import Language_Text from "@salesforce/label/c.Language_Text";
-import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
-import My_Templates from "@salesforce/label/c.My_Templates";
-import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
-import No_Data_Text from "@salesforce/label/c.No_Data_Text";
-import None_Text from "@salesforce/label/c.None_Text";
-import Public_Text from "@salesforce/label/c.Public_Text";
-import Ready_Label from "@salesforce/label/c.Ready_Label";
-import Ready_Status_Description from "@salesforce/label/c.Ready_Status_Description";
-import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
-import Search_Text from "@salesforce/label/c.Search_Text";
-import Sent_Label from '@salesforce/label/c.Sent_Label';
-import Sent_Status_Description from "@salesforce/label/c.Sent_Status_Description";
-import Shared_With_Me from '@salesforce/label/c.Shared_With_Me';
-import showText from "@salesforce/label/c.showText";
-import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
-import Status_Text from "@salesforce/label/c.Status_Text";
-import Template_Gallery_Save from '@salesforce/label/c.Template_Gallery_Save';
-import Template_Gallery_Save_Text from '@salesforce/label/c.Template_Gallery_Save_Text';
-import Template_Not_Saved from '@salesforce/label/c.Template_Not_Saved';
-import TitleDesc from "@salesforce/label/c.TitleDesc";
-import TitleText from "@salesforce/label/c.TitleText";
-import TouchPoint_Experience_Text from "@salesforce/label/c.TouchPoint_Experience_Text";
-import TouchPointTemplateNotSaved_Text from "@salesforce/label/c.TouchPointTemplateNotSaved_Text";
-import TouchPointTemplateSaved_Text from "@salesforce/label/c.TouchPointTemplateSaved_Text";
-import Template_Saved from "@salesforce/label/c.Template_Saved";
-
 export default class TemplateGalleryComp extends LightningElement {
-
-    label = {
-        All_Label,
-        Back_Button_Label,
-        Cancel_Button_Label,
-        Compliance_Confirm_Text,
-        Compliance_Title,
-        CreatedDateText,
-        Email_Text,
-        English_Text,
-        French_Text,
-        Language_Text,
-        LastModifiedDate,
-        My_Templates,
-        My_Touchpoints,
-        No_Data_Text,
-        None_Text,
-        Public_Text,
-        Ready_Label,
-        Ready_Status_Description,
-        Save_Button_Label,
-        Search_Text,
-        Sent_Label,
-        Sent_Status_Description,
-        Shared_With_Me,
-        showText,
-        Sort_By_Text,
-        Status_Text,
-        TitleDesc,
-        TitleText,
-        TouchPoint_Experience_Text,
-        TouchPointTemplateSaved_Text
-    };
     
     @api campaignType = 'touchpoint';
     @api campSfId;
@@ -98,6 +27,7 @@ export default class TemplateGalleryComp extends LightningElement {
     isSpinner = false;
     isTemplatePage = false;
     isTemplatePresent = false;
+    label = labelLibrary;
     lang = LANG;
     langValue = "ALL";
     listViewValue = 'public';
@@ -189,15 +119,15 @@ export default class TemplateGalleryComp extends LightningElement {
 
     labelSelection() {
         if (this.campaignType == 'touchpoint') {
-            this.label.Compliance_Label = Compliance_Message;
-            this.label.Template_Gallery_Save_Label = Template_Gallery_Save_Text;
-            this.label.TemplateNotSaved_Label = TouchPointTemplateNotSaved_Text;
-            this.label.TemplateSaved_Label = TouchPointTemplateSaved_Text;
+            this.label.Compliance_Label = this.label.Compliance_Message;
+            this.label.Template_Gallery_Save_Label = this.label.Template_Gallery_Save_Text;
+            this.label.TemplateNotSaved_Label = this.label.TouchPointTemplateNotSaved_Text;
+            this.label.TemplateSaved_Label = this.label.TouchPointTemplateSaved_Text;
         } else if (this.campaignType == 'email') {
-            this.label.Compliance_Label = Compliance_Message_Email;
-            this.label.Template_Gallery_Save_Label = Template_Gallery_Save;
-            this.label.TemplateNotSaved_Label = Template_Not_Saved;
-            this.label.TemplateSaved_Label = Template_Saved;
+            this.label.Compliance_Label = this.label.Compliance_Message_Email;
+            this.label.Template_Gallery_Save_Label = this.label.Template_Gallery_Save;
+            this.label.TemplateNotSaved_Label = this.label.Template_Not_Saved;
+            this.label.TemplateSaved_Label = this.label.Template_Saved;
         }
     }
 

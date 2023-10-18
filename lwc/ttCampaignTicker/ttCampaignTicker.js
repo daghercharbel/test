@@ -355,8 +355,8 @@ export default class TtCampaignTicker extends LightningElement {
 
                     if (campInfo.emails) {
                         campInfo.emails.forEach(email => {
-                            if (email.lang == 'en_US') email.langLabel = this.label.English_Translation;
-                            if (email.lang == 'fr_FR') email.langLabel = this.label.French_Translation;
+                            if (email.lang == 'en_US') email.langLabel = this.label.English_Text;
+                            if (email.lang == 'fr_FR') email.langLabel = this.label.French_Text;
                         });
                     }
                     this.hasTemplateError = hasTemplateError;
