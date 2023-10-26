@@ -22,6 +22,7 @@ import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 //Custom Labels
 import All_Label from '@salesforce/label/c.All_Label';
 import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
+import Delete_Label from "@salesforce/label/c.Delete_Label";
 import create_new_text from '@salesforce/label/c.Create_New_Text';
 import CreatedDateText from "@salesforce/label/c.CreatedDateText";
 import Draft_Status_Description from "@salesforce/label/c.Draft_Status_Description";
@@ -61,6 +62,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         Cancel_Button_Label,
         create_new_text,
         CreatedDateText,
+        Delete_Label,
         Draft_Status_Description,
         Drafted_Label,
         Duplicate_Button_Description,
@@ -561,11 +563,12 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         try {
             this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
             if (this.fr) {
-                this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name_fr + ' template';
+                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name_fr;
+                this.deleteModalContent = 'Cette action ne peut pas être annulée. Toutes les données associées à ce modèle seront perdues.';
             } else {
                 this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
+                this.deleteModalContent = 'This action cannot be undone. All data associated with this template will be lost.';
             }
-            this.deleteModalContent = 'This action cannot be undone. All data associated with this template will be lost.';
             this.showDeleteModal = true;
         } catch (error) {
             console.error('showDeleteModal error:: ', error);
@@ -915,7 +918,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         const start = (this.currentPage - 1) * this.recordSize;
         const end = this.recordSize * this.currentPage;
         this.visibleRecords = this.templateList.slice(start, end);
-        console.log('this.visibleRecords: ', JSON.parse(JSON.stringify(this.visibleRecords)));
+        console.log('this.visibleRecords: ', JSON.stringify(this.visibleRecords));
         if (this.visibleRecords <= this.recordSize) {
             this.secondPageDisabled = true;
         } else {

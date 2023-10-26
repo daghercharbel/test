@@ -217,7 +217,8 @@
         <name>Change</name>
     </customLabels>
     <customLabels>
-        <label>S&apos;il vous plait, choisir le rôle que vous souhaitez attribuer aux utilisateurs sélectionnés.</label>
+        <label>S&apos;il vous plait, choisir le rôle que vous souhaitez attribuer aux utilisateurs
+            sélectionnés.</label>
         <name>Change_Role_Message</name>
     </customLabels>
     <customLabels>
@@ -530,6 +531,10 @@
     <customLabels>
         <label>Jour</label>
         <name>Day</name>
+    </customLabels>
+    <customLabels>
+        <label>Supprimez</label>
+        <name>Delete_Label</name>
     </customLabels>
     <customLabels>
         <label>Le modèle sélectionné a été supprimé</label>
