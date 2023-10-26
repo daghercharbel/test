@@ -314,6 +314,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     closeDeleteModal() {
         this.showDeleteModal = false;
+        this.touchpointOrEmailTemplateId = '';
     }
 
     setTpReadyBadge(template) {
