@@ -62,9 +62,7 @@
 }
 
 .footerElementsDesktop {
-    /* position: fixed; */
     width: 100%;
-    /* bottom: 0px; */
     background-color: rgb(249, 249, 250);
     border-top: 2px solid rgb(217, 219, 221);
 }
