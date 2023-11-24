@@ -1,6 +1,8 @@
 import { LightningElement, wire, track, api } from "lwc";
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import currentUserId from '@salesforce/user/Id';
+// APP-3154
+import { handleRequest } from 'c/ttCallout';
 
 //Apex Methods
 import abortScheduleJob from "@salesforce/apex/TelosTouchUtility.abortScheduleJob";
@@ -192,6 +194,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track storedResponse;
     @track toEntries;
     @track totalPages;
+    // APP-3154
+    @track roleOptions = [];
     userGrantAccessModal = false;
     userIdForGrantAccess
     userIdForRestriction;
@@ -200,13 +204,14 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     isEditDisabled = false;
     @api listdata;
 
-    get roleOptions() {
+    // APP-3154
+    /*get roleOptions() {
         return [
             { label: this.label.Advisor_Label, value: "professional" },
             { label: this.label.Builder_Label, value: "builder" },
             { label: this.label.Administrator_Label, value: "administrator" },
         ];
-    }
+    }*/
 
     // OnLoad
     connectedCallback() {
@@ -221,6 +226,8 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         }
         this.doInit_Helper();
         this.callcheckIfEnterpriseClient();
+        // APP-3154
+        this.getAllRoles();
     }
 
     // call getSettingAPI and fetch the setting parameters
@@ -336,6 +343,39 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             .catch((error) => {
                 this.error = error.message;
             });
+    }
+
+    // APP-3154
+    // Get the list of all roles from the webapp
+    getAllRoles(){
+        let method = 'GET';
+        let endpoint = '/api/v1/roles';
+        let invoker = {
+            'className': 'telosTouchSetupConfiguration',
+            'classMethod': 'getAllRoles'
+        };
+        handleRequest(method, endpoint, null, invoker)
+            .then(result => {
+                if (result.status) {
+                    this.roleOptions = result.body.map(record => ({
+                        label: record.name,
+                        value: record.id
+                    }));
+                } else {
+                    console.error('telosTouchSetupConfiguration getAllRoles: ', result.status_code + ': ' + result.body);
+                }
+            })
+            .catch(error => {
+                let errorStr = '';
+                if (typeof error == 'object' && error.message) {
+                    if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                    errorStr += error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('telosTouchSetupConfiguration getAllRoles: ', errorStr);
+                this.isLoading = false;
+            })
     }
 
     //Check that all input are valid
