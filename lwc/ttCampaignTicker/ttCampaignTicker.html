@@ -89,7 +89,7 @@
                             <!-- HAS TOUCHPOINT TEMPLATE -->
                             <template if:true={campInfo.touchpoint}>
                                 <a href="javascript:void(0)" data-type="touchpoint" data-id={campInfo.touchpoint.id}
-                                    class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                    class="slds-p-left_xx-small" onclick={openTemplateEdit} title={label.Preview_Text}>
                                     {campInfo.touchpoint.name}
                                 </a>
                                 <template if:false={campSent}>
@@ -144,7 +144,8 @@
                                         <template if:false={campSent}>
                                             <lightning-button-icon icon-name="utility:edit" variant="bare"
                                                 data-type="email" data-lang={email.lang} onclick={openTemplateGallery}
-                                                class="slds-m-left_xx-small"></lightning-button-icon>
+                                                class="slds-m-left_xx-small"
+                                                title={label.Change}></lightning-button-icon>
                                         </template>
                                         <template if:true={email.warning}>
                                             <lightning-icon icon-name="utility:warning" variant={email.warningVariant}
@@ -157,18 +158,6 @@
 
                     </lightning-layout-item>
 
-                    <!-- CAMPAIGN MEMBERS COUNT -->
-                    <lightning-layout-item size="1" padding="horizontal-small">
-                        <p class="slds-text-title_bold">{label.Members_Label}</p>
-                        {campInfo.membersCount}
-                    </lightning-layout-item>
-
-                    <!-- CREATED DATE -->
-                    <lightning-layout-item size="1" padding="horizontal-small">
-                        <p class="slds-text-title_bold">{label.Created_Label}</p>
-                        {campInfo.createdDate}
-                    </lightning-layout-item>
-
                 </lightning-layout>
 
             </lightning-card>
@@ -178,7 +167,7 @@
 
     <!-- SEND TEST -->
     <template if:true={showSendTest}>
-        <section class="slds-modal slds-fade-in-open slds-modal_large">
+        <section class="slds-modal slds-fade-in-open slds-modal_small">
             <div class="slds-modal__container">
 
                 <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse"

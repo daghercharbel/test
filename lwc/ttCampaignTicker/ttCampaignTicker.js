@@ -5,7 +5,6 @@ import { subscribe } from 'lightning/empApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
 import { updateRecord } from 'lightning/uiRecordApi';
-import LOCALE from '@salesforce/i18n/locale';
 
 //Apex Methods
 import AddMissingClient from '@salesforce/apex/TTCampaignTickerController.AddMissingClient';
