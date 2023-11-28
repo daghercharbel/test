@@ -246,18 +246,6 @@ export default class TtCampaignTicker extends LightningElement {
                         this.getTTCampaignData();
                     }
 
-                    //COUNT CAMPAIGN MEMBERS
-                    if (response.TelosTouchSF__Insights__r) {
-                        this.campInfo.membersCount = response.TelosTouchSF__Insights__r.totalSize;
-                    } else {
-                        this.campInfo.membersCount = 0;
-                    }
-
-                    //FORMAT CREATED DATE
-                    let createdDate = Date.parse(response.CreatedDate);
-                    let formattedDate = new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'short', year: 'numeric' }).format(createdDate);
-                    this.campInfo.createdDate = formattedDate;
-
                     //CHECK IF CAMPAIGN IS SENT
                     if (response.TelosTouchSF__Questions__c) {
                         this.enableEditing = false;
@@ -452,8 +440,8 @@ export default class TtCampaignTicker extends LightningElement {
 
                     if (campInfo.emails) {
                         campInfo.emails.forEach(email => {
-                            if (email.lang == 'en_US') email.langLabel = this.label.English_Translation;
-                            if (email.lang == 'fr_FR') email.langLabel = this.label.French_Translation;
+                            if (email.lang == 'en_US') email.langLabel = this.label.English_Text;
+                            if (email.lang == 'fr_FR') email.langLabel = this.label.French_Text;
                         });
                     }
                     this.hasTemplateError = hasTemplateError;
