@@ -3,7 +3,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import LANG from '@salesforce/i18n/lang';
 import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
-import { makeRequest } from 'c/ttCallout';
+import { handleRequest, makeRequest } from 'c/ttCallout';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 //Apex Methods
@@ -16,13 +16,11 @@ import getSharableUsers from '@salesforce/apex/TouchPointPreviewController.getSh
 import getSystemInfo from '@salesforce/apex/TouchPointPreviewController.getSystemInfo';
 import getTemplateDetails from '@salesforce/apex/TouchPointPreviewController.getTemplateDetails';
 import updateTemplatePermission from '@salesforce/apex/TouchPointPreviewController.updateTemplatePermission';
-import checkIfUserHaveCreationAcess from '@salesforce/apex/TouchPointPreviewController.checkIfUserHaveCreationAcess';
 import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 
 //Custom Labels
 import All_Label from '@salesforce/label/c.All_Label';
 import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
-import Delete_Label from "@salesforce/label/c.Delete_Label";
 import create_new_text from '@salesforce/label/c.Create_New_Text';
 import CreatedDateText from "@salesforce/label/c.CreatedDateText";
 import Draft_Status_Description from "@salesforce/label/c.Draft_Status_Description";
@@ -62,7 +60,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         Cancel_Button_Label,
         create_new_text,
         CreatedDateText,
-        Delete_Label,
         Draft_Status_Description,
         Drafted_Label,
         Duplicate_Button_Description,
@@ -100,8 +97,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
-    deleteModalHeader = '';
-    deleteModalContent = '';
     filterName = '';
     instanceUrl = '';
     fr = false;
@@ -130,7 +125,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     selectedType = 'all';
     shareableUsersOptions = [];
     @track showPagination = false;
-    showDeleteModal = false;
     showPermission = false;
     showSpinner = false;
     showImageSpinner = false;
@@ -141,7 +135,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     @track topButtonStyle = 'slds-var-p-bottom_small';
     @track totalPage = 0;
     @track totalRecords;
-    touchpointOrEmailTemplateId = '';
+    userPermissions = [];
     @track visibleRecords = [];
     @track showEmailBuilder = false;
     @track emailName = '';
@@ -153,7 +147,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     getCalloutInfoWire({ error, data }) {
         if (data) {
             if (data.status == 'success') {
-                this.getTemplates();
                 this.calloutInfo = JSON.parse(data.value);
             } else {
                 this.dispatchEvent(new ShowToastEvent(
@@ -220,11 +213,15 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     }
 
     get permissionOptions() {
-        return [
-            { label: this.label.Public_Permission, value: 'public', title: 'TEST TITLE' },
-            { label: this.label.Private_Permission, value: 'private' }
-            // { label: this.label.Restricted_Permission, value: 'restricted' },
-        ];
+        
+        let lstOptions = [];
+        let publicSharePermission = this.libraryType.toLowerCase()+'_share_public';
+        if(this.userPermissions.includes(publicSharePermission)){ 
+            lstOptions.push({ label: this.label.Public_Permission, value: 'public' })
+        }
+        lstOptions.push({ label: this.label.Private_Permission, value: 'private' })
+
+        return lstOptions;
     }
 
     get sortingOptions() {
@@ -260,6 +257,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         ];
     }
 
+    closeEmailBuilder() {
+        this.showEmailBuilder = false;
+    }
+
     connectedCallback() {
         if (this.libraryType.toLowerCase() == 'email') {
             this.cardClass = 'imgStyleCardEmail';
@@ -293,41 +294,79 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 let returnVal = JSON.parse(result);
                 this.listViewId = returnVal.listViewId;
                 this.isAdmin = returnVal.isAdmin;
+                this.getUserPermissions(returnVal.currentUserEmail);
             })
             .catch(error => {
                 console.error('getSystemInfo error:: ', error);
             })
+    }
 
-        checkIfUserHaveCreationAcess()
-            .then((data) => {
-                this.creationEnabled = data;
+    createNewTemplate() {
+        this.showSpinner = true;
+        createTemplate({ libraryType: this.libraryType, lang: this.emailLanguage, emailName: this.emailName, emailSub: this.emailSubject })
+            .then((result) => {
+                if (result && result.status == 'success') {
+                    this.iframeURL = result.value;
+                    this.previewBody = false;
+                    this.currentDiv = 'builder';
+                    this.topButtonLabel = this.label.TOUCHPOINTPREVIEW_BACKTOTEMPLATES;
+                } else if (result && result.status == 'error') {
+                    console.error('createNewTemplate Error: ', result.error);
+                }
             })
             .catch((error) => {
-                this.creationEnabled = false;
+                console.error('TelosTouch handleOpenNewBuilder Error: ', error);
             })
             .finally(() => {
-                if (this.creationEnabled) {
-                    this.recordSize = (this.recordSize - 1);
-                }
+                this.showSpinner = false;
+                this.closeEmailBuilder();
             });
     }
 
-    closeDeleteModal() {
-        this.showDeleteModal = false;
-        this.touchpointOrEmailTemplateId = '';
+    filterBasedOnType(templateList) {
+        let newTemplateList = [];
+        if (this.selectedType === 'all') {
+            newTemplateList = templateList;
+        } else if (this.selectedType === 'email') {
+            templateList.forEach(function (template, index, object) {
+                if (template.is_tp_ready === false) {
+                    newTemplateList.push(template);
+                }
+            });
+        } else if (this.selectedType === 'touchpoint') {
+            templateList.forEach(function (template, index, object) {
+                if (template.is_tp_ready === true) {
+                    newTemplateList.push(template);
+                }
+            });
+        }
+
+        return newTemplateList;
     }
 
-    setTpReadyBadge(template) {
-        if (template.status.toLowerCase() == 'drafted' && (template.is_tp_ready)) {
-            template.showTpReady = 'false';
-        } else if (template.status.toLowerCase() == 'published' && (template.is_tp_ready)) {
-            template.showTpReady = 'true';
-        } else if (template.status.toLowerCase() == 'sent' && (template.is_tp_ready)) {
-            template.showTpReady = 'true';
+    filterTemplatesList(templateList) {
+
+        let selectedStatus = this.selectedStatus;
+        let newTemplateList = [];
+
+        if (selectedStatus == 'all') {
+            newTemplateList = templateList;
+        } else {
+            templateList.forEach(function (template, index, object) {
+                if (template.status.toLowerCase() == selectedStatus) {
+                    newTemplateList.push(template);
+                }
+            });
         }
+
+        return newTemplateList;
     }
 
     getTemplates() {
+
+        let viewPermission = this.libraryType.toLowerCase()+'_view';
+        if(!this.userPermissions.includes(viewPermission)){ return; }
+
         getTemplateDetails({ libraryType: this.libraryType })
             .then(result => {
                 let mapTemplates = JSON.parse(result);
@@ -404,43 +443,51 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             });
     }
 
-    filterBasedOnType(templateList) {
-        let newTemplateList = [];
-        if (this.selectedType === 'all') {
-            newTemplateList = templateList;
-        } else if (this.selectedType === 'email') {
-            templateList.forEach(function (template, index, object) {
-                if (template.is_tp_ready === false) {
-                    newTemplateList.push(template);
+    getUserPermissions(userEmail) {
+
+        let method = 'GET';
+        let endpoint = '/api/v1/user?search=' + userEmail;
+        let body = null;
+        let invoker = {
+            'className': 'nativeTouchPointPreviewLV',
+            'classMethod': 'getUserPermissions',
+            'recordId': ''
+        };
+
+        handleRequest(method, endpoint, body, invoker)
+            .then(result => {
+                if (result.status) {
+
+                    let response = result.body;
+                    if(response.permissions){
+                        this.userPermissions = response.permissions;
+                    } else {
+                        this.userPermissions = [];
+                    }
+
+                } else {
+                    console.error('nativeTouchPointPreviewLV 1: ', result.status_code + ': ' + result.body);
                 }
-            });
-        } else if (this.selectedType === 'touchpoint') {
-            templateList.forEach(function (template, index, object) {
-                if (template.is_tp_ready === true) {
-                    newTemplateList.push(template);
+                
+            })
+            .catch(error => {
+                let errorStr = '';
+                if (typeof error == 'object' && error.message) {
+                    if (error.lineNumber) { errorStr = error.lineNumber + ' - '; }
+                    errorStr += error.message
+                } else {
+                    errorStr = error;
                 }
-            });
-        }
-
-        return newTemplateList;
-    }
-
-    filterTemplatesList(templateList) {
-
-        let selectedStatus = this.selectedStatus;
-        let newTemplateList = [];
-
-        if (selectedStatus == 'all') {
-            newTemplateList = templateList;
-        } else {
-            templateList.forEach(function (template, index, object) {
-                if (template.status.toLowerCase() == selectedStatus) {
-                    newTemplateList.push(template);
+                console.error('nativeTouchPointPreviewLV 2: ', errorStr);
+            })
+            .finally(final => {
+                let creationPermission = this.libraryType.toLowerCase()+'_create_edit';
+                this.creationEnabled = this.userPermissions.includes(creationPermission);
+                if (this.creationEnabled) {
+                    this.recordSize = (this.recordSize - 1);
                 }
+                this.getTemplates();
             });
-        }
-
-        return newTemplateList;
     }
 
     goBackToMainPage() {
@@ -459,19 +506,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     handleCopyTemplate(event) {
 
         this.showSpinner = true;
-        let templateOrEmailId = event.currentTarget.dataset.id;
+        let templateId = event.currentTarget.dataset.id;
 
-        if (this.libraryType.toLowerCase() == 'touchpoint') {
-            this.copyTemplateOrEmail(templateOrEmailId, '');
-        } else {
-            this.copyTemplateOrEmail('', templateOrEmailId);
-        }
+        let libraryType = this.libraryType.toLowerCase();
 
-    }
-
-    copyTemplateOrEmail(templateId, emailId) {
-
-        copyTemplate({ templateId: templateId, emailId: emailId, libraryType: this.libraryType })
+        copyTemplate({ templateId: templateId, libraryType: libraryType})
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.getTemplates();
@@ -483,110 +522,24 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('TelosTouch handleCopyTemplate Error: ', error);
                 this.showSpinner = false;
             })
+
     }
 
     handleCreateTemplate() {
-        this.showSpinner = true;
         if (this.libraryType.toLowerCase() == 'email') {
             this.showEmailBuilder = true;
-            this.showSpinner = false;
         } else {
             this.createNewTemplate();
         }
     }
 
-    createNewTemplate() {
-        createTemplate({ libraryType: this.libraryType, lang: this.emailLanguage, emailName: this.emailName, emailSub: this.emailSubject })
-            .then((result) => {
-                if (result && result.status == 'success') {
-                    this.iframeURL = result.value;
-                    this.previewBody = false;
-                    this.currentDiv = 'builder';
-                    this.topButtonLabel = this.label.TOUCHPOINTPREVIEW_BACKTOTEMPLATES;
-                } else if (result && result.status == 'error') {
-                    console.error('createNewTemplate Error: ', result.error);
-                }
-            })
-            .catch((error) => {
-                console.error('TelosTouch handleOpenNewBuilder Error: ', error);
-            })
-            .finally(() => {
-                this.showSpinner = false;
-                this.closeEmailBuilder();
-            });
-    }
+    handleDeleteTemplate(event) {
 
-    handleEmailBuilder(event) {
-        if (event.currentTarget.dataset.id == 'emailName') {
-            this.emailName = event.target.value;
-        } else if (event.currentTarget.dataset.id == 'emailSub') {
-            this.emailSubject = event.target.value;
-        } else if (event.currentTarget.dataset.id == 'emailLang') {
-            this.emailLanguage = event.target.value;
-        }
-    }
-
-    saveEmailTemplate() {
         this.showSpinner = true;
-        //have to update backend for both touchpoint template and email template 
-        this.createNewTemplate();
-    }
+        let templateId = event.currentTarget.dataset.id;
+        let libraryType = this.libraryType.toLowerCase();
 
-    closeEmailBuilder() {
-        this.showEmailBuilder = false;
-    }
-
-    //WILL BE DELETE IF CONFIRMED THE PREVIEW DIV WON'T BE USED ANYMORE - VINICIUS DUARTE
-    /*handleDivClick(event) {
-        this.showSpinner = true;
-        this.topButtonLabel = this.label.TOUCHPOINTPREVIEW_BACKTOLISTVIEW;
-        this.templateId = event.currentTarget.dataset.id;
-        this.currentDiv = 'preview';
-        this.previewBody = true;
-        getIFrameDetails()
-            .then(result => {
-                let returnVal = result;
-                if (this.fr) {
-                    this.iframeURL = returnVal.instanceURL + "/app/v1/#/touchpoint/" + this.templateId + "/customize?fullscreen=true&access_token=" + returnVal.accessToken + "&lang=fr_FR";
-                } else {
-                    this.iframeURL = returnVal.instanceURL + "/app/v1/#/touchpoint/" + this.templateId + "/customize?fullscreen=true&access_token=" + returnVal.accessToken + "&lang=en_US";
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
-            .finally(() => {
-                this.showSpinner = false;
-            });
-    }*/
-
-    openDeleteModal(event) {
-        try {
-            this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
-            if (this.fr) {
-                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name_fr;
-                this.deleteModalContent = 'Cette action ne peut pas être annulée. Toutes les données associées à ce modèle seront perdues.';
-            } else {
-                this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
-                this.deleteModalContent = 'This action cannot be undone. All data associated with this template will be lost.';
-            }
-            this.showDeleteModal = true;
-        } catch (error) {
-            console.error('showDeleteModal error:: ', error);
-        }
-    }
-    handleDeleteTemplate() {
-        this.showSpinner = true;
-        this.closeDeleteModal();
-        if (this.libraryType.toLowerCase() == 'touchpoint') {
-            this.deleteTemplateOrEmail(this.touchpointOrEmailTemplateId, '');
-        } else {
-            this.deleteTemplateOrEmail('', this.touchpointOrEmailTemplateId);
-        }
-
-    }
-    deleteTemplateOrEmail(templateId, emailId) {
-        deleteTemplate({ templateId: templateId, emailId: emailId, libraryType: this.libraryType })
+        deleteTemplate({ templateId: templateId, libraryType: libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.getTemplates();
@@ -598,20 +551,16 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('TelosTouch handleDeleteTemplate Error: ', error);
                 this.showSpinner = false;
             })
-            .finally(() => {
-                this.touchpointOrEmailTemplateId = '';
-            });
+
     }
 
     handleEditTemplate(event) {
-        this.showSpinner = true;
-        let templateEmailId = event.currentTarget.dataset.id;
-        this.editTemplateOrEmail(templateEmailId, '');
-    }
 
-    editTemplateOrEmail(templateId, emailId) {
-        console.log('templateId: ', templateId);
-        editTemplate({ templateId: templateId, libraryType: this.libraryType })
+        this.showSpinner = true;
+        let templateId = event.currentTarget.dataset.id;
+        let libraryType = this.libraryType.toLowerCase();
+
+        editTemplate({ templateId: templateId, libraryType: libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.iframeURL = result.value;
@@ -627,6 +576,16 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             .finally(() => {
                 this.showSpinner = false;
             });
+    }
+
+    handleEmailBuilder(event) {
+        if (event.currentTarget.dataset.id == 'emailName') {
+            this.emailName = event.target.value;
+        } else if (event.currentTarget.dataset.id == 'emailSub') {
+            this.emailSubject = event.target.value;
+        } else if (event.currentTarget.dataset.id == 'emailLang') {
+            this.emailLanguage = event.target.value;
+        }
     }
 
     handleFilterChange(event) {
@@ -850,6 +809,16 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return template;
 
     }
+    
+    setTpReadyBadge(template) {
+        if (template.status.toLowerCase() == 'drafted' && (template.is_tp_ready)) {
+            template.showTpReady = 'false';
+        } else if (template.status.toLowerCase() == 'published' && (template.is_tp_ready)) {
+            template.showTpReady = 'true';
+        } else if (template.status.toLowerCase() == 'sent' && (template.is_tp_ready)) {
+            template.showTpReady = 'true';
+        }
+    }
 
     sortTemplatesList(templateList) {
         let list = templateList;
@@ -919,7 +888,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         const start = (this.currentPage - 1) * this.recordSize;
         const end = this.recordSize * this.currentPage;
         this.visibleRecords = this.templateList.slice(start, end);
-        console.log('this.visibleRecords: ', JSON.stringify(this.visibleRecords));
+        console.log('this.visibleRecords: ', JSON.parse(JSON.stringify(this.visibleRecords)));
         if (this.visibleRecords <= this.recordSize) {
             this.secondPageDisabled = true;
         } else {
@@ -941,22 +910,14 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     saveTemplatePermission() {
 
         this.showSpinner = true;
-        if (this.libraryType.toLowerCase() == 'touchpoint') {
-            this.updatePermissions(this.selectedTemplate.id, '');
-        } else {
-            this.updatePermissions('', this.selectedTemplate.id);
-        }
-
-    }
-    updatePermissions(templateId, emailId) {
-
+        let libraryType = this.libraryType.toLowerCase();
         let templateList = this.templateList
         let requestBody = {
             permission: this.selectedTemplate.permissionType,
             users_list: this.selectedShareableUsers
         }
 
-        updateTemplatePermission({ templateId: templateId, requestBody: JSON.stringify(requestBody), libraryType: this.libraryType, emailTempId: emailId })
+        updateTemplatePermission({ templateId: templateId, requestBody: JSON.stringify(requestBody), libraryType: libraryType})
             .then((result) => {
                 if (result && result.status == 'success') {
 
@@ -985,6 +946,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 this.toogleTemplatePermission();
                 this.showSpinner = false;
             });
+
     }
 
 }
