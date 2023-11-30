@@ -843,6 +843,13 @@
         <value>Day</value>
     </labels>
     <labels>
+        <fullName>Delete_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Label</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
         <fullName>Deleted_Template_Warning</fullName>
         <language>en_US</language>
         <protected>true</protected>
