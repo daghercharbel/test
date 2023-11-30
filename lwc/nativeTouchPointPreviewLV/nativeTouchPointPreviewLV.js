@@ -98,6 +98,8 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     creationEnabled = false;
     @track currentPage = 1;
     currentDiv = 'gallery';
+    deleteModalHeader = '';
+    deleteModalContent = '';
     filterName = '';
     instanceUrl = '';
     fr = false;
@@ -126,6 +128,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     selectedType = 'all';
     shareableUsersOptions = [];
     @track showPagination = false;
+    showDeleteModal = false;
     showPermission = false;
     showSpinner = false;
     showImageSpinner = false;
@@ -136,6 +139,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     @track topButtonStyle = 'slds-var-p-bottom_small';
     @track totalPage = 0;
     @track totalRecords;
+    touchpointOrEmailTemplateId = '';
     userPermissions = [];
     @track visibleRecords = [];
     @track showEmailBuilder = false;
@@ -148,6 +152,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     getCalloutInfoWire({ error, data }) {
         if (data) {
             if (data.status == 'success') {
+                this.getTemplates();
                 this.calloutInfo = JSON.parse(data.value);
             } else {
                 this.dispatchEvent(new ShowToastEvent(
@@ -672,6 +677,22 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         this.updateRecords();
     }
 
+    openDeleteModal(event) {
+        try {
+            this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
+            if (this.fr) {
+                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name_fr;
+                this.deleteModalContent = 'Cette action ne peut pas être annulée. Toutes les données associées à ce modèle seront perdues.';
+            } else {
+                this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
+                this.deleteModalContent = 'This action cannot be undone. All data associated with this template will be lost.';
+            }
+            this.showDeleteModal = true;
+        } catch (error) {
+            console.error('showDeleteModal error:: ', error);
+        }
+    }
+
     openTemplatePermission(event) {
 
         this.showSpinner = true;
@@ -889,7 +910,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         const start = (this.currentPage - 1) * this.recordSize;
         const end = this.recordSize * this.currentPage;
         this.visibleRecords = this.templateList.slice(start, end);
-        console.log('this.visibleRecords: ', JSON.parse(JSON.stringify(this.visibleRecords)));
         if (this.visibleRecords <= this.recordSize) {
             this.secondPageDisabled = true;
         } else {
