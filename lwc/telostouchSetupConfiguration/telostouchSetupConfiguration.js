@@ -1,7 +1,6 @@
 import { LightningElement, wire, track, api } from "lwc";
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import currentUserId from '@salesforce/user/Id';
-// APP-3154
 import { handleRequest } from 'c/ttCallout';
 
 //Apex Methods
@@ -194,7 +193,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track storedResponse;
     @track toEntries;
     @track totalPages;
-    // APP-3154
     @track roleOptions = [];
     userGrantAccessModal = false;
     userIdForGrantAccess
@@ -203,15 +201,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track waitingTimeId = null;
     isEditDisabled = false;
     @api listdata;
-
-    // APP-3154
-    /*get roleOptions() {
-        return [
-            { label: this.label.Advisor_Label, value: "professional" },
-            { label: this.label.Builder_Label, value: "builder" },
-            { label: this.label.Administrator_Label, value: "administrator" },
-        ];
-    }*/
 
     // OnLoad
     connectedCallback() {
@@ -226,7 +215,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         }
         this.doInit_Helper();
         this.callcheckIfEnterpriseClient();
-        // APP-3154
         this.getAllRoles();
     }
 
@@ -345,7 +333,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             });
     }
 
-    // APP-3154
     // Get the list of all roles from the webapp
     getAllRoles(){
         let method = 'GET';
@@ -362,7 +349,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                         value: record.id
                     }));
                 } else {
-                    console.error('telosTouchSetupConfiguration getAllRoles: ', result.status_code + ': ' + result.body);
+                    console.error('telosTouchSetupConfiguration 676574416c6c526f6c6573-1: ', result.status_code + ': ' + result.body);
                 }
             })
             .catch(error => {
@@ -373,7 +360,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                 } else {
                     errorStr = error;
                 }
-                console.error('telosTouchSetupConfiguration getAllRoles: ', errorStr);
+                console.error('telosTouchSetupConfiguration 676574416c6c526f6c6573-2: ', errorStr);
                 this.isLoading = false;
             })
     }
