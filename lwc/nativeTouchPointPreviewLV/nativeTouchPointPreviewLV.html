@@ -8,8 +8,8 @@
 
         <!-- RETURN LISTVIEW BUTTON -->
         <template if:true={isGallery}>
-            <lightning-button variant="brand" label={topButtonLabel} title={topButtonLabel} icon-name="action:back"
-                onclick={handleBackbuttonAction} slot="actions"></lightning-button>
+            <lightning-button variant="brand" class="slds-var-m-left_small" label={topButtonLabel}
+                title={topButtonLabel} icon-name="action:back" onclick={handleBackbuttonAction}></lightning-button>
         </template>
 
         <!-- GALLERY PAGE -->
@@ -19,7 +19,7 @@
                 <!-- PRIVACY TABS -->
                 <lightning-layout-item padding="around-small" alignment-bump="right">
                     <lightning-radio-group name="listView" options={listViewOptions} value={listViewValue} type="button"
-                        onchange={handleRadioChange} class="slds-m-top_medium"></lightning-radio-group>
+                        onchange={handleRadioChange} class="slds-var-m-top_medium"></lightning-radio-group>
                 </lightning-layout-item>
                 <!-- STATUS FILTER -->
                 <lightning-layout-item padding="around-small">
@@ -119,7 +119,8 @@
                                         <!-- DELETE -->
                                         <template if:true={template.showDeleteBtn}>
                                             <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
-                                                data-id={template.id} onclick={handleDeleteTemplate}
+                                                data-id={template.id} data-name={template.name}
+                                                data-namefr={template.name_fr} onclick={openDeleteModal}
                                                 title={label.Remove_Text}>
                                                 <div class="slds-border_right">
                                                     <lightning-icon icon-name="utility:delete" variant="error"
@@ -213,6 +214,28 @@
                             </lightning-button>
                             <lightning-button variant="brand" label='OK' disabled={isRestrictedEmpty}
                                 onclick={saveTemplatePermission} class="slds-m-left_x-small"></lightning-button>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+            </template>
+
+            <!-- DELETE POPUP -->
+            <template if:true={showDeleteModal}>
+                <section class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h1 class="slds-modal__title slds-hyphenate">{deleteModalHeader}</h1>
+                        </div>
+                        <div class="slds-modal__content slds-var-p-around_medium" style="text-align: center;">
+                            {deleteModalContent}
+                        </div>
+                        <div class="slds-modal__footer">
+                            <lightning-button label={label.Delete_Label} onclick={handleDeleteTemplate}
+                                variant="destructive" class="slds-var-m-left_x-small">
+                            </lightning-button>
+                            <lightning-button label={label.Cancel_Button_Label} onclick={closeDeleteModal}
+                                class="slds-var-m-left_x-small"></lightning-button>
                         </div>
                     </div>
                 </section>

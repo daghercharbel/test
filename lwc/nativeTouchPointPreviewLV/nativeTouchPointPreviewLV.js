@@ -9,7 +9,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //Apex Methods
 import copyTemplate from '@salesforce/apex/TouchPointPreviewController.copyTemplate';
 import deleteTemplate from '@salesforce/apex/TouchPointPreviewController.deleteTemplate';
-import getIFrameDetails from '@salesforce/apex/TouchPointPreviewController.getIFrameDetails';
 import editTemplate from '@salesforce/apex/TouchPointPreviewController.editTemplate';
 import createTemplate from '@salesforce/apex/TouchPointPreviewController.createTemplate';
 import getSharableUsers from '@salesforce/apex/TouchPointPreviewController.getSharableUsers';
@@ -23,6 +22,7 @@ import All_Label from '@salesforce/label/c.All_Label';
 import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
 import create_new_text from '@salesforce/label/c.Create_New_Text';
 import CreatedDateText from "@salesforce/label/c.CreatedDateText";
+import Delete_Label from "@salesforce/label/c.Delete_Label";
 import Draft_Status_Description from "@salesforce/label/c.Draft_Status_Description";
 import Drafted_Label from "@salesforce/label/c.Drafted_Label";
 import Duplicate_Button_Description from "@salesforce/label/c.Duplicate_Button_Description";
@@ -60,6 +60,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         Cancel_Button_Label,
         create_new_text,
         CreatedDateText,
+        Delete_Label,
         Draft_Status_Description,
         Drafted_Label,
         Duplicate_Button_Description,
