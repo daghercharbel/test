@@ -45,6 +45,9 @@ global with sharing class BatchUpdateTTUser implements Database.Batchable<sObjec
 
             String body = '{'+
             '"role": "'+aUser.TelosTouchSF__TT_Role__c+'",'+
+            '"email": "'+aUser.Email+'",'+
+            '"firstName": "'+aUser.FirstName+'",'+
+            '"lastName": "'+aUser.LastName+'",'+
             '"team": "'+ttTeamId+'"'+
             '}';
             String userEndpoint = endpoint+'/'+aUser.TelosTouchSF__TT_UserId__c;

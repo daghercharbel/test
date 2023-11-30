@@ -639,6 +639,9 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             if (!selectedRows[i].TelosTouchSF__TT_UserId__c) { continue; }
             let aUser = {
                 Id: selectedRows[i].Id,
+                Email : selectedRows[i].Email,
+                FirstName : selectedRows[i].FirstName,
+                LastName : selectedRows[i].LastName,
                 TelosTouchSF__TT_Role__c: this.selectedRole,
                 TelosTouchSF__TT_UserId__c: selectedRows[i].TelosTouchSF__TT_UserId__c
             }
