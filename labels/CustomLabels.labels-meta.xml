@@ -267,7 +267,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Campaign Set Type</shortDescription>
-        <value>Before we can start working on this campaign please select which type of campaign it will be.</value>
+        <value>Please select the campaign type.</value>
     </labels>
     <labels>
         <fullName>Campaign_Text</fullName>

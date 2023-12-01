@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Translations xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customApplications>
-        <description xsi:nil="true"/>
-        <label><!-- Force.com --></label>
+        <label><!-- Force.com -->
+        </label>
         <name>Force_com</name>
     </customApplications>
     <customApplications>
-        <description xsi:nil="true"/>
-        <label><!-- TelosTouch --></label>
+        <label>
+            <!-- TelosTouch -->
+        </label>
         <name>TelosTouch</name>
     </customApplications>
     <customLabels>
@@ -129,7 +130,7 @@
         <name>Camp_Members_Partially_Removed</name>
     </customLabels>
     <customLabels>
-        <label><!-- Campaign Can&apos;t Create --></label>
+        <label>Vous n&apos;êtes pas autorisé à créer des campagnes Telostouch.</label>
         <name>Campaign_Cant_Create</name>
     </customLabels>
     <customLabels>
@@ -162,7 +163,7 @@
         <name>Campaign_Name_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Campaign Set Type --></label>
+        <label>Veuillez choisir le type de campagne.</label>
         <name>Campaign_Set_Type</name>
     </customLabels>
     <customLabels>
@@ -214,7 +215,9 @@
         <name>CaseDescription</name>
     </customLabels>
     <customLabels>
-        <label><!-- CaseRaised --></label>
+        <label>
+            <!-- CaseRaised -->
+        </label>
         <name>CaseRaised</name>
     </customLabels>
     <customLabels>
@@ -222,7 +225,8 @@
         <name>Change</name>
     </customLabels>
     <customLabels>
-        <label>S&apos;il vous plait, choisir le rôle que vous souhaitez attribuer aux utilisateurs sélectionnés.</label>
+        <label>S&apos;il vous plait, choisir le rôle que vous souhaitez attribuer aux utilisateurs
+            sélectionnés.</label>
         <name>Change_Role_Message</name>
     </customLabels>
     <customLabels>
@@ -268,10 +272,6 @@
     <customLabels>
         <label>Sélectionner le Point de contact</label>
         <name>Choose_a_TouchPoint_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Rétablir le choix</label>
-        <name>Clear_Selection</name>
     </customLabels>
     <customLabels>
         <label>Le client a déjà accepté l&apos;invitation</label>
@@ -322,7 +322,9 @@
         <name>Clients_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Close --></label>
+        <label>
+            <!-- Close -->
+        </label>
         <name>Close</name>
     </customLabels>
     <customLabels>
@@ -473,11 +475,13 @@
         <name>Custom_Fields_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Admin Record Label --></label>
+        <label><!-- Custom Metadata Admin Record Label -->
+        </label>
         <name>Custom_Metadata_Admin_Record_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Custom Metadata Test Record Label --></label>
+        <label><!-- Custom Metadata Test Record Label -->
+        </label>
         <name>Custom_Metadata_Test_Record_Label</name>
     </customLabels>
     <customLabels>
@@ -535,6 +539,10 @@
     <customLabels>
         <label>Jour</label>
         <name>Day</name>
+    </customLabels>
+    <customLabels>
+        <label>Supprimez</label>
+        <name>Delete_Label</name>
     </customLabels>
     <customLabels>
         <label>Le modèle sélectionné a été supprimé</label>
@@ -625,7 +633,8 @@
         <name>End_Date</name>
     </customLabels>
     <customLabels>
-        <label><!-- English Text --></label>
+        <label><!-- English Text -->
+        </label>
         <name>English_Text</name>
     </customLabels>
     <customLabels>
@@ -656,10 +665,6 @@
     <customLabels>
         <label>Entrez le nom d&apos;une Campagne existante, ou créez une nouvelle Campagne</label>
         <name>Existing_Campaign_Error_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Un e-mail avec l&apos;exportation sera envoyé à votre adresse e-mail.</label>
-        <name>Export_Campaign_Success</name>
     </customLabels>
     <customLabels>
         <label>Échec</label>
@@ -702,7 +707,8 @@
         <name>First_Name</name>
     </customLabels>
     <customLabels>
-        <label><!-- French Text --></label>
+        <label><!-- French Text -->
+        </label>
         <name>French_Text</name>
     </customLabels>
     <customLabels>
@@ -735,6 +741,30 @@
         <name>Greater_than_Cool_Down</name>
     </customLabels>
     <customLabels>
+        <label>en minutes</label>
+        <name>In_Min_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes</label>
+        <name>Lead_Syncing_Label</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes désactivée</label>
+        <name>Lead_Syncing_disabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Synchronisation des Pistes activée</label>
+        <name>Lead_Syncing_enabled</name>
+    </customLabels>
+    <customLabels>
+        <label>Le temps de refroidissement ne peut pas être inférieur à 2 minutes</label>
+        <name>Less_than_Cool_Down</name>
+    </customLabels>
+    <customLabels>
+        <label>Syncronisation</label>
+        <name>Sync_Label</name>
+    </customLabels>
+    <customLabels>
         <label>Synchronisation complète</label>
         <name>Hard_Sync_Text</name>
     </customLabels>
@@ -758,10 +788,6 @@
         <label>Si plus d&apos;un usager ont la même adresse courriel, un seul des ces usagers
             apparaîtra dans la liste</label>
         <name>IfTwoUserHaveSameEmail</name>
-    </customLabels>
-    <customLabels>
-        <label>en minutes</label>
-        <name>In_Min_Label</name>
     </customLabels>
     <customLabels>
         <label>Conversation introuvable ou démarrée</label>
@@ -809,7 +835,9 @@
         <name>Invite_Contact_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- IssueDescription --></label>
+        <label>
+
+        </label>
         <name>IssueDescription</name>
     </customLabels>
     <customLabels>
@@ -845,24 +873,8 @@
         <name>Lead_Label</name>
     </customLabels>
     <customLabels>
-        <label>Synchronisation des Pistes</label>
-        <name>Lead_Syncing_Label</name>
-    </customLabels>
-    <customLabels>
-        <label>Synchronisation des Pistes désactivée</label>
-        <name>Lead_Syncing_disabled</name>
-    </customLabels>
-    <customLabels>
-        <label>Synchronisation des Pistes activée</label>
-        <name>Lead_Syncing_enabled</name>
-    </customLabels>
-    <customLabels>
         <label>Prospects</label>
         <name>Leads_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Le temps de refroidissement ne peut pas être inférieur à 2 minutes</label>
-        <name>Less_than_Cool_Down</name>
     </customLabels>
     <customLabels>
         <label>Charger plus d&apos;enregistrements</label>
@@ -897,20 +909,13 @@
         <name>Meeting_Link</name>
     </customLabels>
     <customLabels>
-        <label><!-- Meeting Link Preview --></label>
+        <label><!-- Meeting Link Preview -->
+        </label>
         <name>Meeting_Link_Preview</name>
     </customLabels>
     <customLabels>
         <label>Membres</label>
         <name>Members</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- Mismatch Email Language en US --></label>
-        <name>Mismatch_Email_Language_en_US</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- Mismatch Email Language fr FR --></label>
-        <name>Mismatch_Email_Language_fr_FR</name>
     </customLabels>
     <customLabels>
         <label>Mensuelle</label>
@@ -923,10 +928,6 @@
     <customLabels>
         <label>Signature multilingue</label>
         <name>Multi_language_Support</name>
-    </customLabels>
-    <customLabels>
-        <label>Mes e-mails</label>
-        <name>My_Emails</name>
     </customLabels>
     <customLabels>
         <label>Mes modèles</label>
@@ -988,7 +989,8 @@
         <name>No_Data_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- No Description Text --></label>
+        <label><!-- No Description Text -->
+        </label>
         <name>No_Description_Text</name>
     </customLabels>
     <customLabels>
@@ -1033,7 +1035,8 @@
         <name>No_unsubscribed_client_text</name>
     </customLabels>
     <customLabels>
-        <label><!-- None Text --></label>
+        <label><!-- None Text -->
+        </label>
         <name>None_Text</name>
     </customLabels>
     <customLabels>
@@ -1268,7 +1271,9 @@
         <name>RequestSentSuccessfully</name>
     </customLabels>
     <customLabels>
-        <label><!-- Request for Enterprise Email --></label>
+        <label>
+
+        </label>
         <name>Request_for_Enterprise_Email</name>
     </customLabels>
     <customLabels>
@@ -1329,7 +1334,8 @@
         <name>Save_Button_Label</name>
     </customLabels>
     <customLabels>
-        <label><!-- Schedule a Meeting --></label>
+        <label><!-- Schedule a Meeting -->
+        </label>
         <name>Schedule_a_Meeting</name>
     </customLabels>
     <customLabels>
@@ -1355,10 +1361,6 @@
     <customLabels>
         <label>Veuiller sélectionner et ajouter au moins un champs à ajouter</label>
         <name>Select_Add_At_Least_One_Field_Toast</name>
-    </customLabels>
-    <customLabels>
-        <label>Sélectionnez Tous</label>
-        <name>Select_All</name>
     </customLabels>
     <customLabels>
         <label>Choisissez d&apos;abord une Campagne, puis essayez à nouveau</label>
@@ -1587,10 +1589,6 @@
         <name>Sync_Empty_Field</name>
     </customLabels>
     <customLabels>
-        <label>Syncronisation</label>
-        <name>Sync_Label</name>
-    </customLabels>
-    <customLabels>
         <label>Temps de syncronisation</label>
         <name>Sync_Time_Text</name>
     </customLabels>
@@ -1657,7 +1655,8 @@
         <name>TelosTouch_Fields</name>
     </customLabels>
     <customLabels>
-        <label><!-- TelosTouch Permission Set Name --></label>
+        <label><!-- TelosTouch Permission Set Name -->
+        </label>
         <name>TelosTouch_Permission_Set_Name</name>
     </customLabels>
     <customLabels>
@@ -1712,7 +1711,8 @@
         <name>Total_Sync_Record_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchPointTemplateNotSaved_Text --></label>
+        <label><!-- TouchPointTemplateNotSaved_Text -->
+        </label>
         <name>TouchPointTemplateNotSaved_Text</name>
     </customLabels>
     <customLabels>
@@ -1743,28 +1743,29 @@
         <name>TouchPoint_Process_Running_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview All Templates --></label>
+        <label><!-- TouchpointPreview All Templates -->
+        </label>
         <name>TouchpointPreview_All_Templates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToListView --></label>
+        <label><!-- TouchpointPreview BackToListView -->
+        </label>
         <name>TouchpointPreview_BackToListView</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview BackToTemplates --></label>
+        <label><!-- TouchpointPreview BackToTemplates -->
+        </label>
         <name>TouchpointPreview_BackToTemplates</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview NoData Text --></label>
+        <label><!-- TouchpointPreview NoData Text -->
+        </label>
         <name>TouchpointPreview_NoData_Text</name>
     </customLabels>
     <customLabels>
-        <label><!-- TouchpointPreview Private Template --></label>
+        <label><!-- TouchpointPreview Private Template -->
+        </label>
         <name>TouchpointPreview_Private_Template</name>
-    </customLabels>
-    <customLabels>
-        <label>Point de contact</label>
-        <name>Touchpoint_Label</name>
     </customLabels>
     <customLabels>
         <label>TouchPoint transmis. Aucune autre action requise.</label>
@@ -1893,11 +1894,28 @@
         <name>of_text</name>
     </customLabels>
     <customLabels>
+        <label>Rétablir le choix</label>
+        <name>Clear_Selection</name>
+    </customLabels>
+    <customLabels>
+        <label>Sélectionnez Tous</label>
+        <name>Select_All</name>
+    </customLabels>
+    <customLabels>
         <label>Afficher</label>
         <name>showText</name>
     </customLabels>
+    <customLabels>
+        <label>Mes e-mails</label>
+        <name>My_Emails</name>
+    </customLabels>
+    <customLabels>
+        <label>Point de contact</label>
+        <name>Touchpoint_Label</name>
+    </customLabels>
     <customTabs>
-        <label><!-- Branding --></label>
+        <label><!-- Branding -->
+        </label>
         <name>Branding</name>
     </customTabs>
     <customTabs>
@@ -1909,79 +1927,93 @@
         <name>TT_Setup</name>
     </customTabs>
     <customTabs>
-        <label><!-- TelosTouch Email Library --></label>
-        <name>TelosTouch_Email_Library</name>
-    </customTabs>
-    <customTabs>
-        <label><!-- TelosTouch Template Library --></label>
+        <label><!-- TelosTouch Template Library -->
+        </label>
         <name>TelosTouch_Template_Library</name>
     </customTabs>
     <customTabs>
-        <label><!-- TouchPoints --></label>
+        <label>
+
+        </label>
         <name>TouchPoints</name>
     </customTabs>
     <flowDefinitions>
-        <flows/>
+        <flows />
         <fullName>Assign_ClientId_and_Name_to_Task_On_Insert_and_Update</fullName>
     </flowDefinitions>
     <flowDefinitions>
-        <flows/>
+        <flows />
         <fullName>Task_Check_Sync</fullName>
     </flowDefinitions>
     <quickActions>
-        <label><!-- LogACall --></label>
+        <label><!-- LogACall -->
+        </label>
         <name>LogACall</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewAccount --></label>
+        <label><!-- NewAccount -->
+        </label>
         <name>NewAccount</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewCase --></label>
+        <label><!-- NewCase -->
+        </label>
         <name>NewCase</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewContact --></label>
+        <label><!-- NewContact -->
+        </label>
         <name>NewContact</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewEvent --></label>
+        <label><!-- NewEvent -->
+        </label>
         <name>NewEvent</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewGroup --></label>
+        <label><!-- NewGroup -->
+        </label>
         <name>NewGroup</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewLead --></label>
+        <label><!-- NewLead -->
+        </label>
         <name>NewLead</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewNote --></label>
+        <label><!-- NewNote -->
+        </label>
         <name>NewNote</name>
     </quickActions>
     <quickActions>
-        <label><!-- NewOpportunity --></label>
+        <label><!-- NewOpportunity -->
+        </label>
         <name>NewOpportunity</name>
     </quickActions>
     <quickActions>
-        <label><!-- New Task --></label>
+        <label><!-- New Task -->
+        </label>
         <name>NewTask</name>
     </quickActions>
     <quickActions>
-        <label><!-- SendEmail --></label>
+        <label><!-- SendEmail -->
+        </label>
         <name>SendEmail</name>
     </quickActions>
     <reportTypes>
-        <description><!-- Screen Flows --></description>
-        <label><!-- Screen Flows --></label>
+        <description><!-- Screen Flows -->
+        </description>
+        <label><!-- Screen Flows -->
+        </label>
         <name>screen_flows_prebuilt_crt</name>
         <sections>
-            <label><!-- Flow Interview Log Entries --></label>
+            <label><!-- Flow Interview Log Entries -->
+            </label>
             <name>Flow Interview Log Entries</name>
         </sections>
         <sections>
-            <label><!-- Flow Interview Logs --></label>
+            <label><!-- Flow Interview Logs -->
+            </label>
             <name>Flow Interview Logs</name>
         </sections>
     </reportTypes>
