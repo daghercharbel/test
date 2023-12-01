@@ -207,6 +207,13 @@
             removed</value>
     </labels>
     <labels>
+        <fullName>Campaign_Cant_Create</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Can&apos;t Create</shortDescription>
+        <value>You don&apos;t have the permission to create Telostouch campaigns.</value>
+    </labels>
+    <labels>
         <fullName>Campaign_Graph_Campaign_Performance_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -254,6 +261,13 @@
         <protected>true</protected>
         <shortDescription>Campaign Name Text</shortDescription>
         <value>Campaign Name</value>
+    </labels>
+    <labels>
+        <fullName>Campaign_Set_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Set Type</shortDescription>
+        <value>Before we can start working on this campaign please select which type of campaign it will be.</value>
     </labels>
     <labels>
         <fullName>Campaign_Text</fullName>
@@ -1057,6 +1071,13 @@
         <protected>true</protected>
         <shortDescription>Existing Campaign Error Text</shortDescription>
         <value>Enter an existing campaign name, or create a new campaign.</value>
+    </labels>
+    <labels>
+        <fullName>Export_Campaign_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Campaign Success</shortDescription>
+        <value>An email with the export will be sent to your email.</value>
     </labels>
     <labels>
         <fullName>Failed_Text</fullName>
