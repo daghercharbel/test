@@ -861,6 +861,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             userWrapper obj = new userWrapper();
             obj.userObject = aUser;
             obj.userProfile = aUser.Profile.Name;
+            obj.Email = aUser.Email;
+            obj.FirstName = aUser.FirstName;
+            obj.LastName = aUser.LastName;
             obj.TTRole = string.isBlank(aUser.TelosTouchSF__TT_Role__c) ? 'professional' : aUser.TelosTouchSF__TT_Role__c;
             obj.TTUser = String.isBlank(aUser.TelosTouchSF__TT_UserId__c) ? System.Label.TelosTouchSF.No_Text : System.Label.TelosTouchSF.Yes_Text;
             userwp.add(obj);
@@ -2465,6 +2468,16 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
         @AuraEnabled
         public String TTRole{get;set;}
+
+        @AuraEnabled
+        public String Email{get;set;}
+
+        @AuraEnabled
+        public String FirstName{get;set;}
+
+        @AuraEnabled
+        public String LastName{get;set;}
+
     }
     /**
 * @author Cloud Analogy
