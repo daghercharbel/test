@@ -331,6 +331,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                     adminCredentials.Instance_URL = instanceUrl;
                     adminCredentials.Refresh_Token = String.valueOf(responseMap.get('refresh_token'));
                     adminCredentials.Authentication_URL = apiSettingList[0].Authentication_URL;
+                    adminCredentials.Is_Trial = apiSettingList[0].Is_Trial;
                     adminCredentials.RefreshTokenLastUsedDate = System.now();
                     adminCredentials.Access_Token_Expiration_Time = String.valueOf(responseMap.get('expires_in'));
                     userCredentialsWrapper wrp = getUserAccessToken(adminCredentials, isCallingFrom);
@@ -510,9 +511,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static userCredentialsWrapper getUserAccessToken(AdminCredentialsWrapper adminCredentials, String isCallingFrom){
         try {
-            System.debug('adminCredentials.Team_Name:: '+adminCredentials.Team_Name);
             String ttTeamName = String.isNotEmpty(adminCredentials.Team_Name) ? adminCredentials.Team_Name : adminCredentials.Client_ID;
-            System.debug('ttTeamName:: '+ttTeamName);
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             userCredentialsWrapper getActiveUserWrapper= new userCredentialsWrapper();
             Boolean userUpdateFlag = false;
@@ -563,11 +562,10 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                 teamNameVsTeamIdMap.put(String.valueOf(teamResponseMap.get('name')), String.valueOf(teamResponseMap.get('id')));
                             }
                         }
-                        System.debug('teamNameVsTeamIdMap:: '+JSON.serialize(teamNameVsTeamIdMap));
                         if(teamNameVsTeamIdMap.containsKey(ttTeamName)){
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
-                            Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
+                            Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'","language": "en_US"}');
 		                    String respMessage2 = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');
                             generateLog(respMessage2, 'TelosTouchUtility', 'getUserAccessToken', null);
                         }
@@ -584,15 +582,14 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                             getResponseMap = (Map<String, Object>)responseList[0];
                         }
                         if(!getResponseMap.keySet().isEmpty()){
-                            Map<String, String> getCurrentTeamBody = TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams', headersMap, null);
+                            Map<String, String> getCurrentTeamBody = TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id')), headersMap, null);
                             String respMessage3 = 'Response Status Code: '+getCurrentTeamBody.get('status_code')+' | Response Body: '+getCurrentTeamBody.get('body');
                             generateLog(respMessage3, 'TelosTouchUtility', 'getUserAccessToken', null);
                             if(getCurrentTeamBody.get('status_code') == '401'){
                                 logList.add(TelosTouchSF.SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                             }
-                            List<Object> getCurrentTeamList = (List<Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'));
-                            Map<String, Object> getCurrentTeamMap = (Map<String, Object>)getCurrentTeamList[0];
-                            String currentTeamName = String.valueOf(getCurrentTeamMap.get('path')).split('/')[1].trim();
+                            Map<String, Object> getCurrentTeamMap = (Map<String, Object>)((Map<String, Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'))).get('team');
+                            String currentTeamName = String.valueOf(getCurrentTeamMap.get('name'));
                             if(ttTeamName != currentTeamName){
                                 Map<String,String> teamChangeReponseBody = TelosTouchSF.TelosTouchUtility.getResponse('PUT', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams/'+teamId, headersMap, null);
                                 String respMessage4 = 'Response Status Code: '+teamChangeReponseBody.get('status_code')+' | Response Body: '+teamChangeReponseBody.get('body');
@@ -600,8 +597,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                 if(teamChangeReponseBody.get('status_code') == '401'){
                                     logList.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
                                 }
-                                Map<String, Object> teamChangeResponseMap = (Map<String, Object>) JSON.deserializeUntyped(teamChangeReponseBody.get('body')!=null ? teamChangeReponseBody.get('body') : '{}');
-                                if(teamChangeResponseMap.containsKey('id')){
+                                if(String.valueOf(teamChangeReponseBody.get('body')).contains('id')){
                                     userUpdateFlag = true;
                                 }
                             }else if(ttTeamName == currentTeamName){
@@ -865,9 +861,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             userWrapper obj = new userWrapper();
             obj.userObject = aUser;
             obj.userProfile = aUser.Profile.Name;
-            obj.Email = aUser.Email;
-            obj.FirstName = aUser.FirstName;
-            obj.LastName = aUser.LastName;
             obj.TTRole = string.isBlank(aUser.TelosTouchSF__TT_Role__c) ? 'professional' : aUser.TelosTouchSF__TT_Role__c;
             obj.TTUser = String.isBlank(aUser.TelosTouchSF__TT_UserId__c) ? System.Label.TelosTouchSF.No_Text : System.Label.TelosTouchSF.Yes_Text;
             userwp.add(obj);
@@ -1099,7 +1092,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             HttpResponse response = new HttpResponse();
             request.setMethod(methodType);
             request.setEndpoint(endPointURL);
-            request.setTimeout(20000);
+            request.setTimeout(120000);
             Map<String, String> responseMap = new Map<String, String>();
             if (headersMap.size() > 0) {
                 for (String str : headersMap.keySet()) {
@@ -2472,16 +2465,6 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
         @AuraEnabled
         public String TTRole{get;set;}
-        
-        @AuraEnabled
-        public String Email{get;set;}
-
-        @AuraEnabled
-        public String FirstName{get;set;}
-
-        @AuraEnabled
-        public String LastName{get;set;}
-
     }
     /**
 * @author Cloud Analogy
@@ -2660,6 +2643,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             Registration_Request_Expiry = (Integer) adminCredentials.TelosTouchSF__Registration_Request_Expiry__c;
             Registration_DateTime = adminCredentials.TelosTouchSF__Registration_DateTime__c;
             Team_Name = adminCredentials.TelosTouchSF__Team_Name__c;
+            Is_Trial = authenticationCredentials.TelosTouchSF__Is_Trial__c;
         }
     }
 }

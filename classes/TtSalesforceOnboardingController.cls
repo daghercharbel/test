@@ -109,22 +109,16 @@ public with sharing class TtSalesforceOnboardingController {
         ADMINCREDENTIALS,
         AUTHENTICATIONCREDENTIALS
       );
-      System.debug('responseMap:: ' + responseMap);
+      System.debug('responseMap:: ' + JSON.serialize(responseMap));
       System.debug(
         'adminCredsWrapper.Is_Trial before:: ' + adminCredsWrapper.Is_Trial
       );
       adminCredsWrapper.Authentication_URL = String.valueOf(
             responseMap.get('keycloakUrl')
-          )
-          .contains('/auth')
-        ? String.valueOf(responseMap.get('keycloakUrl')).removeEnd('/auth')
-        : String.valueOf(responseMap.get('keycloakUrl'));
-      adminCredsWrapper.Instance_URL = !String.valueOf(
+          );
+      adminCredsWrapper.Instance_URL = String.valueOf(
             responseMap.get('telostouchUrl')
-          )
-          .contains('https://')
-        ? 'https://' + String.valueOf(responseMap.get('telostouchUrl'))
-        : String.valueOf(responseMap.get('telostouchUrl'));
+          );
       adminCredsWrapper.Client_ID = String.valueOf(
         responseMap.get('keycloakClientId')
       );

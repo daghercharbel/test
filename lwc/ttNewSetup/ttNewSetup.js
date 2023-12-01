@@ -191,7 +191,7 @@ export default class TtNewSetup extends LightningElement {
             setTimeout(() => {
                 this.template.querySelector('c-telostouch-setup-configuration').updateAndAddUsers();
                 this.isShowSpinner = false;
-            }, 3000);
+            }, 5000);
         } catch (error) {
             console.log('error: ' + error);
         }

@@ -174,7 +174,7 @@
         <template if:true={enableUpdateAddUser}>
             <c-telostouch-setup-configuration 
                 oncloseusermanagement={closeUserManagementPopUp} onapprovalevent={handleApprovalValue}
-                is-approved={approvalValue}></c-telostouch-setup-configuration>
+                is-approved={isApiConnected}></c-telostouch-setup-configuration>
         </template>
     </template>
 </template>

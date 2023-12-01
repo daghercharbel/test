@@ -116,7 +116,7 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         if(teamNameVsTeamIdMap.containsKey(ttTeamName)){
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
-                            Map<String, String> teamIdMap = TelosTouchSF.TelosTouchUtility.getResponse('POST', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'"}');
+                            Map<String, String> teamIdMap = TelosTouchSF.TelosTouchUtility.getResponse('POST', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'","language": "en_US"}');
                             teamId = teamIdMap.get('body');
                         }
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
@@ -130,15 +130,12 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                             getResponseMap = (Map<String, Object>)responseList[0];
                         }
                         if(!getResponseMap.keySet().isEmpty()){
-                            Map<String, String> getCurrentTeamBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams', headersMap, null);
-                            List<Object> getCurrentTeamList = (List<Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'));
-                            Map<String, Object> getCurrentTeamMap = (Map<String, Object>)getCurrentTeamList[0];
-                            String currentTeamName = String.valueOf(getCurrentTeamMap.get('path')).split('/')[1].trim();
+                            Map<String, String> getCurrentTeamBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id')), headersMap, null);
+                            Map<String, Object> getCurrentTeamMap = (Map<String, Object>)((Map<String, Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'))).get('team');
+                            String currentTeamName = String.valueOf(getCurrentTeamMap.get('name'));
                             if(ttTeamName != currentTeamName){
-                                Map<String, String> teamChangeReponseMap = TelosTouchSF.TelosTouchUtility.getResponse('PUT', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams/'+teamId, headersMap, null);
-                                String teamChangeReponseBody = teamChangeReponseMap.get('body');
-                                Map<String, Object> teamChangeResponseMap = (Map<String, Object>) JSON.deserializeUntyped(teamChangeReponseBody!=null ? teamChangeReponseBody : '{}');
-                                if(teamChangeResponseMap.containsKey('id')){
+                                Map<String, String> teamChangeReponseBody = TelosTouchSF.TelosTouchUtility.getResponse('PUT', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id'))+'/teams/'+teamId, headersMap, null);
+                                if(String.valueOf(teamChangeReponseBody.get('body')).contains('id')){
                                     userUpdateFlag = true;
                                 }
                             }else if(ttTeamName == currentTeamName){
