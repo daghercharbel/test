@@ -27,7 +27,7 @@ public with sharing class TouchPointPreviewController {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
         } catch (Exception ex) {
-            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'copyTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;
@@ -102,7 +102,7 @@ public with sharing class TouchPointPreviewController {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
             }
         } catch (Exception ex) {
-            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'updateTemplatePermission', null);
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'deleteTemplate', null);
             mapResult.put('status', 'error');
             mapResult.put('error', ex.getMessage());
             return mapResult;

@@ -5,11 +5,11 @@ public class TouchPointPreviewControllerTest {
     public static void copyTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.copyTemplate('testId', 'testId', 'Email');
-        map<String, String> mapResponse2 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'TouchPoint');
+        map<String, String> mapResponse = TouchPointPreviewController.copyTemplate('testId', 'Email');
+        map<String, String> mapResponse2 = TouchPointPreviewController.copyTemplate('testId', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse3 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'Email');
-        map<String, String> mapResponse4 = TouchPointPreviewController.copyTemplate('testId', 'testId', 'TouchPoint');
+        map<String, String> mapResponse3 = TouchPointPreviewController.copyTemplate('testId', 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.copyTemplate('testId', 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
     }
@@ -32,11 +32,11 @@ public class TouchPointPreviewControllerTest {
     public static void deleteTemplateTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'Email');
-        map<String, String> mapResponse3 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'TouchPoint');
+        map<String, String> mapResponse = TouchPointPreviewController.deleteTemplate('testId', 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.deleteTemplate('testId', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse2 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'Email');
-        map<String, String> mapResponse4 = TouchPointPreviewController.deleteTemplate('testId', 'testId', 'TouchPoint');
+        map<String, String> mapResponse2 = TouchPointPreviewController.deleteTemplate('testId', 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.deleteTemplate('testId', 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
     }
@@ -106,11 +106,11 @@ public class TouchPointPreviewControllerTest {
     public static void updateTemplatePermissionTest() {
         Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
         Test.startTest();
-        map<String, String> mapResponse = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'testId', 'Email');
-        map<String, String> mapResponse3 = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'testId', 'TouchPoint');
+        map<String, String> mapResponse = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'Email');
+        map<String, String> mapResponse3 = TouchPointPreviewController.updateTemplatePermission('testId', 'requestTest', 'TouchPoint');
         Test.setMock(HttpCalloutMock.class, new MockResponse_Test());
-        map<String, String> mapResponse2 = TouchPointPreviewController.updateTemplatePermission(null, null, 'testId', 'Email');
-        map<String, String> mapResponse4 = TouchPointPreviewController.updateTemplatePermission(null, null, 'testId', 'TouchPoint');
+        map<String, String> mapResponse2 = TouchPointPreviewController.updateTemplatePermission(null, null, 'Email');
+        map<String, String> mapResponse4 = TouchPointPreviewController.updateTemplatePermission(null, null, 'TouchPoint');
         Test.stopTest();
         System.assert(mapResponse.get('status') == 'success', 'response must be success');
     }
