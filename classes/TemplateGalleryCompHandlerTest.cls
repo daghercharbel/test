@@ -32,7 +32,7 @@ public class TemplateGalleryCompHandlerTest {
         Test.startTest();
         map<String,String> mapResult = TemplateGalleryCompHandler.SaveTouchPointTemplate(cmpObj.Id, templateId, 'touchpoint', null);
         map<String,String> mapResult2 = TemplateGalleryCompHandler.SaveTouchPointTemplate(cmpObj.Id, templateId, 'email', 'en_US');
-        //System.assert(mapResult.get('status') == 'success');
+        System.assert(mapResult != null, 'mapResult should not be null');
         Test.stopTest();
     }
     @isTest static void previewURL(){

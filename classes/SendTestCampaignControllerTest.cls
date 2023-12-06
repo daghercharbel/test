@@ -22,9 +22,11 @@ public with sharing class SendTestCampaignControllerTest {
       String emails = '["test@test.com"]';
 
       Test.startTest();
-      SendTestCampaignController.sendTestTemplate(emails, camp.Id);
-      SendTestCampaignController.sendTestTemplate(emails, 'null');
+      map<String,String> returnMap1 = SendTestCampaignController.sendTestTemplate(emails, camp.Id);
+      map<String,String> returnMap2 = SendTestCampaignController.sendTestTemplate(emails, 'null');
       Test.stopTest();
+        System.assert(returnMap1 != null, 'returnMap1 should not be null');
+        System.assert(returnMap2 != null, 'returnMap2 should not be null');
     }
 
 }

@@ -57,8 +57,9 @@ public class TouchPointPreviewControllerTest {
     @isTest
     public static void getIFrameDetailsTest() {
         Test.startTest();
-        TouchPointPreviewController.getIFrameDetails();
+        map<String, String> returnMap = TouchPointPreviewController.getIFrameDetails();
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
 
     @isTest

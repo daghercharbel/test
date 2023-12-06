@@ -96,12 +96,12 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                     }
                                 }
 								if(responseMap2.containsKey('send_status') && responseMap2.get('send_status') != null){
-									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
+									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isCreateable()){
 										conversation_UserObj.TelosTouchSF__Sent_Status__c = String.valueOf(responseMap2.get('send_status'));
 									}
 								}
 								if(responseMap2.containsKey('send_at') && responseMap2.get('send_at') != null){
-									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isCreateable()){
+									if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_At__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_At__c.isCreateable()){
 										String sent_at = String.valueOf(responseMap2.get('send_at'));
                                         conversation_UserObj.TelosTouchSF__Sent_At__c = Datetime.valueOfGmt(sent_at.replace('T',' '));
 									}
@@ -138,7 +138,7 @@ global with sharing class TTUserConversationUpdate implements Database.Batchable
                                         conversation_UserObj.Name = String.valueOf(responseMap2.get('user_name'));
                                     }
                                 }
-                                if (Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() &&
+                                if (Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isCreateable() &&
                                         Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()) {
                                     conversation_UserList.add(conversation_UserObj);
                                 }

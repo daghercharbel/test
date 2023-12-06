@@ -53,8 +53,10 @@ global with sharing class Batch_CallSentry implements Database.Batchable<sObject
             String respMessage = 'Response Status Code: '+mapResponse.get('status_code')+' | Response Body: '+mapResponse.get('body');
             String aMessage = 'Batch_CallSentry.execute: '+respMessage;
             TelosTouchSF__TT_Log__c log = SFDataSyncWithTelosTouch.addLogRecordWithRecordId('Success', aMessage, null);
-            log.TelosTouchSF__Synchronized__c = true;
-            Database.insert(log);
+            if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Synchronized__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Synchronized__c.isCreateable()){
+                log.TelosTouchSF__Synchronized__c = true;
+            }
+            Database.insert(log, AccessLevel.USER_MODE);
 
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
                 for(TelosTouchSF__TT_Log__c aLog : scope){

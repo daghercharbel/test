@@ -1111,7 +1111,7 @@ global with sharing class SFDataSyncWithTelosTouch {
         if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Record_Id__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Record_Id__c.isCreateable()){
             logObj.TelosTouchSF__Record_Id__c = recordId;
         }
-        if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Record_Id__c.isCreateable()){
+        if(Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__TT_Log__c.fields.TelosTouchSF__Log_Type__c.isCreateable()){
             logObj.TelosTouchSF__Log_Type__c='Per Record';
         }
         Datetime now = Datetime.now();

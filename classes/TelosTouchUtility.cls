@@ -568,6 +568,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                             Map<String, String> teamIdResponse = TelosTouchUtility.getResponse('POST', adminCredentials.Instance_URL+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'","language": "en_US"}');
 		                    String respMessage2 = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');
                             generateLog(respMessage2, 'TelosTouchUtility', 'getUserAccessToken', null);
+                            if(teamIdResponse.get('status_code') == '200'){
+                                teamId = teamIdResponse.get('body');
+                            }
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;
                         Map<String, String> getResponseBody = getResponse('GET', endpoint, headersMap, null);
@@ -694,7 +697,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             return getActiveUserWrapper;
             
         } catch (Exception ex) {
-            System.debug(LoggingLevel.WARN,'Exception::'+ex.getMessage()+' on Line::'+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TelosTouchUtility', 'getUserAccessToken', null);
         }
         return null;
     }

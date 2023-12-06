@@ -16,8 +16,9 @@ public with sharing class SchCallSentryTest {
     public static void executeTest(){
         Test.setMock(HttpCalloutMock.class, new TelosTouchSF.TelosTouchUtilityMock());
         Test.startTest();
-        System.schedule('TelosTouch Sentry', '0 0 * * * ?', new SchCallSentry());
+        Id jobId = System.schedule('TelosTouch Sentry', '0 0 * * * ?', new SchCallSentry());
         Test.stopTest();
+        System.assert(jobId != null, 'Job Id should not be null');
     }
 
 }

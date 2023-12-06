@@ -450,9 +450,9 @@ private with sharing class TelosTouchUtilityTest {
 
         Test.startTest();
             userTest.TelosTouchSF__TT_Role__c = 'Advisor';
-            TelosTouchUtility.updateTTUser(new list<User>{userTest});
+            map<String, String> returnMap = TelosTouchUtility.updateTTUser(new list<User>{userTest});
         Test.stopTest();
-
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
 
     @isTest 
@@ -705,8 +705,9 @@ private with sharing class TelosTouchUtilityTest {
     @isTest 
     static void getCalloutInfoTest(){
         Test.startTest();
-        TelosTouchUtility.getCalloutInfo();
+        map<String, String> returnMap = TelosTouchUtility.getCalloutInfo();
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
     
     @isTest
@@ -910,27 +911,33 @@ private with sharing class TelosTouchUtilityTest {
         list<Id> lstUserId = new list<Id>{sfUserList[0].Id};
         
         Test.startTest();
-        TelosTouchSF.TelosTouchUtility.revokeUserAccess(lstUserId[0], null);
-        TelosTouchSF.TelosTouchUtility.revokeUserAccess(null, lstUserId);
+        map<String, String> returnMap1 = TelosTouchSF.TelosTouchUtility.revokeUserAccess(lstUserId[0], null);
+        map<String, String> returnMap2 = TelosTouchSF.TelosTouchUtility.revokeUserAccess(null, lstUserId);
         Test.stopTest();
+        System.assert(returnMap1 != null, 'returnMap1 should not be null');
+        System.assert(returnMap2 != null, 'returnMap2 should not be null');
     }
     
     @isTest
     static void checkIfEnterpriseClientTest(){
         Test.startTest();
-        TelosTouchUtility.checkIfEnterpriseClient();
+        Boolean flag = TelosTouchUtility.checkIfEnterpriseClient();
         Test.stopTest();
+        System.assert(flag, 'flag should be true');
     }
     
     @isTest
     static void generateErrorLogTest(){
         Test.startTest();
+        Boolean isError;
         try{
             Integer error = 1/0;
         } catch (Exception ex) {
+            isError = true;
         	TelosTouchUtility.generateErrorLog(ex, 'TelosTouchUtilityTest', 'generateErrorLogTest', null);
         }
         Test.stopTest();
+        System.assert(isError, 'isError should be true');
     }
     
 }

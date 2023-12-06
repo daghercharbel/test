@@ -269,8 +269,9 @@ private with sharing class TTFilterUserControllerTest {
     @isTest
     static void isClientTaggingEnabledTest(){
         Test.startTest();     
-        TTFilterUserController.isClientTaggingEnabled();
+        Boolean flag = TTFilterUserController.isClientTaggingEnabled();
         Test.stopTest();
+        System.assert(!flag, 'flag should be false');
     }
 
 }

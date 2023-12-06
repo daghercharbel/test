@@ -39,26 +39,31 @@ public with sharing class TTCampaignTickerControllerTest {
         insert memberTest;
         
         Test.startTest();
-        TTCampaignTickerController.AddMissingClient(campTest.Id);
+        map<String,String> returnMap = TTCampaignTickerController.AddMissingClient(campTest.Id);
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
     
     @isTest
     static void getCampaignDataTest(){
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
         Test.startTest();
-        TTCampaignTickerController.getCampaignData(campTest.Id);
-        TTCampaignTickerController.getCampaignData('exception');
+        map<String,String> returnMap1 = TTCampaignTickerController.getCampaignData(campTest.Id);
+        map<String,String> returnMap2 = TTCampaignTickerController.getCampaignData('exception');
         Test.stopTest();
+        System.assert(returnMap1 != null, 'returnMap1 should not be null');
+        System.assert(returnMap2 != null, 'returnMap2 should not be null');
     }
     
     @isTest
     static void getCustomizeUrlTest(){
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
         Test.startTest();
-        TTCampaignTickerController.getCustomizeUrl('touchpoint', campTest.Id, 'templateId');
-        TTCampaignTickerController.getCustomizeUrl('email', campTest.Id, 'templateId');
+        map<String,String> returnMap1 = TTCampaignTickerController.getCustomizeUrl('touchpoint', campTest.Id, 'templateId');
+        map<String,String> returnMap2 = TTCampaignTickerController.getCustomizeUrl('email', campTest.Id, 'templateId');
         Test.stopTest();
+        System.assert(returnMap1 != null, 'returnMap1 should not be null');
+        System.assert(returnMap2 != null, 'returnMap2 should not be null');
     }
 
     @isTest
@@ -75,8 +80,9 @@ public with sharing class TTCampaignTickerControllerTest {
         insert memberTest;
         
         Test.startTest();
-        TTCampaignTickerController.getTTClients(campTest.Id);
+        map<String,String> returnMap = TTCampaignTickerController.getTTClients(campTest.Id);
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
     
 
@@ -100,16 +106,18 @@ public with sharing class TTCampaignTickerControllerTest {
         insert memberTest;
         
         Test.startTest();
-        TTCampaignTickerController.removeExtraClient(campTest.Id);
+        map<String,String> returnMap = TTCampaignTickerController.removeExtraClient(campTest.Id);
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
     
     @isTest
     static void updateSentInsightTest(){
         Campaign campTest = [SELECT Id FROM Campaign WHERE Name = 'TTCampaignTickerControllerTest'];
         Test.startTest();
-        TTCampaignTickerController.updateSentInsight(campTest.Id);
+        map<String,String> returnMap = TTCampaignTickerController.updateSentInsight(campTest.Id);
         Test.stopTest();
+        System.assert(returnMap != null, 'returnMap should not be null');
     }
 
 }
