@@ -129,6 +129,9 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                         if(!responseList.isEmpty()){
                             getResponseMap = (Map<String, Object>)responseList[0];
                         }
+                        List<Object> rolesList ;
+                        Map<String, Object> roleMap ;
+                        String roleId ;
                         if(!getResponseMap.keySet().isEmpty()){
                             Map<String, String> getCurrentTeamBody = TelosTouchSF.TelosTouchUtility.getResponse('GET', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/users/'+String.valueOf(getResponseMap.get('id')), headersMap, null);
                             Map<String, Object> getCurrentTeamMap = (Map<String, Object>)((Map<String, Object>) JSON.deserializeUntyped(getCurrentTeamBody.get('body'))).get('team');
@@ -147,6 +150,12 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                                         Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable()){
                                     userObj.TelosTouchSF__TT_UserId__c = String.valueOf(getResponseMap.get('id'));
                                     userObj.TelosTouchSF__TT_UserName__c = String.valueOf(getResponseMap.get('username'));
+                                    // Extract the role information
+                                    rolesList = (List<Object>)getResponseMap.get('roles');
+                                    roleMap = (Map<String, Object>)rolesList[0];
+                                    // Get the role ID
+                                    roleId = (String)roleMap.get('id');
+                                    userObj.TelosTouchSF__TT_Role__c = roleId;
                                     ttuserObj = TelosTouchSF.TelosTouchUtility.getTokenForEachUser(String.valueOf(getResponseMap.get('username')), adminCredentialsWrapper);
                                     userObj.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
                                 }
@@ -190,6 +199,14 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                                         }
                                         if(Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_UserName__c.isUpdateable() ){
                                             userObj.TelosTouchSF__TT_UserName__c = String.valueof(responseMap1.get('username'));
+                                        }
+                                        // Extract the role information
+                                        rolesList = (List<Object>)responseMap1.get('roles');
+                                        roleMap = (Map<String, Object>)rolesList[0];
+                                        // Get the role ID
+                                        roleId = (String)roleMap.get('id');
+                                        if(Schema.sObjectType.User.fields.TelosTouchSF__TT_Role__c.isAccessible() && Schema.sObjectType.User.fields.TelosTouchSF__TT_Role__c.isUpdateable() ){
+                                            userObj.TelosTouchSF__TT_Role__c = roleId;
                                         }
                                     }
                                 }
