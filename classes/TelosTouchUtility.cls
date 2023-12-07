@@ -584,9 +584,8 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                         if(!responseList.isEmpty()){
                             getResponseMap = (Map<String, Object>)responseList[0];
                         }
-                        List<Object> rolesList;
-                        Map<String, Object> roleMap;
-                        String roleId;
+                        List<Object> rolesList = new List<Object>();
+                        Map<String, Object> roleMap = new Map<String, Object>();
                         if(!getResponseMap.keySet().isEmpty()){
                             Map<String, String> getCurrentTeamBody = TelosTouchUtility.getResponse('GET', adminCredentials.Instance_URL+'/api/v1/users/'+String.valueOf(getResponseMap.get('id')), headersMap, null);
                             String respMessage3 = 'Response Status Code: '+getCurrentTeamBody.get('status_code')+' | Response Body: '+getCurrentTeamBody.get('body');
@@ -623,8 +622,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                         rolesList = (List<Object>)getResponseMap.get('roles');
                                         roleMap = (Map<String, Object>)rolesList[0];
                                         // Get the role ID
-                                        roleId = (String)roleMap.get('id');
-                                        userUpdateObj.TelosTouchSF__TT_Role__c = roleId;
+                                        userUpdateObj.TelosTouchSF__TT_Role__c = (String)roleMap.get('id');
                                         ttuserObj = getTokenForEachUser(String.valueOf(getResponseMap.get('username')),adminCredentials);
                                         userUpdateObj.TelosTouchSF__Auth_Token__c = ttuserObj.TTToken;
                                     }
@@ -665,8 +663,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
                                             rolesList = (List<Object>)responseMap2.get('roles');
                                             roleMap = (Map<String, Object>)rolesList[0];
                                             // Get the role ID
-                                            roleId = (String)roleMap.get('id');
-                                            userUpdateObj.TelosTouchSF__TT_Role__c = roleId;
+                                            userUpdateObj.TelosTouchSF__TT_Role__c = (String)roleMap.get('id');
                                            ttuserObj = getTokenForEachUser(String.valueOf(responseMap2.get('username')), adminCredentials);
                                            userUpdateObj.TelosTouchSF__Auth_Token__c =   ttuserObj.TTToken;
                                        }
