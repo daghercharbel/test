@@ -472,80 +472,68 @@ public with sharing class TTFilterUserController {
 * @return AnswerWrapperDetails userWrapperList ....
 */
     @AuraEnabled
-    public static List<AnswerWrapperDetails> getUserAnswers(String recordId){
+    public static map<String,String> getUserAnswers(String recordId){
+
         try{
-            List<TelosTouchSF__Insights__c> conversationUserList = new List<TelosTouchSF__Insights__c>();
-            List<AnswerWrapperDetails> answerWrapperDetailsList = new List<AnswerWrapperDetails>();
+            map<String, String> mapWrapper = new map<String, String>();
+
+            //Insight
+            TelosTouchSF__Insights__c insight = [SELECT Id,Name,TelosTouchSF__Conversation_Id__c,TelosTouchSF__Campaign2__c,
+                                                TelosTouchSF__Contact__c,TelosTouchSF__Contact__r.Name,TelosTouchSF__Lead__c,
+                                                TelosTouchSF__Lead__r.Name,TelosTouchSF__Answers__c,TelosTouchSF__TouchPoint_Name__c,
+                                                TelosTouchSF__Completed_At__c,TelosTouchSF__Opened_At__c 
+                                                FROM TelosTouchSF__Insights__c
+                                                WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
+            
             AnswerWrapperDetails answerWrapperDetailsObj = new AnswerWrapperDetails();
-            if(recordId != null){
-                if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.Insights__c.isQueryable() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.Id.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.Name.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Conversation_Id__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Campaign2__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Contact__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Lead__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Answers__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__TouchPoint_Name__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Completed_At__c.isAccessible() &&
-                   Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Opened_At__c.isAccessible()){
-                       conversationUserList = [SELECT Id,
-                                               Name,
-                                               TelosTouchSF__Conversation_Id__c,
-                                               TelosTouchSF__Campaign2__c,
-                                               TelosTouchSF__Contact__c,
-                                               TelosTouchSF__Contact__r.Name,
-                                               TelosTouchSF__Lead__c,
-                                               TelosTouchSF__Lead__r.Name,
-                                               TelosTouchSF__Answers__c,
-                                               TelosTouchSF__TouchPoint_Name__c,
-                                               TelosTouchSF__Completed_At__c,
-                                               TelosTouchSF__Opened_At__c
-                                               FROM TelosTouchSF__Insights__c
-                                               WHERE (Id =: recordId OR TelosTouchSF__Campaign2__c=: recordId) WITH SECURITY_ENFORCED LIMIT 2000];
-                   }
-                for(TelosTouchSF__Insights__c conversationUserObj : conversationUserList){
-                    answerWrapperDetailsObj.TouchPointName = conversationUserObj.TelosTouchSF__TouchPoint_Name__c;
+            answerWrapperDetailsObj.TouchPointName = insight.TelosTouchSF__TouchPoint_Name__c;
                     
-                    if(conversationUserObj.TelosTouchSF__Contact__r.Name != null){
-                        answerWrapperDetailsObj.Name = conversationUserObj.TelosTouchSF__Contact__r.Name;
-                    }else if(conversationUserObj.TelosTouchSF__Lead__r.Name !=  null){
-                        answerWrapperDetailsObj.Name = conversationUserObj.TelosTouchSF__Lead__r.Name;
-                    }else{
-                        answerWrapperDetailsObj.Name = conversationUserObj.Name;
+            if(insight.TelosTouchSF__Contact__r.Name != null){
+                answerWrapperDetailsObj.Name = insight.TelosTouchSF__Contact__r.Name;
+            }else if(insight.TelosTouchSF__Lead__r.Name !=  null){
+                answerWrapperDetailsObj.Name = insight.TelosTouchSF__Lead__r.Name;
+            }else{
+                answerWrapperDetailsObj.Name = insight.Name;
+            }
+            
+            insight.TelosTouchSF__Answers__c =   insight.TelosTouchSF__Answers__c.unescapeHtml4();
+            if(insight.TelosTouchSF__Answers__c != null){
+                List<Object> responseList = (List<Object>)JSON.deserializeUntyped(insight.TelosTouchSF__Answers__c);
+                for(Object response : responseList){
+                    Map<String, Object> questionMap3 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(response));
+                    AnswerWrapper answerWrapperObj = new AnswerWrapper();
+                    answerWrapperObj.content = String.valueOf(questionMap3.get('content'));
+                    answerWrapperObj.type = String.valueOf(questionMap3.get('type'));
+                    if(answerWrapperObj.type.contains('video')){
+                        answerWrapperObj.type = 'video';
                     }
-                    
-                    conversationUserObj.TelosTouchSF__Answers__c =   conversationUserObj.TelosTouchSF__Answers__c.unescapeHtml4();
-                    if(conversationUserObj.TelosTouchSF__Answers__c != null){
-                        List<Object> responseList = (List<Object>)JSON.deserializeUntyped(conversationUserObj.TelosTouchSF__Answers__c);
-                        for(Object response : responseList){
-                            Map<String, Object> questionMap3 = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(response));
-                            AnswerWrapper answerWrapperObj = new AnswerWrapper();
-                            answerWrapperObj.content = String.valueOf(questionMap3.get('content'));
-                            answerWrapperObj.type = String.valueOf(questionMap3.get('type'));
-                            if(answerWrapperObj.type.contains('video')){
-                                answerWrapperObj.type = 'video';
-                            }
-                            else if(answerWrapperObj.type.contains('application')){
-                                answerWrapperObj.type = 'application';
-                            }
-                            else if(answerWrapperObj.type.contains('image')){
-                                answerWrapperObj.type = 'image';
-                            }
-                            answerWrapperObj.is_robot = Boolean.valueOf(questionMap3.get('is_robot'));
-                            answerWrapperObj.resource_url = String.valueOf(questionMap3.get('resource_url'));
-                            answerWrapperDetailsObj.answerWrapperList.add(answerWrapperObj);
-                            answerWrapperDetailsList.add(answerWrapperDetailsObj);
-                        }
+                    else if(answerWrapperObj.type.contains('application')){
+                        answerWrapperObj.type = 'application';
                     }
-                }
-                if(answerWrapperDetailsList.size() > 0){
-                    return answerWrapperDetailsList;
+                    else if(answerWrapperObj.type.contains('image')){
+                        answerWrapperObj.type = 'image';
+                    }
+                    answerWrapperObj.is_robot = Boolean.valueOf(questionMap3.get('is_robot'));
+                    answerWrapperObj.resource_url = String.valueOf(questionMap3.get('resource_url'));
+                    answerWrapperDetailsObj.answerWrapperList.add(answerWrapperObj);
                 }
             }
-        }catch(Exception ex){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
-        return null;
+
+            mapWrapper.put('insight',JSON.serialize(answerWrapperDetailsObj));
+
+            //User Answers
+            List<TelosTouchSF__TT_Client_Answers__c> lstAnswer = [SELECT Id,TelosTouchSF__Answer__c,TelosTouchSF__Question__c 
+                                                                  FROM TelosTouchSF__TT_Client_Answers__c 
+                                                                  WHERE TelosTouchSF__TT_Conversation_Id__c =: insight.TelosTouchSF__Conversation_Id__c];
+            mapWrapper.put('answers',JSON.serialize(lstAnswer));
+
+            return mapWrapper;
+            
+        } catch(Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'getUserAnswers', null);
+            return null;
+        }
+
     }
     /**
 * @author Cloud Analogy
