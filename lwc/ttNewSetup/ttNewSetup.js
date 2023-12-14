@@ -114,21 +114,6 @@ export default class TtNewSetup extends LightningElement {
                             this.abortScheduleJobs();
                             this.displayToast('error', Check_Cred_Toast);
                         }
-                        // if (storedResponse.activeUserWrapper != null) {
-                        //     var userArray = [];
-                        //     for (var i = 0; i < storedResponse.activeUserWrapper.length; i++) {
-                        //         storedResponse.activeUserWrapper[i].userObject.Profile = storedResponse.activeUserWrapper[i].userProfile;
-                        //         storedResponse.activeUserWrapper[i].userObject.TTUser = storedResponse.activeUserWrapper[i].TTUser;
-                        //         if (storedResponse.activeUserWrapper[i].TTUser == Yes_Text) {
-                        //             storedResponse.activeUserWrapper[i].userObject.isDisable = true;
-                        //         }
-                        //         userArray.push(storedResponse.activeUserWrapper[i].userObject);
-                        //     }
-                        //     this.listdata = userArray;
-                        //     this.filteredRecords = this.listdata;
-                        //     this.filteredRecordsSize = this.filteredRecords.length;
-                        //     this.allRecords = this.listdata;
-                        // }
                     } else {
                         this.isApiConnected = false;
                         this.displayToast('error', Check_Cred_Toast);

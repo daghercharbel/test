@@ -719,7 +719,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.isEditDisabled = true;
     }
 
-    //'Cancel button' is clicked
+    //Used to close modal when toast disappears
     cancelUserModal() {
         setTimeout(() => {
             this.selectedUserList = [];
@@ -732,10 +732,10 @@ export default class telosTouchSetupConfiguration extends LightningElement {
             this.searchValue = '';
             const closeUserPopUp = new CustomEvent('closeusermanagement', { detail: false });
             this.dispatchEvent(closeUserPopUp);
-            console.log('closeUserPopUp 1');
         }, 3000);
     }
 
+    //'Cancel button' is clicked
     cancelUserModalBtn() {
         this.selectedUserList = [];
         this.listofUserId = [];
@@ -747,7 +747,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         this.searchValue = '';
         const closeUserPopUp = new CustomEvent('closeusermanagement', { detail: false });
         this.dispatchEvent(closeUserPopUp);
-        console.log('closeUserPopUp 2');
     }
 
     // show search bar
