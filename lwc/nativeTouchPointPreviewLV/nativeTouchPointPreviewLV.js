@@ -108,7 +108,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     lang = LANG;
     listViewId = '';
     listViewValue = 'private';
-    mapTemplates = {};
+    mapTemplates = {"public":[],"shared":[],"private":[]};
     @api navigateToList;
     @api libraryType = '';
     @track nextBtnClass = 'btnBorderInActive';
@@ -371,7 +371,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     getTemplates() {
 
         let viewPermission = this.libraryType.toLowerCase()+'_view';
-        if(!this.userPermissions.includes(viewPermission)){ return; }
+        if(!this.userPermissions.includes(viewPermission)){ 
+            this.showSpinner = false;
+            this.updateRecords();
+            return; 
+        }
 
         getTemplateDetails({ libraryType: this.libraryType })
             .then(result => {

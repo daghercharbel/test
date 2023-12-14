@@ -15,6 +15,7 @@ import Compliance_Confirm_Text from '@salesforce/label/c.Compliance_Confirm_Text
 import Compliance_Message from "@salesforce/label/c.Compliance_Message";
 import Compliance_Message_Email from "@salesforce/label/c.Compliance_Message_Email";
 import Compliance_Title from "@salesforce/label/c.Compliance_Title";
+import Confirm_Text from '@salesforce/label/c.Confirm_Text';
 import Contact_Syncing_disabled from '@salesforce/label/c.Contact_Syncing_disabled';
 import Contact_Syncing_enabled from '@salesforce/label/c.Contact_Syncing_enabled';
 import Contact_Syncing_Label from '@salesforce/label/c.Contact_Syncing_Label';
@@ -103,6 +104,7 @@ const labelLibrary = {
     Compliance_Message,
     Compliance_Message_Email,
     Compliance_Title,
+    Confirm_Text,
     Contact_Syncing_disabled,
     Contact_Syncing_enabled,
     Contact_Syncing_Label,

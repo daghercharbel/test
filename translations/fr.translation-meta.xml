@@ -667,6 +667,10 @@
         <name>Existing_Campaign_Error_Text</name>
     </customLabels>
     <customLabels>
+        <label>Vous recevrez un courriel contenant les données exportées.</label>
+        <name>Export_Campaign_Success</name>
+    </customLabels>
+    <customLabels>
         <label>Échec</label>
         <name>Failed_Text</name>
     </customLabels>

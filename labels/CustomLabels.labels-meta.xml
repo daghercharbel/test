@@ -1077,7 +1077,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Export Campaign Success</shortDescription>
-        <value>An email with the export will be sent to your email.</value>
+        <value>You will receive an email containing the export.</value>
     </labels>
     <labels>
         <fullName>Failed_Text</fullName>

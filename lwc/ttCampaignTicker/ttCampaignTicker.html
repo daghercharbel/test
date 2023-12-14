@@ -7,6 +7,7 @@
             <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </template>
 
+        <!-- SELECT TYPE -->
         <template if:false={campaignDataSF.TelosTouchSF__Type__c}>
             <lightning-card>
                 <div>
@@ -29,7 +30,7 @@
                         </lightning-layout>
 
                         <div slot="footer" class="slds-align_absolute-center">
-                            <lightning-button label='Confirm' variant="brand" onclick={handleUpdateType}
+                            <lightning-button label={label.Confirm_Text} variant="brand" onclick={handleUpdateType}
                                 disabled={disableTypeConfirmBtn}></lightning-button>
                         </div>
                     </template>
