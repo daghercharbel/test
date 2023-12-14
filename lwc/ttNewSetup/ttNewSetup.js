@@ -5,18 +5,23 @@ import getSyncData from "@salesforce/apex/TelosTouchDataSyncController.getSyncDa
 import startRegistrationProcess from "@salesforce/apex/TtSalesforceOnboardingController.startRegistrationProcess";
 import validateTokenAndFetchCredentials from '@salesforce/apex/TtSalesforceOnboardingController.validateTokenAndFetchCredentials';
 import disconnectFromTelosTouchApex from "@salesforce/apex/TtSalesforceOnboardingController.disconnectFromTelosTouchApex";
+import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTokenController";
 import checkIfEnterpriseClient from "@salesforce/apex/TtSalesforceOnboardingController.checkIfEnterpriseClient";
 
 import Config_Save_Toast from "@salesforce/label/c.Config_Save_Toast";
 import Check_Cred_Toast from "@salesforce/label/c.Check_Cred_Toast";
-
+import Record_Sync_Success_Text from "@salesforce/label/c.Record_Sync_Success_Text";
+import Refresh_Token_Button_Label from "@salesforce/label/c.Refresh_Token_Button_Label";
+import Refresh_Token_Save_Toast from "@salesforce/label/c.Refresh_Token_Save_Toast";
 
 export default class TtNewSetup extends LightningElement {
     label = {
         Help_Section_Text_1,
         Help_Section_Text_2,
         Config_Save_Toast,
-        Check_Cred_Toast
+        Check_Cred_Toast,
+        Refresh_Token_Button_Label,
+        Refresh_Token_Save_Toast
     }
     showDiffData = false;
     modalLabel = '';
@@ -27,6 +32,7 @@ export default class TtNewSetup extends LightningElement {
     @api enableFieldMapping = false;
     @api enableFeatureManagement = false;
     @api enableKnowledgeBase = false;
+    showManualSyncModal = false;
     approvalValue = false;
     @api isApiConnected = false;
     @track manualSyncTime;
@@ -141,6 +147,26 @@ export default class TtNewSetup extends LightningElement {
             throw new CustomException(e.getMessage());
         }
     }
+    // 'Refresh Token' button is clicked 
+    refreshToken() {
+        if (this.isApiConnected == true) {
+            this.isShowSpinner = true;
+            refreshTokenController()
+                .then((result) => {
+                    this.isShowSpinner = false;
+                    if (result == 'success') {
+                        this.displayToast('success', Refresh_Token_Save_Toast);
+                    }
+                })
+                .catch((error) => {
+                    this.error = error.message;
+                    this.displayToast('error', this.error);
+                });
+
+        } else {
+            this.settingApproval = false;
+        }
+    }
     disconnectToTelosTouch() {
         this.isShowSpinner = true;
         disconnectFromTelosTouchApex().then((result) => {
@@ -238,6 +264,14 @@ export default class TtNewSetup extends LightningElement {
             this.enableKnowledgeBase = false;
         } catch (error) {
         }
+    }
+    handleSuccessfulSync(event) {
+        this.handleModalClose();
+        this.displayToast('success', Record_Sync_Success_Text);
+    }
+    handleFailedSync(event) {
+        this.handleModalClose();
+        this.displayToast('error', 'Record Sync Failed');
     }
     closeUserManagementPopUp(event) {
         this.enableUpdateAddUser = event.detail;

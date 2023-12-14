@@ -90,7 +90,7 @@ export default class TelostouchDataSync extends LightningElement {
   syncObjectValue = '';
   manualSyncDisabled = true;
   showSpinner = false;
-  isModalOpen = false;
+  @api isModalOpen = false;
   warningModalisOpen = false;
 
   connectedCallback() {
@@ -158,12 +158,13 @@ export default class TelostouchDataSync extends LightningElement {
     syncAllRecordsApex({ syncType: this.syncTypeValue, syncObject: this.syncObjectValue })
       .then(data => {
         this.showSpinner = false;
-        this.isModalOpen = true;
+        const successEvt = new CustomEvent('syncsuccess', {});
+        this.dispatchEvent(successEvt);
       }).catch(error => {
         this.error = error;
-        this.isModalOpen = true;
         this.showSpinner = false;
-        this.warningModalisOpen = true;
+        const failedEvt = new CustomEvent('syncfailure', {});
+        this.dispatchEvent(failedEvt);
       });
   }
 

@@ -6,6 +6,10 @@
             </lightning-spinner>
         </template>
     </div>
+    <div if:true={showToast}>
+        <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}>
+        </c-ttcustom-toast>
+    </div>
     <div id="MainContainer">
         <div class="slds-page-header slds-border_left slds-border_top slds-border_right">
             <div class="slds-media">
@@ -143,10 +147,6 @@
             </p>
         </footer>
 
-        <div if:true={showToast}>
-            <c-ttcustom-toast variant={variant} message={msg} ontoastvisibilitychange={handleToastVisibilityChange}>
-            </c-ttcustom-toast>
-        </div>
         <template if:true={afterSaveCredentials}>
             <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large"
                 aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
@@ -164,8 +164,8 @@
                             class="slds-size_1-of-1 searchIcon slds-medium-size_3-of-3 slds-large-size_1-of-3 slds-small-size_3-of-3">
                             <template if:true={showSearchBar}>
                                 <div class="searchBar">
-                                    <input type="search" placeholder={label.Search_Placeholder}
-                                        class="slds-input" onkeyup={searchKeyword} id="search" value={searchValue} />
+                                    <input type="search" placeholder={label.Search_Placeholder} class="slds-input"
+                                        onkeyup={searchKeyword} id="search" value={searchValue} />
                                 </div>
                                 <div class="closeIcon">
                                     <lightning-icon icon-name="utility:close" size="small"
@@ -244,11 +244,13 @@
                                                 <template if:true={obj.editRole}>
                                                     <div class="slds-grid">
                                                         <div class="slds-col">
-                                                            <lightning-combobox value={obj.TTRole} options={roleOptions} data-id={obj.Id} onchange={changeRole}
+                                                            <lightning-combobox value={obj.TTRole} options={roleOptions}
+                                                                data-id={obj.Id} onchange={changeRole}
                                                                 label-hidden></lightning-combobox>
                                                         </div>
                                                         <div class="slds-col slds-align_absolute-center">
-                                                            <lightning-button-icon icon-name="utility:save" variant="bare" data-id={obj.Id}
+                                                            <lightning-button-icon icon-name="utility:save"
+                                                                variant="bare" data-id={obj.Id}
                                                                 onclick={handleSaveRole}></lightning-button-icon>
                                                         </div>
                                                     </div>
@@ -359,8 +361,8 @@
                                     <lightning-layout horizontal-align="spread">
                                         <lightning-layout-item padding="around-small"></lightning-layout-item>
                                         <lightning-layout-item padding="around-small">
-                                            <lightning-combobox value={selectedRole} options={roleOptions} onchange={changeRole}
-                                                label-hidden></lightning-combobox>
+                                            <lightning-combobox value={selectedRole} options={roleOptions}
+                                                onchange={changeRole} label-hidden></lightning-combobox>
                                         </lightning-layout-item>
                                         <lightning-layout-item padding="around-small"></lightning-layout-item>
                                     </lightning-layout>
@@ -369,7 +371,8 @@
                                     <lightning-button variant="brand" label={label.Confirm_Text}
                                         onclick={handleMassSaveRole} class="slds-m-right_x-small">
                                     </lightning-button>
-                                    <lightning-button variant="brand" label={label.Cancel_Button_Label} onclick={switchRoleModal}>
+                                    <lightning-button variant="brand" label={label.Cancel_Button_Label}
+                                        onclick={switchRoleModal}>
                                     </lightning-button>
                                 </div>
                             </div>
@@ -406,12 +409,13 @@
                                 <lightning-button label={label.Next_Button_Label} icon-position="right"
                                     disabled={currentPageEqualTtotalPages} icon-name="utility:chevronright"
                                     onclick={goToNextPage} class="slds-m-right_x-small"></lightning-button>
-                                <lightning-button label={label.Cancel_Button_Label} onclick={cancelUserModal}
+                                <lightning-button label={label.Cancel_Button_Label} onclick={cancelUserModalBtn}
                                     class="slds-m-right_x-small"></lightning-button>
                                 <lightning-button label={label.Revoke_access} disabled={isEmptySelectedUserList}
                                     onclick={checkRevokeUsers} class="slds-m-right_x-small"></lightning-button>
                                 <lightning-button label={label.GIve_TT_Access} disabled={isEmptySelectedUserList}
-                                    onclick={SendSFUserToTT} variant="Brand" class="slds-m-right_x-small"></lightning-button>
+                                    onclick={SendSFUserToTT} variant="Brand"
+                                    class="slds-m-right_x-small"></lightning-button>
                                 <lightning-button label='Update Role' disabled={isEmptySelectedUserList}
                                     onclick={switchRoleModal} variant="Brand"></lightning-button>
                             </lightning-layout-item>

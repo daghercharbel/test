@@ -53,6 +53,9 @@
                             <p class="color-green contentPara">Connected To TelosTouch</p>
                             <lightning-button class="red-btn" variant="brand" label={connectLabel} title={connectLabel}
                                 onclick={handleConnect}></lightning-button>
+                            <lightning-button variant="Brand" class="slds-var-p-left_medium"
+                                label={label.Refresh_Token_Button_Label} onclick={refreshToken}>
+                            </lightning-button>
                         </div>
                         <div if:false={isApiConnected} class="cardCss slds-box slds-var-p-around_medium">
                             <lightning-icon icon-name="utility:link" alternative-text="API status"
@@ -145,8 +148,9 @@
                     </header>
                     <div class="slds-modal__content slds-var-p-around_medium">
                         <template if:true={showManualSync}>
-                            <c-telostouch-data-sync show-manual-sync={showManualSync}
-                                enable-sync="true"></c-telostouch-data-sync>
+                            <c-telostouch-data-sync show-manual-sync={showManualSync} enable-sync="true"
+                                onsyncsuccess={handleSuccessfulSync}
+                                onsyncfailure={handleFailedSync}></c-telostouch-data-sync>
                         </template>
                         <template if:true={showLogTable}>
                             <c-telostouch-data-sync enable-log-table={showLogTable}></c-telostouch-data-sync>
@@ -172,9 +176,8 @@
             <div class="slds-backdrop slds-backdrop_open"></div>
         </div>
         <template if:true={enableUpdateAddUser}>
-            <c-telostouch-setup-configuration 
-                oncloseusermanagement={closeUserManagementPopUp} onapprovalevent={handleApprovalValue}
-                is-approved={isApiConnected}></c-telostouch-setup-configuration>
+            <c-telostouch-setup-configuration oncloseusermanagement={closeUserManagementPopUp}
+                onapprovalevent={handleApprovalValue} is-approved={isApiConnected}></c-telostouch-setup-configuration>
         </template>
     </template>
 </template>
