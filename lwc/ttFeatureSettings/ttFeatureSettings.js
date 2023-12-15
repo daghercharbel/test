@@ -122,7 +122,7 @@ export default class TtFeatureSettings extends LightningElement {
     callRedirect(event) {
 
         let name = event.target.name;
-        const redirectEvt = new CustomEvent('redirectEvent', {
+        const redirectEvt = new CustomEvent('redirectevent', {
             detail: { value: name },
         });
 

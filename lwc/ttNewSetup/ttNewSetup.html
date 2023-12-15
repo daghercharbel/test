@@ -96,8 +96,8 @@
                     <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                         padding="around-large">
                         <div class="cardCss slds-box slds-var-p-around_medium ">
-                            <lightning-icon icon-name="utility:data_mapping" alternative-text={label.Field_MappingTab_Label}
-                                size="small"></lightning-icon>
+                            <lightning-icon icon-name="utility:data_mapping"
+                                alternative-text={label.Field_MappingTab_Label} size="small"></lightning-icon>
                             <p class="slds-var-m-top_x-small fontSize">{label.Field_MappingTab_Label}</p>
                             <p class=" contentPara">{label.Field_Mapping_Detail_Text}</p>
                             <lightning-button variant="brand" label="Edit" title="Edit"
@@ -154,7 +154,7 @@
                             <c-field-mapping-comp show-field-mapping={enableFieldMapping}></c-field-mapping-comp>
                         </template>
                         <template if:true={enableFeatureManagement}>
-                            <c-tt-feature-settings></c-tt-feature-settings>
+                            <c-tt-feature-settings onredirectevent={handleKnowledgeBase}></c-tt-feature-settings>
                         </template>
                         <template if:true={enableKnowledgeBase}>
                             <c-knowledge-base show-carousel={enableKnowledgeBase}></c-knowledge-base>
