@@ -99,7 +99,9 @@ public with sharing class TouchPointPreviewController {
                 mapResult.put('status', 'success');
                 return mapResult;
             } else {
-                throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
+                mapResult.put('status', 'error');
+                mapResult.put('error', 'Status Code: '+mapResponse.get('status_code'));
+                return mapResult;
             }
         } catch (Exception ex) {
             TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'deleteTemplate', null);

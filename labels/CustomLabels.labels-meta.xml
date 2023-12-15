@@ -787,14 +787,14 @@
         <protected>true</protected>
         <shortDescription>Customize PreviewLabel</shortDescription>
         <value>You can now send TouchPoint by clicking on &quot;Send&quot;. &lt;br/&gt;
-            Note: Customise and Touchpoint Selection will be disabled after sending</value>
+            Note: Customize and Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
         <fullName>Customize_PreviewLabel_Text</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Customize_PreviewLabel_Text</shortDescription>
-        <value>You can now send TouchPoint by clicking on &quot;Send&quot;. Note: Customise and
+        <value>You can now send TouchPoint by clicking on &quot;Send&quot;. Note: Customize and
             Touchpoint Selection will be disabled after sending</value>
     </labels>
     <labels>
@@ -3250,5 +3250,83 @@
         <protected>true</protected>
         <shortDescription>My Emails</shortDescription>
         <value>My Emails</value>
+    </labels>
+    <labels>
+        <fullName>One_Time_Token_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>One Time Token Text</shortDescription>
+        <value>Enter One Time Token</value>
+    </labels>
+    <labels>
+        <fullName>One_Time_Code_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>One Time Code Message</shortDescription>
+        <value>We have sent a one time code to your email address. Please check your inbox and enter
+            the code in the text box below and submit.</value>
+    </labels>
+    <labels>
+        <fullName>Ok_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Ok Text</shortDescription>
+        <value>OK</value>
+    </labels>
+    <labels>
+        <fullName>API_Status_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>API Status Text</shortDescription>
+        <value>API status</value>
+    </labels>
+    <labels>
+        <fullName>Connected_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connected Text</shortDescription>
+        <value>Connected To TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Missing_API_Token_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Missing API Token Text</shortDescription>
+        <value>Missing API Token</value>
+    </labels>
+    <labels>
+        <fullName>Show_Logs_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Show Logs Text</shortDescription>
+        <value>Show Logs</value>
+    </labels>
+    <labels>
+        <fullName>User_Management_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Management Text</shortDescription>
+        <value>User Management</value>
+    </labels>
+    <labels>
+        <fullName>User_Management_Detail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Management Text</shortDescription>
+        <value>Ensure everyone has the right level of access</value>
+    </labels>
+    <labels>
+        <fullName>Field_Mapping_Detail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Field Mapping Detail Text</shortDescription>
+        <value>Map the fields from your Salesforce to the TelosTouch</value>
+    </labels>
+    <labels>
+        <fullName>Feature_Toggle_Detail_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Feature Toggle Detail Text</shortDescription>
+        <value>Customize your experience based on your needs</value>
     </labels>
 </CustomLabels>

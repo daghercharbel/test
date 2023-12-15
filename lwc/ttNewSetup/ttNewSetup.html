@@ -14,23 +14,22 @@
                         title="Close" onclick={closeRegistrationModal}>
                         <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
                             size="small"></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
+                        <span class="slds-assistive-text">{label.Close}</span>
                     </button>
-                    <h2 class="slds-text-heading_medium slds-hyphenate">Enter One Time Token</h2>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{label.One_Time_Token_Text}</h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
                 <div class="slds-modal__content slds-var-p-around_medium">
-                    <h1>We have sent a one time code to your email address. Please check your inbox and enter the code
-                        in the text box below and submit.</h1>
+                    <h1>{label.One_Time_Code_Message}</h1>
                     <lightning-input name="tokeninput" label="Enter one time token"
                         onchange={handleTokenTextAreaChange}></lightning-input>
                 </div>
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">
                     <button class="slds-button slds-button_neutral" onclick={closeRegistrationModal}
-                        title="Cancel">Cancel</button>
+                        title={label.cancel}>{label.cancel}</button>
                     <button class="slds-button slds-button_brand" onclick={submitRegistrationDetails}
-                        title="OK">OK</button>
+                        title={label.Ok_Text}>{label.Ok_Text}</button>
                 </footer>
             </div>
         </section>
@@ -47,10 +46,10 @@
                     <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                         padding="around-large">
                         <div if:true={isApiConnected} class="cardCss slds-box slds-var-p-around_medium">
-                            <lightning-icon icon-name="utility:link" alternative-text="API status"
+                            <lightning-icon icon-name="utility:link" alternative-text={label.API_Status_Text}
                                 size="small"></lightning-icon>
-                            <p class="slds-var-m-top_x-small fontSize">API status</p>
-                            <p class="color-green contentPara">Connected To TelosTouch</p>
+                            <p class="slds-var-m-top_x-small fontSize">{label.API_Status_Text}</p>
+                            <p class="color-green contentPara">{label.Connected_Text}</p>
                             <lightning-button class="red-btn" variant="brand" label={connectLabel} title={connectLabel}
                                 onclick={handleConnect}></lightning-button>
                             <lightning-button variant="Brand" class="slds-var-p-left_medium"
@@ -58,10 +57,10 @@
                             </lightning-button>
                         </div>
                         <div if:false={isApiConnected} class="cardCss slds-box slds-var-p-around_medium">
-                            <lightning-icon icon-name="utility:link" alternative-text="API status"
+                            <lightning-icon icon-name="utility:link" alternative-text={label.API_Status_Text}
                                 size="small"></lightning-icon>
-                            <p class="slds-var-m-top_x-small fontSize">API status</p>
-                            <p class="color-red contentPara">Missing API Token</p>
+                            <p class="slds-var-m-top_x-small fontSize">{label.API_Status_Text}</p>
+                            <p class="color-red contentPara">{label.Missing_API_Token_Text}</p>
                             <lightning-button class="green-btn" variant="brand" label={connectLabel}
                                 title={connectLabel} onclick={handleConnect}></lightning-button>
                         </div>
@@ -70,14 +69,14 @@
                 <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                     padding="around-large">
                     <div class="cardCss slds-box slds-var-p-around_medium ">
-                        <lightning-icon icon-name="utility:database" alternative-text="Data Sync"
+                        <lightning-icon icon-name="utility:database" alternative-text={label.Data_Sync_Tab_Label}
                             size="small"></lightning-icon>
-                        <p class="slds-var-m-top_x-small fontSize">Data Sync</p>
-                        <p class=" contentPara color-red">Last Sync: {manualSyncTime}</p>
+                        <p class="slds-var-m-top_x-small fontSize">{label.Data_Sync_Tab_Label}</p>
+                        <p class=" contentPara color-red">{label.Last_Sync_Completed} {manualSyncTime}</p>
                         <div class="dataSyncButtons">
-                            <lightning-button variant="brand" label="Manual Sync" title="Manual Sync"
-                                onclick={handleManualSync}></lightning-button>
-                            <lightning-button variant="brand" label="Show Logs" title="Show Logs"
+                            <lightning-button variant="brand" label={label.Manual_Sync_All_Button}
+                                title={label.Manual_Sync_All_Button} onclick={handleManualSync}></lightning-button>
+                            <lightning-button variant="brand" label={label.Show_Logs_Text} title={label.Show_Logs_Text}
                                 onclick={handleLogTable} class="slds-var-p-left_medium"></lightning-button>
                         </div>
                     </div>
@@ -85,12 +84,10 @@
                 <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                     padding="around-large">
                     <div class="cardCss slds-box slds-var-p-around_medium ">
-                        <lightning-icon icon-name="utility:user" alternative-text="User Management"
+                        <lightning-icon icon-name="utility:user" alternative-text={label.User_Management_Text}
                             size="small"></lightning-icon>
-                        <p class="slds-var-m-top_x-small fontSize">User Management</p>
-                        <p class="contentPara">Ensure everyone has the right level
-                            of access
-                        </p>
+                        <p class="slds-var-m-top_x-small fontSize">{label.User_Management_Text}</p>
+                        <p class="contentPara">{label.User_Management_Detail_Text}</p>
                         <lightning-button variant="brand" disabled={isUserEdit} label="Edit" title="Edit"
                             onclick={handleUserManagement}></lightning-button>
                     </div>
@@ -99,11 +96,10 @@
                     <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                         padding="around-large">
                         <div class="cardCss slds-box slds-var-p-around_medium ">
-                            <lightning-icon icon-name="utility:data_mapping" alternative-text="Field Mapping"
+                            <lightning-icon icon-name="utility:data_mapping" alternative-text={label.Field_MappingTab_Label}
                                 size="small"></lightning-icon>
-                            <p class="slds-var-m-top_x-small fontSize">Field Mapping</p>
-                            <p class=" contentPara">Map the fields from your Salesforce
-                                to the TelosTouch</p>
+                            <p class="slds-var-m-top_x-small fontSize">{label.Field_MappingTab_Label}</p>
+                            <p class=" contentPara">{label.Field_Mapping_Detail_Text}</p>
                             <lightning-button variant="brand" label="Edit" title="Edit"
                                 onclick={handleDataMapping}></lightning-button>
                         </div>
@@ -111,11 +107,10 @@
                     <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="4"
                         padding="around-large">
                         <div class="cardCss slds-box slds-var-p-around_medium ">
-                            <lightning-icon icon-name="utility:magicwand" alternative-text="Features Management"
+                            <lightning-icon icon-name="utility:magicwand" alternative-text={label.Feature_Toggle}
                                 size="small"></lightning-icon>
-                            <p class="slds-var-m-top_x-small fontSize">Features Management</p>
-                            <p class=" contentPara">Customize your experience
-                                based on your needs </p>
+                            <p class="slds-var-m-top_x-small fontSize">{label.Feature_Toggle}</p>
+                            <p class=" contentPara">{label.Feature_Toggle_Detail_Text}</p>
                             <lightning-button variant="brand" label="Edit" title="Edit"
                                 onclick={handleFeatureManagement}></lightning-button>
                         </div>
@@ -125,7 +120,7 @@
                     padding="around-large">
                     <div class="cardCss slds-box slds-var-p-around_medium ">
                         <lightning-icon icon-name="utility:help" alternative-text="Help" size="small"></lightning-icon>
-                        <p class="slds-var-m-top_x-small fontSize">Help</p>
+                        <p class="slds-var-m-top_x-small fontSize">{label.Help_Tab_Label}</p>
                         <p class="contentPara">{label.Help_Section_Text_1}&nbsp;{label.Help_Section_Text_2}&nbsp;<a
                                 onclick={openMail}>support@telostouch.com</a></p>
                         <lightning-button variant="brand" label="Knowledge Base" title="Knowledge Base"
@@ -160,15 +155,13 @@
                         </template>
                         <template if:true={enableFeatureManagement}>
                             <c-tt-feature-settings></c-tt-feature-settings>
-                            <!-- show-feature-management={enableFeatureManagement}
-                                </c-tt-feature-settings> -->
                         </template>
                         <template if:true={enableKnowledgeBase}>
                             <c-knowledge-base show-carousel={enableKnowledgeBase}></c-knowledge-base>
                         </template>
                     </div>
                     <footer class="slds-modal__footer">
-                        <lightning-button label="Close" title="Close" class="slds-m-right_small"
+                        <lightning-button label="Close" title="Close" class="slds-var-m-right_small"
                             onclick={handleModalClose}></lightning-button>
                     </footer>
                 </div>

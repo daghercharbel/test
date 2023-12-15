@@ -1917,6 +1917,51 @@
         <label>Point de contact</label>
         <name>Touchpoint_Label</name>
     </customLabels>
+    <customLabels>
+        <label>Veuillez saisir votre code à usage unique</label>
+        <name>One_Time_Token_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Nous avons envoyé un code à usage unique a votre adresse courriel. Veuillez vérifier
+            votre boîte de réception et saisir le code dans la zone de texte ci-dessous.</label>
+        <name>One_Time_Code_Message</name>
+    </customLabels>
+    <customLabels>
+        <label>Ok</label>
+        <name>Ok_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Statut de l'API</label>
+        <name>API_Status_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Connecté à TelosTouch</label>
+        <name>Connected_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Jeton API manquant</label>
+        <name>Missing_API_Token_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Voir les journaux</label>
+        <name>Show_Logs_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Gestion d'utilisateurs</label>
+        <name>User_Management_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Assurez-vous que tout le monde dispose du bon niveau d'accès</label>
+        <name>User_Management_Detail_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Mapper les champs de votre Salesforce à TelosTouch</label>
+        <name>Field_Mapping_Detail_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Personnalisez votre expérience en fonction de vos besoins</label>
+        <name>Feature_Toggle_Detail_Text</name>
+    </customLabels>
     <customTabs>
         <label><!-- Branding -->
         </label>
