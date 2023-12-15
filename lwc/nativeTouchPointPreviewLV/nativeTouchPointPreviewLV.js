@@ -26,11 +26,13 @@ import Delete_Label from "@salesforce/label/c.Delete_Label";
 import Draft_Status_Description from "@salesforce/label/c.Draft_Status_Description";
 import Drafted_Label from "@salesforce/label/c.Drafted_Label";
 import Duplicate_Button_Description from "@salesforce/label/c.Duplicate_Button_Description";
-import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
-import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
-import My_Emails from "@salesforce/label/c.My_Emails";
 import Email_Text from "@salesforce/label/c.Email_Text";
-import Touchpoint_Label from "@salesforce/label/c.Touchpoint_Label";
+import English_Text from "@salesforce/label/c.English_Text";
+import French_Text from "@salesforce/label/c.French_Text";
+import Language_Text from "@salesforce/label/c.Language_Text";
+import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
+import My_Emails from "@salesforce/label/c.My_Emails";
+import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
 import NO_DATA_TEXT from '@salesforce/label/c.TouchpointPreview_NoData_Text';
 import Order_by_Label from '@salesforce/label/c.Order_by_Label';
 import Private_Permission from '@salesforce/label/c.Private_Permission';
@@ -50,6 +52,7 @@ import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
 import Status_Text from "@salesforce/label/c.Status_Text";
 import TitleDesc from "@salesforce/label/c.TitleDesc";
 import TitleText from "@salesforce/label/c.TitleText";
+import Touchpoint_Label from "@salesforce/label/c.Touchpoint_Label";
 import TOUCHPOINTPREVIEW_BACKTOLISTVIEW from '@salesforce/label/c.TouchpointPreview_BackToListView';
 import TOUCHPOINTPREVIEW_BACKTOTEMPLATES from '@salesforce/label/c.TouchpointPreview_BackToTemplates';
 
@@ -64,11 +67,13 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         Draft_Status_Description,
         Drafted_Label,
         Duplicate_Button_Description,
-        LastModifiedDate,
-        My_Touchpoints,
-        My_Emails,
         Email_Text,
-        Touchpoint_Label,
+        English_Text,
+        French_Text,
+        Language_Text,
+        LastModifiedDate,
+        My_Emails,
+        My_Touchpoints,
         NO_DATA_TEXT,
         Order_by_Label,
         Private_Permission,
@@ -88,6 +93,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         Status_Text,
         TitleDesc,
         TitleText,
+        Touchpoint_Label,
         TOUCHPOINTPREVIEW_BACKTOLISTVIEW,
         TOUCHPOINTPREVIEW_BACKTOTEMPLATES
     };
@@ -106,9 +112,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     iframeURL = '';
     isAdmin = false;
     lang = LANG;
+    langValue = "ALL";
     listViewId = '';
     listViewValue = 'private';
-    mapTemplates = { "public": [], "shared": [], "private": [] };
+    mapTemplates = {"public":[],"shared":[],"private":[]};
     @api navigateToList;
     @api libraryType = '';
     @track nextBtnClass = 'btnBorderInActive';
@@ -210,6 +217,14 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return (this.selectedPermission == 'restricted');
     }
 
+    get langOptions() {
+        return [
+            { label: this.label.All_Label, value: "ALL" },
+            { label: this.label.English_Text, value: "en_US" },
+            { label: this.label.French_Text, value: "fr_FR" }
+        ];
+    }
+
     get listViewOptions() {
         return [
             { label: this.libraryType.toLowerCase() === 'email' ? this.label.My_Emails : this.label.My_Touchpoints, value: 'private' },
@@ -219,10 +234,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     }
 
     get permissionOptions() {
-
+        
         let lstOptions = [];
-        let publicSharePermission = this.libraryType.toLowerCase() + '_share_public';
-        if (this.userPermissions.includes(publicSharePermission)) {
+        let publicSharePermission = this.libraryType.toLowerCase()+'_share_public';
+        if(this.userPermissions.includes(publicSharePermission)){ 
             lstOptions.push({ label: this.label.Public_Permission, value: 'public' })
         }
         lstOptions.push({ label: this.label.Private_Permission, value: 'private' })
@@ -265,11 +280,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     closeEmailBuilder() {
         this.showEmailBuilder = false;
-    }
-
-    closeDeleteModal() {
-        this.showDeleteModal = false;
-        this.touchpointOrEmailTemplateId = '';
     }
 
     connectedCallback() {
@@ -355,19 +365,18 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return newTemplateList;
     }
 
-    filterTemplatesList(templateList) {
+    filterTemplatesList(lstTemplate) {
 
-        let selectedStatus = this.selectedStatus;
         let newTemplateList = [];
+        
+        for(let i=0; i < lstTemplate.length; i++){
+            let ignoreRecord = false;
+            //STATUS FILTER
+            ignoreRecord |= (this.selectedStatus != 'all' && lstTemplate[i].status.toLowerCase() != this.selectedStatus);
+            //LANGUAGE FILTER
+            ignoreRecord |= (this.langValue != 'ALL' && !lstTemplate[i].lstLangCode.includes(this.langValue));
 
-        if (selectedStatus == 'all') {
-            newTemplateList = templateList;
-        } else {
-            templateList.forEach(function (template, index, object) {
-                if (template.status.toLowerCase() == selectedStatus) {
-                    newTemplateList.push(template);
-                }
-            });
+            if(!ignoreRecord){ newTemplateList.push(lstTemplate[i]); }
         }
 
         return newTemplateList;
@@ -375,11 +384,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     getTemplates() {
 
-        let viewPermission = this.libraryType.toLowerCase() + '_view';
-        if (!this.userPermissions.includes(viewPermission)) {
+        let viewPermission = this.libraryType.toLowerCase()+'_view';
+        if(!this.userPermissions.includes(viewPermission)){ 
             this.showSpinner = false;
             this.updateRecords();
-            return;
+            return; 
         }
 
         getTemplateDetails({ libraryType: this.libraryType })
@@ -441,6 +450,31 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                         if (this.libraryType.toLowerCase() == 'email') {
                             ele = this.setTpReadyBadge(ele);
                         }
+
+                        //GETTING LANGUAGES
+                        let templateLangs = [];
+                        let templateLangCodes = [];
+                        if(this.libraryType.toLowerCase() == 'touchpoint'){
+                            let tpContent = JSON.parse(ele.content);
+                            for (let i=0; i < tpContent.languages.length; i++){
+                                templateLangCodes.push(tpContent.languages[i].code);
+                                if(tpContent.languages[i].code == "en_US"){
+                                    templateLangs.push(this.label.English_Text);
+                                } else if(tpContent.languages[i].code == "fr_FR"){
+                                    templateLangs.push(this.label.French_Text);
+                                }
+                            }
+                        } else if(this.libraryType.toLowerCase() == 'email'){
+                            templateLangCodes.push(ele.language);
+                            if(ele.language == "en_US"){
+                                templateLangs.push(this.label.English_Text);
+                            } else if(ele.language == "fr_FR"){
+                                templateLangs.push(this.label.French_Text);
+                            }
+                        }
+
+                        ele.langDescription = this.label.Language_Text+': '+templateLangs.join(', ');
+                        ele.lstLangCode = templateLangCodes;
                     })
                 });
                 let returnVal = mapTemplates[this.listViewValue];
@@ -474,7 +508,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 if (result.status) {
 
                     let response = result.body;
-                    if (response.permissions) {
+                    if(response.permissions){
                         this.userPermissions = response.permissions;
                     } else {
                         this.userPermissions = [];
@@ -483,7 +517,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 } else {
                     console.error('nativeTouchPointPreviewLV 1: ', result.status_code + ': ' + result.body);
                 }
-
+                
             })
             .catch(error => {
                 let errorStr = '';
@@ -496,7 +530,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('nativeTouchPointPreviewLV 2: ', errorStr);
             })
             .finally(final => {
-                let creationPermission = this.libraryType.toLowerCase() + '_create_edit';
+                let creationPermission = this.libraryType.toLowerCase()+'_create_edit';
                 this.creationEnabled = this.userPermissions.includes(creationPermission);
                 if (this.creationEnabled) {
                     this.recordSize = (this.recordSize - 1);
@@ -525,7 +559,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
         let libraryType = this.libraryType.toLowerCase();
 
-        copyTemplate({ templateId: templateId, libraryType: libraryType })
+        copyTemplate({ templateId: templateId, libraryType: libraryType})
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.getTemplates();
@@ -551,7 +585,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     handleDeleteTemplate(event) {
 
         this.showSpinner = true;
-        let templateId = this.touchpointOrEmailTemplateId;
+        let templateId = event.currentTarget.dataset.id;
         let libraryType = this.libraryType.toLowerCase();
 
         deleteTemplate({ templateId: templateId, libraryType: libraryType })
@@ -566,10 +600,6 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('TelosTouch handleDeleteTemplate Error: ', error);
                 this.showSpinner = false;
             })
-            .finally(() => {
-                this.touchpointOrEmailTemplateId = '';
-                this.closeDeleteModal();
-            });
 
     }
 
@@ -612,8 +642,8 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         this.prepareTemplateList();
     }
 
-    handleTypeChange(event) {
-        this.selectedType = event.detail.value;
+    handleLangChange(event){
+        this.langValue = event.detail.value;
         this.prepareTemplateList();
     }
 
@@ -663,6 +693,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         this.previewBody = !this.previewBody;
     }
 
+    handleTypeChange(event) {
+        this.selectedType = event.detail.value;
+        this.prepareTemplateList();
+    }
+
     navigateToListView(listViewId) {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
@@ -694,7 +729,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         try {
             this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
             if (this.fr) {
-                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name;
+                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name_fr;
                 this.deleteModalContent = 'Cette action ne peut pas être annulée. Toutes les données associées à ce modèle seront perdues.';
             } else {
                 this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
@@ -844,7 +879,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         return template;
 
     }
-
+    
     setTpReadyBadge(template) {
         if (template.status.toLowerCase() == 'drafted' && (template.is_tp_ready)) {
             template.showTpReady = 'false';
@@ -853,6 +888,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         } else if (template.status.toLowerCase() == 'sent' && (template.is_tp_ready)) {
             template.showTpReady = 'true';
         }
+        return template;
     }
 
     sortTemplatesList(templateList) {
@@ -951,7 +987,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             users_list: this.selectedShareableUsers
         }
 
-        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType })
+        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType})
             .then((result) => {
                 if (result && result.status == 'success') {
 

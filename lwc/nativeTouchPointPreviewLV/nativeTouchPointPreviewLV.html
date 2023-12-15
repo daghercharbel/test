@@ -35,6 +35,12 @@
                         </lightning-combobox>
                     </lightning-layout-item>
                 </template>
+                <!-- LANGUAGE FILTER -->
+                <lightning-layout-item padding="around-small">
+                    <lightning-combobox label={label.Language_Text} value={langValue} data-id="langFilter"
+                        options={langOptions} onchange={handleLangChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
                 <!-- SORT BY FILTER -->
                 <lightning-layout-item padding="around-small">
                     <lightning-combobox label={label.Order_by_Label} value={selectedSort} data-id="templateFilter"
@@ -98,6 +104,9 @@
                                         <div if:true={fr} class="tpName">{template.name_fr}</div>
                                         <span class="tooltip-drop tooltip-top">{template.name_fr}</span>
                                     </div>
+                                    <template if:true={template.langDescription}>
+                                        <div class="tpDate">{template.langDescription}</div>
+                                    </template>
                                     <div class="tpDate">{template.modified_at}</div>
                                 </div>
                                 <!-- ACTION BUTTONS -->
@@ -120,7 +129,8 @@
                                         <template if:true={template.showDeleteBtn}>
                                             <div class="slds-col slds-grow slds-var-p-vertical_small card-clickable"
                                                 data-id={template.id} data-name={template.name}
-                                                onclick={openDeleteModal} title={label.Remove_Text}>
+                                                data-namefr={template.name_fr} onclick={openDeleteModal}
+                                                title={label.Remove_Text}>
                                                 <div class="slds-border_right">
                                                     <lightning-icon icon-name="utility:delete" variant="error"
                                                         size="x-small"></lightning-icon>
