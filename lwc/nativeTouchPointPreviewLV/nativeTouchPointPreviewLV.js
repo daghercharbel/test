@@ -115,7 +115,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     langValue = "ALL";
     listViewId = '';
     listViewValue = 'private';
-    mapTemplates = {"public":[],"shared":[],"private":[]};
+    mapTemplates = { "public": [], "shared": [], "private": [] };
     @api navigateToList;
     @api libraryType = '';
     @track nextBtnClass = 'btnBorderInActive';
@@ -234,10 +234,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     }
 
     get permissionOptions() {
-        
+
         let lstOptions = [];
-        let publicSharePermission = this.libraryType.toLowerCase()+'_share_public';
-        if(this.userPermissions.includes(publicSharePermission)){ 
+        let publicSharePermission = this.libraryType.toLowerCase() + '_share_public';
+        if (this.userPermissions.includes(publicSharePermission)) {
             lstOptions.push({ label: this.label.Public_Permission, value: 'public' })
         }
         lstOptions.push({ label: this.label.Private_Permission, value: 'private' })
@@ -280,6 +280,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     closeEmailBuilder() {
         this.showEmailBuilder = false;
+    }
+
+    closeDeleteModal() {
+        this.showDeleteModal = false;
+        this.touchpointOrEmailTemplateId = '';
     }
 
     connectedCallback() {
@@ -384,11 +389,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
     getTemplates() {
 
-        let viewPermission = this.libraryType.toLowerCase()+'_view';
-        if(!this.userPermissions.includes(viewPermission)){ 
+        let viewPermission = this.libraryType.toLowerCase() + '_view';
+        if (!this.userPermissions.includes(viewPermission)) {
             this.showSpinner = false;
             this.updateRecords();
-            return; 
+            return;
         }
 
         getTemplateDetails({ libraryType: this.libraryType })
@@ -508,7 +513,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 if (result.status) {
 
                     let response = result.body;
-                    if(response.permissions){
+                    if (response.permissions) {
                         this.userPermissions = response.permissions;
                     } else {
                         this.userPermissions = [];
@@ -517,7 +522,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 } else {
                     console.error('nativeTouchPointPreviewLV 1: ', result.status_code + ': ' + result.body);
                 }
-                
+
             })
             .catch(error => {
                 let errorStr = '';
@@ -530,7 +535,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('nativeTouchPointPreviewLV 2: ', errorStr);
             })
             .finally(final => {
-                let creationPermission = this.libraryType.toLowerCase()+'_create_edit';
+                let creationPermission = this.libraryType.toLowerCase() + '_create_edit';
                 this.creationEnabled = this.userPermissions.includes(creationPermission);
                 if (this.creationEnabled) {
                     this.recordSize = (this.recordSize - 1);
@@ -559,7 +564,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
 
         let libraryType = this.libraryType.toLowerCase();
 
-        copyTemplate({ templateId: templateId, libraryType: libraryType})
+        copyTemplate({ templateId: templateId, libraryType: libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
                     this.getTemplates();
@@ -585,7 +590,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     handleDeleteTemplate(event) {
 
         this.showSpinner = true;
-        let templateId = event.currentTarget.dataset.id;
+        let templateId = this.touchpointOrEmailTemplateId;
         let libraryType = this.libraryType.toLowerCase();
 
         deleteTemplate({ templateId: templateId, libraryType: libraryType })
@@ -600,6 +605,10 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
                 console.error('TelosTouch handleDeleteTemplate Error: ', error);
                 this.showSpinner = false;
             })
+            .finally(() => {
+                this.touchpointOrEmailTemplateId = '';
+                this.closeDeleteModal();
+            });
 
     }
 
@@ -697,7 +706,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         this.selectedType = event.detail.value;
         this.prepareTemplateList();
     }
-
+	
     navigateToListView(listViewId) {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
@@ -729,7 +738,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
         try {
             this.touchpointOrEmailTemplateId = event.currentTarget.dataset.id;
             if (this.fr) {
-                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name_fr;
+                this.deleteModalHeader = 'Supprimez le modèle ' + event.currentTarget.dataset.name;
                 this.deleteModalContent = 'Cette action ne peut pas être annulée. Toutes les données associées à ce modèle seront perdues.';
             } else {
                 this.deleteModalHeader = 'Delete ' + event.currentTarget.dataset.name + ' template';
@@ -987,7 +996,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             users_list: this.selectedShareableUsers
         }
 
-        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType})
+        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
 
