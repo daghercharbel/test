@@ -108,7 +108,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     lang = LANG;
     listViewId = '';
     listViewValue = 'private';
-    mapTemplates = {};
+    mapTemplates = { "public": [], "shared": [], "private": [] };
     @api navigateToList;
     @api libraryType = '';
     @track nextBtnClass = 'btnBorderInActive';
@@ -376,7 +376,11 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     getTemplates() {
 
         let viewPermission = this.libraryType.toLowerCase() + '_view';
-        if (!this.userPermissions.includes(viewPermission)) { return; }
+        if (!this.userPermissions.includes(viewPermission)) {
+            this.showSpinner = false;
+            this.updateRecords();
+            return;
+        }
 
         getTemplateDetails({ libraryType: this.libraryType })
             .then(result => {
@@ -938,6 +942,7 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
     }
 
     saveTemplatePermission() {
+
         this.showSpinner = true;
         let libraryType = this.libraryType.toLowerCase();
         let templateList = this.templateList
@@ -945,7 +950,8 @@ export default class NativeTouchPointPreviewLV extends NavigationMixin(Lightning
             permission: this.selectedTemplate.permissionType,
             users_list: this.selectedShareableUsers
         }
-        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType})
+
+        updateTemplatePermission({ templateId: this.selectedTemplate.id, requestBody: JSON.stringify(requestBody), libraryType: libraryType })
             .then((result) => {
                 if (result && result.status == 'success') {
 
