@@ -96,7 +96,7 @@
                                 <template if:false={campSent}>
                                     <lightning-button-icon icon-name="utility:edit" variant="bare"
                                         data-type="touchpoint" onclick={openTemplateGallery}
-                                        class="slds-m-left_xx-small"></lightning-button-icon>
+                                        class="slds-m-left_xx-small" title={label.Change}></lightning-button-icon>
                                 </template>
                                 <template if:true={campInfo.touchpoint.warning}>
                                     <lightning-icon icon-name="utility:warning"
@@ -139,7 +139,8 @@
                                     <!-- HAS EMAIL TEMPLATE -->
                                     <template if:true={email.name}>
                                         <a href="javascript:void(0)" data-type="email" data-lang={email.lang}
-                                            data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateEdit}>
+                                            data-id={email.id} class="slds-p-left_xx-small" onclick={openTemplateEdit}
+                                            title={label.Preview_Text}>
                                             {email.name}
                                         </a>
                                         <template if:false={campSent}>
