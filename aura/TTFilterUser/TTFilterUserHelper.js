@@ -476,9 +476,9 @@
                 c.set("v.isShowSpinner", false);
                 var state = response.getState();
                 var rtnValue = response.getReturnValue();
-                let insight = JSON.parse(rtnValue.insight);
-                let answers = JSON.parse(rtnValue.answers);
                 if (rtnValue != null && state == "SUCCESS") {
+					let insight = JSON.parse(rtnValue.insight);
+					let answers = JSON.parse(rtnValue.answers);
                     c.set("v.answers", insight);
                     $A.createComponents(
                         [
