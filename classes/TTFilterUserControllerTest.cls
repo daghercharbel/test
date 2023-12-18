@@ -166,8 +166,8 @@ private with sharing class TTFilterUserControllerTest {
         List<Insights__c> conversationLIST = new List<Insights__c>();
         conversationLIST = [SELECT Id FROM Insights__c];
         Test.startTest();
-        List<TTFilterUserController.AnswerWrapperDetails> answerDetailsObject  = TTFilterUserController.getUserAnswers(conversationLIST[0].Id);
-        System.assertEquals(answerDetailsObject != null, true, 'answerDetailsObject must not be NULL');
+        Map<String,String> mapResult  = TTFilterUserController.getUserAnswers(conversationLIST[0].Id);
+        System.assertEquals(mapResult != null, true, 'answerDetailsObject must not be NULL');
         Test.stopTest();
     }
 
