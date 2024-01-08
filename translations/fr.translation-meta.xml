@@ -1471,6 +1471,10 @@
         <name>Sent_SuccessToast</name>
     </customLabels>
     <customLabels>
+        <label>Le rôle de l'utilisateur a été mis à jour.</label>
+        <name>Update_User_SuccessToast</name>
+    </customLabels>
+    <customLabels>
         <label>Des questions ?</label>
         <name>ShareConcern</name>
     </customLabels>
