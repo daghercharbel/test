@@ -91,7 +91,7 @@ public with sharing class CampMemberNotAddInCampHandler {
                                                     FROM TelosTouchSF__Insights__c WHERE TelosTouchSF__Sent_Status__c != 'initial' AND 
                                                     TelosTouchSF__Campaign2__c IN: (lstCampId) AND 
                                                     (TelosTouchSF__Contact__c IN: (lstCttId) OR 
-                                                    TelosTouchSF__Lead__c IN: (lstLeadId))])
+                                                    TelosTouchSF__Lead__c IN: (lstLeadId)) WITH SECURITY_ENFORCED])
         {
             String key = insight.TelosTouchSF__Campaign2__c;
             key += (String.isBlank(insight.TelosTouchSF__Contact__c)) ? insight.TelosTouchSF__Lead__c : insight.TelosTouchSF__Contact__c;
@@ -210,14 +210,14 @@ public with sharing class CampMemberNotAddInCampHandler {
 
             if(!mapCttId.isEmpty()){
                 for(Contact ctt : [SELECT Id,TelosTouchSF__TT_Client_Id__c FROM Contact WHERE Id IN: mapCttId.keySet()
-                                   AND TelosTouchSF__TT_Client_Id__c != null]){
+                                   AND TelosTouchSF__TT_Client_Id__c != null WITH SECURITY_ENFORCED]){
                     mapCttId.put(ctt.Id, ctt.TelosTouchSF__TT_Client_Id__c);
                 }
             }
 
             if(!mapLeadId.isEmpty()){
                 for(Lead aLead : [SELECT Id,TelosTouchSF__TT_Client_Id__c FROM Lead WHERE Id IN: mapCttId.keySet()
-                                  AND TelosTouchSF__TT_Client_Id__c != null]){
+                                  AND TelosTouchSF__TT_Client_Id__c != null WITH SECURITY_ENFORCED]){
                     mapLeadId.put(aLead.Id, aLead.TelosTouchSF__TT_Client_Id__c);
                 }
             }
@@ -253,7 +253,7 @@ public with sharing class CampMemberNotAddInCampHandler {
                                                 FROM CampaignMember WHERE Id IN: lstMember
                                                 AND Campaign.TelosTouchSF__TT_Campaign_Id__c != null
                                                 AND (Contact.TelosTouchSF__TT_Client_Id__c != null
-                                                OR Lead.TelosTouchSF__TT_Client_Id__c != null)];
+                                                OR Lead.TelosTouchSF__TT_Client_Id__c != null) WITH SECURITY_ENFORCED];
             
             if(lstSyncMember.isEmpty()){ return; }
 

@@ -52,7 +52,7 @@ global with sharing class TaskCheckSyncAux {
             
             query += ' FROM Task WHERE Id IN: setTaskId';
             
-            list<Task> lstTask = Database.query(query);
+            list<Task> lstTask = Database.query(String.escapeSingleQuotes(query).replace('\\',''));
             
             for(Task aTask : lstTask){
                 Task oldTask = oldMapTask.get(aTask.Id);

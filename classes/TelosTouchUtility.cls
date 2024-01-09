@@ -1942,7 +1942,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     public static void saveLog(String lstLogStr){
         if(String.isBlank(lstLogStr)){ return; }
         List<TT_Log__c> lstLog = (List<TT_Log__c>)JSON.deserialize(lstLogStr, List<TT_Log__c>.class);
-        if(!lstLog.isEmpty()){ Database.insert(lstLog); }
+        if(!lstLog.isEmpty() && Schema.sObjectType.TT_Log__c.isCreateable()){ Database.insert(lstLog); }
     }
 
     @AuraEnabled

@@ -13,7 +13,7 @@ public with sharing class TTCampaignTickerController {
             Campaign camp = [SELECT Id,Name,TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__Type__c,
                              (SELECT Id,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c FROM TelosTouchSF__Insights__r),
                              (SELECT Id,ContactId,Contact.TelosTouchSF__TT_Client_Id__c,LeadId,Lead.TelosTouchSF__TT_Client_Id__c FROM CampaignMembers)
-                             FROM Campaign WHERE Id =: campId];
+                             FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
 
             set<String> setClientId = new set<String>();
             for(TelosTouchSF__Insights__c insight : camp.TelosTouchSF__Insights__r){
@@ -76,7 +76,7 @@ public with sharing class TTCampaignTickerController {
                              TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__Type__c,
                              (SELECT Id,TelosTouchSF__Sent_Status__c FROM TelosTouchSF__Insights__r),
                              (SELECT Id FROM CampaignMembers) 
-                             FROM Campaign WHERE Id =: campId];
+                             FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
             
             mapResult.put('status', 'success');
             mapResult.put('value', JSON.serialize(camp));
@@ -97,10 +97,10 @@ public with sharing class TTCampaignTickerController {
 
         try {
 
-            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE TelosTouchSF__TT_Campaign_Id__c =: campTTId];
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE TelosTouchSF__TT_Campaign_Id__c =: campTTId WITH SECURITY_ENFORCED];
             
             User aUser = [SELECT Id, TelosTouchSF__Auth_Token__c, TelosTouchSF__TT_UserId__c 
-                          FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+                          FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1];
             
             String userToken = TelosTouchSF.TelosTouchUtility.getCurrentuserTOKEN();
             String iFrameURL = adminCredentials.TelosTouchSF__Instance_URL__c;
@@ -137,7 +137,7 @@ public with sharing class TTCampaignTickerController {
 
         try {
 
-            Campaign camp = [SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId];
+            Campaign camp = [SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
 
             String userAuthTOKEN = TelosTouchUtility.getCurrentuserTOKEN();
 
@@ -178,7 +178,7 @@ public with sharing class TTCampaignTickerController {
             
             set<String> setConversationId = new set<String>();
             for(TelosTouchSF__Insights__c insight : [SELECT TelosTouchSF__Conversation_Id__c FROM TelosTouchSF__Insights__c
-                                                     WHERE TelosTouchSF__Campaign2__c =: campId])
+                                                     WHERE TelosTouchSF__Campaign2__c =: campId WITH SECURITY_ENFORCED])
             {
                 setConversationId.add(insight.TelosTouchSF__Conversation_Id__c);
             }
@@ -199,7 +199,7 @@ public with sharing class TTCampaignTickerController {
 
             if(!lstClientId.isEmpty()){
 
-                Campaign camp = [SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId];
+                Campaign camp = [SELECT TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
 
                 map<String, list<String>> mapMembersByCamp = new map<String, list<String>>();
                 mapMembersByCamp.put(camp.TelosTouchSF__TT_Campaign_Id__c, lstClientId);
@@ -228,13 +228,16 @@ public with sharing class TTCampaignTickerController {
 
             for(TelosTouchSF__Insights__c insight : [SELECT Id,TelosTouchSF__Sent_Status__c FROM TelosTouchSF__Insights__c 
                                                      WHERE TelosTouchSF__Sent_Status__c =: insightStatus AND 
-                                                     TelosTouchSF__Campaign2__c =: campId])
+                                                     TelosTouchSF__Campaign2__c =: campId WITH SECURITY_ENFORCED])
             {
-                insight.TelosTouchSF__Sent_Status__c = 'sending';
-                lstInsight.add(insight);
+                if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isUpdateable()){
+                    insight.TelosTouchSF__Sent_Status__c = 'sending';
+                    lstInsight.add(insight);
+                }
             }
-
-            Database.update(lstInsight);
+            if(Schema.sObjectType.TelosTouchSF__Insights__c.isAccessible() && Schema.sObjectType.TelosTouchSF__Insights__c.isUpdateable()){
+                Database.update(lstInsight);
+            }
             
             mapResult.put('status', 'success');
             return mapResult;

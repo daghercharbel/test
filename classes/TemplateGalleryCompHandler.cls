@@ -317,7 +317,7 @@ public with sharing class TemplateGalleryCompHandler {
         try {
 
             Campaign camp = [SELECT Id,TelosTouchSF__TT_Campaign_Id__c,TelosTouchSF__Email_Template_Id__c
-                             FROM Campaign WHERE Id =: campId];
+                             FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
 
             map<String,Object> mapEmailTemplates = new map<String,Object>();
             if(String.isNotBlank(camp.TelosTouchSF__Email_Template_Id__c)){
@@ -347,8 +347,12 @@ public with sharing class TemplateGalleryCompHandler {
             if(mapResponse.containsKey('status_code') && mapResponse.get('status_code') == '200'){
 
                 mapEmailTemplates.put(lang, templateId);
-                camp.TelosTouchSF__Email_Template_Id__c = JSON.serialize(mapEmailTemplates);
-                update camp;
+                if(Schema.sObjectType.Campaign.fields.TelosTouchSF__Email_Template_Id__c.isUpdateable() &&
+                Schema.sObjectType.Campaign.isUpdateable()){
+                    camp.TelosTouchSF__Email_Template_Id__c = JSON.serialize(mapEmailTemplates);
+                    update camp;
+                }
+                
 
             } else {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
@@ -370,7 +374,7 @@ public with sharing class TemplateGalleryCompHandler {
 
         try {
 
-            Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId];
+            Campaign camp = [SELECT Id, TelosTouchSF__TT_Campaign_Id__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
 
             String userAuthTOKEN = TelosTouchUtility.getCurrentuserTOKEN();
 
@@ -402,9 +406,13 @@ public with sharing class TemplateGalleryCompHandler {
                     mapEmailTemplates.put((String)mapFields.get('language'), mapFields.get('id'));
                 }
 
-                camp.TelosTouchSF__TouchPoint_Template_Id__c = templateGraphId;
-                camp.TelosTouchSF__Email_Template_Id__c = JSON.serialize(mapEmailTemplates);
-                update camp;
+                if(Schema.sObjectType.Campaign.fields.TelosTouchSF__TouchPoint_Template_Id__c.isUpdateable() &&
+                Schema.sObjectType.Campaign.fields.TelosTouchSF__Email_Template_Id__c.isUpdateable() &&
+                Schema.sObjectType.Campaign.isUpdateable()){
+                    camp.TelosTouchSF__TouchPoint_Template_Id__c = templateGraphId;
+                    camp.TelosTouchSF__Email_Template_Id__c = JSON.serialize(mapEmailTemplates);
+                    update camp;
+                }
 
             } else {
                 throw new AuraHandledException('Response Code: '+mapResponse.get('status_code'));
@@ -436,7 +444,7 @@ public with sharing class TemplateGalleryCompHandler {
     public static String generatePreviewIFrameUrl(String templateId, String language, String campId) {
         try{
             List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId];
+            Campaign camp = [SELECT TelosTouchSF__Type__c FROM Campaign WHERE Id =: campId WITH SECURITY_ENFORCED];
             Map<String,String> urlMap = new Map<String, String>();
             String emailUrl = adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/templates/'+templateId;
             emailUrl += (camp.TelosTouchSF__Type__c == 'email') ? '/preview/public/email' : '/preview/tp/public/email';

@@ -164,7 +164,8 @@ public with sharing class TTFilterUserController {
                 }
             }
         }catch(Exception ex){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'doinitApex', null);
+        }
         return null;
     }
 /**
@@ -274,7 +275,7 @@ public with sharing class TTFilterUserController {
                 //GETTING INSIGHTS
                 String insightQuery = 'SELECT Id,CreatedDate,Name,TelosTouchSF__Conversation_Id__c,TelosTouchSF__Conversation_Metadata__c,TelosTouchSF__Sent_Status__c,';
                 insightQuery += 'TelosTouchSF__Campaign2__c,TelosTouchSF__Contact__c,TelosTouchSF__Lead__c,TelosTouchSF__Completed_At__c,';
-                insightQuery += 'TelosTouchSF__Opened_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,';
+                insightQuery += 'TelosTouchSF__Opened_At__c,TelosTouchSF__Sent_At__c,TelosTouchSF__Answers__c,TelosTouchSF__Contact__r.Name,';
                 insightQuery += 'TelosTouchSF__Contact__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.Name,';
                 insightQuery += 'TelosTouchSF__Lead__r.TelosTouchSF__Subscribed__c,TelosTouchSF__Lead__r.TelosTouchSF__TT_Client_Id__c,';
                 insightQuery += 'TelosTouchSF__Contact__r.TelosTouchSF__TT_Client_Id__c FROM TelosTouchSF__Insights__c';
@@ -396,7 +397,8 @@ public with sharing class TTFilterUserController {
                 return userWrapperList;
             }
         }catch(Exception ex){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());          }
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'getUserDetails', null);
+        }
         return null;
     }
 
@@ -524,7 +526,7 @@ public with sharing class TTFilterUserController {
             //User Answers
             List<TelosTouchSF__TT_Client_Answers__c> lstAnswer = [SELECT Id,TelosTouchSF__Answer__c,TelosTouchSF__Question__c 
                                                                   FROM TelosTouchSF__TT_Client_Answers__c 
-                                                                  WHERE TelosTouchSF__TT_Conversation_Id__c =: insight.TelosTouchSF__Conversation_Id__c];
+                                                                  WHERE TelosTouchSF__TT_Conversation_Id__c =: insight.TelosTouchSF__Conversation_Id__c WITH SECURITY_ENFORCED];
             mapWrapper.put('answers',JSON.serialize(lstAnswer));
 
             return mapWrapper;
@@ -587,7 +589,7 @@ public with sharing class TTFilterUserController {
             return wraperObj;
         }
         catch(Exception ex ){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'campaignInsertandSendTouchPoint', null);
         }
         return null;
     }
@@ -701,7 +703,7 @@ public with sharing class TTFilterUserController {
             
             return null;
         }catch(Exception ex){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'sendReminder', null);
             return null;
         }
     }
@@ -764,7 +766,7 @@ public with sharing class TTFilterUserController {
             }
             return tasklist;
         }catch(Exception ex ){
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'saveNewTask', null);
         }
         return null;
     }
@@ -792,7 +794,7 @@ public with sharing class TTFilterUserController {
                 return 'No record type found';
             }
         } catch (Exception ex) {
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'fetchRecordType', null);
         }
         return null;
     }
@@ -822,7 +824,7 @@ public with sharing class TTFilterUserController {
                 return 'No record type found';
             }
         } catch (Exception ex) {
-            System.debug(LoggingLevel.WARN,'Exception :::::::'+ex.getMessage()+'at Line Number:::::: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'fetchCampaignRecordType', null);
         }
         return null;
     }
@@ -873,13 +875,13 @@ public with sharing class TTFilterUserController {
                 System.debug('campaignMemberList inserted:: '+ campaignMemberList);
             }
             return campRecordId;
-        } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, e.getMessage() + ' at Line: '+e.getLineNumber());
-            if(e.getMessage().contains('Already a campaign member')){
+        } catch (Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'addClientsToCampaign', null);
+            if(ex.getMessage().contains('Already a campaign member')){
                 System.debug('return label value::'+System.Label.Clients_Already_Added_To_Campaign_Text );
                 return ('error#'+ System.Label.Clients_Already_Added_To_Campaign_Text);
             }else{
-                return ('error#'+e.getMessage());
+                return ('error#'+ex.getMessage());
             }
         }
     }
@@ -912,8 +914,8 @@ public with sharing class TTFilterUserController {
             }
             System.debug('return search data::'+recordsDataList);
             return JSON.serialize(recordsDataList);
-        }catch(Exception e){
-            system.debug('Error'+e.getMessage());
+        }catch(Exception ex){
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'fetchRecords', null);
             return '';
         }
     }
@@ -935,8 +937,8 @@ public with sharing class TTFilterUserController {
             } 
             System.debug('data:: '+ recordsDataList);
             return JSON.serialize(recordsDataList);
-        } catch(Exception e) {
-            System.debug('Error is:: '+e.getMessage()+'at line no:: '+ e.getLineNumber());
+        } catch(Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'fetchLimitedRecords', null);
             return '';
         }
     }
@@ -968,7 +970,8 @@ public with sharing class TTFilterUserController {
         try {
             metadataMap = TelosTouchSF.TT_FeatureSettingsController.getFeatureMetadata('Camapign_Syncing');
             return metadataMap;
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TTFilterUserController', 'isCampaignSyncEnabled', null);
             return metadataMap;
         }
     }

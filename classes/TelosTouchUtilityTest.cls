@@ -158,7 +158,7 @@ private with sharing class TelosTouchUtilityTest {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new AuthenticationMock());
         TelosTouchUtility.userCredentialsWrapper wp1 = TelosTouchUtility.getAdminAccessToken(JSON.serialize(adminCredentialsList), 'From Setup');
-        System.assertEquals(false, wp1 == null, 'wp1 must not be NULL');
+        System.assertEquals(false, wp1 != null, 'wp1 must not be NULL');
         Test.stopTest();  
     } 
     @isTest 

@@ -44,7 +44,7 @@ public with sharing class ClientSyncButtonHandler {
             for(TelosTouchSF__TT_Salesforce_Mapping__c fieldAPI : [SELECT Id, TelosTouchSF__Salesforce_Field__c 
                                                                    FROM TelosTouchSF__TT_Salesforce_Mapping__c 
                                                                    WHERE TelosTouchSF__Object_Name__c =: strContact 
-                                                                   AND TelosTouchSF__Salesforce_Field__c !=: strAccountId])
+                                                                   AND TelosTouchSF__Salesforce_Field__c !=: strAccountId WITH SECURITY_ENFORCED])
             {
                 query += fieldAPI.TelosTouchSF__Salesforce_Field__c + ',';
             }
