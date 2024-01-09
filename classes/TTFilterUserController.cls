@@ -344,8 +344,8 @@ public with sharing class TTFilterUserController {
                 
                 if(questionMap1.containsKey('name') &&  questionMap1.get('name') != null && String.isNotBlank(String.valueOf(questionMap1.get('name')))){
                     for(Integer i=0; i<conversationUserList.size(); i++){
-                        if((conversationUserList[i].TelosTouchSF__Contact__r.Name != null && !conversationUserList[i].TelosTouchSF__Contact__r.Name.contains((String)questionMap1.get('name'))) ||
-                           (conversationUserList[i].TelosTouchSF__Lead__r.Name != null && !conversationUserList[i].TelosTouchSF__Lead__r.Name.contains((String)questionMap1.get('name'))) ){
+                        if((conversationUserList[i].TelosTouchSF__Contact__r.Name != null && !conversationUserList[i].TelosTouchSF__Contact__r.Name.containsIgnoreCase((String)questionMap1.get('name'))) ||
+                           (conversationUserList[i].TelosTouchSF__Lead__r.Name != null && !conversationUserList[i].TelosTouchSF__Lead__r.Name.containsIgnoreCase((String)questionMap1.get('name'))) ){
                                conversationUserList.remove(i);
                                i--;
                            }
