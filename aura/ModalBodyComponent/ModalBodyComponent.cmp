@@ -65,16 +65,6 @@
   <aura:if isTrue="{!v.showAnswerModal}">
 
     <lightning:tabset>
-      <lightning:tab label="Q&#38;A">
-        
-        <aura:iteration items="{!v.answers}" var="item">
-          <p class="slds-m-top_medium">
-            <div class="slds-text-title_bold">{!item.TelosTouchSF__Question__c}</div>
-            <div>{!item.TelosTouchSF__Answer__c}</div>
-          </p>
-        </aura:iteration>
-
-      </lightning:tab>
       <lightning:tab label="Touchpoint">
 
         <aura:iteration items="{!v.touchpoint.answerWrapperList}" var="item">
@@ -155,6 +145,16 @@
             </aura:set>
           </aura:if>
           <br />
+        </aura:iteration>
+
+      </lightning:tab>
+      <lightning:tab label="Q&#38;A">
+        
+        <aura:iteration items="{!v.answers}" var="item">
+          <p class="slds-m-top_medium">
+            <div class="slds-text-title_bold">{!item.TelosTouchSF__Question__c}</div>
+            <div>{!item.TelosTouchSF__Answer__c}</div>
+          </p>
         </aura:iteration>
 
       </lightning:tab>
