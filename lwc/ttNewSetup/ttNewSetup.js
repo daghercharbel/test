@@ -1,4 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
+
+//Apex Methods
+import checkSettings from "@salesforce/apex/TelosTouchUtility.checkSettings";
 import Help_Section_Text_1 from "@salesforce/label/c.Help_Section_Text_1";
 import Help_Section_Text_2 from "@salesforce/label/c.Help_Section_Text_2";
 import getSyncData from "@salesforce/apex/TelosTouchDataSyncController.getSyncData";
@@ -6,8 +9,8 @@ import startRegistrationProcess from "@salesforce/apex/TtSalesforceOnboardingCon
 import validateTokenAndFetchCredentials from '@salesforce/apex/TtSalesforceOnboardingController.validateTokenAndFetchCredentials';
 import disconnectFromTelosTouchApex from "@salesforce/apex/TtSalesforceOnboardingController.disconnectFromTelosTouchApex";
 import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTokenController";
-import checkIfEnterpriseClient from "@salesforce/apex/TtSalesforceOnboardingController.checkIfEnterpriseClient";
 
+//Custom Labels
 import Config_Save_Toast from "@salesforce/label/c.Config_Save_Toast";
 import Check_Cred_Toast from "@salesforce/label/c.Check_Cred_Toast";
 import Record_Sync_Success_Text from "@salesforce/label/c.Record_Sync_Success_Text";
@@ -97,6 +100,7 @@ export default class TtNewSetup extends LightningElement {
             }).catch(error => {
                 console.log('error: ' + error);
             });
+        this.handleCheckSettings();
     }
     handleConnect() {
         if (!this.isApiConnected) {
@@ -204,6 +208,25 @@ export default class TtNewSetup extends LightningElement {
             this.isShowSpinner = false;
         });;
     }
+
+    handleCheckSettings(){
+        checkSettings()
+            .then(result => {
+                if (result.status != 'success') {
+                    console.error('ttNewSetup 68616e646c65436865636b53657474696e6773-1: ', result.error);
+                }
+            }).catch(error => {
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttNewSetup 68616e646c65436865636b53657474696e6773-2: ', errorStr);
+            });
+    }
+
     handleTokenTextAreaChange(event) {
         this.registrationTokenValue = event.target.value;
     }

@@ -1874,6 +1874,10 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             if(instance_Name != 'Already Exists!'){
                 TelosTouchSF.CreateRemoteSiteSetting.remoteSiteSetting1(adminCredentials.TelosTouchSF__Instance_URL__c,instance_Name);
             }
+            Boolean CSPExists = CreateCSPTrustedSite.checkRecord(adminCredentials.TelosTouchSF__Instance_URL__c);
+            if(!CSPExists){
+                CreateCSPTrustedSite.createRecord(adminCredentials.TelosTouchSF__Instance_URL__c);
+            }
             Http http = new Http();
             HttpRequest req = new HttpRequest();
             HttpResponse res = new HttpResponse();
@@ -1893,6 +1897,41 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
             System.debug(LoggingLevel.ERROR, 'Exception: '+ex.getMessage()+' occurred at Line Number: '+ex.getLineNumber());
             return true;
         }
+    }
+
+    @AuraEnabled
+    public static map<String,String> checkSettings(){
+
+        map<String, String> mapResult = new map<String, String>();
+
+        try{
+
+            if(adminCredentials == null){ adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata(); }
+            if(String.isEmpty(adminCredentials.TelosTouchSF__Instance_URL__c)){ 
+                mapResult.put('status', 'success');
+                return mapResult;
+            }
+            list<String> StringList = adminCredentials.TelosTouchSF__Instance_URL__c.split('//');
+            list<String> StringList1 = StringList[1].split('\\.');
+            String instance_Name = TelosTouchSF.CreateRemoteSiteSetting.getremoteSiteSetting(adminCredentials.TelosTouchSF__Instance_URL__c, StringList1[0]);
+            if(instance_Name != 'Already Exists!'){
+                TelosTouchSF.CreateRemoteSiteSetting.remoteSiteSetting1(adminCredentials.TelosTouchSF__Instance_URL__c,instance_Name);
+            }
+            Boolean CSPExists = CreateCSPTrustedSite.checkRecord(adminCredentials.TelosTouchSF__Instance_URL__c);
+            if(!CSPExists){
+                CreateCSPTrustedSite.createRecord(adminCredentials.TelosTouchSF__Instance_URL__c);
+            }
+            
+            mapResult.put('status', 'success');
+            return mapResult;
+
+        } catch(Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TelosTouchUtility', 'checkSettings', null);
+            mapResult.put('status', 'error');
+            mapResult.put('error', ex.getMessage());
+            return mapResult;
+        }
+
     }
 
     public static void generateErrorLog(Exception ex, String className, String classMethod, String recordId){
