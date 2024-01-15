@@ -926,6 +926,16 @@ private with sharing class TelosTouchUtilityTest {
         System.assert(flag, 'flag should be true');
     }
     
+    
+    @isTest 
+    static void checkSettingsTest() {
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new AuthenticationMock());
+        map<String, String> mapResult = TelosTouchUtility.checkSettings();
+        Test.stopTest();
+        System.assert(mapResult.get('status') == 'success', 'flag should be true');
+    } 
+    
     @isTest
     static void generateErrorLogTest(){
         Test.startTest();
