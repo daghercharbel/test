@@ -3,7 +3,7 @@
 * @date 02/08/2021
 * @description This trigger is written on the user object to update users.
 */
-trigger UserTrigger on User (before update) {
+trigger UserTrigger on User (before update, after update) {
     if(TelosTouchSF.UserTriggerHandler.run == true){
         if(trigger.isbefore && trigger.isUpdate){
             List<User> newUserList = new List<User>();
@@ -17,6 +17,14 @@ trigger UserTrigger on User (before update) {
             }
             if(!newUserList.isEmpty()){
                 UserTriggerHandler.getUserList(newUserList,Trigger.oldMap);
+            }
+        }
+        if(trigger.isAfter && trigger.isUpdate){
+            for(User usr : Trigger.new){
+                if((usr.TelosTouchSF__TT_UserId__c != null) && (usr.Email != Trigger.oldMap.get(usr.Id).Email)){
+                    TelosTouchUtility.refreshTokenController();
+                    break;
+                }
             }
         }
     }
