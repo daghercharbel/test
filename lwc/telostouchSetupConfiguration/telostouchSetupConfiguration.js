@@ -171,6 +171,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track ListID = [];
     @track listofUserId = [];
     @track ltngTimer;
+    modalCloseTimeout;
     @track notEnterpriseClient;
     @track resendBtnDisabled = true;
     revokeCurrentUser = false;
@@ -723,7 +724,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     //Used to close modal when toast disappears
     cancelUserModal() {
-        setTimeout(() => {
+        this.modalCloseTimeout = setTimeout(() => {
             this.selectedUserList = [];
             this.listofUserId = [];
             this.ListID = [];
@@ -739,6 +740,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     //'Cancel button' is clicked
     cancelUserModalBtn() {
+        clearTimeout(this.modalCloseTimeout);
         this.selectedUserList = [];
         this.listofUserId = [];
         this.ListID = [];
