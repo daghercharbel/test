@@ -2398,6 +2398,13 @@
         <value>User sent successful</value>
     </labels>
     <labels>
+        <fullName>Update_User_SuccessToast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update User SuccessToast</shortDescription>
+        <value>User's role has been updated.</value>
+    </labels>
+    <labels>
         <fullName>ShareConcern</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -724,35 +724,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static String sendSFUserToTT(List<User> sfUserList, List<Id> listofUserId) {
         try{
-            List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();
-            List<TelosTouchSF__TelosTouch_User_Role__c> customSettingList = new List<TelosTouchSF__TelosTouch_User_Role__c>();
-            if( Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isQueryable() &&
-               Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() &&
-               Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible()){
-                   customSettingList = [SELECT TelosTouchSF__RoleId__c, TelosTouchSF__RolesName__c FROM TelosTouchSF__TelosTouch_User_Role__c WHERE TelosTouchSF__RoleId__c != null AND TelosTouchSF__RolesName__c != null WITH SECURITY_ENFORCED LIMIT 1];
-                   if(customSettingList.size() == 0 ){
-                       TelosTouchSF__TelosTouch_User_Role__c customObjRecord = new TelosTouchSF__TelosTouch_User_Role__c();
-                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isAccessible()
-                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isUpdateable()
-                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.SetupOwnerId.isCreateable()){
-                              customObjRecord.SetupOwnerId = UserInfo.getProfileId();
-                          }
-                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isCreateable()
-                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RoleId__c.isUpdateable()){
-                              customObjRecord.TelosTouchSF__RoleId__c = '58b7218cca6d3c8a3';
-                          }
-                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isCreateable()
-                          && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.fields.TelosTouchSF__RolesName__c.isUpdateable()){
-                              customObjRecord.TelosTouchSF__RolesName__c = 'Advisor';
-                          }
-                       if(Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isAccessible() && Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isCreateable()
-                          &&  Schema.sObjectType.TelosTouchSF__TelosTouch_User_Role__c.isUpdateable()){
-                              customSettingList.add(customObjRecord);
-                              upsert customSettingList;
-                          }
-                   }
-               }
-            
+            List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();            
             if(sfUserList != null && sfUserList.size() >0){
                 if(Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isQueryable() &&
                    Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible() &&
