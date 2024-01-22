@@ -21,7 +21,7 @@ trigger UserTrigger on User (before update, after update) {
         }
         if(trigger.isAfter && trigger.isUpdate){
             for(User usr : Trigger.new){
-                if((usr.TelosTouchSF__TT_UserId__c != null) && (usr.Email != Trigger.oldMap.get(usr.Id).Email)){
+                if((usr.TelosTouchSF__TT_UserId__c != null) && (TriggerUtils.wasChanged(usr, 'Email'))){
                     TelosTouchUtility.refreshTokenController();
                     break;
                 }
