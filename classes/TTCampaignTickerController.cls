@@ -232,6 +232,7 @@ public with sharing class TTCampaignTickerController {
             {
                 if(Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isAccessible()  && Schema.sObjectType.TelosTouchSF__Insights__c.fields.TelosTouchSF__Sent_Status__c.isUpdateable()){
                     insight.TelosTouchSF__Sent_Status__c = 'sending';
+                    insight.TelosTouchSF__Sent_At__c = system.now();
                     lstInsight.add(insight);
                 }
             }
