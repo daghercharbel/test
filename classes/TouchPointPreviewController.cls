@@ -145,8 +145,8 @@ public with sharing class TouchPointPreviewController {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error is::'+e.getMessage()+' at line no::'+e.getLineNumber());
+        } catch (Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'getIFrameDetails', null);
             return null;
         }
     }
@@ -182,120 +182,129 @@ public with sharing class TouchPointPreviewController {
             returnMap.put('listViewId', lvObj.Id);
             return JSON.serialize(returnMap);
         } catch (Exception ex) {
-            System.debug(LoggingLevel.ERROR, 'Exception: '+ex.getMessage()+' Occurred at Line No.: '+ex.getLineNumber());
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'getSystemInfo', null);
             return null;
         }
     }
     
     @AuraEnabled
     public static String getTemplateDetails(String libraryType) {
-        String methodType = 'GET';
-        List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
-        User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
-        String endpointPrivate;
-        String endpointShared;
-        String endpointPublic;
-        String userAuthTOKEN;
-        Map<String, String> headersMap = new Map<String, String>();
-        map<String, List<Object>> mapTemplates = new map<String, List<Object>>();
-        userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
-        headersMap.put('Authorization', 'Bearer ' + userAuthTOKEN);
-        headersMap.put('Content-Type', 'application/json');
-        headersMap.put('Accept', 'application/json');
 
-        TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
-        if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
-            string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D';
-            string aEndpoint1 = '/api/v1/templates?skip=0&search=&&sort=[%7B%22modified_at%22:+%22DESC%22%7D]&type=email';
-            endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1) +'&is_private=true&is_shared=false';
-            endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=true&is_shared=true';
-            endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=false&is_shared=false';
-        }
-
-        map<String, Map<String, String>> mapResponses = new map<String, Map<String, String>>();
-        mapResponses.put('private', TelosTouchUtility.getResponse(methodType, endpointPrivate, headersMap, null));
-        mapResponses.put('shared', TelosTouchUtility.getResponse(methodType, endpointShared, headersMap, null));
-        mapResponses.put('public', TelosTouchUtility.getResponse(methodType, endpointPublic, headersMap, null));
-        for (String key : mapResponses.keySet()) {
-            map<String, String> getResponseMap = mapResponses.get(key);
+        try {
             
-            if (getResponseMap.get('status_code') == '200') {
-                String resbody = getResponseMap.get('body');
-                List<Object> templateList = new List<Object>();
-                List<Object> templateObjects = new List<Object>();
-                templateList = (List<Object>) JSON.deserializeUntyped(resbody);
-                for (Object tempObj : templateList) {
-                    Map<String, Object> templateMap = (Map<String, Object>) tempObj;
-                    
-                    if(libraryType.toLowerCase() == 'touchpoint'){
-                        templateMap.put(
-                        'imageURL',
-                        (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
-                                  '/api/v1/attachments/' +
-                                  templateMap.get('image_id'))
-                        );
-                        JSONParser parser = JSON.createParser(
-                            '{"t":"' +
-                            String.valueOf(templateMap.get('updated_at')) +
-                            '"}'
-                        );
-                        parser.nextToken();
-                        parser.nextValue();
-                        DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
-                        templateMap.put(
-                            'modified_at',
-                            (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
-                        );
-                    }else{
-                        templateMap.put(
-                        'imageURL',
-                        (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
-                                  '/api/v1/attachments/' +
-                                  templateMap.get('id'))
-                        );
+            String methodType = 'GET';
+            List<TelosTouchSF__TT_Log__c> createListOfLog = new List<TelosTouchSF__TT_Log__c>();
+            User aUser = [SELECT LanguageLocaleKey FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED];
+            String endpointPrivate;
+            String endpointShared;
+            String endpointPublic;
+            String userAuthTOKEN;
+            Map<String, String> headersMap = new Map<String, String>();
+            map<String, List<Object>> mapTemplates = new map<String, List<Object>>();
+            userAuthTOKEN = TelosTouchSF.TelosTouchUtility.getCurrentUserTOKEN();
+            headersMap.put('Authorization', 'Bearer ' + userAuthTOKEN);
+            headersMap.put('Content-Type', 'application/json');
+            headersMap.put('Accept', 'application/json');
+
+            TelosTouchSF__TT_Admin_Credentials__mdt adminCredentials = TelosTouchSF.TelosTouchUtility.getCustomMetadata();
+            if (String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c)) {
+                string aEndpoint = '/api/v1/touchpoint/templateGraph?language='+aUser.LanguageLocaleKey+'&sort=%7B%22updated_at%22:+%22DESC%22%7D';
+                string aEndpoint1 = '/api/v1/templates?skip=0&search=&&sort=[%7B%22modified_at%22:+%22DESC%22%7D]&type=email';
+                endpointPrivate = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1) +'&is_private=true&is_shared=false';
+                endpointShared = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=true&is_shared=true';
+                endpointPublic = adminCredentials.TelosTouchSF__Instance_URL__c + ((libraryType.toLowerCase() == 'touchpoint') ? aEndpoint : aEndpoint1)  +'&is_private=false&is_shared=false';
+            }
+
+            map<String, Map<String, String>> mapResponses = new map<String, Map<String, String>>();
+            mapResponses.put('private', TelosTouchUtility.getResponse(methodType, endpointPrivate, headersMap, null));
+            mapResponses.put('shared', TelosTouchUtility.getResponse(methodType, endpointShared, headersMap, null));
+            mapResponses.put('public', TelosTouchUtility.getResponse(methodType, endpointPublic, headersMap, null));
+            for (String key : mapResponses.keySet()) {
+                map<String, String> getResponseMap = mapResponses.get(key);
+                
+                if (getResponseMap.get('status_code') == '200') {
+                    String resbody = getResponseMap.get('body');
+                    List<Object> templateList = new List<Object>();
+                    List<Object> templateObjects = new List<Object>();
+                    templateList = (List<Object>) JSON.deserializeUntyped(resbody);
+                    for (Object tempObj : templateList) {
+                        Map<String, Object> templateMap = (Map<String, Object>) tempObj;
                         
-                        JSONParser parser = JSON.createParser(
-                            '{"t":"' +
-                            String.valueOf(templateMap.get('modified_at')) +
-                            '"}'
-                        );
-                        parser.nextToken();
-                        parser.nextValue();
-                        DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
-                        templateMap.put(
-                            'modified_at',
-                            (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
-                        );
-                        templateMap.put('url',  (Object) adminCredentials.TelosTouchSF__Instance_URL__c);
+                        if(libraryType.toLowerCase() == 'touchpoint'){
+                            templateMap.put(
+                            'imageURL',
+                            (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
+                                    '/api/v1/attachments/' +
+                                    templateMap.get('image_id'))
+                            );
+                            JSONParser parser = JSON.createParser(
+                                '{"t":"' +
+                                String.valueOf(templateMap.get('updated_at')) +
+                                '"}'
+                            );
+                            parser.nextToken();
+                            parser.nextValue();
+                            DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
+                            templateMap.put(
+                                'modified_at',
+                                (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
+                            );
+                        }else{
+                            templateMap.put(
+                            'imageURL',
+                            (Object) (adminCredentials.TelosTouchSF__Instance_URL__c +
+                                    '/api/v1/attachments/' +
+                                    templateMap.get('id'))
+                            );
+                            
+                            JSONParser parser = JSON.createParser(
+                                '{"t":"' +
+                                String.valueOf(templateMap.get('modified_at')) +
+                                '"}'
+                            );
+                            parser.nextToken();
+                            parser.nextValue();
+                            DateTime dt = DateTime.newInstance(parser.getDateTimeValue().getTime());
+                            templateMap.put(
+                                'modified_at',
+                                (Object) (String.valueOf(dt.format('MMM dd, yyyy hh:mm a')))
+                            );
+                            templateMap.put('url',  (Object) adminCredentials.TelosTouchSF__Instance_URL__c);
+                        }
+                        templateObjects.add((Object) templateMap);
                     }
-                    templateObjects.add((Object) templateMap);
-                }
-                mapTemplates.put(key, templateObjects);
-            } else if (getResponseMap.get('status_code') == '401') {
-                createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
-            } else if (getResponseMap.get('status_code') == '500') {
-                createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error','Erreur de serveur interne',1));
-            } else {
-                if (getResponseMap.get('status_code').length() > 0) {
-                    list<String> StatusCodeList = getResponseMap.get('status_code').split('0');
-                    if (StatusCodeList[0] == '4' || StatusCodeList[0] == '5') {
-                        createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+                    mapTemplates.put(key, templateObjects);
+                } else if (getResponseMap.get('status_code') == '401') {
+                    createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','User Could Not be Authenticated','L\'usager n\'a pu être identifié',1));
+                } else if (getResponseMap.get('status_code') == '500') {
+                    createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Internal Server Error','Erreur de serveur interne',1));
+                } else {
+                    if (getResponseMap.get('status_code').length() > 0) {
+                        list<String> StatusCodeList = getResponseMap.get('status_code').split('0');
+                        if (StatusCodeList[0] == '4' || StatusCodeList[0] == '5') {
+                            createListOfLog.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Something went wrong. Status Code: '+getResponseMap.get('status_code'),'Quelque chose s\'est mal passé  Code d\'état :'+getResponseMap.get('status_code'),1));
+                        }
                     }
                 }
             }
+            if (
+                createListOfLog.size() > 0 &&
+                Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() &&
+                Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible()
+            ) {
+                insert createListOfLog;
+            }
+            if (mapTemplates.size() > 0) {
+                
+                return JSON.serialize(mapTemplates);
+            }
+            return null;
+
+        } catch (Exception ex) {
+            TelosTouchUtility.generateAndSaveErrorLog(ex, 'TouchPointPreviewController', 'getTemplateDetails', null);
+            return null;
         }
-        if (
-            createListOfLog.size() > 0 &&
-            Schema.sObjectType.TelosTouchSF__TT_Log__c.isCreateable() &&
-            Schema.sObjectType.TelosTouchSF__TT_Log__c.isAccessible()
-        ) {
-            insert createListOfLog;
-        }
-        if (mapTemplates.size() > 0) {
-            
-            return JSON.serialize(mapTemplates);
-        }
-        return null;
+        
     }
 
     @AuraEnabled
