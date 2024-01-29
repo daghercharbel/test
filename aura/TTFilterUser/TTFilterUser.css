@@ -77,6 +77,10 @@
     width: max-content;
 }
 
+.THIS .ColumnSelectAll {
+    width: 2em;
+}
+
 .THIS .buttonSelectAll {
     margin-left: -17px;
 }

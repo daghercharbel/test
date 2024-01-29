@@ -263,7 +263,7 @@
                 <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
                     <thead>
                         <tr>
-                            <th>
+                            <th class="ColumnSelectAll">
                                 <div class="slds-grid">
                                     <div class="slds-col">
                                         <lightning:input type="checkbox" class="buttonSelectAll"
@@ -321,12 +321,12 @@
                         <tbody>
                             <div class="slds-form-element">
                                 <div class="slds-form-element__control">
-                                    <label class="slds-checkbox">
+                                    <div class="slds-align_absolute-center">
                                         <lightning:input type="checkbox" checked="{!item.isChecked}"
                                             class="specialForCheckbox" label="{!item.Id}" aura:id="singleSelect"
                                             variant="label-hidden" value="{!item.Id}"
                                             onchange="{! c.handleCheckboxChange}"></lightning:input>
-                                    </label>
+                                    </div>
                                 </div>
                             </div>
                             <td scope="row">
