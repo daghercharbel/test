@@ -76,7 +76,6 @@ import User_Name_Text from "@salesforce/label/c.User_Name_Text";
 import User_Not_Valid_Cannot_Auth_App from "@salesforce/label/c.User_Not_Valid_Cannot_Auth_App";
 import User_permission_text from "@salesforce/label/c.User_permission_text";
 import Yes_Text from "@salesforce/label/c.Yes_Text";
-import Update_User_SuccessToast from "@salesforce/label/c.Update_User_SuccessToast";
 
 export default class telosTouchSetupConfiguration extends LightningElement {
 
@@ -140,8 +139,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         User_Name_Text,
         User_Not_Valid_Cannot_Auth_App,
         User_permission_text,
-        Yes_Text,
-        Update_User_SuccessToast
+        Yes_Text
     };
 
     @api afterSaveCredentials = false;
@@ -171,7 +169,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
     @track ListID = [];
     @track listofUserId = [];
     @track ltngTimer;
-    modalCloseTimeout;
     @track notEnterpriseClient;
     @track resendBtnDisabled = true;
     revokeCurrentUser = false;
@@ -684,7 +681,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
         })
             .then((result) => {
                 if (result.status == 'success') {
-                    this.displayToast('success', Update_User_SuccessToast);
+                    this.displayToast('success', Sent_SuccessToast);
                     this.cancelUserModal();
                 } else {
                     console.error(result.error);
@@ -724,7 +721,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     //Used to close modal when toast disappears
     cancelUserModal() {
-        this.modalCloseTimeout = setTimeout(() => {
+        setTimeout(() => {
             this.selectedUserList = [];
             this.listofUserId = [];
             this.ListID = [];
@@ -740,7 +737,6 @@ export default class telosTouchSetupConfiguration extends LightningElement {
 
     //'Cancel button' is clicked
     cancelUserModalBtn() {
-        clearTimeout(this.modalCloseTimeout);
         this.selectedUserList = [];
         this.listofUserId = [];
         this.ListID = [];
@@ -1167,6 +1163,7 @@ export default class telosTouchSetupConfiguration extends LightningElement {
                     this.displayToast('success', this.label.Remove_permissions_single_toast);
                     this.doInit_Helper();
                     this.userIdForRestriction = undefined;
+                    this.cancelUserModal();
                 } else if (result && result.status == 'error') {
                     this.displayToast('error', result.error);
                 }
