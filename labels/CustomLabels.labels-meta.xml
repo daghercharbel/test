@@ -1252,7 +1252,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Installation Guide Related</shortDescription>
-        <value>Click on this Document to get help on installing TelosTouch Salesforce App</value>
+        <value>Instructions for installing and deploying the app in your Salesforce org.</value>
     </labels>
     <labels>
         <fullName>Installation_Guide_Text</fullName>
@@ -1710,7 +1710,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Onboarding Related</shortDescription>
-        <value>Click on this Document to get help on getting onboard TelosTouch</value>
+        <value>Step-by-step guide to getting started with essential setup and configuration.</value>
     </labels>
     <labels>
         <fullName>Opened_At_Text</fullName>
@@ -2989,7 +2989,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Uninstallation Guide Related</shortDescription>
-        <value>Click on this Document to get help on uninstalling TelosTouch Salesforce App</value>
+        <value>Steps to fully uninstall and remove the app from your Salesforce org.</value>
     </labels>
     <labels>
         <fullName>Uninstallation_Guide_Text</fullName>
@@ -3017,7 +3017,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>User Guide Related</shortDescription>
-        <value>Click on this Document to get help on using TelosTouch Salesforce App</value>
+        <value>Complete guide to using all features and getting the most value from the app.</value>
     </labels>
     <labels>
         <fullName>User_Guide_Text</fullName>
