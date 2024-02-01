@@ -450,6 +450,12 @@
         <name>Create_Task_Text</name>
     </customLabels>
     <customLabels>
+        <label>Cette correspondance consiste à choisir le champ principal. Si la recherche
+            d&apos;utilisateur sélectionnée n&apos;est pas un utilisateur TelosTouch, nous
+            utiliserons la deuxième valeur comme sauvegarde pour la synchronisation.</label>
+        <name>CreatedByHelpText</name>
+    </customLabels>
+    <customLabels>
         <label>Date de création</label>
         <name>CreatedDateText</name>
     </customLabels>

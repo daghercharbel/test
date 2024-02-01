@@ -76,6 +76,16 @@ global with sharing class PostInstallClass implements InstallHandler {
             TTContact6.TelosTouchSF__Unique_Identifier__c = TTContact6.TelosTouchSF__TT_Field__c + TTContact6.TelosTouchSF__Salesforce_Field__c + TTContact6.TelosTouchSF__Object_Name__c;
             TelosTouchList.add(TTContact6);
         }
+
+        TelosTouchSF__TT_Salesforce_Mapping__c TTContact7 = new TelosTouchSF__TT_Salesforce_Mapping__c();
+        if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Unique_Identifier__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isCreateable()
+          && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Unique_Identifier__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isUpdateable()){
+            TTContact7.TelosTouchSF__TT_Field__c = 'created_by';
+            TTContact7.TelosTouchSF__Salesforce_Field__c = 'OwnerId';
+            TTContact7.TelosTouchSF__Object_Name__c = 'Contact';
+            TTContact7.TelosTouchSF__Unique_Identifier__c = TTContact7.TelosTouchSF__TT_Field__c + TTContact7.TelosTouchSF__Salesforce_Field__c + TTContact7.TelosTouchSF__Object_Name__c;
+            TelosTouchList.add(TTContact7); 
+        }
         
         //****************************Lead Mapping***************************************************************
         
@@ -140,6 +150,16 @@ global with sharing class PostInstallClass implements InstallHandler {
             TTLead6.TelosTouchSF__Object_Name__c = 'Lead';
             TTLead6.TelosTouchSF__Unique_Identifier__c = TTLead6.TelosTouchSF__TT_Field__c + TTLead6.TelosTouchSF__Salesforce_Field__c + TTLead6.TelosTouchSF__Object_Name__c;
             TelosTouchList.add(TTLead6);
+        }
+
+        TelosTouchSF__TT_Salesforce_Mapping__c TTLead7 = new TelosTouchSF__TT_Salesforce_Mapping__c();
+        if(Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Unique_Identifier__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isCreateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isCreateable()
+          && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Unique_Identifier__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Salesforce_Field__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__TT_Field__c.isUpdateable() && Schema.sObjectType.TelosTouchSF__TT_Salesforce_Mapping__c.fields.TelosTouchSF__Object_Name__c.isUpdateable()){
+            TTLead7.TelosTouchSF__TT_Field__c = 'created_by';
+            TTLead7.TelosTouchSF__Salesforce_Field__c = 'OwnerId';
+            TTLead7.TelosTouchSF__Object_Name__c = 'Lead';
+            TTLead7.TelosTouchSF__Unique_Identifier__c = TTLead7.TelosTouchSF__TT_Field__c + TTLead7.TelosTouchSF__Salesforce_Field__c + TTLead7.TelosTouchSF__Object_Name__c;
+            TelosTouchList.add(TTLead7);
         }
         
         //****************************Task Mapping***************************************************************

@@ -32,6 +32,7 @@ import Mapped_SF_field_Toast from '@salesforce/label/c.Mapped_SF_field_Toast';
 import Field_Mapping_Saved_Toast from '@salesforce/label/c.Field_Mapping_Saved_Toast';
 import Something_Went_Wrong from '@salesforce/label/c.Something_Went_Wrong';
 import No_Custom_Field_Toast from '@salesforce/label/c.No_Custom_Field_Toast';
+import CreatedByHelpText from '@salesforce/label/c.CreatedByHelpText';
 import getExistingMappingApex from "@salesforce/apex/TelosTouchMapping.getExistingMappingApex";
 import getObjectAllFields from "@salesforce/apex/TelosTouchMapping.getObjectAllFields";
 import getTelosTouchLeadFields from "@salesforce/apex/TelosTouchMapping.getTelosTouchLeadFields";
@@ -76,7 +77,7 @@ export default class FieldMappingComp extends LightningElement {
     standardFieldList = [];
     ifStandardFields = false;
     fieldBoxEnabled = true;
-    isDesktop=true;
+    isDesktop = true;
     get objectOptions() {
         return [
             { Name: this.label.Contact_Label, Id: 'Contact' },
@@ -92,7 +93,6 @@ export default class FieldMappingComp extends LightningElement {
         ];
     }
 
-
     connectedCallback() {
 
         this.isSpin = true;
@@ -104,20 +104,20 @@ export default class FieldMappingComp extends LightningElement {
             });
         this.getContactDetails();
         getUseCreatedByIdFlag({})
-        .then((result)=>{
-            if(result === true){
-                this.userCreatedByIdFlag=true;
-            }
-        }).catch((error)=>{
-            // console.log('error::'+error);
-        })
+            .then((result) => {
+                if (result === true) {
+                    this.userCreatedByIdFlag = true;
+                }
+            }).catch((error) => {
+                // console.log('error::'+error);
+            })
     }
-    renderedCallback(){
-        if(FORM_FACTOR == 'Large' || FORM_FACTOR == 'Medium'){
-            this.isDesktop=true;
+    renderedCallback() {
+        if (FORM_FACTOR == 'Large' || FORM_FACTOR == 'Medium') {
+            this.isDesktop = true;
         }
-        else{
-            this.isDesktop=false;
+        else {
+            this.isDesktop = false;
         }
     }
     label = {
@@ -154,7 +154,8 @@ export default class FieldMappingComp extends LightningElement {
         No_Custom_Field_Toast,
         Contact_Label,
         Lead_Label,
-        Task_Label
+        Task_Label,
+        CreatedByHelpText
     };
 
 
@@ -213,7 +214,7 @@ export default class FieldMappingComp extends LightningElement {
             });
     }
     handleObjectChange(event) {
-        if(event){
+        if (event) {
             this.objectValue = event.target.value;
         }
         this.isSpin = true;
@@ -248,80 +249,91 @@ export default class FieldMappingComp extends LightningElement {
             var fieldsList = [];
             var mappingObj = {};
             var count = 0;
-            if(this.ttFieldsList.length>0 && this.initDataList.length>0 && this.initTableData.length>0){
-            for (let i = 0; i < this.ttFieldsList.length; i++) {
-                for (let j = 0; j < this.initTableData.length; j++) {
-                    if (this.ttFieldsList[i].fieldAPINameTT == this.initTableData[j].TelosTouchSF__TT_Field__c) {
+            if (this.ttFieldsList.length > 0 && this.initDataList.length > 0 && this.initTableData.length > 0) {
+                for (let i = 0; i < this.ttFieldsList.length; i++) {
+                    for (let j = 0; j < this.initTableData.length; j++) {
+                        if (this.ttFieldsList[i].fieldAPINameTT == this.initTableData[j].TelosTouchSF__TT_Field__c) {
+                            mappingObj = {};
+                            fieldsList = [];
+                            mappingObj.isRequired = false;
+                            mappingObj.isDisabled = false;
+                            mappingObj.ifItemCustom = false;
+                            mappingObj.TelosTouchSF__TT_Field__c = this.initTableData[j].TelosTouchSF__TT_Field__c;
+                            mappingObj.fieldNameTT = this.ttFieldsList[i].fieldNameTT;
+                            mappingObj.TelosTouchSF__Salesforce_Field__c = this.initTableData[j].TelosTouchSF__Salesforce_Field__c;
+                            mappingObj.TelosTouchSF__Is_Sync_Empty_Field__c = this.initTableData[j].TelosTouchSF__Is_Sync_Empty_Field__c;
+                            var fieldsObj = {};
+                            for (let k = 0; k < this.initDataList.length; k++) {
+                                fieldsObj = {};
+                                if (this.initDataList[k].fieldAPIName === mappingObj.TelosTouchSF__Salesforce_Field__c) {
+                                    fieldsObj.fieldAPIName = this.initDataList[k].fieldAPIName;
+                                    fieldsObj.fieldName = this.initDataList[k].fieldName;
+                                    fieldsObj.isSelected = true;
+                                } else {
+                                    fieldsObj.fieldAPIName = this.initDataList[k].fieldAPIName;
+                                    fieldsObj.fieldName = this.initDataList[k].fieldName;
+                                    fieldsObj.isSelected = false;
+                                }
+                                if (this.ttFieldsList[i].fieldAPINameTT === 'created_by') {
+                                    if (fieldsObj.fieldAPIName === 'CreatedById' || fieldsObj.fieldAPIName === 'OwnerId') {
+                                        fieldsList.push(fieldsObj);
+                                    }
+                                } else {
+                                    fieldsList.push(fieldsObj);
+                                }
+                            }
+                            if ((this.objectValue === 'Contact' || this.objectValue === 'Lead') && this.initTableData[j].TelosTouchSF__TT_Field__c === 'first_name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'email' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'last_name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'created_by') {
+                                mappingObj.isRequired = true;
+                                mappingObj.isDisabled = true;
+                                mappingObj.showHint = false;
+                                if (this.initTableData[j].TelosTouchSF__TT_Field__c === 'created_by') {
+                                    mappingObj.showHint = true;
+                                }
+                            }
+                            else if (this.objectValue === 'Task' && this.initTableData[j].TelosTouchSF__TT_Field__c === 'client_name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'date_due' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'shared' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'status') {
+                                mappingObj.isRequired = true;
+                                mappingObj.isDisabled = true;
+                                mappingObj.showHint = false;
+                            }
+                            mappingObj.initDataList = fieldsList;
+                            this.customfieldlist.push(mappingObj);
+                        }
+                    }
+                }
+            }
+            if (this.initTableData.length > 0 && this.initDataList.length > 0) {
+                for (let x of this.initTableData) {
+                    var fieldsObj = {};
+                    fieldsList = [];
+                    if (x.TelosTouchSF__TT_Field__c == 'Custom Fields') {
                         mappingObj = {};
-                        fieldsList = [];
                         mappingObj.isRequired = false;
-                        mappingObj.isDisabled = false;
-                        mappingObj.ifItemCustom = false;
-                        mappingObj.TelosTouchSF__TT_Field__c = this.initTableData[j].TelosTouchSF__TT_Field__c;
-                        mappingObj.fieldNameTT = this.ttFieldsList[i].fieldNameTT;
-                        mappingObj.TelosTouchSF__Salesforce_Field__c = this.initTableData[j].TelosTouchSF__Salesforce_Field__c;
-                        mappingObj.TelosTouchSF__Is_Sync_Empty_Field__c = this.initTableData[j].TelosTouchSF__Is_Sync_Empty_Field__c;
-                        var fieldsObj = {};
-                        for (let k = 0; k < this.initDataList.length; k++) {
+                        mappingObj.isDisabled = true;
+                        mappingObj.ifItemCustom = true;
+                        mappingObj.TelosTouchSF__TT_Field__c = 'Custom Fields';
+                        mappingObj.fieldNameTT = 'Custom Field';
+                        mappingObj.fieldDisabled = true;
+                        mappingObj.TelosTouchSF__Salesforce_Field__c = x.TelosTouchSF__Salesforce_Field__c;
+
+                        for (let y of this.initDataList) {
                             fieldsObj = {};
-                            if (this.initDataList[k].fieldAPIName === mappingObj.TelosTouchSF__Salesforce_Field__c) {
-                                fieldsObj.fieldAPIName = this.initDataList[k].fieldAPIName;
-                                fieldsObj.fieldName = this.initDataList[k].fieldName;
+                            if (y.fieldAPIName === mappingObj.TelosTouchSF__Salesforce_Field__c) {
+                                fieldsObj.fieldAPIName = y.fieldAPIName;
+                                fieldsObj.fieldName = y.fieldName;
                                 fieldsObj.isSelected = true;
-                            } else {
-                                fieldsObj.fieldAPIName = this.initDataList[k].fieldAPIName;
-                                fieldsObj.fieldName = this.initDataList[k].fieldName;
+                            }
+                            else {
+                                fieldsObj.fieldAPIName = y.fieldAPIName;
+                                fieldsObj.fieldName = y.fieldName;
                                 fieldsObj.isSelected = false;
                             }
                             fieldsList.push(fieldsObj);
-                        }
-                        if ((this.objectValue === 'Contact' || this.objectValue === 'Lead') && this.initTableData[j].TelosTouchSF__TT_Field__c === 'first_name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'email' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'last_name') {
-                            mappingObj.isRequired = true;
-                            mappingObj.isDisabled = true;
-                        }
-                        else if (this.objectValue === 'Task' && this.initTableData[j].TelosTouchSF__TT_Field__c === 'client_name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'date_due' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'name' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'shared' || this.initTableData[j].TelosTouchSF__TT_Field__c === 'status') {
-                            mappingObj.isRequired = true;
-                            mappingObj.isDisabled = true;
                         }
                         mappingObj.initDataList = fieldsList;
                         this.customfieldlist.push(mappingObj);
                     }
                 }
             }
-        }
-        if(this.initTableData.length>0 && this.initDataList.length>0){
-            for (let x of this.initTableData) {
-                var fieldsObj = {};
-                fieldsList = [];
-                if (x.TelosTouchSF__TT_Field__c == 'Custom Fields') {
-                    mappingObj = {};
-                    mappingObj.isRequired = false;
-                    mappingObj.isDisabled = true;
-                    mappingObj.ifItemCustom = true;
-                    mappingObj.TelosTouchSF__TT_Field__c = 'Custom Fields';
-                    mappingObj.fieldNameTT = 'Custom Field';
-                    mappingObj.fieldDisabled = true;
-                    mappingObj.TelosTouchSF__Salesforce_Field__c = x.TelosTouchSF__Salesforce_Field__c;
-
-                    for (let y of this.initDataList) {
-                        fieldsObj = {};
-                        if (y.fieldAPIName === mappingObj.TelosTouchSF__Salesforce_Field__c) {
-                            fieldsObj.fieldAPIName = y.fieldAPIName;
-                            fieldsObj.fieldName = y.fieldName;
-                            fieldsObj.isSelected = true;
-                        }
-                        else {
-                            fieldsObj.fieldAPIName = y.fieldAPIName;
-                            fieldsObj.fieldName = y.fieldName;
-                            fieldsObj.isSelected = false;
-                        }
-                        fieldsList.push(fieldsObj);
-                    }
-                    mappingObj.initDataList = fieldsList;
-                    this.customfieldlist.push(mappingObj);
-                }
-            }
-        }
         } catch (error) {
             // console.log(error);
         }
@@ -419,7 +431,7 @@ export default class FieldMappingComp extends LightningElement {
     }
     addCustomFieldButton() {
         this.modalAddFields = false;
-        this.selectedValue=[];
+        this.selectedValue = [];
         if (this.buttonValue == 'Custom' && this.customfieldlist.length > 0) {
             this.addCustomFieldsModal = true;
             this.dataListFiltered = [];
@@ -436,9 +448,9 @@ export default class FieldMappingComp extends LightningElement {
             for (let x of fieldsListCustom) {
                 this.dataListFiltered.push({ value: x.fieldAPIName, label: x.fieldName });
             }
-            if(this.dataListFiltered.length == 0){
+            if (this.dataListFiltered.length == 0) {
                 this.addCustomFieldsModal = false;
-                this.displayToast('error',this.label.No_Custom_Field_Toast);
+                this.displayToast('error', this.label.No_Custom_Field_Toast);
             }
         }
         else if (this.buttonValue == 'Standard') {
@@ -532,30 +544,30 @@ export default class FieldMappingComp extends LightningElement {
             this.displayToast('error', this.label.Cannot_Add_Duplicate_Field_Toast);
         }
         else {
-            if(tempArray.includes('')){
+            if (tempArray.includes('')) {
                 this.displayToast('error', this.label.Cannot_Add_Duplicate_Field_Toast);
             }
-            else{
-            this.isSpin = true;
-            saveFieldsMappingApex({ mappingList: this.customfieldlist, selectedObject: this.objectValue })
-                .then((result) => {
-                    if (result) {
-                        this.displayToast('success', this.label.Field_Mapping_Saved_Toast);
-                        this.handleBackClick();
-                    }
-                    else {
+            else {
+                this.isSpin = true;
+                saveFieldsMappingApex({ mappingList: this.customfieldlist, selectedObject: this.objectValue })
+                    .then((result) => {
+                        if (result) {
+                            this.displayToast('success', this.label.Field_Mapping_Saved_Toast);
+                            this.handleBackClick();
+                        }
+                        else {
+                            this.displayToast('error', this.label.Something_Went_Wrong);
+                            this.isSpin = false;
+                        }
+                    }).catch((error) => {
+                        // console.log('error::' + error);
                         this.displayToast('error', this.label.Something_Went_Wrong);
                         this.isSpin = false;
-                    }
-                }).catch((error) => {
-                    // console.log('error::' + error);
-                    this.displayToast('error', this.label.Something_Went_Wrong);
-                    this.isSpin = false;
-                })
+                    })
             }
         }
     }
-    backToRadio(){
+    backToRadio() {
         this.modalAddFields = true;
         this.addCustomFieldsModal = false;
         this.ifStandardFields = false;

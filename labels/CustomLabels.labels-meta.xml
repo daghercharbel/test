@@ -3336,4 +3336,12 @@
         <shortDescription>Feature Toggle Detail Text</shortDescription>
         <value>Customize your experience based on your needs</value>
     </labels>
+    <labels>
+        <fullName>CreatedByHelpText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CreatedByHelpText</shortDescription>
+        <value>This mapping is to choose the primary field. If the selected user lookup is not a
+            TelosTouch User we'll fallback to the second value as a backup for sync.</value>
+    </labels>
 </CustomLabels>

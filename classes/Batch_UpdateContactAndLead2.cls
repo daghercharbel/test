@@ -66,7 +66,7 @@ public with sharing class Batch_UpdateContactAndLead2 implements Database.batcha
              contactquery += ' ORDER BY TelosTouchSF__TT_Client_Id__c NULLS LAST ALL ROWS';
              return Database.getQueryLocator(String.escapeSingleQuotes(contactquery));
          }else{
-             leadquery = 'SELECT Owner.id,';
+             leadquery = 'SELECT Owner.id, CreatedBy.Id,';
              for(String fieldAPI : Schema.getGlobalDescribe().get('Lead').getDescribe().fields.getMap().keySet()){
                  if(fieldAPI != 'AccountId' ){
                      leadquery += fieldAPI + ','; 

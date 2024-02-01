@@ -795,10 +795,10 @@ global with sharing class SFDataSyncWithTelosTouch {
                             request.setMethod('PUT');
                             ContactVSTTMap.put('id',con.TelosTouchSF__TT_Client_Id__c);
                             ContactVSTTMap.put('other_id', String.valueOf(con.get('Id')));
-                            if(adminCredentials.TelosTouchSF__Use_CreatedById__c == true){
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                            if(userMap.containsKey(ContactVSTTMap.get('created_by'))){
+                                ContactVSTTMap.put('created_by',userMap.get(ContactVSTTMap.get('created_by')).TelosTouchSF__TT_UserId__c);
                             }else{
-                                ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
+                                ContactVSTTMap.remove('created_by');
                             }
                             putBody = putBody + JSON.serialize(ContactVSTTMap);
                             if(ContactVSTTMap.get('subscribed') == 'Yes'){
@@ -815,17 +815,15 @@ global with sharing class SFDataSyncWithTelosTouch {
                         }else{
                             request.setMethod('POST');
                             ContactVSTTMap.put('other_id', String.valueOf(con.get('Id')));
-                            if(adminCredentials.TelosTouchSF__Use_CreatedById__c){
-                                if(String.isNotBlank(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c)){
-                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
-                                } else {
-                                    ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
-                                }
+                            if(userMap.containsKey(ContactVSTTMap.get('created_by'))){
+                                ContactVSTTMap.put('created_by',userMap.get(ContactVSTTMap.get('created_by')).TelosTouchSF__TT_UserId__c);
                             }else{
-                                if(String.isNotBlank(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c)){
+                                if(userMap.containsKey(con.OwnerId)){
                                     ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.OwnerId).TelosTouchSF__TT_UserId__c));
-                                } else {
+                                } else if(userMap.containsKey(con.CreatedById)){
                                     ContactVSTTMap.put('created_by', String.valueOf(userMap.get(con.CreatedById).TelosTouchSF__TT_UserId__c));
+                                } else{
+                                    ContactVSTTMap.remove('created_by');
                                 }
                             }
                             postBody = postBody + JSON.serialize(ContactVSTTMap);
@@ -1045,6 +1043,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             return OtherIdVsClientIdMap;
 
         }catch(Exception ex){
+            System.debug('Exception: '+ex.getMessage()+ ' at line: '+ex.getLineNumber());
             List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
             logList.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Error in SFDataSync: '+ex.getMessage()+' at Line: '+ex.getLineNumber(),null,1));
             return null;

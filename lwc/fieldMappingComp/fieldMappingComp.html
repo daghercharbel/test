@@ -23,12 +23,6 @@
                     </div>
                 </div>
             </lightning-layout-item>
-            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="4"
-                large-device-size="9" class="togglePosition">
-                <lightning-input type="toggle" label={label.Assigned_User_Label} name="recordOwner"
-                    message-toggle-active="Created By Id" message-toggle-inactive="Owner Id"
-                    checked={userCreatedByIdFlag} onchange={setRecordOwnerFlag}></lightning-input>
-            </lightning-layout-item>
         </lightning-layout>
         <div>
             <div class="slds-scrollable scrollableDiv">
@@ -84,6 +78,10 @@
                                                             </template>
                                                         </template>
                                                     </select>
+                                                </template>
+                                                <template if:true={each.showHint}>
+                                                    <lightning-helptext class="slds-var-p-left_large"
+                                                        content={label.CreatedByHelpText}></lightning-helptext>
                                                 </template>
                                             </div>
                                         </div>
