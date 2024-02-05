@@ -684,6 +684,7 @@ global with sharing class SFDataSyncWithTelosTouch {
                 insert createListOfLog;
             }
             System.debug('clientLogObj:: '+clientLogObj);
+            TelosTouchUtility.saveLogSyncronous(JSON.serialize(TelosTouchUtility.lstTTLog));
             return clientLogObj;
         }
         Catch(Exception ex){
@@ -1043,9 +1044,7 @@ global with sharing class SFDataSyncWithTelosTouch {
             return OtherIdVsClientIdMap;
 
         }catch(Exception ex){
-            System.debug('Exception: '+ex.getMessage()+ ' at line: '+ex.getLineNumber());
-            List<TelosTouchSF__TT_Log__c> logList = new List<TelosTouchSF__TT_Log__c>();
-            logList.add(SFDataSyncWithTelosTouch.addLogRecord('Failure','Error in SFDataSync: '+ex.getMessage()+' at Line: '+ex.getLineNumber(),null,1));
+            TelosTouchUtility.generateErrorLog(ex, 'SFDataSyncWithTelosTouch', 'makePostCallout', null);
             return null;
         }
     }

@@ -724,7 +724,7 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
     @AuraEnabled
     public static String sendSFUserToTT(List<User> sfUserList, List<Id> listofUserId) {
         try{
-            List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();            
+            List<PermissionSetAssignment> permissionSetList = new List<PermissionSetAssignment>();
             if(sfUserList != null && sfUserList.size() >0){
                 if(Schema.sObjectType.PermissionSetAssignment.isAccessible() && Schema.sObjectType.PermissionSetAssignment.isQueryable() &&
                    Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible() &&
@@ -1951,6 +1951,12 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 
     @future
     public static void saveLog(String lstLogStr){
+        if(String.isBlank(lstLogStr)){ return; }
+        List<TT_Log__c> lstLog = (List<TT_Log__c>)JSON.deserialize(lstLogStr, List<TT_Log__c>.class);
+        if(!lstLog.isEmpty() && Schema.sObjectType.TT_Log__c.isCreateable()){ Database.insert(lstLog); }
+    }
+
+    public static void saveLogSyncronous(String lstLogStr){
         if(String.isBlank(lstLogStr)){ return; }
         List<TT_Log__c> lstLog = (List<TT_Log__c>)JSON.deserialize(lstLogStr, List<TT_Log__c>.class);
         if(!lstLog.isEmpty() && Schema.sObjectType.TT_Log__c.isCreateable()){ Database.insert(lstLog); }
