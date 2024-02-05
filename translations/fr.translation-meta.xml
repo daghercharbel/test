@@ -804,8 +804,8 @@
         <name>InsightAnswersEmpty</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour l&apos;installation de
-            l&apos;application Salesforce de TelosTouch</label>
+        <label>Instructions pour l&apos;installation et le déploiement de l&apos;application dans
+            votre organisation Salesforce</label>
         <name>Installation_Guide_Related</name>
     </customLabels>
     <customLabels>
@@ -1074,7 +1074,8 @@
         <name>Onboarding_Checklist_Text</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour implanter TelosTouch</label>
+        <label>Guide étape par étape pour démarrer avec l&apos;installation et la configuration
+            essentielles</label>
         <name>Onboarding_Related</name>
     </customLabels>
     <customLabels>
@@ -1808,8 +1809,8 @@
         <name>Unauthorized_User_Label</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide pour désinstaller
-            l&apos;application Salesforce de TelosTouch</label>
+        <label>Étapes pour complètement désinstaller et supprimer l&apos;application de votre
+            organisation Salesforce.</label>
         <name>Uninstallation_Guide_Related</name>
     </customLabels>
     <customLabels>
@@ -1837,8 +1838,8 @@
         <name>Updated_Lead_Cool_Down</name>
     </customLabels>
     <customLabels>
-        <label>Cliquez sur ce document pour obtenir de l&apos;aide sur l&apos;utilisation de
-            l&apos;application Salesforce de TelosTouch</label>
+        <label>Guide complet pour utiliser toutes les fonctionnalités et obtenir le plus de valeur
+            de l&apos;application</label>
         <name>User_Guide_Related</name>
     </customLabels>
     <customLabels>
