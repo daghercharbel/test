@@ -182,6 +182,16 @@ public with sharing class TtSalesforceOnboardingController {
       adminCredsWrapper.BatchRunsForSFToTTOnTimeBasis = false;
       adminCredsWrapper.Is_Trial = false;
       TelosTouchSF.TelosTouchUtility.updateCustomMetadata(adminCredsWrapper);
+      Set<String> jobNames = new Set<String>();
+      jobNames.add('Delete Log Records Job');
+      jobNames.add('Get Clients From TT Job');
+      jobNames.add('Sync Feature Toggle Job');
+      jobNames.add('Sync Log Records Job');
+      jobNames.add('Update User Token Job 1');
+      jobNames.add('Update User Token Job 2');
+      for(CronTrigger cronRecord : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name IN: jobNames]){
+        System.abortJob(cronRecord.Id);
+      }
       return true;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
