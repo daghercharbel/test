@@ -27,6 +27,7 @@ public with sharing class PostInstallClass_Test {
             System.assertEquals(0, ct.TimesTriggered , 'ct.TimesTriggered should be equal to 0');
         }
     }
+    
     @isTest
     public static void testInstallScript2() {
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
@@ -45,6 +46,7 @@ public with sharing class PostInstallClass_Test {
             System.assertEquals(asyncObj.Id, jobID13, 'jobID13 should be equal to asyncObj.Id');
         }
     }
+    
     @isTest
     public static void testInstallScript3() {
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
@@ -58,6 +60,23 @@ public with sharing class PostInstallClass_Test {
             Test.testInstall(postinstall, null);
             Test.testInstall(postinstall, new Version(1, 0), true);
             System.assert([SELECT COUNT()FROM TelosTouchSF__TT_Salesforce_Mapping__c]>=0);
+        }
+    }
+    
+    @isTest
+    public static void testInstallScript4() {
+        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
+        User u = new User(Alias = 'standt', Email='test1868687687@gmail.com', 
+                          EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+                          LocaleSidKey='en_US', ProfileId = p.Id,
+                          TimeZoneSidKey='America/Los_Angeles', UserName='test186ew74368@gmail.com');
+        insert u;
+        PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'TelosTouch_Custom_Permission'];
+		insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
+        
+        System.runAs(u) {
+            TelosTouchSF.PostInstallClass postinstall = new TelosTouchSF.PostInstallClass();
+            Test.testInstall(postinstall, null);
         }
     }
 }

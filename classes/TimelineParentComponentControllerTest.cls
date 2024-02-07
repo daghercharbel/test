@@ -97,10 +97,22 @@ private with sharing class TimelineParentComponentControllerTest {
         CampaignMemberObj1.ContactId = conObj2.Id;
         insert CampaignMemberObj1;
         
-        List<Lead> LeadObj2 = new List<Lead>();
-        LeadObj2 = [SELECT Id ,LastName,TT_Client_Id__c,Email FROM Lead];
-        List<Contact> conObj = new List<Contact>();
-        conObj = [SELECT Id ,LastName,TT_Client_Id__c,Email FROM Contact];
+        list<TelosTouchSF__Insights__c> lstIns = new list<TelosTouchSF__Insights__c>();
+        TelosTouchSF__Insights__c insTest = new TelosTouchSF__Insights__c(
+            TelosTouchSF__Contact__c = conObj2.Id,
+            TelosTouchSF__Campaign2__c = CampaignObj[0].Id,
+            TelosTouchSF__Opened_At__c = system.now(),
+            TelosTouchSF__Completed_At__c = system.now(),
+            TelosTouchSF__Answers__c = '[{&quot;type&quot;:&quot;text&quot;,&quot;resource_url&quot;:&quot;&quot;,&quot;is_robot&quot;:true,&quot;conversation_id&quot;:&quot;65bbff7428f48df6af106df5&quot;,&quot;content&quot;:&quot;Hi {{contact.firstName}}, this is the opportunity to build a personalized agenda for our meeting. We are here to serve your business and this starts by focusing on what matters to you currently.&quot;},{&quot;type&quot;:&quot;multibutton&quot;,&quot;resource_url&quot;:&quot;&quot;,&quot;is_robot&quot;:true,&quot;conversation_id&quot;:&quot;65bbff7428f48df6af106df5&quot;,&quot;content&quot;:&quot;Which of the following would you like to explore?&quot;},{&quot;type&quot;:&quot;&quot;,&quot;resource_url&quot;:&quot;&quot;,&quot;is_robot&quot;:false,&quot;conversation_id&quot;:&quot;65bbff7428f48df6af106df5&quot;,&quot;content&quot;:&quot;Our Diversified One-Ticket portfolios&quot;}]'
+        );
+        lstIns.add(insTest);
+        TelosTouchSF__Insights__c insTest2 = new TelosTouchSF__Insights__c(
+            TelosTouchSF__Contact__c = conObj2.Id,
+            TelosTouchSF__Campaign2__c = CampaignObj[1].Id
+        );
+        lstIns.add(insTest2);
+        insert lstIns;
+        
         List<Account> accountList = new List<Account>();
         accountList = [SELECT Id ,Name FROM Account];
         
@@ -135,9 +147,9 @@ private with sharing class TimelineParentComponentControllerTest {
         endpoint2TestResp.put('https://test.com/api/v1/touchpoint/templates/send/'+CampaignObj[0].Id,firstFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/touchpoints/test/clients',secondFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/touchpoints/123/clients',secondFakeResponseResp);
-        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj[0].TT_Client_Id__c,thirdFakeResponseResp);
-        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj[0].TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=0&period=all&orderBy=DESC',fourthFakeResponseResp);
-        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj[0].TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=90&period=all&orderBy=DESC',fifthFakeResponseResp);
+        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj2.TT_Client_Id__c,thirdFakeResponseResp);
+        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj2.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=0&period=all&orderBy=DESC',fourthFakeResponseResp);
+        endpoint2TestResp.put('https://test.com/api/v1/contacts/'+conObj2.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=90&period=all&orderBy=DESC',fifthFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/contacts/'+leadObj.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=0&period=all&orderBy=DESC',fourthFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v1/contacts/'+leadObj.TT_Client_Id__c+'/timeline?includeChats=true&limit=90&skip=90&period=all&orderBy=DESC',fifthFakeResponseResp);
         endpoint2TestResp.put('https://test.com/api/v2/campaign2/clients',batch1);
@@ -148,9 +160,9 @@ private with sharing class TimelineParentComponentControllerTest {
         Test.setMock(HttpCalloutMock.class, multiCalloutMock);
         
         Test.startTest();
-        TimelineWrapper TimelineWrapperObj1 = TimelineParentComponentController.getTaskData(LeadObj2[0].Id,'Lead');
+        TimelineWrapper TimelineWrapperObj1 = TimelineParentComponentController.getTaskData(leadObj.Id,'Lead');
         System.assertEquals(TimelineWrapperObj1 != null, true, 'TimelineWrapperObj1 must not be NULL');
-        TimelineWrapper TimelineWrapperObj2 = TimelineParentComponentController.getTaskData(conObj[0].Id,'Contact');
+        TimelineWrapper TimelineWrapperObj2 = TimelineParentComponentController.getTaskData(conObj2.Id,'Contact');
         System.assertEquals(TimelineWrapperObj2 != null, true, 'TimelineWrapperObj2 must not be NULL');
         TimelineWrapper TimelineWrapperObj3 = TimelineParentComponentController.getTaskData(accountList[0].Id,'Account');
         System.assertEquals(TimelineWrapperObj3 != null, true, 'TimelineWrapperObj3 must not be NULL');
