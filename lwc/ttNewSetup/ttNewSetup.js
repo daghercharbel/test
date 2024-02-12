@@ -2,8 +2,6 @@ import { LightningElement, api, track } from 'lwc';
 
 //Apex Methods
 import checkSettings from "@salesforce/apex/TelosTouchUtility.checkSettings";
-import Help_Section_Text_1 from "@salesforce/label/c.Help_Section_Text_1";
-import Help_Section_Text_2 from "@salesforce/label/c.Help_Section_Text_2";
 import getSyncData from "@salesforce/apex/TelosTouchDataSyncController.getSyncData";
 import startRegistrationProcess from "@salesforce/apex/TtSalesforceOnboardingController.startRegistrationProcess";
 import validateTokenAndFetchCredentials from '@salesforce/apex/TtSalesforceOnboardingController.validateTokenAndFetchCredentials';
@@ -18,6 +16,8 @@ import Refresh_Token_Button_Label from "@salesforce/label/c.Refresh_Token_Button
 import Refresh_Token_Save_Toast from "@salesforce/label/c.Refresh_Token_Save_Toast";
 import One_Time_Token_Text from "@salesforce/label/c.One_Time_Token_Text";
 import One_Time_Code_Message from "@salesforce/label/c.One_Time_Code_Message";
+import Help_Section_Text_1 from "@salesforce/label/c.Help_Section_Text_1";
+import Help_Section_Text_2 from "@salesforce/label/c.Help_Section_Text_2";
 import Close from "@salesforce/label/c.Close";
 import cancel from "@salesforce/label/c.cancel";
 import Ok_Text from "@salesforce/label/c.Ok_Text";
@@ -102,21 +102,39 @@ export default class TtNewSetup extends LightningElement {
             });
         this.handleCheckSettings();
     }
+
     handleConnect() {
         if (!this.isApiConnected) {
             this.isShowSpinner = true;
-            startRegistrationProcess().then((data) => {
-                if (data === true) {
-                    //Open Modal
-                    this.showRegistrationModal = true;
+            startRegistrationProcess().then((result) => {
+
+                if (result.status == 'success') {
+                    
+                    let data = JSON.parse(result.value);
+
+                    if (data === true) {
+                        //Open Modal
+                        this.showRegistrationModal = true;
+                    } else {
+                        //Show Error Toast
+                        this.displayToast('error', 'Connection Failed');
+                    }
+
                 } else {
-                    //Show Error Toast
-                    this.displayToast('error', 'Connection Failed');
+                    console.error('ttNewSetup 68616e646c65436f6e6e656374-1: ', result.error);
+                    this.displayToast('error', result.error);
                 }
+                
             }).catch((error) => {
-                //Show Error Toast
-                console.log(error);
-                this.displayToast('error', error.body.message);
+
+                let errorStr;
+                if (typeof error == 'object' && error.message) {
+                    errorStr = error.message
+                } else {
+                    errorStr = error;
+                }
+                console.error('ttNewSetup 68616e646c65436f6e6e656374-2: ', errorStr);
+                this.displayToast('error', errorStr);
             }).finally(() => {
                 this.isShowSpinner = false;
             });
@@ -134,38 +152,55 @@ export default class TtNewSetup extends LightningElement {
                 oneTimeToken: this.registrationTokenValue.replace(/\s+/g, '')
             })
                 .then((result) => {
-                    this.isShowSpinner = false;
-                    var storedResponse = JSON.parse(result);
-                    if (storedResponse != null) {
-                        if (storedResponse.errorMessage == 'Not Admin') {
-                            this.isApiConnected = false;
-                            this.displayToast('error', Cred_Not_Valid_As_Admin_Contact_Admin);
-                            return;
-                        }
-                        if (storedResponse.errorMessage == 'This user is not validate with TT.') {
-                            this.isApiConnected = false;
-                            this.displayToast('error', User_Not_Valid_Cannot_Auth_App);
-                            return;
-                        }
-                        if (storedResponse.adminCredentials != null) {
-                            this.isApiConnected = true;
-                            this.displayToast('success', Config_Save_Toast);
-                            this.handleUserManagement();
+
+                    if (result.status == 'success') {
+
+                        this.isShowSpinner = false;
+                        var storedResponse = JSON.parse(result.value);
+                        if (storedResponse != null) {
+                            if (storedResponse.errorMessage == 'Not Admin') {
+                                this.isApiConnected = false;
+                                this.displayToast('error', Cred_Not_Valid_As_Admin_Contact_Admin);
+                                return;
+                            }
+                            if (storedResponse.errorMessage == 'This user is not validate with TT.') {
+                                this.isApiConnected = false;
+                                this.displayToast('error', User_Not_Valid_Cannot_Auth_App);
+                                return;
+                            }
+                            if (storedResponse.adminCredentials != null) {
+                                this.isApiConnected = true;
+                                this.displayToast('success', Config_Save_Toast);
+                                this.handleUserManagement();
+                            } else {
+                                this.isApiConnected = false;
+                                this.abortScheduleJobs();
+                                this.displayToast('error', Check_Cred_Toast);
+                            }
                         } else {
                             this.isApiConnected = false;
-                            this.abortScheduleJobs();
                             this.displayToast('error', Check_Cred_Toast);
                         }
+                        
                     } else {
+                        console.error('ttNewSetup 7375626d6974526567697374726174696f6e44657461696c73-1: ', result.error);
                         this.isApiConnected = false;
-                        this.displayToast('error', Check_Cred_Toast);
+                        this.displayToast('error', result.error);
                     }
+
                 })
                 .catch((error) => {
-                    console.log('error:: ' + error);
-                    this.error = error.body.message;
+
+                    let errorStr;
+                    if (typeof error == 'object' && error.message) {
+                        errorStr = error.message
+                    } else {
+                        errorStr = error;
+                    }
+                    console.error('ttNewSetup 7375626d6974526567697374726174696f6e44657461696c73-2: ', errorStr);
                     this.isApiConnected = false;
-                    this.displayToast('error', this.error);
+                    this.displayToast('error', errorStr);
+                    
                 }).finally(() => {
                     this.isShowSpinner = false;
                     this.showRegistrationModal = false;
@@ -197,13 +232,24 @@ export default class TtNewSetup extends LightningElement {
     disconnectToTelosTouch() {
         this.isShowSpinner = true;
         disconnectFromTelosTouchApex().then((result) => {
-            if (result) {
+            if (result.status == 'success') {
                 this.displayToast('success', 'Disconnected from TelosTouch successfully');
                 this.isApiConnected = false;
+            } else {
+                console.error('ttNewSetup 646973636f6e6e656374546f54656c6f73546f756368-1: ', result.error);
+                this.displayToast('error', result.error);
             }
         }).catch((error) => {
-            this.error = error.body.message;
-            this.displayToast('error', this.error);
+
+            let errorStr;
+            if (typeof error == 'object' && error.message) {
+                errorStr = error.message
+            } else {
+                errorStr = error;
+            }
+            console.error('ttNewSetup 646973636f6e6e656374546f54656c6f73546f756368-2: ', errorStr);
+            this.displayToast('error', errorStr);
+
         }).finally(() => {
             this.isShowSpinner = false;
         });;

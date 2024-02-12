@@ -4,24 +4,17 @@ public class TtSalesforceOnboardingControllerTest implements HttpCalloutMock{
     static void startRegistrationProcessTest(){
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TtSalesforceOnboardingControllerTest());
-        Boolean flag = TtSalesforceOnboardingController.startRegistrationProcess();
-        System.assert(flag, 'flag should be true');
+        map<String,String> mapResult = TtSalesforceOnboardingController.startRegistrationProcess();
+        System.assert(Boolean.valueOf(mapResult.get('value')), 'flag should be true');
         Test.stopTest();
     }
     @isTest
     static void validateTokenAndFetchCredentialsTest(){
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new TtSalesforceOnboardingControllerTest());
-        String returnString = TtSalesforceOnboardingController.validateTokenAndFetchCredentials('teret&TTSFPKG$tetre');
-        System.assert(returnString == 'true', 'return string should be true');
+        map<String,String> mapResult = TtSalesforceOnboardingController.validateTokenAndFetchCredentials('teret&TTSFPKG$tetre');
+        System.assert(mapResult.get('value') == 'true', 'return string should be true');
         Test.stopTest();
-    }
-    @isTest
-    static void checkIfEnterpriseClientTest(){
-        Test.startTest();
-        Boolean flag = TtSalesforceOnboardingController.checkIfEnterpriseClient();
-        Test.stopTest();
-        System.assert(flag, 'flag should be true');
     }
     @isTest
     static void disconnectFromTelosTouchApexTest(){
