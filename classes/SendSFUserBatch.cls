@@ -117,7 +117,9 @@ global with sharing class SendSFUserBatch implements Database.Batchable<sObject>
                             teamId = teamNameVsTeamIdMap.get(ttTeamName);
                         }else{
                             Map<String, String> teamIdMap = TelosTouchSF.TelosTouchUtility.getResponse('POST', adminCredentials.TelosTouchSF__Instance_URL__c+'/api/v1/teams', headersMap, '{"name":"'+ttTeamName+'","language": "en_US"}');
-                            teamId = teamIdMap.get('body');
+                            Map<String, Object> createTeamBodyMap = new Map<String, Object>();
+                            createTeamBodyMap = (Map<String, Object>) JSON.deserializeUntyped(teamIdMap.get('body'));
+                            teamId = String.valueOf(createTeamBodyMap.get('id'));
                         }
                         if(String.isNotBlank(adminCredentials.TelosTouchSF__Instance_URL__c) ){
                             endPointURL = adminCredentials.TelosTouchSF__Instance_URL__c.trim()+'/api/v1/users?search='+userObj.Email;
