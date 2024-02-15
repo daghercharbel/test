@@ -3,32 +3,11 @@ import TelosTouch from '@salesforce/resourceUrl/TelosTouch';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { subscribe, unsubscribe, onError, setDebugFlag, isEmpEnabled, } from 'lightning/empApi';
 import getConversationRecords from '@salesforce/apex/OpenAtAndCompleteAtGraph_Controller.getConversationRecords';
-
-//Custom Labels
-import Campaign_Graph_Campaign_Performance_Text from "@salesforce/label/c.Campaign_Graph_Campaign_Performance_Text";
-import Campaign_Graph_Completed_Text from "@salesforce/label/c.Campaign_Graph_Completed_Text";
-import Campaign_Graph_Opened_Text from "@salesforce/label/c.Campaign_Graph_Opened_Text";
-import Campaign_Graph_Will_Populate_Text from "@salesforce/label/c.Campaign_Graph_Will_Populate_Text";
-import Customize_AddClientText from "@salesforce/label/c.Customize_AddClientText";
-import Customize_PreviewLabel_Text from "@salesforce/label/c.Customize_PreviewLabel_Text";
-import New_Client_Added_Text from "@salesforce/label/c.New_Client_Added_Text";
-import SendTP_CustomizeText from "@salesforce/label/c.SendTP_CustomizeText";
-import StartByChoosingTP from "@salesforce/label/c.StartByChoosingTP";
+import { labelLibrary } from 'c/ttLabels';
 
 export default class OpenAndCompleteGraph extends LightningElement {
 
-    label={
-        Campaign_Graph_Campaign_Performance_Text,
-        Campaign_Graph_Completed_Text,
-        Campaign_Graph_Opened_Text,
-        Campaign_Graph_Will_Populate_Text,
-        Customize_AddClientText,
-        Customize_PreviewLabel_Text,
-        New_Client_Added_Text,
-        SendTP_CustomizeText,
-        StartByChoosingTP
-    }
-
+    label = labelLibrary;
     conversationLoaded = false;
     graphData;
     infoText;

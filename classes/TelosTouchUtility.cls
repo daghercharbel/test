@@ -569,7 +569,9 @@ public with sharing class TelosTouchUtility implements Metadata.DeployCallback{
 		                    String respMessage2 = 'Response Status Code: '+teamIdResponse.get('status_code')+' | Response Body: '+teamIdResponse.get('body');
                             generateLog(respMessage2, 'TelosTouchUtility', 'getUserAccessToken', null);
                             if(teamIdResponse.get('status_code') == '200'){
-                                teamId = teamIdResponse.get('body');
+                                Map<String, Object> createTeamBodyMap = new Map<String, Object>();
+                                createTeamBodyMap = (Map<String, Object>) JSON.deserializeUntyped(teamIdResponse.get('body'));
+                                teamId = String.valueOf(createTeamBodyMap.get('id'));
                             }
                         }
                         String endpoint = adminCredentials.Instance_URL.trim()+'/api/v1/users?search='+user.Email;

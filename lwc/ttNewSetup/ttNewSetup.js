@@ -10,7 +10,7 @@ import disconnectFromTelosTouchApex from "@salesforce/apex/TtSalesforceOnboardin
 import refreshTokenController from "@salesforce/apex/TelosTouchUtility.refreshTokenController";
 
 export default class TtNewSetup extends LightningElement {
-    
+
     label = labelLibrary;
     showDiffData = false;
     modalLabel = '';

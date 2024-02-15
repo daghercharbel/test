@@ -950,4 +950,38 @@ private with sharing class TelosTouchUtilityTest {
         System.assert(isError, 'isError should be true');
     }
     
+    @isTest
+    static void getUserListTest(){
+        Test.startTest();
+        TelosTouchUtility.getUserList();
+        Test.stopTest();
+        
+        Campaign camp2 = new Campaign();
+        camp2.RecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
+        camp2.Name = 'Test 2';
+        camp2.TelosTouchSF__TT_Campaign_Id__c = '837289ejhhk';
+    }
+    
+    @isTest
+    static void getCampaignDataTest(){
+        
+        Campaign campTest = new Campaign();
+        campTest.RecordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByName().get('TelosTouch').getRecordTypeId();
+        campTest.Name = 'Test 2';
+        campTest.TelosTouchSF__TT_Campaign_Id__c = '837289ejhhk';
+        insert campTest;
+        
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new TelosTouchUtilityMock());
+        TelosTouchUtility.getCampaignData(campTest.Id);
+        TelosTouchUtility.getTouchPointTemplates(campTest.Id);
+        TelosTouchUtility.setTouchPointTemplateId(campTest.Id, 'Test');
+        TelosTouchUtility.getCurrentTemplateId(campTest.Id);
+        TelosTouchUtility.sendTouchPointFromSF(campTest.Id, 'Test', false);
+        TelosTouchUtility.generateCustomizeIFrame('Test', campTest.Id, '{"status":"sent"}');
+        TelosTouchUtility.fetchSelectedTouchPointTemplate(campTest.Id);
+        TelosTouchUtility.syncClientsBeforeTouchpoint(campTest.Id);
+        Test.stopTest();
+    }
+    
 }

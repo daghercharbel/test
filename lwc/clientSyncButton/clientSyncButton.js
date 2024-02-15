@@ -3,16 +3,10 @@ import getFeatureMetadataBasedOnId from '@salesforce/apex/ClientSyncButtonHandle
 import getRecordInfo from '@salesforce/apex/ClientSyncButtonHandler.getRecordInfo';
 import syncRecordBasedOnRecId from '@salesforce/apex/ClientSyncButtonHandler.syncRecordBasedOnRecId';
 import { updateRecord } from 'lightning/uiRecordApi';
-import Contact_Label from '@salesforce/label/c.Contact_Label';
-import Lead_Label from '@salesforce/label/c.Lead_Label';
-import Sync_Label from '@salesforce/label/c.Sync_Label';
+import { labelLibrary } from 'c/ttLabels';
 
 export default class ClientSyncButton extends LightningElement {
-    label = {
-        Contact_Label,
-        Sync_Label,
-        Lead_Label
-    }
+    label = labelLibrary;
     showButton = false;
     isDisable = true;
     @api recordId;

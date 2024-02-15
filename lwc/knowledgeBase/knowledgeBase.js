@@ -6,39 +6,12 @@
 * Controller   : KnowledgeBaseCompController.cls
 */
 import { LightningElement, api, track } from "lwc";
-
+import { labelLibrary } from 'c/ttLabels';
 import GetImagesLinksKnowledgebase from "@salesforce/apex/KnowledgeBaseCompController.GetImagesLinksKnowledgebase";
-
-import Knowledge_Base_Image_Error from "@salesforce/label/c.Knowledge_Base_Image_Error";
 import FORM_FACTOR from '@salesforce/client/formFactor';
-import Welcome_to_Knowledge_base from "@salesforce/label/c.Welcome_to_Knowledge_base";
-import Showing_docs_Knowledge_base from "@salesforce/label/c.Showing_docs_Knowledge_base";
-import Onboarding_Checklist_Text from "@salesforce/label/c.Onboarding_Checklist_Text";
-import Onboarding_Related from "@salesforce/label/c.Onboarding_Related";
-import Installation_Guide_Text from "@salesforce/label/c.Installation_Guide_Text";
-import Installation_Guide_Related from "@salesforce/label/c.Installation_Guide_Related";
-import User_Guide_Text from "@salesforce/label/c.User_Guide_Text";
-import User_Guide_Related from "@salesforce/label/c.User_Guide_Related";
-import Uninstallation_Guide_Text from "@salesforce/label/c.Uninstallation_Guide_Text";
-import Uninstallation_Guide_Related from "@salesforce/label/c.Uninstallation_Guide_Related";
-import Looking_for_help_text from "@salesforce/label/c.Looking_for_help_text";
+
 export default class KnowledgeBase extends LightningElement {
-
-    label = {
-        Welcome_to_Knowledge_base,
-        Showing_docs_Knowledge_base,
-        Onboarding_Checklist_Text,
-        Onboarding_Related,
-        Installation_Guide_Text,
-        Installation_Guide_Related,
-        User_Guide_Text,
-        User_Guide_Related,
-        Uninstallation_Guide_Text,
-        Uninstallation_Guide_Related,
-        Looking_for_help_text,
-        Knowledge_Base_Image_Error
-    };
-
+    label = labelLibrary;
     @track isSmallDevice = false;
     @track mapData2 = {};
     @track showBackButton = false;

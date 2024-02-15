@@ -38,7 +38,7 @@ public with sharing class GetClientsFromTTQueueableTest {
         con1.Language__c = 'French';
         
         List<Contact> conList = new List<Contact>{con, con1};
-        insert conList;
+            insert conList;
         List<Lead> leadList = new List<Lead>();
         
         Lead ld = new Lead();
@@ -54,21 +54,21 @@ public with sharing class GetClientsFromTTQueueableTest {
         ld2.Email = 'gaurav.bisht+324345354@avn.com';
         ld2.Language__c = 'French';
         leadList.add(ld2);
-
+        
         Lead ld3 = new Lead();
         ld3.Company = 'aviation';
         ld3.LastName = 'Gaurav';
         ld3.Email = 'gaurav.bisht+8374987893@avn.com';
         ld3.Language__c = 'French';
         leadList.add(ld3);
-
+        
         Lead ld4 = new Lead();
         ld4.Company = 'aviation';
         ld4.LastName = 'Gaurav';
         ld4.Email = 'gaurav.bisht+34344434343@avn.com';
         ld4.Language__c = 'French';
         leadList.add(ld4);
-
+        
         Lead ld5 = new Lead();
         ld5.Company = 'aviation';
         ld5.FirstName = 'Gaurav';
@@ -78,14 +78,27 @@ public with sharing class GetClientsFromTTQueueableTest {
         ld5.Language__c = 'English';
         ld5.Subscribed__c = 'Yes';
         leadList.add(ld5);
-
+        
         insert leadList;
     }
     @isTest
     public static void testGetClients1(){
-        Test.startTest();
         System.debug([SELECT Count() FROM Lead]);
-        Test.setMock(HttpCalloutMock.class, new GetClientFromTTMock());
+        
+        Task taskTest = new Task();
+        taskTest.Priority = 'High';
+        taskTest.Subject = 'Test';
+        taskTest.Status = 'Completed';
+        taskTest.Share_with_client_s__c = 'No';
+        taskTest.ActivityDate = Date.today();
+        taskTest.Description = 'asdf';
+        taskTest.TelosTouchSF__TT_TaskId__c = '4298h398r37895379848u9u';
+        insert taskTest;
+        
+        Test.startTest();
+        GetClientFromTTMock mockClass = new GetClientFromTTMock();
+        mockClass.taskId = taskTest.Id;
+        Test.setMock(HttpCalloutMock.class, mockClass);
         String CRON_EXP = '0 0 0 15 3 ? *';
         String jobId = System.schedule('ScheduleApexClassTest',  CRON_EXP, new GetClientsFromTTScheduler());
         Datetime last_login_date = (DateTime)JSON.deserialize('"2022-01-05T09:49:35.000Z"', DateTime.class);

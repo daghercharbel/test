@@ -1,25 +1,9 @@
 import { LightningElement, track, api } from 'lwc';
 import logIssue from "@salesforce/apex/TT_ContactSupportController.logIssue";
-import SUBMIT from '@salesforce/label/c.Submit';
-import CANCEL from '@salesforce/label/c.cancel';
-import ISSUE_DESCRIPTION from '@salesforce/label/c.IssueDescription';
-import SHARE_CONCERN from '@salesforce/label/c.ShareConcern';
-import CASE_RAISED from '@salesforce/label/c.CaseRaised';
-import FIELD_VALIDATION from '@salesforce/label/c.FieldValidation';
-import TITLE from '@salesforce/label/c.Title';
-import CASE_DESCRIPTION from '@salesforce/label/c.CaseDescription';
+import { labelLibrary } from 'c/ttLabels';
 
 export default class ttcontactSupport extends LightningElement {
-    label = {
-        SUBMIT,
-        CANCEL,
-        ISSUE_DESCRIPTION,
-        SHARE_CONCERN,
-        CASE_RAISED,
-        FIELD_VALIDATION,
-        TITLE,
-        CASE_DESCRIPTION
-    };
+    label = labelLibrary;
     @track formActive = false;
     @api tabName;
     @track showToast = false;

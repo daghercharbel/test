@@ -3,28 +3,15 @@ import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
 import getIFrameUrls from "@salesforce/apex/ShowTouchPointPreviewController.getIFrameUrls";
 import getIFrameUrlsFromTemplateId from "@salesforce/apex/ShowTouchPointPreviewController.getIFrameUrlsFromTemplateId";
-import Email_Text from "@salesforce/label/c.Email_Text";
-import Language_Text from "@salesforce/label/c.Language_Text";
-import TouchPoint_Experience_Text from "@salesforce/label/c.TouchPoint_Experience_Text";
-import English_Text from "@salesforce/label/c.English_Text";
-import French_Text from "@salesforce/label/c.French_Text";
-
+import { labelLibrary } from 'c/ttLabels';
 export default class ShowTouchPointPreview extends LightningElement {
-
+    label = labelLibrary;
     langValue = "en_US";
     urls = {};
     @api recordId;
     @api templateId;
     @api templateType;
     @api touchpointSelectionPreview = false;
-
-    label = {
-        Email_Text,
-        Language_Text,
-        TouchPoint_Experience_Text,
-        English_Text,
-        French_Text
-    };
 
     get langOptions() {
         return [

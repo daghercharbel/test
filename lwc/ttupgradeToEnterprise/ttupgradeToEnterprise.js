@@ -1,24 +1,10 @@
 import { LightningElement, track } from 'lwc';
 import sendEmail from "@salesforce/apex/TT_UpgradeToEnterpriseController.sendEmail";
-import EnterpriseRequest from '@salesforce/label/c.EnterpriseRequest';
-import EnterpriseUpgrade from '@salesforce/label/c.EnterpriseUpgrade';
-import Submit from '@salesforce/label/c.Submit';
-import cancel from '@salesforce/label/c.cancel';
-import Close from '@salesforce/label/c.Close';
-import Description from '@salesforce/label/c.Additional_Information';
-import RequestSentSuccessfully from '@salesforce/label/c.RequestSentSuccessfully';
+import { labelLibrary } from 'c/ttLabels';
 
 export default class ttupgradeToEnterprise extends LightningElement {
-  label = {
-    EnterpriseRequest,
-    EnterpriseUpgrade,
-    Submit,
-    cancel,
-    Close,
-    Description,
-    RequestSentSuccessfully,
-};
 
+    label = labelLibrary;
     @track showModal = false;
     @track requestBody = {
       'description' : ''

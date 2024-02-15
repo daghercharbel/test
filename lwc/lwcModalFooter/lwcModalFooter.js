@@ -1,13 +1,13 @@
 import { LightningElement, wire, track } from "lwc";
 import { CurrentPageReference } from "lightning/navigation";
-import Save_Button_Label from "@salesforce/label/c.Save_Button_Label";
+import { labelLibrary } from 'c/ttLabels';
 import checkNamedCredentials from "@salesforce/apex/MassCreateTaskCompController.checkNamedCredentials";
 
 import { fireEvent } from "c/pubsub";
+
 export default class LwcModalFooter extends LightningElement {
-  label = {
-    Save_Button_Label
-  };
+  
+  label = labelLibrary;
   @wire(CurrentPageReference) objpageReference;
   @track disableSaveButton = true;
   connectedCallback() {

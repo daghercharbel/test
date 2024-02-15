@@ -2,35 +2,11 @@ import { LightningElement, api } from 'lwc';
 
 //Static Resources
 import telosTouch from '@salesforce/resourceUrl/TelosTouch';
-
-//Custom Label
-import company_name from "@salesforce/label/c.Company_Name";
-import email from "@salesforce/label/c.Email_Text";
-import first_name from "@salesforce/label/c.First_Name";
-import last_name from "@salesforce/label/c.Last_Name";
-import meeting_link_preview from "@salesforce/label/c.Meeting_Link_Preview";
-import office_address from "@salesforce/label/c.Office_Address";
-import phone_number from "@salesforce/label/c.Phone_Number";
-import position from "@salesforce/label/c.Position";
-import schedule_a_meeting from "@salesforce/label/c.Schedule_a_Meeting";
-import unsubscribe_text from "@salesforce/label/c.Email_Signature_Unsubscribe_Text";
-
+import { labelLibrary } from 'c/ttLabels';
 
 export default class TtBrandingPreview extends LightningElement {
 
-    label = {
-        company_name,
-        email,
-        first_name,
-        last_name,
-        meeting_link_preview,
-        office_address,
-        phone_number,
-        position,
-        schedule_a_meeting,
-        unsubscribe_text
-    }
-
+    label = labelLibrary;
     blankFieldsChecked = false;
     @api userBranding = {};
     facebookPng = telosTouch + "/images/facebook.png"

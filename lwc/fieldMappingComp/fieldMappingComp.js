@@ -1,38 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import Assigned_User_Label from '@salesforce/label/c.Assigned_User_Label';
-import Salesforce_Fields from '@salesforce/label/c.Salesforce_Fields';
-import TelosTouch_Fields from '@salesforce/label/c.TelosTouch_Fields';
-import Sync_Empty_Field from '@salesforce/label/c.Sync_Empty_Field';
-import Record_Creator_Assigned_Label from '@salesforce/label/c.Record_Creator_Assigned_Label';
-import Record_Owner_Assigned_Label from '@salesforce/label/c.Record_Owner_Assigned_Label';
-import Cannot_Add_Duplicate_Field_Toast from '@salesforce/label/c.Cannot_Add_Duplicate_Field_Toast';
-import Standard_Fields_Text from '@salesforce/label/c.Standard_Fields_Text';
-import Custom_Fields_Text from '@salesforce/label/c.Custom_Fields_Text';
-import Next_Button_Label from '@salesforce/label/c.Next_Button_Label';
-import Cancel_Button_Label from '@salesforce/label/c.Cancel_Button_Label';
-import Task_Label from '@salesforce/label/c.Task_Label';
-import Lead_Label from '@salesforce/label/c.Lead_Label';
-import Contact_Label from '@salesforce/label/c.Contact_Label';
-import Save_Button_Label from '@salesforce/label/c.Save_Button_Label';
-import Edit_Button_Label from '@salesforce/label/c.Edit_Button_Label';
-import Back_Button_Label from '@salesforce/label/c.Back_Button_Label';
-import Add_Fields_Button_Label from '@salesforce/label/c.Add_Fields_Button_Label';
-import Confirmation_Text from '@salesforce/label/c.Confirmation_Text';
-import Sure_To_Remove from '@salesforce/label/c.Sure_To_Remove';
-import Yes_Text from '@salesforce/label/c.Yes_Text';
-import No_Text from '@salesforce/label/c.No_Text';
-import Field_Deleted_Toast from '@salesforce/label/c.Field_Deleted_Toast';
-import Add_Custom_Fields_Text from '@salesforce/label/c.Add_Custom_Fields_Text';
-import SF_Field_Create_Toast from '@salesforce/label/c.SF_Field_Create_Toast';
-import Select_Some_Field_To_Sync_Toast from '@salesforce/label/c.Select_Some_Field_To_Sync_Toast';
-import No_Standard_Field_Toast from '@salesforce/label/c.No_Standard_Field_Toast';
-import Add_Standard_Fields_Text from '@salesforce/label/c.Add_Standard_Fields_Text';
-import Select_Add_At_Least_One_Field_Toast from '@salesforce/label/c.Select_Add_At_Least_One_Field_Toast';
-import Mapped_SF_field_Toast from '@salesforce/label/c.Mapped_SF_field_Toast';
-import Field_Mapping_Saved_Toast from '@salesforce/label/c.Field_Mapping_Saved_Toast';
-import Something_Went_Wrong from '@salesforce/label/c.Something_Went_Wrong';
-import No_Custom_Field_Toast from '@salesforce/label/c.No_Custom_Field_Toast';
-import CreatedByHelpText from '@salesforce/label/c.CreatedByHelpText';
+
 import getExistingMappingApex from "@salesforce/apex/TelosTouchMapping.getExistingMappingApex";
 import getObjectAllFields from "@salesforce/apex/TelosTouchMapping.getObjectAllFields";
 import getTelosTouchLeadFields from "@salesforce/apex/TelosTouchMapping.getTelosTouchLeadFields";
@@ -46,8 +13,9 @@ import addDeletedFieldsToMappingApex from '@salesforce/apex/TelosTouchMapping.ad
 import saveFieldsMappingApex from '@salesforce/apex/TelosTouchMapping.saveFieldsMappingApex';
 import getUseCreatedByIdFlag from '@salesforce/apex/TelosTouchMapping.getUseCreatedByIdFlag';
 import FORM_FACTOR from '@salesforce/client/formFactor';
-
+import { labelLibrary } from 'c/ttLabels';
 export default class FieldMappingComp extends LightningElement {
+    label = labelLibrary;
     @api showFieldMapping = false;
     objectValue = 'Contact';
     isSpin = false;
@@ -120,44 +88,6 @@ export default class FieldMappingComp extends LightningElement {
             this.isDesktop = false;
         }
     }
-    label = {
-        Assigned_User_Label,
-        Salesforce_Fields,
-        TelosTouch_Fields,
-        Sync_Empty_Field,
-        Record_Owner_Assigned_Label,
-        Record_Creator_Assigned_Label,
-        Save_Button_Label,
-        Edit_Button_Label,
-        Back_Button_Label,
-        Add_Fields_Button_Label,
-        Confirmation_Text,
-        Sure_To_Remove,
-        Yes_Text,
-        No_Text,
-        Cannot_Add_Duplicate_Field_Toast,
-        Field_Deleted_Toast,
-        Add_Fields_Button_Label,
-        Custom_Fields_Text,
-        Standard_Fields_Text,
-        Cancel_Button_Label,
-        Next_Button_Label,
-        Add_Custom_Fields_Text,
-        SF_Field_Create_Toast,
-        Select_Some_Field_To_Sync_Toast,
-        No_Standard_Field_Toast,
-        Add_Standard_Fields_Text,
-        Select_Add_At_Least_One_Field_Toast,
-        Mapped_SF_field_Toast,
-        Field_Mapping_Saved_Toast,
-        Something_Went_Wrong,
-        No_Custom_Field_Toast,
-        Contact_Label,
-        Lead_Label,
-        Task_Label,
-        CreatedByHelpText
-    };
-
 
     getContactDetails() {
         this.isSpin = true;
