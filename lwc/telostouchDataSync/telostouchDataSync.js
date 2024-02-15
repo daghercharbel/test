@@ -1,62 +1,14 @@
 import { api, LightningElement } from 'lwc';
-import Soft_Sync_Text from "@salesforce/label/c.Soft_Sync_Text";
-import Hard_Sync_Text from "@salesforce/label/c.Hard_Sync_Text";
-import All_Label from "@salesforce/label/c.All_Label";
-import Clients_Text from "@salesforce/label/c.Clients_Text";
-import Tasks_Text from "@salesforce/label/c.Tasks_Text";
-import Campaigns_Text from "@salesforce/label/c.Campaigns_Text";
-import Choose_Sync_Type_Text from "@salesforce/label/c.Choose_Sync_Type_Text";
-import Select_Sync_Type_Text from "@salesforce/label/c.Select_Sync_Type_Text";
-import Choose_Sync_Object_Text from "@salesforce/label/c.Choose_Sync_Object_Text";
-import Select_Sync_Object_Text from "@salesforce/label/c.Select_Sync_Object_Text";
-import Manual_Sync_All_Button from "@salesforce/label/c.Manual_Sync_All_Button";
-import Last_Sync_Completed from "@salesforce/label/c.Last_Sync_Completed";
-import Log_Number_Text from "@salesforce/label/c.Log_Number_Text";
-import Result_Text from "@salesforce/label/c.Result_Text";
-import Sync_Time_Text from "@salesforce/label/c.Sync_Time_Text";
-import Comments_Text from "@salesforce/label/c.Comments_Text";
 
-import Next_Button_Label from "@salesforce/label/c.Next_Button_Label";
-import Previous_Button_Label from "@salesforce/label/c.Previous_Button_Label";
-import of_text from "@salesforce/label/c.of_text";
-import Page_no_text from "@salesforce/label/c.Page_no_text";
-
-import Total_Sync_Record_Text from "@salesforce/label/c.Total_Sync_Record_Text";
-import Successful_Operation_Text from "@salesforce/label/c.Successful_Operation_Text";
-import Record_Sync_Success_Text from "@salesforce/label/c.Record_Sync_Success_Text";
 import getSyncData from "@salesforce/apex/TelosTouchDataSyncController.getSyncData";
 import getAllLogs from "@salesforce/apex/TelosTouchDataSyncController.getAllLogs";
 import syncAllRecordsApex from "@salesforce/apex/TelosTouchDataSyncController.syncAllRecordsApex";
 import TelosTouch from '@salesforce/resourceUrl/TelosTouch';
 import LANG from '@salesforce/i18n/lang';
-
+import { labelLibrary } from 'c/ttLabels';
 
 export default class TelostouchDataSync extends LightningElement {
-  label = {
-    Next_Button_Label,
-    of_text,
-    Page_no_text,
-    Previous_Button_Label,
-    Soft_Sync_Text,
-    Hard_Sync_Text,
-    All_Label,
-    Clients_Text,
-    Tasks_Text,
-    Campaigns_Text,
-    Choose_Sync_Type_Text,
-    Select_Sync_Type_Text,
-    Choose_Sync_Object_Text,
-    Select_Sync_Object_Text,
-    Manual_Sync_All_Button,
-    Last_Sync_Completed,
-    Log_Number_Text,
-    Result_Text,
-    Sync_Time_Text,
-    Comments_Text,
-    Total_Sync_Record_Text,
-    Successful_Operation_Text,
-    Record_Sync_Success_Text
-  };
+  label = labelLibrary;
   @api showManualSync = false;
   @api enableLogTable = false;
   @api enableSync = false;

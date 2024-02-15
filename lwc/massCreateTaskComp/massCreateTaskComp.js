@@ -12,40 +12,12 @@ import hasActiveRecordType from "@salesforce/apex/MassCreateTaskCompController.h
 import { registerListener, unregisterAllListeners } from "c/pubsub";
 import { CurrentPageReference } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import REQUIRED_FIELD_MISSING from "@salesforce/label/c.Required_Field_Missing";
-import CREATE_RECURRING_TASK from "@salesforce/label/c.Create_Recurring_Task";
-import FREQUENCY_TEXT from "@salesforce/label/c.Frequency_Text";
-import DAILY_TEXT from "@salesforce/label/c.Daily_Text";
-import WEEKLY_TEXT from "@salesforce/label/c.Weekly_Text";
-import MONTHLY_TEXT from "@salesforce/label/c.Monthly_Text";
-import YEARLY from "@salesforce/label/c.Yearly";
-import REPEAT_TEXT from "@salesforce/label/c.Repeat_Text";
-import START_DATE from "@salesforce/label/c.Start_Date";
-import END_DATE from "@salesforce/label/c.End_Date";
-import REPEAT_ON from "@salesforce/label/c.Repeat_On";
-import WHEN_TEXT from "@salesforce/label/c.When_Text";
-import DAY from "@salesforce/label/c.Day";
-import NAMED_CREDENTIAL_ERROR from "@salesforce/label/c.Named_Credential_Error";
+import { labelLibrary } from 'c/ttLabels';
 
 export default class MassCreateTaskComp extends NavigationMixin(
   LightningElement
 ) {
-  label = {
-    REQUIRED_FIELD_MISSING,
-    CREATE_RECURRING_TASK,
-    FREQUENCY_TEXT,
-    DAILY_TEXT,
-    WEEKLY_TEXT,
-    MONTHLY_TEXT,
-    YEARLY,
-    REPEAT_TEXT,
-    START_DATE,
-    END_DATE,
-    REPEAT_ON,
-    WHEN_TEXT,
-    DAY,
-    NAMED_CREDENTIAL_ERROR
-  };
+  label = labelLibrary;
   @api recordId;
   @track dailyRepeat = true;
   @track namedCredentialPresent = false;

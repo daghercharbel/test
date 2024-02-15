@@ -3,24 +3,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 //Apex Methods
 import sendTestTemplate from '@salesforce/apex/SendTestCampaignController.sendTestTemplate';
-
-// Custom Labels
-import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
-import Send_Test_Message from "@salesforce/label/c.Send_Test_Message";
-import Send_Test_Title from "@salesforce/label/c.Send_Test_Title";
-import Send_Text from "@salesforce/label/c.Send_Text";
-import Test_Template_Success from "@salesforce/label/c.Test_Template_Success";
-
+import { labelLibrary } from 'c/ttLabels';
 export default class SendTestCampaign extends LightningElement {
 
-    label = {
-        Cancel_Button_Label,
-        Send_Test_Message,
-        Send_Test_Title,
-        Send_Text,
-        Test_Template_Success
-    };
-
+    label = labelLibrary;
     email;
     lstEmail = [];
     lstEmailDraft = [];

@@ -1,12 +1,10 @@
 import { LightningElement, track } from 'lwc';
 import getSettingAPI from '@salesforce/apex/TelosTouchUtility.getSettingAPI';
-import Dashboard_Non_TT_User_Text from '@salesforce/label/c.Dashboard_Non_TT_User_Text';
+import { labelLibrary } from 'c/ttLabels';
 import LANG from '@salesforce/i18n/lang';
 
 export default class HomeDashboardComponent extends LightningElement {
-    label = {
-        Dashboard_Non_TT_User_Text
-    }
+    label = labelLibrary;
     @track isShowSpinner = false;
     @track showIframe = false;
     @track isNotAuthenticate = false;

@@ -5,30 +5,9 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import deleteAssignments from '@salesforce/apex/ClientTaggingController.deleteAssignments';
 import getTopics from '@salesforce/apex/ClientTaggingController.getTopics';
 import upsertTopics from '@salesforce/apex/ClientTaggingController.upsertTopics';
-
-//Custom Labels
-import add_topic from '@salesforce/label/c.Add_Topic';
-import available from '@salesforce/label/c.Available';
-import cancel from '@salesforce/label/c.Cancel_Button_Label';
-import remove_topic from '@salesforce/label/c.Remove_Topic';
-import save from '@salesforce/label/c.Save_Button_Label';
-import selected from '@salesforce/label/c.Selected';
-import topic_added from '@salesforce/label/c.Topic_Added';
-import topic_removed from '@salesforce/label/c.Topic_Removed';
-
+import { labelLibrary } from 'c/ttLabels';
 export default class ClientTagging extends LightningElement {
-
-    label = {
-        add_topic,
-        available,
-        cancel,
-        remove_topic,
-        save,
-        selected,
-        topic_added,
-        topic_removed
-    };
-
+    label = labelLibrary;
     isLoading = true;
     lstOptions;
     lstRecordId;

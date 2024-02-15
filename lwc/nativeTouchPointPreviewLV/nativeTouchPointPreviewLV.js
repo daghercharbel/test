@@ -5,7 +5,7 @@ import TelosTouch from "@salesforce/resourceUrl/TelosTouch";
 import { loadStyle } from "lightning/platformResourceLoader";
 import { handleRequest, makeRequest } from 'c/ttCallout';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
+import { labelLibrary } from 'c/ttLabels';
 //Apex Methods
 import copyTemplate from '@salesforce/apex/TouchPointPreviewController.copyTemplate';
 import deleteTemplate from '@salesforce/apex/TouchPointPreviewController.deleteTemplate';
@@ -17,87 +17,8 @@ import getTemplateDetails from '@salesforce/apex/TouchPointPreviewController.get
 import updateTemplatePermission from '@salesforce/apex/TouchPointPreviewController.updateTemplatePermission';
 import getCalloutInfo from '@salesforce/apex/TelosTouchUtility.getCalloutInfo';
 
-//Custom Labels
-import All_Label from '@salesforce/label/c.All_Label';
-import Cancel_Button_Label from "@salesforce/label/c.Cancel_Button_Label";
-import create_new_text from '@salesforce/label/c.Create_New_Text';
-import CreatedDateText from "@salesforce/label/c.CreatedDateText";
-import Delete_Label from "@salesforce/label/c.Delete_Label";
-import Draft_Status_Description from "@salesforce/label/c.Draft_Status_Description";
-import Drafted_Label from "@salesforce/label/c.Drafted_Label";
-import Duplicate_Button_Description from "@salesforce/label/c.Duplicate_Button_Description";
-import Email_Text from "@salesforce/label/c.Email_Text";
-import English_Text from "@salesforce/label/c.English_Text";
-import French_Text from "@salesforce/label/c.French_Text";
-import Language_Text from "@salesforce/label/c.Language_Text";
-import LastModifiedDate from "@salesforce/label/c.LastModifiedDate";
-import My_Emails from "@salesforce/label/c.My_Emails";
-import My_Touchpoints from "@salesforce/label/c.My_Touchpoints";
-import NO_DATA_TEXT from '@salesforce/label/c.TouchpointPreview_NoData_Text';
-import Order_by_Label from '@salesforce/label/c.Order_by_Label';
-import Private_Permission from '@salesforce/label/c.Private_Permission';
-import Private_Permission_Description from '@salesforce/label/c.Private_Permission_Description';
-import Public_Permission from '@salesforce/label/c.Public_Permission';
-import Public_Permission_Description from '@salesforce/label/c.Public_Permission_Description';
-import Public_Text from '@salesforce/label/c.Public_Text';
-import Ready_Label from "@salesforce/label/c.Ready_Label";
-import Ready_Status_Description from "@salesforce/label/c.Ready_Status_Description";
-import Remove_Text from "@salesforce/label/c.Remove_Text";
-import Restricted_Permission from '@salesforce/label/c.Restricted_Permission';
-import Restricted_Permission_Description from '@salesforce/label/c.Restricted_Permission_Description';
-import Sent_Label from '@salesforce/label/c.Sent_Label';
-import Sent_Status_Description from "@salesforce/label/c.Sent_Status_Description";
-import Shared_With_Me from '@salesforce/label/c.Shared_With_Me';
-import Sort_By_Text from "@salesforce/label/c.Sort_By_Text";
-import Status_Text from "@salesforce/label/c.Status_Text";
-import TitleDesc from "@salesforce/label/c.TitleDesc";
-import TitleText from "@salesforce/label/c.TitleText";
-import Touchpoint_Label from "@salesforce/label/c.Touchpoint_Label";
-import TOUCHPOINTPREVIEW_BACKTOLISTVIEW from '@salesforce/label/c.TouchpointPreview_BackToListView';
-import TOUCHPOINTPREVIEW_BACKTOTEMPLATES from '@salesforce/label/c.TouchpointPreview_BackToTemplates';
-
 export default class NativeTouchPointPreviewLV extends NavigationMixin(LightningElement) {
-
-    label = {
-        All_Label,
-        Cancel_Button_Label,
-        create_new_text,
-        CreatedDateText,
-        Delete_Label,
-        Draft_Status_Description,
-        Drafted_Label,
-        Duplicate_Button_Description,
-        Email_Text,
-        English_Text,
-        French_Text,
-        Language_Text,
-        LastModifiedDate,
-        My_Emails,
-        My_Touchpoints,
-        NO_DATA_TEXT,
-        Order_by_Label,
-        Private_Permission,
-        Private_Permission_Description,
-        Public_Permission,
-        Public_Permission_Description,
-        Public_Text,
-        Ready_Label,
-        Ready_Status_Description,
-        Remove_Text,
-        Restricted_Permission,
-        Restricted_Permission_Description,
-        Sent_Label,
-        Sent_Status_Description,
-        Shared_With_Me,
-        Sort_By_Text,
-        Status_Text,
-        TitleDesc,
-        TitleText,
-        Touchpoint_Label,
-        TOUCHPOINTPREVIEW_BACKTOLISTVIEW,
-        TOUCHPOINTPREVIEW_BACKTOTEMPLATES
-    };
-
+    label = labelLibrary;
     cardClass = '';
     createNewCardClass = '';
     builderTemplateId;

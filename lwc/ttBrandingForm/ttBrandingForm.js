@@ -4,36 +4,11 @@ import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 
 //Apex Class
 import createAttachment from '@salesforce/apex/TTBrandingController.createAttachment';
-
-//Custom Labels
-import company_name from "@salesforce/label/c.Company_Name";
-import email from "@salesforce/label/c.Email_Text";
-import enable_meeting_link from "@salesforce/label/c.Enable_Meeting_Link";
-import enable_signature_badge from "@salesforce/label/c.Enable_Signature_Badge";
-import enable_social_link from "@salesforce/label/c.Enable_Social_Link";
-import first_name from "@salesforce/label/c.First_Name";
-import last_name from "@salesforce/label/c.Last_Name";
-import meeting_link from "@salesforce/label/c.Meeting_Link";
-import office_address from "@salesforce/label/c.Office_Address";
-import phone_number from "@salesforce/label/c.Phone_Number";
-import position from "@salesforce/label/c.Position";
+import { labelLibrary } from 'c/ttLabels';
 
 export default class TtBrandingForm extends LightningElement {
 
-    label = {
-        company_name,
-        email,
-        enable_meeting_link,
-        enable_signature_badge,
-        enable_social_link,
-        first_name,
-        last_name,
-        meeting_link,
-        office_address,
-        phone_number,
-        position
-    }
-
+    label = labelLibrary;
     badge = {};
     crop = {};
     cropper;

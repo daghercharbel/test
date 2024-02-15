@@ -2,48 +2,13 @@ import { LightningElement, api, track } from 'lwc';
 import getUnsubscribedClientsFromCampaign from '@salesforce/apex/FetchUnsubscribedClients.getUnsubscribedClientsFromCampaign';
 import removeClient from '@salesforce/apex/FetchUnsubscribedClients.removeClient';
 import resubscribeClient from '@salesforce/apex/FetchUnsubscribedClients.resubscribeClient';
-import Name_Text from "@salesforce/label/c.Name_Text";
-import Email_Text from "@salesforce/label/c.Email_Text";
-import Camp_Members_Partially_Removed from "@salesforce/label/c.Camp_Members_Partially_Removed";
-import Previous_Button_Label from "@salesforce/label/c.Previous_Button_Label";
-import Next_Button_Label from "@salesforce/label/c.Next_Button_Label";
-import Search_using_name_email_text from "@salesforce/label/c.Search_using_name_email_text";
-import Enter_Search_Term_Text from "@salesforce/label/c.Enter_Search_Term_Text";
-import Search_Text from "@salesforce/label/c.Search_Text";
-import Phone_text from "@salesforce/label/c.Phone_text";
-import Page_no_text from "@salesforce/label/c.Page_no_text";
-import of_text from "@salesforce/label/c.of_text";
-import No_unsubscribed_client_text from "@salesforce/label/c.No_unsubscribed_client_text";
-import Records_were_removed_Text from "@salesforce/label/c.Records_were_removed_Text";
-import No_data_is_deleted_Text from "@salesforce/label/c.No_data_is_deleted_Text";
-import No_data_is_updated_Text from "@salesforce/label/c.No_data_is_updated_Text";
-import Records_were_resubscribed_Text from "@salesforce/label/c.Records_were_resubscribed_Text";
-import Remove_Client_Text from "@salesforce/label/c.Remove_Client_Text";
-import Resubscribe_Client_Text from "@salesforce/label/c.Resubscribe_Client_Text";
+import { labelLibrary } from 'c/ttLabels';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class ShowUnsubscribedClients extends NavigationMixin(LightningElement) {
-    label = {
-        Name_Text,
-        Email_Text,
-        Previous_Button_Label,
-        Next_Button_Label,
-        Search_using_name_email_text,
-        Enter_Search_Term_Text,
-        Search_Text,
-        Phone_text,
-        Page_no_text,
-        of_text,
-        No_unsubscribed_client_text,
-        Records_were_removed_Text,
-        No_data_is_deleted_Text,
-        No_data_is_updated_Text,
-        Records_were_resubscribed_Text,
-        Remove_Client_Text,
-        Resubscribe_Client_Text,
-        Camp_Members_Partially_Removed
-    };
+    
+    label = labelLibrary;
     @api recordId;
     selectAllCheckbox = false;
     isDisableBtnFunctionality = true;
