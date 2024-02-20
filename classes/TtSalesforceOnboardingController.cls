@@ -170,7 +170,6 @@ public with sharing class TtSalesforceOnboardingController {
             return mapResult;
         }
     }
-<<<<<<< HEAD
     
     @AuraEnabled
     public static map<String, String> disconnectFromTelosTouchApex() {
@@ -207,6 +206,17 @@ public with sharing class TtSalesforceOnboardingController {
             adminCredsWrapper.Is_Trial = false;
             TelosTouchSF.TelosTouchUtility.updateCustomMetadata(adminCredsWrapper);
             
+            Set<String> jobNames = new Set<String>();
+            jobNames.add('Delete Log Records Job');
+            jobNames.add('Get Clients From TT Job');
+            jobNames.add('Sync Feature Toggle Job');
+            jobNames.add('Sync Log Records Job');
+            jobNames.add('Update User Token Job 1');
+            jobNames.add('Update User Token Job 2');
+            for(CronTrigger cronRecord : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name IN: jobNames]){
+              System.abortJob(cronRecord.Id);
+            }
+      
             mapResult.put('status', 'success');
             return mapResult;
 
@@ -216,51 +226,5 @@ public with sharing class TtSalesforceOnboardingController {
             mapResult.put('error', ex.getMessage());
             return mapResult;
         }
-=======
-  }
-  @AuraEnabled
-  public static Boolean disconnectFromTelosTouchApex() {
-    try {
-      List<Id> userIdSet = new List<Id>();
-      for (User userObj : [
-        SELECT Id
-        FROM User
-        WHERE TelosTouchSF__TT_UserId__c != NULL
-        WITH SECURITY_ENFORCED
-      ]) {
-        userIdSet.add(userObj.Id);
-      }
-      TelosTouchSF.TelosTouchUtility.revokeUserAccess(null, userIdSet);
-      TelosTouchSF.TelosTouchUtility.AdminCredentialsWrapper adminCredsWrapper = new TelosTouchSF.TelosTouchUtility.AdminCredentialsWrapper(
-        ADMINCREDENTIALS,
-        AUTHENTICATIONCREDENTIALS
-      );
-      adminCredsWrapper.Access_Token = null;
-      adminCredsWrapper.Approval = false;
-      adminCredsWrapper.RefreshTokenLastUsedDate = null;
-      adminCredsWrapper.Client_ID = null;
-      adminCredsWrapper.Client_Secret = null;
-      adminCredsWrapper.ForSecondTimeBatch = false;
-      adminCredsWrapper.Instance_URL = null;
-      adminCredsWrapper.Refresh_Token = null;
-      adminCredsWrapper.Authentication_URL = null;
-      adminCredsWrapper.Access_Token_Expiration_Time = null;
-      adminCredsWrapper.BatchRunsForSFToTTOnTimeBasis = false;
-      adminCredsWrapper.Is_Trial = false;
-      TelosTouchSF.TelosTouchUtility.updateCustomMetadata(adminCredsWrapper);
-      Set<String> jobNames = new Set<String>();
-      jobNames.add('Delete Log Records Job');
-      jobNames.add('Get Clients From TT Job');
-      jobNames.add('Sync Feature Toggle Job');
-      jobNames.add('Sync Log Records Job');
-      jobNames.add('Update User Token Job 1');
-      jobNames.add('Update User Token Job 2');
-      for(CronTrigger cronRecord : [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name IN: jobNames]){
-        System.abortJob(cronRecord.Id);
-      }
-      return true;
-    } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
->>>>>>> 7e3bdcfdc0981453903d0778957d58111e156bac
     }
 }
